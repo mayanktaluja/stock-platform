@@ -3,12 +3,12 @@
   "name": "Fynx Capital Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-507962/fynx-capital-shares",
-  "parsed_at": "2026-05-25T20:56:18.119Z",
+  "parsed_at": "2026-05-26T11:50:10.336Z",
   "company_id": "799DD4D1-6515-4BA8-B2CF-23D3D9990888",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/rajath-finance-ltd",
     "search_id": "rajath-finance-ltd",
     "company_id": "GSTK507962",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 2,
-    "current_price_inr": 4.58,
-    "market_cap_inr": 952000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4.43,
+    "market_cap_inr": 916000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 35.82,
-      "pb": 5.56,
+      "pb": 5.35,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -64,7 +113,7 @@
       "Has less than 1 year of [[cash runway]]",
       "Earnings have declined by 71.4% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹28M)",
-      "Does not have a meaningful market cap (₹952M)",
+      "Does not have a meaningful market cap (₹916M)",
       "Shareholders have been substantially diluted in the past year"
     ],
     "dividend": {
@@ -77,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 4.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "507962 is expensive based on its Price-To-Sales Ratio (33.6x) compared to the Indian Consumer Finance industry average (4.3x).",
+        "description": "507962 is expensive based on its Price-To-Sales Ratio (31.3x) compared to the Indian Consumer Finance industry average (4.3x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -138,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.58,
-        "fetched_at": "2026-05-25T20:56:18.119Z",
+        "value": 4.43,
+        "fetched_at": "2026-05-26T11:50:10.336Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-507962/fynx-capital-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 952000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 916000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 5.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5.35,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 35.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "fifty_two_week": {
@@ -190,85 +239,85 @@
           "low": 1.68,
           "high": 7.66
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.856025,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 88.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 42.80034081226924,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.3452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.262626262626263,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1363636363636367,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rajath-finance-ltd"
       }
     },
@@ -279,11 +328,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 5.56,
+    "pb": 5.35,
     "ps": 35.82,
     "book_value": 0.856025,
     "face_value": 1,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -295,12 +344,12 @@
     "quick_ratio": 2.262626262626263,
     "cash_ratio": 2.1363636363636367,
     "returns_pct": {
-      "1D": -3.781512605042011,
-      "7D": -3.1712473572938764,
-      "1M": -14.711359404096836,
-      "3M": -32.71632143381813,
-      "6M": -2.345415778251606,
-      "1Y": 172.61904761904765,
+      "1D": -3.2751091703056847,
+      "7D": -4.731182795698938,
+      "1M": -17.504655493482314,
+      "3M": -36.16714697406341,
+      "6M": -9.941044927830859,
+      "1Y": 163.69047619047618,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -445,7 +494,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/rajath-finance-ltd",
     "news": [
       {
@@ -513,7 +562,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -521,7 +570,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -529,7 +578,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

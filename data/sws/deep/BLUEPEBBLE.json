@@ -3,7 +3,7 @@
   "name": "Blue Pebble Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-bluepebble/blue-pebble-shares",
-  "parsed_at": "2026-05-25T22:07:39.624Z",
+  "parsed_at": "2026-05-26T12:59:30.434Z",
   "company_id": "C20C431D-2EB0-4B53-ABC0-3002E7A13FEE",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,57 @@
       "dividend": 2
     },
     "snowflake_total": 9,
-    "current_price_inr": 108,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 99.45,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +81,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.76547314814815,
+    "upside_pct": -94.31544595274008,
     "multiples": {
-      "pe": 85.3,
+      "pe": 83.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,10 +100,10 @@
     "risks": [
       "Profit margins (2.2%) are lower than last year (11.1%)",
       "Shareholders have been substantially diluted in the past year",
-      "Dividend of 0.49% is not well covered by free cash flows",
+      "Dividend of 0.5% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]",
       "Does not have meaningful revenue (₹222M)",
-      "Does not have a meaningful market cap (₹416M)"
+      "Does not have a meaningful market cap (₹441M)"
     ],
     "dividend": {
       "yield_pct": 0.382522559,
@@ -81,7 +129,7 @@
     },
     "dividend_yield_pct": 0.382522559,
     "industry_benchmarks": {
-      "pe": 18.8
+      "pe": 19.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -95,17 +143,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 85.3,
-      "industry_pe": 18.8,
+      "company_pe": 83.3,
+      "industry_pe": 19.5,
       "industry_name": "Indian Commercial Services"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 85.3,
-        "industry_pe": 18.8,
+        "company_pe": 83.3,
+        "industry_pe": 19.5,
         "industry_name": "Indian Commercial Services",
-        "description": "BLUEPEBBLE is expensive based on its Price-To-Earnings Ratio (85.3x) compared to the Indian Commercial Services industry average (18.8x).",
+        "description": "BLUEPEBBLE is expensive based on its Price-To-Earnings Ratio (83.3x) compared to the Indian Commercial Services industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -122,7 +170,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -135,8 +183,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 108,
-        "fetched_at": "2026-05-25T22:07:39.624Z",
+        "value": 99.45,
+        "fetched_at": "2026-05-26T12:59:30.434Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-bluepebble/blue-pebble-shares"
       }
     },
@@ -163,12 +211,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 6.03829160530192,
-      "7D": 13.804004214963111,
-      "1M": -13.078470824949697,
-      "3M": -27.516778523489933,
-      "6M": 13.148245154531166,
-      "1Y": -38.93129770992366,
+      "1D": -7.916666666666663,
+      "7D": 10.254988913525498,
+      "1M": -19.959758551307843,
+      "3M": -33.25503355704698,
+      "6M": -2.4999999999999973,
+      "1Y": -43.76590330788804,
       "5Y": null
     },
     "next_earnings_date": null,

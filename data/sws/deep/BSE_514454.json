@@ -3,7 +3,7 @@
   "name": "Southern Latex Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-514454/southern-latex-shares",
-  "parsed_at": "2026-05-25T22:15:48.300Z",
+  "parsed_at": "2026-05-26T13:07:32.314Z",
   "company_id": "BE76380E-D31E-4000-9C65-D1C186C5BB0E",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 30.64,
-    "market_cap_inr": 225485890.84331673,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 29.4,
+    "market_cap_inr": 216360482.72824776,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 79.5,
+      "pe": 78.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,9 +102,9 @@
       "Earnings grew by 18.8% over the past year"
     ],
     "risks": [
-      "Makes less than USD$1m in revenue (₹5M)",
+      "Makes less than USD$1m in revenue (₹0)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹219M)"
+      "Does not have a meaningful market cap (₹225M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -80,17 +130,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 79.5,
+      "company_pe": 78.7,
       "industry_pe": 36.7,
       "industry_name": "Indian Consumer Durables"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 79.5,
+        "company_pe": 78.7,
         "industry_pe": 36.7,
         "industry_name": "Indian Consumer Durables",
-        "description": "514454 is expensive based on its Price-To-Earnings Ratio (79.5x) compared to the Indian Consumer Durables industry average (36.7x).",
+        "description": "514454 is expensive based on its Price-To-Earnings Ratio (78.7x) compared to the Indian Consumer Durables industry average (36.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -120,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 30.64,
-        "fetched_at": "2026-05-25T22:15:48.300Z",
+        "value": 29.4,
+        "fetched_at": "2026-05-26T13:07:32.314Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-514454/southern-latex-shares"
       }
     },
@@ -148,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.13025917199596,
-      "7D": 8.001409940077545,
-      "1M": -1.9519999999999982,
-      "3M": -1.4790996784565942,
-      "6M": -59.94771241830066,
-      "1Y": -6.869300911854098,
+      "1D": -4.046997389033949,
+      "7D": 3.121711680112231,
+      "1M": -5.920000000000004,
+      "3M": -0.6421088205474865,
+      "6M": -60.7843137254902,
+      "1Y": -10.638297872340425,
       "5Y": null
     },
     "next_earnings_date": null,

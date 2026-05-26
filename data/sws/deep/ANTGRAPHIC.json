@@ -3,7 +3,7 @@
   "name": "Antarctica Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-antgraphic/antarctica-shares",
-  "parsed_at": "2026-05-25T21:38:54.486Z",
+  "parsed_at": "2026-05-26T12:31:56.852Z",
   "company_id": "468EF835-4B0F-476C-A49C-7646BF595DF1",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.81,
     "market_cap_inr": 125558134.8637016,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": -25.266296296296304,
     "multiples": {
-      "pe": 6.5,
+      "pe": 6.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,13 +99,13 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (6.5x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (6.3x) is below the Indian market (23.4x)",
       "Became profitable this year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹130M)",
+      "Does not have a meaningful market cap (₹126M)",
       "Does not have meaningful revenue (₹392M)"
     ],
     "dividend": {
@@ -69,7 +118,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 17
+      "pe": 17.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -83,17 +132,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 6.5,
-      "industry_pe": 17,
+      "company_pe": 6.3,
+      "industry_pe": 17.1,
       "industry_name": "Indian Packaging"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 6.5,
-        "industry_pe": 17,
+        "company_pe": 6.3,
+        "industry_pe": 17.1,
         "industry_name": "Indian Packaging",
-        "description": "ANTGRAPHIC is good value based on its Price-To-Earnings Ratio (6.5x) compared to the Indian Packaging industry average (17x).",
+        "description": "ANTGRAPHIC is good value based on its Price-To-Earnings Ratio (6.3x) compared to the Indian Packaging industry average (17.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -124,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.81,
-        "fetched_at": "2026-05-25T21:38:54.486Z",
+        "fetched_at": "2026-05-26T12:31:56.852Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-antgraphic/antarctica-shares"
       }
     },

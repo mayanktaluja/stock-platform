@@ -3,7 +3,7 @@
   "name": "Envirotech Systems Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-enviro/envirotech-systems-shares",
-  "parsed_at": "2026-05-25T23:23:34.669Z",
+  "parsed_at": "2026-05-26T14:12:53.103Z",
   "company_id": "AEEFDBEE-4F09-4F9A-8CAD-E29914B9D5A7",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 94.7,
-    "market_cap_inr": 1779412937.9476995,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 94,
+    "market_cap_inr": 1766259938.4063754,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 94.7,
-        "fetched_at": "2026-05-25T23:23:34.669Z",
+        "value": 94,
+        "fetched_at": "2026-05-26T14:12:53.103Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-enviro/envirotech-systems-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.1997913406364022,
-      "7D": -6.051587301587296,
-      "1M": -17.436791630340018,
-      "3M": -7.609756097560973,
-      "6M": -25.197472353870452,
-      "1Y": -7.429130009775166,
+      "1D": -0.7391763463569195,
+      "7D": -8.826382153249268,
+      "1M": -18.047079337401918,
+      "3M": -8.247925817471941,
+      "6M": -30.111524163568777,
+      "1Y": -8.113391984359723,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Om Infra Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ominfral/om-infra-shares",
-  "parsed_at": "2026-05-25T21:56:59.033Z",
+  "parsed_at": "2026-05-26T12:47:41.968Z",
   "company_id": "08516FAD-CC6F-4C70-A3A8-FF550E660C1D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/om-metals-infraprojects-ltd",
     "search_id": "om-metals-infraprojects-ltd",
     "company_id": "GSTK531092",
@@ -28,22 +28,70 @@
       "dividend": 3
     },
     "snowflake_total": 9,
-    "current_price_inr": 88.39,
-    "market_cap_inr": 8358200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 88.4,
+    "market_cap_inr": 8515200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 71.5,
       "high": 146.12
     },
-    "fair_value_inr": 3.692334,
+    "fair_value_inr": 3.706707,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -95.82267903609005,
+    "upside_pct": -95.80689253393666,
     "multiples": {
       "pe": 40.75,
       "ps": 1.68,
@@ -55,14 +103,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹8B)",
-      "Dividend of 0.58% is not well covered by free cash flows"
+      "Does not have a meaningful market cap (₹9B)",
+      "Dividend of 0.57% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -192,13 +240,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.73287436584585,
-      "sector_pe": 22.73287436584585
+      "pe": 24.2328398851662,
+      "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -208,27 +256,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 40.75,
-      "industry_pe": 22.73287436584585,
+      "industry_pe": 24.2328398851662,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/om-metals-infraprojects-ltd",
       "search_id": "om-metals-infraprojects-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 40.75,
-        "industry_pe": 22.73287436584585,
+        "industry_pe": 24.2328398851662,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "sws_statement": {
-        "company_pe": 40.7,
+        "company_pe": 41.3,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "OMINFRAL is expensive based on its Price-To-Earnings Ratio (40.7x) compared to the Indian Construction industry average (16.1x).",
+        "description": "OMINFRAL is expensive based on its Price-To-Earnings Ratio (41.3x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -245,8 +293,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -258,56 +306,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 88.39,
-        "fetched_at": "2026-05-25T21:56:59.033Z",
+        "value": 88.4,
+        "fetched_at": "2026-05-26T12:47:41.968Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ominfral/om-infra-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8358200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8515200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 40.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.291212931034483,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "fifty_two_week": {
@@ -316,91 +364,91 @@
           "low": 71.5,
           "high": 146.12
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 79.1620166,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6968,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.356279450932186,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.871002079321544,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.9716028397160286,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.223077692230778,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 11.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.847162466707641,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7572,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8363020680361432,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.13743715554326982,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/om-metals-infraprojects-ltd"
       }
     },
@@ -415,7 +463,7 @@
     "ps": 1.68,
     "book_value": 79.1620166,
     "face_value": 1,
-    "sector_pe": 22.73287436584585,
+    "sector_pe": 24.2328398851662,
     "roe_pct": 2.6968,
     "roa_pct": 1.356279450932186,
     "roic_pct": 4.871002079321544,
@@ -427,12 +475,12 @@
     "quick_ratio": 0.8363020680361432,
     "cash_ratio": 0.13743715554326982,
     "returns_pct": {
-      "1D": 1.586024594874147,
-      "7D": 1.2601672585634027,
-      "1M": -2.212634140944795,
-      "3M": 0.05659950192437984,
-      "6M": -17.28429721130451,
-      "1Y": -32.614164824273836,
+      "1D": 0.011313497001929082,
+      "7D": 2.7667984189723436,
+      "1M": -2.2015709702400654,
+      "3M": 2.647468648397586,
+      "6M": -18.322091841448763,
+      "1Y": -32.606541129831506,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -796,7 +844,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/om-metals-infraprojects-ltd",
     "news": [
       {
@@ -871,25 +919,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

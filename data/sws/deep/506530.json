@@ -3,12 +3,12 @@
   "name": "Kemp and Company Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-506530/kemp-shares",
-  "parsed_at": "2026-05-25T20:52:09.656Z",
+  "parsed_at": "2026-05-26T11:44:21.522Z",
   "company_id": "93782BE7-26EA-4678-A369-0106C69BAB94",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kemp-company-ltd",
     "search_id": "kemp-company-ltd",
     "company_id": "GSTK506530",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 1062.95,
-    "market_cap_inr": 1208400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1009.85,
+    "market_cap_inr": 1148000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 41.32,
-      "pb": 0.72,
+      "pb": 0.68,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -155,7 +204,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 46.662492027725364
+      "sector_pe": 46.673178821898745
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -176,17 +225,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 46.662492027725364,
+        "industry_pe": 46.673178821898745,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1,
         "industry_name": "Indian Specialty Retail",
-        "description": "506530 is expensive based on its Price-To-Sales Ratio (41.3x) compared to the Indian Specialty Retail industry average (1x).",
+        "description": "506530 is expensive based on its Price-To-Sales Ratio (39.3x) compared to the Indian Specialty Retail industry average (1x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -203,7 +252,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -216,50 +265,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1062.95,
-        "fetched_at": "2026-05-25T20:52:09.656Z",
+        "value": 1009.85,
+        "fetched_at": "2026-05-26T11:44:21.522Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-506530/kemp-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1208400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1148000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.68,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 41.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 46.662492027725364,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 46.673178821898745,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "fifty_two_week": {
@@ -268,85 +317,85 @@
           "low": 868.3,
           "high": 1559.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1557.0833333,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 46.662492027725364,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 46.673178821898745,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9298,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6373626373626373,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.13186813186813187,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kemp-company-ltd"
       }
     },
@@ -357,11 +406,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.72,
+    "pb": 0.68,
     "ps": 41.32,
     "book_value": 1557.0833333,
     "face_value": 10,
-    "sector_pe": 46.662492027725364,
+    "sector_pe": 46.673178821898745,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -373,12 +422,12 @@
     "quick_ratio": 1.6373626373626373,
     "cash_ratio": 0.13186813186813187,
     "returns_pct": {
-      "1D": -4.996201456853007,
-      "7D": -9.743567971469814,
-      "1M": 0.5296259516716448,
-      "3M": 12.481481481481486,
-      "6M": -17.115677024445397,
-      "1Y": -21.950950877450623,
+      "1D": -4.995531304388731,
+      "7D": -9.74214595343432,
+      "1M": -4.49236298292901,
+      "3M": 6.862433862433864,
+      "6M": -21.105468749999996,
+      "1Y": -25.849915559145316,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -591,9 +640,17 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kemp-company-ltd",
-    "news": [],
+    "news": [
+      {
+        "id": "26052611398530",
+        "title": "Kemp & Co reported Q4 FY26 net loss of ₹1.01 cr, worsening 50.8% QoQ and 173% YoY.\nOperating margins collapsed to -243%, stock fell 5% to ₹1,009.85 post results.",
+        "url": "https://www.marketsmojo.com/news/result-analysis/kemp-co-q4-fy26-mounting-losses-deepen-as-operating-margins-collapse-to--243-4014059",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-26T06:31:28.000Z"
+      }
+    ],
     "events": [
       {
         "title": "Quarterly Result",
@@ -641,7 +698,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -649,7 +706,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -657,7 +714,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

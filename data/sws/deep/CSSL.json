@@ -3,7 +3,7 @@
   "name": "Clear Secured Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-cssl/clear-secured-services-shares",
-  "parsed_at": "2026-05-25T23:00:47.198Z",
+  "parsed_at": "2026-05-26T13:51:47.467Z",
   "company_id": "9D41B476-9134-48B5-B264-D1C2A042C402",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 93,
-    "market_cap_inr": 2236381277.9354453,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 95,
+    "market_cap_inr": 2284475498.966315,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +86,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 23.1,
+      "pe": 23,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,8 +100,9 @@
       "pe_source_url": null
     },
     "rewards": [
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Revenue grew by 37.4% over the past year",
-      "Price-To-Earnings ratio (23.1x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (23x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹2B)",
@@ -82,17 +134,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 23.1,
+      "company_pe": 23,
       "industry_pe": 19.5,
       "industry_name": "Indian Commercial Services"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 23.1,
+        "company_pe": 23,
         "industry_pe": 19.5,
         "industry_name": "Indian Commercial Services",
-        "description": "CSSL is expensive based on its Price-To-Earnings Ratio (23.1x) compared to the Indian Commercial Services industry average (19.5x).",
+        "description": "CSSL is expensive based on its Price-To-Earnings Ratio (23x) compared to the Indian Commercial Services industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,7 +161,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -122,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 93,
-        "fetched_at": "2026-05-25T23:00:47.198Z",
+        "value": 95,
+        "fetched_at": "2026-05-26T13:51:47.467Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-cssl/clear-secured-services-shares"
       }
     },
@@ -150,12 +202,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -2.566788894709275,
-      "7D": -3.0239833159541245,
-      "1M": -13.88888888888889,
-      "3M": -27.400468384074937,
-      "6M": -17.73551525873507,
-      "1Y": -17.73551525873507,
+      "1D": 2.1505376344086025,
+      "7D": 0,
+      "1M": -12.037037037037036,
+      "3M": -25.285096342902087,
+      "6M": -15.966386554621847,
+      "1Y": -15.966386554621847,
       "5Y": null
     },
     "next_earnings_date": null,

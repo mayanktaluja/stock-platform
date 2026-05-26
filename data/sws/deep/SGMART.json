@@ -3,12 +3,12 @@
   "name": "SG Mart Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-sgmart/sg-mart-shares",
-  "parsed_at": "2026-05-25T22:50:23.245Z",
+  "parsed_at": "2026-05-26T13:40:16.578Z",
   "company_id": "9C235834-67ED-4641-B117-1E921D42359C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kintech-renewables-ltd",
     "search_id": "kintech-renewables-ltd",
     "company_id": "GSTK512329",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 612.55,
-    "market_cap_inr": 78088500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 603.7,
+    "market_cap_inr": 77389200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 313.1,
       "high": 638.1
     },
-    "fair_value_inr": 73.832406,
+    "fair_value_inr": 74.001063,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -87.9467135744021,
+    "upside_pct": -87.7420800066258,
     "multiples": {
       "pe": 70.35,
       "ps": 1.23,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/kintech-renewables-ltd"
     },
@@ -73,13 +122,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 56.05914496503882,
-      "sector_pe": 56.05914496503882
+      "pe": 56.05475305701128,
+      "sector_pe": 56.05475305701128
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -89,27 +138,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 70.35,
-      "industry_pe": 56.05914496503882,
+      "industry_pe": 56.05475305701128,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/kintech-renewables-ltd",
       "search_id": "kintech-renewables-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 70.35,
-        "industry_pe": 56.05914496503882,
+        "industry_pe": 56.05475305701128,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "sws_statement": {
-        "company_pe": 70.3,
-        "industry_pe": 22.4,
+        "company_pe": 68.5,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "SGMART is expensive based on its Price-To-Earnings Ratio (70.3x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "SGMART is expensive based on its Price-To-Earnings Ratio (68.5x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -127,7 +176,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -139,56 +188,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 612.55,
-        "fetched_at": "2026-05-25T22:50:23.245Z",
+        "value": 603.7,
+        "fetched_at": "2026-05-26T13:40:16.578Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-sgmart/sg-mart-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 78088500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 77389200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 70.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 4.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.5153238605898124,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "fifty_two_week": {
@@ -197,91 +246,91 @@
           "low": 313.1,
           "high": 638.1
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 8.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 126.7087302,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.9563,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.936833776371121,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 21.23028387231217,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7585890750860214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.2584410217108006,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 16.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 11.909566949084734,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.5056,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.341734002345888,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6032353707806595,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kintech-renewables-ltd"
       }
     },
@@ -296,7 +345,7 @@
     "ps": 1.23,
     "book_value": 126.7087302,
     "face_value": 1,
-    "sector_pe": 56.05914496503882,
+    "sector_pe": 56.05475305701128,
     "roe_pct": 6.9563,
     "roa_pct": 4.936833776371121,
     "roic_pct": 21.23028387231217,
@@ -308,12 +357,12 @@
     "quick_ratio": 2.341734002345888,
     "cash_ratio": 1.6032353707806595,
     "returns_pct": {
-      "1D": -0.62459441920831,
-      "7D": 4.450507289623993,
-      "1M": 12.756557754256779,
-      "3M": 42.3045649901266,
-      "6M": 74.29221795418978,
-      "1Y": 71.05557106953363,
+      "1D": -1.444780017957703,
+      "7D": 0.24908668216539354,
+      "1M": 11.12747353888634,
+      "3M": 37.595441595441606,
+      "6M": 72.4118235042125,
+      "1Y": 68.58419435911756,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -549,7 +598,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kintech-renewables-ltd",
     "news": [
       {
@@ -614,7 +663,7 @@
         "ticker": "LLOYDSENT",
         "name": "Lloyds enterprises limited",
         "searchId": "shree-global-tradefin-ltd",
-        "market_cap_inr": 101936500000,
+        "market_cap_inr": 107122000000,
         "pe": 24.48,
         "pb": 2.46
       },
@@ -622,17 +671,17 @@
         "ticker": "517320",
         "name": "Magnus Steel And Infra",
         "searchId": "savant-infocomm-ltd",
-        "market_cap_inr": 8611100000,
-        "pe": 191.1,
-        "pb": 16.43
+        "market_cap_inr": 8181400000,
+        "pe": 181.57,
+        "pb": 15.61
       },
       {
         "ticker": "BMWVENTLTD",
         "name": "BMW Ventures",
         "searchId": "bmw-ventures-ltd",
-        "market_cap_inr": 5282700000,
-        "pe": 14.04,
-        "pb": 1.23
+        "market_cap_inr": 5394500000,
+        "pe": 14.33,
+        "pb": 1.26
       }
     ],
     "details": {

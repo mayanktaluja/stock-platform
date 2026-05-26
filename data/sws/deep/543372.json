@@ -3,7 +3,7 @@
   "name": "Getalong Enterprise Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-543372/getalong-enterprise-shares",
-  "parsed_at": "2026-05-25T20:45:33.037Z",
+  "parsed_at": "2026-05-26T11:13:31.113Z",
   "company_id": "DFC1D7A8-1E5C-4BB4-BDDB-098B4089ED2E",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 5.14,
     "market_cap_inr": 108762389.21810266,
     "market_cap_usd": 127196762990.178,
@@ -109,8 +159,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -123,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 5.14,
-        "fetched_at": "2026-05-25T20:45:33.037Z",
+        "fetched_at": "2026-05-26T11:13:31.113Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-543372/getalong-enterprise-shares"
       }
     },

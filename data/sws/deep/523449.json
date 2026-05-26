@@ -3,12 +3,12 @@
   "name": "Sharp India Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-523449/sharp-india-shares",
-  "parsed_at": "2026-05-25T21:41:55.856Z",
+  "parsed_at": "2026-05-26T12:38:02.832Z",
   "company_id": "0AE0F598-B749-4410-8102-17675E623222",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sharp-india-ltd",
     "search_id": "sharp-india-ltd",
     "company_id": "GSTK523449",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 105.58,
-    "market_cap_inr": 2685000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 107.69,
+    "market_cap_inr": 2738700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 36,
-      "high": 103.51
+      "high": 105.58
     },
     "fair_value_inr": null,
     "fair_value_range_inr": {
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 59.627955716846344
+      "sector_pe": 59.63065901146537
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +148,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 59.627955716846344,
+        "industry_pe": 59.63065901146537,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.4,
         "industry_name": "Indian Consumer Durables",
-        "description": "523449 has negative equity and a Price-To-Book Ratio (-1.9x) compared to the Indian Consumer Durables industry average (2.4x).",
+        "description": "523449 has negative equity and a Price-To-Book Ratio (-2x) compared to the Indian Consumer Durables industry average (2.4x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -139,137 +188,137 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 105.58,
-        "fetched_at": "2026-05-25T21:41:55.856Z",
+        "value": 107.69,
+        "fetched_at": "2026-05-26T12:38:02.832Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-523449/sharp-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2685000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2738700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 36,
-          "high": 103.51
+          "high": 105.58
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -54.4680031,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 17.1277,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5316,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.010682574916759157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.006798002219755827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sharp-india-ltd"
       }
     },
@@ -284,7 +333,7 @@
     "ps": 0,
     "book_value": -54.4680031,
     "face_value": 10,
-    "sector_pe": 59.627955716846344,
+    "sector_pe": 59.63065901146537,
     "roe_pct": 17.1277,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +345,12 @@
     "quick_ratio": 0.010682574916759157,
     "cash_ratio": 0.006798002219755827,
     "returns_pct": {
-      "1D": 1.9998067819534278,
-      "7D": 10.393140945211206,
-      "1M": 29.22888616891064,
-      "3M": 145.53488372093022,
-      "6M": 129.4219904389396,
-      "1Y": 76.26043405676127,
+      "1D": 1.9984845614699747,
+      "7D": 10.394669400307535,
+      "1M": 31.81150550795593,
+      "3M": 149.51343836886005,
+      "6M": 139.20479786761436,
+      "1Y": 79.78297161936561,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -430,7 +479,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sharp-india-ltd",
     "news": [
       {
@@ -495,7 +544,7 @@
         "ticker": "SYMPHONY",
         "name": "Symphony",
         "searchId": "symphony-ltd",
-        "market_cap_inr": 48818500000,
+        "market_cap_inr": 49570500000,
         "pe": 33.67,
         "pb": 8.96
       },
@@ -503,7 +552,7 @@
         "ticker": "IFBIND",
         "name": "IFB Industries",
         "searchId": "ifb-industries-ltd",
-        "market_cap_inr": 42556100000,
+        "market_cap_inr": 42671600000,
         "pe": 35.53,
         "pb": 4.61
       },
@@ -511,9 +560,9 @@
         "ticker": "ORIENTELEC",
         "name": "Orient Electric",
         "searchId": "orient-electric-ltd",
-        "market_cap_inr": 39163300000,
-        "pe": 40.88,
-        "pb": 5.15
+        "market_cap_inr": 39536700000,
+        "pe": 41.27,
+        "pb": 5.2
       }
     ],
     "details": {

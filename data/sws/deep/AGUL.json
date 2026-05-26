@@ -3,7 +3,7 @@
   "name": "A G Universal Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-agul/a-g-universal-shares",
-  "parsed_at": "2026-05-25T21:28:41.041Z",
+  "parsed_at": "2026-05-26T12:21:39.981Z",
   "company_id": "2BB26EDF-EBDD-457C-B2A5-7EDA1D21C13F",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 61.8,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -66,7 +115,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 22.4
+      "pe": 23.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,16 +130,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 33.9,
-      "industry_pe": 22.4,
+      "industry_pe": 23.9,
       "industry_name": "Indian Trade Distributors"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 33.9,
-        "industry_pe": 22.4,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "AGUL is expensive based on its Price-To-Earnings Ratio (33.9x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "AGUL is expensive based on its Price-To-Earnings Ratio (33.9x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +157,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -121,7 +170,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 61.8,
-        "fetched_at": "2026-05-25T21:28:41.041Z",
+        "fetched_at": "2026-05-26T12:21:39.981Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-agul/a-g-universal-shares"
       }
     },
@@ -157,7 +206,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -191,6 +240,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "0bf1832d-0b20-4140-bbbc-5e4eb7fdfacb",
+      "type": "event",
+      "date": "2026-05-25T00:00:00.000Z",
+      "title": "A G Universal Limited to Report Q4, 2026 Results on May 30, 2026",
+      "body": "A G Universal Limited announced that they will report Q4, 2026 results on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "16987747-0320-4f26-b925-fa5320589eb4",
       "type": "brief",

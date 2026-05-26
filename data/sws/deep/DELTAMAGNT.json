@@ -3,12 +3,12 @@
   "name": "Delta Manufacturing Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-deltamagnt/delta-manufacturing-shares",
-  "parsed_at": "2026-05-25T23:08:21.684Z",
+  "parsed_at": "2026-05-26T13:58:04.012Z",
   "company_id": "04D3B5CC-099F-4DEE-8FB9-D7094A435ED0",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/delta-magnets-ltd",
     "search_id": "delta-magnets-ltd",
     "company_id": "GSTK504286",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 60,
-    "market_cap_inr": 651100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 61.11,
+    "market_cap_inr": 640200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -66,7 +115,7 @@
     "risks": [
       "Has less than 1 year of [[cash runway]]",
       "Earnings have declined by 24.6% per year over past 5 years",
-      "Does not have a meaningful market cap (₹651M)"
+      "Does not have a meaningful market cap (₹640M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 34.08245820635203
+      "sector_pe": 34.04694988503199
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +148,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 34.08245820635203,
+        "industry_pe": 34.04694988503199,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.9,
         "industry_name": "Indian Electrical",
-        "description": "DELTAMAGNT is good value based on its Price-To-Sales Ratio (1x) compared to the Indian Electrical industry average (1.9x).",
+        "description": "DELTAMAGNT is good value based on its Price-To-Sales Ratio (1.1x) compared to the Indian Electrical industry average (1.9x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -139,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 60,
-        "fetched_at": "2026-05-25T23:08:21.684Z",
+        "value": 61.11,
+        "fetched_at": "2026-05-26T13:58:04.012Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-deltamagnt/delta-manufacturing-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 651100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 640200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 6.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 45.51,
           "high": 115.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 9.139075,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 308.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 46.862565044383224,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4655,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3875198728139905,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.002980922098569157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/delta-magnets-ltd"
       }
     },
@@ -284,7 +333,7 @@
     "ps": 1.1,
     "book_value": 9.139075,
     "face_value": 10,
-    "sector_pe": 34.08245820635203,
+    "sector_pe": 34.04694988503199,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +345,12 @@
     "quick_ratio": 0.3875198728139905,
     "cash_ratio": 0.002980922098569157,
     "returns_pct": {
-      "1D": -0.1497753369945139,
-      "7D": -2.2642124124450245,
-      "1M": -5.377700678126473,
-      "3M": -2.3914104441190807,
-      "6M": -7.578558225508321,
-      "1Y": -25.48435171385991,
+      "1D": 1.8499999999999992,
+      "7D": -1.4513788098693736,
+      "1M": -3.6271881406718136,
+      "3M": -0.7632348164988615,
+      "6M": -14.423750175045507,
+      "1Y": -24.105812220566317,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -499,7 +548,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-26T18:30:00.000Z",
@@ -512,7 +561,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/delta-magnets-ltd",
     "news": [
       {
@@ -562,7 +611,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-26T18:30:00.000Z",
@@ -577,7 +626,7 @@
         "ticker": "PDSL",
         "name": "PDS Limited",
         "searchId": "pds-multinational-fashions-ltd",
-        "market_cap_inr": 40749500000,
+        "market_cap_inr": 42340700000,
         "pe": 22.94,
         "pb": 2.31
       },
@@ -585,7 +634,7 @@
         "ticker": "RAYMOND",
         "name": "Raymond",
         "searchId": "raymond-ltd",
-        "market_cap_inr": 36755400000,
+        "market_cap_inr": 37224700000,
         "pe": 0.69,
         "pb": 1.29
       },
@@ -593,7 +642,7 @@
         "ticker": "SIYSIL",
         "name": "Siyaram Silk Mills",
         "searchId": "siyaram-silk-mills-ltd",
-        "market_cap_inr": 27002000000,
+        "market_cap_inr": 27256100000,
         "pe": 11.69,
         "pb": 1.85
       }

@@ -3,12 +3,12 @@
   "name": "Trustedge Capital Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-532056/trustedge-capital-shares",
-  "parsed_at": "2026-05-25T22:55:29.489Z",
+  "parsed_at": "2026-05-26T13:49:14.632Z",
   "company_id": "BCBD7AF2-836F-4388-8003-17249EB99424",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/adinath-exim-resources-ltd",
     "search_id": "adinath-exim-resources-ltd",
     "company_id": "GSTK532056",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 155.1,
-    "market_cap_inr": 1465400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 151,
+    "market_cap_inr": 1431300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +95,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 269.15,
+      "pe": 262.88,
       "ps": 27.28,
-      "pb": 2.65,
+      "pb": 2.59,
       "ev_ebitda": 76.32,
       "peg": -1.8381535714285717
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/adinath-exim-resources-ltd"
     },
@@ -80,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -95,28 +145,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 269.15,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 262.88,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/adinath-exim-resources-ltd",
       "search_id": "adinath-exim-resources-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 269.15,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 262.88,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 4.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "532056 is expensive based on its Price-To-Sales Ratio (27.4x) compared to the Indian Consumer Finance industry average (4.3x).",
+        "description": "532056 is expensive based on its Price-To-Sales Ratio (26.1x) compared to the Indian Consumer Finance industry average (4.3x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -146,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 155.1,
-        "fetched_at": "2026-05-25T22:55:29.489Z",
+        "value": 151,
+        "fetched_at": "2026-05-26T13:49:14.632Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-532056/trustedge-capital-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1465400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1431300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 269.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 262.88,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.59,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 27.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 76.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.8381535714285717,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +254,91 @@
           "low": 47.07,
           "high": 178.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 59.8806462,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7602421512037167,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9219858156028369,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.285714285714286,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.6190476190476195,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 18.099999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 14.078558355624384,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7168,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7174348697394789,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3627254509018036,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adinath-exim-resources-ltd"
       }
     },
@@ -299,11 +349,11 @@
     "latest_net_income": null,
     "latest_eps": 0.59,
     "most_recent_reported_date": null,
-    "pb": 2.65,
+    "pb": 2.59,
     "ps": 27.28,
     "book_value": 59.8806462,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0.9882,
     "roa_pct": 0.7602421512037167,
     "roic_pct": 0.9219858156028369,
@@ -315,12 +365,12 @@
     "quick_ratio": 0.7174348697394789,
     "cash_ratio": 0.3627254509018036,
     "returns_pct": {
-      "1D": -2.329974811083134,
-      "7D": -4.875804967801298,
-      "1M": -7.070101857399647,
-      "3M": 3.365544818393857,
-      "6M": 88.64023351982485,
-      "1Y": 142.34375,
+      "1D": -2.643455834945193,
+      "7D": -8.484848484848486,
+      "1M": -9.52666267225884,
+      "3M": 2.826012938372493,
+      "6M": 81.49038461538461,
+      "1Y": 135.9375,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -489,7 +539,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/adinath-exim-resources-ltd",
     "news": [
       {
@@ -564,7 +614,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -572,7 +622,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -580,7 +630,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

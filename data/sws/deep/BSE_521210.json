@@ -3,7 +3,7 @@
   "name": "Cityman Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-521210/cityman-shares",
-  "parsed_at": "2026-05-25T22:19:28.849Z",
+  "parsed_at": "2026-05-26T13:11:11.337Z",
   "company_id": "11A53BAE-21FA-4ADD-A04B-9ED02100CDCF",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 14.6,
-    "market_cap_inr": 170836058.6043789,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 15.3,
+    "market_cap_inr": 179026828.53746557,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -105,7 +154,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -118,8 +167,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 14.6,
-        "fetched_at": "2026-05-25T22:19:28.849Z",
+        "value": 15.3,
+        "fetched_at": "2026-05-26T13:11:11.337Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-521210/cityman-shares"
       }
     },
@@ -146,12 +195,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.7496635262449516,
-      "7D": 8.148148148148145,
-      "1M": 2.4561403508771904,
-      "3M": 12.307692307692305,
-      "6M": -0.6126616746085763,
-      "1Y": -40.090274928190404,
+      "1D": 4.794520547945213,
+      "7D": 8.050847457627123,
+      "1M": 7.368421052631584,
+      "3M": 12.500000000000009,
+      "6M": 4.152484683458143,
+      "1Y": -37.217890849405,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Ujaas Energy Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-uel/ujaas-energy-shares",
-  "parsed_at": "2026-05-25T23:38:28.964Z",
+  "parsed_at": "2026-05-26T14:28:19.271Z",
   "company_id": "A01F7845-042A-4730-A351-4634DD4CBA1D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ujaas-energy-ltd",
     "search_id": "ujaas-energy-ltd",
     "company_id": "GSTK533644",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 141.61,
-    "market_cap_inr": 19229300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 140.23,
+    "market_cap_inr": 18929100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +93,11 @@
       "max": 200,
       "count": 2
     },
-    "upside_pct": -99.97657721912296,
+    "upside_pct": -99.97634671610925,
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 21.69,
+      "pb": 21.35,
       "ev_ebitda": 353.25,
       "peg": -6.733489583333334
     },
@@ -88,7 +138,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 34.164480816854145
+      "sector_pe": 32.67305792550647
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -109,17 +159,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 34.164480816854145,
+        "industry_pe": 32.67305792550647,
         "industry_name": "Power Generation & Distribution",
         "industry_id": 49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 3.7,
         "industry_name": "Indian Electrical",
-        "description": "UEL is expensive based on its Price-To-Book Ratio (21.7x) compared to the Indian Electrical industry average (3.7x).",
+        "description": "UEL is expensive based on its Price-To-Book Ratio (21.1x) compared to the Indian Electrical industry average (3.7x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -136,7 +186,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -149,50 +199,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 141.61,
-        "fetched_at": "2026-05-25T23:38:28.964Z",
+        "value": 140.23,
+        "fetched_at": "2026-05-26T14:28:19.271Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-uel/ujaas-energy-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 19229300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18929100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 21.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.35,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 353.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -6.733489583333334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.164480816854145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 32.67305792550647,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +251,91 @@
           "low": 83.55,
           "high": 220
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 6.6470192,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.164480816854145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 32.67305792550647,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.5669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.707087959009394,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.004275231876984,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 19.05048076923077,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 32.8125,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 27.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 20.495303159692572,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 18.8699,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.215974212034384,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.13861031518624642,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ujaas-energy-ltd"
       }
     },
@@ -296,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 0.24,
     "most_recent_reported_date": null,
-    "pb": 21.69,
+    "pb": 21.35,
     "ps": 0,
     "book_value": 6.6470192,
     "face_value": 1,
-    "sector_pe": 34.164480816854145,
+    "sector_pe": 32.67305792550647,
     "roe_pct": 3.5669,
     "roa_pct": 2.707087959009394,
     "roic_pct": 3.004275231876984,
@@ -312,12 +362,12 @@
     "quick_ratio": 2.215974212034384,
     "cash_ratio": 0.13861031518624642,
     "returns_pct": {
-      "1D": -1.925341090103174,
-      "7D": -3.8759163725223864,
-      "1M": -9.606791778373537,
-      "3M": -28.05466646344561,
-      "6M": 18.452530322041003,
-      "1Y": 56.981064675932615,
+      "1D": -0.9745074500388559,
+      "7D": -4.864314789687935,
+      "1M": -10.487680326822423,
+      "3M": -27.092648435062916,
+      "6M": 17.29820158929318,
+      "1Y": 55.451272505515334,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -484,7 +534,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ujaas-energy-ltd",
     "news": [
       {
@@ -559,7 +609,7 @@
         "ticker": "RTNPOWER",
         "name": "RattanIndia Power",
         "searchId": "rattanindia-power-ltd",
-        "market_cap_inr": 49029100000,
+        "market_cap_inr": 49405000000,
         "pe": 91.3,
         "pb": 1.06
       },
@@ -567,7 +617,7 @@
         "ticker": "519477",
         "name": "Cian Agro Industries & Infrastructure",
         "searchId": "cian-agro-industries-infrastructure-ltd",
-        "market_cap_inr": 42574900000,
+        "market_cap_inr": 44703300000,
         "pe": 25.18,
         "pb": 2.13
       },
@@ -575,7 +625,7 @@
         "ticker": "ORIANA",
         "name": "Oriana Power",
         "searchId": "oriana-power-ltd",
-        "market_cap_inr": 38534300000,
+        "market_cap_inr": 39869200000,
         "pe": 24.31,
         "pb": 7.56
       }

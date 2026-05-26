@@ -3,12 +3,12 @@
   "name": "Hindustan Construction Company Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-hcc/hindustan-construction-shares",
-  "parsed_at": "2026-05-25T23:51:52.342Z",
+  "parsed_at": "2026-05-26T14:42:54.291Z",
   "company_id": "B2B2D706-5DEF-4F2F-88DF-D7AD19781601",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hindustan-construction-company-ltd",
     "search_id": "hindustan-construction-company-ltd",
     "company_id": "GSTK500185",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 22.38,
-    "market_cap_inr": 54642100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 21.94,
+    "market_cap_inr": 58649900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 13.65,
       "high": 31.47
     },
-    "fair_value_inr": 242.095727,
+    "fair_value_inr": 242.302204,
     "fair_value_range_inr": {
       "min": 9.9,
-      "max": 242.095727,
+      "max": 242.302204,
       "count": 3
     },
-    "upside_pct": 981.7503440571941,
+    "upside_pct": 1004.385615314494,
     "multiples": {
       "pe": 33.11,
       "ps": 1.38,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hindustan-construction-company-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.73287436584585,
-      "sector_pe": 22.73287436584585
+      "pe": 24.2328398851662,
+      "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -93,20 +142,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 33.11,
-      "industry_pe": 22.73287436584585,
+      "industry_pe": 24.2328398851662,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/hindustan-construction-company-ltd",
       "search_id": "hindustan-construction-company-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 33.11,
-        "industry_pe": 22.73287436584585,
+        "industry_pe": 24.2328398851662,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "sws_statement": {
@@ -130,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 22.38,
-        "fetched_at": "2026-05-25T23:51:52.342Z",
+        "value": 21.94,
+        "fetched_at": "2026-05-26T14:42:54.291Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hcc/hindustan-construction-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 54642100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 58649900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 33.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5189118110236222,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 13.65,
           "high": 31.47
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.1205297,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.4618,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5901259806542323,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 22.261859999625823,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.401610745694139,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.134366521479546,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 47.910000000000004,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.001606259229513,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1213489390554312,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.10190180844087275,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
       }
     },
@@ -300,7 +349,7 @@
     "ps": 1.38,
     "book_value": 8.1205297,
     "face_value": 1,
-    "sector_pe": 22.73287436584585,
+    "sector_pe": 24.2328398851662,
     "roe_pct": 6.4618,
     "roa_pct": 1.5901259806542323,
     "roic_pct": 22.261859999625823,
@@ -312,12 +361,12 @@
     "quick_ratio": 1.1213489390554312,
     "cash_ratio": 0.10190180844087275,
     "returns_pct": {
-      "1D": 7.2352659319597405,
-      "7D": 5.665722379603396,
-      "1M": 11.620947630922684,
-      "3M": 23.170060539350562,
-      "6M": -6.24214495182238,
-      "1Y": -28.061716489874637,
+      "1D": -1.966041108132251,
+      "7D": 4.725536992840105,
+      "1M": 9.426433915211971,
+      "3M": 21.551246537396125,
+      "6M": -8.811305070656681,
+      "1Y": -29.47605271616843,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -563,22 +612,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hindustan-construction-company-ltd",
     "news": [
+      {
+        "id": "846963711453947648",
+        "title": "Hindustan Construction sees descending wedge breakout above 20 & 50-period MAs.\nRSI above 50 with increasing breakout volume, indicating prior uptrend.",
+        "url": "https://sqst.in/shareMessage?msgId=846963711453947638",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T04:11:24.000Z"
+      },
       {
         "id": "842971621967358720",
         "title": "Elara Capital retains Buy rating on Hindustan Construction Co.\nTarget price set at ₹30 for Hindustan Construction Company.",
         "url": "https://sqst.in/shareMessage?msgId=842971621967358667",
         "source": "ScoutQuest",
         "published_at": "2026-05-15T03:48:16.000Z"
-      },
-      {
-        "id": "842801789158385792",
-        "title": "Hindustan Construction targets Rs.15,000 Cr new orders and 20% turnover growth by FY27.\nThe company focuses on strong debt reduction alongside its growth targets.",
-        "url": "https://sqst.in/fn908",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-14T16:33:25.000Z"
       }
     ],
     "events": [
@@ -638,7 +687,7 @@
         "ticker": "TECHNOE",
         "name": "Techno Electric & Engineering Company",
         "searchId": "techno-electric-engineering-company-ltd",
-        "market_cap_inr": 155120400000,
+        "market_cap_inr": 159400200000,
         "pe": 31.4,
         "pb": 3.98
       },
@@ -646,17 +695,17 @@
         "ticker": "CEMPRO",
         "name": "Cemindia Projects",
         "searchId": "itd-cementation-india-ltd",
-        "market_cap_inr": 147625700000,
+        "market_cap_inr": 151619700000,
         "pe": 24.7,
         "pb": 6.15
       },
       {
-        "ticker": "IRCON",
-        "name": "Ircon International",
-        "searchId": "ircon-international-ltd",
-        "market_cap_inr": 132518700000,
-        "pe": 21.64,
-        "pb": 2.05
+        "ticker": "KEC",
+        "name": "KEC International",
+        "searchId": "kec-international-ltd",
+        "market_cap_inr": 135043300000,
+        "pe": 21.32,
+        "pb": 2.1
       }
     ],
     "details": {

@@ -3,7 +3,7 @@
   "name": "Digikore Studios Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-digikore/digikore-studios-shares",
-  "parsed_at": "2026-05-25T23:10:29.763Z",
+  "parsed_at": "2026-05-26T14:00:27.759Z",
   "company_id": "6BCA695D-3A93-4E60-90BC-0F787913F517",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 64.1,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 6,
+      "pe": 6.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,7 +99,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Price-To-Earnings ratio (6x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (6.4x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Became profitable this year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
@@ -59,7 +109,7 @@
       "Earnings have declined by 3% per year over past 5 years",
       "Highly volatile share price over past 3 months",
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹756M)"
+      "Does not have a meaningful market cap (₹812M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -85,17 +135,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 6,
+      "company_pe": 6.4,
       "industry_pe": 27.1,
       "industry_name": "Indian Entertainment"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 6,
+        "company_pe": 6.4,
         "industry_pe": 27.1,
         "industry_name": "Indian Entertainment",
-        "description": "DIGIKORE is good value based on its Price-To-Earnings Ratio (6x) compared to the Indian Entertainment industry average (27.1x).",
+        "description": "DIGIKORE is good value based on its Price-To-Earnings Ratio (6.4x) compared to the Indian Entertainment industry average (27.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -112,8 +162,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.8,
-        "sample_count": 34,
+        "industry_pe": 18,
+        "sample_count": 35,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
@@ -126,7 +176,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 64.1,
-        "fetched_at": "2026-05-25T23:10:29.763Z",
+        "fetched_at": "2026-05-26T14:00:27.759Z",
         "url": "https://simplywall.st/stocks/in/media/nse-digikore/digikore-studios-shares"
       }
     },

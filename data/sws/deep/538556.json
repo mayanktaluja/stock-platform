@@ -3,12 +3,12 @@
   "name": "Arman Holdings Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-538556/arman-holdings-shares",
-  "parsed_at": "2026-05-25T23:20:50.554Z",
+  "parsed_at": "2026-05-26T14:10:53.777Z",
   "company_id": "50211697-635E-4A6E-BDAE-86447DD0F442",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/arman-holdings-ltd",
     "search_id": "arman-holdings-ltd",
     "company_id": "GSTK538556",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 106.65,
-    "market_cap_inr": 575500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 111.45,
+    "market_cap_inr": 555700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.33834130332865,
+    "upside_pct": -98.40990668461194,
     "multiples": {
-      "pe": 129.94,
+      "pe": 125.47,
       "ps": 10.57,
-      "pb": 9.17,
+      "pb": 8.86,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/arman-holdings-ltd"
     },
@@ -63,7 +112,7 @@
       "Became profitable this year"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹575M)",
+      "Does not have a meaningful market cap (₹556M)",
       "Makes less than USD$1m in revenue (₹54M)"
     ],
     "dividend": {
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -91,28 +140,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 129.94,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 125.47,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/arman-holdings-ltd",
       "search_id": "arman-holdings-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 129.94,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 125.47,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "sws_statement": {
-        "company_pe": 129.5,
-        "industry_pe": 25.3,
+        "company_pe": 130.6,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "538556 is expensive based on its Price-To-Earnings Ratio (129.5x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "538556 is expensive based on its Price-To-Earnings Ratio (130.6x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 106.65,
-        "fetched_at": "2026-05-25T23:20:50.554Z",
+        "value": 111.45,
+        "fetched_at": "2026-05-26T14:10:53.777Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-538556/arman-holdings-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 575500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 555700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 129.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 125.47,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 9.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.86,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 10.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 58,
           "high": 115
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.0420305,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3419,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.120253164556963,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.168000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.256880733944955,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.091743119266058,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 81.3006,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 50.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.39999999999999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-holdings-ltd"
       }
     },
@@ -295,11 +344,11 @@
     "latest_net_income": null,
     "latest_eps": 0.85,
     "most_recent_reported_date": null,
-    "pb": 9.17,
+    "pb": 8.86,
     "ps": 10.57,
     "book_value": 12.0420305,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 1.3419,
     "roa_pct": 7.120253164556963,
     "roic_pct": 7.168000000000001,
@@ -311,12 +360,12 @@
     "quick_ratio": 50.4,
     "cash_ratio": 0.39999999999999997,
     "returns_pct": {
-      "1D": -3.4404708012675393,
-      "7D": -3.7454873646209306,
-      "1M": -0.23386342376052385,
-      "3M": -6.159260888693357,
-      "6M": 25.470588235294123,
-      "1Y": 33.59639233370914,
+      "1D": 4.500703234880447,
+      "7D": 2.577082374597328,
+      "1M": 4.256314312441532,
+      "3M": 6.8552253116011554,
+      "6M": 28.457814661134158,
+      "1Y": 39.60916948515597,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -502,7 +551,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -515,7 +564,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/arman-holdings-ltd",
     "news": [
       {
@@ -565,7 +614,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -580,7 +629,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -588,7 +637,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -596,7 +645,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

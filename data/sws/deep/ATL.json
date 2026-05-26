@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 24.19,
     "market_cap_inr": 7060076734.092786,
     "market_cap_usd": 121304781320.862,
@@ -121,7 +170,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 13.5,
+        "industry_pe": 14,
         "sample_count": 19,
         "industry_code": "3250000",
         "industry_name": "Transportation"

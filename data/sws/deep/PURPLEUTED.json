@@ -3,7 +3,7 @@
   "name": "Purple United Sales Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-purpleuted/purple-united-sales-shares",
-  "parsed_at": "2026-05-25T22:18:18.683Z",
+  "parsed_at": "2026-05-26T13:11:25.371Z",
   "company_id": "2E789D2E-4DEB-4BF2-AAFE-00C57A8BACC6",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 404.55,
-    "market_cap_inr": 3887644152.98992,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 404.7,
+    "market_cap_inr": 3889085622.827884,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 25.5,
+      "pe": 25.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -68,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.2
+      "pe": 18.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -82,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 25.5,
-      "industry_pe": 18.2,
+      "company_pe": 25.6,
+      "industry_pe": 18.5,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 25.5,
-        "industry_pe": 18.2,
+        "company_pe": 25.6,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "PURPLEUTED is expensive based on its Price-To-Earnings Ratio (25.5x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "PURPLEUTED is expensive based on its Price-To-Earnings Ratio (25.6x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 404.55,
-        "fetched_at": "2026-05-25T22:18:18.683Z",
+        "value": 404.7,
+        "fetched_at": "2026-05-26T13:11:25.371Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-purpleuted/purple-united-sales-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.30994297049342917,
-      "7D": 20.026702269692922,
-      "1M": 49.75013881177126,
-      "3M": 24.553571428571427,
-      "6M": -20.99404355043452,
-      "1Y": 55.68597267654415,
+      "1D": 0.03707823507600476,
+      "7D": 14.354337383441655,
+      "1M": 49.80566352026653,
+      "3M": 24.52307692307692,
+      "6M": -19.350338780390597,
+      "1Y": 55.74369828747352,
       "5Y": null
     },
     "next_earnings_date": null,

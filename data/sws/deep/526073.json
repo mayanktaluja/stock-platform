@@ -3,12 +3,12 @@
   "name": "Galaxy Bearings Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-526073/galaxy-bearings-shares",
-  "parsed_at": "2026-05-25T21:54:40.035Z",
+  "parsed_at": "2026-05-26T12:51:35.151Z",
   "company_id": "163195AB-E9B3-4D61-86ED-26C67923C4BC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/galaxy-bearings-ltd",
     "search_id": "galaxy-bearings-ltd",
     "company_id": "GSTK526073",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 520.4,
-    "market_cap_inr": 1641000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 530.45,
+    "market_cap_inr": 1654900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 412.2,
-      "high": 1044.9
+      "high": 1000
     },
-    "fair_value_inr": 2402.459137,
+    "fair_value_inr": 2402.521745,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 361.6562523059185,
+    "upside_pct": 352.92143368837776,
     "multiples": {
-      "pe": 49.57,
+      "pe": 49.99,
       "ps": 2.43,
-      "pb": 1.49,
+      "pb": 1.5,
       "ev_ebitda": 11.59,
       "peg": -0.5995760842627013
     },
@@ -55,12 +104,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/galaxy-bearings-ltd"
     },
     "rewards": [
-      "Trading at 78.5% below our estimate of its fair value"
+      "Trading at 77.9% below our estimate of its fair value"
     ],
     "risks": [
       "Earnings have declined by 0.8% per year over past 5 years",
@@ -83,7 +132,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Bearings",
       "pe_industry_id": 66,
@@ -92,28 +141,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 49.57,
+      "company_pe": 49.99,
       "industry_pe": 50.622632373590875,
       "industry_name": "Bearings",
       "industry_id": 66,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/galaxy-bearings-ltd",
       "search_id": "galaxy-bearings-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 49.57,
+        "company_pe": 49.99,
         "industry_pe": 50.622632373590875,
         "industry_name": "Bearings",
         "industry_id": 66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "sws_statement": {
-        "company_pe": 49.6,
-        "industry_pe": 26.4,
+        "company_pe": 51,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "526073 is expensive based on its Price-To-Earnings Ratio (49.6x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "526073 is expensive based on its Price-To-Earnings Ratio (51x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,7 +179,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -143,149 +192,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 520.4,
-        "fetched_at": "2026-05-25T21:54:40.035Z",
+        "value": 530.45,
+        "fetched_at": "2026-05-26T12:51:35.151Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526073/galaxy-bearings-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1641000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1654900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 49.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 49.99,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.5,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5995760842627013,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.622632373590875,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 412.2,
-          "high": 1044.9
+          "high": 1000
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 10.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 346.163522,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.622632373590875,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.0069,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.3722496954060057,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.8496915557423628,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.902251184834124,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.736966824644549,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 16.470000000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.993621443417187,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 10.1235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.7115666178623723,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.00951683748169839,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/galaxy-bearings-ltd"
       }
     },
@@ -296,7 +345,7 @@
     "latest_net_income": null,
     "latest_eps": 10.41,
     "most_recent_reported_date": null,
-    "pb": 1.49,
+    "pb": 1.5,
     "ps": 2.43,
     "book_value": 346.163522,
     "face_value": 10,
@@ -312,12 +361,12 @@
     "quick_ratio": 2.7115666178623723,
     "cash_ratio": 0.00951683748169839,
     "returns_pct": {
-      "1D": 0.8429415754287419,
-      "7D": 17.538114059853186,
-      "1M": 7.376457237181472,
-      "3M": 6.935169012637419,
-      "6M": -29.780056672513837,
-      "1Y": -46.03059372569355,
+      "1D": 1.931206764027684,
+      "7D": 15.265102129508923,
+      "1M": 9.450118642319213,
+      "3M": 10.775817061710352,
+      "6M": -26.945324335490977,
+      "1Y": -44.988332901218556,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -516,7 +565,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/galaxy-bearings-ltd",
     "news": [
       {
@@ -581,7 +630,7 @@
         "ticker": "WENDT",
         "name": "Wendt (India)",
         "searchId": "wendt-india-ltd",
-        "market_cap_inr": 13982200000,
+        "market_cap_inr": 13994500000,
         "pe": 96.1,
         "pb": 5.51
       },
@@ -589,17 +638,17 @@
         "ticker": "505703",
         "name": "Satani Bearings",
         "searchId": "deccan-bearings-ltd",
-        "market_cap_inr": 5600000000,
+        "market_cap_inr": 5545000000,
         "pe": null,
-        "pb": 15.82
+        "pb": 15.66
       },
       {
         "ticker": "505827",
         "name": "SNL Bearings",
         "searchId": "snl-bearings-ltd",
-        "market_cap_inr": 1320400000,
-        "pe": 12.17,
-        "pb": 1.74
+        "market_cap_inr": 1338800000,
+        "pe": 12.34,
+        "pb": 1.77
       }
     ],
     "details": {

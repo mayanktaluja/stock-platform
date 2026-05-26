@@ -3,7 +3,7 @@
   "name": "Quality RO Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543460/quality-ro-industries-shares",
-  "parsed_at": "2026-05-25T20:46:33.487Z",
+  "parsed_at": "2026-05-26T11:14:28.531Z",
   "company_id": "51E58192-4234-4E8F-AB69-CFD7AA39DF65",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 64.56,
     "market_cap_inr": 164628008.63758278,
     "market_cap_usd": 127196762990.178,
@@ -111,7 +161,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -125,7 +175,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 64.56,
-        "fetched_at": "2026-05-25T20:46:33.487Z",
+        "fetched_at": "2026-05-26T11:14:28.531Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543460/quality-ro-industries-shares"
       }
     },

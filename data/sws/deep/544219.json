@@ -3,7 +3,7 @@
   "name": "VVIP Infratech Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544219/vvip-infratech-shares",
-  "parsed_at": "2026-05-25T21:01:15.055Z",
+  "parsed_at": "2026-05-26T11:52:52.452Z",
   "company_id": "5A9FE842-8B44-471D-AB4C-9C31BC4BB8C0",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 114.2,
-    "market_cap_inr": 2851539527.408545,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 109.4,
+    "market_cap_inr": 2731684976.344088,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,8 +159,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 114.2,
-        "fetched_at": "2026-05-25T21:01:15.055Z",
+        "value": 109.4,
+        "fetched_at": "2026-05-26T11:52:52.452Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544219/vvip-infratech-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.7819287576020777,
-      "7D": 2.0098258150960246,
-      "1M": -2.393162393162391,
-      "3M": 5.936920222634514,
-      "6M": -12.95731707317072,
-      "1Y": -44.37408670238675,
+      "1D": -4.203152364273202,
+      "7D": -6.49572649572649,
+      "1M": -6.49572649572649,
+      "3M": 1.7674418604651216,
+      "6M": -21.801286633309505,
+      "1Y": -46.71212859230395,
       "5Y": null
     },
     "next_earnings_date": null,

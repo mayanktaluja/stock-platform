@@ -3,7 +3,7 @@
   "name": "Bhavik Enterprises Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544551/bhavik-enterprises-shares",
-  "parsed_at": "2026-05-25T21:13:51.556Z",
+  "parsed_at": "2026-05-26T12:05:43.025Z",
   "company_id": "96368D8D-BA64-4AE5-B707-8FEB36DE1F51",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 157,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 160,
     "market_cap_inr": 3196207465.0879126,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -106,7 +155,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -118,8 +167,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 157,
-        "fetched_at": "2026-05-25T21:13:51.556Z",
+        "value": 160,
+        "fetched_at": "2026-05-26T12:05:43.025Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544551/bhavik-enterprises-shares"
       }
     },
@@ -146,12 +195,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.9508196721311477,
-      "7D": -0.6329113924050633,
-      "1M": -7.100591715976331,
-      "3M": 16.296296296296298,
-      "6M": 14.181818181818182,
-      "1Y": 8.052305574673081,
+      "1D": 1.910828025477707,
+      "7D": 4.918032786885246,
+      "1M": -4.191616766467066,
+      "3M": 18.51851851851852,
+      "6M": 14.285714285714285,
+      "1Y": 10.116999311768746,
       "5Y": null
     },
     "next_earnings_date": null,

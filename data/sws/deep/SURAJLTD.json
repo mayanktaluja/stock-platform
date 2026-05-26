@@ -3,12 +3,12 @@
   "name": "Suraj Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-surajltd/suraj-shares",
-  "parsed_at": "2026-05-25T23:18:48.138Z",
+  "parsed_at": "2026-05-26T14:07:15.713Z",
   "company_id": "C01AC5DD-EDB0-4BA3-94F4-8BF74A20899B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/suraj-ltd",
     "search_id": "suraj-ltd",
     "company_id": "GSTK531638",
@@ -28,22 +28,70 @@
       "dividend": 3
     },
     "snowflake_total": 9,
-    "current_price_inr": 235.58,
-    "market_cap_inr": 4242100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 228.52,
+    "market_cap_inr": 4402800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 205,
       "high": 439.95
     },
-    "fair_value_inr": 2.76458,
+    "fair_value_inr": 2.83619,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.82647932761695,
+    "upside_pct": -98.75888762471557,
     "multiples": {
       "pe": 56.76,
       "ps": 2.06,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/suraj-ltd"
     },
@@ -116,13 +164,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 27.3031394312147,
-      "sector_pe": 27.3031394312147
+      "pe": 27.267343034228315,
+      "sector_pe": 27.267343034228315
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -132,27 +180,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 56.76,
-      "industry_pe": 27.3031394312147,
+      "industry_pe": 27.267343034228315,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/suraj-ltd",
       "search_id": "suraj-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 56.76,
-        "industry_pe": 27.3031394312147,
+        "industry_pe": 27.267343034228315,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "sws_statement": {
-        "company_pe": 56.8,
-        "industry_pe": 22.5,
+        "company_pe": 55.5,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "SURAJLTD is expensive based on its Price-To-Earnings Ratio (56.8x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "SURAJLTD is expensive based on its Price-To-Earnings Ratio (55.5x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -169,7 +217,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -182,56 +230,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 235.58,
-        "fetched_at": "2026-05-25T23:18:48.138Z",
+        "value": 228.52,
+        "fetched_at": "2026-05-26T14:07:15.713Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-surajltd/suraj-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4242100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4402800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 56.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 22.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.373175892857143,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "fifty_two_week": {
@@ -240,91 +288,91 @@
           "low": 205,
           "high": 439.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 75.012715,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.4227,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.3050172551101675,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.829202547974385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6290322580645165,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.882238631947143,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 43.769999999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 26.6790549508893,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.6849,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6080490971320666,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0018883512333293991,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suraj-ltd"
       }
     },
@@ -339,7 +387,7 @@
     "ps": 2.06,
     "book_value": 75.012715,
     "face_value": 10,
-    "sector_pe": 27.3031394312147,
+    "sector_pe": 27.267343034228315,
     "roe_pct": 5.4227,
     "roa_pct": 3.3050172551101675,
     "roic_pct": 5.829202547974385,
@@ -351,12 +399,12 @@
     "quick_ratio": 0.6080490971320666,
     "cash_ratio": 0.0018883512333293991,
     "returns_pct": {
-      "1D": 1.9782693389896637,
-      "7D": 1.9517895010170163,
-      "1M": -4.259123790945293,
-      "3M": 2.8823478033016086,
-      "6M": -11.718193741802514,
-      "1Y": -38.87389724961079,
+      "1D": -2.996858816537907,
+      "7D": -1.9227467811158754,
+      "1M": -7.128342680646993,
+      "3M": -1.3043102703636444,
+      "6M": -15.347286534543429,
+      "1Y": -40.70576024909185,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -619,7 +667,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/suraj-ltd",
     "news": [
       {
@@ -691,18 +739,18 @@
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "MANINDS",
         "name": "Man Industries India",
         "searchId": "man-industries-india-ltd",
-        "market_cap_inr": 42733000000,
+        "market_cap_inr": 41825300000,
         "pe": 22.75,
         "pb": 2.17
       },
@@ -710,7 +758,7 @@
         "ticker": "SAMBHV",
         "name": "Sambhv Steel Tubes",
         "searchId": "sambhv-steel-tubes-ltd",
-        "market_cap_inr": 31367800000,
+        "market_cap_inr": 31691900000,
         "pe": 22.09,
         "pb": 2.98
       }

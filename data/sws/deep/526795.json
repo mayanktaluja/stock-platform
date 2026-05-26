@@ -3,7 +3,7 @@
   "name": "Mahasagar Travels Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-526795/mahasagar-travels-shares",
-  "parsed_at": "2026-05-25T22:04:52.526Z",
+  "parsed_at": "2026-05-26T13:00:15.208Z",
   "company_id": "2CCF7E39-E761-4263-84CF-548D4F9864D1",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 5.49,
-    "market_cap_inr": 43170636.02954745,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.22,
+    "market_cap_inr": 41047489.995307416,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 13.171803,
+    "fair_value_inr": 13.150481,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 139.9235519125683,
+    "upside_pct": 151.9249233716475,
     "multiples": {
-      "pe": 5.6,
+      "pe": 5.1,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,14 +101,14 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year",
-      "Trading at 57.5% below our estimate of its fair value"
+      "Trading at 60.3% below our estimate of its fair value"
     ],
     "risks": [
       "Negative shareholders equity",
       "Does not have meaningful revenue (₹365M)",
       "Interest payments are not well covered by earnings",
       "Shares are highly illiquid",
-      "Does not have a meaningful market cap (₹45M)"
+      "Does not have a meaningful market cap (₹43M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -71,7 +120,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 26.1
+      "pe": 25.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -85,17 +134,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 5.6,
-      "industry_pe": 26.1,
+      "company_pe": 5.1,
+      "industry_pe": 25.9,
       "industry_name": "Indian Hospitality"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 5.6,
-        "industry_pe": 26.1,
+        "company_pe": 5.1,
+        "industry_pe": 25.9,
         "industry_name": "Indian Hospitality",
-        "description": "526795 is good value based on its Price-To-Earnings Ratio (5.6x) compared to the Indian Hospitality industry average (26.1x).",
+        "description": "526795 is good value based on its Price-To-Earnings Ratio (5.1x) compared to the Indian Hospitality industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -112,7 +161,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -125,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.49,
-        "fetched_at": "2026-05-25T22:04:52.526Z",
+        "value": 5.22,
+        "fetched_at": "2026-05-26T13:00:15.208Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-526795/mahasagar-travels-shares"
       }
     },
@@ -153,12 +202,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.1746031746031695,
-      "7D": -3.514938488576453,
-      "1M": 0,
-      "3M": -18.05970149253731,
-      "6M": -12.579617834394904,
-      "1Y": 11.812627291242364,
+      "1D": -4.918032786885254,
+      "7D": -3.512014787430691,
+      "1M": -4.918032786885254,
+      "3M": -22.089552238805975,
+      "6M": -16.878980891719753,
+      "1Y": 6.313645621181255,
       "5Y": null
     },
     "next_earnings_date": null,

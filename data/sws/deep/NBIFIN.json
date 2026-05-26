@@ -3,7 +3,7 @@
   "name": "N.B.I. Industrial Finance Company Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-nbifin/nbi-industrial-finance-shares",
-  "parsed_at": "2026-05-25T21:46:28.464Z",
+  "parsed_at": "2026-05-26T12:35:40.121Z",
   "company_id": "281C55AE-CB33-4B98-818A-7E027087C987",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,57 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 1956.9,
-    "market_cap_inr": 4807724600.959447,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1961.3,
+    "market_cap_inr": 4818534549.472003,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +83,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 37.6,
+      "pe": 38.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -118,7 +166,7 @@
     },
     "dividend_yield_pct": 0.0202917999,
     "industry_benchmarks": {
-      "pe": 27.9
+      "pe": 27.3
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -132,17 +180,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 37.6,
-      "industry_pe": 27.9,
+      "company_pe": 38.8,
+      "industry_pe": 27.3,
       "industry_name": "Indian Capital Markets"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 37.6,
-        "industry_pe": 27.9,
+        "company_pe": 38.8,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "NBIFIN is expensive based on its Price-To-Earnings Ratio (37.6x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "NBIFIN is expensive based on its Price-To-Earnings Ratio (38.8x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -172,8 +220,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1956.9,
-        "fetched_at": "2026-05-25T21:46:28.464Z",
+        "value": 1961.3,
+        "fetched_at": "2026-05-26T12:35:40.121Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nbifin/nbi-industrial-finance-shares"
       }
     },
@@ -200,12 +248,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.9893163517709693,
-      "7D": 0.8815341787813248,
-      "1M": -2.970051566838549,
-      "3M": 4.557597777302853,
-      "6M": -14.076838638858394,
-      "1Y": -21.592275022037025,
+      "1D": 0.2248454187745855,
+      "7D": 4.318919206425193,
+      "1M": -2.751884172947243,
+      "3M": 4.759106933019972,
+      "6M": -13.853384284271089,
+      "1Y": -21.415978844458696,
       "5Y": null
     },
     "next_earnings_date": null,

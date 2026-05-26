@@ -3,12 +3,12 @@
   "name": "Oriental Aromatics Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-oal/oriental-aromatics-shares",
-  "parsed_at": "2026-05-25T21:55:40.868Z",
+  "parsed_at": "2026-05-26T12:46:30.831Z",
   "company_id": "74560B10-FAC4-4E7C-ADD5-97D46BC4614E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/oriental-aromatics-ltd",
     "search_id": "oriental-aromatics-ltd",
     "company_id": "GSTK500078",
@@ -28,22 +28,70 @@
       "dividend": 2
     },
     "snowflake_total": 7,
-    "current_price_inr": 328.65,
-    "market_cap_inr": 10415800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 326.4,
+    "market_cap_inr": 11255400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 228,
       "high": 432
     },
-    "fair_value_inr": 4.442397,
+    "fair_value_inr": 4.272173,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.64828936558648,
+    "upside_pct": -98.69112346813725,
     "multiples": {
       "pe": 315.82,
       "ps": 1.01,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/oriental-aromatics-ltd"
     },
@@ -157,13 +205,13 @@
     },
     "dividend_yield_pct": 0.16,
     "industry_benchmarks": {
-      "pe": 40.392941562985385,
-      "sector_pe": 40.392941562985385
+      "pe": 40.39707827675086,
+      "sector_pe": 40.39707827675086
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -173,32 +221,32 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 315.82,
-      "industry_pe": 40.392941562985385,
+      "industry_pe": 40.39707827675086,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/oriental-aromatics-ltd",
       "search_id": "oriental-aromatics-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 315.82,
-        "industry_pe": 40.392941562985385,
+        "industry_pe": 40.39707827675086,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Chemicals",
-        "description": "OAL is good value based on its Price-To-Sales Ratio (1x) compared to the Indian Chemicals industry average (1.2x).",
+        "description": "OAL is good value based on its Price-To-Sales Ratio (1.1x) compared to the Indian Chemicals industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.844871599,
+        "industry_pe": 21.948964516,
         "industry_code": "2020000",
         "type": "median_profitable",
         "count": 303,
@@ -210,8 +258,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -223,56 +271,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 328.65,
-        "fetched_at": "2026-05-25T21:55:40.868Z",
+        "value": 326.4,
+        "fetched_at": "2026-05-26T12:46:30.831Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-oal/oriental-aromatics-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 10415800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11255400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 315.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.09779879839786383,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "fifty_two_week": {
@@ -281,91 +329,91 @@
           "low": 228,
           "high": 432
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 197.4609735,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4981,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.27710571038685966,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3490058346485672,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3211160480412891,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.527309416170278,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 60.589999999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 33.70476102771894,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.3876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7309003092062203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0329744735594827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/oriental-aromatics-ltd"
       }
     },
@@ -380,7 +428,7 @@
     "ps": 1.01,
     "book_value": 197.4609735,
     "face_value": 5,
-    "sector_pe": 40.392941562985385,
+    "sector_pe": 40.39707827675086,
     "roe_pct": 0.4981,
     "roa_pct": 0.27710571038685966,
     "roic_pct": 1.3490058346485672,
@@ -392,12 +440,12 @@
     "quick_ratio": 0.7309003092062203,
     "cash_ratio": 0.0329744735594827,
     "returns_pct": {
-      "1D": 5.8624577226606505,
-      "7D": 10.675197844755006,
-      "1M": 5.458221024258758,
-      "3M": 19.726775956284147,
-      "6M": 2.671040299906265,
-      "1Y": -20.68299746591047,
+      "1D": -0.6846188954815153,
+      "7D": 8.420528151469844,
+      "1M": 4.7362341162880215,
+      "3M": 19.341864716636188,
+      "6M": 3.40567083795343,
+      "1Y": -21.2260166525884,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -657,7 +705,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/oriental-aromatics-ltd",
     "news": [
       {
@@ -732,7 +780,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -740,7 +788,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -748,9 +796,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

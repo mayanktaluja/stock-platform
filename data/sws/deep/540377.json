@@ -3,12 +3,12 @@
   "name": "IFL Enterprises Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-540377/ifl-enterprises-shares",
-  "parsed_at": "2026-05-25T23:51:47.315Z",
+  "parsed_at": "2026-05-26T14:41:51.938Z",
   "company_id": "CD1F6953-A5D0-41EC-A3E5-1E3A6235FE2E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ifl-enterprises-ltd",
     "search_id": "ifl-enterprises-ltd",
     "company_id": "GSTK540377",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.41,
     "market_cap_inr": 510500000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,13 +104,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ifl-enterprises-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (6x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (6x) is below the Indian market (23.4x)",
       "Became profitable this year",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
@@ -100,7 +149,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Retail",
       "pe_industry_id": 54,
@@ -113,7 +162,7 @@
       "industry_pe": 75.63467041299452,
       "industry_name": "Retail",
       "industry_id": 54,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ifl-enterprises-ltd",
       "search_id": "ifl-enterprises-ltd"
     },
@@ -123,22 +172,22 @@
         "industry_pe": 75.63467041299452,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "sws_statement": {
         "company_pe": 6,
-        "industry_pe": 25.3,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "540377 is good value based on its Price-To-Earnings Ratio (6x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "540377 is good value based on its Price-To-Earnings Ratio (6x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.348366834,
+        "industry_pe": 26.876719389,
         "industry_code": "4410000",
         "type": "median_profitable",
-        "count": 71,
+        "count": 72,
         "source": {
           "type": "country",
           "country": "IN",
@@ -147,8 +196,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -161,55 +210,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.41,
-        "fetched_at": "2026-05-25T23:51:47.315Z",
+        "fetched_at": "2026-05-26T14:41:51.938Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-540377/ifl-enterprises-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 510500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 5.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "fifty_two_week": {
@@ -218,91 +267,91 @@
           "low": 0.3,
           "high": 1.32
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.0765716,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.0381,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.015243052328282,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.423880935751692,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.574960547080484,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.406803436787659,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.6599126312854354,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6673731454930807,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.006233636703652912,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifl-enterprises-ltd"
       }
     },
@@ -330,7 +379,7 @@
     "cash_ratio": 0.006233636703652912,
     "returns_pct": {
       "1D": 0,
-      "7D": 5.128205128205118,
+      "7D": 2.4999999999999885,
       "1M": -10.869565217391314,
       "3M": -8.888888888888896,
       "6M": -31.66666666666667,
@@ -503,7 +552,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ifl-enterprises-ltd",
     "news": [],
     "events": [
@@ -563,7 +612,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -571,15 +620,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

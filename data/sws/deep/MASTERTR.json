@@ -3,12 +3,12 @@
   "name": "Master Trust Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-mastertr/master-trust-shares",
-  "parsed_at": "2026-05-25T21:29:53.107Z",
+  "parsed_at": "2026-05-26T12:18:48.211Z",
   "company_id": "E08D6216-BBE4-479F-9BA6-906D4FB4C7DC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/master-trust-ltd",
     "search_id": "master-trust-ltd",
     "company_id": "GSTK511768",
@@ -28,22 +28,72 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 89.11,
-    "market_cap_inr": 11109600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 87.67,
+    "market_cap_inr": 10949700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 55.6,
       "high": 174.4
     },
-    "fair_value_inr": 96.72811,
+    "fair_value_inr": 96.988858,
     "fair_value_range_inr": {
-      "min": 96.72811,
-      "max": 96.72811,
+      "min": 96.988858,
+      "max": 96.988858,
       "count": 1
     },
-    "upside_pct": 8.549107844237462,
+    "upside_pct": 10.629471883198347,
     "multiples": {
       "pe": 8.81,
       "ps": 1.93,
@@ -55,14 +105,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/master-trust-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 6.7% below our estimate of its fair value"
+      "Trading at 7.9% below our estimate of its fair value"
     ],
     "risks": [
       "Highly volatile share price over past 3 months"
@@ -77,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -93,27 +143,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 8.81,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/master-trust-ltd",
       "search_id": "master-trust-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 8.81,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "sws_statement": {
-        "company_pe": 8,
-        "industry_pe": 27.9,
+        "company_pe": 7.9,
+        "industry_pe": 27.1,
         "industry_name": "Indian Capital Markets",
-        "description": "MASTERTR is good value based on its Price-To-Earnings Ratio (8x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "MASTERTR is good value based on its Price-To-Earnings Ratio (7.9x) compared to the Indian Capital Markets industry average (27.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -143,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 89.11,
-        "fetched_at": "2026-05-25T21:29:53.107Z",
+        "value": 87.67,
+        "fetched_at": "2026-05-26T12:18:48.211Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-mastertr/master-trust-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 11109600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 10949700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 8.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.1412219873150106,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +251,91 @@
           "low": 55.6,
           "high": 174.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 10.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 66.4028744,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 15.435,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.618282923699359,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.89632716853347,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 41.01241642788921,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 27.889999999999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 10.153367672482934,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8174,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8102469833292576,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5384809977148348,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/master-trust-ltd"
       }
     },
@@ -300,7 +350,7 @@
     "ps": 1.93,
     "book_value": 66.4028744,
     "face_value": 1,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 15.435,
     "roa_pct": 5.618282923699359,
     "roic_pct": 0,
@@ -312,12 +362,12 @@
     "quick_ratio": 1.8102469833292576,
     "cash_ratio": 1.5384809977148348,
     "returns_pct": {
-      "1D": -1.328756505370394,
-      "7D": -1.7096845356276167,
-      "1M": 20.94191096634092,
-      "3M": 5.318520269471694,
-      "6M": -19.80019800198002,
-      "1Y": -43.622674933569535,
+      "1D": -1.6159802491302862,
+      "7D": -4.373909249563705,
+      "1M": 18.98751357220412,
+      "3M": 0.6891007235557696,
+      "6M": -24.669187145557654,
+      "1Y": -44.533721371631025,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -523,7 +573,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/master-trust-ltd",
     "news": [
       {
@@ -598,7 +648,7 @@
         "ticker": "ARSSBL",
         "name": "Anand Rathi Share & Stock Brokers",
         "searchId": "anand-rathi-share-stock-brokers-ltd",
-        "market_cap_inr": 33236900000,
+        "market_cap_inr": 33845100000,
         "pe": 25.71,
         "pb": 2.47
       },
@@ -606,7 +656,7 @@
         "ticker": "SHAREINDIA",
         "name": "Share India Securities",
         "searchId": "share-india-securities-ltd",
-        "market_cap_inr": 31007600000,
+        "market_cap_inr": 30657500000,
         "pe": 9.55,
         "pb": 1.18
       },
@@ -614,7 +664,7 @@
         "ticker": "INDOTHAI",
         "name": "Indo Thai Securities",
         "searchId": "indo-thai-securities-ltd",
-        "market_cap_inr": 27796700000,
+        "market_cap_inr": 26257900000,
         "pe": 42.02,
         "pb": 9.86
       }

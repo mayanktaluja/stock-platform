@@ -3,12 +3,12 @@
   "name": "Salora International Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-500370/salora-international-shares",
-  "parsed_at": "2026-05-25T20:38:38.742Z",
+  "parsed_at": "2026-05-26T11:05:50.209Z",
   "company_id": "74D48AF0-7F78-4EE5-9B90-F1EE680FF74F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/salora-international-ltd",
     "search_id": "salora-international-ltd",
     "company_id": "GSTK500370",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 30.68,
-    "market_cap_inr": 259400000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 30.79,
+    "market_cap_inr": 270300000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 25.434475228161673,
+    "upside_pct": 24.98634946411173,
     "multiples": {
       "pe": null,
       "ps": 0.25,
-      "pb": 0.48,
+      "pb": 0.5,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -61,13 +110,13 @@
     },
     "rewards": [
       "Earnings have grown 1.6% per year over the past 5 years",
-      "Trading at 22.5% below our estimate of its fair value",
+      "Trading at 20.3% below our estimate of its fair value",
       "Trading at good value vs. industry average Price-To-Sales ratio",
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹259M)"
+      "Does not have a meaningful market cap (₹270M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 76.39971853206873
+      "sector_pe": 76.39971853206875
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,10 +149,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 76.39971853206873,
+        "industry_pe": 76.39971853206875,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "sws_statement": {
@@ -127,7 +176,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.2,
+        "industry_pe": 31.5,
         "sample_count": 59,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -140,50 +189,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 30.68,
-        "fetched_at": "2026-05-25T20:38:38.742Z",
+        "value": 30.79,
+        "fetched_at": "2026-05-26T11:05:50.209Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-500370/salora-international-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 259400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 270300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.5,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +241,85 @@
           "low": 25.17,
           "high": 57.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 61.6492622,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 37.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 25.586353944562894,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.1561,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.35891286970423664,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.016386890487609912,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/salora-international-ltd"
       }
     },
@@ -281,11 +330,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.48,
+    "pb": 0.5,
     "ps": 0.25,
     "book_value": 61.6492622,
     "face_value": 10,
-    "sector_pe": 76.39971853206873,
+    "sector_pe": 76.39971853206875,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -297,12 +346,12 @@
     "quick_ratio": 0.35891286970423664,
     "cash_ratio": 0.016386890487609912,
     "returns_pct": {
-      "1D": 4.211956521739125,
-      "7D": -0.06514657980455887,
-      "1M": -3.9448966812774,
-      "3M": -7.002121855107616,
-      "6M": -25.170731707317074,
-      "1Y": -32.660228270412645,
+      "1D": 0.3585397653194245,
+      "7D": 0.29315960912052075,
+      "1M": -3.600500939261121,
+      "3M": -3.1761006289308225,
+      "6M": -23.67377293009421,
+      "1Y": -32.41878841088675,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -458,7 +507,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/salora-international-ltd",
     "news": [
       {
@@ -513,7 +562,7 @@
         "ticker": "SYMPHONY",
         "name": "Symphony",
         "searchId": "symphony-ltd",
-        "market_cap_inr": 48818500000,
+        "market_cap_inr": 49570500000,
         "pe": 33.67,
         "pb": 8.96
       },
@@ -521,7 +570,7 @@
         "ticker": "IFBIND",
         "name": "IFB Industries",
         "searchId": "ifb-industries-ltd",
-        "market_cap_inr": 42556100000,
+        "market_cap_inr": 42671600000,
         "pe": 35.53,
         "pb": 4.61
       },
@@ -529,9 +578,9 @@
         "ticker": "ORIENTELEC",
         "name": "Orient Electric",
         "searchId": "orient-electric-ltd",
-        "market_cap_inr": 39163300000,
-        "pe": 40.88,
-        "pb": 5.15
+        "market_cap_inr": 39536700000,
+        "pe": 41.27,
+        "pb": 5.2
       }
     ],
     "details": {

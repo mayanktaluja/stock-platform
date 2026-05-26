@@ -3,12 +3,12 @@
   "name": "Artson Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-522134/artson-shares",
-  "parsed_at": "2026-05-25T21:35:55.584Z",
+  "parsed_at": "2026-05-26T12:33:41.289Z",
   "company_id": "EC003FBB-C8C8-450E-A0BA-20632A4A86C8",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/artson-engineering-ltd",
     "search_id": "artson-engineering-ltd",
     "company_id": "GSTK522134",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 2,
-    "current_price_inr": 168.3,
-    "market_cap_inr": 5982900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 167.1,
+    "market_cap_inr": 6213600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 12.046629,
       "count": 1
     },
-    "upside_pct": -92.84216934046347,
+    "upside_pct": -92.79076660682226,
     "multiples": {
       "pe": null,
       "ps": 3.66,
@@ -73,7 +122,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 31.821146947073228
+      "sector_pe": 31.795057456430627
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -94,17 +143,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 31.821146947073228,
+        "industry_pe": 31.795057456430627,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Construction",
-        "description": "522134 is expensive based on its Price-To-Sales Ratio (3.7x) compared to the Indian Construction industry average (1.2x).",
+        "description": "522134 is expensive based on its Price-To-Sales Ratio (3.8x) compared to the Indian Construction industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -121,8 +170,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -134,50 +183,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 168.3,
-        "fetched_at": "2026-05-25T21:35:55.584Z",
+        "value": 167.1,
+        "fetched_at": "2026-05-26T12:33:41.289Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-522134/artson-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5982900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6213600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 31.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -3.364811428571429,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "fifty_two_week": {
@@ -186,85 +235,85 @@
           "low": 125.3,
           "high": 216.85
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.1061755,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 43.745949449125085,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5899,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8265005884660652,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/artson-engineering-ltd"
       }
     },
@@ -279,7 +328,7 @@
     "ps": 3.66,
     "book_value": 0.1061755,
     "face_value": 1,
-    "sector_pe": 31.821146947073228,
+    "sector_pe": 31.795057456430627,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -291,12 +340,12 @@
     "quick_ratio": 0.8265005884660652,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 3.856834310398025,
-      "7D": 8.370895041854475,
-      "1M": 8.615682478218796,
-      "3M": 15.116279069767458,
-      "6M": 0.8388256440982659,
-      "1Y": 6.518987341772159,
+      "1D": -0.7130124777183702,
+      "7D": 7.081063761614856,
+      "1M": 7.841239109390131,
+      "3M": 16.04166666666666,
+      "6M": 0.11983223487117355,
+      "1Y": 5.759493670886073,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -410,7 +459,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/artson-engineering-ltd",
     "news": [
       {
@@ -475,25 +524,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

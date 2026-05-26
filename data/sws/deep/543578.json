@@ -3,7 +3,7 @@
   "name": "Olatech Solutions Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-543578/olatech-solutions-shares",
-  "parsed_at": "2026-05-25T20:48:06.432Z",
+  "parsed_at": "2026-05-26T11:16:02.643Z",
   "company_id": "8116BEB7-5D78-4FAE-BF04-1A4D51D3E910",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,7 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 107.8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 100.9,
     "market_cap_inr": 479769306.79372656,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -79.32897217068646,
+    "upside_pct": -77.91539345887017,
     "multiples": {
       "pe": 29.9,
       "ps": null,
@@ -109,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 107.8,
-        "fetched_at": "2026-05-25T20:48:06.432Z",
+        "value": 100.9,
+        "fetched_at": "2026-05-26T11:16:02.643Z",
         "url": "https://simplywall.st/stocks/in/software/bse-543578/olatech-solutions-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.1462631820265934,
-      "7D": -11.639344262295085,
-      "1M": -33.415688696726384,
-      "3M": -39.77653631284917,
-      "6M": -59.602773093498215,
-      "1Y": -66.34405245082735,
+      "1D": -6.400742115027821,
+      "7D": -17.362817362817353,
+      "1M": -37.67757875231624,
+      "3M": -43.266797863368,
+      "6M": -63.54110207768744,
+      "1Y": -68.49828285981891,
       "5Y": null
     },
     "next_earnings_date": null,

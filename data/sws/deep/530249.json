@@ -3,12 +3,12 @@
   "name": "Bridge Securities Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-530249/bridge-securities-shares",
-  "parsed_at": "2026-05-25T22:12:35.601Z",
+  "parsed_at": "2026-05-26T13:08:28.928Z",
   "company_id": "88B1A784-37B1-4E3E-9061-80D863B02774",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bridge-securities-ltd",
     "search_id": "bridge-securities-ltd",
     "company_id": "GSTK530249",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 15,
-    "market_cap_inr": 587400000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 583100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 8.7,
       "high": 17.4
     },
-    "fair_value_inr": 2.444509,
+    "fair_value_inr": 2.444078,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -83.70327333333333,
+    "upside_pct": -83.70614666666665,
     "multiples": {
-      "pe": 37.78,
+      "pe": 37.5,
       "ps": 27.31,
-      "pb": 8.81,
+      "pb": 8.75,
       "ev_ebitda": 21.14,
       "peg": 0.017453333333333335
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/bridge-securities-ltd"
     },
@@ -65,7 +114,7 @@
     "risks": [
       "Shareholders have been diluted in the past year",
       "Makes less than USD$1m in revenue (₹25M)",
-      "Does not have a meaningful market cap (₹587M)",
+      "Does not have a meaningful market cap (₹583M)",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.19415527479973,
-      "sector_pe": 40.19415527479973
+      "pe": 40.194235371717696,
+      "sector_pe": 40.194235371717696
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Miscellaneous",
       "pe_industry_id": 39,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 37.78,
-      "industry_pe": 40.19415527479973,
+      "company_pe": 37.5,
+      "industry_pe": 40.194235371717696,
       "industry_name": "Miscellaneous",
       "industry_id": 39,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/bridge-securities-ltd",
       "search_id": "bridge-securities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 37.78,
-        "industry_pe": 40.19415527479973,
+        "company_pe": 37.5,
+        "industry_pe": 40.194235371717696,
         "industry_name": "Miscellaneous",
         "industry_id": 39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "sws_statement": {
-        "company_pe": 37.9,
-        "industry_pe": 27.9,
+        "company_pe": 37.6,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "530249 is expensive based on its Price-To-Earnings Ratio (37.9x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "530249 is expensive based on its Price-To-Earnings Ratio (37.6x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -145,55 +194,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 15,
-        "fetched_at": "2026-05-25T22:12:35.601Z",
+        "fetched_at": "2026-05-26T13:08:28.928Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-530249/bridge-securities-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 587400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 583100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 37.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 37.5,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 8.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.75,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 27.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.017453333333333335,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.19415527479973,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.194235371717696,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 8.7,
           "high": 17.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.7150941,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.19415527479973,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.194235371717696,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 23.2434,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 20.717131474103585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 23.2329599174856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 72.55813953488372,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8500000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.796812749003984,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 9.1232,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.546511627906977,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.058139534883720936,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bridge-securities-ltd"
       }
     },
@@ -297,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 0.4,
     "most_recent_reported_date": null,
-    "pb": 8.81,
+    "pb": 8.75,
     "ps": 27.31,
     "book_value": 1.7150941,
     "face_value": 1,
-    "sector_pe": 40.19415527479973,
+    "sector_pe": 40.194235371717696,
     "roe_pct": 23.2434,
     "roa_pct": 20.717131474103585,
     "roic_pct": 23.2329599174856,
@@ -313,11 +362,11 @@
     "quick_ratio": 8.546511627906977,
     "cash_ratio": 0.058139534883720936,
     "returns_pct": {
-      "1D": -0.7279947054930472,
-      "7D": -3.536977491961419,
+      "1D": 0,
+      "7D": -3.225806451612903,
       "1M": -4.882688649334177,
-      "3M": 35.99274705349049,
-      "6M": 13.378684807256233,
+      "3M": 31.00436681222708,
+      "6M": 14.155251141552508,
       "1Y": 54.79876160990713,
       "5Y": null
     },
@@ -497,7 +546,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bridge-securities-ltd",
     "news": [
       {
@@ -572,7 +621,7 @@
         "ticker": "ARSSBL",
         "name": "Anand Rathi Share & Stock Brokers",
         "searchId": "anand-rathi-share-stock-brokers-ltd",
-        "market_cap_inr": 33236900000,
+        "market_cap_inr": 33845100000,
         "pe": 25.71,
         "pb": 2.47
       },
@@ -580,7 +629,7 @@
         "ticker": "SHAREINDIA",
         "name": "Share India Securities",
         "searchId": "share-india-securities-ltd",
-        "market_cap_inr": 31007600000,
+        "market_cap_inr": 30657500000,
         "pe": 9.55,
         "pb": 1.18
       },
@@ -588,7 +637,7 @@
         "ticker": "INDOTHAI",
         "name": "Indo Thai Securities",
         "searchId": "indo-thai-securities-ltd",
-        "market_cap_inr": 27796700000,
+        "market_cap_inr": 26257900000,
         "pe": 42.02,
         "pb": 9.86
       }

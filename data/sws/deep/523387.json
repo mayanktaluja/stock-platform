@@ -3,12 +3,12 @@
   "name": "Homre Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-523387/homre-shares",
-  "parsed_at": "2026-05-25T21:41:45.524Z",
+  "parsed_at": "2026-05-26T12:37:54.104Z",
   "company_id": "87CA93D0-014A-40DF-9DF9-CC5F9ADB2561",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/triton-corp-ltd",
     "search_id": "triton-corp-ltd",
     "company_id": "GSTK523387",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 2.89,
-    "market_cap_inr": 587700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.84,
+    "market_cap_inr": 577700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 0.57,
       "high": 3.47
     },
-    "fair_value_inr": 0.830263,
+    "fair_value_inr": 0.830262,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -71.27117647058824,
+    "upside_pct": -70.76542253521127,
     "multiples": {
       "pe": null,
       "ps": 3.84,
@@ -61,8 +110,8 @@
     },
     "rewards": [],
     "risks": [
-      "Does not have meaningful revenue (₹158M)",
-      "Does not have a meaningful market cap (₹588M)"
+      "Does not have meaningful revenue (₹153M)",
+      "Does not have a meaningful market cap (₹578M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -74,7 +123,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 19.240887337479148
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -95,17 +144,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2.5,
+        "industry_pe": 2.4,
         "industry_name": "Indian IT",
-        "description": "523387 is expensive based on its Price-To-Sales Ratio (3.7x) compared to the Indian IT industry average (2.5x).",
+        "description": "523387 is expensive based on its Price-To-Sales Ratio (3.7x) compared to the Indian IT industry average (2.4x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -122,7 +171,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -135,50 +184,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.89,
-        "fetched_at": "2026-05-25T21:41:45.524Z",
+        "value": 2.84,
+        "fetched_at": "2026-05-26T12:37:54.104Z",
         "url": "https://simplywall.st/stocks/in/software/bse-523387/homre-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 587700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 577700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.11634615384615384,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "fifty_two_week": {
@@ -187,85 +236,85 @@
           "low": 0.57,
           "high": 3.47
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.0144562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.240680183126226,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1026.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 71.4975845410628,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1823,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.509090909090909,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4025974025974026,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/triton-corp-ltd"
       }
     },
@@ -280,7 +329,7 @@
     "ps": 3.84,
     "book_value": 0.0144562,
     "face_value": 1,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -292,12 +341,12 @@
     "quick_ratio": 0.509090909090909,
     "cash_ratio": 0.4025974025974026,
     "returns_pct": {
-      "1D": -1.7006802721088374,
-      "7D": -8.832807570977911,
-      "1M": 33.17972350230416,
-      "3M": 127.55905511811025,
-      "6M": 24.56896551724139,
-      "1Y": 407.0175438596492,
+      "1D": -1.730103806228383,
+      "7D": -8.681672025723474,
+      "1M": 30.87557603686636,
+      "3M": 134.71074380165288,
+      "6M": 24.561403508771935,
+      "1Y": 398.2456140350878,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -523,7 +572,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/triton-corp-ltd",
     "news": [
       {
@@ -588,7 +637,7 @@
         "ticker": "500390",
         "name": "Reliance Infrastructure",
         "searchId": "reliance-infrastructure-ltd",
-        "market_cap_inr": 27668400000,
+        "market_cap_inr": 26287200000,
         "pe": 0.24,
         "pb": 0.16
       },
@@ -604,7 +653,7 @@
         "ticker": "NTPC",
         "name": "NTPC",
         "searchId": "ntpc-ltd",
-        "market_cap_inr": 3766670000000,
+        "market_cap_inr": 3782184600000,
         "pe": 15.17,
         "pb": 1.96
       }

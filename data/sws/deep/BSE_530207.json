@@ -3,7 +3,7 @@
   "name": "Brawn Biotech Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-530207/brawn-biotech-shares",
-  "parsed_at": "2026-05-25T22:23:18.269Z",
+  "parsed_at": "2026-05-26T13:16:57.903Z",
   "company_id": "77111E95-FE7A-43AD-8C6E-3F8E38B8C992",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 20.13,
     "market_cap_inr": 60396032.4897928,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -53,7 +102,7 @@
       "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹62M)",
+      "Does not have a meaningful market cap (₹60M)",
       "Earnings have declined by 1.8% per year over past 5 years",
       "Does not have meaningful revenue (₹173M)"
     ],
@@ -129,7 +178,7 @@
         "company_pe": null,
         "industry_pe": 2.5,
         "industry_name": "Indian Healthcare",
-        "description": "530207 is good value based on its Price-To-Sales Ratio (0.4x) compared to the Indian Healthcare industry average (2.5x).",
+        "description": "530207 is good value based on its Price-To-Sales Ratio (0.3x) compared to the Indian Healthcare industry average (2.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -146,7 +195,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.2,
+        "industry_pe": 35.8,
         "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
@@ -160,7 +209,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 20.13,
-        "fetched_at": "2026-05-25T22:23:18.269Z",
+        "fetched_at": "2026-05-26T13:16:57.903Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-530207/brawn-biotech-shares"
       }
     },

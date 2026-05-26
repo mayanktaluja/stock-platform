@@ -3,7 +3,7 @@
   "name": "B.R.Goyal Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares",
-  "parsed_at": "2026-05-25T21:03:27.902Z",
+  "parsed_at": "2026-05-26T11:55:02.658Z",
   "company_id": "892F06D2-A802-4C85-AFAC-34D05CA49242",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 121.8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 125,
     "market_cap_inr": 2901848539.7374573,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 121.8,
-        "fetched_at": "2026-05-25T21:03:27.902Z",
+        "value": 125,
+        "fetched_at": "2026-05-26T11:55:02.658Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares"
       }
     },
@@ -150,16 +199,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.220338983050845,
-      "7D": 6.982872200263507,
-      "1M": 4.999999999999997,
-      "3M": 29.85074626865672,
-      "6M": -9.576837416481064,
-      "1Y": -7.657316148597429,
+      "1D": 2.627257799671595,
+      "7D": 8.742931709438883,
+      "1M": 7.758620689655173,
+      "3M": 33.04949441192123,
+      "6M": -6.015037593984962,
+      "1Y": -5.231235784685372,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -264,6 +313,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "051b39bd-0cc7-408f-b384-4f5506d41f63",
+      "type": "event",
+      "date": "2026-05-25T12:13:00.000Z",
+      "title": "B.R.Goyal Infrastructure Limited to Report Second Half, 2026 Results on May 30, 2026",
+      "body": "B.R.Goyal Infrastructure Limited announced that they will report second half, 2026 results on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "b3cf254d-eeea-4734-8f43-91e0ca4a9c75",
       "type": "brief",

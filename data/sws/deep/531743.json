@@ -3,7 +3,7 @@
   "name": "Hira Automobiles Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-531743/hira-automobiles-shares",
-  "parsed_at": "2026-05-25T22:48:15.774Z",
+  "parsed_at": "2026-05-26T13:42:20.297Z",
   "company_id": "89AA14CA-A146-4CE4-8B77-EBC885E4A616",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 204,
     "market_cap_inr": 561701752.8968716,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -96,7 +147,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -110,7 +161,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 204,
-        "fetched_at": "2026-05-25T22:48:15.774Z",
+        "fetched_at": "2026-05-26T13:42:20.297Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-531743/hira-automobiles-shares"
       }
     },

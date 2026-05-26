@@ -3,12 +3,12 @@
   "name": "AVI Polymers Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-539288/avi-polymers-shares",
-  "parsed_at": "2026-05-25T23:36:46.146Z",
+  "parsed_at": "2026-05-26T14:25:38.695Z",
   "company_id": "DD33F798-A4D2-4F2E-9905-F4E11DEA9584",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/avi-polymers-ltd",
     "search_id": "avi-polymers-ltd",
     "company_id": "GSTK539288",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 16.05,
-    "market_cap_inr": 1589100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 15.25,
+    "market_cap_inr": 1510100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": 112.52,
       "count": 1
     },
-    "upside_pct": -77.1890093457944,
+    "upside_pct": -75.99236721311475,
     "multiples": {
-      "pe": 7.82,
+      "pe": 7.43,
       "ps": 0.51,
-      "pb": 1.37,
+      "pb": 1.3,
       "ev_ebitda": 5.12,
       "peg": 0.002134831460674157
     },
@@ -55,12 +104,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/avi-polymers-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (7.8x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (7.1x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 2388.9% over the past year"
@@ -82,13 +131,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -97,28 +146,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 7.82,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 7.43,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/avi-polymers-ltd",
       "search_id": "avi-polymers-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 7.82,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 7.43,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "sws_statement": {
-        "company_pe": 7.8,
-        "industry_pe": 22.4,
+        "company_pe": 7.1,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "539288 is good value based on its Price-To-Earnings Ratio (7.8x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "539288 is good value based on its Price-To-Earnings Ratio (7.1x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -136,7 +185,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -148,56 +197,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 16.05,
-        "fetched_at": "2026-05-25T23:36:46.146Z",
+        "value": 15.25,
+        "fetched_at": "2026-05-26T14:25:38.695Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539288/avi-polymers-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1589100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1510100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 7.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.43,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.3,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.002134831460674157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "fifty_two_week": {
@@ -206,91 +255,91 @@
           "low": 5.43,
           "high": 29.41
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.3276552,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 17.5264,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 11.133268759614836,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 19.633262883044907,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.260813841717397,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.884972765139377,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.0854652156572275,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.7762,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.4215933973387234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.27960249284150246,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/avi-polymers-ltd"
       }
     },
@@ -301,11 +350,11 @@
     "latest_net_income": null,
     "latest_eps": 2.16,
     "most_recent_reported_date": null,
-    "pb": 1.37,
+    "pb": 1.3,
     "ps": 0.51,
     "book_value": 12.3276552,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 17.5264,
     "roa_pct": 11.133268759614836,
     "roic_pct": 19.633262883044907,
@@ -317,12 +366,12 @@
     "quick_ratio": 2.4215933973387234,
     "cash_ratio": 0.27960249284150246,
     "returns_pct": {
-      "1D": -4.97335701598579,
-      "7D": -22.501207146306133,
-      "1M": -2.372262773722631,
-      "3M": -6.848520023215321,
-      "6M": -46.30311140849782,
-      "1Y": 11.303744798890436,
+      "1D": -4.984423676012465,
+      "7D": -22.510162601626014,
+      "1M": -7.238442822384436,
+      "3M": -15.699281370923163,
+      "6M": -51.40216698534098,
+      "1Y": 5.755894590846047,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -502,7 +551,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/avi-polymers-ltd",
     "news": [
       {
@@ -577,25 +626,25 @@
         "ticker": "VINYLINDIA",
         "name": "Vinyl Chemicals India",
         "searchId": "vinyl-chemicals-india-ltd",
-        "market_cap_inr": 5074800000,
-        "pe": 30.78,
-        "pb": 3.9
+        "market_cap_inr": 4939100000,
+        "pe": 29.96,
+        "pb": 3.79
       },
       {
         "ticker": "544272",
         "name": "Shiv Texchem",
         "searchId": "shiv-texchem-ltd",
-        "market_cap_inr": 3241800000,
-        "pe": 6.74,
-        "pb": 0.97
+        "market_cap_inr": 3402800000,
+        "pe": 7.07,
+        "pb": 1.02
       },
       {
         "ticker": "524444",
         "name": "Evexia Lifecare",
         "searchId": "kavit-industries-ltd",
-        "market_cap_inr": 2928600000,
-        "pe": 156,
-        "pb": 0.72
+        "market_cap_inr": 3060000000,
+        "pe": 163,
+        "pb": 0.75
       }
     ],
     "details": {

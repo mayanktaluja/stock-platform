@@ -3,7 +3,7 @@
   "name": "Scarnose International Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543537/scarnose-international-shares",
-  "parsed_at": "2026-05-25T20:47:26.279Z",
+  "parsed_at": "2026-05-26T11:15:27.163Z",
   "company_id": "8B16F48A-11A3-4F2C-A13D-C671CB073891",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 76,
     "market_cap_inr": 239411377.5653123,
     "market_cap_usd": 127196762990.178,
@@ -110,7 +159,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -123,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 76,
-        "fetched_at": "2026-05-25T20:47:26.279Z",
+        "fetched_at": "2026-05-26T11:15:27.163Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543537/scarnose-international-shares"
       }
     },

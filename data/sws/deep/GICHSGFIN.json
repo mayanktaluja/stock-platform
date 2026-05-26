@@ -3,12 +3,12 @@
   "name": "GIC Housing Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-gichsgfin/gic-housing-finance-shares",
-  "parsed_at": "2026-05-25T23:36:31.466Z",
+  "parsed_at": "2026-05-26T14:27:13.537Z",
   "company_id": "E22C4818-DCF4-477C-B566-CDAFCF9A1CCB",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gic-housing-finance-ltd",
     "search_id": "gic-housing-finance-ltd",
     "company_id": "GSTK511676",
@@ -28,22 +28,71 @@
       "dividend": 3
     },
     "snowflake_total": 9,
-    "current_price_inr": 151.93,
-    "market_cap_inr": 8104400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 149.98,
+    "market_cap_inr": 8187900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 130.05,
       "high": 206
     },
-    "fair_value_inr": 93.00943,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 93.00943,
-      "max": 93.00943,
+      "min": 93.009608,
+      "max": 93.009608,
       "count": 1
     },
-    "upside_pct": -38.781392746659655,
+    "upside_pct": null,
     "multiples": {
       "pe": 5.23,
       "ps": 0.76,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gic-housing-finance-ltd"
     },
@@ -211,13 +260,13 @@
     },
     "dividend_yield_pct": 2.99,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -227,20 +276,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 5.23,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gic-housing-finance-ltd",
       "search_id": "gic-housing-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 5.23,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "sws_statement": {
@@ -264,8 +313,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -277,56 +326,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 151.93,
-        "fetched_at": "2026-05-25T23:36:31.466Z",
+        "value": 149.98,
+        "fetched_at": "2026-05-26T14:27:13.537Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-gichsgfin/gic-housing-finance-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8104400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8187900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 5.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.941349404761905,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 2.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "fifty_two_week": {
@@ -335,91 +384,91 @@
           "low": 130.05,
           "high": 206
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 28.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 391.1550604,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3702121784444259,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.360184738342035,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.484862093484525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 80.19722315781593,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 432.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 80.70427596119296,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8175,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8175351785990412,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6986237822792639,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gic-housing-finance-ltd"
       }
     },
@@ -434,7 +483,7 @@
     "ps": 0.76,
     "book_value": 391.1550604,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 7.35,
     "roa_pct": 1.3702121784444259,
     "roic_pct": 7.360184738342035,
@@ -446,12 +495,12 @@
     "quick_ratio": 0.8175351785990412,
     "cash_ratio": 0.6986237822792639,
     "returns_pct": {
-      "1D": 0.9837155201063599,
-      "7D": 2.227156506526714,
-      "1M": 0.2838283828382883,
-      "3M": -1.9553433144037176,
-      "6M": -11.52972689687299,
-      "1Y": -18.48374289086811,
+      "1D": -1.2834858158362514,
+      "7D": 0.820112933584296,
+      "1M": -1.00330033003301,
+      "3M": -3.580842172934761,
+      "6M": -12.690650832460129,
+      "1Y": -19.52999248846443,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -775,7 +824,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gic-housing-finance-ltd",
     "news": [
       {
@@ -850,7 +899,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -858,7 +907,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -866,7 +915,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

@@ -3,12 +3,12 @@
   "name": "Pakka Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-pakka/pakka-shares",
-  "parsed_at": "2026-05-25T22:01:34.345Z",
+  "parsed_at": "2026-05-26T12:53:57.974Z",
   "company_id": "4269EB6E-2933-42B3-B042-43E526D05201",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/yash-papers-ltd",
     "search_id": "yash-papers-ltd",
     "company_id": "GSTK516030",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 89.59,
-    "market_cap_inr": 4110500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 89.88,
+    "market_cap_inr": 4022400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/yash-papers-ltd"
     },
@@ -90,13 +139,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 28.17530623113794,
-      "sector_pe": 28.17530623113794
+      "pe": 25.600693604322935,
+      "sector_pe": 25.600693604322935
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Paper",
       "pe_industry_id": 44,
@@ -106,20 +155,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 62.21,
-      "industry_pe": 28.17530623113794,
+      "industry_pe": 25.600693604322935,
       "industry_name": "Paper",
       "industry_id": 44,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/yash-papers-ltd",
       "search_id": "yash-papers-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 62.21,
-        "industry_pe": 28.17530623113794,
+        "industry_pe": 25.600693604322935,
         "industry_name": "Paper",
         "industry_id": 44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "sws_statement": {
@@ -143,7 +192,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.049999999999997,
+        "industry_pe": 22.049999999999997,
         "sample_count": 40,
         "industry_code": "2060000",
         "industry_name": "Materials"
@@ -156,56 +205,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 89.59,
-        "fetched_at": "2026-05-25T22:01:34.345Z",
+        "value": 89.88,
+        "fetched_at": "2026-05-26T12:53:57.974Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-pakka/pakka-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4110500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4022400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 62.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.0042463768115941,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 28.17530623113794,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.600693604322935,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "fifty_two_week": {
@@ -214,91 +263,91 @@
           "low": 74.12,
           "high": 226.78
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 100.2030564,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 28.17530623113794,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.600693604322935,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8752,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8015377919628608,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7525387313936256,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9104976514998706,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.169063193383858,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 66.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 36.16591711398037,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.4148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7681398416886543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.16635883905013193,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-papers-ltd"
       }
     },
@@ -313,7 +362,7 @@
     "ps": 1.18,
     "book_value": 100.2030564,
     "face_value": 10,
-    "sector_pe": 28.17530623113794,
+    "sector_pe": 25.600693604322935,
     "roe_pct": 1.8752,
     "roa_pct": 0.8015377919628608,
     "roic_pct": 1.7525387313936256,
@@ -325,12 +374,12 @@
     "quick_ratio": 0.7681398416886543,
     "cash_ratio": 0.16635883905013193,
     "returns_pct": {
-      "1D": -1.7761210393597089,
-      "7D": -1.937390542907176,
-      "1M": -7.905016447368418,
-      "3M": 1.380559013239786,
-      "6M": -22.88026168546096,
-      "1Y": -49.523916840385375,
+      "1D": 0.32369684116529973,
+      "7D": -3.7481259370314843,
+      "1M": -7.606907894736848,
+      "3M": 1.8008834522595867,
+      "6M": -21.611721611721613,
+      "1Y": -49.36052735365373,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -567,22 +616,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/yash-papers-ltd",
     "news": [
+      {
+        "id": "847066585156542976",
+        "title": "Pakka Ltd's board approves issuing secured NCDs up to ₹540 Cr in tranches.\nJunior NCDs ₹324 Cr at 19.4% (maturity 2035); Senior ₹216 Cr at 11.4% (maturity 2033).",
+        "url": "https://sqst.in/fjlg6",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T11:00:11.000Z"
+      },
       {
         "id": "668541",
         "title": "Pakka Ltd revised Jagriti Project cost to INR 744 Cr from INR 675 Cr; incurred INR 583.5 Cr by Mar'26.\nTypographical errors in EGM Notice clarified; promoters' holding to rise from 41.65% to 49.39% post-issue.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=e9f4a99a-4128-4d06-bff2-08dcdaf655ef.pdf",
         "source": "BSE",
         "published_at": "2026-05-21T08:07:44.000Z"
-      },
-      {
-        "id": "640573",
-        "title": "Pakka Limited's Jagriti project costs ₹744 cr, includes a new paper machine.\nThe project also features facility upgrades and power generation assets.",
-        "url": null,
-        "source": "Livesquawk",
-        "published_at": "2026-05-12T08:28:54.000Z"
       }
     ],
     "events": [
@@ -622,7 +671,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -630,17 +679,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

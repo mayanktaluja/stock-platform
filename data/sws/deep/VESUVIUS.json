@@ -3,12 +3,12 @@
   "name": "Vesuvius India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-vesuvius/vesuvius-india-shares",
-  "parsed_at": "2026-05-25T23:49:34.551Z",
+  "parsed_at": "2026-05-26T14:38:33.047Z",
   "company_id": "14391E75-2764-407F-96BC-174B296D9A69",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vesuvius-india-ltd",
     "search_id": "vesuvius-india-ltd",
     "company_id": "GSTK520113",
@@ -28,9 +28,57 @@
       "dividend": 5
     },
     "snowflake_total": 13,
-    "current_price_inr": 466.45,
-    "market_cap_inr": 95208900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 474.45,
+    "market_cap_inr": 94681200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -39,15 +87,15 @@
     },
     "fair_value_inr": 585.294532,
     "fair_value_range_inr": {
-      "min": 3.83063,
+      "min": 3.825599,
       "max": 801.66,
       "count": 3
     },
-    "upside_pct": 25.478514738985965,
+    "upside_pct": 23.36274254399832,
     "multiples": {
-      "pe": 36.53,
+      "pe": 36.33,
       "ps": 4.47,
-      "pb": 5.72,
+      "pb": 5.69,
       "ev_ebitda": 21.9,
       "peg": -0.41070423699914743
     },
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/vesuvius-india-ltd"
     },
@@ -199,7 +247,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Refractories",
       "pe_industry_id": 53,
@@ -208,28 +256,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 36.53,
+      "company_pe": 36.33,
       "industry_pe": 42.16273805422961,
       "industry_name": "Refractories",
       "industry_id": 53,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/vesuvius-india-ltd",
       "search_id": "vesuvius-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 36.53,
+        "company_pe": 36.33,
         "industry_pe": 42.16273805422961,
         "industry_name": "Refractories",
         "industry_id": 53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.5,
-        "industry_pe": 26.6,
+        "company_pe": 37,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "VESUVIUS is expensive based on its Price-To-Earnings Ratio (36.5x) compared to the Indian Machinery industry average (26.6x).",
+        "description": "VESUVIUS is expensive based on its Price-To-Earnings Ratio (37x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -246,7 +294,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -259,56 +307,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 466.45,
-        "fetched_at": "2026-05-25T23:49:34.551Z",
+        "value": 474.45,
+        "fetched_at": "2026-05-26T14:38:33.047Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vesuvius/vesuvius-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 95208900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 94681200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 36.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 36.33,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 5.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5.69,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.41070423699914743,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 42.16273805422961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "fifty_two_week": {
@@ -317,91 +365,91 @@
           "low": 430.3,
           "high": 646
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 12.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 81.9806623,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 42.16273805422961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 15.8712,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 12.123890511899669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 23.86817112477478,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.307329051756707,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 19.79741216471477,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.639176792393145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.2115,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.536767357980162,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.31190261496844,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vesuvius-india-ltd"
       }
     },
@@ -412,7 +460,7 @@
     "latest_net_income": null,
     "latest_eps": 12.84,
     "most_recent_reported_date": null,
-    "pb": 5.72,
+    "pb": 5.69,
     "ps": 4.47,
     "book_value": 81.9806623,
     "face_value": 1,
@@ -428,12 +476,12 @@
     "quick_ratio": 2.536767357980162,
     "cash_ratio": 1.31190261496844,
     "returns_pct": {
-      "1D": -0.09638038123795002,
-      "7D": -0.30989527676853784,
-      "1M": -6.7006700670067,
-      "3M": -7.825313704179433,
-      "6M": -2.262964903090626,
-      "1Y": -16.944142732501206,
+      "1D": 1.7150820023582376,
+      "7D": -0.8981723237597935,
+      "1M": -5.1005100510051005,
+      "3M": -8.742065781881129,
+      "6M": -1.749844688341269,
+      "1Y": -15.519666672601987,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -760,7 +808,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vesuvius-india-ltd",
     "news": [
       {
@@ -835,7 +883,7 @@
         "ticker": "GRAPHITE",
         "name": "Graphite India",
         "searchId": "graphite-india-ltd",
-        "market_cap_inr": 144812400000,
+        "market_cap_inr": 146101900000,
         "pe": 44.57,
         "pb": 2.46
       },
@@ -843,7 +891,7 @@
         "ticker": "HEG",
         "name": "HEG",
         "searchId": "heg-ltd",
-        "market_cap_inr": 113480400000,
+        "market_cap_inr": 112853300000,
         "pe": 33.24,
         "pb": 2.39
       },
@@ -851,7 +899,7 @@
         "ticker": "RHIM",
         "name": "RHI Magnesita India Ltd.",
         "searchId": "orient-refractories-ltd",
-        "market_cap_inr": 81547400000,
+        "market_cap_inr": 83323300000,
         "pe": 47.58,
         "pb": 2.03
       }

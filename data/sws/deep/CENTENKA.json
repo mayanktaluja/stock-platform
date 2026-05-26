@@ -3,12 +3,12 @@
   "name": "Century Enka Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-centenka/century-enka-shares",
-  "parsed_at": "2026-05-25T22:47:41.505Z",
+  "parsed_at": "2026-05-26T13:41:38.170Z",
   "company_id": "900E8F12-A592-4125-ADFC-6919F6CD84DE",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/century-enka-ltd",
     "search_id": "century-enka-ltd",
     "company_id": "GSTK500280",
@@ -28,22 +28,70 @@
       "dividend": 6
     },
     "snowflake_total": 18,
-    "current_price_inr": 506.2,
-    "market_cap_inr": 11407900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 495.1,
+    "market_cap_inr": 11093200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 371.2,
-      "high": 540.1
+      "high": 577.6
     },
-    "fair_value_inr": 559.065602,
+    "fair_value_inr": 596.302944,
     "fair_value_range_inr": {
       "min": 1415.4,
       "max": 1415.4,
       "count": 1
     },
-    "upside_pct": 10.443619517977089,
+    "upside_pct": 20.44090971520905,
     "multiples": {
       "pe": 11.31,
       "ps": 0.67,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/century-enka-ltd"
     },
@@ -86,7 +134,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 10,
           "annualizedDividendListingCurrency": 10,
-          "annualizedYield": 2.1764867449
+          "annualizedYield": 2.1784999618
         },
         {
           "exDate": "2024-08-20T00:00:00.000Z",
@@ -223,13 +271,13 @@
     },
     "dividend_yield_pct": 2.11,
     "industry_benchmarks": {
-      "pe": 34.08245820635203,
-      "sector_pe": 34.08245820635203
+      "pe": 34.04694988503199,
+      "sector_pe": 34.04694988503199
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -239,20 +287,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 11.31,
-      "industry_pe": 34.08245820635203,
+      "industry_pe": 34.04694988503199,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/century-enka-ltd",
       "search_id": "century-enka-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 11.31,
-        "industry_pe": 34.08245820635203,
+        "industry_pe": 34.04694988503199,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "sws_statement": {
@@ -264,10 +312,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.188196269,
+        "industry_pe": 18.488832552,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 296,
+        "count": 295,
         "source": {
           "type": "country",
           "country": "IN",
@@ -276,7 +324,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -289,149 +337,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 506.2,
-        "fetched_at": "2026-05-25T22:47:41.505Z",
+        "value": 495.1,
+        "fetched_at": "2026-05-26T13:41:38.170Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-centenka/century-enka-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 11407900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11093200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 11.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.3215973271889401,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 2.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 371.2,
-          "high": 540.1
+          "high": 577.6
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 46.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 684.5995423,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.7413,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.522307443016096,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.153738840777457,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.995039316058895,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.963932426806455,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.197472183212704,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.5294,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.0302124528648946,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.04915846592476777,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/century-enka-ltd"
       }
     },
@@ -446,7 +494,7 @@
     "ps": 0.67,
     "book_value": 684.5995423,
     "face_value": 10,
-    "sector_pe": 34.08245820635203,
+    "sector_pe": 34.04694988503199,
     "roe_pct": 6.7413,
     "roa_pct": 5.522307443016096,
     "roic_pct": 7.153738840777457,
@@ -458,12 +506,12 @@
     "quick_ratio": 3.0302124528648946,
     "cash_ratio": 0.04915846592476777,
     "returns_pct": {
-      "1D": -2.989651207359135,
-      "7D": 16.63594470046083,
-      "1M": 20.052175975334997,
-      "3M": 17.013407304669432,
-      "6M": 10.079373708818085,
-      "1Y": 7.897261003943304,
+      "1D": -2.192809166337409,
+      "7D": 11.358524516419251,
+      "1M": 17.419660856160334,
+      "3M": 14.421076958631854,
+      "6M": 7.083378392992322,
+      "1Y": 5.531279974421836,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -601,7 +649,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 10,
         "annualizedDividendListingCurrency": 10,
-        "annualizedYield": 2.1764867449
+        "annualizedYield": 2.1784999618
       },
       {
         "exDate": "2024-08-20T00:00:00.000Z",
@@ -847,7 +895,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/century-enka-ltd",
     "news": [
       {
@@ -922,7 +970,7 @@
         "ticker": "SANATHAN",
         "name": "Sanathan Textiles",
         "searchId": "sanathan-textiles-ltd",
-        "market_cap_inr": 34420000000,
+        "market_cap_inr": 34010600000,
         "pe": 44.52,
         "pb": 1.84
       },
@@ -930,17 +978,17 @@
         "ticker": "NITINSPIN",
         "name": "Nitin Spinners",
         "searchId": "nitin-spinners-ltd",
-        "market_cap_inr": 28025700000,
-        "pe": 15.79,
-        "pb": 1.91
+        "market_cap_inr": 28200000000,
+        "pe": 15.88,
+        "pb": 1.92
       },
       {
-        "ticker": "GANECOS",
-        "name": "Ganesha Ecosphere",
-        "searchId": "ganesha-ecosphere-ltd",
-        "market_cap_inr": 25558000000,
-        "pe": 66.89,
-        "pb": 2
+        "ticker": "SANGAMIND",
+        "name": "Sangam (India)",
+        "searchId": "sangam-india-ltd",
+        "market_cap_inr": 25726200000,
+        "pe": 30.23,
+        "pb": 2.32
       }
     ],
     "details": {

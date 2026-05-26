@@ -3,7 +3,7 @@
   "name": "Mohite Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-532140/mohite-industries-shares",
-  "parsed_at": "2026-05-25T22:27:32.673Z",
+  "parsed_at": "2026-05-26T13:20:22.303Z",
   "company_id": "B010292F-BC4A-4A04-BFFE-98440B74707C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 2.51,
-    "market_cap_inr": 504502521.24511236,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.45,
+    "market_cap_inr": 492442700.0201297,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 21.438078,
+    "fair_value_inr": 21.401731,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 754.1066932270917,
+    "upside_pct": 773.5400408163266,
     "multiples": {
       "pe": 17,
       "ps": null,
@@ -111,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -124,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.51,
-        "fetched_at": "2026-05-25T22:27:32.673Z",
+        "value": 2.45,
+        "fetched_at": "2026-05-26T13:20:22.303Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-532140/mohite-industries-shares"
       }
     },
@@ -152,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.868852459016387,
-      "7D": 2.868852459016387,
-      "1M": -2.3346303501945544,
-      "3M": -3.0888030888030915,
-      "6M": -13.14878892733565,
-      "1Y": -25.29761904761905,
+      "1D": -2.3904382470119367,
+      "7D": 1.2396694214876136,
+      "1M": -4.669260700389092,
+      "3M": -11.870503597122289,
+      "6M": -14.634146341463412,
+      "1Y": -27.083333333333325,
       "5Y": null
     },
     "next_earnings_date": null,

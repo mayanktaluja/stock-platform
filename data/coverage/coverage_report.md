@@ -1,14 +1,14 @@
 # Stock Universe Coverage Gap — SWS vs Indian Equity Ground Truth
 
-Generated: 2026-05-07T21:18:19.057Z
+Generated: 2026-05-26T20:26:17.827Z
 
 ## Headline
 
 - **Ground truth (NSE+BSE deduped by ISIN):** 5259
-- **SWS universe (data/sws/universe.json):** 5518
-- **Matched:** 5163 (98.17%)
-- **Missing from SWS:** 96
-- **Groww-tradeable missing** (any market cap, any liquidity tier, excludes only NSE-suspended BZ): **96**
+- **SWS universe (data/sws/universe.json):** 5455
+- **Matched:** 5151 (97.95%)
+- **Missing from SWS:** 108
+- **Groww-tradeable missing** (any market cap, any liquidity tier, excludes only NSE-suspended BZ): **106**
 
 ## Sources
 
@@ -19,10 +19,11 @@ Generated: 2026-05-07T21:18:19.057Z
 
 ## Match strategy
 
-- nse_symbol: 2806
-- bse_code: 2119
-- bse_code_prefixed: 233
-- name_exact: 5
+- nse_symbol: 2823
+- name_exact: 13
+- bse_code: 2074
+- bse_code_prefixed: 236
+- bse_symbol: 5
 
 ## Gap breakdown
 
@@ -30,7 +31,7 @@ Generated: 2026-05-07T21:18:19.057Z
 
 | Bucket | Missing |
 |---|---|
-| nano | 56 |
+| nano | 68 |
 | unknown | 38 |
 | micro | 2 |
 
@@ -38,20 +39,20 @@ Generated: 2026-05-07T21:18:19.057Z
 
 | Tier | Missing |
 |---|---|
-| low_liquidity | 66 |
+| low_liquidity | 72 |
 | special | 21 |
-| sme | 4 |
-| surveillance | 3 |
+| liquid | 6 |
+| surveillance | 5 |
+| sme | 3 |
 | other | 1 |
-| liquid | 1 |
 
 ### By exchange presence
 
 | Where listed | Missing |
 |---|---|
 | NSE_only | 1 |
-| BSE_only | 94 |
-| Both | 1 |
+| BSE_only | 100 |
+| Both | 7 |
 
 ## Groww-tradeable missing (top 50 by market cap)
 
@@ -59,13 +60,23 @@ Every Indian equity a retail investor can buy on Groww that we don't yet have an
 
 | Name | NSE | BSE | ISIN | Mkt Cap | Tier |
 |---|---|---|---|---|---|
-| Pervasive Commodities Limited | — | PERVASIVE (XT) | INE443P01038 | ₹1.1k Cr | low_liquidity |
 | Modern Malleables Limited | — | MODMA (P) | INE834C01028 | ₹741 Cr | special |
+| Visa Steel Limited | VISASTEEL | VISASTEEL (B) | INE286H01012 | ₹626 Cr | liquid |
+| S&S Power Switchgears Limited | S&SPOWER | S&SPOWER (T) | INE902B01017 | ₹484 Cr | low_liquidity |
+| Aplab Ltd. | — | APLAB (X) | INE273A01015 | ₹275 Cr | low_liquidity |
+| Suraj Industries Limited. | — | SURJIND (X) | INE170U01011 | ₹241 Cr | low_liquidity |
 | TIL Ltd. | — | 505196 (B) | IN9806C01016 | ₹200 Cr | liquid |
 | Manas Properties Limited | — | MANAS (MT) | INE800W01019 | ₹162 Cr | sme |
+| Ace Software Exports ltd. | — | ACESOFT (X) | INE849B01010 | ₹151 Cr | low_liquidity |
+| ANIRIT VENTURES LIMITED | — | ANIRIT (XT) | INE161F01011 | ₹93 Cr | low_liquidity |
+| GACM Technologies Limited | GATECH | GATECH (B) | INE224E01028 | ₹54 Cr | liquid |
+| Prabha Energy Limited | — | PRABHAPP (B) | IN90I0M01014 | ₹53 Cr | liquid |
+| Jain Irrigation Systems Limited | JISLDVREQS | JISLDVREQS (B) | IN9175A01010 | ₹48 Cr | liquid |
+| KRISHIVAL FOODS LIMITED | — | KRISHPP (B) | IN90GGO01013 | ₹39 Cr | liquid |
+| Yarn Syndicate Ltd. | — | YARNSYN (X) | INE564C01013 | ₹36 Cr | low_liquidity |
 | Winro Commercial (India) Ltd. | — | WINROC (XT) | INE837E01019 | ₹31 Cr | low_liquidity |
 | APEX CAPITAL AND FINANCE LIMITED | — | ACFL (XT) | INE758W01019 | ₹27 Cr | low_liquidity |
-| Amrapali Fincap Limited | — | AMRAFIN (MT) | INE990S01016 | ₹17 Cr | sme |
+| ANNVRRIDHHI VENTURES LIMITED | — | ANVRDHI (XT) | INE075K01013 | ₹17 Cr | low_liquidity |
 | Velox Shipping and Logistics Limited | — | VELOX (XT) | INE092P01017 | ₹14 Cr | low_liquidity |
 | Prabhu Steel Industries Ltd. | — | ZPRBHSTE (XT) | INE821R01015 | ₹13 Cr | low_liquidity |
 | Surya India Limited | — | SURYAINDIA (X) | INE446E01019 | ₹13 Cr | low_liquidity |
@@ -99,16 +110,6 @@ Every Indian equity a retail investor can buy on Groww that we don't yet have an
 | Speedage Commercials Ltd. | — | ZSPEEDCO (P) | INE497M01015 | ₹1 Cr | special |
 | Twin Roses Trades & Agencies Ltd. | — | TWIROST (XT) | INE436U01016 | ₹1 Cr | low_liquidity |
 | Satyam Silk Mills Ltd | — | ZSATYASL (XT) | INE07MC01015 | ₹1 Cr | low_liquidity |
-| Alna Trading & Exports Ltd. | — | ALNATRD (P) | INE07I701011 | ₹1 Cr | special |
-| Ridhi Synthetics Ltd. | — | RIDHISYN (XT) | INE07LK01010 | ₹0 Cr | low_liquidity |
-| Triochem Products Ltd. | — | TRIPR (XT) | INE331E01013 | ₹0 Cr | low_liquidity |
-| Shikhar Leasing and Trading Ltd. | — | SHIKHARLETR (XT) | INE02BV01019 | ₹0 Cr | low_liquidity |
-| Sunrise Industrial Traders Ltd. | — | SUNRINV (XT) | INE371U01015 | ₹0 Cr | low_liquidity |
-| Oseaspre Consultants Ltd. | — | OSEASPR (XT) | INE880P01015 | ₹0 Cr | low_liquidity |
-| Nirbhay Colours India Limited | — | NIRBHAYIND (Z) | INE218T01010 | ₹0 Cr | surveillance |
-| Coromandel Agro Products & Oils Ltd | — | CORAGRO (P) | INE495D01018 | ₹0 Cr | special |
-| Jeet Machine Tools Ltd. | — | ZJEETMAC (XT) | INE987E01012 | ₹0 Cr | low_liquidity |
-| Kusam Electrical Industies Ltd. | — | KUSUMEL (XT) | INE175Q01018 | ₹0 Cr | low_liquidity |
 
 ## Largest 30 missing (any tier)
 
@@ -116,13 +117,25 @@ Includes SME / surveillance / illiquid — not necessarily actionable, useful fo
 
 | Name | NSE | BSE | Mkt Cap | Group |
 |---|---|---|---|---|
-| Pervasive Commodities Limited | — | PERVASIVE | ₹1.1k Cr | XT |
 | Modern Malleables Limited | — | MODMA | ₹741 Cr | P |
+| Visa Steel Limited | VISASTEEL | VISASTEEL | ₹626 Cr | B |
+| S&S Power Switchgears Limited | S&SPOWER | S&SPOWER | ₹484 Cr | T |
+| IL&FS Engineering and Construction Company Limited | IL&FSENGG | IL&FSENGG | ₹367 Cr | Z |
+| Aplab Ltd. | — | APLAB | ₹275 Cr | X |
+| Suraj Industries Limited. | — | SURJIND | ₹241 Cr | X |
 | TIL Ltd. | — | 505196 | ₹200 Cr | B |
 | Manas Properties Limited | — | MANAS | ₹162 Cr | MT |
+| Ace Software Exports ltd. | — | ACESOFT | ₹151 Cr | X |
+| ANIRIT VENTURES LIMITED | — | ANIRIT | ₹93 Cr | XT |
+| IL&FS Transportation Networks Limited | IL&FSTRANS | IL&FSTRANS | ₹82 Cr | Z |
+| GACM Technologies Limited | GATECH | GATECH | ₹54 Cr | B |
+| Prabha Energy Limited | — | PRABHAPP | ₹53 Cr | B |
+| Jain Irrigation Systems Limited | JISLDVREQS | JISLDVREQS | ₹48 Cr | B |
+| KRISHIVAL FOODS LIMITED | — | KRISHPP | ₹39 Cr | B |
+| Yarn Syndicate Ltd. | — | YARNSYN | ₹36 Cr | X |
 | Winro Commercial (India) Ltd. | — | WINROC | ₹31 Cr | XT |
 | APEX CAPITAL AND FINANCE LIMITED | — | ACFL | ₹27 Cr | XT |
-| Amrapali Fincap Limited | — | AMRAFIN | ₹17 Cr | MT |
+| ANNVRRIDHHI VENTURES LIMITED | — | ANVRDHI | ₹17 Cr | XT |
 | Velox Shipping and Logistics Limited | — | VELOX | ₹14 Cr | XT |
 | Prabhu Steel Industries Ltd. | — | ZPRBHSTE | ₹13 Cr | XT |
 | Surya India Limited | — | SURYAINDIA | ₹13 Cr | X |
@@ -134,22 +147,10 @@ Includes SME / surveillance / illiquid — not necessarily actionable, useful fo
 | Tashi India Ltd. | — | TASHIND | ₹9 Cr | XT |
 | SRI AMARNATH FINANCE LIMITED | — | AMARNATH | ₹8 Cr | X |
 | Kabra Commercial Limited | — | KCL | ₹8 Cr | XT |
-| Sophia Traexpo Limited | — | STRAEXPO | ₹6 Cr | XT |
-| Pet Plastics Ltd. | — | PETPLST | ₹6 Cr | XT |
-| Multiplus Holdings Ltd. | — | MULTIIN | ₹6 Cr | XT |
-| SIDH AUTOMOBILES LIMITED | — | SIDH | ₹4 Cr | XT |
-| Frontline Financial Services Ltd. | — | FRONTFN | ₹3 Cr | XT |
-| SVA India Ltd | — | SVAINDIA | ₹3 Cr | P |
-| Indo Gulf Industries  Ltd. | — | IGLFXPL-B | ₹2 Cr | P |
-| Anand Projects Ltd | — | ANANDPROJ | ₹2 Cr | XT |
-| Hindusthan Udyog Ltd | — | ZHINUDYP | ₹2 Cr | XT |
-| Sagar Systech Ltd. | — | SAGARSYST | ₹2 Cr | XT |
-| Advance Multitech Ltd. | — | ADVMULT | ₹2 Cr | XT |
-| Midland Polymers Ltd. | — | MIDPOLY | ₹2 Cr | XT |
 
 ## SWS-only stocks (in SWS universe but not in NSE/BSE master)
 
-Total: **320** ({"NSE":107,"BSE":213})
+Total: **316** ({"NSE":100,"BSE":216})
 
 These are stocks SWS scraped from its sitemap but that don't appear in the current NSE EQUITY_L or BSE active-equity master. Three buckets dominate:
 

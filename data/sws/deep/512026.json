@@ -3,12 +3,12 @@
   "name": "Vega Jewellers Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-512026/vega-jewellers-shares",
-  "parsed_at": "2026-05-25T21:09:15.779Z",
+  "parsed_at": "2026-05-26T12:06:18.134Z",
   "company_id": "7CD1F2DD-5658-4AE2-974D-31710F428B27",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ph-trading-ltd",
     "search_id": "ph-trading-ltd",
     "company_id": "GSTK512026",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 61.95,
     "market_cap_inr": 3152100000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ph-trading-ltd"
     },
@@ -81,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 48.94357691126805,
-      "sector_pe": 48.94357691126805
+      "pe": 48.83631794258032,
+      "sector_pe": 48.83631794258032
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diamond, Gems and Jewellery",
       "pe_industry_id": 20,
@@ -97,27 +146,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 13.89,
-      "industry_pe": 48.94357691126805,
+      "industry_pe": 48.83631794258032,
       "industry_name": "Diamond, Gems and Jewellery",
       "industry_id": 20,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ph-trading-ltd",
       "search_id": "ph-trading-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 13.89,
-        "industry_pe": 48.94357691126805,
+        "industry_pe": 48.83631794258032,
         "industry_name": "Diamond, Gems and Jewellery",
         "industry_id": 20,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "sws_statement": {
         "company_pe": 7.9,
-        "industry_pe": 18.2,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "512026 is good value based on its Price-To-Earnings Ratio (7.9x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "512026 is good value based on its Price-To-Earnings Ratio (7.9x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -134,7 +183,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -148,55 +197,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 61.95,
-        "fetched_at": "2026-05-25T21:09:15.779Z",
+        "fetched_at": "2026-05-26T12:06:18.134Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-512026/vega-jewellers-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 3152100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 13.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.6467999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +254,91 @@
           "low": 13.22,
           "high": 62.45
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 16.8678822,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 26.4272,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.1763344856683995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 12.95238695248145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.800670016750418,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.0787269681742035,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 159.32999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 37.22132999428369,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08712276950908641,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.009744264451936518,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ph-trading-ltd"
       }
     },
@@ -304,7 +353,7 @@
     "ps": 0.53,
     "book_value": 16.8678822,
     "face_value": 10,
-    "sector_pe": 48.94357691126805,
+    "sector_pe": 48.83631794258032,
     "roe_pct": 26.4272,
     "roa_pct": 6.1763344856683995,
     "roic_pct": 12.95238695248145,
@@ -567,7 +616,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ph-trading-ltd",
     "news": [
       {
@@ -642,7 +691,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -650,7 +699,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -658,7 +707,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

@@ -3,12 +3,12 @@
   "name": "Hittco Tools Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-531661/hittco-tools-shares",
-  "parsed_at": "2026-05-25T22:46:30.023Z",
+  "parsed_at": "2026-05-26T13:39:04.373Z",
   "company_id": "6ABAB6B3-D5A9-4599-B83F-37386B9F3393",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hittco-tools-ltd",
     "search_id": "hittco-tools-ltd",
     "company_id": "GSTK531661",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 10,
-    "market_cap_inr": 64200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 9.75,
+    "market_cap_inr": 66000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -13.213290000000006,
+    "upside_pct": -10.987989743589747,
     "multiples": {
       "pe": null,
       "ps": 0.78,
-      "pb": 2.09,
+      "pb": 2.15,
       "ev_ebitda": 14.1,
       "peg": 0
     },
@@ -67,7 +116,7 @@
       "Earnings have declined by 16.1% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹83M)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹64M)"
+      "Does not have a meaningful market cap (₹66M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 44.85265749196877
+      "sector_pe": 44.8465306218029
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,10 +149,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 44.85265749196877,
+        "industry_pe": 44.8465306218029,
         "industry_name": "Capital Goods-Non Electrical Equipment",
         "industry_id": 9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "sws_statement": {
@@ -127,7 +176,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -140,50 +189,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 10,
-        "fetched_at": "2026-05-25T22:46:30.023Z",
+        "value": 9.75,
+        "fetched_at": "2026-05-26T13:39:04.373Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531661/hittco-tools-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 64200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 66000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.15,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +241,85 @@
           "low": 8.41,
           "high": 16
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 4.6561063,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.126213592233009,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 152.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 47.33096085409253,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.3022,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6005154639175259,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.010309278350515464,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hittco-tools-ltd"
       }
     },
@@ -281,11 +330,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 2.09,
+    "pb": 2.15,
     "ps": 0.78,
     "book_value": 4.6561063,
     "face_value": 10,
-    "sector_pe": 44.85265749196877,
+    "sector_pe": 44.8465306218029,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -297,12 +346,12 @@
     "quick_ratio": 0.6005154639175259,
     "cash_ratio": 0.010309278350515464,
     "returns_pct": {
-      "1D": 2.880658436213985,
-      "7D": -4.671115347950431,
-      "1M": -13.419913419913426,
-      "3M": -9.008189262966335,
-      "6M": -28.057553956834536,
-      "1Y": -20.634920634920633,
+      "1D": -2.5,
+      "7D": -6.698564593301429,
+      "1M": -15.58441558441559,
+      "3M": -18.067226890756306,
+      "6M": -28.780131482834182,
+      "1Y": -22.619047619047617,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -451,12 +500,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hittco-tools-ltd",
     "news": [
       {
@@ -504,6 +563,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -511,25 +580,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

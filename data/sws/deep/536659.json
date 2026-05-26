@@ -3,12 +3,12 @@
   "name": "PVV Infra Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-536659/pvv-infra-shares",
-  "parsed_at": "2026-05-25T23:14:44.797Z",
+  "parsed_at": "2026-05-26T14:05:45.970Z",
   "company_id": "959571CC-136A-4229-9318-5F084E419391",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pvv-infra-ltd",
     "search_id": "pvv-infra-ltd",
     "company_id": "GSTK536659",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 3.99,
-    "market_cap_inr": 957700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4,
+    "market_cap_inr": 853000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/pvv-infra-ltd"
     },
@@ -63,12 +112,12 @@
       "Earnings have grown 43.7% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (12.6x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (11.3x) is below the Indian market (23.4x)"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹958M)",
       "Shareholders have been substantially diluted in the past year",
-      "Does not have meaningful revenue (₹430M)"
+      "Does not have meaningful revenue (₹430M)",
+      "Does not have a meaningful market cap (₹853M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.6218471625948,
-      "sector_pe": 31.6218471625948
+      "pe": 31.637222628337422,
+      "sector_pe": 31.637222628337422
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Realty",
       "pe_industry_id": 51,
@@ -96,27 +145,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12.44,
-      "industry_pe": 31.6218471625948,
+      "industry_pe": 31.637222628337422,
       "industry_name": "Realty",
       "industry_id": 51,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/pvv-infra-ltd",
       "search_id": "pvv-infra-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 12.44,
-        "industry_pe": 31.6218471625948,
+        "industry_pe": 31.637222628337422,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.6,
-        "industry_pe": 22.4,
+        "company_pe": 11.3,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "536659 is good value based on its Price-To-Earnings Ratio (12.6x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "536659 is good value based on its Price-To-Earnings Ratio (11.3x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -134,7 +183,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3.99,
-        "fetched_at": "2026-05-25T23:14:44.797Z",
+        "value": 4,
+        "fetched_at": "2026-05-26T14:05:45.970Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-536659/pvv-infra-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 957700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 853000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 12.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 3.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.15221025641025637,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 2.33,
           "high": 5.66
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 5.1713363,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.719,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 8.002952340784478,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.981468771448183,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.210172744721692,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.425143953934743,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 13.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 8.730493462673978,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.5127,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8815551537070525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0108499095840868,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pvv-infra-ltd"
       }
     },
@@ -303,7 +352,7 @@
     "ps": 2.3,
     "book_value": 5.1713363,
     "face_value": 5,
-    "sector_pe": 31.6218471625948,
+    "sector_pe": 31.637222628337422,
     "roe_pct": 5.719,
     "roa_pct": 8.002952340784478,
     "roic_pct": 10.981468771448183,
@@ -315,12 +364,12 @@
     "quick_ratio": 1.8815551537070525,
     "cash_ratio": 0.0108499095840868,
     "returns_pct": {
-      "1D": -10.937500000000004,
-      "7D": -13.260869565217378,
-      "1M": 0.5037783375314866,
-      "3M": -18.404907975460112,
-      "6M": -20.675944333996025,
-      "1Y": 58.96414342629485,
+      "1D": 0.25062656641603476,
+      "7D": -13.23210412147506,
+      "1M": 0.7556675062972242,
+      "3M": -18.032786885245898,
+      "6M": -18.69918699186992,
+      "1Y": 59.36254980079683,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -497,7 +546,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pvv-infra-ltd",
     "news": [
       {
@@ -572,25 +621,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

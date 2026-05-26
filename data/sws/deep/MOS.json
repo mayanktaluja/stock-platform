@@ -3,7 +3,7 @@
   "name": "MOS Utility Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-mos/mos-utility-shares",
-  "parsed_at": "2026-05-25T21:39:10.146Z",
+  "parsed_at": "2026-05-26T12:28:56.960Z",
   "company_id": "CF81FF64-8706-4E5A-ADF3-C31CFB03C5BC",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 13.85,
     "market_cap_inr": 3453579042.844042,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": -71.02538628158844,
     "multiples": {
-      "pe": 18.8,
+      "pe": 19.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,7 +100,7 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (18.8x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (19.7x) is below the Indian market (23.4x)",
       "Earnings grew by 59.9% over the past year"
     ],
     "risks": [
@@ -68,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 22.9
+      "pe": 23
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -82,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 18.8,
-      "industry_pe": 22.9,
+      "company_pe": 19.7,
+      "industry_pe": 23,
       "industry_name": "Indian Diversified Financial"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 18.8,
-        "industry_pe": 22.9,
+        "company_pe": 19.7,
+        "industry_pe": 23,
         "industry_name": "Indian Diversified Financial",
-        "description": "MOS is good value based on its Price-To-Earnings Ratio (18.8x) compared to the Indian Diversified Financial industry average (22.9x).",
+        "description": "MOS is good value based on its Price-To-Earnings Ratio (19.7x) compared to the Indian Diversified Financial industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -123,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 13.85,
-        "fetched_at": "2026-05-25T21:39:10.146Z",
+        "fetched_at": "2026-05-26T12:28:56.960Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-mos/mos-utility-shares"
       }
     },

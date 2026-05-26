@@ -3,7 +3,7 @@
   "name": "Aarcon Facilities Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-532024/aarcon-facilities-shares",
-  "parsed_at": "2026-05-25T22:55:00.711Z",
+  "parsed_at": "2026-05-26T13:48:42.276Z",
   "company_id": "C51D1225-23D5-4FF9-87E8-161A056EAE4C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 14.37,
     "market_cap_inr": 68787758.99582121,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -96,7 +147,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -110,7 +161,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 14.37,
-        "fetched_at": "2026-05-25T22:55:00.711Z",
+        "fetched_at": "2026-05-26T13:48:42.276Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-532024/aarcon-facilities-shares"
       }
     },

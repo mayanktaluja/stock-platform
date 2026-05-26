@@ -3,7 +3,7 @@
   "name": "Pratham EPC Projects Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-pratham/pratham-epc-projects-shares",
-  "parsed_at": "2026-05-25T22:12:03.785Z",
+  "parsed_at": "2026-05-26T13:05:12.608Z",
   "company_id": "9F254FC1-E9A1-4E96-8EB4-B1B53E88839D",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 132.85,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 24,
+      "pe": 22.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -48,7 +98,9 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
-    "rewards": [],
+    "rewards": [
+      "Price-To-Earnings ratio (22.8x) is below the Indian market (23.4x)"
+    ],
     "risks": [
       "Profit margins (8.3%) are lower than last year (13.8%)",
       "Does not have a meaningful market cap (₹2B)"
@@ -63,7 +115,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 16.9
+      "pe": 15.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -77,17 +129,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 24,
-      "industry_pe": 16.9,
+      "company_pe": 22.8,
+      "industry_pe": 15.5,
       "industry_name": "Asian Energy Services"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 24,
-        "industry_pe": 16.9,
+        "company_pe": 22.8,
+        "industry_pe": 15.5,
         "industry_name": "Asian Energy Services",
-        "description": "PRATHAM is expensive based on its Price-To-Earnings Ratio (24x) compared to the Asian Energy Services industry average (16.9x).",
+        "description": "PRATHAM is expensive based on its Price-To-Earnings Ratio (22.8x) compared to the Asian Energy Services industry average (15.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -104,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
+        "industry_pe": 18.2,
         "sample_count": 11,
         "industry_code": "1020000",
         "industry_name": "Energy"
@@ -118,7 +170,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 132.85,
-        "fetched_at": "2026-05-25T22:12:03.785Z",
+        "fetched_at": "2026-05-26T13:05:12.608Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-pratham/pratham-epc-projects-shares"
       }
     },

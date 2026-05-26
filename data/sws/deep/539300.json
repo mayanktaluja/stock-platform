@@ -3,12 +3,12 @@
   "name": "Sunrakshakk Industries India Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-539300/sunrakshakk-industries-india-shares",
-  "parsed_at": "2026-05-25T23:36:56.594Z",
+  "parsed_at": "2026-05-26T14:25:49.083Z",
   "company_id": "623246E7-4D6F-498E-A75B-30F9876BF62D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ak-spintex-ltd",
     "search_id": "ak-spintex-ltd",
     "company_id": "GSTK539300",
@@ -28,13 +28,62 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 321.5,
-    "market_cap_inr": 9756300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 330.45,
+    "market_cap_inr": 9968700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 186,
+      "low": 197,
       "high": 360
     },
     "fair_value_inr": null,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ak-spintex-ltd"
     },
@@ -75,13 +124,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 34.08245820635203,
-      "sector_pe": 34.08245820635203
+      "pe": 34.04694988503199,
+      "sector_pe": 34.04694988503199
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -91,27 +140,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 33.26,
-      "industry_pe": 34.08245820635203,
+      "industry_pe": 34.04694988503199,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ak-spintex-ltd",
       "search_id": "ak-spintex-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 33.26,
-        "industry_pe": 34.08245820635203,
+        "industry_pe": 34.04694988503199,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "sws_statement": {
-        "company_pe": 33.3,
-        "industry_pe": 18.8,
+        "company_pe": 34.9,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "539300 is expensive based on its Price-To-Earnings Ratio (33.3x) compared to the Indian Luxury industry average (18.8x).",
+        "description": "539300 is expensive based on its Price-To-Earnings Ratio (34.9x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -141,149 +190,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 321.5,
-        "fetched_at": "2026-05-25T23:36:56.594Z",
+        "value": 330.45,
+        "fetched_at": "2026-05-26T14:25:49.083Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-539300/sunrakshakk-industries-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 9756300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9968700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 33.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 5.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.4424886051080548,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 186,
+          "low": 197,
           "high": 360
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 9.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 52.7228587,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 13.5233,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 10.563481769707451,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 15.780847984314835,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.716513940339247,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.251511015792552,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 27.439999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 16.15866839602248,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8944045555830646,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.07353305273582571,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ak-spintex-ltd"
       }
     },
@@ -298,7 +347,7 @@
     "ps": 1.9,
     "book_value": 52.7228587,
     "face_value": 2,
-    "sector_pe": 34.08245820635203,
+    "sector_pe": 34.04694988503199,
     "roe_pct": 13.5233,
     "roa_pct": 10.563481769707451,
     "roic_pct": 15.780847984314835,
@@ -310,12 +359,12 @@
     "quick_ratio": 1.8944045555830646,
     "cash_ratio": 0.07353305273582571,
     "returns_pct": {
-      "1D": 2.1770220880343314,
-      "7D": 2.2257551669316373,
-      "1M": 16.845357077957487,
-      "3M": 26.749457914449042,
-      "6M": 46.83717743777119,
-      "1Y": 57.96973270440251,
+      "1D": 2.783825816485222,
+      "7D": 6.45940721649485,
+      "1M": 20.09812829365801,
+      "3M": 29.715407262021586,
+      "6M": 51.27031357289999,
+      "1Y": 62.367334905660364,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -507,7 +556,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ak-spintex-ltd",
     "news": [
       {
@@ -582,7 +631,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -590,15 +639,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

@@ -3,12 +3,12 @@
   "name": "Constronics Infra Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-523844/constronics-infra-shares",
-  "parsed_at": "2026-05-25T21:43:58.046Z",
+  "parsed_at": "2026-05-26T12:40:08.261Z",
   "company_id": "4D456490-52A2-472D-BCDB-5910D9C84679",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/invicta-meditek-ltd",
     "search_id": "invicta-meditek-ltd",
     "company_id": "GSTK523844",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 43.43,
-    "market_cap_inr": 544400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 44.95,
+    "market_cap_inr": 544100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,14 +104,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/invicta-meditek-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 33.1% over the past year",
-      "Price-To-Earnings ratio (14.9x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (15.4x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -95,27 +144,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 14.06,
-      "industry_pe": 74.71695232760163,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/invicta-meditek-ltd",
       "search_id": "invicta-meditek-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 14.06,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "sws_statement": {
-        "company_pe": 14.9,
-        "industry_pe": 22.4,
+        "company_pe": 15.4,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "523844 is good value based on its Price-To-Earnings Ratio (14.9x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "523844 is good value based on its Price-To-Earnings Ratio (15.4x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +182,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 43.43,
-        "fetched_at": "2026-05-25T21:43:58.046Z",
+        "value": 44.95,
+        "fetched_at": "2026-05-26T12:40:08.261Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-523844/constronics-infra-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 544400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 544100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 14.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.18436291390728476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 40.7,
           "high": 70.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 32.8418121,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.691,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.138904261206419,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.28183502328349,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.460767946577629,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.582637729549246,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 11.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 9.038922707987457,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.3402,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.1383874849578817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8904933814681107,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/invicta-meditek-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 0.91,
     "book_value": 32.8418121,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 10.691,
     "roa_pct": 7.138904261206419,
     "roic_pct": 10.28183502328349,
@@ -314,12 +363,12 @@
     "quick_ratio": 3.1383874849578817,
     "cash_ratio": 0.8904933814681107,
     "returns_pct": {
-      "1D": -0.04602991944764816,
-      "7D": -0.9803921568627444,
-      "1M": -13.20943245403677,
-      "3M": -14.288533649102037,
-      "6M": -33.03006939090208,
-      "1Y": -22.87337950630439,
+      "1D": 3.499884872208158,
+      "7D": 3.0490600641907504,
+      "1M": -10.171862509992,
+      "3M": -10.099999999999994,
+      "6M": -30.686198920585955,
+      "1Y": -20.174036583200138,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -529,7 +578,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/invicta-meditek-ltd",
     "news": [
       {
@@ -594,7 +643,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -602,15 +651,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

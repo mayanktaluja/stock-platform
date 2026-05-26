@@ -3,12 +3,12 @@
   "name": "Royal India Corporation Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-512047/royal-india-shares",
-  "parsed_at": "2026-05-25T21:09:20.167Z",
+  "parsed_at": "2026-05-26T12:06:23.298Z",
   "company_id": "9A53FC35-B8B8-424E-B09D-A7FF0D4243C9",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/royal-india-corporation-ltd",
     "search_id": "royal-india-corporation-ltd",
     "company_id": "GSTK512047",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 13,
-    "current_price_inr": 6.36,
-    "market_cap_inr": 738500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 6.29,
+    "market_cap_inr": 750300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 2.82,
       "high": 10
     },
-    "fair_value_inr": 178.455748,
+    "fair_value_inr": 178.460971,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 2705.907987421383,
+    "upside_pct": 2737.217344992051,
     "multiples": {
-      "pe": 4.47,
+      "pe": 4.54,
       "ps": 0.64,
-      "pb": 0.72,
+      "pb": 0.73,
       "ev_ebitda": 12.87,
       "peg": -0.07116513157894737
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/royal-india-corporation-ltd"
     },
@@ -67,7 +116,7 @@
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹738M)"
+      "Does not have a meaningful market cap (₹750M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -94,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 4.47,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 4.54,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/royal-india-corporation-ltd",
       "search_id": "royal-india-corporation-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 4.47,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 4.54,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "sws_statement": {
         "company_pe": 4.6,
-        "industry_pe": 27.8,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "512047 is good value based on its Price-To-Earnings Ratio (4.6x) compared to the Indian Capital Markets industry average (27.8x).",
+        "description": "512047 is good value based on its Price-To-Earnings Ratio (4.6x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6.36,
-        "fetched_at": "2026-05-25T21:09:20.167Z",
+        "value": 6.29,
+        "fetched_at": "2026-05-26T12:06:23.298Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-512047/royal-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 738500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 750300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 4.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.54,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.73,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.07116513157894737,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 2.82,
           "high": 10
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.6768924,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 15.6256,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 11.375188899574114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 13.10306264907223,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.242710931452654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.886127117915198,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.3843,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.023600185099491,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.025219805645534478,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/royal-india-corporation-ltd"
       }
     },
@@ -298,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 1.4,
     "most_recent_reported_date": null,
-    "pb": 0.72,
+    "pb": 0.73,
     "ps": 0.64,
     "book_value": 8.6768924,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 15.6256,
     "roa_pct": 11.375188899574114,
     "roic_pct": 13.10306264907223,
@@ -314,12 +363,12 @@
     "quick_ratio": 1.023600185099491,
     "cash_ratio": 0.025219805645534478,
     "returns_pct": {
-      "1D": 1.5974440894568775,
-      "7D": 7.614213197969547,
-      "1M": -3.927492447129906,
-      "3M": 67.81002638522428,
-      "6M": -1.2422360248447215,
-      "1Y": -24.195470798569726,
+      "1D": -1.1006289308176145,
+      "7D": 4.311774461028189,
+      "1M": -4.984894259818732,
+      "3M": 83.91812865497077,
+      "6M": -11.158192090395481,
+      "1Y": -25.029797377830754,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -463,12 +512,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/royal-india-corporation-ltd",
     "news": [
       {
@@ -499,6 +558,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -506,7 +575,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -514,7 +583,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -522,7 +591,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

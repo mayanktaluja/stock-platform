@@ -3,12 +3,12 @@
   "name": "Everlon Financials Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-514358/everlon-financials-shares",
-  "parsed_at": "2026-05-25T21:21:56.493Z",
+  "parsed_at": "2026-05-26T12:17:50.501Z",
   "company_id": "BFBB027C-5775-4383-ABBA-1B9B61DDC2EC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/everlon-synthetics-ltd",
     "search_id": "everlon-synthetics-ltd",
     "company_id": "GSTK514358",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 109.8,
-    "market_cap_inr": 663100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 103.05,
+    "market_cap_inr": 680800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 77.5,
       "high": 167.95
     },
-    "fair_value_inr": 22.865461,
+    "fair_value_inr": 22.861429,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -79.17535428051002,
+    "upside_pct": -77.81520718098011,
     "multiples": {
       "pe": null,
       "ps": 4.01,
-      "pb": 3.81,
+      "pb": 3.91,
       "ev_ebitda": 15.89,
       "peg": -0.6790965423111921
     },
@@ -66,7 +115,7 @@
     "risks": [
       "Earnings have declined by 17.7% per year over past 5 years",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹663M)",
+      "Does not have a meaningful market cap (₹681M)",
       "Does not have meaningful revenue (₹165M)"
     ],
     "dividend": {
@@ -79,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,17 +149,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 7.1,
+        "industry_pe": 7,
         "industry_name": "Indian Capital Markets",
-        "description": "514358 is good value based on its Price-To-Sales Ratio (4x) compared to the Indian Capital Markets industry average (7.1x).",
+        "description": "514358 is good value based on its Price-To-Sales Ratio (3.9x) compared to the Indian Capital Markets industry average (7x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -140,50 +189,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 109.8,
-        "fetched_at": "2026-05-25T21:21:56.493Z",
+        "value": 103.05,
+        "fetched_at": "2026-05-26T12:17:50.501Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-514358/everlon-financials-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 663100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 680800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 3.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.91,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.6790965423111921,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +241,85 @@
           "low": 77.5,
           "high": 167.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 28.0645161,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 44.9282,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4583333333333393,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08333333333333334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/everlon-synthetics-ltd"
       }
     },
@@ -281,11 +330,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 3.81,
+    "pb": 3.91,
     "ps": 4.01,
     "book_value": 28.0645161,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -297,12 +346,12 @@
     "quick_ratio": 1.4583333333333393,
     "cash_ratio": 0.08333333333333334,
     "returns_pct": {
-      "1D": 2.664796633941089,
-      "7D": 1.4318706697459558,
-      "1M": -5.344827586206899,
-      "3M": 13.464916813061901,
-      "6M": 0.8727606798346375,
-      "1Y": -12.124849939975995,
+      "1D": -6.147540983606557,
+      "7D": -10.39130434782609,
+      "1M": -11.16379310344828,
+      "3M": 15.229788661522967,
+      "6M": -2.507095553453175,
+      "1Y": -17.527010804321733,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -479,7 +528,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/everlon-synthetics-ltd",
     "news": [
       {
@@ -544,7 +593,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -552,7 +601,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -560,7 +609,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

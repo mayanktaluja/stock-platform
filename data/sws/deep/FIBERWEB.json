@@ -3,12 +3,12 @@
   "name": "Fiberweb (India) Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-fiberweb/fiberweb-india-shares",
-  "parsed_at": "2026-05-25T23:29:20.900Z",
+  "parsed_at": "2026-05-26T14:18:08.710Z",
   "company_id": "9164DD50-539F-4C04-A269-D4D72915F56E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/fiberweb-india-ltd",
     "search_id": "fiberweb-india-ltd",
     "company_id": "GSTK507910",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 29.31,
-    "market_cap_inr": 860600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 28.88,
+    "market_cap_inr": 841600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 28.35,
       "high": 59.26
     },
-    "fair_value_inr": 147.448475,
+    "fair_value_inr": 147.520792,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 403.0654213578983,
+    "upside_pct": 410.8060664819945,
     "multiples": {
-      "pe": 8.59,
+      "pe": 8.4,
       "ps": 1.02,
-      "pb": 0.46,
+      "pb": 0.45,
       "ev_ebitda": 5.28,
       "peg": 0.0700728624535316
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/fiberweb-india-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -92,21 +141,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 8.59,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 8.4,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/fiberweb-india-ltd",
       "search_id": "fiberweb-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 8.59,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 8.4,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "sws_statement": {
@@ -130,7 +179,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 29.31,
-        "fetched_at": "2026-05-25T23:29:20.900Z",
+        "value": 28.88,
+        "fetched_at": "2026-05-26T14:18:08.710Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-fiberweb/fiberweb-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 860600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 841600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 8.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.4,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.45,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.0700728624535316,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 28.35,
           "high": 59.26
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 64.7275587,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.3738,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.886136441215195,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.500478937805978,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.849574266792809,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 22.256385998107852,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 6.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.8614131759886865,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.6651,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.882950293960449,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.11811865312667022,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/fiberweb-india-ltd"
       }
     },
@@ -296,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 3.48,
     "most_recent_reported_date": null,
-    "pb": 0.46,
+    "pb": 0.45,
     "ps": 1.02,
     "book_value": 64.7275587,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 5.3738,
     "roa_pct": 4.886136441215195,
     "roic_pct": 5.500478937805978,
@@ -312,12 +361,12 @@
     "quick_ratio": 1.882950293960449,
     "cash_ratio": 0.11811865312667022,
     "returns_pct": {
-      "1D": -1.8090452261306622,
-      "7D": -11.101000909918108,
-      "1M": -22.2752585521082,
-      "3M": -29.997611655122995,
-      "6M": -22.378177966101696,
-      "1Y": -33.29540282203004,
+      "1D": -1.4670760832480372,
+      "7D": -7.819980849026491,
+      "1M": -23.415539644656594,
+      "3M": -30.543530543530544,
+      "6M": -23.979994735456707,
+      "1Y": -34.27401001365498,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -498,7 +547,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/fiberweb-india-ltd",
     "news": [
       {
@@ -563,7 +612,7 @@
         "ticker": "PDSL",
         "name": "PDS Limited",
         "searchId": "pds-multinational-fashions-ltd",
-        "market_cap_inr": 40749500000,
+        "market_cap_inr": 42340700000,
         "pe": 22.94,
         "pb": 2.31
       },
@@ -571,7 +620,7 @@
         "ticker": "RAYMOND",
         "name": "Raymond",
         "searchId": "raymond-ltd",
-        "market_cap_inr": 36755400000,
+        "market_cap_inr": 37224700000,
         "pe": 0.69,
         "pb": 1.29
       },
@@ -579,7 +628,7 @@
         "ticker": "SIYSIL",
         "name": "Siyaram Silk Mills",
         "searchId": "siyaram-silk-mills-ltd",
-        "market_cap_inr": 27002000000,
+        "market_cap_inr": 27256100000,
         "pe": 11.69,
         "pb": 1.85
       }

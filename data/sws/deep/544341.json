@@ -3,7 +3,7 @@
   "name": "Landmark Global Learning Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-544341/landmark-global-learning-shares",
-  "parsed_at": "2026-05-25T21:03:41.810Z",
+  "parsed_at": "2026-05-26T11:55:18.066Z",
   "company_id": "808B9233-73F8-427B-8CBF-E6BE7336F51D",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 20.58,
     "market_cap_inr": 424153819.8036678,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -109,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -123,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 20.58,
-        "fetched_at": "2026-05-25T21:03:41.810Z",
+        "fetched_at": "2026-05-26T11:55:18.066Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-544341/landmark-global-learning-shares"
       }
     },

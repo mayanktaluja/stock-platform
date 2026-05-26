@@ -3,12 +3,12 @@
   "name": "Nila Infrastructures Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-nilainfra/nila-infrastructures-shares",
-  "parsed_at": "2026-05-25T21:50:03.030Z",
+  "parsed_at": "2026-05-26T12:40:30.041Z",
   "company_id": "A16E9BF8-5A58-4012-9EE8-F2B5F6F374F8",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nila-infrastructures-ltd",
     "search_id": "nila-infrastructures-ltd",
     "company_id": "GSTK530377",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 8.15,
-    "market_cap_inr": 3170800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 8.1,
+    "market_cap_inr": 3222000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 31.54,
       "count": 1
     },
-    "upside_pct": 26.288662576687116,
+    "upside_pct": 27.068222222222232,
     "multiples": {
       "pe": 13.64,
       "ps": 0.99,
@@ -55,12 +104,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/nila-infrastructures-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (13.6x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (13.7x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 58.1% per year over the past 5 years"
@@ -125,7 +174,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Construction",
       "pe_industry_id": 16,
@@ -138,7 +187,7 @@
       "industry_pe": 23.17786687749416,
       "industry_name": "Construction",
       "industry_id": 16,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/nila-infrastructures-ltd",
       "search_id": "nila-infrastructures-ltd"
     },
@@ -148,14 +197,14 @@
         "industry_pe": 23.17786687749416,
         "industry_name": "Construction",
         "industry_id": 16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.6,
+        "company_pe": 13.7,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "NILAINFRA is good value based on its Price-To-Earnings Ratio (13.6x) compared to the Indian Construction industry average (16.1x).",
+        "description": "NILAINFRA is good value based on its Price-To-Earnings Ratio (13.7x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -172,8 +221,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -185,56 +234,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8.15,
-        "fetched_at": "2026-05-25T21:50:03.030Z",
+        "value": 8.1,
+        "fetched_at": "2026-05-26T12:40:30.041Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-nilainfra/nila-infrastructures-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3170800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3222000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 13.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.15687187499999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.17786687749416,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "fifty_two_week": {
@@ -243,91 +292,91 @@
           "low": 5.9,
           "high": 13.78
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 4.7561324,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.17786687749416,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.4313,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6065740730377946,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 16.6979269132465,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.217005980601779,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.51767841095721,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 12.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6513413392127676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1088,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9596500119246362,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0004173622704507513,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nila-infrastructures-ltd"
       }
     },
@@ -354,12 +403,12 @@
     "quick_ratio": 0.9596500119246362,
     "cash_ratio": 0.0004173622704507513,
     "returns_pct": {
-      "1D": 0.8663366336633699,
-      "7D": 2.386934673366839,
-      "1M": 0.36945812807883177,
-      "3M": 1.1166253101736956,
-      "6M": -13.756613756613747,
-      "1Y": -27.876106194690266,
+      "1D": -0.6134969325153461,
+      "7D": 2.7918781725888295,
+      "1M": -0.24630541871920658,
+      "3M": 0.621118012422347,
+      "6M": -18.51106639839034,
+      "1Y": -28.318584070796465,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -610,7 +659,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nila-infrastructures-ltd",
     "news": [
       {
@@ -675,25 +724,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

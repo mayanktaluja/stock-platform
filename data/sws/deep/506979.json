@@ -3,7 +3,7 @@
   "name": "APT Packaging Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-506979/apt-packaging-shares",
-  "parsed_at": "2026-05-25T20:54:10.690Z",
+  "parsed_at": "2026-05-26T11:45:38.784Z",
   "company_id": "E4331A73-8447-4E16-B1F0-2220478F7594",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 152.75,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 151,
     "market_cap_inr": 1804507671.8452194,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 111.2,
+      "pe": 112.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -54,8 +103,7 @@
     "risks": [
       "High level of [[non-cash earnings]]",
       "Does not have a meaningful market cap (₹2B)",
-      "Does not have meaningful revenue (₹225M)",
-      "Highly volatile share price over past 3 months"
+      "Does not have meaningful revenue (₹225M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -67,7 +115,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 17
+      "pe": 17.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,17 +129,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 111.2,
-      "industry_pe": 17,
+      "company_pe": 112.3,
+      "industry_pe": 17.1,
       "industry_name": "Indian Packaging"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 111.2,
-        "industry_pe": 17,
+        "company_pe": 112.3,
+        "industry_pe": 17.1,
         "industry_name": "Indian Packaging",
-        "description": "506979 is expensive based on its Price-To-Earnings Ratio (111.2x) compared to the Indian Packaging industry average (17x).",
+        "description": "506979 is expensive based on its Price-To-Earnings Ratio (112.3x) compared to the Indian Packaging industry average (17.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -121,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 152.75,
-        "fetched_at": "2026-05-25T20:54:10.690Z",
+        "value": 151,
+        "fetched_at": "2026-05-26T11:45:38.784Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-506979/apt-packaging-shares"
       }
     },
@@ -149,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.9917355371900827,
-      "7D": 4.480164158686739,
-      "1M": -6.831351021652937,
-      "3M": 21.326449563145346,
-      "6M": 67.34224364592463,
-      "1Y": 133.2773365913256,
+      "1D": -1.1456628477905073,
+      "7D": 4.353835521769186,
+      "1M": -7.898749618786209,
+      "3M": 19.169757714466108,
+      "6M": 58.94736842105262,
+      "1Y": 130.60476481368354,
       "5Y": null
     },
     "next_earnings_date": null,

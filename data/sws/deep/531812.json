@@ -3,12 +3,12 @@
   "name": "SGN Telecoms Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-531812/sgn-telecoms-shares",
-  "parsed_at": "2026-05-25T22:49:29.152Z",
+  "parsed_at": "2026-05-26T13:43:33.531Z",
   "company_id": "47BA8B92-74CD-4BF1-8534-56F7CDCF309C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sgn-telecoms-ltd",
     "search_id": "sgn-telecoms-ltd",
     "company_id": "GSTK531812",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 3,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.55,
-    "market_cap_inr": 45300000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 44400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 0.51,
       "high": 1.1
     },
-    "fair_value_inr": 0.329021,
+    "fair_value_inr": 0.324782,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -40.178000000000004,
+    "upside_pct": -40.948727272727275,
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 37,
+      "pb": 36.34,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -61,7 +110,7 @@
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹45M)",
+      "Does not have a meaningful market cap (₹44M)",
       "Makes less than USD$1m in revenue (₹0)"
     ],
     "dividend": {
@@ -74,7 +123,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 53.06387079441347
+      "sector_pe": 53.11826494340684
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -95,17 +144,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 53.06387079441347,
+        "industry_pe": 53.11826494340684,
         "industry_name": "Cables",
         "industry_id": 7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 3.7,
         "industry_name": "Indian Electrical",
-        "description": "531812 is expensive based on its Price-To-Book Ratio (37x) compared to the Indian Electrical industry average (3.7x).",
+        "description": "531812 is expensive based on its Price-To-Book Ratio (36.3x) compared to the Indian Electrical industry average (3.7x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -122,7 +171,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -136,49 +185,49 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.55,
-        "fetched_at": "2026-05-25T22:49:29.152Z",
+        "fetched_at": "2026-05-26T13:43:33.531Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531812/sgn-telecoms-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 45300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 36.34,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.06387079441347,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.11826494340684,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "fifty_two_week": {
@@ -187,85 +236,85 @@
           "low": 0.51,
           "high": 1.1
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.0151343,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.06387079441347,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.11826494340684,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 17.1338,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 17.230769230769234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7692307692307693,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sgn-telecoms-ltd"
       }
     },
@@ -276,11 +325,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 37,
+    "pb": 36.34,
     "ps": 0,
     "book_value": 0.0151343,
     "face_value": 1,
-    "sector_pe": 53.06387079441347,
+    "sector_pe": 53.11826494340684,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -292,11 +341,11 @@
     "quick_ratio": 17.230769230769234,
     "cash_ratio": 0.7692307692307693,
     "returns_pct": {
-      "1D": -1.785714285714287,
-      "7D": -6.77966101694914,
+      "1D": 0,
+      "7D": -1.785714285714287,
       "1M": -8.333333333333323,
-      "3M": -15.38461538461538,
-      "6M": -28.57142857142857,
+      "3M": -14.062499999999995,
+      "6M": -31.25,
       "1Y": -23.611111111111104,
       "5Y": null
     },
@@ -411,12 +460,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sgn-telecoms-ltd",
     "news": [
       {
@@ -457,6 +516,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -464,7 +533,7 @@
         "ticker": "RAMRAT",
         "name": "Ram Ratna Wires",
         "searchId": "ram-ratna-wires-ltd",
-        "market_cap_inr": 40443500000,
+        "market_cap_inr": 43911400000,
         "pe": 45.94,
         "pb": 7.97
       },
@@ -472,7 +541,7 @@
         "ticker": "UNIVCABLES",
         "name": "Universal Cables",
         "searchId": "universal-cables-ltd",
-        "market_cap_inr": 35044100000,
+        "market_cap_inr": 40598800000,
         "pe": 22.25,
         "pb": 1.87
       },
@@ -480,9 +549,9 @@
         "ticker": "VMARCIND",
         "name": "V-Marc India",
         "searchId": "vmarc-india-ltd",
-        "market_cap_inr": 27397600000,
-        "pe": 27.38,
-        "pb": 9.46
+        "market_cap_inr": 28188800000,
+        "pe": 28.17,
+        "pb": 9.74
       }
     ],
     "details": {

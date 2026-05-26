@@ -3,7 +3,7 @@
   "name": "Rachana Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-rilinfra/rachana-infrastructure-shares",
-  "parsed_at": "2026-05-25T22:29:56.687Z",
+  "parsed_at": "2026-05-26T13:20:54.220Z",
   "company_id": "B9D7405C-3E40-4154-B07E-AD84B3AABD44",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 34.6,
-    "market_cap_inr": 643733050.1046704,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 34.85,
+    "market_cap_inr": 648384300.4666984,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 13.4,
+      "pe": 14.5,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,11 +99,11 @@
     },
     "rewards": [
       "Earnings grew by 45.3% over the past year",
-      "Price-To-Earnings ratio (13.4x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (14.5x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹600M)"
+      "Does not have a meaningful market cap (₹644M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -80,17 +129,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 13.4,
+      "company_pe": 14.5,
       "industry_pe": 16.1,
       "industry_name": "Indian Construction"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 13.4,
+        "company_pe": 14.5,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "RILINFRA is good value based on its Price-To-Earnings Ratio (13.4x) compared to the Indian Construction industry average (16.1x).",
+        "description": "RILINFRA is good value based on its Price-To-Earnings Ratio (14.5x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,8 +156,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -120,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 34.6,
-        "fetched_at": "2026-05-25T22:29:56.687Z",
+        "value": 34.85,
+        "fetched_at": "2026-05-26T13:20:54.220Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rilinfra/rachana-infrastructure-shares"
       }
     },
@@ -148,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 7.286821705426361,
-      "7D": 12.887438825448625,
-      "1M": 1.4662756598240467,
-      "3M": -7.362784471218206,
-      "6M": -1.7045454545454586,
-      "1Y": -0.2881844380403499,
+      "1D": 0.7225433526011561,
+      "7D": 9.247648902821325,
+      "1M": 2.19941348973607,
+      "3M": -2.5174825174825135,
+      "6M": -2.789400278940028,
+      "1Y": 0.4322766570605146,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Smiths & Founders (India) Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-513418/smiths-founders-india-shares",
-  "parsed_at": "2026-05-25T21:15:54.775Z",
+  "parsed_at": "2026-05-26T12:12:58.539Z",
   "company_id": "208467A6-962F-402C-80C0-EB66EEFD2C0F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/smiths-founders-india-ltd",
     "search_id": "smiths-founders-india-ltd",
     "company_id": "GSTK513418",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 4.7,
-    "market_cap_inr": 488600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4.6,
+    "market_cap_inr": 479400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3.8,
       "high": 7.39
     },
-    "fair_value_inr": 2.826317,
+    "fair_value_inr": 2.83675,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -39.86559574468085,
+    "upside_pct": -38.33152173913043,
     "multiples": {
-      "pe": 43.55,
+      "pe": 42.73,
       "ps": 3.57,
-      "pb": 9.31,
+      "pb": 9.13,
       "ev_ebitda": 32.57,
       "peg": 0.8564999999999998
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/smiths-founders-india-ltd"
     },
@@ -63,7 +112,7 @@
     "risks": [
       "Profit margins (5.4%) are lower than last year (10%)",
       "Does not have meaningful revenue (₹137M)",
-      "Does not have a meaningful market cap (₹489M)"
+      "Does not have a meaningful market cap (₹479M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -81,7 +130,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Castings, Forgings & Fastners",
       "pe_industry_id": 10,
@@ -90,28 +139,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 43.55,
+      "company_pe": 42.73,
       "industry_pe": 47.01031591607157,
       "industry_name": "Castings, Forgings & Fastners",
       "industry_id": 10,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/smiths-founders-india-ltd",
       "search_id": "smiths-founders-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 43.55,
+        "company_pe": 42.73,
         "industry_pe": 47.01031591607157,
         "industry_name": "Castings, Forgings & Fastners",
         "industry_id": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 65.7,
-        "industry_pe": 22.5,
+        "company_pe": 63.1,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "513418 is expensive based on its Price-To-Earnings Ratio (65.7x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "513418 is expensive based on its Price-To-Earnings Ratio (63.1x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.7,
-        "fetched_at": "2026-05-25T21:15:54.775Z",
+        "value": 4.6,
+        "fetched_at": "2026-05-26T12:12:58.539Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-513418/smiths-founders-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 488600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 479400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 43.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 42.73,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 9.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9.13,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 32.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.8564999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 47.01031591607157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 3.8,
           "high": 7.39
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.5147219,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 47.01031591607157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.096,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.577611319184353,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.74560733384263,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.02919708029197,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.8978102189781,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 4.119850187265917,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.1101,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.788990825688073,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9724770642201834,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smiths-founders-india-ltd"
       }
     },
@@ -294,7 +343,7 @@
     "latest_net_income": null,
     "latest_eps": 0.11,
     "most_recent_reported_date": null,
-    "pb": 9.31,
+    "pb": 9.13,
     "ps": 3.57,
     "book_value": 0.5147219,
     "face_value": 1,
@@ -310,12 +359,12 @@
     "quick_ratio": 1.788990825688073,
     "cash_ratio": 0.9724770642201834,
     "returns_pct": {
-      "1D": -1.8789144050104356,
-      "7D": 3.752759381898453,
-      "1M": -2.6915113871635588,
-      "3M": -21.666666666666664,
-      "6M": -5.05050505050505,
-      "1Y": -22.442244224422435,
+      "1D": -2.1276595744680966,
+      "7D": -1.9189765458422332,
+      "1M": -4.761904761904771,
+      "3M": -23.966942148760335,
+      "6M": -6.122448979591851,
+      "1Y": -24.09240924092409,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -439,7 +488,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/smiths-founders-india-ltd",
     "news": [
       {
@@ -504,15 +553,15 @@
         "ticker": "STEELCAS",
         "name": "Steelcast",
         "searchId": "steelcast-ltd",
-        "market_cap_inr": 28933100000,
-        "pe": 31.98,
-        "pb": 8.04
+        "market_cap_inr": 29019100000,
+        "pe": 32.07,
+        "pb": 8.06
       },
       {
         "ticker": "544037",
         "name": "Amic Forging",
         "searchId": "amic-forging-ltd",
-        "market_cap_inr": 20423000000,
+        "market_cap_inr": 20137100000,
         "pe": 57.43,
         "pb": 8.62
       },
@@ -520,7 +569,7 @@
         "ticker": "NELCAST",
         "name": "Nelcast",
         "searchId": "nelcast-ltd",
-        "market_cap_inr": 11836500000,
+        "market_cap_inr": 11919200000,
         "pe": 24.43,
         "pb": 1.98
       }

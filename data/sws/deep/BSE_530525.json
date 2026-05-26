@@ -3,7 +3,7 @@
   "name": "Rajnish Retail Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-530525/rajnish-retail-shares",
-  "parsed_at": "2026-05-25T22:23:50.983Z",
+  "parsed_at": "2026-05-26T13:17:27.185Z",
   "company_id": "A1687D88-87E2-420C-92FA-45B6CD6A4E77",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 2.42,
-    "market_cap_inr": 379335017.44892836,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.54,
+    "market_cap_inr": 398145018.3141645,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -104,7 +153,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -117,8 +166,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.42,
-        "fetched_at": "2026-05-25T22:23:50.983Z",
+        "value": 2.54,
+        "fetched_at": "2026-05-26T13:17:27.185Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-530525/rajnish-retail-shares"
       }
     },
@@ -145,12 +194,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.761904761904756,
-      "7D": 12.037037037037027,
-      "1M": -1.6260162601626031,
-      "3M": -37.789203084832906,
-      "6M": -59.25925925925927,
-      "1Y": -65.81920903954803,
+      "1D": 4.958677685950417,
+      "7D": 18.691588785046722,
+      "1M": 3.2520325203252063,
+      "3M": -31.903485254691688,
+      "6M": -58.154859967051074,
+      "1Y": -64.12429378531074,
       "5Y": null
     },
     "next_earnings_date": null,

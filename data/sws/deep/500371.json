@@ -3,12 +3,12 @@
   "name": "Samtel India Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-500371/samtel-india-shares",
-  "parsed_at": "2026-05-25T20:38:43.402Z",
+  "parsed_at": "2026-05-26T11:05:55.735Z",
   "company_id": "8CFE3E9E-6E13-4CEF-91CB-B102DD72F2EB",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/samtel-india-ltd",
     "search_id": "samtel-india-ltd",
     "company_id": "GSTK500371",
@@ -28,14 +28,64 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 42.08,
-    "market_cap_inr": 292400000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 42.92,
+    "market_cap_inr": 298300000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 2.83,
-      "high": 41.26
+      "high": 42.08
     },
     "fair_value_inr": null,
     "fair_value_range_inr": {
@@ -47,7 +97,7 @@
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 21.63,
+      "pb": 22.06,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -63,7 +113,7 @@
     "risks": [
       "Earnings have declined by 21.3% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹50K)",
-      "Does not have a meaningful market cap (₹292M)"
+      "Does not have a meaningful market cap (₹298M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -75,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 59.627955716846344
+      "sector_pe": 59.63065901146537
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -96,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 59.627955716846344,
+        "industry_pe": 59.63065901146537,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.2,
         "industry_name": "Indian Professional Services",
-        "description": "500371 is expensive based on its Price-To-Book Ratio (21.7x) compared to the Indian Professional Services industry average (2.2x).",
+        "description": "500371 is expensive based on its Price-To-Book Ratio (22.1x) compared to the Indian Professional Services industry average (2.2x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -123,7 +173,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -136,137 +186,137 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 42.08,
-        "fetched_at": "2026-05-25T20:38:43.402Z",
+        "value": 42.92,
+        "fetched_at": "2026-05-26T11:05:55.735Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-500371/samtel-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 292400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 298300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 21.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.06,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 2.83,
-          "high": 41.26
+          "high": 42.08
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.907243,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 9.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.194103194103194,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4908424908424909,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.06227106227106228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samtel-india-ltd"
       }
     },
@@ -277,11 +327,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 21.63,
+    "pb": 22.06,
     "ps": 0,
     "book_value": 1.907243,
     "face_value": 10,
-    "sector_pe": 59.627955716846344,
+    "sector_pe": 59.63065901146537,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -293,12 +343,12 @@
     "quick_ratio": 1.4908424908424909,
     "cash_ratio": 0.06227106227106228,
     "returns_pct": {
-      "1D": 1.9873969946679602,
-      "7D": 10.330361824855789,
-      "1M": 48.064743138634746,
-      "3M": 211.01256467110125,
-      "6M": 1316.8350168350169,
-      "1Y": 1316.8350168350169,
+      "1D": 1.9961977186311868,
+      "7D": 10.334190231362477,
+      "1M": 51.02040816326531,
+      "3M": 211.0144927536232,
+      "6M": 1345.1178451178453,
+      "1Y": 1345.1178451178453,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -437,7 +487,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/samtel-india-ltd",
     "news": [
       {
@@ -482,7 +532,7 @@
         "ticker": "SYMPHONY",
         "name": "Symphony",
         "searchId": "symphony-ltd",
-        "market_cap_inr": 48818500000,
+        "market_cap_inr": 49570500000,
         "pe": 33.67,
         "pb": 8.96
       },
@@ -490,7 +540,7 @@
         "ticker": "IFBIND",
         "name": "IFB Industries",
         "searchId": "ifb-industries-ltd",
-        "market_cap_inr": 42556100000,
+        "market_cap_inr": 42671600000,
         "pe": 35.53,
         "pb": 4.61
       },
@@ -498,9 +548,9 @@
         "ticker": "ORIENTELEC",
         "name": "Orient Electric",
         "searchId": "orient-electric-ltd",
-        "market_cap_inr": 39163300000,
-        "pe": 40.88,
-        "pb": 5.15
+        "market_cap_inr": 39536700000,
+        "pe": 41.27,
+        "pb": 5.2
       }
     ],
     "details": {

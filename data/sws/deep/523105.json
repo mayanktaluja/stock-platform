@@ -3,12 +3,12 @@
   "name": "Cropster Agro Limited",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/bse-523105/cropster-agro-shares",
-  "parsed_at": "2026-05-25T21:40:21.168Z",
+  "parsed_at": "2026-05-26T12:35:14.038Z",
   "company_id": "6D6045E8-6BEE-4A16-9C33-2FE0B6116D18",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/planters-polysacks-ltd",
     "search_id": "planters-polysacks-ltd",
     "company_id": "GSTK523105",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 5.8,
-    "market_cap_inr": 4981200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.86,
+    "market_cap_inr": 4872000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +95,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 32.94,
+      "pe": 32.22,
       "ps": 2.34,
-      "pb": 4.29,
+      "pb": 4.2,
       "ev_ebitda": 128.95,
       "peg": -1.42414598540146
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/planters-polysacks-ltd"
     },
@@ -77,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -92,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 32.94,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 32.22,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/planters-polysacks-ltd",
       "search_id": "planters-polysacks-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 32.94,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 32.22,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "sws_statement": {
-        "company_pe": 33,
-        "industry_pe": 21.4,
+        "company_pe": 32.6,
+        "industry_pe": 20.3,
         "industry_name": "Indian Consumer Retailing",
-        "description": "523105 is expensive based on its Price-To-Earnings Ratio (33x) compared to the Indian Consumer Retailing industry average (21.4x).",
+        "description": "523105 is expensive based on its Price-To-Earnings Ratio (32.6x) compared to the Indian Consumer Retailing industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
@@ -143,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.8,
-        "fetched_at": "2026-05-25T21:40:21.168Z",
+        "value": 5.86,
+        "fetched_at": "2026-05-26T12:35:14.038Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-523105/cropster-agro-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4981200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4872000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 32.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 32.22,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 4.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.2,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 128.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.42414598540146,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +251,91 @@
           "low": 4.86,
           "high": 32.1
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.381219,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.7062,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 13.144308082945408,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 13.801250728921596,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.282190753071369,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.708899934352434,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 94.3708,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 91.3467741935484,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.8145161290322585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/planters-polysacks-ltd"
       }
     },
@@ -296,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 0.18,
     "most_recent_reported_date": null,
-    "pb": 4.29,
+    "pb": 4.2,
     "ps": 2.34,
     "book_value": 1.381219,
     "face_value": 1,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 12.7062,
     "roa_pct": 13.144308082945408,
     "roic_pct": 13.801250728921596,
@@ -312,12 +362,12 @@
     "quick_ratio": 91.3467741935484,
     "cash_ratio": 2.8145161290322585,
     "returns_pct": {
-      "1D": -2.192242833052275,
-      "7D": 17.171717171717162,
-      "1M": -13.946587537091993,
-      "3M": -48.3065953654189,
-      "6M": -68.11434854315557,
-      "1Y": -71.6796875,
+      "1D": 1.0344827586206984,
+      "7D": 13.12741312741314,
+      "1M": -13.056379821958455,
+      "3M": -46.82395644283121,
+      "6M": -68.84635832004253,
+      "1Y": -71.38671875,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -526,7 +576,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/planters-polysacks-ltd",
     "news": [
       {
@@ -601,7 +651,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -609,15 +659,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

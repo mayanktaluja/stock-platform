@@ -3,12 +3,12 @@
   "name": "Ramco Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-ramcoind/ramco-industries-shares",
-  "parsed_at": "2026-05-25T22:23:45.482Z",
+  "parsed_at": "2026-05-26T13:15:45.477Z",
   "company_id": "CC8F02CB-33FE-45E5-AB8C-6D3D33DAF893",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ramco-industries-ltd",
     "search_id": "ramco-industries-ltd",
     "company_id": "GSTK532369",
@@ -28,22 +28,70 @@
       "dividend": 4
     },
     "snowflake_total": 14,
-    "current_price_inr": 291.9,
-    "market_cap_inr": 24280900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 298.15,
+    "market_cap_inr": 25396800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 230.65,
       "high": 398.05
     },
-    "fair_value_inr": 111.213921,
+    "fair_value_inr": 111.278149,
     "fair_value_range_inr": {
       "min": 88.25,
       "max": 263.05,
       "count": 4
     },
-    "upside_pct": -61.89999280575539,
+    "upside_pct": -62.67712594331712,
     "multiples": {
       "pe": 9.55,
       "ps": 1.43,
@@ -55,14 +103,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ramco-industries-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.6x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (10.2x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Earnings have declined by 12.5% per year over past 5 years",
@@ -202,7 +250,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Cement - Products",
       "pe_industry_id": 12,
@@ -215,7 +263,7 @@
       "industry_pe": 10.440961051406669,
       "industry_name": "Cement - Products",
       "industry_id": 12,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ramco-industries-ltd",
       "search_id": "ramco-industries-ltd"
     },
@@ -225,14 +273,14 @@
         "industry_pe": 10.440961051406669,
         "industry_name": "Cement - Products",
         "industry_id": 12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.6,
-        "industry_pe": 25.4,
+        "company_pe": 10.2,
+        "industry_pe": 25.5,
         "industry_name": "Indian Basic Materials",
-        "description": "RAMCOIND is good value based on its Price-To-Earnings Ratio (9.6x) compared to the Indian Basic Materials industry average (25.4x).",
+        "description": "RAMCOIND is good value based on its Price-To-Earnings Ratio (10.2x) compared to the Indian Basic Materials industry average (25.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -249,7 +297,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.9,
+        "industry_pe": 23.6,
         "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
@@ -262,56 +310,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 291.9,
-        "fetched_at": "2026-05-25T22:23:45.482Z",
+        "value": 298.15,
+        "fetched_at": "2026-05-26T13:15:45.477Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ramcoind/ramco-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 24280900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25396800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 9.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.3841037815126052,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 10.440961051406669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "fifty_two_week": {
@@ -320,91 +368,91 @@
           "low": 230.65,
           "high": 398.05
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 29.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 500.9829575,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 10.440961051406669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.3133,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.289493833119726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9108536545211896,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.95822546481525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 13.36020240056484,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 3.9899999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.61336739959054,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.8295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.762767969735183,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.30652585119798237,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramco-industries-ltd"
       }
     },
@@ -431,12 +479,12 @@
     "quick_ratio": 0.762767969735183,
     "cash_ratio": 0.30652585119798237,
     "returns_pct": {
-      "1D": 4.2686193963207675,
-      "7D": 9.019607843137246,
-      "1M": 9.064414885667311,
-      "3M": -2.8942115768463226,
-      "6M": -10.446387482742756,
-      "1Y": 13.390047779979012,
+      "1D": 2.141144227475163,
+      "7D": 10.364612252452341,
+      "1M": 11.39964130922134,
+      "3M": 0.6413502109704564,
+      "6M": -7.24840566184477,
+      "1Y": 15.817892242551363,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -800,7 +848,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ramco-industries-ltd",
     "news": [
       {
@@ -872,26 +920,26 @@
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
-      },
-      {
         "ticker": "STYLAMIND",
         "name": "Stylam Industries",
         "searchId": "stylam-industries-ltd",
-        "market_cap_inr": 46744400000,
+        "market_cap_inr": 48409600000,
         "pe": 31.19,
         "pb": 5.79
+      },
+      {
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "RESPONIND",
         "name": "Responsive Industries",
         "searchId": "responsive-industries-ltd",
-        "market_cap_inr": 44163700000,
+        "market_cap_inr": 46789800000,
         "pe": 24.54,
         "pb": 3
       }

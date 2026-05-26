@@ -3,7 +3,7 @@
   "name": "Chatterbox Technologies Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/bse-544546/chatterbox-technologies-shares",
-  "parsed_at": "2026-05-25T21:13:43.770Z",
+  "parsed_at": "2026-05-26T12:05:33.752Z",
   "company_id": "AA411E9C-960A-4E35-AE8D-56D7C1A4590E",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 64.31,
-    "market_cap_inr": 909587736.4999486,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 62.3,
+    "market_cap_inr": 881158699.7970269,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,8 +159,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 64.31,
-        "fetched_at": "2026-05-25T21:13:43.770Z",
+        "value": 62.3,
+        "fetched_at": "2026-05-26T12:05:33.752Z",
         "url": "https://simplywall.st/stocks/in/media/bse-544546/chatterbox-technologies-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.910277324632961,
-      "7D": 0.9100894398242672,
-      "1M": 5.599343185550088,
-      "3M": 7.16547242126313,
-      "6M": -41.53636363636363,
-      "1Y": -50.14728682170543,
+      "1D": -3.1254859275384934,
+      "7D": -2.243841205083948,
+      "1M": 2.2988505747126418,
+      "3M": -0.32000000000000456,
+      "6M": -43.36363636363637,
+      "1Y": -51.70542635658914,
       "5Y": null
     },
     "next_earnings_date": null,

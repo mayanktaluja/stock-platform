@@ -3,12 +3,12 @@
   "name": "Bimetal Bearings Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-505681/bimetal-bearings-shares",
-  "parsed_at": "2026-05-25T20:50:06.904Z",
+  "parsed_at": "2026-05-26T11:41:59.203Z",
   "company_id": "CA4A4030-5E60-4E53-BD36-3F38ABDBA42C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bimetal-bearings-ltd",
     "search_id": "bimetal-bearings-ltd",
     "company_id": "GSTK505681",
@@ -28,22 +28,70 @@
       "dividend": 5
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 572,
-    "market_cap_inr": 2205300000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 2190800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 537.9,
       "high": 632.3
     },
-    "fair_value_inr": 481.7202,
+    "fair_value_inr": 481.948539,
     "fair_value_range_inr": {
-      "min": 481.7202,
-      "max": 481.7202,
+      "min": 481.948539,
+      "max": 481.948539,
       "count": 1
     },
-    "upside_pct": -15.783181818181822,
+    "upside_pct": -15.743262412587416,
     "multiples": {
       "pe": 20.89,
       "ps": 0.81,
@@ -55,12 +103,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/bimetal-bearings-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (20.9x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (20.7x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -214,7 +262,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Bearings",
       "pe_industry_id": 66,
@@ -227,7 +275,7 @@
       "industry_pe": 50.06011209289615,
       "industry_name": "Bearings",
       "industry_id": 66,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/bimetal-bearings-ltd",
       "search_id": "bimetal-bearings-ltd"
     },
@@ -237,14 +285,14 @@
         "industry_pe": 50.06011209289615,
         "industry_name": "Bearings",
         "industry_id": 66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "sws_statement": {
-        "company_pe": 20.9,
+        "company_pe": 20.7,
         "industry_pe": 26.4,
         "industry_name": "Indian Machinery",
-        "description": "505681 is good value based on its Price-To-Earnings Ratio (20.9x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "505681 is good value based on its Price-To-Earnings Ratio (20.7x) compared to the Indian Machinery industry average (26.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -261,7 +309,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -275,55 +323,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 572,
-        "fetched_at": "2026-05-25T20:50:06.904Z",
+        "fetched_at": "2026-05-26T11:41:59.203Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-505681/bimetal-bearings-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2205300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2190800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 20.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.874808571428571,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.06011209289615,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 2.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "fifty_two_week": {
@@ -332,91 +380,91 @@
           "low": 537.9,
           "high": 632.3
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 27.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 599.4281984,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.06011209289615,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.9956,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.5198135198135203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.732147039945609,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.961472153511732,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.975414136871301,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.27972027972027974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.3238,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3070027063599459,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.048376184032476316,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       }
     },
@@ -443,11 +491,11 @@
     "quick_ratio": 1.3070027063599459,
     "cash_ratio": 0.048376184032476316,
     "returns_pct": {
-      "1D": -0.6599513720041602,
-      "7D": 1.0779289627142645,
+      "1D": 0,
+      "7D": 1.5624999999999918,
       "1M": 1.9426127250044514,
-      "3M": 3.1095087877422265,
-      "6M": -8.960687569632334,
+      "3M": 2.998109300441159,
+      "6M": -6.237193672649776,
       "1Y": -4.507512520868113,
       "5Y": null
     },
@@ -755,7 +803,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bimetal-bearings-ltd",
     "news": [
       {
@@ -830,7 +878,7 @@
         "ticker": "LGBBROSLTD",
         "name": "LG Balakrishnan & Bros",
         "searchId": "lg-balakrishnan-brothers-ltd",
-        "market_cap_inr": 49233900000,
+        "market_cap_inr": 49241900000,
         "pe": 15.45,
         "pb": 2.29
       },
@@ -838,7 +886,7 @@
         "ticker": "SUBROS",
         "name": "Subros",
         "searchId": "subros-ltd",
-        "market_cap_inr": 47403600000,
+        "market_cap_inr": 47860200000,
         "pe": 28.62,
         "pb": 3.81
       },
@@ -846,7 +894,7 @@
         "ticker": "JAMNAAUTO",
         "name": "Jamna Auto Industries",
         "searchId": "jamna-auto-industries-ltd",
-        "market_cap_inr": 45915500000,
+        "market_cap_inr": 46994900000,
         "pe": 23.68,
         "pb": 4.43
       }

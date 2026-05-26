@@ -3,7 +3,7 @@
   "name": "Fabino Enterprises Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-543444/fabino-enterprises-shares",
-  "parsed_at": "2026-05-25T20:46:22.668Z",
+  "parsed_at": "2026-05-26T11:14:20.452Z",
   "company_id": "A3D0E93E-F088-494D-93F8-2A848DD6A8D7",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 20.31,
     "market_cap_inr": 42651001.93868189,
     "market_cap_usd": 127196762990.178,
@@ -108,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -122,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 20.31,
-        "fetched_at": "2026-05-25T20:46:22.668Z",
+        "fetched_at": "2026-05-26T11:14:20.452Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-543444/fabino-enterprises-shares"
       }
     },

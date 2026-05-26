@@ -3,7 +3,7 @@
   "name": "Amit International Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares",
-  "parsed_at": "2026-05-25T22:24:45.980Z",
+  "parsed_at": "2026-05-26T13:18:24.019Z",
   "company_id": "27FD4982-E8E7-40A2-B653-BE46C85795BC",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 3.15,
     "market_cap_inr": 59685272.51013318,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +86,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 51.5,
+      "pe": 49,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -54,7 +105,7 @@
     "risks": [
       "Shares are highly illiquid",
       "Makes less than USD$1m in revenue (₹0)",
-      "Does not have a meaningful market cap (₹63M)"
+      "Does not have a meaningful market cap (₹60M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -66,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.2
+      "pe": 17.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 51.5,
-      "industry_pe": 18.2,
+      "company_pe": 49,
+      "industry_pe": 17.9,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 51.5,
-        "industry_pe": 18.2,
+        "company_pe": 49,
+        "industry_pe": 17.9,
         "industry_name": "Indian Luxury",
-        "description": "531300 is expensive based on its Price-To-Earnings Ratio (51.5x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "531300 is expensive based on its Price-To-Earnings Ratio (49x) compared to the Indian Luxury industry average (17.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -121,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3.15,
-        "fetched_at": "2026-05-25T22:24:45.980Z",
+        "fetched_at": "2026-05-26T13:18:24.019Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares"
       }
     },

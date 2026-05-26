@@ -3,7 +3,7 @@
   "name": "Anantam Highways Trust",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-anantam/anantam-highways-trust-shares",
-  "parsed_at": "2026-05-25T21:37:53.984Z",
+  "parsed_at": "2026-05-26T12:30:43.925Z",
   "company_id": "A0D11558-BE44-44C1-976F-19AD386EC476",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 2
     },
     "snowflake_total": 6,
-    "current_price_inr": 104.98,
-    "market_cap_inr": 22833134269.98841,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 104.53,
+    "market_cap_inr": 22735259337.41559,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +86,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 5.6,
+      "pe": 5.5,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,7 +103,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Became profitable this year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (5.6x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (5.5x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
@@ -66,6 +117,19 @@
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [
+        {
+          "exDate": "2026-02-16T00:00:00.000Z",
+          "payDate": "2026-02-23T00:00:00.000Z",
+          "recordDate": "2026-02-16T00:00:00.000Z",
+          "divAmount": 1.08016,
+          "divAmountListingCurrency": 1.08016,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": null,
+          "annualizedDividendListingCurrency": null,
+          "annualizedYield": null
+        },
         {
           "exDate": "2026-02-16T00:00:00.000Z",
           "payDate": "2026-02-23T00:00:00.000Z",
@@ -91,26 +155,13 @@
           "annualizedDividend": null,
           "annualizedDividendListingCurrency": null,
           "annualizedYield": null
-        },
-        {
-          "exDate": "2026-02-16T00:00:00.000Z",
-          "payDate": "2026-02-23T00:00:00.000Z",
-          "recordDate": "2026-02-16T00:00:00.000Z",
-          "divAmount": 1.08016,
-          "divAmountListingCurrency": 1.08016,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": null,
-          "annualizedDividendListingCurrency": null,
-          "annualizedYield": null
         }
       ],
       "payment_count": 3
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 12.5
+      "pe": 12.4
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -124,17 +175,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 5.6,
-      "industry_pe": 12.5,
+      "company_pe": 5.5,
+      "industry_pe": 12.4,
       "industry_name": "Asian Infrastructure"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 5.6,
-        "industry_pe": 12.5,
+        "company_pe": 5.5,
+        "industry_pe": 12.4,
         "industry_name": "Asian Infrastructure",
-        "description": "ANANTAM is good value based on its Price-To-Earnings Ratio (5.6x) compared to the Asian Infrastructure industry average (12.5x).",
+        "description": "ANANTAM is good value based on its Price-To-Earnings Ratio (5.5x) compared to the Asian Infrastructure industry average (12.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -151,7 +202,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 13.5,
+        "industry_pe": 14,
         "sample_count": 19,
         "industry_code": "3250000",
         "industry_name": "Transportation"
@@ -164,8 +215,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 104.98,
-        "fetched_at": "2026-05-25T21:37:53.984Z",
+        "value": 104.53,
+        "fetched_at": "2026-05-26T12:30:43.925Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-anantam/anantam-highways-trust-shares"
       }
     },
@@ -192,12 +243,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.37012432381133203,
-      "7D": -2.1803950801341685,
-      "1M": -1.0182915330944733,
-      "3M": 1.9619269619269721,
-      "6M": 0.7195625059963542,
-      "1Y": -0.37012432381133203,
+      "1D": -0.4286530767765316,
+      "7D": -2.3540401681457226,
+      "1M": -1.4425796718838404,
+      "3M": 1.495290804932524,
+      "6M": 0.4806305873305777,
+      "1Y": -0.797190851285948,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -283,6 +334,19 @@
         "exDate": "2026-02-16T00:00:00.000Z",
         "payDate": "2026-02-23T00:00:00.000Z",
         "recordDate": "2026-02-16T00:00:00.000Z",
+        "divAmount": 1.08016,
+        "divAmountListingCurrency": 1.08016,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": null,
+        "annualizedDividendListingCurrency": null,
+        "annualizedYield": null
+      },
+      {
+        "exDate": "2026-02-16T00:00:00.000Z",
+        "payDate": "2026-02-23T00:00:00.000Z",
+        "recordDate": "2026-02-16T00:00:00.000Z",
         "divAmount": 0.00448,
         "divAmountListingCurrency": 0.00448,
         "currencyIsoCode": "INR",
@@ -301,19 +365,6 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
         "divFreqTypeName": "Other Dividend",
-        "annualizedDividend": null,
-        "annualizedDividendListingCurrency": null,
-        "annualizedYield": null
-      },
-      {
-        "exDate": "2026-02-16T00:00:00.000Z",
-        "payDate": "2026-02-23T00:00:00.000Z",
-        "recordDate": "2026-02-16T00:00:00.000Z",
-        "divAmount": 1.08016,
-        "divAmountListingCurrency": 1.08016,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": null,
         "annualizedDividendListingCurrency": null,
         "annualizedYield": null

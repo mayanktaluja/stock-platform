@@ -3,12 +3,12 @@
   "name": "Kotak Mahindra Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-kotakbank/kotak-mahindra-bank-shares",
-  "parsed_at": "2026-05-25T21:09:59.986Z",
+  "parsed_at": "2026-05-26T11:59:40.298Z",
   "company_id": "E070B9FB-764E-49FC-A6F4-2A17F2ACF560",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd",
     "search_id": "kotak-mahindra-bank-ltd",
     "company_id": "GSTK500247",
@@ -28,22 +28,59 @@
       "dividend": 3
     },
     "snowflake_total": 10,
-    "current_price_inr": 392.85,
-    "market_cap_inr": 3821431800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Allowance for Bad Loans",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 388.65,
+    "market_cap_inr": 3906474100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 345.5,
       "high": 453.2
     },
-    "fair_value_inr": 461.239629,
+    "fair_value_inr": 460.924032,
     "fair_value_range_inr": {
-      "min": 122.722262,
-      "max": 461.239629,
+      "min": 122.720383,
+      "max": 460.924032,
       "count": 31
     },
-    "upside_pct": 17.408585719740348,
+    "upside_pct": 18.596174450019305,
     "multiples": {
       "pe": 19.81,
       "ps": 3.54,
@@ -55,13 +92,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 20%",
-      "Price-To-Earnings ratio (19.8x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (20x) is below the Indian market (23.4x)"
     ],
     "risks": [],
     "dividend": {
@@ -198,7 +234,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Banks",
       "pe_industry_id": 6,
@@ -211,7 +247,7 @@
       "industry_pe": 12.451171201703186,
       "industry_name": "Banks",
       "industry_id": 6,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd",
       "search_id": "kotak-mahindra-bank-ltd"
     },
@@ -221,14 +257,14 @@
         "industry_pe": 12.451171201703186,
         "industry_name": "Banks",
         "industry_id": 6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.8,
-        "industry_pe": 11.2,
+        "company_pe": 20,
+        "industry_pe": 11.6,
         "industry_name": "Indian Banks",
-        "description": "KOTAKBANK is expensive based on its Price-To-Earnings Ratio (19.8x) compared to the Indian Banks industry average (11.2x).",
+        "description": "KOTAKBANK is expensive based on its Price-To-Earnings Ratio (20x) compared to the Indian Banks industry average (11.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -245,7 +281,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.149999999999999,
+        "industry_pe": 11.4,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
@@ -258,56 +294,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 392.85,
-        "fetched_at": "2026-05-25T21:09:59.986Z",
+        "value": 388.65,
+        "fetched_at": "2026-05-26T11:59:40.298Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-kotakbank/kotak-mahindra-bank-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3821431800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3906474100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 19.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 16.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.8741719960278054,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 12.451171201703186,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "fifty_two_week": {
@@ -316,91 +352,91 @@
           "low": 345.5,
           "high": 453.2
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 19.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 182.0875531,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 12.451171201703186,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.50228676230975,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 24.27511768130124,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 27.258025477058933,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 79.69580923002052,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd"
       }
     },
@@ -427,12 +463,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 2.2647403358063376,
-      "7D": 0.2679938744257303,
-      "1M": 5.932317648645005,
-      "3M": -8.148234743979417,
-      "6M": -6.633235098393377,
-      "1Y": -5.98525822045661,
+      "1D": -1.0691103474608745,
+      "7D": 1.7541563031810419,
+      "1M": 4.799784279358218,
+      "3M": -8.54218143310978,
+      "6M": -7.911572362809221,
+      "1Y": -6.99037955296033,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -796,22 +832,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kotak-mahindra-bank-ltd",
     "news": [
+      {
+        "id": "26052611126748",
+        "title": "Kotak Mahindra Bank's P/E ratio is 108, nearly 5x the industry average of 22.\nDespite outperforming Sensex over a year, its 3-month performance shows a sharper decline.",
+        "url": "https://www.marketsmojo.com/news/stocks-in-action/kotak-mahindra-bank-ltd-navigating-market-dynamics-as-a-key-nifty-50-constituent-4013072",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-25T03:50:49.000Z"
+      },
       {
         "id": "2605229203040",
         "title": "Retail health premium growth rose 31% YoY in April 2026, aiding non-life insurance.\nOverall health premiums grew 21% YoY in April 2026, per Kotak report.",
         "url": "https://government.economictimes.indiatimes.com/news/economy/retail-health-premium-growth-rises-to-31-yoy-in-april-2026-anchoring-non-life-insurance-sector-kotak/131260909",
         "source": "The Economic Times",
         "published_at": "2026-05-22T09:27:56.000Z"
-      },
-      {
-        "id": "672714",
-        "title": "ICICI Securities forecasts up to 15% earnings growth for large private banks.\nAxis Bank, HDFC Bank, and Kotak Mahindra Bank are flagged as top picks.",
-        "url": "https://t.co/BRB6iyRL3D",
-        "source": "ET NOW",
-        "published_at": "2026-05-22T08:18:52.000Z"
       }
     ],
     "events": [
@@ -871,7 +907,7 @@
         "ticker": "HDFCBANK",
         "name": "HDFC Bank",
         "searchId": "hdfc-bank-ltd",
-        "market_cap_inr": 11799749000000,
+        "market_cap_inr": 12114604000000,
         "pe": 14.9,
         "pb": 2.03
       },
@@ -879,7 +915,7 @@
         "ticker": "ICICIBANK",
         "name": "ICICI Bank",
         "searchId": "icici-bank-ltd",
-        "market_cap_inr": 9069394200000,
+        "market_cap_inr": 9260834500000,
         "pe": 15.65,
         "pb": 2.54
       },
@@ -887,7 +923,7 @@
         "ticker": "AXISBANK",
         "name": "Axis Bank",
         "searchId": "axis-bank-ltd",
-        "market_cap_inr": 3996619700000,
+        "market_cap_inr": 4078868800000,
         "pe": 15.06,
         "pb": 1.87
       }

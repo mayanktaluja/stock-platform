@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/chandrima-mercantiles-ltd",
     "search_id": "chandrima-mercantiles-ltd",
     "company_id": "GSTK540829",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 6.73,
-    "market_cap_inr": 2315500000,
+    "market_cap_inr": 2242200000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 57.92,
+      "pe": 56.08,
       "ps": 2.81,
-      "pb": 2.36,
+      "pb": 2.29,
       "ev_ebitda": 145.09,
       "peg": -1.8647023255813957
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
     },
@@ -74,13 +123,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 76.39971853206873,
-      "sector_pe": 76.39971853206873
+      "pe": 76.39971853206875,
+      "sector_pe": 76.39971853206875
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Retail",
       "pe_industry_id": 54,
@@ -89,21 +138,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 57.92,
-      "industry_pe": 76.39971853206873,
+      "company_pe": 56.08,
+      "industry_pe": 76.39971853206875,
       "industry_name": "Retail",
       "industry_id": 54,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/chandrima-mercantiles-ltd",
       "search_id": "chandrima-mercantiles-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 57.92,
-        "industry_pe": 76.39971853206873,
+        "company_pe": 56.08,
+        "industry_pe": 76.39971853206875,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "sws_statement": {
@@ -127,7 +176,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
@@ -146,50 +195,50 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2315500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2242200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 57.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.08,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.29,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 145.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.8647023255813957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "fifty_two_week": {
@@ -198,91 +247,91 @@
           "low": 2.83,
           "high": 14.48
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 2.9401341,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.1319,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.627127706977988,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.134553029586839,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.944120505344996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.940233236151603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7021655823901614,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 18.8202,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 15.60952380952381,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7285714285714285,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chandrima-mercantiles-ltd"
       }
     },
@@ -293,11 +342,11 @@
     "latest_net_income": null,
     "latest_eps": 0.12,
     "most_recent_reported_date": null,
-    "pb": 2.36,
+    "pb": 2.29,
     "ps": 2.81,
     "book_value": 2.9401341,
     "face_value": 1,
-    "sector_pe": 76.39971853206873,
+    "sector_pe": 76.39971853206875,
     "roe_pct": 4.1319,
     "roa_pct": 3.627127706977988,
     "roic_pct": 4.134553029586839,
@@ -318,7 +367,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -518,22 +567,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/chandrima-mercantiles-ltd",
     "news": [
+      {
+        "id": "847117357198076672",
+        "title": "Chandrima Mercantiles' FY26 revenue rose to ₹7,778.9L from ₹2,919.4L in FY25.\nFY26 net profit reached ₹598.9L; audit flagged inventory, receivables, and tax issues.",
+        "url": "https://sqst.in/JlFbd",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T14:21:56.000Z"
+      },
       {
         "id": "649406",
         "title": "Chandrima Mercantiles Ltd's board meeting is scheduled for 26th May 2026 at 5 PM.\nAgenda includes approval of audited financial results for Q4 and FY 2026.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=f556fbf3-6ac3-4a50-bba1-c9e4e54c5966.pdf",
         "source": "BSE",
         "published_at": "2026-05-14T13:17:39.000Z"
-      },
-      {
-        "id": "485251",
-        "title": "Chandrima Mercantiles Ltd held its EGM on 11th Feb 2026 via VC/OAVM, chaired by Mr. Dinesh Gohel.\nKey resolutions included appointing a statutory auditor and Mr. Chiragkumar Prajapati as Managing Director.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=40af4840-c124-4507-b329-fac8c9a4217a.pdf",
-        "source": "BSE",
-        "published_at": "2026-02-11T07:42:51.000Z"
       }
     ],
     "events": [
@@ -593,7 +642,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -601,15 +650,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

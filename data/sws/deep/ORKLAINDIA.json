@@ -3,12 +3,12 @@
   "name": "Orkla India Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-orklaindia/orkla-india-shares",
-  "parsed_at": "2026-05-25T22:00:36.749Z",
+  "parsed_at": "2026-05-26T12:52:55.318Z",
   "company_id": "08E5F84C-4920-4E95-9000-D5D69F68B87D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/orkla-india-ltd",
     "search_id": "orkla-india-ltd",
     "company_id": "GSTK544595",
@@ -28,9 +28,51 @@
       "dividend": 0
     },
     "snowflake_total": 13,
-    "current_price_inr": 628.6,
-    "market_cap_inr": 86707300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 2,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 619.05,
+    "market_cap_inr": 86063500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +85,7 @@
       "max": 186819.76,
       "count": 3
     },
-    "upside_pct": 20.267260579064583,
+    "upside_pct": 22.122607220741468,
     "multiples": {
       "pe": 30.36,
       "ps": 3.46,
@@ -55,11 +97,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/orkla-india-ltd"
     },
     "rewards": [
+      "Analysts in good agreement that stock price will rise by 22.1%",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings are forecast to grow 13.81% per year",
       "Earnings have grown 11.3% per year over the past 5 years"
@@ -75,13 +118,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 47.95404921040772,
-      "sector_pe": 47.95404921040772
+      "pe": 47.953882758287406,
+      "sector_pe": 47.953882758287406
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "FMCG",
       "pe_industry_id": 27,
@@ -91,27 +134,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 30.36,
-      "industry_pe": 47.95404921040772,
+      "industry_pe": 47.953882758287406,
       "industry_name": "FMCG",
       "industry_id": 27,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/orkla-india-ltd",
       "search_id": "orkla-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 30.36,
-        "industry_pe": 47.95404921040772,
+        "industry_pe": 47.953882758287406,
         "industry_name": "FMCG",
         "industry_id": 27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.4,
-        "industry_pe": 19.2,
+        "company_pe": 29.7,
+        "industry_pe": 19.4,
         "industry_name": "Indian Food",
-        "description": "ORKLAINDIA is expensive based on its Price-To-Earnings Ratio (30.4x) compared to the Indian Food industry average (19.2x).",
+        "description": "ORKLAINDIA is expensive based on its Price-To-Earnings Ratio (29.7x) compared to the Indian Food industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -141,56 +184,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 628.6,
-        "fetched_at": "2026-05-25T22:00:36.749Z",
+        "value": 619.05,
+        "fetched_at": "2026-05-26T12:52:55.318Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-orklaindia/orkla-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 86707300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 86063500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 30.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.95404921040772,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.953882758287406,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +242,91 @@
           "low": 533.25,
           "high": 760
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 20.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 200.7478196,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.95404921040772,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.953882758287406,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.3879,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 8.758480405413351,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.357872389310618,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.874985054640238,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 17.66581378480276,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2800000000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.846288610095357,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.7216,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.0435896892804952,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.04848240950585644,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/orkla-india-ltd"
       }
     },
@@ -298,7 +341,7 @@
     "ps": 3.46,
     "book_value": 200.7478196,
     "face_value": 1,
-    "sector_pe": 47.95404921040772,
+    "sector_pe": 47.953882758287406,
     "roe_pct": 10.3879,
     "roa_pct": 8.758480405413351,
     "roic_pct": 11.357872389310618,
@@ -310,12 +353,12 @@
     "quick_ratio": 2.0435896892804952,
     "cash_ratio": 0.04848240950585644,
     "returns_pct": {
-      "1D": -0.8830022075055223,
-      "7D": -0.1350385256970407,
-      "1M": -2.9563874951756044,
-      "3M": 7.664639890382803,
-      "6M": -4.951992137294927,
-      "1Y": -11.917606669936237,
+      "1D": -1.5192491250397817,
+      "7D": -0.8250560717718826,
+      "1M": -4.430721729062145,
+      "3M": 2.9861919813674818,
+      "6M": -5.876539455678895,
+      "1Y": -13.255797659917329,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -541,7 +584,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/orkla-india-ltd",
     "news": [
       {
@@ -596,7 +639,7 @@
         "ticker": "BIKAJI",
         "name": "Bikaji Foods International",
         "searchId": "bikaji-foods-international-ltd",
-        "market_cap_inr": 164019200000,
+        "market_cap_inr": 160609200000,
         "pe": 64.45,
         "pb": 10.21
       },
@@ -604,7 +647,7 @@
         "ticker": "LTFOODS",
         "name": "LT Foods",
         "searchId": "lt-foods-ltd",
-        "market_cap_inr": 137668400000,
+        "market_cap_inr": 140550600000,
         "pe": 22.01,
         "pb": 3.05
       },
@@ -612,7 +655,7 @@
         "ticker": "KRBL",
         "name": "KRBL",
         "searchId": "krbl-ltd",
-        "market_cap_inr": 78772500000,
+        "market_cap_inr": 81908200000,
         "pe": 12.16,
         "pb": 1.36
       }

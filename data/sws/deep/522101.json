@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kilburn-engineering-ltd",
     "search_id": "kilburn-engineering-ltd",
     "company_id": "GSTK522101",
@@ -28,8 +28,56 @@
       "dividend": 2
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 474.85,
-    "market_cap_inr": 26056200000,
+    "market_cap_inr": 25993600000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/kilburn-engineering-ltd"
     },
@@ -168,13 +216,13 @@
     },
     "dividend_yield_pct": 0.36,
     "industry_benchmarks": {
-      "pe": 40.022718435747265,
-      "sector_pe": 40.022718435747265
+      "pe": 40.1175820884929,
+      "sector_pe": 40.1175820884929
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Capital Goods-Non Electrical Equipment",
       "pe_industry_id": 9,
@@ -184,20 +232,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 28.39,
-      "industry_pe": 40.022718435747265,
+      "industry_pe": 40.1175820884929,
       "industry_name": "Capital Goods-Non Electrical Equipment",
       "industry_id": 9,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/kilburn-engineering-ltd",
       "search_id": "kilburn-engineering-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 28.39,
-        "industry_pe": 40.022718435747265,
+        "industry_pe": 40.1175820884929,
         "industry_name": "Capital Goods-Non Electrical Equipment",
         "industry_id": 9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "sws_statement": {
@@ -221,7 +269,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -240,50 +288,50 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 26056200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25993600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 28.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 3.5648228571428553,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.022718435747265,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.1175820884929,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "fifty_two_week": {
@@ -292,91 +340,91 @@
           "low": 470.55,
           "high": 544.85
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 16.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 137.7978839,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.022718435747265,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.1175820884929,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 14.9146,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 10.932790029905517,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 16.647943173472434,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.195703973030692,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 27.230527560583866,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 18.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.407811178229737,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.0812,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.239339494300324,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.24557864615095934,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kilburn-engineering-ltd"
       }
     },
@@ -391,7 +439,7 @@
     "ps": 4.59,
     "book_value": 137.7978839,
     "face_value": 10,
-    "sector_pe": 40.022718435747265,
+    "sector_pe": 40.1175820884929,
     "roe_pct": 14.9146,
     "roa_pct": 10.932790029905517,
     "roic_pct": 16.647943173472434,
@@ -412,7 +460,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -737,22 +785,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kilburn-engineering-ltd",
     "news": [
+      {
+        "id": "684101",
+        "title": "Kilburn Engineering's Q4 EBITDA rose to 377M INR from 358M YoY.\nQ4 EBITDA margin declined to 19.9% from 28.2% YoY.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-26T11:47:42.000Z"
+      },
       {
         "id": "637671",
         "title": "Kilburn Engineering Ltd allots 9,92,500 equity shares on preferential basis via warrant conversions.\nPost allotment, paid-up equity rises to Rs. 54.5 Cr, with shares priced at Rs. 425 each.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=f94c0211-84bf-459e-96f0-a5d8b8cb7bd6.pdf",
         "source": "BSE",
         "published_at": "2026-05-11T09:46:51.000Z"
-      },
-      {
-        "id": "577098",
-        "title": "Kilburn Engineering Ltd sells 40% stake in KEEPL to East End Technologies Pvt Ltd.\nKEEPL ceases to be wholly owned but remains a subsidiary; sale worth Rs. 4 lakh.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=73048a55-e68a-4d8b-8fde-cb44640db0df.pdf",
-        "source": "BSE",
-        "published_at": "2026-04-14T12:21:44.000Z"
       }
     ],
     "events": [
@@ -812,25 +860,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

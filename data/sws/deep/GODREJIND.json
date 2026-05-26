@@ -3,12 +3,12 @@
   "name": "Godrej Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-godrejind/godrej-industries-shares",
-  "parsed_at": "2026-05-25T23:41:06.618Z",
+  "parsed_at": "2026-05-26T14:32:40.594Z",
   "company_id": "04E17753-7A4F-43CF-B552-5F81505A08C4",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/godrej-industries-ltd",
     "search_id": "godrej-industries-ltd",
     "company_id": "GSTK500164",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 1160.6,
-    "market_cap_inr": 379343300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1140.45,
+    "market_cap_inr": 390340000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/godrej-industries-ltd"
     },
@@ -118,13 +167,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.392941562985385,
-      "sector_pe": 40.392941562985385
+      "pe": 40.39707827675086,
+      "sector_pe": 40.39707827675086
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -134,32 +183,32 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 15.73,
-      "industry_pe": 40.392941562985385,
+      "industry_pe": 40.39707827675086,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/godrej-industries-ltd",
       "search_id": "godrej-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 15.73,
-        "industry_pe": 40.392941562985385,
+        "industry_pe": 40.39707827675086,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.6,
-        "industry_pe": 13,
+        "company_pe": 31,
+        "industry_pe": 12.9,
         "industry_name": "Asian Industrials",
-        "description": "GODREJIND is expensive based on its Price-To-Earnings Ratio (30.6x) compared to the Asian Industrials industry average (13x).",
+        "description": "GODREJIND is expensive based on its Price-To-Earnings Ratio (31x) compared to the Asian Industrials industry average (12.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.3117928,
+        "industry_pe": 26.438152719,
         "industry_code": "3060000",
         "type": "median_profitable",
         "count": 10,
@@ -171,7 +220,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.299999999999997,
+        "industry_pe": 26.45,
         "sample_count": 10,
         "industry_code": "3060000",
         "industry_name": "Capital Goods"
@@ -184,56 +233,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1160.6,
-        "fetched_at": "2026-05-25T23:41:06.618Z",
+        "value": 1140.45,
+        "fetched_at": "2026-05-26T14:32:40.594Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-godrejind/godrej-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 379343300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 390340000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 15.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.183543771672446,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "fifty_two_week": {
@@ -242,91 +291,91 @@
           "low": 744.2,
           "high": 1390
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 71.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 331.838773,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 11.0995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.02001059819134,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 8.302309579444861,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.793626345458101,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 28.62230936486058,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 461.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 40.82545073388872,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7351,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.34932015641600045,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08613946728633558,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godrej-industries-ltd"
       }
     },
@@ -341,7 +390,7 @@
     "ps": 1.71,
     "book_value": 331.838773,
     "face_value": 1,
-    "sector_pe": 40.392941562985385,
+    "sector_pe": 40.39707827675086,
     "roe_pct": 11.0995,
     "roa_pct": 1.02001059819134,
     "roic_pct": 8.302309579444861,
@@ -353,12 +402,12 @@
     "quick_ratio": 0.34932015641600045,
     "cash_ratio": 0.08613946728633558,
     "returns_pct": {
-      "1D": 3.027075011096308,
-      "7D": 0.3762162162162084,
-      "1M": 17.167230326586235,
-      "3M": 10.501761401504329,
-      "6M": 9.946949602122016,
-      "1Y": -0.6420683160688297,
+      "1D": -1.7361709460623698,
+      "7D": 0.559915351379961,
+      "1M": 15.133006915350066,
+      "3M": 10.113932605966978,
+      "6M": 8.92550143266476,
+      "1Y": -2.367091858573741,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -634,7 +683,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/godrej-industries-ltd",
     "news": [
       {
@@ -699,7 +748,7 @@
         "ticker": "PIDILITIND",
         "name": "Pidilite Industries",
         "searchId": "pidilite-industries-ltd",
-        "market_cap_inr": 1506409300000,
+        "market_cap_inr": 1503101500000,
         "pe": 60.96,
         "pb": 13.91
       },
@@ -707,7 +756,7 @@
         "ticker": "SRF",
         "name": "SRF",
         "searchId": "srf-ltd",
-        "market_cap_inr": 781790800000,
+        "market_cap_inr": 803830000000,
         "pe": 42.6,
         "pb": 5.57
       },
@@ -715,7 +764,7 @@
         "ticker": "FLUOROCHEM",
         "name": "Gujarat Fluorochemicals",
         "searchId": "inox-fluorochemicals-ltd",
-        "market_cap_inr": 421121000000,
+        "market_cap_inr": 420818900000,
         "pe": 64.19,
         "pb": 5.53
       }

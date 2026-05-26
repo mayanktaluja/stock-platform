@@ -3,7 +3,7 @@
   "name": "Clara Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-543435/clara-industries-shares",
-  "parsed_at": "2026-05-25T20:46:04.086Z",
+  "parsed_at": "2026-05-26T11:14:03.121Z",
   "company_id": "015E4490-32BB-4F8B-9F7E-A20C2FB02305",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 39.7,
     "market_cap_inr": 1019213980.6112592,
     "market_cap_usd": 127196762990.178,
@@ -122,7 +172,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -136,7 +186,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 39.7,
-        "fetched_at": "2026-05-25T20:46:04.086Z",
+        "fetched_at": "2026-05-26T11:14:03.121Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-543435/clara-industries-shares"
       }
     },

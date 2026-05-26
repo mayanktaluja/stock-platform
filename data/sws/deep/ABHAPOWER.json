@@ -3,7 +3,7 @@
   "name": "Abha Power and Steel Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-abhapower/abha-power-and-steel-shares",
-  "parsed_at": "2026-05-25T21:23:11.406Z",
+  "parsed_at": "2026-05-26T12:15:54.349Z",
   "company_id": "9CE7FAC5-23F7-470A-A8F6-A8962862013B",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 31.9,
     "market_cap_inr": 592951831.2456416,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -109,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -123,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 31.9,
-        "fetched_at": "2026-05-25T21:23:11.406Z",
+        "fetched_at": "2026-05-26T12:15:54.349Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-abhapower/abha-power-and-steel-shares"
       }
     },

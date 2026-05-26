@@ -3,7 +3,7 @@
   "name": "Grover Jewells Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-gjl/grover-jewells-shares",
-  "parsed_at": "2026-05-25T23:37:09.092Z",
+  "parsed_at": "2026-05-26T14:27:52.835Z",
   "company_id": "626AD75C-5743-4AA3-AE2B-FBC349989CF8",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 132.35,
-    "market_cap_inr": 1920027895.3148549,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 15,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 127.05,
+    "market_cap_inr": 1843139736.3033798,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +86,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 26.5,
+      "pe": 24.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -68,7 +119,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.2
+      "pe": 18.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -82,17 +133,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 26.5,
-      "industry_pe": 18.2,
+      "company_pe": 24.2,
+      "industry_pe": 18.5,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 26.5,
-        "industry_pe": 18.2,
+        "company_pe": 24.2,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "GJL is expensive based on its Price-To-Earnings Ratio (26.5x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "GJL is expensive based on its Price-To-Earnings Ratio (24.2x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -122,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 132.35,
-        "fetched_at": "2026-05-25T23:37:09.092Z",
+        "value": 127.05,
+        "fetched_at": "2026-05-26T14:27:52.835Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-gjl/grover-jewells-shares"
       }
     },
@@ -150,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.989231873653996,
-      "7D": 3.8039215686274463,
-      "1M": -20.510510510510514,
-      "3M": -15.18743992310158,
-      "6M": 31.299603174603174,
-      "1Y": 31.299603174603174,
+      "1D": -4.00453343407631,
+      "7D": -0.3529411764705905,
+      "1M": -23.693693693693696,
+      "3M": -25.983105155840374,
+      "6M": 26.041666666666668,
+      "1Y": 26.041666666666668,
       "5Y": null
     },
     "next_earnings_date": null,

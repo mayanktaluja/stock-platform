@@ -3,7 +3,7 @@
   "name": "Sahaj Solar Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-sahajsolar/sahaj-solar-shares",
-  "parsed_at": "2026-05-25T22:37:51.831Z",
+  "parsed_at": "2026-05-26T13:28:45.589Z",
   "company_id": "DD11074D-1F80-4ABC-9EF7-2C28D8393FA9",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 1
     },
     "snowflake_total": 8,
-    "current_price_inr": 147.4,
-    "market_cap_inr": 3238675901.812316,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 150.9,
+    "market_cap_inr": 3315577975.4645762,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 10.960928,
+    "fair_value_inr": 10.961277,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -92.56382089552238,
+    "upside_pct": -92.73606560636183,
     "multiples": {
-      "pe": 10.5,
+      "pe": 11.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,7 +98,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Price-To-Earnings ratio (10.5x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (11.2x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 38.2% per year over the past 5 years"
@@ -84,7 +133,7 @@
     },
     "dividend_yield_pct": 0.5328804172,
     "industry_benchmarks": {
-      "pe": 26.4
+      "pe": 26.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -98,17 +147,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 10.5,
-      "industry_pe": 26.4,
+      "company_pe": 11.2,
+      "industry_pe": 26.5,
       "industry_name": "Indian Machinery"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 10.5,
-        "industry_pe": 26.4,
+        "company_pe": 11.2,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "SAHAJSOLAR is good value based on its Price-To-Earnings Ratio (10.5x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "SAHAJSOLAR is good value based on its Price-To-Earnings Ratio (11.2x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -138,8 +187,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 147.4,
-        "fetched_at": "2026-05-25T22:37:51.831Z",
+        "value": 150.9,
+        "fetched_at": "2026-05-26T13:28:45.589Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-sahajsolar/sahaj-solar-shares"
       }
     },
@@ -166,12 +215,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.985890652557323,
-      "7D": 4.280155642023355,
-      "1M": -4.811107523409744,
-      "3M": 4.501949663239981,
-      "6M": -13.977239568135388,
-      "1Y": -43.1217441636118,
+      "1D": 2.37449118046133,
+      "7D": 6.230200633579721,
+      "1M": -2.5508556667742903,
+      "3M": 14.361500568397133,
+      "6M": -12.216404886561955,
+      "1Y": -41.77117499517653,
       "5Y": null
     },
     "next_earnings_date": null,

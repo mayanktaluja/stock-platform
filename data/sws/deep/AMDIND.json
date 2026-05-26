@@ -3,12 +3,12 @@
   "name": "AMD Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-amdind/amd-industries-shares",
-  "parsed_at": "2026-05-25T21:35:41.409Z",
+  "parsed_at": "2026-05-26T12:27:47.591Z",
   "company_id": "775BAAF0-7C35-47B2-9731-EC2948D7C662",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/amd-industries-ltd",
     "search_id": "amd-industries-ltd",
     "company_id": "GSTK532828",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 46.61,
-    "market_cap_inr": 872100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 45.93,
+    "market_cap_inr": 846200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +93,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 389.89945290710153,
+    "upside_pct": 397.1524820378837,
     "multiples": {
       "pe": null,
       "ps": 0.33,
-      "pb": 0.56,
+      "pb": 0.54,
       "ev_ebitda": 5.81,
       "peg": -0.5356446043165467
     },
@@ -65,7 +115,7 @@
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹872M)",
+      "Does not have a meaningful market cap (₹846M)",
       "Earnings have declined by 32% per year over past 5 years"
     ],
     "dividend": {
@@ -105,7 +155,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 25.312457865495027
+      "sector_pe": 25.392793163881098
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -126,10 +176,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 25.312457865495027,
+        "industry_pe": 25.392793163881098,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "sws_statement": {
@@ -153,7 +203,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -166,50 +216,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 46.61,
-        "fetched_at": "2026-05-25T21:35:41.409Z",
+        "value": 45.93,
+        "fetched_at": "2026-05-26T12:27:47.591Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-amdind/amd-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 872100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 846200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.54,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5356446043165467,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "fifty_two_week": {
@@ -218,85 +268,85 @@
           "low": 33.77,
           "high": 68.07
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 81.2533983,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.6556688024162987,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.711325519652917,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 53.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 31.828615149196636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.2644,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.016239316239316,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.11843711843711842,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amd-industries-ltd"
       }
     },
@@ -307,11 +357,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.56,
+    "pb": 0.54,
     "ps": 0.33,
     "book_value": 81.2533983,
     "face_value": 10,
-    "sector_pe": 25.312457865495027,
+    "sector_pe": 25.392793163881098,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0.6556688024162987,
@@ -323,12 +373,12 @@
     "quick_ratio": 1.016239316239316,
     "cash_ratio": 0.11843711843711842,
     "returns_pct": {
-      "1D": 2.4620795779292095,
-      "7D": 3.416907033503437,
-      "1M": 4.859392575928001,
-      "3M": 10.007080481472745,
-      "6M": -14.820906432748536,
-      "1Y": -8.643669149353201,
+      "1D": -1.4589143960523487,
+      "7D": 2.0213238560639635,
+      "1M": 3.3295838020247395,
+      "3M": 8.478979688238063,
+      "6M": -14.78664192949907,
+      "1Y": -9.976479811838502,
       "5Y": null
     },
     "next_earnings_date": "2026-05-30",
@@ -523,12 +573,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/amd-industries-ltd",
     "news": [
       {
@@ -576,6 +636,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -583,7 +653,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -591,17 +661,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

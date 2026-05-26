@@ -3,7 +3,7 @@
   "name": "Unishire Urban Infra Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-537582/unishire-urban-infra-shares",
-  "parsed_at": "2026-05-25T23:18:30.639Z",
+  "parsed_at": "2026-05-26T14:07:01.406Z",
   "company_id": "E17F7118-3FBA-46A0-87D3-F300A00633F5",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1.4,
     "market_cap_inr": 34101920.30750617,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -53,9 +102,10 @@
       "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
+      "Has less than 1 year of [[cash runway]]",
       "Does not have a meaningful market cap (₹34M)",
       "Highly volatile share price over past 3 months",
-      "Does not have meaningful revenue (₹225M)"
+      "Does not have meaningful revenue (₹155M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -87,9 +137,9 @@
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 4.7,
+        "industry_pe": 4.6,
         "industry_name": "Indian Real Estate",
-        "description": "537582 is good value based on its Price-To-Sales Ratio (0.2x) compared to the Indian Real Estate industry average (4.7x).",
+        "description": "537582 is good value based on its Price-To-Sales Ratio (0.2x) compared to the Indian Real Estate industry average (4.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -106,8 +156,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
-        "sample_count": 145,
+        "industry_pe": 23.85,
+        "sample_count": 144,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -120,7 +170,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 1.4,
-        "fetched_at": "2026-05-25T23:18:30.639Z",
+        "fetched_at": "2026-05-26T14:07:01.406Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-537582/unishire-urban-infra-shares"
       }
     },

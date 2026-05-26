@@ -3,12 +3,12 @@
   "name": "Jayant Infratech Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543544/jayant-infratech-shares",
-  "parsed_at": "2026-05-25T20:47:55.718Z",
+  "parsed_at": "2026-05-26T11:15:53.680Z",
   "company_id": "314121E8-6595-4307-9A37-D7C78AFD7412",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jayant-infratech-ltd",
     "search_id": "jayant-infratech-ltd",
     "company_id": "GSTK543544",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 55.9,
-    "market_cap_inr": 568500000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 58.5,
+    "market_cap_inr": 577800000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 128.11501252236138,
+    "upside_pct": 117.97656752136754,
     "multiples": {
-      "pe": 6.77,
+      "pe": 6.88,
       "ps": 0.47,
-      "pb": 1.21,
+      "pb": 1.23,
       "ev_ebitda": 4.75,
       "peg": 0.12072638036809816
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/jayant-infratech-ltd"
     },
@@ -81,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.821146947073228,
-      "sector_pe": 31.821146947073228
+      "pe": 31.795057456430627,
+      "sector_pe": 31.795057456430627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -96,21 +145,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 6.77,
-      "industry_pe": 31.821146947073228,
+      "company_pe": 6.88,
+      "industry_pe": 31.795057456430627,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/jayant-infratech-ltd",
       "search_id": "jayant-infratech-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 6.77,
-        "industry_pe": 31.821146947073228,
+        "company_pe": 6.88,
+        "industry_pe": 31.795057456430627,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "sws_statement": {
@@ -134,8 +183,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -147,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 55.9,
-        "fetched_at": "2026-05-25T20:47:55.718Z",
+        "value": 58.5,
+        "fetched_at": "2026-05-26T11:15:53.680Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543544/jayant-infratech-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 568500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 577800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 6.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6.88,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.23,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.12072638036809816,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +254,91 @@
           "low": 43.97,
           "high": 110.74
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 8.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 45.2835522,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 18.0961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 41.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 22.98884321785085,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.5304,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7991239048811012,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.24593241551939926,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jayant-infratech-ltd"
       }
     },
@@ -300,11 +349,11 @@
     "latest_net_income": null,
     "latest_eps": 8.13,
     "most_recent_reported_date": null,
-    "pb": 1.21,
+    "pb": 1.23,
     "ps": 0.47,
     "book_value": 45.2835522,
     "face_value": 10,
-    "sector_pe": 31.821146947073228,
+    "sector_pe": 31.795057456430627,
     "roe_pct": 18.0961,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -316,12 +365,12 @@
     "quick_ratio": 0.7991239048811012,
     "cash_ratio": 0.24593241551939926,
     "returns_pct": {
-      "1D": 1.6363636363636338,
-      "7D": 1.6363636363636338,
-      "1M": -8.345630431218238,
-      "3M": -14.786585365853652,
-      "6M": -27.80576004132766,
-      "1Y": -33.452380952380956,
+      "1D": 4.651162790697677,
+      "7D": 6.363636363636363,
+      "1M": -4.082636497786526,
+      "3M": -9.722222222222218,
+      "6M": -28.044280442804425,
+      "1Y": -30.357142857142854,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -430,12 +479,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jayant-infratech-ltd",
     "news": [
       {
@@ -463,6 +522,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -470,7 +539,7 @@
         "ticker": "TEXRAIL",
         "name": "Texmaco Rail & Engineering",
         "searchId": "texmaco-rail-engineering-ltd",
-        "market_cap_inr": 44083800000,
+        "market_cap_inr": 46097800000,
         "pe": 22.76,
         "pb": 1.89
       },
@@ -478,7 +547,7 @@
         "ticker": "543619",
         "name": "Concord Control Systems",
         "searchId": "concord-control-systems-ltd",
-        "market_cap_inr": 28035200000,
+        "market_cap_inr": 28087100000,
         "pe": 68.55,
         "pb": 13.41
       },
@@ -486,7 +555,7 @@
         "ticker": "KERNEX",
         "name": "Kernex Microsystems (India)",
         "searchId": "kernex-microsystems-india-ltd",
-        "market_cap_inr": 22706000000,
+        "market_cap_inr": 24592900000,
         "pe": 43.23,
         "pb": 13.07
       }

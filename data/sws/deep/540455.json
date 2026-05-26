@@ -3,12 +3,12 @@
   "name": "Escorp Asset Management Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-540455/escorp-asset-management-shares",
-  "parsed_at": "2026-05-25T23:52:18.524Z",
+  "parsed_at": "2026-05-26T14:42:25.686Z",
   "company_id": "73BA910B-7BAF-4669-BA60-0CF93AED3B1C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/escorp-asset-management-ltd",
     "search_id": "escorp-asset-management-ltd",
     "company_id": "GSTK540455",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 102,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 100.75,
     "market_cap_inr": 1133900000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 86.1,
       "high": 212.95
     },
-    "fair_value_inr": 125.863079,
+    "fair_value_inr": 125.84088,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 23.395175490196078,
+    "upside_pct": 24.904099255583127,
     "multiples": {
       "pe": 38.06,
       "ps": 25.55,
@@ -55,13 +104,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/escorp-asset-management-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 19% below our estimate of its fair value"
+      "Trading at 19.9% below our estimate of its fair value"
     ],
     "risks": [
       "Makes less than USD$1m in revenue (₹44M)",
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -94,27 +143,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 38.06,
-      "industry_pe": 22.74789650623654,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/escorp-asset-management-ltd",
       "search_id": "escorp-asset-management-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 38.06,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "sws_statement": {
-        "company_pe": 38,
-        "industry_pe": 27.9,
+        "company_pe": 37.6,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "540455 is expensive based on its Price-To-Earnings Ratio (38x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "540455 is expensive based on its Price-To-Earnings Ratio (37.6x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 102,
-        "fetched_at": "2026-05-25T23:52:18.524Z",
+        "value": 100.75,
+        "fetched_at": "2026-05-26T14:42:25.686Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-540455/escorp-asset-management-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 1133900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 38.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 25.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 2.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.7670804597701155,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 86.1,
           "high": 212.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 62.5607937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.287,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.08610996846291,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.997200762626876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 94.006309148265,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 47.7565,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 47.55555555555555,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 44.06666666666666,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/escorp-asset-management-ltd"
       }
     },
@@ -301,7 +350,7 @@
     "ps": 25.55,
     "book_value": 62.5607937,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 4.287,
     "roa_pct": 4.08610996846291,
     "roic_pct": 5.997200762626876,
@@ -313,12 +362,12 @@
     "quick_ratio": 47.55555555555555,
     "cash_ratio": 44.06666666666666,
     "returns_pct": {
-      "1D": 0,
-      "7D": -4.090267983074749,
-      "1M": -2.4390243902438997,
-      "3M": -12.333476579286632,
-      "6M": -36.28981886321049,
-      "1Y": 7.663077897403426,
+      "1D": -1.2254901960784315,
+      "7D": -7.526388251491513,
+      "1M": -3.6346245815399305,
+      "3M": -13.407821229050276,
+      "6M": -33.760683760683754,
+      "1Y": 6.343677432974462,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -477,7 +526,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/escorp-asset-management-ltd",
     "news": [
       {
@@ -542,15 +591,15 @@
         "ticker": "CRAMC",
         "name": "Canara Robeco Asset Management Co",
         "searchId": "canara-robeco-asset-management-co-ltd",
-        "market_cap_inr": 47810300000,
-        "pe": 23.46,
-        "pb": 6.41
+        "market_cap_inr": 49595100000,
+        "pe": 24.33,
+        "pb": 6.65
       },
       {
         "ticker": "531359",
         "name": "Shriram Asset Management Co",
         "searchId": "shriram-asset-management-company-ltd",
-        "market_cap_inr": 5094200000,
+        "market_cap_inr": 5084900000,
         "pe": null,
         "pb": 3.34
       },
@@ -558,7 +607,7 @@
         "ticker": "544296",
         "name": "Nisus Finance Services Co",
         "searchId": "nisus-finance-services-co-ltd",
-        "market_cap_inr": 4852000000,
+        "market_cap_inr": 4916500000,
         "pe": 14.89,
         "pb": 3.02
       }

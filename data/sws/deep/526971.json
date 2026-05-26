@@ -3,12 +3,12 @@
   "name": "Dhoot Industrial Finance Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-526971/dhoot-industrial-finance-shares",
-  "parsed_at": "2026-05-25T22:07:03.104Z",
+  "parsed_at": "2026-05-26T13:02:35.565Z",
   "company_id": "EE6B6DB9-5896-4B92-BCEA-EEE7978E69DC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd",
     "search_id": "dhoot-industrial-finance-ltd",
     "company_id": "GSTK526971",
@@ -28,26 +28,74 @@
       "dividend": 2
     },
     "snowflake_total": 12,
-    "current_price_inr": 206.45,
-    "market_cap_inr": 1202000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 207.75,
+    "market_cap_inr": 1304400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 132.2,
       "high": 305
     },
-    "fair_value_inr": 17.030511,
+    "fair_value_inr": 17.032446,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -91.75078178735771,
+    "upside_pct": -91.80147003610108,
     "multiples": {
-      "pe": 6.68,
+      "pe": 7.25,
       "ps": 2.92,
-      "pb": 0.28,
+      "pb": 0.3,
       "ev_ebitda": 9.86,
       "peg": -0.09765538491636507
     },
@@ -55,23 +103,23 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (6.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (7.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Dividend of 0.79% is not well covered by free cash flows",
+      "Dividend of 0.72% is not well covered by free cash flows",
       "Does not have a meaningful market cap (₹1B)",
       "Does not have meaningful revenue (₹413M)"
     ],
     "dividend": {
-      "yield_pct": 0.79,
+      "yield_pct": 0.73,
       "payout_pct": null,
       "annualized_dividend": 1.5,
       "listing_currency": "INR",
@@ -105,15 +153,15 @@
       ],
       "payment_count": 2
     },
-    "dividend_yield_pct": 0.79,
+    "dividend_yield_pct": 0.73,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -122,28 +170,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 6.68,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 7.25,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd",
       "search_id": "dhoot-industrial-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 6.68,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 7.25,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 6.7,
-        "industry_pe": 22.4,
+        "company_pe": 7.3,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "526971 is good value based on its Price-To-Earnings Ratio (6.7x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "526971 is good value based on its Price-To-Earnings Ratio (7.3x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -161,7 +209,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -173,56 +221,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 206.45,
-        "fetched_at": "2026-05-25T22:07:03.104Z",
+        "value": 207.75,
+        "fetched_at": "2026-05-26T13:02:35.565Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526971/dhoot-industrial-finance-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1202000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1304400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 6.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.25,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.3,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.09765538491636507,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
-        "value": 0.79,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.73,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "fifty_two_week": {
@@ -231,91 +279,91 @@
           "low": 132.2,
           "high": 305
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 28.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 689.5663185,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.1291,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.017428220310579,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.438273362176042,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.026812646631661264,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 259.0026,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 242.08241758241755,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.027472527472527,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd"
       }
     },
@@ -326,11 +374,11 @@
     "latest_net_income": null,
     "latest_eps": 28.47,
     "most_recent_reported_date": null,
-    "pb": 0.28,
+    "pb": 0.3,
     "ps": 2.92,
     "book_value": 689.5663185,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 4.1291,
     "roa_pct": 4.017428220310579,
     "roic_pct": 4.438273362176042,
@@ -342,12 +390,12 @@
     "quick_ratio": 242.08241758241755,
     "cash_ratio": 6.027472527472527,
     "returns_pct": {
-      "1D": 8.515111695137971,
-      "7D": 11.084207694377184,
-      "1M": 16.671376094942076,
-      "3M": 1.8249075215782926,
-      "6M": -8.346281908990017,
-      "1Y": -12.46555013779945,
+      "1D": 0.6296924194720327,
+      "7D": 11.693548387096774,
+      "1M": 17.40604690590563,
+      "3M": 2.6432806324110643,
+      "6M": -6.037991858887379,
+      "1Y": -11.914352342590627,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -454,7 +502,7 @@
     "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.79,
+    "yield_pct": 0.73,
     "payout_pct": null,
     "annualized_dividend": 1.5,
     "listing_currency": "INR",
@@ -568,7 +616,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dhoot-industrial-finance-ltd",
     "news": [
       {
@@ -643,25 +691,25 @@
         "ticker": "VINYLINDIA",
         "name": "Vinyl Chemicals India",
         "searchId": "vinyl-chemicals-india-ltd",
-        "market_cap_inr": 5074800000,
-        "pe": 30.78,
-        "pb": 3.9
+        "market_cap_inr": 4939100000,
+        "pe": 29.96,
+        "pb": 3.79
       },
       {
         "ticker": "544272",
         "name": "Shiv Texchem",
         "searchId": "shiv-texchem-ltd",
-        "market_cap_inr": 3241800000,
-        "pe": 6.74,
-        "pb": 0.97
+        "market_cap_inr": 3402800000,
+        "pe": 7.07,
+        "pb": 1.02
       },
       {
         "ticker": "524444",
         "name": "Evexia Lifecare",
         "searchId": "kavit-industries-ltd",
-        "market_cap_inr": 2928600000,
-        "pe": 156,
-        "pb": 0.72
+        "market_cap_inr": 3060000000,
+        "pe": 163,
+        "pb": 0.75
       }
     ],
     "details": {

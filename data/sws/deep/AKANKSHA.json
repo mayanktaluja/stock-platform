@@ -3,7 +3,7 @@
   "name": "Akanksha Power and Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-akanksha/akanksha-power-and-infrastructure-shares",
-  "parsed_at": "2026-05-25T21:32:42.442Z",
+  "parsed_at": "2026-05-26T12:24:29.786Z",
   "company_id": "E6564A46-0403-4CF6-91EC-8CE25B46EE96",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 85.75,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 32.2,
+      "pe": 32.1,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -66,7 +115,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 28.4
+      "pe": 27.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,17 +129,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 32.2,
-      "industry_pe": 28.4,
+      "company_pe": 32.1,
+      "industry_pe": 27.9,
       "industry_name": "Indian Electrical"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 32.2,
-        "industry_pe": 28.4,
+        "company_pe": 32.1,
+        "industry_pe": 27.9,
         "industry_name": "Indian Electrical",
-        "description": "AKANKSHA is expensive based on its Price-To-Earnings Ratio (32.2x) compared to the Indian Electrical industry average (28.4x).",
+        "description": "AKANKSHA is expensive based on its Price-To-Earnings Ratio (32.1x) compared to the Indian Electrical industry average (27.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -121,7 +170,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 85.75,
-        "fetched_at": "2026-05-25T21:32:42.442Z",
+        "fetched_at": "2026-05-26T12:24:29.786Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-akanksha/akanksha-power-and-infrastructure-shares"
       }
     },
@@ -148,11 +197,11 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.3486345148169636,
-      "7D": -8.484525080042692,
+      "1D": 0,
+      "7D": -9.736842105263158,
       "1M": 17.465753424657535,
-      "3M": 18.35748792270531,
-      "6M": 8.958068614993643,
+      "3M": 19.179986101459342,
+      "6M": 9.935897435897436,
       "1Y": -10.209424083769633,
       "5Y": null
     },

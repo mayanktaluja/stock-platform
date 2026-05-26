@@ -3,7 +3,7 @@
   "name": "Arex Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-526851/arex-industries-shares",
-  "parsed_at": "2026-05-25T22:21:41.508Z",
+  "parsed_at": "2026-05-26T13:13:33.051Z",
   "company_id": "6C9FA801-924E-4C4C-9D72-AD3567DEC5A3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 120,
-    "market_cap_inr": 431844062.2642381,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 115.5,
+    "market_cap_inr": 415649909.92932916,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 111.155883,
+    "fair_value_inr": 111.167547,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -7.370097499999997,
+    "upside_pct": -3.751041558441559,
     "multiples": {
       "pe": 29.1,
       "ps": null,
@@ -157,7 +206,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -170,8 +219,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 120,
-        "fetched_at": "2026-05-25T22:21:41.508Z",
+        "value": 115.5,
+        "fetched_at": "2026-05-26T13:13:33.051Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-526851/arex-industries-shares"
       }
     },
@@ -198,12 +247,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.639344262295082,
-      "7D": 3.2702237521514603,
-      "1M": 9.090909090909092,
-      "3M": -7.6923076923076925,
-      "6M": -13.106444605358433,
-      "1Y": -25.925925925925924,
+      "1D": -3.75,
+      "7D": -5.327868852459016,
+      "1M": 7.38192636667906,
+      "3M": -4.545454545454546,
+      "6M": -18.489767113620317,
+      "1Y": -28.703703703703702,
       "5Y": null
     },
     "next_earnings_date": null,

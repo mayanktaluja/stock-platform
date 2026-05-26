@@ -3,7 +3,7 @@
   "name": "Kody Technolab Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-kodytech/kody-technolab-shares",
-  "parsed_at": "2026-05-25T21:08:27.963Z",
+  "parsed_at": "2026-05-26T11:56:33.398Z",
   "company_id": "E402EA15-565A-498F-AA4F-2847A1D30E82",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 900,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 893.6,
     "market_cap_inr": 11472803251.64849,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 67.9,
+      "pe": 68.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -62,7 +111,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 20.3
+      "pe": 22.2
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -76,17 +125,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 67.9,
-      "industry_pe": 20.3,
+      "company_pe": 68.4,
+      "industry_pe": 22.2,
       "industry_name": "Indian IT"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 67.9,
-        "industry_pe": 20.3,
+        "company_pe": 68.4,
+        "industry_pe": 22.2,
         "industry_name": "Indian IT",
-        "description": "KODYTECH is expensive based on its Price-To-Earnings Ratio (67.9x) compared to the Indian IT industry average (20.3x).",
+        "description": "KODYTECH is expensive based on its Price-To-Earnings Ratio (68.4x) compared to the Indian IT industry average (22.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -103,7 +152,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -116,8 +165,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 900,
-        "fetched_at": "2026-05-25T21:08:27.963Z",
+        "value": 893.6,
+        "fetched_at": "2026-05-26T11:56:33.398Z",
         "url": "https://simplywall.st/stocks/in/software/nse-kodytech/kody-technolab-shares"
       }
     },
@@ -144,12 +193,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.8120974516942034,
-      "7D": 0.6993006993006993,
-      "1M": 24.653739612188367,
-      "3M": 2.029248384536898,
-      "6M": 23.61788338713001,
-      "1Y": 1.5228426395939088,
+      "1D": -0.7111111111111086,
+      "7D": 3.079940016149503,
+      "1M": 23.767313019390585,
+      "3M": 2.1257142857142886,
+      "6M": 7.481356747654565,
+      "1Y": 0.80090242526791,
       "5Y": null
     },
     "next_earnings_date": null,

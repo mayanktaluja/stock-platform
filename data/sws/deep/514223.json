@@ -3,12 +3,12 @@
   "name": "Ramgopal Polytex Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-514223/ramgopal-polytex-shares",
-  "parsed_at": "2026-05-25T21:20:58.299Z",
+  "parsed_at": "2026-05-26T12:16:51.847Z",
   "company_id": "5B12CF4F-4F37-469E-9570-B4A129EC8C70",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ramgopal-polytex-ltd",
     "search_id": "ramgopal-polytex-ltd",
     "company_id": "GSTK514223",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 18.5,
-    "market_cap_inr": 282300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 17.58,
+    "market_cap_inr": 268300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 47.90879459459459,
+    "upside_pct": 55.64918657565416,
     "multiples": {
       "pe": null,
       "ps": 25.81,
-      "pb": 2.67,
+      "pb": 2.54,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -59,13 +108,11 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
-    "rewards": [
-      "Trading at good value vs. peer average Price-To-Sales ratio"
-    ],
+    "rewards": [],
     "risks": [
       "Earnings have declined by 21% per year over past 5 years",
-      "Makes less than USD$1m in revenue (₹18M)",
-      "Does not have a meaningful market cap (₹282M)"
+      "Makes less than USD$1m in revenue (₹11M)",
+      "Does not have a meaningful market cap (₹268M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -77,7 +124,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +145,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.3,
         "industry_name": "Indian Trade Distributors",
-        "description": "514223 is expensive based on its Price-To-Sales Ratio (15.4x) compared to the Indian Trade Distributors industry average (1.3x).",
+        "description": "514223 is expensive based on its Price-To-Sales Ratio (23.3x) compared to the Indian Trade Distributors industry average (1.3x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +173,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -138,50 +185,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 18.5,
-        "fetched_at": "2026-05-25T21:20:58.299Z",
+        "value": 17.58,
+        "fetched_at": "2026-05-26T12:16:51.847Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-514223/ramgopal-polytex-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 282300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 268300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.54,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 25.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "fifty_two_week": {
@@ -190,85 +237,85 @@
           "low": 4.71,
           "high": 27.88
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 7.2965517,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 24.9472,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 24.868421052631575,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 13.289473684210526,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramgopal-polytex-ltd"
       }
     },
@@ -279,11 +326,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 2.67,
+    "pb": 2.54,
     "ps": 25.81,
     "book_value": 7.2965517,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -295,12 +342,12 @@
     "quick_ratio": 24.868421052631575,
     "cash_ratio": 13.289473684210526,
     "returns_pct": {
-      "1D": -4.982023626091417,
-      "7D": -12.280701754385964,
-      "1M": -30.995897053338307,
-      "3M": 1.984564498346193,
-      "6M": 114.36848203939742,
-      "1Y": 246.4419475655431,
+      "1D": -4.972972972972982,
+      "7D": -14.949201741654585,
+      "1M": -34.42745244311824,
+      "3M": -4.972972972972982,
+      "6M": 94.03973509933772,
+      "1Y": 229.2134831460674,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -454,7 +501,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ramgopal-polytex-ltd",
     "news": [
       {
@@ -519,7 +566,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -527,15 +574,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

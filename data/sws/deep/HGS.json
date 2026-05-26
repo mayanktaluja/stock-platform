@@ -3,12 +3,12 @@
   "name": "Hinduja Global Solutions Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-hgs/hinduja-global-solutions-shares",
-  "parsed_at": "2026-05-25T23:53:50.413Z",
+  "parsed_at": "2026-05-26T14:47:02.826Z",
   "company_id": "F23CE6CB-F199-40D6-8E2D-B6B313D706B2",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hinduja-global-solutions-ltd",
     "search_id": "hinduja-global-solutions-ltd",
     "company_id": "GSTK532859",
@@ -28,22 +28,72 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 409.1,
-    "market_cap_inr": 18845400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 408.35,
+    "market_cap_inr": 19064000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 342.05,
       "high": 628.7
     },
-    "fair_value_inr": 565.952601,
+    "fair_value_inr": 565.978595,
     "fair_value_range_inr": {
-      "min": 565.952601,
+      "min": 565.978595,
       "max": 615.28,
       "count": 3
     },
-    "upside_pct": 38.34089489122462,
+    "upside_pct": 38.601345659360845,
     "multiples": {
       "pe": 111.91,
       "ps": 0.43,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
     },
@@ -234,13 +284,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -250,20 +300,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 111.91,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/hinduja-global-solutions-ltd",
       "search_id": "hinduja-global-solutions-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 111.91,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "sws_statement": {
@@ -287,7 +337,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -300,56 +350,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 409.1,
-        "fetched_at": "2026-05-25T23:53:50.413Z",
+        "value": 408.35,
+        "fetched_at": "2026-05-26T14:47:02.826Z",
         "url": "https://simplywall.st/stocks/in/software/nse-hgs/hinduja-global-solutions-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 18845400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19064000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 111.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 3.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.7685438837920485,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "fifty_two_week": {
@@ -358,91 +408,91 @@
           "low": 342.05,
           "high": 628.7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1712.1348859,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2662455472964588,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 19.94023381807813,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 23.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 16.77000146611767,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.3783,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.390269243707498,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4003483178123257,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hinduja-global-solutions-ltd"
       }
     },
@@ -457,7 +507,7 @@
     "ps": 0.43,
     "book_value": 1712.1348859,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0.2662455472964588,
@@ -469,12 +519,12 @@
     "quick_ratio": 3.390269243707498,
     "cash_ratio": 0.4003483178123257,
     "returns_pct": {
-      "1D": 0.6396063960639662,
-      "7D": 2.5956112852664632,
-      "1M": -0.03665241295051369,
-      "3M": 7.3753280839895075,
-      "6M": -15.045166649361436,
-      "1Y": -22.599564847223526,
+      "1D": -0.18332925934979222,
+      "7D": 1.0142238713667342,
+      "1M": -0.21991447770310987,
+      "3M": 6.883915717837982,
+      "6M": -15.560380479735317,
+      "1Y": -22.74146249172263,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -877,7 +927,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hinduja-global-solutions-ltd",
     "news": [
       {
@@ -952,7 +1002,7 @@
         "ticker": "DATAMATICS",
         "name": "Datamatics Global Services",
         "searchId": "datamatics-global-services-ltd",
-        "market_cap_inr": 46487200000,
+        "market_cap_inr": 45609400000,
         "pe": 23.85,
         "pb": 3.01
       },
@@ -960,7 +1010,7 @@
         "ticker": "RPSGVENT",
         "name": "RPSG Ventures",
         "searchId": "cesc-ventures-ltd",
-        "market_cap_inr": 30088800000,
+        "market_cap_inr": 30829900000,
         "pe": null,
         "pb": 1.2
       },
@@ -968,7 +1018,7 @@
         "ticker": "ACCELYA",
         "name": "Accelya Solutions India",
         "searchId": "accelya-kale-solutions-ltd",
-        "market_cap_inr": 16769700000,
+        "market_cap_inr": 17010700000,
         "pe": 16.96,
         "pb": 6.38
       }

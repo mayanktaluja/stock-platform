@@ -3,7 +3,7 @@
   "name": "HVAX Technologies Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-hvax/hvax-technologies-shares",
-  "parsed_at": "2026-05-25T20:36:41.924Z",
+  "parsed_at": "2026-05-26T11:03:46.306Z",
   "company_id": "E8D61330-03C9-450C-BB51-C1D6F18C81A2",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,7 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 773.1,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 760,
     "market_cap_inr": 2146801898.0606446,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -108,8 +157,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 773.1,
-        "fetched_at": "2026-05-25T20:36:41.924Z",
+        "value": 760,
+        "fetched_at": "2026-05-26T11:03:46.306Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hvax/hvax-technologies-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.995391705069122,
-      "7D": -6.455320951055723,
-      "1M": -3.5614046030062942,
-      "3M": 9.815340909090912,
-      "6M": -9.04705882352941,
-      "1Y": 21.175548589341698,
+      "1D": -1.6944767817876114,
+      "7D": -6.056860321384425,
+      "1M": -5.195534210690448,
+      "3M": 6.891701828410689,
+      "6M": -6.748466257668712,
+      "1Y": 19.122257053291534,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "Rexpro Enterprises Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-rexpro/rexpro-enterprises-shares",
-  "parsed_at": "2026-05-25T22:29:05.765Z",
+  "parsed_at": "2026-05-26T13:20:02.069Z",
   "company_id": "5AB2DCEF-E75A-4F5B-A4F7-568423ED2208",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 43.75,
-    "market_cap_inr": 490282602.31462663,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 44,
+    "market_cap_inr": 493084217.18499595,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 7.8,
+      "pe": 8.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,12 +99,12 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (7.8x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (8.2x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹471M)"
+      "Does not have a meaningful market cap (₹490M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -67,7 +116,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.8
+      "pe": 19.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,17 +130,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 7.8,
-      "industry_pe": 18.8,
+      "company_pe": 8.2,
+      "industry_pe": 19.5,
       "industry_name": "Indian Commercial Services"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 7.8,
-        "industry_pe": 18.8,
+        "company_pe": 8.2,
+        "industry_pe": 19.5,
         "industry_name": "Indian Commercial Services",
-        "description": "REXPRO is good value based on its Price-To-Earnings Ratio (7.8x) compared to the Indian Commercial Services industry average (18.8x).",
+        "description": "REXPRO is good value based on its Price-To-Earnings Ratio (8.2x) compared to the Indian Commercial Services industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 43.75,
-        "fetched_at": "2026-05-25T22:29:05.765Z",
+        "value": 44,
+        "fetched_at": "2026-05-26T13:20:02.069Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-rexpro/rexpro-enterprises-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.042806183115346,
-      "7D": 4.166666666666666,
-      "1M": -1.6853932584269662,
-      "3M": -8.949011446409983,
-      "6M": -26.839464882943144,
-      "1Y": -45.072190834902706,
+      "1D": 0.5714285714285714,
+      "7D": 4.761904761904762,
+      "1M": -1.1235955056179776,
+      "3M": -8.428720083246613,
+      "6M": -26.78868552412646,
+      "1Y": -44.75831763967358,
       "5Y": null
     },
     "next_earnings_date": null,

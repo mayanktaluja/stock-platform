@@ -3,12 +3,12 @@
   "name": "Synergy Green Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-sgil/synergy-green-industries-shares",
-  "parsed_at": "2026-05-25T22:50:13.180Z",
+  "parsed_at": "2026-05-26T13:40:07.538Z",
   "company_id": "6FC12131-B2CD-4572-9D9D-985B1AFED1F3",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/synergy-green-industries-ltd",
     "search_id": "synergy-green-industries-ltd",
     "company_id": "GSTK541929",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 514.85,
-    "market_cap_inr": 7918400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 527.9,
+    "market_cap_inr": 8015500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.8862975623968,
+    "upside_pct": -97.93854953589695,
     "multiples": {
-      "pe": 169.82,
+      "pe": 171.9,
       "ps": 2.15,
-      "pb": 7.13,
+      "pb": 7.22,
       "ev_ebitda": 13.09,
       "peg": 1.1017152416356877
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/synergy-green-industries-ltd"
     },
@@ -66,7 +115,7 @@
     "risks": [
       "High level of [[non-cash earnings]]",
       "Interest payments are not well covered by earnings",
-      "Profit margins (1.2%) are lower than last year (4.7%)",
+      "Profit margins (1.3%) are lower than last year (4.7%)",
       "Does not have a meaningful market cap (₹8B)"
     ],
     "dividend": {
@@ -99,7 +148,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Castings, Forgings & Fastners",
       "pe_industry_id": 10,
@@ -108,28 +157,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 169.82,
+      "company_pe": 171.9,
       "industry_pe": 47.01031591607157,
       "industry_name": "Castings, Forgings & Fastners",
       "industry_id": 10,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/synergy-green-industries-ltd",
       "search_id": "synergy-green-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 169.82,
+        "company_pe": 171.9,
         "industry_pe": 47.01031591607157,
         "industry_name": "Castings, Forgings & Fastners",
         "industry_id": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.5,
         "industry_name": "Indian Machinery",
-        "description": "SGIL is good value based on its Price-To-Sales Ratio (2.1x) compared to the Indian Machinery industry average (2.5x).",
+        "description": "SGIL is good value based on its Price-To-Sales Ratio (2.2x) compared to the Indian Machinery industry average (2.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -146,7 +195,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -159,56 +208,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 514.85,
-        "fetched_at": "2026-05-25T22:50:13.180Z",
+        "value": 527.9,
+        "fetched_at": "2026-05-26T13:40:07.538Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-sgil/synergy-green-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 7918400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8015500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 169.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 171.9,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 7.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.22,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.1017152416356877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 47.01031591607157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "fifty_two_week": {
@@ -217,91 +266,91 @@
           "low": 420,
           "high": 633.25
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 71.4746188,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 47.01031591607157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.1934,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9307047973601829,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.101044963421827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2008078161672397,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 13.285301020686644,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 225.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 52.963448684321854,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6968,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5444222427993567,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.058336176226911646,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/synergy-green-industries-ltd"
       }
     },
@@ -312,7 +361,7 @@
     "latest_net_income": null,
     "latest_eps": 3,
     "most_recent_reported_date": null,
-    "pb": 7.13,
+    "pb": 7.22,
     "ps": 2.15,
     "book_value": 71.4746188,
     "face_value": 10,
@@ -328,12 +377,12 @@
     "quick_ratio": 0.5444222427993567,
     "cash_ratio": 0.058336176226911646,
     "returns_pct": {
-      "1D": 1.789244760775012,
-      "7D": -9.061202861432475,
-      "1M": -2.8676539949061284,
-      "3M": -0.9808635445715977,
-      "6M": -6.806045795999642,
-      "1Y": 11.306885742081938,
+      "1D": 2.5347188501505205,
+      "7D": -4.13148097702715,
+      "1M": -0.4056221111215881,
+      "3M": 2.3756423930960926,
+      "6M": -4.070506996183896,
+      "1Y": 14.128202356501992,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -567,7 +616,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/synergy-green-industries-ltd",
     "news": [
       {
@@ -642,15 +691,15 @@
         "ticker": "STEELCAS",
         "name": "Steelcast",
         "searchId": "steelcast-ltd",
-        "market_cap_inr": 28933100000,
-        "pe": 31.98,
-        "pb": 8.04
+        "market_cap_inr": 29019100000,
+        "pe": 32.07,
+        "pb": 8.06
       },
       {
         "ticker": "544037",
         "name": "Amic Forging",
         "searchId": "amic-forging-ltd",
-        "market_cap_inr": 20423000000,
+        "market_cap_inr": 20137100000,
         "pe": 57.43,
         "pb": 8.62
       },
@@ -658,7 +707,7 @@
         "ticker": "NELCAST",
         "name": "Nelcast",
         "searchId": "nelcast-ltd",
-        "market_cap_inr": 11836500000,
+        "market_cap_inr": 11919200000,
         "pe": 24.43,
         "pb": 1.98
       }

@@ -3,12 +3,12 @@
   "name": "Cressanda Railway Solutions Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-512379/cressanda-railway-solutions-shares",
-  "parsed_at": "2026-05-25T21:11:43.996Z",
+  "parsed_at": "2026-05-26T12:08:53.544Z",
   "company_id": "FE40884C-A018-402D-AC18-BF8AE6FF1C20",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cressanda-solutions-ltd",
     "search_id": "cressanda-solutions-ltd",
     "company_id": "GSTK512379",
@@ -28,22 +28,72 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 2.44,
-    "market_cap_inr": 1045600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.46,
+    "market_cap_inr": 1012400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.8,
       "high": 5.35
     },
-    "fair_value_inr": 3.515662,
+    "fair_value_inr": 3.515832,
     "fair_value_range_inr": {
       "min": 2.13,
       "max": 2.13,
       "count": 1
     },
-    "upside_pct": 44.08450819672131,
+    "upside_pct": 42.92,
     "multiples": {
       "pe": null,
       "ps": 6.63,
@@ -60,7 +110,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 28.3% below our estimate of its fair value"
+      "Trading at 30% below our estimate of its fair value"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹1B)",
@@ -76,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 19.240887337479148
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.4,
         "industry_name": "Indian IT",
-        "description": "512379 is expensive based on its Price-To-Sales Ratio (6.8x) compared to the Indian IT industry average (2.4x).",
+        "description": "512379 is expensive based on its Price-To-Sales Ratio (6.6x) compared to the Indian IT industry average (2.4x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -137,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.44,
-        "fetched_at": "2026-05-25T21:11:43.996Z",
+        "value": 2.46,
+        "fetched_at": "2026-05-26T12:08:53.544Z",
         "url": "https://simplywall.st/stocks/in/software/bse-512379/cressanda-railway-solutions-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1045600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1012400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 6.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 186.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -2.289375,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +239,85 @@
           "low": 1.8,
           "high": 5.35
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 4.0417446,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.19042285074208903,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7875,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7807963044434667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0010998680158380994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cressanda-solutions-ltd"
       }
     },
@@ -282,7 +332,7 @@
     "ps": 6.63,
     "book_value": 4.0417446,
     "face_value": 1,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +344,12 @@
     "quick_ratio": 1.7807963044434667,
     "cash_ratio": 0.0010998680158380994,
     "returns_pct": {
-      "1D": -3.174603174603177,
-      "7D": -6.153846153846159,
-      "1M": -13.167259786476873,
-      "3M": -11.59420289855072,
-      "6M": -33.69565217391305,
-      "1Y": -50.607287449392715,
+      "1D": 0.8196721311475417,
+      "7D": -3.529411764705877,
+      "1M": -12.455516014234878,
+      "3M": -10.8695652173913,
+      "6M": -32.786885245901644,
+      "1Y": -50.20242914979758,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -462,7 +512,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cressanda-solutions-ltd",
     "news": [
       {
@@ -527,7 +577,7 @@
         "ticker": "IRCTC",
         "name": "Indian Railway Catering & Tourism Corporation",
         "searchId": "indian-railway-catering-tourism-corpn-ltd",
-        "market_cap_inr": 424440000000,
+        "market_cap_inr": 430240000000,
         "pe": 29.77,
         "pb": 9.96
       },
@@ -535,7 +585,7 @@
         "ticker": "TEXRAIL",
         "name": "Texmaco Rail & Engineering",
         "searchId": "texmaco-rail-engineering-ltd",
-        "market_cap_inr": 44083800000,
+        "market_cap_inr": 46097800000,
         "pe": 22.76,
         "pb": 1.89
       },
@@ -543,7 +593,7 @@
         "ticker": "543619",
         "name": "Concord Control Systems",
         "searchId": "concord-control-systems-ltd",
-        "market_cap_inr": 28035200000,
+        "market_cap_inr": 28087100000,
         "pe": 68.55,
         "pb": 13.41
       }

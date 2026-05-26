@@ -3,12 +3,12 @@
   "name": "Jainex Aamcol Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-505212/jainex-aamcol-shares",
-  "parsed_at": "2026-05-25T20:47:35.466Z",
+  "parsed_at": "2026-05-26T11:15:41.347Z",
   "company_id": "CFA3BEC8-DFF5-4359-992F-1E8E992373C7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jainex-aamcol-ltd",
     "search_id": "jainex-aamcol-ltd",
     "company_id": "GSTK505212",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 117,
-    "market_cap_inr": 256000000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 119.4,
+    "market_cap_inr": 262600000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -89.12351367521369,
+    "upside_pct": -89.34213651591291,
     "multiples": {
-      "pe": 32.68,
+      "pe": 33.52,
       "ps": 1.03,
-      "pb": 1.5,
+      "pb": 1.54,
       "ev_ebitda": 23.36,
       "peg": -2.0607879310344828
     },
@@ -55,13 +104,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/jainex-aamcol-ltd"
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹256M)",
+      "Does not have a meaningful market cap (₹263M)",
       "Debt is not well covered by [[operating cash flow]]",
       "Shareholders have been substantially diluted in the past year",
       "Does not have meaningful revenue (₹249M)"
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.97012585216259,
-      "sector_pe": 40.97012585216259
+      "pe": 40.95321870383068,
+      "sector_pe": 40.95321870383068
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Auto Ancillaries",
       "pe_industry_id": 4,
@@ -91,28 +140,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 32.68,
-      "industry_pe": 40.97012585216259,
+      "company_pe": 33.52,
+      "industry_pe": 40.95321870383068,
       "industry_name": "Auto Ancillaries",
       "industry_id": 4,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/jainex-aamcol-ltd",
       "search_id": "jainex-aamcol-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 32.68,
-        "industry_pe": 40.97012585216259,
+        "company_pe": 33.52,
+        "industry_pe": 40.95321870383068,
         "industry_name": "Auto Ancillaries",
         "industry_id": 4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "sws_statement": {
-        "company_pe": 32.6,
+        "company_pe": 33.5,
         "industry_pe": 26.4,
         "industry_name": "Indian Machinery",
-        "description": "505212 is expensive based on its Price-To-Earnings Ratio (32.6x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "505212 is expensive based on its Price-To-Earnings Ratio (33.5x) compared to the Indian Machinery industry average (26.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,7 +178,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 117,
-        "fetched_at": "2026-05-25T20:47:35.466Z",
+        "value": 119.4,
+        "fetched_at": "2026-05-26T11:15:41.347Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-505212/jainex-aamcol-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 256000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 262600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 32.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 33.52,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.54,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 23.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -2.0607879310344828,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.97012585216259,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.95321870383068,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 95.55,
           "high": 198.52
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 75.8926838,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.97012585216259,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.95321870383068,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.0989,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.199944305207463,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.9748334566987427,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1701444622792936,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.593900481540928,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 251.98000000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 56.55806182121973,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.0514,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.47205284552845533,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.06859756097560976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jainex-aamcol-ltd"
       }
     },
@@ -295,11 +344,11 @@
     "latest_net_income": null,
     "latest_eps": 3.49,
     "most_recent_reported_date": null,
-    "pb": 1.5,
+    "pb": 1.54,
     "ps": 1.03,
     "book_value": 75.8926838,
     "face_value": 10,
-    "sector_pe": 40.97012585216259,
+    "sector_pe": 40.95321870383068,
     "roe_pct": 9.0989,
     "roa_pct": 2.199944305207463,
     "roic_pct": 3.9748334566987427,
@@ -311,12 +360,12 @@
     "quick_ratio": 0.47205284552845533,
     "cash_ratio": 0.06859756097560976,
     "returns_pct": {
-      "1D": 2.586584831214382,
-      "7D": 4.464285714285714,
-      "1M": -6.362545018007205,
-      "3M": -1.680672268907563,
-      "6M": -19.780596503256767,
-      "1Y": -33.14285714285714,
+      "1D": 2.051282051282056,
+      "7D": 6.607142857142863,
+      "1M": -4.441776710684271,
+      "3M": -0.4999999999999952,
+      "6M": -15.64818085482162,
+      "1Y": -31.77142857142857,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -525,7 +574,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jainex-aamcol-ltd",
     "news": [
       {
@@ -600,25 +649,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

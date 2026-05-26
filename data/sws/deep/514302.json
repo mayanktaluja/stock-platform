@@ -3,12 +3,12 @@
   "name": "Vippy Spinpro Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-514302/vippy-spinpro-shares",
-  "parsed_at": "2026-05-25T21:21:18.519Z",
+  "parsed_at": "2026-05-26T12:17:13.577Z",
   "company_id": "DEEFCA39-6DA7-4911-ABB6-510B7AAB88A5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vippy-spinpro-ltd",
     "search_id": "vippy-spinpro-ltd",
     "company_id": "GSTK514302",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 173.3,
-    "market_cap_inr": 1000200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 166.85,
+    "market_cap_inr": 1017300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -44.98984131563763,
+    "upside_pct": -42.86328738387773,
     "multiples": {
-      "pe": 8.97,
+      "pe": 8.49,
       "ps": 0.4,
-      "pb": 1.06,
+      "pb": 1.08,
       "ev_ebitda": 4.73,
       "peg": 0.05245909465020576
     },
@@ -55,18 +104,21 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/vippy-spinpro-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (9x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (8.2x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Earnings have grown 3.3% per year over the past 5 years"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹1B)"
+      "Does not have a meaningful market cap (₹1B)",
+      "Debt is not well covered by [[operating cash flow]]",
+      "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -78,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -93,28 +145,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 8.97,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 8.49,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/vippy-spinpro-ltd",
       "search_id": "vippy-spinpro-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 8.97,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 8.49,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "sws_statement": {
-        "company_pe": 9,
-        "industry_pe": 18.8,
+        "company_pe": 8.2,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "514302 is good value based on its Price-To-Earnings Ratio (9x) compared to the Indian Luxury industry average (18.8x).",
+        "description": "514302 is good value based on its Price-To-Earnings Ratio (8.2x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +183,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -144,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 173.3,
-        "fetched_at": "2026-05-25T21:21:18.519Z",
+        "value": 166.85,
+        "fetched_at": "2026-05-26T12:17:13.577Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-514302/vippy-spinpro-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1000200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1017300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 8.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.49,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.08,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.05245909465020576,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +254,91 @@
           "low": 130.6,
           "high": 202.35
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
-        "value": 18.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 20.41,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 160.5441227,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 13.8497,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 8.265780730897008,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.97018164926568,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.6385025541593645,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.965397665833923,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 43.309999999999995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 27.116279069767447,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.4473,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2813306567249785,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.16088328075709782,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vippy-spinpro-ltd"
       }
     },
@@ -295,13 +347,13 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": 18.99,
+    "latest_eps": 20.41,
     "most_recent_reported_date": null,
-    "pb": 1.06,
+    "pb": 1.08,
     "ps": 0.4,
     "book_value": 160.5441227,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 13.8497,
     "roa_pct": 8.265780730897008,
     "roic_pct": 10.97018164926568,
@@ -313,12 +365,12 @@
     "quick_ratio": 1.2813306567249785,
     "cash_ratio": 0.16088328075709782,
     "returns_pct": {
-      "1D": 1.7018779342723038,
-      "7D": 8.312500000000007,
-      "1M": 7.639751552795038,
-      "3M": 7.041383570105006,
-      "6M": 6.975308641975316,
-      "1Y": -5.481319880010899,
+      "1D": -3.7218695903058374,
+      "7D": 6.03749602796314,
+      "1M": 3.6335403726708035,
+      "3M": 10.753401924991694,
+      "6M": 1.1518642012731166,
+      "1Y": -8.999181892555223,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -497,7 +549,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vippy-spinpro-ltd",
     "news": [
       {
@@ -562,7 +614,7 @@
         "ticker": "SANATHAN",
         "name": "Sanathan Textiles",
         "searchId": "sanathan-textiles-ltd",
-        "market_cap_inr": 34420000000,
+        "market_cap_inr": 34010600000,
         "pe": 44.52,
         "pb": 1.84
       },
@@ -570,17 +622,17 @@
         "ticker": "NITINSPIN",
         "name": "Nitin Spinners",
         "searchId": "nitin-spinners-ltd",
-        "market_cap_inr": 28025700000,
-        "pe": 15.79,
-        "pb": 1.91
+        "market_cap_inr": 28200000000,
+        "pe": 15.88,
+        "pb": 1.92
       },
       {
-        "ticker": "GANECOS",
-        "name": "Ganesha Ecosphere",
-        "searchId": "ganesha-ecosphere-ltd",
-        "market_cap_inr": 25558000000,
-        "pe": 66.89,
-        "pb": 2
+        "ticker": "SANGAMIND",
+        "name": "Sangam (India)",
+        "searchId": "sangam-india-ltd",
+        "market_cap_inr": 25726200000,
+        "pe": 30.23,
+        "pb": 2.32
       }
     ],
     "details": {

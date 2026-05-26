@@ -3,12 +3,12 @@
   "name": "Pine Labs Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-pinelabs/pine-labs-shares",
-  "parsed_at": "2026-05-25T22:07:49.148Z",
+  "parsed_at": "2026-05-26T13:00:54.279Z",
   "company_id": "1B84458B-F79E-4A50-BCF2-98DB2F487E33",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pine-labs-ltd",
     "search_id": "pine-labs-ltd",
     "company_id": "GSTK544606",
@@ -16,25 +16,73 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 4,
       "past": 3,
-      "financial_health": 3,
+      "financial_health": 4,
       "dividends": 0,
       "future_growth": 4,
       "past_performance": 3,
-      "value": 2,
-      "health": 3,
+      "value": 1,
+      "health": 4,
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 146.2,
-    "market_cap_inr": 163973900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 4,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Reducing Debt",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 137.94,
+    "market_cap_inr": 167820600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 143.34,
+      "low": 137.51,
       "high": 284
     },
     "fair_value_inr": 232.85714,
@@ -43,26 +91,25 @@
       "max": 232.85714,
       "count": 1
     },
-    "upside_pct": 59.273009575923396,
+    "upside_pct": 68.81045382050166,
     "multiples": {
-      "pe": null,
+      "pe": 140.8,
       "ps": 6.29,
       "pb": 2.83,
       "ev_ebitda": 0,
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Earnings are forecast to grow 64.43% per year",
-      "Analysts in good agreement that stock price will rise by 63%",
+      "Earnings are forecast to grow 49.64% per year",
+      "Analysts in good agreement that stock price will rise by 68.8%",
       "Became profitable this year"
     ],
     "risks": [],
@@ -76,39 +123,40 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 19.240887337479148
+      "pe": 22.5,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Indian Diversified Financial",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
-      "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "provider": "sws_statement",
+      "label": "SWS visible statement",
+      "company_pe": 140.8,
+      "industry_pe": 22.5,
+      "industry_name": "Indian Diversified Financial"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 7.6,
+        "company_pe": 140.8,
+        "industry_pe": 22.5,
         "industry_name": "Indian Diversified Financial",
-        "description": "PINELABS is good value based on its Price-To-Sales Ratio (6.3x) compared to the Indian Diversified Financial industry average (7.6x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "PINELABS is expensive based on its Price-To-Earnings Ratio (140.8x) compared to the Indian Diversified Financial industry average (22.5x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
@@ -124,8 +172,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -137,143 +185,143 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 146.2,
-        "fetched_at": "2026-05-25T22:07:49.148Z",
+        "value": 137.94,
+        "fetched_at": "2026-05-26T13:00:54.279Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pinelabs/pine-labs-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 163973900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 167820600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 6.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 143.34,
+          "low": 137.51,
           "high": 284
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 50.4550757,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2875581352151246,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2462050354196694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.478855530681713,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 23.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 7.591057127744451,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.322,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.188004189538635,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8226758778630097,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pine-labs-ltd"
       }
     },
@@ -288,7 +336,7 @@
     "ps": 6.29,
     "book_value": 50.4550757,
     "face_value": 1,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0,
     "roa_pct": 0.2875581352151246,
     "roic_pct": 0,
@@ -300,12 +348,12 @@
     "quick_ratio": 1.188004189538635,
     "cash_ratio": 0.8226758778630097,
     "returns_pct": {
-      "1D": 2.3522822738728544,
-      "7D": -4.786714425268657,
-      "1M": -25.347222222222232,
-      "3M": -28.072419561153204,
-      "6M": -39.17710196779965,
-      "1Y": -41.72745027701383,
+      "1D": -5.6497948016415815,
+      "7D": -7.664502309391519,
+      "1M": -29.564950980392158,
+      "3M": -30.589241684697825,
+      "6M": -43.009419930589985,
+      "1Y": -45.01972976204711,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -531,22 +579,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pine-labs-ltd",
     "news": [
       {
-        "id": "2907764014499496960",
-        "title": "Pine Labs Ltd saw 1,021 shares traded at an average price of ₹144.\nTempleton Global Investment Trust bought shares under Franklin Templeton SMACS Series EM.",
-        "url": "https://www.nseindia.com/report-detail/display-bulk-and-block-deals",
-        "source": "NSE Block Trades",
-        "published_at": "2026-05-22T15:30:25.000Z"
+        "id": "26052611147042",
+        "title": "IRCTC, ONGC, Siemens, AstraZeneca, JK Tyre among 273 firms to announce Q4FY26 results on May 26.\nOther firms include Bayer CropScience, EID Parry, Gujarat Fluorochemicals, and GIC India.",
+        "url": "https://www.business-standard.com/companies/quarterly-results/q4-results-irctc-ongc-siemens-astrazeneca-jk-tyre-273-more-on-may-26-126052600408_1.html",
+        "source": "Business Standard",
+        "published_at": "2026-05-26T05:28:01.000Z"
       },
       {
-        "id": "8294139816475739136",
-        "title": "FTVIPT Templeton Developing Markets VIP Fund bought 133,182 shares of Pine Labs at Rs.144.",
-        "url": "https://www.nseindia.com/report-detail/display-bulk-and-block-deals",
-        "source": "NSE Block Trades",
-        "published_at": "2026-05-22T15:30:25.000Z"
+        "id": "846949958326939136",
+        "title": "Morgan Stanley retains Equal Weight on Pine Labs with a target price of 245.",
+        "url": "https://sqst.in/shareMessage?msgId=846949958326939190",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T03:16:45.000Z"
       }
     ],
     "events": [
@@ -586,7 +634,7 @@
         "ticker": "PAYTM",
         "name": "Paytm - One97 Communications Ltd",
         "searchId": "one-communications-ltd",
-        "market_cap_inr": 712122000000,
+        "market_cap_inr": 702872400000,
         "pe": 129.06,
         "pb": 4.44
       },
@@ -594,15 +642,15 @@
         "ticker": "SBICARD",
         "name": "SBI Cards And Payment Services",
         "searchId": "sbi-cards-payment-services-ltd",
-        "market_cap_inr": 590851800000,
-        "pe": 27.27,
-        "pb": 3.76
+        "market_cap_inr": 599796900000,
+        "pe": 27.68,
+        "pb": 3.81
       },
       {
         "ticker": "CCAVENUE",
         "name": "AvenuesAI",
         "searchId": "infibeam-avenues-ltd",
-        "market_cap_inr": 48207300000,
+        "market_cap_inr": 48730600000,
         "pe": 18.43,
         "pb": 1.15
       }
@@ -621,6 +669,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "95c76fa3-a71a-40fa-87df-bb3b547ea374",
+      "type": "brief",
+      "date": "2026-05-26T11:43:10.000Z",
+      "title": "Full year 2026 earnings: EPS exceeds analyst expectations while revenues lag behind",
+      "body": "Full year 2026 results: EPS: ₹1.05 (up from ₹1.45 loss in FY 2025). Revenue: ₹27.1b (up 19% from FY 2025). Net income: ₹1.13b (up ₹2.58b from FY 2025). Profit margin: 4.2% (up from net loss in FY 2025). The move to profitability was driven by higher revenue. Revenue missed analyst estimates by 1.1%. Earnings per share (EPS) exceeded analyst estimates by 16%. Revenue is forecast to grow 16% p.a. on average during the next 3 years, compared to a 15% growth forecast for the Diversified Financial industry in India.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "bab97cad-eeb9-46eb-8387-94d2ca9d8216",
       "type": "event",

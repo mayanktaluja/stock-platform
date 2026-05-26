@@ -3,12 +3,12 @@
   "name": "Arman Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-armanfin/arman-financial-services-shares",
-  "parsed_at": "2026-05-25T21:42:20.057Z",
+  "parsed_at": "2026-05-26T12:37:00.962Z",
   "company_id": "7C65FDD9-7530-4BA6-B9E0-0F613E994745",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/arman-financial-services-ltd",
     "search_id": "arman-financial-services-ltd",
     "company_id": "GSTK531179",
@@ -28,22 +28,72 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 1717.4,
-    "market_cap_inr": 17915600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1750.9,
+    "market_cap_inr": 18064900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1270,
       "high": 1906.6
     },
-    "fair_value_inr": 459.651588,
+    "fair_value_inr": 459.96757,
     "fair_value_range_inr": {
-      "min": 459.651588,
-      "max": 459.651588,
+      "min": 459.96757,
+      "max": 459.96757,
       "count": 1
     },
-    "upside_pct": -73.2356126703156,
+    "upside_pct": -73.72964932320521,
     "multiples": {
       "pe": 63.18,
       "ps": 2.68,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/arman-financial-services-ltd"
     },
@@ -127,13 +177,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -143,20 +193,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 63.18,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/arman-financial-services-ltd",
       "search_id": "arman-financial-services-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 63.18,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "sws_statement": {
@@ -193,56 +243,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1717.4,
-        "fetched_at": "2026-05-25T21:42:20.057Z",
+        "value": 1750.9,
+        "fetched_at": "2026-05-26T12:37:00.962Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-armanfin/arman-financial-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 17915600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18064900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 63.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.37151886581056626,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "fifty_two_week": {
@@ -251,91 +301,91 @@
           "low": 1270,
           "high": 1906.6
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 26.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 829.358614,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3170181037726647,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.192866263629442,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.233681286680705,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 37.94782193151442,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 137.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 55.61904496443818,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.9644,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.964704430457855,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.490188818955942,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       }
     },
@@ -350,7 +400,7 @@
     "ps": 2.68,
     "book_value": 829.358614,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 0,
     "roa_pct": 1.3170181037726647,
     "roic_pct": 9.192866263629442,
@@ -362,12 +412,12 @@
     "quick_ratio": 5.964704430457855,
     "cash_ratio": 5.490188818955942,
     "returns_pct": {
-      "1D": 0.6800328291710714,
-      "7D": -0.1395511105942472,
-      "1M": 15.32366371206017,
-      "3M": 6.156508839164306,
-      "6M": 5.329653480527451,
-      "1Y": 14.715115890722075,
+      "1D": 1.9506230348200766,
+      "7D": 4.096313912009518,
+      "1M": 17.573193661026057,
+      "3M": 8.717789506364488,
+      "6M": 8.233912344686905,
+      "1Y": 16.952775365707044,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -641,12 +691,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/arman-financial-services-ltd",
     "news": [
       {
@@ -694,6 +754,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -701,7 +771,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -709,7 +779,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -717,7 +787,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

@@ -3,7 +3,7 @@
   "name": "Brandbucket Media & Technology Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/bse-543439/brandbucket-media-technology-shares",
-  "parsed_at": "2026-05-25T20:46:14.009Z",
+  "parsed_at": "2026-05-26T11:14:11.281Z",
   "company_id": "28CC1FBD-9D5E-4641-BE97-5318D4AB2248",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": null,
     "market_cap_inr": 113882043.51345643,
     "market_cap_usd": 127196762990.178,
@@ -111,8 +160,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },

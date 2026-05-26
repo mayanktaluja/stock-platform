@@ -3,7 +3,7 @@
   "name": "Kataria Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-kataria/kataria-industries-shares",
-  "parsed_at": "2026-05-25T21:02:27.551Z",
+  "parsed_at": "2026-05-26T11:50:48.344Z",
   "company_id": "9874F1B9-3DBF-4809-8D00-E45C642DF0E9",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 101,
     "market_cap_inr": 2174654776.349817,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -67,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 22.5
+      "pe": 22.4
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -82,16 +132,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 21.7,
-      "industry_pe": 22.5,
+      "industry_pe": 22.4,
       "industry_name": "Indian Metals and Mining"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 21.7,
-        "industry_pe": 22.5,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "KATARIA is good value based on its Price-To-Earnings Ratio (21.7x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "KATARIA is good value based on its Price-To-Earnings Ratio (21.7x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -122,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 101,
-        "fetched_at": "2026-05-25T21:02:27.551Z",
+        "fetched_at": "2026-05-26T11:50:48.344Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-kataria/kataria-industries-shares"
       }
     },

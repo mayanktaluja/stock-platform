@@ -3,7 +3,7 @@
   "name": "Nikita Papers Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-nikita/nikita-papers-shares",
-  "parsed_at": "2026-05-25T21:49:59.263Z",
+  "parsed_at": "2026-05-26T12:40:26.212Z",
   "company_id": "5004717A-041E-495E-8AFD-4B9D64F3231C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 73,
-    "market_cap_inr": 1800756770.461421,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 76.7,
+    "market_cap_inr": 1892028004.0327532,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 9.3,
+      "pe": 9.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,7 +100,7 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.3x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (9.8x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
@@ -67,7 +116,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.8
+      "pe": 28.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,17 +130,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 9.3,
-      "industry_pe": 27.8,
+      "company_pe": 9.8,
+      "industry_pe": 28.1,
       "industry_name": "Indian Forestry"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 9.3,
-        "industry_pe": 27.8,
+        "company_pe": 9.8,
+        "industry_pe": 28.1,
         "industry_name": "Indian Forestry",
-        "description": "NIKITA is good value based on its Price-To-Earnings Ratio (9.3x) compared to the Indian Forestry industry average (27.8x).",
+        "description": "NIKITA is good value based on its Price-To-Earnings Ratio (9.8x) compared to the Indian Forestry industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.049999999999997,
+        "industry_pe": 22.049999999999997,
         "sample_count": 40,
         "industry_code": "2060000",
         "industry_name": "Materials"
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 73,
-        "fetched_at": "2026-05-25T21:49:59.263Z",
+        "value": 76.7,
+        "fetched_at": "2026-05-26T12:40:26.212Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-nikita/nikita-papers-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.759144237405103,
-      "7D": -12.417516496700653,
-      "1M": -39.3939393939394,
-      "3M": -41.6,
-      "6M": -42.96875,
-      "1Y": -19.292426755113325,
+      "1D": 5.068493150684936,
+      "7D": -7.086614173228339,
+      "1M": -36.322125363221254,
+      "3M": -38.541666666666664,
+      "6M": -40.078125,
+      "1Y": -15.201768933112216,
       "5Y": null
     },
     "next_earnings_date": null,

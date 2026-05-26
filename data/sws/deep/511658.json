@@ -3,12 +3,12 @@
   "name": "Nettlinx Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-511658/nettlinx-shares",
-  "parsed_at": "2026-05-25T21:06:37.510Z",
+  "parsed_at": "2026-05-26T12:01:29.708Z",
   "company_id": "8F12B7EC-9026-4AF0-8BFE-326F166BA07D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nettlinx-ltd",
     "search_id": "nettlinx-ltd",
     "company_id": "GSTK511658",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 16.41,
-    "market_cap_inr": 403000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 16.18,
+    "market_cap_inr": 396700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,10 +92,10 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -77.1356672760512,
+    "upside_pct": -76.81064894932015,
     "multiples": {
       "pe": null,
-      "ps": 1.61,
+      "ps": 1.89,
       "pb": 0.68,
       "ev_ebitda": 7.67,
       "peg": 8.947349999999991
@@ -64,8 +113,8 @@
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹403M)",
-      "Does not have meaningful revenue (₹251M)"
+      "Does not have a meaningful market cap (₹397M)",
+      "Does not have meaningful revenue (₹215M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -104,7 +153,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 39.2261065331161
+      "sector_pe": 39.27548961700255
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -125,17 +174,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 39.2261065331161,
+        "industry_pe": 39.27548961700255,
         "industry_name": "Telecom-Service",
         "industry_id": 61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.4,
         "industry_name": "Indian IT",
-        "description": "511658 is good value based on its Price-To-Sales Ratio (1.6x) compared to the Indian IT industry average (2.4x).",
+        "description": "511658 is good value based on its Price-To-Sales Ratio (1.8x) compared to the Indian IT industry average (2.4x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -152,7 +201,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -165,50 +214,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 16.41,
-        "fetched_at": "2026-05-25T21:06:37.510Z",
+        "value": 16.18,
+        "fetched_at": "2026-05-26T12:01:29.708Z",
         "url": "https://simplywall.st/stocks/in/software/bse-511658/nettlinx-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 403000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 396700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
-        "value": 1.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.89,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 8.947349999999991,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 39.2261065331161,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 39.27548961700255,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "fifty_two_week": {
@@ -217,85 +266,85 @@
           "low": 13.75,
           "high": 33.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 24.5189419,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 39.2261065331161,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 39.27548961700255,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
-        "value": 9.0271,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
-        "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.7531131328094454,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
-        "value": 20.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 10.34,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
-        "value": 16.123907863383636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.449371366770313,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
-        "value": 9.3925,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.8669,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
-        "value": 2.1592071611253196,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.508448540706605,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
-        "value": 0.07608695652173912,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.08986175115207373,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nettlinx-ltd"
       }
     },
@@ -307,31 +356,31 @@
     "latest_eps": null,
     "most_recent_reported_date": null,
     "pb": 0.68,
-    "ps": 1.61,
+    "ps": 1.89,
     "book_value": 24.5189419,
     "face_value": 10,
-    "sector_pe": 39.2261065331161,
-    "roe_pct": 9.0271,
+    "sector_pe": 39.27548961700255,
+    "roe_pct": 0,
     "roa_pct": 0,
-    "roic_pct": 0,
+    "roic_pct": 0.7531131328094454,
     "net_margin_pct": 0,
     "operating_margin_pct": 0,
-    "debt_to_equity_pct": 20.54,
-    "debt_to_asset_pct": 16.123907863383636,
-    "current_ratio": 9.3925,
-    "quick_ratio": 2.1592071611253196,
-    "cash_ratio": 0.07608695652173912,
+    "debt_to_equity_pct": 10.34,
+    "debt_to_asset_pct": 8.449371366770313,
+    "current_ratio": 4.8669,
+    "quick_ratio": 2.508448540706605,
+    "cash_ratio": 0.08986175115207373,
     "returns_pct": {
-      "1D": -1.5596880623875315,
-      "7D": -0.3642987249544549,
-      "1M": -4.035087719298253,
-      "3M": -10.032894736842096,
-      "6M": -15.149948293691828,
-      "1Y": -50.512665862484916,
+      "1D": -1.4015843997562487,
+      "7D": -1.8799272286234003,
+      "1M": -5.380116959064337,
+      "3M": -9.355742296918775,
+      "6M": -18.075949367088608,
+      "1Y": -51.20627261761158,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -487,36 +536,36 @@
       },
       "quarterly": {
         "revenue": {
-          "Dec '24": 15.920000000000002,
           "Mar '25": 10.17,
           "Jun '25": 4.87,
           "Sep '25": 5.34,
-          "Dec '25": 5.2299999999999995
+          "Dec '25": 5.2299999999999995,
+          "Mar '26": 6.11
         },
         "profit": {
-          "Dec '24": 6.71,
           "Mar '25": -0.15,
           "Jun '25": -0.48,
           "Sep '25": -5.28,
-          "Dec '25": -0.31
+          "Dec '25": -0.31,
+          "Mar '26": 0.9
         }
       }
     }
   },
   "past_performance": {
-    "roe_pct": 9.0271,
+    "roe_pct": 0,
     "roa_pct": 0,
-    "roic_pct": 0,
+    "roic_pct": 0.7531131328094454,
     "net_margin_pct": 0,
     "operating_margin_pct": 0,
     "source": "groww_refinitiv"
   },
   "financial_health": {
-    "debt_to_equity_pct": 20.54,
-    "debt_to_asset_pct": 16.123907863383636,
-    "current_ratio": 9.3925,
-    "quick_ratio": 2.1592071611253196,
-    "cash_ratio": 0.07608695652173912,
+    "debt_to_equity_pct": 10.34,
+    "debt_to_asset_pct": 8.449371366770313,
+    "current_ratio": 4.8669,
+    "quick_ratio": 2.508448540706605,
+    "cash_ratio": 0.08986175115207373,
     "source": "groww_refinitiv"
   },
   "events": {
@@ -575,7 +624,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nettlinx-ltd",
     "news": [
       {
@@ -650,7 +699,7 @@
         "ticker": "MTNL",
         "name": "Mahanagar Telephone Nigam",
         "searchId": "mahanagar-telephone-nigam-ltd",
-        "market_cap_inr": 18459000000,
+        "market_cap_inr": 18755100000,
         "pe": null,
         "pb": 0
       },
@@ -658,7 +707,7 @@
         "ticker": "HATHWAY",
         "name": "Hathway Cable & Datacom",
         "searchId": "hathway-cable-datacom-ltd",
-        "market_cap_inr": 17948900000,
+        "market_cap_inr": 18515300000,
         "pe": 22.04,
         "pb": 0.4
       },
@@ -685,6 +734,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "a0e49561-1422-4d1c-9efd-09186a51f735",
+      "type": "brief",
+      "date": "2026-05-26T11:43:54.000Z",
+      "title": "Full year 2026 earnings released: ₹2.14 loss per share (vs ₹3.42 profit in FY 2025)",
+      "body": "Full year 2026 results: ₹2.14 loss per share (down from ₹3.42 profit in FY 2025). Revenue: ₹215.4m (down 36% from FY 2025). Net loss: ₹51.7m (down 163% from profit in FY 2025). Over the last 3 years on average, earnings per share has fallen by 26% per year but the company’s share price has fallen by 43% per year, which means it is performing significantly worse than earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "bc118ae6-3034-496e-ade1-cb872f7b92fd",
+      "type": "event",
+      "date": "2026-05-25T14:12:00.000Z",
+      "title": "Nettlinx Limited, Annual General Meeting, Aug 03, 2026",
+      "body": "Nettlinx Limited, Annual General Meeting, Aug 03, 2026, at 11:30 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "7274885e-8b13-4f6b-8647-c008dc122541",
       "type": "brief",

@@ -3,12 +3,12 @@
   "name": "Sparc Electrex Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-531370/sparc-electrex-shares",
-  "parsed_at": "2026-05-25T22:36:14.093Z",
+  "parsed_at": "2026-05-26T13:31:25.980Z",
   "company_id": "301FA119-BC74-4AA6-8C68-AE2637B983C9",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sparc-systems-ltd",
     "search_id": "sparc-systems-ltd",
     "company_id": "GSTK531370",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 5.45,
-    "market_cap_inr": 54900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.35,
+    "market_cap_inr": 55400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3,
-      "high": 9.15
+      "high": 8.85
     },
     "fair_value_inr": null,
     "fair_value_range_inr": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 7.66,
-      "pb": 0.79,
+      "pb": 0.8,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -65,7 +114,7 @@
     "risks": [
       "Highly volatile share price over past 3 months",
       "Earnings have declined by 22.9% per year over past 5 years",
-      "Does not have a meaningful market cap (₹106M)",
+      "Does not have a meaningful market cap (₹107M)",
       "Makes less than USD$1m in revenue (₹12M)"
     ],
     "dividend": {
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 58.741233127293825
+      "sector_pe": 58.73819719937998
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +148,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 58.741233127293825,
+        "industry_pe": 58.73819719937998,
         "industry_name": "Capital Goods - Electrical Equipment",
         "industry_id": 8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.2,
         "industry_name": "Indian Electronic",
-        "description": "531370 is expensive based on its Price-To-Sales Ratio (9.1x) compared to the Indian Electronic industry average (2.2x).",
+        "description": "531370 is expensive based on its Price-To-Sales Ratio (9x) compared to the Indian Electronic industry average (2.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.2,
+        "industry_pe": 31.5,
         "sample_count": 59,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -139,137 +188,137 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.45,
-        "fetched_at": "2026-05-25T22:36:14.093Z",
+        "value": 5.35,
+        "fetched_at": "2026-05-26T13:31:25.980Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-531370/sparc-electrex-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 54900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 55400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.79,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.8,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 7.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 58.741233127293825,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 58.73819719937998,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 3,
-          "high": 9.15
+          "high": 8.85
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 6.8262939,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 58.741233127293825,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 58.73819719937998,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8999999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7606490872210954,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.6238,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.558912386706949,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.18126888217522658,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sparc-systems-ltd"
       }
     },
@@ -280,11 +329,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.79,
+    "pb": 0.8,
     "ps": 7.66,
     "book_value": 6.8262939,
     "face_value": 10,
-    "sector_pe": 58.741233127293825,
+    "sector_pe": 58.73819719937998,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +345,12 @@
     "quick_ratio": 4.558912386706949,
     "cash_ratio": 0.18126888217522658,
     "returns_pct": {
-      "1D": 0.9259259259259226,
-      "7D": -0.909090909090906,
-      "1M": -20.32163742690058,
-      "3M": 21.111111111111114,
-      "6M": -6.034482758620683,
-      "1Y": -38.06818181818182,
+      "1D": -1.8348623853211108,
+      "7D": -0.925925925925939,
+      "1M": -21.783625730994157,
+      "3M": 19.153674832962125,
+      "6M": -3.2549728752260503,
+      "1Y": -39.20454545454547,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -445,7 +494,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sparc-systems-ltd",
     "news": [
       {
@@ -500,25 +549,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

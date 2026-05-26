@@ -3,7 +3,7 @@
   "name": "Sotac Pharmaceuticals Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sotac/sotac-pharmaceuticals-shares",
-  "parsed_at": "2026-05-25T23:06:14.391Z",
+  "parsed_at": "2026-05-26T13:56:33.015Z",
   "company_id": "730D31EE-F6C0-48B2-8335-E99FE6E71168",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,57 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 111,
     "market_cap_inr": 1226550203.155313,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +83,7 @@
     },
     "upside_pct": -98.40942612612614,
     "multiples": {
-      "pe": 14.4,
+      "pe": 14.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,7 +97,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Price-To-Earnings ratio (14.4x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (14.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 91.9% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
@@ -98,17 +146,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 14.4,
+      "company_pe": 14.3,
       "industry_pe": 29.1,
       "industry_name": "Indian Pharmaceuticals"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 14.4,
+        "company_pe": 14.3,
         "industry_pe": 29.1,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "SOTAC is good value based on its Price-To-Earnings Ratio (14.4x) compared to the Indian Pharmaceuticals industry average (29.1x).",
+        "description": "SOTAC is good value based on its Price-To-Earnings Ratio (14.3x) compared to the Indian Pharmaceuticals industry average (29.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,8 +173,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -139,7 +187,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 111,
-        "fetched_at": "2026-05-25T23:06:14.391Z",
+        "fetched_at": "2026-05-26T13:56:33.015Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sotac/sotac-pharmaceuticals-shares"
       }
     },

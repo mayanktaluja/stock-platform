@@ -3,12 +3,12 @@
   "name": "Ken Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-530547/ken-financial-services-shares",
-  "parsed_at": "2026-05-25T22:16:19.155Z",
+  "parsed_at": "2026-05-26T13:13:48.619Z",
   "company_id": "6CDF9CA0-3F77-4EAD-9A45-EA2B8C66BC63",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ken-financial-services-ltd",
     "search_id": "ken-financial-services-ltd",
     "company_id": "GSTK530547",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 14.27,
-    "market_cap_inr": 45000000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 42800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +95,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 20.55,
+      "pe": 19.55,
       "ps": 4.34,
-      "pb": 0.6,
+      "pb": 0.57,
       "ev_ebitda": 22.59,
       "peg": 6.611799999999994
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ken-financial-services-ltd"
     },
@@ -63,10 +113,11 @@
       "Earnings grew by 147.9% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (20.5x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (19.5x) is below the Indian market (23.4x)"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹45M)",
+      "Highly volatile share price over past 3 months",
+      "Does not have a meaningful market cap (₹43M)",
       "Earnings have declined by 30.3% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹9M)"
     ],
@@ -80,13 +131,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -95,28 +146,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 20.55,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 19.55,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ken-financial-services-ltd",
       "search_id": "ken-financial-services-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 20.55,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 19.55,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 20.5,
-        "industry_pe": 27.9,
+        "company_pe": 19.5,
+        "industry_pe": 27.1,
         "industry_name": "Indian Capital Markets",
-        "description": "530547 is good value based on its Price-To-Earnings Ratio (20.5x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "530547 is good value based on its Price-To-Earnings Ratio (19.5x) compared to the Indian Capital Markets industry average (27.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -147,55 +198,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 14.27,
-        "fetched_at": "2026-05-25T22:16:19.155Z",
+        "fetched_at": "2026-05-26T13:13:48.619Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-530547/ken-financial-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 45000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 42800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 20.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.55,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.57,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 22.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 6.611799999999994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +255,91 @@
           "low": 8.64,
           "high": 19.85
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 24.8415053,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9627,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.770780856423174,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.415849673202614,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.568627450980394,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 45.09803921568627,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 3.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.400503778337532,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6227,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.35000000000000003,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ken-financial-services-ltd"
       }
     },
@@ -299,11 +350,11 @@
     "latest_net_income": null,
     "latest_eps": 0.73,
     "most_recent_reported_date": null,
-    "pb": 0.6,
+    "pb": 0.57,
     "ps": 4.34,
     "book_value": 24.8415053,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 2.9627,
     "roa_pct": 2.770780856423174,
     "roic_pct": 4.415849673202614,
@@ -504,12 +555,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ken-financial-services-ltd",
     "news": [
       {
@@ -557,6 +618,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -564,7 +635,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -572,7 +643,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -580,7 +651,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

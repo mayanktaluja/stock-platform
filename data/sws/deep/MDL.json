@@ -3,7 +3,7 @@
   "name": "Marvel Decor Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-mdl/marvel-decor-shares",
-  "parsed_at": "2026-05-25T21:31:30.767Z",
+  "parsed_at": "2026-05-26T12:20:35.114Z",
   "company_id": "C1C082D0-8371-4BB7-B6F4-8E09C5FB167A",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 50,
-    "market_cap_inr": 887006960.195112,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 52,
+    "market_cap_inr": 922487238.6029165,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 24.4,
+      "pe": 25.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,7 +98,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Price-To-Earnings ratio (24.4x) is below the Consumer Durables industry average (36.7x)",
+      "Price-To-Earnings ratio (25.3x) is below the Consumer Durables industry average (36.7x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -80,17 +129,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 24.4,
+      "company_pe": 25.3,
       "industry_pe": 36.7,
       "industry_name": "Indian Consumer Durables"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 24.4,
+        "company_pe": 25.3,
         "industry_pe": 36.7,
         "industry_name": "Indian Consumer Durables",
-        "description": "MDL is good value based on its Price-To-Earnings Ratio (24.4x) compared to the Indian Consumer Durables industry average (36.7x).",
+        "description": "MDL is good value based on its Price-To-Earnings Ratio (25.3x) compared to the Indian Consumer Durables industry average (36.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -120,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 50,
-        "fetched_at": "2026-05-25T21:31:30.767Z",
+        "value": 52,
+        "fetched_at": "2026-05-26T12:20:35.114Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-mdl/marvel-decor-shares"
       }
     },
@@ -148,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.20040080160320925,
-      "7D": -5.8380414312617726,
-      "1M": 0.9081735620585325,
-      "3M": -5.571293673276681,
-      "6M": -47.3407056345445,
-      "1Y": -49.494949494949495,
+      "1D": 4,
+      "7D": 1.9607843137254901,
+      "1M": 6.122448979591836,
+      "3M": 20.649651972157766,
+      "6M": -42.22222222222222,
+      "1Y": -47.474747474747474,
       "5Y": null
     },
     "next_earnings_date": null,

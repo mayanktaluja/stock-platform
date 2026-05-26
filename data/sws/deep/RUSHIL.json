@@ -3,12 +3,12 @@
   "name": "Rushil Décor Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-rushil/rushil-decor-shares",
-  "parsed_at": "2026-05-25T22:36:14.334Z",
+  "parsed_at": "2026-05-26T13:27:08.465Z",
   "company_id": "06894FA4-D33C-43B3-B05D-76A41EC5C0A5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/rushil-decor-ltd",
     "search_id": "rushil-decor-ltd",
     "company_id": "GSTK533470",
@@ -28,22 +28,70 @@
       "dividend": 2
     },
     "snowflake_total": 7,
-    "current_price_inr": 15.73,
-    "market_cap_inr": 4638900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 15.81,
+    "market_cap_inr": 4618400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 12.49,
       "high": 33.99
     },
-    "fair_value_inr": 0.14672,
+    "fair_value_inr": 0.146698,
     "fair_value_range_inr": {
-      "min": 0.14672,
+      "min": 0.146698,
       "max": 32,
       "count": 4
     },
-    "upside_pct": -99.06726001271456,
+    "upside_pct": -99.07211891208095,
     "multiples": {
       "pe": 52.7,
       "ps": 0.54,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/rushil-decor-ltd"
     },
@@ -215,7 +263,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Plywood Boards/Laminates",
       "pe_industry_id": 86,
@@ -228,7 +276,7 @@
       "industry_pe": 44.746278631751636,
       "industry_name": "Plywood Boards/Laminates",
       "industry_id": 86,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/rushil-decor-ltd",
       "search_id": "rushil-decor-ltd"
     },
@@ -238,14 +286,14 @@
         "industry_pe": 44.746278631751636,
         "industry_name": "Plywood Boards/Laminates",
         "industry_id": 86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "sws_statement": {
-        "company_pe": 51.3,
-        "industry_pe": 28.5,
+        "company_pe": 51.1,
+        "industry_pe": 27.8,
         "industry_name": "Indian Building",
-        "description": "RUSHIL is expensive based on its Price-To-Earnings Ratio (51.3x) compared to the Indian Building industry average (28.5x).",
+        "description": "RUSHIL is expensive based on its Price-To-Earnings Ratio (51.1x) compared to the Indian Building industry average (27.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -275,56 +323,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 15.73,
-        "fetched_at": "2026-05-25T22:36:14.334Z",
+        "value": 15.81,
+        "fetched_at": "2026-05-26T13:27:08.465Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rushil/rushil-decor-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4638900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4618400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 52.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.746278631751636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "fifty_two_week": {
@@ -333,91 +381,91 @@
           "low": 12.49,
           "high": 33.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 21.1351443,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.746278631751636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.1986,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.609225413402959,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.4758133495122667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9013084632516704,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.71844840386043,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 44.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 22.086577439057855,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8213,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6058501161453281,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.017974335265330054,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rushil-decor-ltd"
       }
     },
@@ -444,12 +492,12 @@
     "quick_ratio": 0.6058501161453281,
     "cash_ratio": 0.017974335265330054,
     "returns_pct": {
-      "1D": -0.8196721311475348,
-      "7D": 3.14754098360656,
-      "1M": -3.67421922841395,
-      "3M": -14.742547425474248,
-      "6M": -32.11048769961157,
-      "1Y": -39.616122840690984,
+      "1D": 0.5085823267641454,
+      "7D": 2.4627349319507505,
+      "1M": -3.1843233312920876,
+      "3M": -13.036303630363033,
+      "6M": -32.116788321167874,
+      "1Y": -39.309021113243766,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -736,16 +784,6 @@
         "value": "₹0.10"
       },
       {
-        "title": "Split",
-        "type": "SPLIT",
-        "status": "Announced",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-23T18:30:00.000Z",
-        "ex_date": "2024-08-08T18:30:00.000Z",
-        "record_date": "2024-08-08T18:30:00.000Z",
-        "value": "1:10"
-      },
-      {
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
@@ -754,12 +792,22 @@
         "ex_date": "2025-09-11T18:30:00.000Z",
         "record_date": "2025-09-12T18:30:00.000Z",
         "value": "₹0.10"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-10T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/rushil-decor-ltd",
     "news": [
       {
@@ -809,16 +857,6 @@
         "value": "₹0.10"
       },
       {
-        "title": "Split",
-        "type": "SPLIT",
-        "status": "Announced",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-23T18:30:00.000Z",
-        "ex_date": "2024-08-08T18:30:00.000Z",
-        "record_date": "2024-08-08T18:30:00.000Z",
-        "value": "1:10"
-      },
-      {
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
@@ -827,6 +865,16 @@
         "ex_date": "2025-09-11T18:30:00.000Z",
         "record_date": "2025-09-12T18:30:00.000Z",
         "value": "₹0.10"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-10T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -834,7 +882,7 @@
         "ticker": "STYLAMIND",
         "name": "Stylam Industries",
         "searchId": "stylam-industries-ltd",
-        "market_cap_inr": 46744400000,
+        "market_cap_inr": 48409600000,
         "pe": 31.19,
         "pb": 5.79
       },
@@ -842,7 +890,7 @@
         "ticker": "RESPONIND",
         "name": "Responsive Industries",
         "searchId": "responsive-industries-ltd",
-        "market_cap_inr": 44163700000,
+        "market_cap_inr": 46789800000,
         "pe": 24.54,
         "pb": 3
       },
@@ -850,7 +898,7 @@
         "ticker": "GREENPLY",
         "name": "Greenply Industries",
         "searchId": "greenply-industries-ltd",
-        "market_cap_inr": 32343400000,
+        "market_cap_inr": 32618200000,
         "pe": 36.02,
         "pb": 3.61
       }

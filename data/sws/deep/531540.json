@@ -3,12 +3,12 @@
   "name": "Maruti Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-531540/maruti-infrastructure-shares",
-  "parsed_at": "2026-05-25T22:41:03.364Z",
+  "parsed_at": "2026-05-26T13:36:41.609Z",
   "company_id": "DCD15D4B-A866-49A8-972A-7786FCE0C5E7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/maruti-infrastructure-ltd",
     "search_id": "maruti-infrastructure-ltd",
     "company_id": "GSTK531540",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 13.19,
-    "market_cap_inr": 1241300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 13.56,
+    "market_cap_inr": 1236600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 6.57,
       "high": 16.89
     },
-    "fair_value_inr": 2.425477,
+    "fair_value_inr": 2.433246,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -81.61124336618651,
+    "upside_pct": -82.05570796460177,
     "multiples": {
-      "pe": 49.04,
+      "pe": 48.85,
       "ps": 1.92,
-      "pb": 4.4,
+      "pb": 4.38,
       "ev_ebitda": 35.35,
       "peg": -0.517640625
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/maruti-infrastructure-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.821146947073228,
-      "sector_pe": 31.821146947073228
+      "pe": 31.795057456430627,
+      "sector_pe": 31.795057456430627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -92,28 +141,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 49.04,
-      "industry_pe": 31.821146947073228,
+      "company_pe": 48.85,
+      "industry_pe": 31.795057456430627,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/maruti-infrastructure-ltd",
       "search_id": "maruti-infrastructure-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 49.04,
-        "industry_pe": 31.821146947073228,
+        "company_pe": 48.85,
+        "industry_pe": 31.795057456430627,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "sws_statement": {
-        "company_pe": 48.2,
+        "company_pe": 49.4,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "531540 is expensive based on its Price-To-Earnings Ratio (48.2x) compared to the Indian Construction industry average (16.1x).",
+        "description": "531540 is expensive based on its Price-To-Earnings Ratio (49.4x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.19,
-        "fetched_at": "2026-05-25T22:41:03.364Z",
+        "value": 13.56,
+        "fetched_at": "2026-05-26T13:36:41.609Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531540/maruti-infrastructure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1241300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1236600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 49.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.85,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 4.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.38,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 35.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.517640625,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 6.57,
           "high": 16.89
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 3.008448,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.9127,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.171382376717866,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 8.451065706895514,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.9857871157114166,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.612080951645294,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 71.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 32.64349232012935,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.4662,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8114049060210258,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.04268875438037592,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/maruti-infrastructure-ltd"
       }
     },
@@ -296,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 0.27,
     "most_recent_reported_date": null,
-    "pb": 4.4,
+    "pb": 4.38,
     "ps": 1.92,
     "book_value": 3.008448,
     "face_value": 2,
-    "sector_pe": 31.821146947073228,
+    "sector_pe": 31.795057456430627,
     "roe_pct": 9.9127,
     "roa_pct": 4.171382376717866,
     "roic_pct": 8.451065706895514,
@@ -312,12 +361,12 @@
     "quick_ratio": 0.8114049060210258,
     "cash_ratio": 0.04268875438037592,
     "returns_pct": {
-      "1D": -0.3776435045317274,
-      "7D": 10.284280936454838,
-      "1M": 8.114754098360658,
-      "3M": 31.768231768231765,
-      "6M": 11.496196111580723,
-      "1Y": -16.834804539722573,
+      "1D": 2.8051554207733207,
+      "7D": 12.905911740216492,
+      "1M": 11.147540983606568,
+      "3M": 35.73573573573574,
+      "6M": 12.531120331950204,
+      "1Y": -14.501891551071871,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -542,7 +591,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/maruti-infrastructure-ltd",
     "news": [],
     "events": [
@@ -602,25 +651,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

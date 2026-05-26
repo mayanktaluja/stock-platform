@@ -21,6 +21,57 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 9.87,
     "market_cap_inr": 452259671.85251397,
     "market_cap_usd": 121304781320.862,
@@ -97,7 +148,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"

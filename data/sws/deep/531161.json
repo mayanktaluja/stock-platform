@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/abm-knowledgeware-ltd",
     "search_id": "abm-knowledgeware-ltd",
     "company_id": "GSTK531161",
@@ -28,8 +28,56 @@
       "dividend": 4
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 223,
-    "market_cap_inr": 4720500000,
+    "market_cap_inr": 4775500000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/abm-knowledgeware-ltd"
     },
@@ -211,13 +259,13 @@
     },
     "dividend_yield_pct": 0.54,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -227,20 +275,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 37.28,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/abm-knowledgeware-ltd",
       "search_id": "abm-knowledgeware-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 37.28,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "sws_statement": {
@@ -264,7 +312,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -283,50 +331,50 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4720500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4775500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 37.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.9662942528735654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "fifty_two_week": {
@@ -335,91 +383,91 @@
           "low": 212,
           "high": 254.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 6.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 118.7902331,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.4543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.106524249422632,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.972943739209315,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.123057374645686,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.75740396833154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.4662,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.466193853427896,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.064775413711584,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abm-knowledgeware-ltd"
       }
     },
@@ -434,7 +482,7 @@
     "ps": 4.53,
     "book_value": 118.7902331,
     "face_value": 5,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 5.4543,
     "roa_pct": 4.106524249422632,
     "roic_pct": 5.972943739209315,
@@ -753,16 +801,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-23T18:30:00.000Z",
-        "ex_date": "2024-07-30T18:30:00.000Z",
-        "record_date": "2024-07-30T18:30:00.000Z",
-        "value": "₹1.25"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Announced",
         "primary_date": "2025-05-22T18:30:00.000Z",
         "announcement_date": "2025-05-22T18:30:00.000Z",
         "ex_date": "2025-08-21T18:30:00.000Z",
@@ -778,12 +816,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/abm-knowledgeware-ltd",
     "news": [
       {
@@ -826,16 +874,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-23T18:30:00.000Z",
-        "ex_date": "2024-07-30T18:30:00.000Z",
-        "record_date": "2024-07-30T18:30:00.000Z",
-        "value": "₹1.25"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Announced",
         "primary_date": "2025-05-22T18:30:00.000Z",
         "announcement_date": "2025-05-22T18:30:00.000Z",
         "ex_date": "2025-08-21T18:30:00.000Z",
@@ -847,6 +885,16 @@
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2025-07-16T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-13T18:30:00.000Z",
         "announcement_date": null,
         "ex_date": null,
         "record_date": null,
@@ -866,17 +914,17 @@
         "ticker": "ROUTE",
         "name": "Route Mobile",
         "searchId": "route-mobile-ltd",
-        "market_cap_inr": 32222900000,
+        "market_cap_inr": 32566300000,
         "pe": 12.54,
         "pb": 1.16
       },
       {
-        "ticker": "PROTEAN",
-        "name": "Protean e-Gov Technologies",
-        "searchId": "protean-egov-technologies-ltd",
-        "market_cap_inr": 26301400000,
-        "pe": 26.14,
-        "pb": 2.44
+        "ticker": "JAYKAY",
+        "name": "Jaykay Enterprises",
+        "searchId": "jaykay-enterprises-ltd",
+        "market_cap_inr": 25738200000,
+        "pe": 72.22,
+        "pb": 4.75
       }
     ],
     "details": {

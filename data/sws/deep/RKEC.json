@@ -3,7 +3,7 @@
   "name": "RKEC Projects Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-rkec/rkec-projects-shares",
-  "parsed_at": "2026-05-25T22:30:26.343Z",
+  "parsed_at": "2026-05-26T13:21:23.117Z",
   "company_id": "84242166-5149-4EAC-9974-4343693DEF06",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 33.84,
-    "market_cap_inr": 811841951.7775303,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 33.27,
+    "market_cap_inr": 798167308.972767,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +82,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -87.20390070921987,
+    "upside_pct": -86.98467087466186,
     "multiples": {
-      "pe": 8,
+      "pe": 8.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,11 +100,11 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (8x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (8.4x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Profit margins (3.4%) are lower than last year (5.3%)",
-      "Does not have a meaningful market cap (₹757M)",
+      "Does not have a meaningful market cap (₹812M)",
       "Highly volatile share price over past 3 months",
       "Interest payments are not well covered by earnings"
     ],
@@ -136,17 +185,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 8,
+      "company_pe": 8.4,
       "industry_pe": 16.1,
       "industry_name": "Indian Construction"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 8,
+        "company_pe": 8.4,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "RKEC is good value based on its Price-To-Earnings Ratio (8x) compared to the Indian Construction industry average (16.1x).",
+        "description": "RKEC is good value based on its Price-To-Earnings Ratio (8.4x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -163,8 +212,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -176,8 +225,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 33.84,
-        "fetched_at": "2026-05-25T22:30:26.343Z",
+        "value": 33.27,
+        "fetched_at": "2026-05-26T13:21:23.117Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rkec/rkec-projects-shares"
       }
     },
@@ -204,12 +253,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 7.1903706050047616,
-      "7D": 9.020618556701045,
-      "1M": -9.687750200160117,
-      "3M": -25.281519099138873,
-      "6M": -41.52410575427682,
-      "1Y": -58.155063682453324,
+      "1D": -1.684397163120568,
+      "7D": 6.566303651505459,
+      "1M": -11.20896717373898,
+      "3M": -23.640119348175343,
+      "6M": -42.25963207219714,
+      "1Y": -58.85989860269568,
       "5Y": null
     },
     "next_earnings_date": null,

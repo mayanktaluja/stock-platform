@@ -3,12 +3,12 @@
   "name": "Primo Chemicals Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-primo/primo-chemicals-shares",
-  "parsed_at": "2026-05-25T22:13:18.280Z",
+  "parsed_at": "2026-05-26T13:06:24.100Z",
   "company_id": "5A67649D-717B-4453-AE65-2DAF49583CE6",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd",
     "search_id": "punjab-alkalies-chemicals-ltd",
     "company_id": "GSTK506852",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 21.95,
-    "market_cap_inr": 5292800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 22.12,
+    "market_cap_inr": 5304900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 16.1,
       "high": 31.39
     },
-    "fair_value_inr": 8.753669,
+    "fair_value_inr": 8.832314,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -60.11995899772209,
+    "upside_pct": -60.07091320072333,
     "multiples": {
       "pe": 34.67,
       "ps": 0.95,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.392941562985385,
-      "sector_pe": 40.392941562985385
+      "pe": 40.39707827675086,
+      "sector_pe": 40.39707827675086
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -92,27 +141,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 34.67,
-      "industry_pe": 40.392941562985385,
+      "industry_pe": 40.39707827675086,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd",
       "search_id": "punjab-alkalies-chemicals-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 34.67,
-        "industry_pe": 40.392941562985385,
+        "industry_pe": 40.39707827675086,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "sws_statement": {
-        "company_pe": 34.4,
-        "industry_pe": 21.8,
+        "company_pe": 34.5,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "PRIMO is expensive based on its Price-To-Earnings Ratio (34.4x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "PRIMO is expensive based on its Price-To-Earnings Ratio (34.5x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 21.95,
-        "fetched_at": "2026-05-25T22:13:18.280Z",
+        "value": 22.12,
+        "fetched_at": "2026-05-26T13:06:24.100Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-primo/primo-chemicals-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5292800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5304900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 34.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.2919564102564105,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 16.1,
           "high": 31.39
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 15.3546752,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.7844,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.1675716266173755,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.030522827468533,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6723401224896737,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.64769975786925,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 32.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 18.939175138632162,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.387285028146465,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.021174404792645766,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 0.95,
     "book_value": 15.3546752,
     "face_value": 2,
-    "sector_pe": 40.392941562985385,
+    "sector_pe": 40.39707827675086,
     "roe_pct": 3.7844,
     "roa_pct": 2.1675716266173755,
     "roic_pct": 4.030522827468533,
@@ -311,12 +360,12 @@
     "quick_ratio": 0.387285028146465,
     "cash_ratio": 0.021174404792645766,
     "returns_pct": {
-      "1D": 0.13686131386860212,
-      "7D": -3.896672504378286,
-      "1M": -6.07616602481815,
-      "3M": 10.08024072216649,
-      "6M": -12.09451341609932,
-      "1Y": -15.446841294298927,
+      "1D": 0.7744874715262037,
+      "7D": -3.532490187527251,
+      "1M": -5.348737697903295,
+      "3M": 10.988459608630212,
+      "6M": -12.707182320441984,
+      "1Y": -14.791987673343604,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -542,7 +591,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/punjab-alkalies-chemicals-ltd",
     "news": [
       {
@@ -607,7 +656,7 @@
         "ticker": "GHCL",
         "name": "GHCL",
         "searchId": "ghcl-ltd",
-        "market_cap_inr": 40915300000,
+        "market_cap_inr": 40805000000,
         "pe": 8.66,
         "pb": 1.15
       },
@@ -615,7 +664,7 @@
         "ticker": "TIRUMALCHM",
         "name": "Thirumalai Chemicals",
         "searchId": "thirumalai-chemicals-ltd",
-        "market_cap_inr": 25129200000,
+        "market_cap_inr": 25454700000,
         "pe": null,
         "pb": 1.58
       },
@@ -623,9 +672,9 @@
         "ticker": "DCW",
         "name": "DCW",
         "searchId": "dcw-ltd",
-        "market_cap_inr": 13875200000,
-        "pe": 28.84,
-        "pb": 1.29
+        "market_cap_inr": 14135000000,
+        "pe": 29.38,
+        "pb": 1.32
       }
     ],
     "details": {
@@ -701,16 +750,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "9a2b3360-accc-4947-afd8-d3b9e2eba3ca",
-      "type": "article",
-      "date": "2025-11-27T00:15:03.000Z",
-      "title": "We Think Primo Chemicals (NSE:PRIMO) Is Taking Some Risk With Its Debt",
-      "body": "Legendary fund manager Li Lu (who Charlie Munger backed) once said, 'The biggest investment risk is not the volatility...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-primo/primo-chemicals-shares/news/we-think-primo-chemicals-nseprimo-is-taking-some-risk-with-i",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PRIMO.json"

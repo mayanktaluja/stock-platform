@@ -3,12 +3,12 @@
   "name": "Sreeleathers Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-sreel/sreeleathers-shares",
-  "parsed_at": "2026-05-25T23:07:52.293Z",
+  "parsed_at": "2026-05-26T13:58:29.490Z",
   "company_id": "393999A9-299C-4860-9827-9BB513C4DB20",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sreeleathers-ltd",
     "search_id": "sreeleathers-ltd",
     "company_id": "GSTK535601",
@@ -28,26 +28,75 @@
       "dividend": 2
     },
     "snowflake_total": 12,
-    "current_price_inr": 191.41,
-    "market_cap_inr": 4398300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 189.84,
+    "market_cap_inr": 4448100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 165.25,
-      "high": 258.8
+      "high": 258
     },
-    "fair_value_inr": 338.987341,
+    "fair_value_inr": 334.639065,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 77.1001206833499,
+    "upside_pct": 76.27426517067005,
     "multiples": {
-      "pe": 18.06,
+      "pe": 18.26,
       "ps": 1.82,
-      "pb": 0.91,
+      "pb": 0.92,
       "ev_ebitda": 15.19,
       "peg": -1.4361521739130436
     },
@@ -55,12 +104,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sreeleathers-ltd"
     },
     "rewards": [
-      "Trading at 44.3% below our estimate of its fair value",
+      "Trading at 43.3% below our estimate of its fair value",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings have grown 10.6% per year over the past 5 years"
     ],
@@ -91,13 +140,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 48.250334127491435,
-      "sector_pe": 48.250334127491435
+      "pe": 48.25033412749143,
+      "sector_pe": 48.25033412749143
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Leather",
       "pe_industry_id": 35,
@@ -106,28 +155,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 18.06,
-      "industry_pe": 48.250334127491435,
+      "company_pe": 18.26,
+      "industry_pe": 48.25033412749143,
       "industry_name": "Leather",
       "industry_id": 35,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sreeleathers-ltd",
       "search_id": "sreeleathers-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 18.06,
-        "industry_pe": 48.250334127491435,
+        "company_pe": 18.26,
+        "industry_pe": 48.25033412749143,
         "industry_name": "Leather",
         "industry_id": 35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "sws_statement": {
-        "company_pe": 18.1,
-        "industry_pe": 25.3,
+        "company_pe": 18.3,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "SREEL is good value based on its Price-To-Earnings Ratio (18.1x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "SREEL is good value based on its Price-To-Earnings Ratio (18.3x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -144,8 +193,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -157,149 +206,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 191.41,
-        "fetched_at": "2026-05-25T23:07:52.293Z",
+        "value": 189.84,
+        "fetched_at": "2026-05-26T13:58:29.490Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-sreel/sreeleathers-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4398300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4448100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 18.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.26,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.92,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.4361521739130436,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.250334127491435,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.25033412749143,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 165.25,
-          "high": 258.8
+          "high": 258
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 10.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 209.1858609,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.250334127491435,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.25033412749143,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.7608,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.720191824264223,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.178204527163855,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.219375366323371,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.37662228920707,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4640909618285184,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1494,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6912442396313364,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5294418842805939,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sreeleathers-ltd"
       }
     },
@@ -310,11 +359,11 @@
     "latest_net_income": null,
     "latest_eps": 10.52,
     "most_recent_reported_date": null,
-    "pb": 0.91,
+    "pb": 0.92,
     "ps": 1.82,
     "book_value": 209.1858609,
     "face_value": 10,
-    "sector_pe": 48.250334127491435,
+    "sector_pe": 48.25033412749143,
     "roe_pct": 4.7608,
     "roa_pct": 4.720191824264223,
     "roic_pct": 5.178204527163855,
@@ -326,12 +375,12 @@
     "quick_ratio": 0.6912442396313364,
     "cash_ratio": 0.5294418842805939,
     "returns_pct": {
-      "1D": 2.1398078975453525,
-      "7D": 0.7845408593091876,
-      "1M": 6.98675311609189,
-      "3M": -4.49079387256125,
-      "6M": -15.815630909970535,
-      "1Y": -24.148999405587475,
+      "1D": -0.8202288281698935,
+      "7D": 0.2058590657165557,
+      "1M": 6.109216924710752,
+      "3M": -6.390532544378702,
+      "6M": -17.5898593505817,
+      "1Y": -24.771151178918167,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -529,7 +578,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sreeleathers-ltd",
     "news": [
       {
@@ -612,15 +661,15 @@
         "ticker": "532829",
         "name": "Lehar Footwears",
         "searchId": "lawreshwar-polymers-ltd",
-        "market_cap_inr": 4451500000,
-        "pe": 20.47,
-        "pb": 4.53
+        "market_cap_inr": 4323400000,
+        "pe": 20.74,
+        "pb": 4.13
       },
       {
         "ticker": "MIRZAINT",
         "name": "Mirza International",
         "searchId": "mirza-international-ltd",
-        "market_cap_inr": 4197200000,
+        "market_cap_inr": 4281500000,
         "pe": 50.62,
         "pb": 0.73
       }

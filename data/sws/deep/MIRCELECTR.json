@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mirc-electronics-ltd",
     "search_id": "mirc-electronics-ltd",
     "company_id": "GSTK500279",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 41.32,
-    "market_cap_inr": 14443200000,
+    "market_cap_inr": 15163600000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 2.2,
-      "pb": 6.07,
+      "pb": 6.38,
       "ev_ebitda": 17.75,
       "peg": 0
     },
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 59.627955716846344
+      "sector_pe": 59.63065901146537
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,10 +148,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 59.627955716846344,
+        "industry_pe": 59.63065901146537,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "sws_statement": {
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -145,44 +194,44 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 14443200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 15163600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 6.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6.38,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 12.15,
           "high": 49.23
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 6.4364958,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 32.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 14.823727130361714,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1268,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1909636279733187,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.15635356798254815,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mirc-electronics-ltd"
       }
     },
@@ -280,11 +329,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 6.07,
+    "pb": 6.38,
     "ps": 2.2,
     "book_value": 6.4364958,
     "face_value": 1,
-    "sector_pe": 59.627955716846344,
+    "sector_pe": 59.63065901146537,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -492,7 +541,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mirc-electronics-ltd",
     "news": [
       {
@@ -567,7 +616,7 @@
         "ticker": "SYMPHONY",
         "name": "Symphony",
         "searchId": "symphony-ltd",
-        "market_cap_inr": 48818500000,
+        "market_cap_inr": 49570500000,
         "pe": 33.67,
         "pb": 8.96
       },
@@ -575,7 +624,7 @@
         "ticker": "IFBIND",
         "name": "IFB Industries",
         "searchId": "ifb-industries-ltd",
-        "market_cap_inr": 42556100000,
+        "market_cap_inr": 42671600000,
         "pe": 35.53,
         "pb": 4.61
       },
@@ -583,9 +632,9 @@
         "ticker": "ORIENTELEC",
         "name": "Orient Electric",
         "searchId": "orient-electric-ltd",
-        "market_cap_inr": 39163300000,
-        "pe": 40.88,
-        "pb": 5.15
+        "market_cap_inr": 39536700000,
+        "pe": 41.27,
+        "pb": 5.2
       }
     ],
     "details": {

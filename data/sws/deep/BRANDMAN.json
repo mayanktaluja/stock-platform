@@ -3,7 +3,7 @@
   "name": "Brandman Retail Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-brandman/brandman-retail-shares",
-  "parsed_at": "2026-05-25T22:09:25.322Z",
+  "parsed_at": "2026-05-26T13:01:20.208Z",
   "company_id": "3398707D-8D46-4D7F-8D93-1B73532AB724",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 171,
-    "market_cap_inr": 3156178621.8627415,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 162.8,
+    "market_cap_inr": 3004829705.4927154,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,8 +160,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -123,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 171,
-        "fetched_at": "2026-05-25T22:09:25.322Z",
+        "value": 162.8,
+        "fetched_at": "2026-05-26T13:01:20.208Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-brandman/brandman-retail-shares"
       }
     },
@@ -151,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.973603778827447,
-      "7D": -2.840909090909091,
-      "1M": -15.659679408138102,
-      "3M": -19.962555581558625,
-      "6M": -11.007025761124124,
-      "1Y": -11.007025761124124,
+      "1D": -4.795321637426894,
+      "7D": -11.904761904761903,
+      "1M": -19.704069050554864,
+      "3M": -19.82270376754494,
+      "6M": -15.27452511059068,
+      "1Y": -15.27452511059068,
       "5Y": null
     },
     "next_earnings_date": null,

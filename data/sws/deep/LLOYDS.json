@@ -3,7 +3,7 @@
   "name": "Lloyds Luxuries Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-lloyds/lloyds-luxuries-shares",
-  "parsed_at": "2026-05-25T21:18:33.092Z",
+  "parsed_at": "2026-05-26T12:07:16.629Z",
   "company_id": "C98E6800-FCD1-425C-B309-F4E71D57A393",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 93.15,
     "market_cap_inr": 2222900207.368,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -84,14 +134,14 @@
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3.6,
+        "industry_pe": 3.7,
         "industry_name": "Indian Consumer Services",
-        "description": "LLOYDS is expensive based on its Price-To-Sales Ratio (3.7x) compared to the Indian Consumer Services industry average (3.6x).",
+        "description": "LLOYDS is expensive based on its Price-To-Sales Ratio (3.7x) compared to the Indian Consumer Services industry average (3.7x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.724939537,
+        "industry_pe": 24.336219552,
         "industry_code": "9551701",
         "type": "median_profitable",
         "count": 27,
@@ -103,8 +153,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 22.85,
-        "sample_count": 24,
+        "industry_pe": 23,
+        "sample_count": 25,
         "industry_code": "9551701",
         "industry_name": "Consumer Services"
       },
@@ -117,7 +167,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 93.15,
-        "fetched_at": "2026-05-25T21:18:33.092Z",
+        "fetched_at": "2026-05-26T12:07:16.629Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-lloyds/lloyds-luxuries-shares"
       }
     },

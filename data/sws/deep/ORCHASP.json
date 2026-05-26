@@ -3,12 +3,12 @@
   "name": "Orchasp Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-orchasp/orchasp-shares",
-  "parsed_at": "2026-05-25T21:58:04.978Z",
+  "parsed_at": "2026-05-26T12:48:54.140Z",
   "company_id": "C80962EC-78F4-48BF-B7A4-6C69C8AB50A6",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cybermate-infotek-ltd",
     "search_id": "cybermate-infotek-ltd",
     "company_id": "GSTK532271",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 2.03,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.04,
     "market_cap_inr": 699800000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.82,
       "high": 4.16
     },
-    "fair_value_inr": 1.232761,
+    "fair_value_inr": 1.221218,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -39.272857142857134,
+    "upside_pct": -40.13637254901961,
     "multiples": {
       "pe": 18.36,
       "ps": 2.6,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/cybermate-infotek-ltd"
     },
@@ -63,7 +112,7 @@
       "Became profitable this year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (16.3x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (16.5x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have meaningful revenue (₹262M)",
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -95,27 +144,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 18.36,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/cybermate-infotek-ltd",
       "search_id": "cybermate-infotek-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 18.36,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "sws_statement": {
-        "company_pe": 16.3,
+        "company_pe": 16.5,
         "industry_pe": 25,
         "industry_name": "Indian Software",
-        "description": "ORCHASP is good value based on its Price-To-Earnings Ratio (16.3x) compared to the Indian Software industry average (25x).",
+        "description": "ORCHASP is good value based on its Price-To-Earnings Ratio (16.5x) compared to the Indian Software industry average (25x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.03,
-        "fetched_at": "2026-05-25T21:58:04.978Z",
+        "value": 2.04,
+        "fetched_at": "2026-05-26T12:48:54.140Z",
         "url": "https://simplywall.st/stocks/in/software/nse-orchasp/orchasp-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 699800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 18.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 1.82,
           "high": 4.16
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 3.5074502,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.7851,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8294373094336136,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.519534257120862,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.859287054409007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.247654784240147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4297,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.429702587871765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0031865585168018543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cybermate-infotek-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 2.6,
     "book_value": 3.5074502,
     "face_value": 2,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 3.7851,
     "roa_pct": 1.8294373094336136,
     "roic_pct": 3.519534257120862,
@@ -314,12 +363,12 @@
     "quick_ratio": 1.429702587871765,
     "cash_ratio": 0.0031865585168018543,
     "returns_pct": {
-      "1D": 1.4999999999999902,
-      "7D": 3.0456852791878086,
-      "1M": -0.9756097560975618,
-      "3M": -22.519083969465658,
-      "6M": -31.64983164983166,
-      "1Y": -37.34567901234569,
+      "1D": 0.4926108374384351,
+      "7D": 2.0000000000000018,
+      "1M": -0.48780487804877015,
+      "3M": -22.433460076045623,
+      "6M": -29.655172413793103,
+      "1Y": -37.03703703703704,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -535,7 +584,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cybermate-infotek-ltd",
     "news": [
       {
@@ -600,7 +649,7 @@
         "ticker": "MAPMYINDIA",
         "name": "CE Info Systems",
         "searchId": "c-e-info-systems-ltd",
-        "market_cap_inr": 47138300000,
+        "market_cap_inr": 47483300000,
         "pe": 35.18,
         "pb": 5.21
       },
@@ -608,17 +657,17 @@
         "ticker": "AURIONPRO",
         "name": "Aurionpro Solutions",
         "searchId": "aurionpro-solutions-ltd",
-        "market_cap_inr": 45231700000,
+        "market_cap_inr": 45555000000,
         "pe": 21.36,
         "pb": 2.6
       },
       {
-        "ticker": "MOSCHIP",
-        "name": "Moschip Technologies",
-        "searchId": "moschip-semiconductor-technology-ltd",
-        "market_cap_inr": 39030500000,
-        "pe": 111.08,
-        "pb": 10.6
+        "ticker": "EMUDHRA",
+        "name": "eMudhra",
+        "searchId": "emudhra-ltd",
+        "market_cap_inr": 40097400000,
+        "pe": 35.36,
+        "pb": 4.27
       }
     ],
     "details": {

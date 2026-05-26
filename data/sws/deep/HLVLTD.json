@@ -3,12 +3,12 @@
   "name": "HLV Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-hlvltd/hlv-shares",
-  "parsed_at": "2026-05-25T23:58:13.162Z",
+  "parsed_at": "2026-05-26T16:03:42.621Z",
   "company_id": "DBC50688-DDEC-4C68-BDCD-DA0124817E86",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hotel-leela-venture-ltd",
     "search_id": "hotel-leela-venture-ltd",
     "company_id": "GSTK500193",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 7.97,
-    "market_cap_inr": 5280700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 8.04,
+    "market_cap_inr": 5247700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 5.6,
       "high": 15.75
     },
-    "fair_value_inr": 4.804854,
+    "fair_value_inr": 4.804978,
     "fair_value_range_inr": {
-      "min": 4.804854,
-      "max": 4.804854,
+      "min": 4.804978,
+      "max": 4.804978,
       "count": 1
     },
-    "upside_pct": -39.713249686323714,
+    "upside_pct": -40.23659203980098,
     "multiples": {
-      "pe": 267,
+      "pe": 265.33,
       "ps": 2.61,
-      "pb": 1.12,
+      "pb": 1.11,
       "ev_ebitda": 15.8,
       "peg": 2.7044999999999977
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hotel-leela-venture-ltd"
     },
@@ -79,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.21757118145562,
-      "sector_pe": 40.21757118145562
+      "pe": 40.23629672107296,
+      "sector_pe": 40.23629672107296
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Hotels & Restaurants",
       "pe_industry_id": 31,
@@ -94,21 +144,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 267,
-      "industry_pe": 40.21757118145562,
+      "company_pe": 265.33,
+      "industry_pe": 40.23629672107296,
       "industry_name": "Hotels & Restaurants",
       "industry_id": 31,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/hotel-leela-venture-ltd",
       "search_id": "hotel-leela-venture-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 267,
-        "industry_pe": 40.21757118145562,
+        "company_pe": 265.33,
+        "industry_pe": 40.23629672107296,
         "industry_name": "Hotels & Restaurants",
         "industry_id": 31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "sws_statement": {
@@ -132,7 +182,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -145,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7.97,
-        "fetched_at": "2026-05-25T23:58:13.162Z",
+        "value": 8.04,
+        "fetched_at": "2026-05-26T16:03:42.621Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-hlvltd/hlv-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5280700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5247700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 267,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 265.33,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.11,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.7044999999999977,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +253,91 @@
           "low": 5.6,
           "high": 15.75
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 7.1448602,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0849,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7954669281900402,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2173784343801293,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.5433008162452713,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.248656181564801,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 7.489999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.493547533429848,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9232,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6921185827910339,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9740419378163413,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hotel-leela-venture-ltd"
       }
     },
@@ -298,11 +348,11 @@
     "latest_net_income": null,
     "latest_eps": 0.03,
     "most_recent_reported_date": null,
-    "pb": 1.12,
+    "pb": 1.11,
     "ps": 2.61,
     "book_value": 7.1448602,
     "face_value": 2,
-    "sector_pe": 40.21757118145562,
+    "sector_pe": 40.23629672107296,
     "roe_pct": 1.0849,
     "roa_pct": 0.7954669281900402,
     "roic_pct": 2.2173784343801293,
@@ -314,12 +364,12 @@
     "quick_ratio": 1.6921185827910339,
     "cash_ratio": 0.9740419378163413,
     "returns_pct": {
-      "1D": 0.3778337531486065,
-      "7D": 6.408544726301729,
-      "1M": -6.014150943396234,
-      "3M": -1.9680196801968146,
-      "6M": -18.67346938775511,
-      "1Y": -43.43506032647267,
+      "1D": 0.8782936010037566,
+      "7D": 5.373525557011786,
+      "1M": -5.1886792452830335,
+      "3M": -1.3496932515337572,
+      "6M": -17.113402061855673,
+      "1Y": -42.93825408090845,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -535,7 +585,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hotel-leela-venture-ltd",
     "news": [
       {
@@ -600,7 +650,7 @@
         "ticker": "ITDC",
         "name": "India Tourism Development Corp",
         "searchId": "india-tourism-development-corporation-ltd",
-        "market_cap_inr": 47198900000,
+        "market_cap_inr": 47537700000,
         "pe": 57.32,
         "pb": 11.17
       },
@@ -608,7 +658,7 @@
         "ticker": "MHRIL",
         "name": "Mahindra Holidays & Resorts India",
         "searchId": "mahindra-holidays-resorts-india-ltd",
-        "market_cap_inr": 44277800000,
+        "market_cap_inr": 44964800000,
         "pe": 66.01,
         "pb": 0
       },
@@ -616,7 +666,7 @@
         "ticker": "JUNIPER",
         "name": "Juniper Hotels",
         "searchId": "juniper-hotels-ltd",
-        "market_cap_inr": 43888600000,
+        "market_cap_inr": 44022100000,
         "pe": 31.01,
         "pb": 1.53
       }

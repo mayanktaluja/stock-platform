@@ -3,12 +3,12 @@
   "name": "G. G. Dandekar Properties Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-505250/g-g-dandekar-properties-shares",
-  "parsed_at": "2026-05-25T20:47:47.661Z",
+  "parsed_at": "2026-05-26T11:15:55.473Z",
   "company_id": "10D06B77-CBB1-476E-8051-D34A858A6850",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd",
     "search_id": "gg-dandekar-machine-works-ltd",
     "company_id": "GSTK505250",
@@ -28,8 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 60,
-    "market_cap_inr": 285600000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 60.85,
+    "market_cap_inr": 285700000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,7 +93,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -17.68474166666666,
+    "upside_pct": -18.834585045193094,
     "multiples": {
       "pe": 44.44,
       "ps": 7.55,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
     },
@@ -78,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.6218471625948,
-      "sector_pe": 31.6218471625948
+      "pe": 31.637222628337422,
+      "sector_pe": 31.637222628337422
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Realty",
       "pe_industry_id": 51,
@@ -94,27 +144,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 44.44,
-      "industry_pe": 31.6218471625948,
+      "industry_pe": 31.637222628337422,
       "industry_name": "Realty",
       "industry_id": 51,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd",
       "search_id": "gg-dandekar-machine-works-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 44.44,
-        "industry_pe": 31.6218471625948,
+        "industry_pe": 31.637222628337422,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "sws_statement": {
         "company_pe": 44.4,
-        "industry_pe": 25,
+        "industry_pe": 24.6,
         "industry_name": "Indian Real Estate",
-        "description": "505250 is expensive based on its Price-To-Earnings Ratio (44.4x) compared to the Indian Real Estate industry average (25x).",
+        "description": "505250 is expensive based on its Price-To-Earnings Ratio (44.4x) compared to the Indian Real Estate industry average (24.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,8 +181,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
-        "sample_count": 145,
+        "industry_pe": 23.85,
+        "sample_count": 144,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -144,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 60,
-        "fetched_at": "2026-05-25T20:47:47.661Z",
+        "value": 60.85,
+        "fetched_at": "2026-05-26T11:15:55.473Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-505250/g-g-dandekar-properties-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 285600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 285700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 44.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 7.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 25.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -7.5083100540540535,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +252,91 @@
           "low": 46.5,
           "high": 99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 112.4885221,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.4705,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.07058712804505012,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 93.65079365079362,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 7.380000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 6.519227595312758,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 22.1893,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 11.476923076923077,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.953846153846154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd"
       }
     },
@@ -301,7 +351,7 @@
     "ps": 7.55,
     "book_value": 112.4885221,
     "face_value": 1,
-    "sector_pe": 31.6218471625948,
+    "sector_pe": 31.637222628337422,
     "roe_pct": 1.4705,
     "roa_pct": 0,
     "roic_pct": 0.07058712804505012,
@@ -313,12 +363,12 @@
     "quick_ratio": 11.476923076923077,
     "cash_ratio": 8.953846153846154,
     "returns_pct": {
-      "1D": 0.016669444907481262,
-      "7D": -0.16638935108153316,
-      "1M": -6.976744186046512,
-      "3M": -9.78800180423997,
-      "6M": -22.74014936904455,
-      "1Y": -30.240669689570986,
+      "1D": 1.416666666666669,
+      "7D": 1.2479201331114809,
+      "1M": -5.658914728682168,
+      "3M": -12.180689854235826,
+      "6M": -22.974683544303794,
+      "1Y": -29.252412510173237,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -514,7 +564,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gg-dandekar-machine-works-ltd",
     "news": [
       {
@@ -569,7 +619,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -577,7 +627,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -585,7 +635,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

@@ -3,12 +3,12 @@
   "name": "Medi-Caps Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-523144/medi-caps-shares",
-  "parsed_at": "2026-05-25T21:40:36.840Z",
+  "parsed_at": "2026-05-26T12:36:48.208Z",
   "company_id": "C5E66831-D715-4304-A6E1-8D63B5BF0A25",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/medicaps-ltd",
     "search_id": "medicaps-ltd",
     "company_id": "GSTK523144",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 26.36,
-    "market_cap_inr": 326600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 28,
+    "market_cap_inr": 328700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 173.86881259484065,
+    "upside_pct": 157.827925,
     "multiples": {
       "pe": null,
       "ps": 2.63,
@@ -62,9 +111,9 @@
     "rewards": [],
     "risks": [
       "Earnings have declined by 74.3% per year over past 5 years",
-      "Does not have meaningful revenue (₹207M)",
+      "Does not have meaningful revenue (₹124M)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹327M)"
+      "Does not have a meaningful market cap (₹329M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 31.6218471625948
+      "sector_pe": 31.637222628337422
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 31.6218471625948,
+        "industry_pe": 31.637222628337422,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 0.7,
         "industry_name": "Indian Packaging",
-        "description": "523144 is expensive based on its Price-To-Sales Ratio (1.6x) compared to the Indian Packaging industry average (0.7x).",
+        "description": "523144 is expensive based on its Price-To-Sales Ratio (2.8x) compared to the Indian Packaging industry average (0.7x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,7 +173,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -137,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 26.36,
-        "fetched_at": "2026-05-25T21:40:36.840Z",
+        "value": 28,
+        "fetched_at": "2026-05-26T12:36:48.208Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-523144/medi-caps-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 326600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 328700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 55.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 21,
           "high": 46.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 89.5028067,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 17.3419,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 16.26568265682657,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.18450184501845018,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/medicaps-ltd"
       }
     },
@@ -282,7 +331,7 @@
     "ps": 2.63,
     "book_value": 89.5028067,
     "face_value": 10,
-    "sector_pe": 31.6218471625948,
+    "sector_pe": 31.637222628337422,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +343,12 @@
     "quick_ratio": 16.26568265682657,
     "cash_ratio": 0.18450184501845018,
     "returns_pct": {
-      "1D": 0.6491027109583739,
-      "7D": -2.2255192878338335,
-      "1M": -7.476307476307473,
-      "3M": 8.477366255144027,
-      "6M": -24.078341013824883,
-      "1Y": -39.36047849091327,
+      "1D": 6.221547799696512,
+      "7D": 3.359173126614988,
+      "1M": -1.7199017199017144,
+      "3M": 16.666666666666664,
+      "6M": -18.295885614239868,
+      "1Y": -35.587761674718195,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -500,7 +549,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/medicaps-ltd",
     "news": [
       {
@@ -565,7 +614,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -573,7 +622,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -581,7 +630,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

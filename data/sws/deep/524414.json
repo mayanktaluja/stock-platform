@@ -3,12 +3,12 @@
   "name": "Norris Medicines Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-524414/norris-medicines-shares",
-  "parsed_at": "2026-05-25T21:48:38.028Z",
+  "parsed_at": "2026-05-26T12:44:28.407Z",
   "company_id": "D395A16A-22D0-41CF-B958-3885891F2679",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/norris-medicines-ltd",
     "search_id": "norris-medicines-ltd",
     "company_id": "GSTK524414",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 13,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 14.19,
     "market_cap_inr": 130000000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 12,
       "high": 22.1
     },
-    "fair_value_inr": 12.408332,
+    "fair_value_inr": 12.401212,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -4.55129230769231,
+    "upside_pct": -12.605976039464414,
     "multiples": {
       "pe": null,
       "ps": 1.38,
@@ -80,7 +129,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 45.29762059479049
+      "sector_pe": 45.25631416127515
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -101,17 +150,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 45.29762059479049,
+        "industry_pe": 45.25631416127515,
         "industry_name": "Pharmaceuticals",
         "industry_id": 46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2.3,
+        "industry_pe": 2.2,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "524414 is good value based on its Price-To-Sales Ratio (1.4x) compared to the Indian Pharmaceuticals industry average (2.3x).",
+        "description": "524414 is good value based on its Price-To-Sales Ratio (1.5x) compared to the Indian Pharmaceuticals industry average (2.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,8 +177,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -141,50 +190,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13,
-        "fetched_at": "2026-05-25T21:48:38.028Z",
+        "value": 14.19,
+        "fetched_at": "2026-05-26T12:44:28.407Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-524414/norris-medicines-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 130000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "fifty_two_week": {
@@ -193,85 +242,85 @@
           "low": 12,
           "high": 22.1
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -15.8200926,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.6803,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.291005291005291,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7904,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.13150684931506845,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.005479452054794521,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/norris-medicines-ltd"
       }
     },
@@ -286,7 +335,7 @@
     "ps": 1.38,
     "book_value": -15.8200926,
     "face_value": 10,
-    "sector_pe": 45.29762059479049,
+    "sector_pe": 45.25631416127515,
     "roe_pct": 9.6803,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -298,12 +347,12 @@
     "quick_ratio": 0.13150684931506845,
     "cash_ratio": 0.005479452054794521,
     "returns_pct": {
-      "1D": 0,
-      "7D": 0,
-      "1M": -13.333333333333334,
-      "3M": -1.8126888217522674,
-      "6M": -14.754098360655737,
-      "1Y": -35.51587301587302,
+      "1D": 9.15384615384615,
+      "7D": 8.735632183908036,
+      "1M": -5.400000000000003,
+      "3M": 4.800590841949781,
+      "6M": -5.400000000000003,
+      "1Y": -29.613095238095237,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -427,7 +476,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/norris-medicines-ltd",
     "news": [
       {
@@ -482,7 +531,7 @@
         "ticker": "DCAL",
         "name": "Dishman Carbogen Amcis",
         "searchId": "dishman-carbogen-amcis-ltd",
-        "market_cap_inr": 30643300000,
+        "market_cap_inr": 31309600000,
         "pe": 31.42,
         "pb": 0.46
       },
@@ -490,15 +539,15 @@
         "ticker": "VIMTALABS",
         "name": "Vimta Labs",
         "searchId": "vimta-labs-ltd",
-        "market_cap_inr": 20168200000,
-        "pe": 26.02,
-        "pb": 4.41
+        "market_cap_inr": 20521100000,
+        "pe": 26.48,
+        "pb": 4.49
       },
       {
         "ticker": "WINDLAS",
         "name": "Windlas Biotech",
         "searchId": "windlas-biotech-ltd",
-        "market_cap_inr": 16342900000,
+        "market_cap_inr": 16247900000,
         "pe": 24.59,
         "pb": 2.81
       }

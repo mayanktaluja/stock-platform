@@ -3,12 +3,12 @@
   "name": "VSF Projects Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-519331/vsf-projects-shares",
-  "parsed_at": "2026-05-25T21:31:01.428Z",
+  "parsed_at": "2026-05-26T12:26:42.912Z",
   "company_id": "E850A736-D348-4D46-A248-95BD954D5E9B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vsf-projects-ltd",
     "search_id": "vsf-projects-ltd",
     "company_id": "GSTK519331",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 32.1,
-    "market_cap_inr": 531500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 32.71,
+    "market_cap_inr": 524800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +97,7 @@
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 0.67,
+      "pb": 0.66,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -64,7 +114,7 @@
       "Trading at good value vs. industry average Price-To-Book ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹535M)",
+      "Does not have a meaningful market cap (₹528M)",
       "Debt is not well covered by [[operating cash flow]]",
       "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹0)"
@@ -79,7 +129,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 31.821146947073228
+      "sector_pe": 31.795057456430627
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,10 +150,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 31.821146947073228,
+        "industry_pe": 31.795057456430627,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "sws_statement": {
@@ -127,8 +177,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -140,50 +190,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 32.1,
-        "fetched_at": "2026-05-25T21:31:01.428Z",
+        "value": 32.71,
+        "fetched_at": "2026-05-26T12:26:42.912Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-519331/vsf-projects-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 531500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 524800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.66,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +242,85 @@
           "low": 28.25,
           "high": 63.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 48.559593,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.1607,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 73.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 38.496510890251635,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5956,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5955757231990925,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.031196823596142943,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vsf-projects-ltd"
       }
     },
@@ -281,11 +331,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.67,
+    "pb": 0.66,
     "ps": 0,
     "book_value": 48.559593,
     "face_value": 10,
-    "sector_pe": 31.821146947073228,
+    "sector_pe": 31.795057456430627,
     "roe_pct": 0.1607,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -297,12 +347,12 @@
     "quick_ratio": 0.5955757231990925,
     "cash_ratio": 0.031196823596142943,
     "returns_pct": {
-      "1D": -1.2611504152568336,
-      "7D": -2.401945880206747,
-      "1M": -17.692307692307686,
-      "3M": -15.437302423603791,
-      "6M": -23.040038360105488,
-      "1Y": -40.3012832434443,
+      "1D": 1.900311526479749,
+      "7D": 0.3066544004906514,
+      "1M": -16.128205128205124,
+      "3M": -9.36547520088668,
+      "6M": -21.57755933828818,
+      "1Y": -39.16682164775898,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -474,16 +524,6 @@
   "events": {
     "groww": [
       {
-        "title": "Rights",
-        "type": "RIGHTS",
-        "status": "Ex date",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-15T18:30:00.000Z",
-        "ex_date": "2024-05-23T18:30:00.000Z",
-        "record_date": "2024-05-23T18:30:00.000Z",
-        "value": "3:2"
-      },
-      {
         "title": "Quarterly Result",
         "type": "RESULTS",
         "status": "Release date",
@@ -514,7 +554,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-24T18:30:00.000Z",
@@ -527,20 +567,18 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vsf-projects-ltd",
-    "news": [],
-    "events": [
+    "news": [
       {
-        "title": "Rights",
-        "type": "RIGHTS",
-        "status": "Ex date",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-15T18:30:00.000Z",
-        "ex_date": "2024-05-23T18:30:00.000Z",
-        "record_date": "2024-05-23T18:30:00.000Z",
-        "value": "3:2"
-      },
+        "id": "680522",
+        "title": "VSF Projects Ltd's board approved audited financial results for Q4 and FY ending 31.03.2026.\nAuthorized capital increased from ₹17 Cr to ₹34 Cr, pending shareholder approval.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=f7f3b36f-5b88-444f-bfea-5820f3aef13b.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T13:15:19.000Z"
+      }
+    ],
+    "events": [
       {
         "title": "Quarterly Result",
         "type": "RESULTS",
@@ -572,7 +610,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-24T18:30:00.000Z",
@@ -587,25 +625,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

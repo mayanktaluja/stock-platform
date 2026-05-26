@@ -3,12 +3,12 @@
   "name": "Kachchh Minerals Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-531778/kachchh-minerals-shares",
-  "parsed_at": "2026-05-25T22:48:50.726Z",
+  "parsed_at": "2026-05-26T13:42:53.391Z",
   "company_id": "31BCC9F4-6E82-49E8-ADD1-EB7B045C907F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kachchh-minerals-ltd",
     "search_id": "kachchh-minerals-ltd",
     "company_id": "GSTK531778",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 28.01,
-    "market_cap_inr": 148400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 29,
+    "market_cap_inr": 148500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.18559800071402,
+    "upside_pct": -99.2134,
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 14.5,
+      "pb": 14.51,
       "ev_ebitda": 128.56,
       "peg": -7.8290434782608695
     },
@@ -75,7 +124,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 17.05707449944694
+      "sector_pe": 17.0563985256298
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -96,17 +145,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 17.05707449944694,
+        "industry_pe": 17.0563985256298,
         "industry_name": "Mining & Mineral products",
         "industry_id": 38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.1,
         "industry_name": "Indian Metals and Mining",
-        "description": "531778 is expensive based on its Price-To-Book Ratio (15.9x) compared to the Indian Metals and Mining industry average (2.1x).",
+        "description": "531778 is expensive based on its Price-To-Book Ratio (16.5x) compared to the Indian Metals and Mining industry average (2.1x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -123,7 +172,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -136,50 +185,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 28.01,
-        "fetched_at": "2026-05-25T22:48:50.726Z",
+        "value": 29,
+        "fetched_at": "2026-05-26T13:42:53.391Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-531778/kachchh-minerals-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 148400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 148500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 14.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14.51,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 128.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -7.8290434782608695,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 17.05707449944694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17.0563985256298,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "fifty_two_week": {
@@ -188,85 +237,85 @@
           "low": 18.42,
           "high": 59.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.9304269,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 17.05707449944694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17.0563985256298,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 62.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 31.868131868131865,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.3349,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.580645161290323,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6774193548387096,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kachchh-minerals-ltd"
       }
     },
@@ -277,11 +326,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 14.5,
+    "pb": 14.51,
     "ps": 0,
     "book_value": 1.9304269,
     "face_value": 10,
-    "sector_pe": 17.05707449944694,
+    "sector_pe": 17.0563985256298,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -293,12 +342,12 @@
     "quick_ratio": 3.580645161290323,
     "cash_ratio": 0.6774193548387096,
     "returns_pct": {
-      "1D": 0.0357142857142913,
-      "7D": 7.235834609494642,
-      "1M": -5.499325236167338,
-      "3M": 0.25053686471009406,
-      "6M": 9.757053291536058,
-      "1Y": -12.468749999999995,
+      "1D": 3.534451981435196,
+      "7D": 11.581377452866494,
+      "1M": -2.1592442645074246,
+      "3M": -1.1251278554381123,
+      "6M": 9.06355772846935,
+      "1Y": -9.375,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -467,7 +516,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kachchh-minerals-ltd",
     "news": [
       {
@@ -515,7 +564,7 @@
         "ticker": "ORISSAMINE",
         "name": "Orissa Minerals Development Company",
         "searchId": "orissa-minerals-development-company-ltd",
-        "market_cap_inr": 24438300000,
+        "market_cap_inr": 24492900000,
         "pe": null,
         "pb": 0
       },
@@ -523,17 +572,17 @@
         "ticker": "502015",
         "name": "ASI Industries",
         "searchId": "asi-industries-ltd",
-        "market_cap_inr": 2181600000,
-        "pe": 9.61,
-        "pb": 0.77
+        "market_cap_inr": 2146500000,
+        "pe": 9.46,
+        "pb": 0.76
       },
       {
         "ticker": "541634",
         "name": "RAW Edge Industrial Solutions",
         "searchId": "raw-eedge-industrial-solutions-ltd",
-        "market_cap_inr": 201500000,
+        "market_cap_inr": 192900000,
         "pe": null,
-        "pb": 0.99
+        "pb": 0.92
       }
     ],
     "details": {

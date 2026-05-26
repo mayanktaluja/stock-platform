@@ -3,12 +3,12 @@
   "name": "Exicom Tele-Systems Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-exicom/exicom-tele-systems-shares",
-  "parsed_at": "2026-05-25T23:26:01.704Z",
+  "parsed_at": "2026-05-26T14:16:17.113Z",
   "company_id": "A357B0FB-2497-485F-B979-F1114E95D411",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/exicom-telesystems-ltd",
     "search_id": "exicom-telesystems-ltd",
     "company_id": "GSTK544133",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 151.99,
-    "market_cap_inr": 21939800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 147.95,
+    "market_cap_inr": 21195800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 48.15532676426625
+      "sector_pe": 48.15038693249581
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +148,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 48.15532676426625,
+        "industry_pe": 48.15038693249581,
         "industry_name": "Capital Goods - Electrical Equipment",
         "industry_id": 8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.9,
         "industry_name": "Indian Electrical",
-        "description": "EXICOM is good value based on its Price-To-Sales Ratio (1.9x) compared to the Indian Electrical industry average (1.9x).",
+        "description": "EXICOM is good value based on its Price-To-Sales Ratio (1.8x) compared to the Indian Electrical industry average (1.9x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -139,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 151.99,
-        "fetched_at": "2026-05-25T23:26:01.704Z",
+        "value": 147.95,
+        "fetched_at": "2026-05-26T14:16:17.113Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-exicom/exicom-tele-systems-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 21939800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21195800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.15532676426625,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.15038693249581,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 75.6,
           "high": 208.85
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 46.8285047,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.15532676426625,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.15038693249581,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 109.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 35.84932223160774,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7586928828579341,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.07119357518692883,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/exicom-telesystems-ltd"
       }
     },
@@ -284,7 +333,7 @@
     "ps": 1.91,
     "book_value": 46.8285047,
     "face_value": 10,
-    "sector_pe": 48.15532676426625,
+    "sector_pe": 48.15038693249581,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +345,12 @@
     "quick_ratio": 0.7586928828579341,
     "cash_ratio": 0.07119357518692883,
     "returns_pct": {
-      "1D": -3.706284845413073,
-      "7D": 37.74696392967193,
-      "1M": 29.850491243058535,
-      "3M": 60.36083561932898,
-      "6M": 30.485920329670336,
-      "1Y": -11.36575693958478,
+      "1D": -2.6580696098427663,
+      "7D": 27.973358705994283,
+      "1M": 26.398974797095253,
+      "3M": 55.524019762430356,
+      "6M": 29.225259848021658,
+      "1Y": -13.721716818287849,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -507,7 +556,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/exicom-telesystems-ltd",
     "news": [
       {
@@ -579,28 +628,28 @@
     ],
     "peers": [
       {
-        "ticker": "GVPIL",
-        "name": "GE Power India",
-        "searchId": "ge-power-india-ltd",
-        "market_cap_inr": 49173500000,
-        "pe": 19.46,
-        "pb": 8.44
-      },
-      {
         "ticker": "KSHINTL",
         "name": "KSH International",
         "searchId": "ksh-international-ltd",
-        "market_cap_inr": 48218300000,
-        "pe": 51.27,
-        "pb": 6.26
+        "market_cap_inr": 47042800000,
+        "pe": 50.02,
+        "pb": 6.11
       },
       {
         "ticker": "PITTIENG",
         "name": "Pitti Engineering",
         "searchId": "pitti-engineering-ltd",
-        "market_cap_inr": 35364200000,
+        "market_cap_inr": 35202300000,
         "pe": 30.02,
         "pb": 3.58
+      },
+      {
+        "ticker": "HIRECT",
+        "name": "Hind Rectifiers",
+        "searchId": "hind-rectifiers-ltd",
+        "market_cap_inr": 33415000000,
+        "pe": 85.94,
+        "pb": 15.9
       }
     ],
     "details": {

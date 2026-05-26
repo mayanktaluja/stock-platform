@@ -3,12 +3,12 @@
   "name": "Accelya Solutions India Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-accelya/accelya-solutions-india-shares",
-  "parsed_at": "2026-05-25T21:23:51.806Z",
+  "parsed_at": "2026-05-26T12:16:37.966Z",
   "company_id": "5B64A48E-8D02-4AD8-82B3-388A826D9556",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/accelya-kale-solutions-ltd",
     "search_id": "accelya-kale-solutions-ltd",
     "company_id": "GSTK532268",
@@ -28,22 +28,70 @@
       "dividend": 5
     },
     "snowflake_total": 16,
-    "current_price_inr": 1142.5,
-    "market_cap_inr": 16769700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1131.2,
+    "market_cap_inr": 17010700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1012.4,
       "high": 1527
     },
-    "fair_value_inr": 1245.815435,
+    "fair_value_inr": 1245.875833,
     "fair_value_range_inr": {
-      "min": 1245.815435,
-      "max": 1245.815435,
+      "min": 1245.875833,
+      "max": 1245.875833,
       "count": 3
     },
-    "upside_pct": 9.042926477024068,
+    "upside_pct": 10.137538277934937,
     "multiples": {
       "pe": 16.96,
       "ps": 3.12,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
     },
@@ -233,13 +281,13 @@
     },
     "dividend_yield_pct": 8.01,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -249,20 +297,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 16.96,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/accelya-kale-solutions-ltd",
       "search_id": "accelya-kale-solutions-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 16.96,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "sws_statement": {
@@ -286,7 +334,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -299,56 +347,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1142.5,
-        "fetched_at": "2026-05-25T21:23:51.806Z",
+        "value": 1131.2,
+        "fetched_at": "2026-05-26T12:16:37.966Z",
         "url": "https://simplywall.st/stocks/in/software/nse-accelya/accelya-solutions-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 16769700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17010700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 16.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 6.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.43736812393887925,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 8.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "fifty_two_week": {
@@ -357,91 +405,91 @@
           "low": 1012.4,
           "high": 1527
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 66.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 176.0827852,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 40.994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 22.625444145939856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 40.63140559857197,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 19.451998658868234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 34.88432738516559,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 33.050000000000004,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 18.818788456538694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.8488,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9035768750866493,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4940385415222515,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/accelya-kale-solutions-ltd"
       }
     },
@@ -456,7 +504,7 @@
     "ps": 3.12,
     "book_value": 176.0827852,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 40.994,
     "roa_pct": 22.625444145939856,
     "roic_pct": 40.63140559857197,
@@ -468,12 +516,12 @@
     "quick_ratio": 1.9035768750866493,
     "cash_ratio": 0.4940385415222515,
     "returns_pct": {
-      "1D": 1.8089467118160716,
-      "7D": 3.449837015574059,
-      "1M": -1.5340860122382105,
-      "3M": -1.9144917582417547,
-      "6M": -11.006387287739521,
-      "1Y": -18.159025787965614,
+      "1D": -0.9890590809627968,
+      "7D": 0.9819675058025352,
+      "1M": -2.5079720761871855,
+      "3M": -5.020990764063808,
+      "6M": -12.499999999999993,
+      "1Y": -18.968481375358163,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -821,7 +869,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/accelya-kale-solutions-ltd",
     "news": [
       {
@@ -896,7 +944,7 @@
         "ticker": "DATAMATICS",
         "name": "Datamatics Global Services",
         "searchId": "datamatics-global-services-ltd",
-        "market_cap_inr": 46487200000,
+        "market_cap_inr": 45609400000,
         "pe": 23.85,
         "pb": 3.01
       },
@@ -904,7 +952,7 @@
         "ticker": "RPSGVENT",
         "name": "RPSG Ventures",
         "searchId": "cesc-ventures-ltd",
-        "market_cap_inr": 30088800000,
+        "market_cap_inr": 30829900000,
         "pe": null,
         "pb": 1.2
       },
@@ -912,7 +960,7 @@
         "ticker": "HGS",
         "name": "Hinduja Global Solutions",
         "searchId": "hinduja-global-solutions-ltd",
-        "market_cap_inr": 18845400000,
+        "market_cap_inr": 19064000000,
         "pe": 111.91,
         "pb": 0.24
       }

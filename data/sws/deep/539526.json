@@ -3,12 +3,12 @@
   "name": "Suncare Traders Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-539526/suncare-traders-shares",
-  "parsed_at": "2026-05-25T23:40:22.560Z",
+  "parsed_at": "2026-05-26T14:28:24.446Z",
   "company_id": "DB16CFF0-E66B-4D1B-B0EB-B1DE7E75E00B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/suncare-traders-ltd",
     "search_id": "suncare-traders-ltd",
     "company_id": "GSTK539526",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 0.51,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 0.5,
     "market_cap_inr": 130100000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +93,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 72.63725490196077,
+    "upside_pct": 76.08999999999999,
     "multiples": {
       "pe": 17,
       "ps": 0,
@@ -55,12 +105,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/suncare-traders-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (19.6x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (19.3x) is below the Indian market (23.4x)",
       "Earnings have grown 10.6% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
@@ -79,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -95,27 +145,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 17,
-      "industry_pe": 74.71695232760163,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/suncare-traders-ltd",
       "search_id": "suncare-traders-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 17,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.6,
-        "industry_pe": 22.1,
+        "company_pe": 19.3,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "539526 is good value based on its Price-To-Earnings Ratio (19.6x) compared to the Indian Trade Distributors industry average (22.1x).",
+        "description": "539526 is good value based on its Price-To-Earnings Ratio (19.3x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +183,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -145,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 0.51,
-        "fetched_at": "2026-05-25T23:40:22.560Z",
+        "value": 0.5,
+        "fetched_at": "2026-05-26T14:28:24.446Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539526/suncare-traders-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 130100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 23.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +253,91 @@
           "low": 0.43,
           "high": 1.19
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.6062745,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.6164,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3149655604257982,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.263638421489474,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 14.649999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.523481527864746,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.4205,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.173913043478261,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5217391304347826,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suncare-traders-ltd"
       }
     },
@@ -302,7 +352,7 @@
     "ps": 0,
     "book_value": 1.6062745,
     "face_value": 2,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 1.6164,
     "roa_pct": 1.3149655604257982,
     "roic_pct": 2.263638421489474,
@@ -314,12 +364,12 @@
     "quick_ratio": 4.173913043478261,
     "cash_ratio": 0.5217391304347826,
     "returns_pct": {
-      "1D": 0,
-      "7D": 6.250000000000005,
-      "1M": -3.7735849056603805,
-      "3M": -19.047619047619047,
-      "6M": -29.166666666666664,
-      "1Y": -43.333333333333336,
+      "1D": -1.960784313725492,
+      "7D": 2.040816326530614,
+      "1M": -5.660377358490571,
+      "3M": -18.032786885245898,
+      "6M": -30.555555555555554,
+      "1Y": -44.44444444444445,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -500,7 +550,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/suncare-traders-ltd",
     "news": [
       {
@@ -568,7 +618,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -576,15 +626,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

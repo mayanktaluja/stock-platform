@@ -3,12 +3,12 @@
   "name": "Camex Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-524440/camex-shares",
-  "parsed_at": "2026-05-25T21:48:48.145Z",
+  "parsed_at": "2026-05-26T12:44:36.742Z",
   "company_id": "3C80BD75-9BEF-4DC8-8AEE-F65914FBA987",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/camex-ltd",
     "search_id": "camex-ltd",
     "company_id": "GSTK524440",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 37.08,
-    "market_cap_inr": 414000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 39.95,
+    "market_cap_inr": 378500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": 134.790814,
       "count": 1
     },
-    "upside_pct": 263.51352211434744,
+    "upside_pct": 237.39878347934916,
     "multiples": {
-      "pe": 12.75,
+      "pe": 11.66,
       "ps": 0.28,
-      "pb": 0.9,
+      "pb": 0.82,
       "ev_ebitda": 6.86,
       "peg": -0.4110098039215687
     },
@@ -55,20 +104,20 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/camex-ltd"
     },
     "rewards": [
       "Earnings grew by 71.5% over the past year",
-      "Price-To-Earnings ratio (12.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (12.6x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹414M)"
+      "Does not have a meaningful market cap (₹379M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 43.433484466337525,
-      "sector_pe": 43.433484466337525
+      "pe": 43.427221847196755,
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -95,28 +144,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 12.75,
-      "industry_pe": 43.433484466337525,
+      "company_pe": 11.66,
+      "industry_pe": 43.427221847196755,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/camex-ltd",
       "search_id": "camex-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 12.75,
-        "industry_pe": 43.433484466337525,
+        "company_pe": 11.66,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.7,
-        "industry_pe": 21.8,
+        "company_pe": 12.6,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "524440 is good value based on its Price-To-Earnings Ratio (12.7x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "524440 is good value based on its Price-To-Earnings Ratio (12.6x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 37.08,
-        "fetched_at": "2026-05-25T21:48:48.145Z",
+        "value": 39.95,
+        "fetched_at": "2026-05-26T12:44:36.742Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-524440/camex-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 414000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 378500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 12.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11.66,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.82,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 6.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.4110098039215687,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 26.37,
           "high": 50.39
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 45.1562883,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.045,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.307562789392452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.521025812821779,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.052687884461086,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.132120887937951,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 16.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 10.98638978532342,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.3411,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2611665790856543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.12454019968470835,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/camex-ltd"
       }
     },
@@ -299,11 +348,11 @@
     "latest_net_income": null,
     "latest_eps": 3.18,
     "most_recent_reported_date": null,
-    "pb": 0.9,
+    "pb": 0.82,
     "ps": 0.28,
     "book_value": 45.1562883,
     "face_value": 10,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 7.045,
     "roa_pct": 4.307562789392452,
     "roic_pct": 7.521025812821779,
@@ -315,12 +364,12 @@
     "quick_ratio": 2.2611665790856543,
     "cash_ratio": 0.12454019968470835,
     "returns_pct": {
-      "1D": -8.557336621454992,
-      "7D": -11.8192627824019,
-      "1M": 20.703125,
-      "3M": 23.889074507183423,
-      "6M": 5.942857142857138,
-      "1Y": -5.8883248730964475,
+      "1D": 7.740021574973044,
+      "7D": -2.394331785976049,
+      "1M": 30.04557291666668,
+      "3M": 28.954163976759205,
+      "6M": 14.142857142857151,
+      "1Y": 1.3959390862944272,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -521,7 +570,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/camex-ltd",
     "news": [
       {
@@ -586,7 +635,7 @@
         "ticker": "KIRIINDUS",
         "name": "Kiri Industries",
         "searchId": "kiri-industries-ltd",
-        "market_cap_inr": 25972700000,
+        "market_cap_inr": 25822800000,
         "pe": 0.52,
         "pb": 0.75
       },
@@ -594,7 +643,7 @@
         "ticker": "504092",
         "name": "Indokem",
         "searchId": "indokem-ltd",
-        "market_cap_inr": 16589300000,
+        "market_cap_inr": 16727400000,
         "pe": null,
         "pb": 37.21
       },
@@ -602,7 +651,7 @@
         "ticker": "VIDHIING",
         "name": "Vidhi Specialty Food Ingredients",
         "searchId": "vidhi-specialty-food-ingredients-ltd",
-        "market_cap_inr": 14676300000,
+        "market_cap_inr": 15268200000,
         "pe": 29.98,
         "pb": 4.48
       }

@@ -3,7 +3,7 @@
   "name": "Betex India Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-512477/betex-india-shares",
-  "parsed_at": "2026-05-25T22:14:14.561Z",
+  "parsed_at": "2026-05-26T13:05:59.390Z",
   "company_id": "F52E01E8-8EF2-4219-8270-CFD92DE99FD3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 442,
-    "market_cap_inr": 663000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 443.25,
+    "market_cap_inr": 664875000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -41.81753597285068,
+    "upside_pct": -41.981615115623235,
     "multiples": {
       "pe": 15.9,
       "ps": null,
@@ -108,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 442,
-        "fetched_at": "2026-05-25T22:14:14.561Z",
+        "value": 443.25,
+        "fetched_at": "2026-05-26T13:05:59.390Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-512477/betex-india-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 0.46596204114104134,
-      "1M": 15.029277813923228,
-      "3M": 16.6996699669967,
-      "6M": 26.938541068351523,
-      "1Y": 10.5,
+      "1D": 0.2828054298642534,
+      "7D": 5.14766931562092,
+      "1M": 15.354586857514638,
+      "3M": 13.946015424164523,
+      "6M": 26.660951564509222,
+      "1Y": 10.8125,
       "5Y": null
     },
     "next_earnings_date": null,

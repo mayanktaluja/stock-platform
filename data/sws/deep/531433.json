@@ -3,12 +3,12 @@
   "name": "Sungold Capital Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531433/sungold-capital-shares",
-  "parsed_at": "2026-05-25T22:37:29.790Z",
+  "parsed_at": "2026-05-26T13:32:41.848Z",
   "company_id": "A1F7B8C3-C664-45FD-875E-0BF859075BB3",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sungold-capital-ltd",
     "search_id": "sungold-capital-ltd",
     "company_id": "GSTK531433",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 3,
-    "market_cap_inr": 56100000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 55200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,7 +94,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 152.5,
+      "pe": 150,
       "ps": 3.6,
       "pb": 0.25,
       "ev_ebitda": 12.08,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sungold-capital-ltd"
     },
@@ -63,7 +112,7 @@
       "Earnings have grown 9.6% per year over the past 5 years"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹56M)",
+      "Does not have a meaningful market cap (₹55M)",
       "Makes less than USD$1m in revenue (₹15M)"
     ],
     "dividend": {
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -91,28 +140,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 152.5,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 150,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sungold-capital-ltd",
       "search_id": "sungold-capital-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 152.5,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 150,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "sws_statement": {
-        "company_pe": 134.3,
+        "company_pe": 132.1,
         "industry_pe": 19.5,
         "industry_name": "Indian Consumer Finance",
-        "description": "531433 is expensive based on its Price-To-Earnings Ratio (134.3x) compared to the Indian Consumer Finance industry average (19.5x).",
+        "description": "531433 is expensive based on its Price-To-Earnings Ratio (132.1x) compared to the Indian Consumer Finance industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -143,55 +192,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3,
-        "fetched_at": "2026-05-25T22:37:29.790Z",
+        "fetched_at": "2026-05-26T13:32:41.848Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531433/sungold-capital-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 56100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 55200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 152.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 150,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 2.3,
           "high": 4.14
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.0593926,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.1884,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2240143369175627,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3052503052503053,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.246753246753247,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.688311688311687,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.2246,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.1818181818181817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.1818181818181817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sungold-capital-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 3.6,
     "book_value": 12.0593926,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0.1884,
     "roa_pct": 0.2240143369175627,
     "roic_pct": 0.3052503052503053,
@@ -495,7 +544,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sungold-capital-ltd",
     "news": [
       {
@@ -553,7 +602,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -561,7 +610,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -569,7 +618,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

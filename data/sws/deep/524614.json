@@ -3,12 +3,12 @@
   "name": "IEL Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-524614/iel-shares",
-  "parsed_at": "2026-05-25T21:50:33.075Z",
+  "parsed_at": "2026-05-26T12:46:31.432Z",
   "company_id": "A613A487-4CBA-43AB-8036-41CA420B2B78",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/indian-extractions-ltd",
     "search_id": "indian-extractions-ltd",
     "company_id": "GSTK524614",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 5.73,
-    "market_cap_inr": 705400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.72,
+    "market_cap_inr": 747100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -54.58647469458988,
+    "upside_pct": -54.50708041958041,
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 1.6,
+      "pb": 1.66,
       "ev_ebitda": 59.11,
       "peg": -2.5067199999999996
     },
@@ -59,11 +108,9 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
-    "rewards": [
-      "Trading at good value vs. industry average Price-To-Book ratio"
-    ],
+    "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹705M)",
+      "Does not have a meaningful market cap (₹747M)",
       "Makes less than USD$1m in revenue (₹14M)",
       "High level of [[non-cash earnings]]",
       "Earnings have declined by 20.8% per year over past 5 years"
@@ -78,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 43.433484466337525
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 43.433484466337525,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.7,
         "industry_name": "Indian Trade Distributors",
-        "description": "524614 is good value based on its Price-To-Book Ratio (1.6x) compared to the Indian Trade Distributors industry average (1.7x).",
+        "description": "524614 is expensive based on its Price-To-Book Ratio (1.7x) compared to the Indian Trade Distributors industry average (1.7x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -127,7 +174,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -139,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.73,
-        "fetched_at": "2026-05-25T21:50:33.075Z",
+        "value": 5.72,
+        "fetched_at": "2026-05-26T12:46:31.432Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-524614/iel-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 705400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 747100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.66,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 59.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -2.5067199999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +238,91 @@
           "low": 4,
           "high": 10.28
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/indian-extractions-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.01,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 3.3708881,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.4518283,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 2.0500000000000003,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9535489472541783,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 64.3672,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 64.7887323943662,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.36619718309859156,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indian-extractions-ltd"
       }
     },
@@ -278,13 +331,13 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.01,
     "most_recent_reported_date": null,
-    "pb": 1.6,
+    "pb": 1.66,
     "ps": 0,
-    "book_value": 3.3708881,
+    "book_value": 3.4518283,
     "face_value": 1,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +349,12 @@
     "quick_ratio": 64.7887323943662,
     "cash_ratio": 0.36619718309859156,
     "returns_pct": {
-      "1D": 5.914972273567472,
-      "7D": -0.34782608695651435,
-      "1M": -8.319999999999993,
-      "3M": -14.092953523238375,
-      "6M": -21.506849315068486,
-      "1Y": 14.600000000000007,
+      "1D": -0.1745200698080397,
+      "7D": 5.1470588235294,
+      "1M": -8.480000000000004,
+      "3M": -13.595166163142,
+      "6M": -25.32637075718016,
+      "1Y": 14.399999999999997,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -510,7 +563,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/indian-extractions-ltd",
     "news": [
       {
@@ -585,25 +638,25 @@
         "ticker": "VINYLINDIA",
         "name": "Vinyl Chemicals India",
         "searchId": "vinyl-chemicals-india-ltd",
-        "market_cap_inr": 5074800000,
-        "pe": 30.78,
-        "pb": 3.9
+        "market_cap_inr": 4939100000,
+        "pe": 29.96,
+        "pb": 3.79
       },
       {
         "ticker": "544272",
         "name": "Shiv Texchem",
         "searchId": "shiv-texchem-ltd",
-        "market_cap_inr": 3241800000,
-        "pe": 6.74,
-        "pb": 0.97
+        "market_cap_inr": 3402800000,
+        "pe": 7.07,
+        "pb": 1.02
       },
       {
         "ticker": "524444",
         "name": "Evexia Lifecare",
         "searchId": "kavit-industries-ltd",
-        "market_cap_inr": 2928600000,
-        "pe": 156,
-        "pb": 0.72
+        "market_cap_inr": 3060000000,
+        "pe": 163,
+        "pb": 0.75
       }
     ],
     "details": {

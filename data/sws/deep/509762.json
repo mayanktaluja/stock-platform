@@ -3,12 +3,12 @@
   "name": "Mapro Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-509762/mapro-industries-shares",
-  "parsed_at": "2026-05-25T21:01:26.381Z",
+  "parsed_at": "2026-05-26T11:54:57.031Z",
   "company_id": "E7200DF2-4863-4DB9-9FC7-9F96153120B5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mapro-industries-ltd",
     "search_id": "mapro-industries-ltd",
     "company_id": "GSTK509762",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 40.11,
-    "market_cap_inr": 351900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 40.5,
+    "market_cap_inr": 336500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 39.71,
       "high": 96.65
     },
-    "fair_value_inr": 5.014301,
+    "fair_value_inr": 5.018088,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -87.49862627773621,
+    "upside_pct": -87.60965925925926,
     "multiples": {
-      "pe": 113.38,
+      "pe": 108.41,
       "ps": 0,
-      "pb": 1.34,
+      "pb": 1.28,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mapro-industries-ltd"
     },
@@ -63,7 +113,7 @@
       "Earnings have grown 8.8% per year over the past 5 years"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹352M)",
+      "Does not have a meaningful market cap (₹336M)",
       "Makes less than USD$1m in revenue (₹16M)"
     ],
     "dividend": {
@@ -82,7 +132,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Construction",
       "pe_industry_id": 16,
@@ -91,28 +141,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 113.38,
+      "company_pe": 108.41,
       "industry_pe": 36.524701377616836,
       "industry_name": "Construction",
       "industry_id": 16,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/mapro-industries-ltd",
       "search_id": "mapro-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 113.38,
+        "company_pe": 108.41,
         "industry_pe": 36.524701377616836,
         "industry_name": "Construction",
         "industry_id": 16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 114.7,
+        "company_pe": 110.7,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "509762 is expensive based on its Price-To-Earnings Ratio (114.7x) compared to the Indian Construction industry average (16.1x).",
+        "description": "509762 is expensive based on its Price-To-Earnings Ratio (110.7x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -142,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 40.11,
-        "fetched_at": "2026-05-25T21:01:26.381Z",
+        "value": 40.5,
+        "fetched_at": "2026-05-26T11:54:57.031Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-509762/mapro-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 351900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 336500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 113.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 108.41,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.28,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 36.524701377616836,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +250,91 @@
           "low": 39.71,
           "high": 96.65
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 31.2574317,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.3734179,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 36.524701377616836,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1659,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1549925484351715,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1716243735064114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3725782414307005,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6945,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3653846153846152,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.36538461538461536,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mapro-industries-ltd"
       }
     },
@@ -295,9 +345,9 @@
     "latest_net_income": null,
     "latest_eps": 0.37,
     "most_recent_reported_date": null,
-    "pb": 1.34,
+    "pb": 1.28,
     "ps": 0,
-    "book_value": 31.2574317,
+    "book_value": 31.3734179,
     "face_value": 10,
     "sector_pe": 36.524701377616836,
     "roe_pct": 1.1659,
@@ -311,12 +361,12 @@
     "quick_ratio": 1.3653846153846152,
     "cash_ratio": 0.36538461538461536,
     "returns_pct": {
-      "1D": -4.386174016686539,
-      "7D": -11.846153846153848,
-      "1M": -8.820186406001369,
-      "3M": -22.865384615384617,
-      "6M": -16.228070175438603,
-      "1Y": -35.669607056936655,
+      "1D": 0.9723261032161571,
+      "7D": -6.315058986814705,
+      "1M": -7.933621277563087,
+      "3M": -23.58490566037736,
+      "6M": -15.41353383458647,
+      "1Y": -35.044105854049725,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -515,7 +565,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mapro-industries-ltd",
     "news": [
       {
@@ -580,25 +630,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

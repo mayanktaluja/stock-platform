@@ -3,12 +3,12 @@
   "name": "Singer India Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-singerind/singer-india-shares",
-  "parsed_at": "2026-05-25T23:02:01.002Z",
+  "parsed_at": "2026-05-26T13:51:19.675Z",
   "company_id": "F348BE6B-4D50-4286-B7EB-257582329AD2",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/singer-india-ltd",
     "search_id": "singer-india-ltd",
     "company_id": "GSTK505729",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 75.69,
-    "market_cap_inr": 4553200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 74.58,
+    "market_cap_inr": 4708100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 57.15,
       "high": 80
     },
-    "fair_value_inr": 13.231197,
+    "fair_value_inr": 13.186054,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -82.51922711058263,
+    "upside_pct": -82.31958433896487,
     "multiples": {
-      "pe": 41.82,
+      "pe": 43.24,
       "ps": 0.89,
-      "pb": 2.74,
+      "pb": 2.83,
       "ev_ebitda": 19.31,
       "peg": 0.668895652173913
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/singer-india-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 47.265683405600534,
-      "sector_pe": 47.265683405600534
+      "pe": 47.016625942844996,
+      "sector_pe": 47.016625942844996
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Engineering",
       "pe_industry_id": 72,
@@ -91,28 +140,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 41.82,
-      "industry_pe": 47.265683405600534,
+      "company_pe": 43.24,
+      "industry_pe": 47.016625942844996,
       "industry_name": "Engineering",
       "industry_id": 72,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/singer-india-ltd",
       "search_id": "singer-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 41.82,
-        "industry_pe": 47.265683405600534,
+        "company_pe": 43.24,
+        "industry_pe": 47.016625942844996,
         "industry_name": "Engineering",
         "industry_id": 72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 41.7,
-        "industry_pe": 37.1,
+        "company_pe": 42.6,
+        "industry_pe": 36.7,
         "industry_name": "Indian Consumer Durables",
-        "description": "SINGERIND is expensive based on its Price-To-Earnings Ratio (41.7x) compared to the Indian Consumer Durables industry average (37.1x).",
+        "description": "SINGERIND is expensive based on its Price-To-Earnings Ratio (42.6x) compared to the Indian Consumer Durables industry average (36.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,7 +178,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 75.69,
-        "fetched_at": "2026-05-25T23:02:01.002Z",
+        "value": 74.58,
+        "fetched_at": "2026-05-26T13:51:19.675Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-singerind/singer-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4553200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4708100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 41.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.24,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.83,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.668895652173913,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.265683405600534,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.016625942844996,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 57.15,
           "high": 80
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 26.7163274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.265683405600534,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.016625942844996,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.3465,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.632261680746287,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 14.664519038571958,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2567683545291413,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.5948349847858316,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.37634623853945626,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.698,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5502309468822173,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9463048498845267,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/singer-india-ltd"
       }
     },
@@ -295,11 +344,11 @@
     "latest_net_income": null,
     "latest_eps": 1.75,
     "most_recent_reported_date": null,
-    "pb": 2.74,
+    "pb": 2.83,
     "ps": 0.89,
     "book_value": 26.7163274,
     "face_value": 2,
-    "sector_pe": 47.265683405600534,
+    "sector_pe": 47.016625942844996,
     "roe_pct": 4.3465,
     "roa_pct": 4.632261680746287,
     "roic_pct": 14.664519038571958,
@@ -311,12 +360,12 @@
     "quick_ratio": 1.5502309468822173,
     "cash_ratio": 0.9463048498845267,
     "returns_pct": {
-      "1D": 3.021641486320946,
-      "7D": 10.657894736842092,
-      "1M": 3.912685337726516,
-      "3M": 7.48366941209883,
-      "6M": 7.48366941209883,
-      "1Y": 7.48366941209883,
+      "1D": -1.4665081252477203,
+      "7D": 12.573584905660375,
+      "1M": 2.38879736408566,
+      "3M": 5.907412666856001,
+      "6M": 5.907412666856001,
+      "1Y": 5.907412666856001,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -521,7 +570,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/singer-india-ltd",
     "news": [
       {
@@ -586,7 +635,7 @@
         "ticker": "SYMPHONY",
         "name": "Symphony",
         "searchId": "symphony-ltd",
-        "market_cap_inr": 48818500000,
+        "market_cap_inr": 49570500000,
         "pe": 33.67,
         "pb": 8.96
       },
@@ -594,7 +643,7 @@
         "ticker": "IFBIND",
         "name": "IFB Industries",
         "searchId": "ifb-industries-ltd",
-        "market_cap_inr": 42556100000,
+        "market_cap_inr": 42671600000,
         "pe": 35.53,
         "pb": 4.61
       },
@@ -602,9 +651,9 @@
         "ticker": "ORIENTELEC",
         "name": "Orient Electric",
         "searchId": "orient-electric-ltd",
-        "market_cap_inr": 39163300000,
-        "pe": 40.88,
-        "pb": 5.15
+        "market_cap_inr": 39536700000,
+        "pe": 41.27,
+        "pb": 5.2
       }
     ],
     "details": {

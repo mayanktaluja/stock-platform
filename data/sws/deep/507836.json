@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mac-charles-india-ltd",
     "search_id": "mac-charles-india-ltd",
     "company_id": "GSTK507836",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 1,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 689,
-    "market_cap_inr": 8912600000,
+    "market_cap_inr": 8830100000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -118,7 +167,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 31.6218471625948
+      "sector_pe": 31.637222628337422
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -139,10 +188,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 31.6218471625948,
+        "industry_pe": 31.637222628337422,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "sws_statement": {
@@ -166,7 +215,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.5,
+        "industry_pe": 26.7,
         "sample_count": 22,
         "industry_code": "9551702",
         "industry_name": "Utilities"
@@ -185,44 +234,44 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8912600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8830100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 8.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "fifty_two_week": {
@@ -231,85 +280,85 @@
           "low": 591,
           "high": 779.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -8.0152672,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.6827800672423,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 32.45693563009972,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 95.33918938574692,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 12.9409,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6587607471093984,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1620960569226209,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mac-charles-india-ltd"
       }
     },
@@ -324,7 +373,7 @@
     "ps": 8.06,
     "book_value": -8.0152672,
     "face_value": 10,
-    "sector_pe": 31.6218471625948,
+    "sector_pe": 31.637222628337422,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 6.6827800672423,
@@ -542,7 +591,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mac-charles-india-ltd",
     "news": [
       {
@@ -607,7 +656,7 @@
         "ticker": "ITDC",
         "name": "India Tourism Development Corp",
         "searchId": "india-tourism-development-corporation-ltd",
-        "market_cap_inr": 47198900000,
+        "market_cap_inr": 47537700000,
         "pe": 57.32,
         "pb": 11.17
       },
@@ -615,7 +664,7 @@
         "ticker": "MHRIL",
         "name": "Mahindra Holidays & Resorts India",
         "searchId": "mahindra-holidays-resorts-india-ltd",
-        "market_cap_inr": 44277800000,
+        "market_cap_inr": 44964800000,
         "pe": 66.01,
         "pb": 0
       },
@@ -623,7 +672,7 @@
         "ticker": "JUNIPER",
         "name": "Juniper Hotels",
         "searchId": "juniper-hotels-ltd",
-        "market_cap_inr": 43888600000,
+        "market_cap_inr": 44022100000,
         "pe": 31.01,
         "pb": 1.53
       }

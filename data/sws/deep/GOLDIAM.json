@@ -3,12 +3,12 @@
   "name": "Goldiam International Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-goldiam/goldiam-international-shares",
-  "parsed_at": "2026-05-25T23:41:40.476Z",
+  "parsed_at": "2026-05-26T14:33:13.599Z",
   "company_id": "3A0065A9-9FBA-4D0B-BBE5-4ABA907F239C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/goldiam-international-ltd",
     "search_id": "goldiam-international-ltd",
     "company_id": "GSTK526729",
@@ -28,22 +28,70 @@
       "dividend": 3
     },
     "snowflake_total": 13,
-    "current_price_inr": 407.95,
-    "market_cap_inr": 44145200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 408.2,
+    "market_cap_inr": 45985800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 265,
       "high": 448.65
     },
-    "fair_value_inr": 31.3282,
+    "fair_value_inr": 31.223125,
     "fair_value_range_inr": {
-      "min": 31.3282,
-      "max": 31.3282,
+      "min": 31.223125,
+      "max": 31.223125,
       "count": 4
     },
-    "upside_pct": -92.32057850226744,
+    "upside_pct": -92.35102278294954,
     "multiples": {
       "pe": 28.21,
       "ps": 4.7,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/goldiam-international-ltd"
     },
@@ -233,13 +281,13 @@
     },
     "dividend_yield_pct": 0.73,
     "industry_benchmarks": {
-      "pe": 47.54550502661084,
-      "sector_pe": 47.54550502661084
+      "pe": 47.54705930701353,
+      "sector_pe": 47.54705930701353
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diamond, Gems and Jewellery",
       "pe_industry_id": 20,
@@ -249,20 +297,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 28.21,
-      "industry_pe": 47.54550502661084,
+      "industry_pe": 47.54705930701353,
       "industry_name": "Diamond, Gems and Jewellery",
       "industry_id": 20,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/goldiam-international-ltd",
       "search_id": "goldiam-international-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 28.21,
-        "industry_pe": 47.54550502661084,
+        "industry_pe": 47.54705930701353,
         "industry_name": "Diamond, Gems and Jewellery",
         "industry_id": 20,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "sws_statement": {
@@ -274,10 +322,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.188196269,
+        "industry_pe": 18.488832552,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 296,
+        "count": 295,
         "source": {
           "type": "country",
           "country": "IN",
@@ -286,7 +334,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -299,56 +347,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 407.95,
-        "fetched_at": "2026-05-25T23:41:40.476Z",
+        "value": 408.2,
+        "fetched_at": "2026-05-26T14:33:13.599Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-goldiam/goldiam-international-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 44145200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45985800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 28.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 4.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.1875947154471538,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.54550502661084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.54705930701353,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "fifty_two_week": {
@@ -357,91 +405,91 @@
           "low": 265,
           "high": 448.65
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 13.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 90.478814,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.54550502661084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.54705930701353,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 13.4974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 13.203569079224788,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 21.650955921895054,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.640802704024154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 23.89723857911184,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 2.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 2.0400762393104723,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.6441,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.862066376332783,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.4077939630575163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/goldiam-international-ltd"
       }
     },
@@ -456,7 +504,7 @@
     "ps": 4.7,
     "book_value": 90.478814,
     "face_value": 2,
-    "sector_pe": 47.54550502661084,
+    "sector_pe": 47.54705930701353,
     "roe_pct": 13.4974,
     "roa_pct": 13.203569079224788,
     "roic_pct": 21.650955921895054,
@@ -468,12 +516,12 @@
     "quick_ratio": 4.862066376332783,
     "cash_ratio": 2.4077939630575163,
     "returns_pct": {
-      "1D": 4.255047278303086,
-      "7D": 10.226965684950004,
-      "1M": 7.031352485897944,
-      "3M": 15.321554770318018,
-      "6M": 2.3200401304238776,
-      "1Y": 3.8569246435845153,
+      "1D": 0.06128201985537443,
+      "7D": 7.491770901909148,
+      "1M": 7.096943460579827,
+      "3M": 16.528689694547523,
+      "6M": 4.27896283050198,
+      "1Y": 3.9205702647657783,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -821,7 +869,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/goldiam-international-ltd",
     "news": [
       {
@@ -896,7 +944,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -904,7 +952,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       },
@@ -912,9 +960,9 @@
         "ticker": "DPABHUSHAN",
         "name": "DP Abhushan",
         "searchId": "dp-abhushan-ltd",
-        "market_cap_inr": 22031200000,
-        "pe": 10.4,
-        "pb": 3.48
+        "market_cap_inr": 22204700000,
+        "pe": 10.48,
+        "pb": 3.51
       }
     ],
     "details": {

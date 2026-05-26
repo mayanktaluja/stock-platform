@@ -3,7 +3,7 @@
   "name": "Sealmatic India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543782/sealmatic-india-shares",
-  "parsed_at": "2026-05-25T20:51:30.470Z",
+  "parsed_at": "2026-05-26T11:42:58.215Z",
   "company_id": "EB19FE27-2AC4-4A38-A819-5C5E1BEABA53",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 1
     },
     "snowflake_total": 8,
-    "current_price_inr": 375.35,
-    "market_cap_inr": 4076316567.5946565,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 378,
+    "market_cap_inr": 4105095677.503077,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 10.047882,
+    "fair_value_inr": 10.048202,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.32306327427733,
+    "upside_pct": -97.34174550264551,
     "multiples": {
       "pe": 46.1,
       "ps": null,
@@ -144,7 +192,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -157,8 +205,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 375.35,
-        "fetched_at": "2026-05-25T20:51:30.470Z",
+        "value": 378,
+        "fetched_at": "2026-05-26T11:42:58.215Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543782/sealmatic-india-shares"
       }
     },
@@ -185,12 +233,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -8.002450980392151,
-      "7D": -13.86115892139988,
-      "1M": -10.32134750925815,
-      "3M": 2.92020839045792,
-      "6M": -5.46530663644377,
-      "1Y": -30.68862023755826,
+      "1D": 0.7060077261222797,
+      "7D": -9.374250779189648,
+      "1M": -9.688209293991163,
+      "3M": 4.781704781704782,
+      "6M": -4.533400681904278,
+      "1Y": -30.199276541353466,
       "5Y": null
     },
     "next_earnings_date": null,

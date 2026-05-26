@@ -3,7 +3,7 @@
   "name": "Prag Bosimi Synthetics Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-500192/prag-bosimi-synthetics-shares",
-  "parsed_at": "2026-05-25T22:10:09.953Z",
+  "parsed_at": "2026-05-26T13:02:00.801Z",
   "company_id": "47DC5070-A195-4743-9E46-838917F6F6CE",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 1.85,
-    "market_cap_inr": 142982009.10899252,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.81,
+    "market_cap_inr": 139890506.2093386,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -52,7 +101,7 @@
       "Earnings have grown 7.7% per year over the past 5 years"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹145M)",
+      "Does not have a meaningful market cap (₹143M)",
       "Has less than 1 year of [[cash runway]]",
       "500192 has negative shareholders equity.",
       "Makes less than USD$1m in revenue (₹-2M)",
@@ -88,9 +137,9 @@
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.3,
+        "industry_pe": 1.4,
         "industry_name": "Indian Luxury",
-        "description": "500192 has negative equity and a Price-To-Book Ratio (-1.6x) compared to the Indian Luxury industry average (1.3x).",
+        "description": "500192 has negative equity and a Price-To-Book Ratio (-1.5x) compared to the Indian Luxury industry average (1.4x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -120,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.85,
-        "fetched_at": "2026-05-25T22:10:09.953Z",
+        "value": 1.81,
+        "fetched_at": "2026-05-26T13:02:00.801Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-500192/prag-bosimi-synthetics-shares"
       }
     },
@@ -148,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.5957446808510536,
-      "7D": -0.5376344086021511,
-      "1M": -2.1164021164021065,
-      "3M": 0.5434782608695656,
-      "6M": -4.639175257731951,
-      "1Y": -27.16535433070866,
+      "1D": -2.162162162162164,
+      "7D": -3.208556149732623,
+      "1M": -4.232804232804225,
+      "3M": -1.630434782608697,
+      "6M": -9.950248756218894,
+      "1Y": -28.74015748031496,
       "5Y": null
     },
     "next_earnings_date": null,

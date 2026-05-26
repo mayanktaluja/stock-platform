@@ -3,7 +3,7 @@
   "name": "Transwind Infrastructures Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-transwind/transwind-infrastructures-shares",
-  "parsed_at": "2026-05-25T23:35:40.902Z",
+  "parsed_at": "2026-05-26T14:25:25.124Z",
   "company_id": "CDFB6177-7D13-43FE-80CC-F643B941BC21",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 13.85,
-    "market_cap_inr": 92642652.60318196,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 13.2,
+    "market_cap_inr": 88294802.48101097,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +82,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 382.89919855595673,
+    "upside_pct": 406.6783257575758,
     "multiples": {
-      "pe": 10.8,
+      "pe": 10.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,7 +101,7 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 48.2% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (10.8x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (10.3x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have meaningful revenue (₹223M)",
@@ -83,25 +132,25 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 10.8,
+      "company_pe": 10.3,
       "industry_pe": 16.1,
       "industry_name": "Indian Construction"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 10.8,
+        "company_pe": 10.3,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "TRANSWIND is good value based on its Price-To-Earnings Ratio (10.8x) compared to the Indian Construction industry average (16.1x).",
+        "description": "TRANSWIND is good value based on its Price-To-Earnings Ratio (10.3x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 16.066009054,
+        "industry_pe": 16.121502387,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 189,
+        "count": 190,
         "source": {
           "type": "country",
           "country": "IN",
@@ -110,8 +159,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.85,
-        "fetched_at": "2026-05-25T23:35:40.902Z",
+        "value": 13.2,
+        "fetched_at": "2026-05-26T14:25:25.124Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-transwind/transwind-infrastructures-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.4827586206896575,
-      "7D": -4.4827586206896575,
-      "1M": -20.85714285714286,
-      "3M": -36.757990867579906,
-      "6M": -11.217948717948719,
-      "1Y": -11.78343949044586,
+      "1D": -4.6931407942238295,
+      "7D": -4.6931407942238295,
+      "1M": -24.571428571428573,
+      "3M": -39.726027397260275,
+      "6M": -17.500000000000004,
+      "1Y": -15.923566878980894,
       "5Y": null
     },
     "next_earnings_date": null,

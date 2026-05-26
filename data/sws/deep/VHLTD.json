@@ -3,7 +3,7 @@
   "name": "Viceroy Hotels Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-vhltd/viceroy-hotels-shares",
-  "parsed_at": "2026-05-25T23:50:02.243Z",
+  "parsed_at": "2026-05-26T14:39:01.944Z",
   "company_id": "CA3434CF-35D9-47FB-888A-E5873538E4EE",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 139.63,
-    "market_cap_inr": 9436048324.94473,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 139.88,
+    "market_cap_inr": 9452943061.614761,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 51.640116,
+    "fair_value_inr": 51.477425,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -63.01646064599298,
+    "upside_pct": -63.198866885902206,
     "multiples": {
-      "pe": 51.4,
+      "pe": 52,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -65,7 +114,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 26.1
+      "pe": 25.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -79,17 +128,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 51.4,
-      "industry_pe": 26.1,
+      "company_pe": 52,
+      "industry_pe": 25.9,
       "industry_name": "Indian Hospitality"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 51.4,
-        "industry_pe": 26.1,
+        "company_pe": 52,
+        "industry_pe": 25.9,
         "industry_name": "Indian Hospitality",
-        "description": "VHLTD is expensive based on its Price-To-Earnings Ratio (51.4x) compared to the Indian Hospitality industry average (26.1x).",
+        "description": "VHLTD is expensive based on its Price-To-Earnings Ratio (52x) compared to the Indian Hospitality industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -106,7 +155,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -119,8 +168,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 139.63,
-        "fetched_at": "2026-05-25T23:50:02.243Z",
+        "value": 139.88,
+        "fetched_at": "2026-05-26T14:39:01.944Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-vhltd/viceroy-hotels-shares"
       }
     },
@@ -147,12 +196,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.7414747886913335,
-      "7D": 3.7601248420896205,
-      "1M": 1.4974194955295503,
-      "3M": -4.231824417009613,
-      "6M": 8.257094123119868,
-      "1Y": 23.577307726347467,
+      "1D": 0.17904461791878537,
+      "7D": 2.12455282178579,
+      "1M": 1.679145162462748,
+      "3M": -3.9549574292776652,
+      "6M": 7.442967969890159,
+      "1Y": 23.798566244800426,
       "5Y": null
     },
     "next_earnings_date": null,

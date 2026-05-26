@@ -3,7 +3,7 @@
   "name": "Patspin India Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-514326/patspin-india-shares",
-  "parsed_at": "2026-05-25T22:15:36.948Z",
+  "parsed_at": "2026-05-26T13:07:19.407Z",
   "company_id": "1551F43E-7FF4-4861-BFC7-A9CE359399A9",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 7.16,
-    "market_cap_inr": 221387194.5455364,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 7.2,
+    "market_cap_inr": 222623994.51506454,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 2.890316,
+    "fair_value_inr": 2.885415,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -59.63245810055866,
+    "upside_pct": -59.924791666666664,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -55,7 +104,7 @@
     "risks": [
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹473M)",
-      "Does not have a meaningful market cap (₹224M)",
+      "Does not have a meaningful market cap (₹221M)",
       "514326 has negative shareholders equity."
     ],
     "dividend": {
@@ -107,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -120,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7.16,
-        "fetched_at": "2026-05-25T22:15:36.948Z",
+        "value": 7.2,
+        "fetched_at": "2026-05-26T13:07:19.407Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-514326/patspin-india-shares"
       }
     },
@@ -148,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.2413793103448256,
-      "7D": 5.139500734214399,
-      "1M": -9.137055837563448,
-      "3M": -8.2051282051282,
-      "6M": -18.912797281993203,
-      "1Y": -37.84722222222222,
+      "1D": 0.5586592178770954,
+      "7D": 0.6993006993006968,
+      "1M": -8.629441624365478,
+      "3M": -5.138339920948613,
+      "6M": -18.181818181818183,
+      "1Y": -37.49999999999999,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Dhanlaxmi Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-dhanbank/dhanlaxmi-bank-shares",
-  "parsed_at": "2026-05-25T23:09:17.640Z",
+  "parsed_at": "2026-05-26T13:59:07.173Z",
   "company_id": "AACEE7EC-4528-4C61-B944-3A53DA9E7857",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd",
     "search_id": "dhanlaxmi-bank-ltd",
     "company_id": "GSTK532180",
@@ -28,24 +28,73 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 33.5,
-    "market_cap_inr": 13301400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 33.1,
+    "market_cap_inr": 13238200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 19.45,
-      "high": 34.86
+      "high": 34.99
     },
-    "fair_value_inr": 7.105374,
+    "fair_value_inr": 7.107417,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -78.78992835820895,
+    "upside_pct": -78.5274410876133,
     "multiples": {
-      "pe": 12.96,
+      "pe": 12.9,
       "ps": 0.74,
       "pb": 1.01,
       "ev_ebitda": 17.47,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
     },
@@ -81,7 +130,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Banks",
       "pe_industry_id": 6,
@@ -90,21 +139,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 12.96,
+      "company_pe": 12.9,
       "industry_pe": 13.201131047130747,
       "industry_name": "Banks",
       "industry_id": 6,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd",
       "search_id": "dhanlaxmi-bank-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 12.96,
+        "company_pe": 12.9,
         "industry_pe": 13.201131047130747,
         "industry_name": "Banks",
         "industry_id": 6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "sws_statement": {
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.149999999999999,
+        "industry_pe": 11.4,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
@@ -141,149 +190,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 33.5,
-        "fetched_at": "2026-05-25T23:09:17.640Z",
+        "value": 33.1,
+        "fetched_at": "2026-05-26T13:59:07.173Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-dhanbank/dhanlaxmi-bank-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 13301400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 13238200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 12.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 12.9,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.6698249999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 13.201131047130747,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 19.45,
-          "high": 34.86
+          "high": 34.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 33.3236529,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 13.201131047130747,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.812031640429684,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 56.355205382757745,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.415940255263881,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 69.7710867447611,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd"
       }
     },
@@ -310,12 +359,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -0.6229605458320998,
-      "7D": 1.0558069381598838,
-      "1M": 26.129518072289166,
-      "3M": 41.11204717775907,
-      "6M": 21.995630007283317,
-      "1Y": 12.453843571668347,
+      "1D": -1.1940298507462643,
+      "7D": -0.24110910186859041,
+      "1M": 24.623493975903628,
+      "3M": 38.32010029251986,
+      "6M": 21.289849761817525,
+      "1Y": 11.11111111111112,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -524,7 +573,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dhanlaxmi-bank-ltd",
     "news": [
       {
@@ -596,28 +645,28 @@
     ],
     "peers": [
       {
-        "ticker": "JSFB",
-        "name": "Jana Small Finance Bank",
-        "searchId": "jana-small-finance-bank-ltd",
-        "market_cap_inr": 47501400000,
-        "pe": 14.55,
-        "pb": 1.07
-      },
-      {
         "ticker": "UTKARSHBNK",
         "name": "Utkarsh Small Finance Bank",
         "searchId": "utkarsh-small-finance-bank-ltd",
-        "market_cap_inr": 23471900000,
+        "market_cap_inr": 23863400000,
         "pe": null,
-        "pb": 0.86
+        "pb": 0.88
       },
       {
         "ticker": "SURYODAY",
         "name": "Suryoday Small Finance Bank",
         "searchId": "suryoday-small-finance-bank-ltd",
-        "market_cap_inr": 16969200000,
-        "pe": 11.16,
-        "pb": 0.82
+        "market_cap_inr": 17181800000,
+        "pe": 11.3,
+        "pb": 0.83
+      },
+      {
+        "ticker": "ESAFSFB",
+        "name": "ESAF Small Finance Bank",
+        "searchId": "esaf-small-finance-bank-ltd",
+        "market_cap_inr": 14944300000,
+        "pe": null,
+        "pb": 0.84
       }
     ],
     "details": {

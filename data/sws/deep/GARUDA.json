@@ -3,12 +3,12 @@
   "name": "Garuda Construction and Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-garuda/garuda-construction-and-engineering-shares",
-  "parsed_at": "2026-05-25T23:34:46.550Z",
+  "parsed_at": "2026-05-26T14:25:35.941Z",
   "company_id": "6A75913F-23EC-4D15-BE8E-DCF848634352",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/garuda-construction-engineering-ltd",
     "search_id": "garuda-construction-engineering-ltd",
     "company_id": "GSTK544271",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 16,
-    "current_price_inr": 171.57,
-    "market_cap_inr": 15826400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 170.99,
+    "market_cap_inr": 15961300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 101.56,
       "high": 249.3
     },
-    "fair_value_inr": 284.722703,
+    "fair_value_inr": 284.943237,
     "fair_value_range_inr": {
       "min": 200,
-      "max": 284.722703,
+      "max": 284.943237,
       "count": 3
     },
-    "upside_pct": 65.95133356647435,
+    "upside_pct": 66.64321714720158,
     "multiples": {
       "pe": 12.93,
       "ps": 2.97,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
     },
@@ -92,13 +141,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.73287436584585,
-      "sector_pe": 22.73287436584585
+      "pe": 24.2328398851662,
+      "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -108,20 +157,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12.93,
-      "industry_pe": 22.73287436584585,
+      "industry_pe": 24.2328398851662,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/garuda-construction-engineering-ltd",
       "search_id": "garuda-construction-engineering-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 12.93,
-        "industry_pe": 22.73287436584585,
+        "industry_pe": 24.2328398851662,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "sws_statement": {
@@ -145,8 +194,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -158,56 +207,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 171.57,
-        "fetched_at": "2026-05-25T23:34:46.550Z",
+        "value": 170.99,
+        "fetched_at": "2026-05-26T14:25:35.941Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-garuda/garuda-construction-and-engineering-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 15826400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 15961300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 12.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "fifty_two_week": {
@@ -216,91 +265,91 @@
           "low": 101.56,
           "high": 249.3
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 13.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 48.8233411,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 26.9655,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 19.010740004966472,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 28.07036624418004,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 23.079966837503765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 31.496834488996083,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 2.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8686367022597465,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.7825,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.5412800506115563,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.12057148882328132,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/garuda-construction-engineering-ltd"
       }
     },
@@ -315,7 +364,7 @@
     "ps": 2.97,
     "book_value": 48.8233411,
     "face_value": 5,
-    "sector_pe": 22.73287436584585,
+    "sector_pe": 24.2328398851662,
     "roe_pct": 26.9655,
     "roa_pct": 19.010740004966472,
     "roic_pct": 28.07036624418004,
@@ -327,12 +376,12 @@
     "quick_ratio": 2.5412800506115563,
     "cash_ratio": 0.12057148882328132,
     "returns_pct": {
-      "1D": 1.2391573729863659,
-      "7D": 2.344309234073018,
-      "1M": 0.3392011228726733,
-      "3M": -4.810252996005334,
-      "6M": -23.289814897612448,
-      "1Y": 67.3037542662116,
+      "1D": -0.3380544384216262,
+      "7D": 0.635630627979526,
+      "1M": 0,
+      "3M": -5.189908511228159,
+      "6M": -21.282570665684556,
+      "1Y": 66.73817649926866,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -540,7 +589,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/garuda-construction-engineering-ltd",
     "news": [
       {
@@ -615,25 +664,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

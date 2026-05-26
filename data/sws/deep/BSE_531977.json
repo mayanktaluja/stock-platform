@@ -3,7 +3,7 @@
   "name": "Chartered Logistics Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-531977/chartered-logistics-shares",
-  "parsed_at": "2026-05-25T22:26:35.298Z",
+  "parsed_at": "2026-05-26T13:20:17.697Z",
   "company_id": "2667F1CC-A888-47CB-9A6E-95613966EA5A",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,69 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 6.73,
-    "market_cap_inr": 832097222.2810881,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 6.44,
+    "market_cap_inr": 796241621.3209819,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 1.733653,
+    "fair_value_inr": 1.733473,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -74.23992570579495,
+    "upside_pct": -73.08271739130436,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -50,7 +100,7 @@
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹841M)",
+      "Does not have a meaningful market cap (₹832M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -85,7 +135,7 @@
         "company_pe": null,
         "industry_pe": 0.6,
         "industry_name": "Indian Transportation",
-        "description": "531977 is expensive based on its Price-To-Sales Ratio (1.2x) compared to the Indian Transportation industry average (0.6x).",
+        "description": "531977 is expensive based on its Price-To-Sales Ratio (1.1x) compared to the Indian Transportation industry average (0.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -115,8 +165,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6.73,
-        "fetched_at": "2026-05-25T22:26:35.298Z",
+        "value": 6.44,
+        "fetched_at": "2026-05-26T13:20:17.697Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-531977/chartered-logistics-shares"
       }
     },
@@ -143,12 +193,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.0294117647058736,
-      "7D": -0.7374631268436552,
-      "1M": -0.29629629629629,
-      "3M": -12.140992167101823,
-      "6M": -9.664429530201339,
-      "1Y": -25.635359116022098,
+      "1D": -4.3090638930163445,
+      "7D": -5.985401459854004,
+      "1M": -4.592592592592587,
+      "3M": -14.247669773635147,
+      "6M": -16.25487646293888,
+      "1Y": -28.839779005524864,
       "5Y": null
     },
     "next_earnings_date": null,

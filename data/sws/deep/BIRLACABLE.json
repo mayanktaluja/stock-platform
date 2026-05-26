@@ -3,12 +3,12 @@
   "name": "Birla Cable Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/nse-birlacable/birla-cable-shares",
-  "parsed_at": "2026-05-25T22:03:37.043Z",
+  "parsed_at": "2026-05-26T12:57:31.986Z",
   "company_id": "A8161B36-BD1B-47F3-AE0A-DAAF107A7217",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/birla-cable-ltd",
     "search_id": "birla-cable-ltd",
     "company_id": "GSTK500060",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 167.52,
-    "market_cap_inr": 4806000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 175.89,
+    "market_cap_inr": 5046000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 146.70776,
       "count": 2
     },
-    "upside_pct": -12.42373447946514,
+    "upside_pct": -16.591187674114494,
     "multiples": {
       "pe": 63.32,
       "ps": 0.67,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/birla-cable-ltd"
     },
@@ -173,13 +222,13 @@
     },
     "dividend_yield_pct": 1.09,
     "industry_benchmarks": {
-      "pe": 51.06345874713519,
-      "sector_pe": 51.06345874713519
+      "pe": 51.00861182494756,
+      "sector_pe": 51.00861182494756
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Cables",
       "pe_industry_id": 7,
@@ -189,20 +238,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 63.32,
-      "industry_pe": 51.06345874713519,
+      "industry_pe": 51.00861182494756,
       "industry_name": "Cables",
       "industry_id": 7,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/birla-cable-ltd",
       "search_id": "birla-cable-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 63.32,
-        "industry_pe": 51.06345874713519,
+        "industry_pe": 51.00861182494756,
         "industry_name": "Cables",
         "industry_id": 7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "sws_statement": {
@@ -239,56 +288,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 167.52,
-        "fetched_at": "2026-05-25T22:03:37.043Z",
+        "value": 175.89,
+        "fetched_at": "2026-05-26T12:57:31.986Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-birlacable/birla-cable-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4806000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5046000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 63.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.0570726956521739,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.06345874713519,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.00861182494756,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 1.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "fifty_two_week": {
@@ -297,91 +346,91 @@
           "low": 104,
           "high": 215.2
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 89.8870667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.06345874713519,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.00861182494756,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.0173,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.636559371299387,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.672051206019875,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.1903205726735138,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.436092955700798,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 47.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 28.543438475616316,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.395,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6175594156552073,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.02638273130314703,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/birla-cable-ltd"
       }
     },
@@ -396,7 +445,7 @@
     "ps": 0.67,
     "book_value": 89.8870667,
     "face_value": 10,
-    "sector_pe": 51.06345874713519,
+    "sector_pe": 51.00861182494756,
     "roe_pct": 6.0173,
     "roa_pct": 3.636559371299387,
     "roic_pct": 6.672051206019875,
@@ -408,12 +457,12 @@
     "quick_ratio": 1.6175594156552073,
     "cash_ratio": 0.02638273130314703,
     "returns_pct": {
-      "1D": 4.995299279222813,
-      "7D": 9.154883690623581,
-      "1M": 7.253985530443699,
-      "3M": 22.518832736049166,
-      "6M": 13.63451363451365,
-      "1Y": -10.860426754642685,
+      "1D": 4.996418338108867,
+      "7D": 9.153531090976792,
+      "1M": 12.612843331839418,
+      "3M": 26.941397228637403,
+      "6M": 19.190892457816624,
+      "1Y": -6.406640770499665,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -745,7 +794,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/birla-cable-ltd",
     "news": [
       {
@@ -820,7 +869,7 @@
         "ticker": "OPTIEMUS",
         "name": "Optiemus Infracom",
         "searchId": "optiemus-infracom-ltd",
-        "market_cap_inr": 37005400000,
+        "market_cap_inr": 38069700000,
         "pe": 56.08,
         "pb": 4.95
       },
@@ -828,7 +877,7 @@
         "ticker": "DLINKINDIA",
         "name": "D-Link (India)",
         "searchId": "dlink-india-ltd",
-        "market_cap_inr": 16325100000,
+        "market_cap_inr": 16426300000,
         "pe": 15.69,
         "pb": 3.23
       },
@@ -836,7 +885,7 @@
         "ticker": "526775",
         "name": "Valiant Communications",
         "searchId": "valiant-communications-ltd",
-        "market_cap_inr": 13921200000,
+        "market_cap_inr": 13869700000,
         "pe": 68.7,
         "pb": 15.3
       }

@@ -3,12 +3,12 @@
   "name": "Agarwal Fortune India Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-530765/agarwal-fortune-india-shares",
-  "parsed_at": "2026-05-25T22:20:21.457Z",
+  "parsed_at": "2026-05-26T13:16:25.460Z",
   "company_id": "23B08921-52DA-4D2B-9DA4-4D903C6A50EF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/devki-leasing-finance-ltd",
     "search_id": "devki-leasing-finance-ltd",
     "company_id": "GSTK530765",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 2,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 23.5,
     "market_cap_inr": 80700000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": -89.49303829787235,
     "multiples": {
-      "pe": 54.65,
+      "pe": 130.56,
       "ps": 1.07,
-      "pb": 11.4,
+      "pb": 11.13,
       "ev_ebitda": 29.28,
       "peg": 0.39277241379310357
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/devki-leasing-finance-ltd"
     },
@@ -83,7 +132,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Glass & Glass Products",
       "pe_industry_id": 29,
@@ -92,28 +141,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 54.65,
+      "company_pe": 130.56,
       "industry_pe": 38.560190375462724,
       "industry_name": "Glass & Glass Products",
       "industry_id": 29,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/devki-leasing-finance-ltd",
       "search_id": "devki-leasing-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 54.65,
+        "company_pe": 130.56,
         "industry_pe": 38.560190375462724,
         "industry_name": "Glass & Glass Products",
         "industry_id": 29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "sws_statement": {
         "company_pe": 129.8,
-        "industry_pe": 22.9,
+        "industry_pe": 23,
         "industry_name": "Indian Diversified Financial",
-        "description": "530765 is expensive based on its Price-To-Earnings Ratio (129.8x) compared to the Indian Diversified Financial industry average (22.9x).",
+        "description": "530765 is expensive based on its Price-To-Earnings Ratio (129.8x) compared to the Indian Diversified Financial industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -144,55 +193,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 23.5,
-        "fetched_at": "2026-05-25T22:20:21.457Z",
+        "fetched_at": "2026-05-26T13:16:25.460Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-530765/agarwal-fortune-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 80700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 54.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 130.56,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 11.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11.13,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 29.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.39277241379310357,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 38.560190375462724,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 16.5,
           "high": 25.06
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
-        "value": 0.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.18,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 2.0614776,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.1115445,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 38.560190375462724,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.6269,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.1582733812949644,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.022556390977446,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0676156583629894,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.804270462633453,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 282.22999999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 73.02158273381296,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 61.6218,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4475138121546961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05524861878453039,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devki-leasing-finance-ltd"
       }
     },
@@ -294,11 +343,11 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": 0.43,
+    "latest_eps": 0.18,
     "most_recent_reported_date": null,
-    "pb": 11.4,
+    "pb": 11.13,
     "ps": 1.07,
-    "book_value": 2.0614776,
+    "book_value": 2.1115445,
     "face_value": 10,
     "sector_pe": 38.560190375462724,
     "roe_pct": 8.6269,
@@ -480,7 +529,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/devki-leasing-finance-ltd",
     "news": [
       {
@@ -545,7 +594,7 @@
         "ticker": "BOROLTD",
         "name": "Borosil",
         "searchId": "borosil-ltd",
-        "market_cap_inr": 27415500000,
+        "market_cap_inr": 27170300000,
         "pe": 36.74,
         "pb": 3.09
       },
@@ -553,15 +602,15 @@
         "ticker": "LAOPALA",
         "name": "La Opala Rg",
         "searchId": "la-opala-rg-ltd",
-        "market_cap_inr": 18931100000,
-        "pe": 18.6,
-        "pb": 2.36
+        "market_cap_inr": 19480500000,
+        "pe": 19.14,
+        "pb": 2.43
       },
       {
         "ticker": "BOROSCI",
         "name": "Borosil Scientific",
         "searchId": "borosil-scientific-ltd",
-        "market_cap_inr": 12328100000,
+        "market_cap_inr": 12270200000,
         "pe": 35.63,
         "pb": 2.79
       }

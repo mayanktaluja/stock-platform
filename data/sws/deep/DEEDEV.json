@@ -3,12 +3,12 @@
   "name": "DEE Development Engineers Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-deedev/dee-development-engineers-shares",
-  "parsed_at": "2026-05-25T23:07:39.443Z",
+  "parsed_at": "2026-05-26T13:55:29.490Z",
   "company_id": "22C11505-8BDE-4F88-8C1C-56C38AAECF3D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dee-development-engineers-ltd",
     "search_id": "dee-development-engineers-ltd",
     "company_id": "GSTK544198",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 549.95,
-    "market_cap_inr": 36255900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 539.75,
+    "market_cap_inr": 38067100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 183,
-      "high": 511
+      "high": 549.95
     },
     "fair_value_inr": 380,
     "fair_value_range_inr": {
@@ -43,7 +92,7 @@
       "max": 380,
       "count": 4
     },
-    "upside_pct": -30.902809346304217,
+    "upside_pct": -29.597035664659565,
     "multiples": {
       "pe": 46.99,
       "ps": 3.18,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/dee-development-engineers-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 27.3031394312147,
-      "sector_pe": 27.3031394312147
+      "pe": 27.267343034228315,
+      "sector_pe": 27.267343034228315
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -92,27 +141,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 46.99,
-      "industry_pe": 27.3031394312147,
+      "industry_pe": 27.267343034228315,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/dee-development-engineers-ltd",
       "search_id": "dee-development-engineers-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 46.99,
-        "industry_pe": 27.3031394312147,
+        "industry_pe": 27.267343034228315,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "sws_statement": {
-        "company_pe": 46.9,
-        "industry_pe": 26.4,
+        "company_pe": 48.3,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "DEEDEV is expensive based on its Price-To-Earnings Ratio (46.9x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "DEEDEV is expensive based on its Price-To-Earnings Ratio (48.3x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,7 +178,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -142,149 +191,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 549.95,
-        "fetched_at": "2026-05-25T23:07:39.443Z",
+        "value": 539.75,
+        "fetched_at": "2026-05-26T13:55:29.490Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-deedev/dee-development-engineers-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 36255900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 38067100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 46.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 4.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.367449275362319,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 183,
-          "high": 511
+          "high": 549.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 11.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 128.5504448,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.688,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.111283808018797,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.332283745574147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.925569176882663,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.029772329246935,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 79.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 36.66886725268099,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.7378,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6722769315724082,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0970618011136165,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dee-development-engineers-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 3.18,
     "book_value": 128.5504448,
     "face_value": 10,
-    "sector_pe": 27.3031394312147,
+    "sector_pe": 27.267343034228315,
     "roe_pct": 8.688,
     "roa_pct": 4.111283808018797,
     "roic_pct": 9.332283745574147,
@@ -311,12 +360,12 @@
     "quick_ratio": 0.6722769315724082,
     "cash_ratio": 0.0970618011136165,
     "returns_pct": {
-      "1D": 4.992363497518155,
-      "7D": 15.450823973968724,
-      "1M": 27.20018503527235,
-      "3M": 95.711743772242,
-      "6M": 152.44434243745698,
-      "1Y": 115.51453875695587,
+      "1D": -1.8547140649150005,
+      "7D": 19.26858910617611,
+      "1M": 24.84098531282525,
+      "3M": 80.43391054355821,
+      "6M": 148.9621771217712,
+      "1Y": 111.51736029469394,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -517,22 +566,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dee-development-engineers-ltd",
     "news": [
+      {
+        "id": "26052611117781",
+        "title": "DEE Development Engineers Ltd hits all-time high of Rs 577 on 26 May 2026.\nThe stock rallied over five sessions, driven by strong momentum and robust financials.",
+        "url": "https://www.marketsmojo.com/news/stocks-in-action/dee-development-engineers-ltd-hits-all-time-high-at-rs577-4013116",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-25T04:06:03.000Z"
+      },
       {
         "id": "845750016259025408",
         "title": "Dee Development Engineers targets Rs.2,500 crore revenue with 20% EBITDA margin by FY30.",
         "url": "https://sqst.in/RsWVp",
         "source": "ScoutQuest",
         "published_at": "2026-05-22T19:48:37.000Z"
-      },
-      {
-        "id": "845212990764250368",
-        "title": "Dee Development Engineers' subsidiary secures major HRSG pipe spool order from an international EPC firm.\nContract spans Jun 2027 to Dec 2029 with a minimum annual value of $15.3M.",
-        "url": "https://sqst.in/P8AyN",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-21T08:14:40.000Z"
       }
     ],
     "events": [
@@ -582,25 +631,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {
@@ -617,6 +666,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "83da7a25-3926-453d-b950-77f5f917320d",
+      "type": "article",
+      "date": "2026-05-26T03:50:38.000Z",
+      "title": "We Ran A Stock Scan For Earnings Growth And DEE Development Engineers (NSE:DEEDEV) Passed With Ease",
+      "body": "It's common for many investors, especially those who are inexperienced, to buy shares in companies with a good story...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-deedev/dee-development-engineers-shares/news/we-ran-a-stock-scan-for-earnings-growth-and-dee-development",
+      "raw_subtype": "article"
+    },
     {
       "id": "7a639471-16d6-4450-bbd4-1e821a7649dd",
       "type": "brief",

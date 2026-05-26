@@ -3,7 +3,7 @@
   "name": "Toss the Coin Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/bse-544303/toss-the-coin-shares",
-  "parsed_at": "2026-05-25T21:02:29.408Z",
+  "parsed_at": "2026-05-26T11:54:09.605Z",
   "company_id": "D06C402F-B053-42C0-8D8F-4542DDEC7042",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 3
     },
     "snowflake_total": 13,
-    "current_price_inr": 226.05,
-    "market_cap_inr": 427234548.5493805,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 228,
+    "market_cap_inr": 430920048.96818733,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 78.486379,
+    "fair_value_inr": 78.487052,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -65.27919531077195,
+    "upside_pct": -65.5758543859649,
     "multiples": {
       "pe": 31.2,
       "ps": null,
@@ -149,8 +197,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -162,8 +210,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 226.05,
-        "fetched_at": "2026-05-25T21:02:29.408Z",
+        "value": 228,
+        "fetched_at": "2026-05-26T11:54:09.605Z",
         "url": "https://simplywall.st/stocks/in/media/bse-544303/toss-the-coin-shares"
       }
     },
@@ -190,12 +238,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -10.2263701350278,
-      "7D": -13.157894736842104,
-      "1M": -16.525110782865582,
-      "3M": -24.65,
-      "6M": -40.64592359196534,
-      "1Y": -46.29365645046329,
+      "1D": 0.862641008626405,
+      "7D": -12.408759124087595,
+      "1M": -15.80502215657312,
+      "3M": -30.275229357798167,
+      "6M": -43.03560274828232,
+      "1Y": -45.8303635067712,
       "5Y": null
     },
     "next_earnings_date": null,

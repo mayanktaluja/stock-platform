@@ -3,12 +3,12 @@
   "name": "Ahasolar Technologies Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-543941/ahasolar-technologies-shares",
-  "parsed_at": "2026-05-25T20:53:43.110Z",
+  "parsed_at": "2026-05-26T11:45:18.219Z",
   "company_id": "8E5B1425-E993-4246-AE5D-E5A9588E093C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ahasolar-technologies-ltd",
     "search_id": "ahasolar-technologies-ltd",
     "company_id": "GSTK543941",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 92.15,
-    "market_cap_inr": 280500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 85.01,
+    "market_cap_inr": 284000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -82,7 +131,7 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.7,
-      "sector_pe": 119.47708129875456
+      "sector_pe": 119.67967140334736
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -103,10 +152,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 119.47708129875456,
+        "industry_pe": 119.67967140334736,
         "industry_name": "E-Commerce/App based Aggregator",
         "industry_id": 80,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "sws_statement": {
@@ -130,7 +179,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -143,50 +192,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 92.15,
-        "fetched_at": "2026-05-25T20:53:43.110Z",
+        "value": 85.01,
+        "fetched_at": "2026-05-26T11:45:18.219Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-543941/ahasolar-technologies-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 280500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 284000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 119.47708129875456,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 119.67967140334736,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "fifty_two_week": {
@@ -195,85 +244,85 @@
           "low": 58.9,
           "high": 136
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 47.9218295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 119.47708129875456,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 119.67967140334736,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.3706,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5599999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6934,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ahasolar-technologies-ltd"
       }
     },
@@ -288,7 +337,7 @@
     "ps": 0.48,
     "book_value": 47.9218295,
     "face_value": 10,
-    "sector_pe": 119.47708129875456,
+    "sector_pe": 119.67967140334736,
     "roe_pct": 12.3706,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -300,12 +349,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 1.26373626373627,
-      "7D": 2.388888888888895,
-      "1M": 1.152579582875973,
-      "3M": 15.201900237529706,
-      "6M": 4.585177618885491,
-      "1Y": -15.690759377859095,
+      "1D": -7.748236570808464,
+      "7D": -5.544444444444439,
+      "1M": -6.684961580680559,
+      "3M": 14.676918926210725,
+      "6M": -7.356146469049694,
+      "1Y": -22.223238792314724,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -437,7 +486,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ahasolar-technologies-ltd",
     "news": [
       {
@@ -482,7 +531,7 @@
         "ticker": "NIITMTS",
         "name": "NIIT Learning Systems ",
         "searchId": "niit-learning-systems-ltd-",
-        "market_cap_inr": 28950200000,
+        "market_cap_inr": 30071100000,
         "pe": 11.69,
         "pb": 1.88
       },
@@ -490,7 +539,7 @@
         "ticker": "FEDDERSHOL",
         "name": "Fedders Holding",
         "searchId": "im-capitals-ltd",
-        "market_cap_inr": 6576200000,
+        "market_cap_inr": 6582300000,
         "pe": 8.87,
         "pb": 0.99
       },
@@ -498,7 +547,7 @@
         "ticker": "MOLDTECH",
         "name": "Mold-Tek Technologies",
         "searchId": "moldtek-technologies-ltd",
-        "market_cap_inr": 3486900000,
+        "market_cap_inr": 3453700000,
         "pe": 34.59,
         "pb": 2.72
       }

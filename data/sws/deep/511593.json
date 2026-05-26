@@ -3,12 +3,12 @@
   "name": "Libord Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-511593/libord-finance-shares",
-  "parsed_at": "2026-05-25T21:05:56.408Z",
+  "parsed_at": "2026-05-26T12:00:39.299Z",
   "company_id": "8A6E0B21-5653-46CE-A759-8388DAAA17A4",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/libord-finance-ltd",
     "search_id": "libord-finance-ltd",
     "company_id": "GSTK511593",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 17.5,
-    "market_cap_inr": 264100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 16.78,
+    "market_cap_inr": 274800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 50.97,
+      "pe": 42.68,
       "ps": 15.59,
-      "pb": 1.51,
+      "pb": 1.59,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/libord-finance-ltd"
     },
@@ -65,7 +114,7 @@
     ],
     "risks": [
       "Makes less than USD$1m in revenue (₹20M)",
-      "Does not have a meaningful market cap (₹264M)",
+      "Does not have a meaningful market cap (₹275M)",
       "Earnings have declined by 8.4% per year over past 5 years"
     ],
     "dividend": {
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 50.97,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 42.68,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/libord-finance-ltd",
       "search_id": "libord-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 50.97,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 42.68,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 41.5,
-        "industry_pe": 22.9,
+        "company_pe": 41.4,
+        "industry_pe": 22.5,
         "industry_name": "Indian Diversified Financial",
-        "description": "511593 is expensive based on its Price-To-Earnings Ratio (41.5x) compared to the Indian Diversified Financial industry average (22.9x).",
+        "description": "511593 is expensive based on its Price-To-Earnings Ratio (41.4x) compared to the Indian Diversified Financial industry average (22.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,8 +180,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 17.5,
-        "fetched_at": "2026-05-25T21:05:56.408Z",
+        "value": 16.78,
+        "fetched_at": "2026-05-26T12:00:39.299Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511593/libord-finance-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 264100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 274800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 50.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 42.68,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.59,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 15.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 15,
           "high": 31.89
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
-        "value": 0.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.41,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 11.1691083,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 10.9872611,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6911,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.5999999999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.8930854154561296,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 52.941176470588225,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 75.63025210084035,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 39.8295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 38.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/libord-finance-ltd"
       }
     },
@@ -295,13 +344,13 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": 0.33,
+    "latest_eps": 0.41,
     "most_recent_reported_date": null,
-    "pb": 1.51,
+    "pb": 1.59,
     "ps": 15.59,
-    "book_value": 11.1691083,
+    "book_value": 10.9872611,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 3.6911,
     "roa_pct": 3.5999999999999996,
     "roic_pct": 3.8930854154561296,
@@ -313,12 +362,12 @@
     "quick_ratio": 38.5,
     "cash_ratio": 0.5,
     "returns_pct": {
-      "1D": 4.042806183115337,
-      "7D": 3.672985781990527,
-      "1M": -4.89130434782608,
-      "3M": -5.097613882863347,
-      "6M": -14.800389483933785,
-      "1Y": -8.424908424908423,
+      "1D": -4.114285714285708,
+      "7D": 4.613466334164601,
+      "1M": -8.804347826086943,
+      "3M": -8.655416439847578,
+      "6M": -21.95348837209302,
+      "1Y": -12.19256933542647,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -534,22 +583,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/libord-finance-ltd",
     "news": [
+      {
+        "id": "26052611403005",
+        "title": "Libord Finance's Q4 FY26 net sales rose 24.6% Y-o-Y to Rs 0.22 crore.\nNet loss reduced to Rs 0.03 crore; shares gave 16.7% returns over 6 months.",
+        "url": "https://www.moneycontrol.com/news/business/earnings/libord-finance-standalone-march-2026-net-sales-at-rs-0-22-crore-up-24-64-y-o-y-13931362.html/amp",
+        "source": "Moneycontrol",
+        "published_at": "2026-05-26T07:14:11.000Z"
+      },
       {
         "id": "657316",
         "title": "Libord Finance Ltd's board meeting is scheduled for May 22, 2026, to review financial results.\nThe meeting will also appoint an internal auditor for FY 2026-27 and discuss other matters.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=a7d9b060-9c13-464d-852b-ef68838d1e8d.pdf",
         "source": "BSE",
         "published_at": "2026-05-18T06:59:20.000Z"
-      },
-      {
-        "id": "440381",
-        "title": "Libord Finance Ltd's board meeting is scheduled for January 23, 2026.\nKey agenda includes approving unaudited Q3 and 9-month financial results.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=79b76c90-3edb-4ad4-a6c3-73d85b81e565.pdf",
-        "source": "BSE",
-        "published_at": "2026-01-14T13:07:21.000Z"
       }
     ],
     "events": [
@@ -599,7 +648,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -607,7 +656,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -615,7 +664,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

@@ -3,7 +3,7 @@
   "name": "Khemani Distributors & Marketing Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-539788/khemani-distributors-marketing-shares",
-  "parsed_at": "2026-05-25T23:43:13.505Z",
+  "parsed_at": "2026-05-26T14:32:04.303Z",
   "company_id": "91FF9E87-D8F5-4C50-BBE0-0FC7158A4A27",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 119.6,
     "market_cap_inr": 2747690329.5987616,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -68,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 25.3
+      "pe": 26.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -83,16 +132,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 14.2,
-      "industry_pe": 25.3,
+      "industry_pe": 26.9,
       "industry_name": "Indian Retail Distributors"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 14.2,
-        "industry_pe": 25.3,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "539788 is good value based on its Price-To-Earnings Ratio (14.2x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "539788 is good value based on its Price-To-Earnings Ratio (14.2x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -123,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 119.6,
-        "fetched_at": "2026-05-25T23:43:13.505Z",
+        "fetched_at": "2026-05-26T14:32:04.303Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-539788/khemani-distributors-marketing-shares"
       }
     },

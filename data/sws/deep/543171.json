@@ -3,12 +3,12 @@
   "name": "RO Jewels Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-543171/ro-jewels-shares",
-  "parsed_at": "2026-05-25T20:41:47.098Z",
+  "parsed_at": "2026-05-26T11:09:40.601Z",
   "company_id": "75926AEA-2638-49DD-A77E-312CBE177C1D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ro-jewels-ltd",
     "search_id": "ro-jewels-ltd",
     "company_id": "GSTK543171",
@@ -28,7 +28,56 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 1.62,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.68,
     "market_cap_inr": 81700000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 38.92425925925926,
+    "upside_pct": 33.96267857142858,
     "multiples": {
       "pe": 81,
       "ps": 0.1,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ro-jewels-ltd"
     },
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 48.94357691126805,
-      "sector_pe": 48.94357691126805
+      "pe": 48.83631794258032,
+      "sector_pe": 48.83631794258032
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diamond, Gems and Jewellery",
       "pe_industry_id": 20,
@@ -95,20 +144,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 81,
-      "industry_pe": 48.94357691126805,
+      "industry_pe": 48.83631794258032,
       "industry_name": "Diamond, Gems and Jewellery",
       "industry_id": 20,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ro-jewels-ltd",
       "search_id": "ro-jewels-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 81,
-        "industry_pe": 48.94357691126805,
+        "industry_pe": 48.83631794258032,
         "industry_name": "Diamond, Gems and Jewellery",
         "industry_id": 20,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "sws_statement": {
@@ -132,8 +181,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.62,
-        "fetched_at": "2026-05-25T20:41:47.098Z",
+        "value": 1.68,
+        "fetched_at": "2026-05-26T11:09:40.601Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-543171/ro-jewels-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 81700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 86.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.9039599999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 1.1,
           "high": 2.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 2.6306684,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1069,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3972553268327916,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4585537918871253,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.1279367294719702,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2907652942544778,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 85.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 40.88118454315637,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.7735,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9889042995839114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.020110957004160886,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ro-jewels-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 0.1,
     "book_value": 2.6306684,
     "face_value": 2,
-    "sector_pe": 48.94357691126805,
+    "sector_pe": 48.83631794258032,
     "roe_pct": 1.1069,
     "roa_pct": 0.3972553268327916,
     "roic_pct": 0.4585537918871253,
@@ -314,12 +363,12 @@
     "quick_ratio": 0.9889042995839114,
     "cash_ratio": 0.020110957004160886,
     "returns_pct": {
-      "1D": 0,
-      "7D": 0.6211180124223608,
-      "1M": 32.78688524590165,
-      "3M": 9.459459459459469,
-      "6M": -19.40298507462685,
-      "1Y": -36.47058823529411,
+      "1D": 3.703703703703693,
+      "7D": 3.703703703703693,
+      "1M": 37.704918032786885,
+      "3M": 13.513513513513512,
+      "6M": -15.577889447236185,
+      "1Y": -34.11764705882352,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -473,7 +522,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ro-jewels-ltd",
     "news": [
       {
@@ -538,7 +587,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -546,7 +595,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -554,7 +603,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

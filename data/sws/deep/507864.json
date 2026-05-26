@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pioneer-investcorp-ltd",
     "search_id": "pioneer-investcorp-ltd",
     "company_id": "GSTK507864",
@@ -28,8 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 117.45,
-    "market_cap_inr": 1456000000,
+    "market_cap_inr": 1523600000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/pioneer-investcorp-ltd"
     },
@@ -80,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -96,20 +146,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 8.53,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/pioneer-investcorp-ltd",
       "search_id": "pioneer-investcorp-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 8.53,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "sws_statement": {
@@ -152,50 +202,50 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1456000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1523600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 8.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.11326891891891891,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +254,91 @@
           "low": 92.35,
           "high": 129.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 13.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 133.1941395,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.7784,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.584912252412051,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.960941648407003,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 32.359635811836114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 66.6350531107739,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 43.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 19.027654599693623,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.126,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.087140057289311,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.07922508668777326,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pioneer-investcorp-ltd"
       }
     },
@@ -303,7 +353,7 @@
     "ps": 2.25,
     "book_value": 133.1941395,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 7.7784,
     "roa_pct": 4.584912252412051,
     "roic_pct": 11.960941648407003,
@@ -506,7 +556,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pioneer-investcorp-ltd",
     "news": [
       {
@@ -571,7 +621,7 @@
         "ticker": "CCAVENUE",
         "name": "AvenuesAI",
         "searchId": "infibeam-avenues-ltd",
-        "market_cap_inr": 48207300000,
+        "market_cap_inr": 48730600000,
         "pe": 18.43,
         "pb": 1.15
       },
@@ -579,7 +629,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -587,7 +637,7 @@
         "ticker": "DOLATALGO",
         "name": "Dolat Algotech",
         "searchId": "dolat-investments-ltd",
-        "market_cap_inr": 13238700000,
+        "market_cap_inr": 13307400000,
         "pe": 10.23,
         "pb": 1.17
       }

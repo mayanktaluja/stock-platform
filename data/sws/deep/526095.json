@@ -3,12 +3,12 @@
   "name": "Ravileela Granites Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-526095/ravileela-granites-shares",
-  "parsed_at": "2026-05-25T21:54:53.765Z",
+  "parsed_at": "2026-05-26T12:51:49.206Z",
   "company_id": "2F4695CA-24E7-4870-8185-4A5D5E80A47B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ravileela-granites-ltd",
     "search_id": "ravileela-granites-ltd",
     "company_id": "GSTK526095",
@@ -28,9 +28,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 40.4,
-    "market_cap_inr": 446700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 48.48,
+    "market_cap_inr": 427700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +96,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 7.69,
+      "pe": 7.36,
       "ps": 0.88,
-      "pb": 2.49,
+      "pb": 2.38,
       "ev_ebitda": 61.59,
       "peg": 0
     },
@@ -55,14 +106,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ravileela-granites-ltd"
     },
     "rewards": [],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹447M)",
+      "Does not have a meaningful market cap (₹428M)",
       "Has not reported any financial data"
     ],
     "dividend": {
@@ -75,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 59.627955716846344,
-      "sector_pe": 59.627955716846344
+      "pe": 59.63065901146537,
+      "sector_pe": 59.63065901146537
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -90,21 +141,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 7.69,
-      "industry_pe": 59.627955716846344,
+      "company_pe": 7.36,
+      "industry_pe": 59.63065901146537,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ravileela-granites-ltd",
       "search_id": "ravileela-granites-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 7.69,
-        "industry_pe": 59.627955716846344,
+        "company_pe": 7.36,
+        "industry_pe": 59.63065901146537,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "sws_statement": null,
@@ -121,7 +172,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.9,
+        "industry_pe": 23.6,
         "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
@@ -134,56 +185,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 40.4,
-        "fetched_at": "2026-05-25T21:54:53.765Z",
+        "value": 48.48,
+        "fetched_at": "2026-05-26T12:51:49.206Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-526095/ravileela-granites-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 446700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 427700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 7.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.36,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.38,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 61.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "fifty_two_week": {
@@ -192,91 +243,91 @@
           "low": 31,
           "high": 59.7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 5.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 16.9695825,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 21.9534,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.489669421487603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 12.872538773829007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.394891944990176,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 23.772102161100197,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 273.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 63.42975206611571,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.4859,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7023128005495763,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05587359743531028,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ravileela-granites-ltd"
       }
     },
@@ -287,11 +338,11 @@
     "latest_net_income": null,
     "latest_eps": 5.49,
     "most_recent_reported_date": null,
-    "pb": 2.49,
+    "pb": 2.38,
     "ps": 0.88,
     "book_value": 16.9695825,
     "face_value": 10,
-    "sector_pe": 59.627955716846344,
+    "sector_pe": 59.63065901146537,
     "roe_pct": 21.9534,
     "roa_pct": 7.489669421487603,
     "roic_pct": 12.872538773829007,
@@ -303,12 +354,12 @@
     "quick_ratio": 0.7023128005495763,
     "cash_ratio": 0.05587359743531028,
     "returns_pct": {
-      "1D": -4.265402843601906,
-      "7D": 3.034940066309609,
-      "1M": 3.3248081841432153,
-      "3M": 2.5901472828847028,
-      "6M": -11.286780851998245,
-      "1Y": -0.9803921568627416,
+      "1D": 19.999999999999996,
+      "7D": 24.787644787644776,
+      "1M": 23.989769820971855,
+      "3M": 19.526627218934898,
+      "6M": 6.455862977602103,
+      "1Y": 18.823529411764707,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -432,7 +483,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ravileela-granites-ltd",
     "news": [
       {
@@ -497,7 +548,7 @@
         "ticker": "MIDWESTLTD",
         "name": "Midwest",
         "searchId": "midwest-ltd",
-        "market_cap_inr": 47591200000,
+        "market_cap_inr": 45517400000,
         "pe": 40.36,
         "pb": 5.47
       },
@@ -505,17 +556,17 @@
         "ticker": "531281",
         "name": "Marble City India",
         "searchId": "pg-industry-ltd",
-        "market_cap_inr": 2449500000,
-        "pe": 29,
-        "pb": 3.22
+        "market_cap_inr": 2499500000,
+        "pe": 29.6,
+        "pb": 3.28
       },
       {
         "ticker": "513528",
         "name": "Glittek Granites",
         "searchId": "glittek-granites-ltd",
-        "market_cap_inr": 1103300000,
+        "market_cap_inr": 1109200000,
         "pe": 4.48,
-        "pb": 10.38
+        "pb": 10.44
       }
     ],
     "details": {

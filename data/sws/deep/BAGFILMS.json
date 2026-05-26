@@ -3,12 +3,12 @@
   "name": "B.A.G. Films and Media Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-bagfilms/bag-films-and-media-shares",
-  "parsed_at": "2026-05-25T21:51:44.884Z",
+  "parsed_at": "2026-05-26T12:45:05.415Z",
   "company_id": "7885AB0E-176A-4D91-B038-304B1A64F5A2",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bag-films-media-ltd",
     "search_id": "bag-films-media-ltd",
     "company_id": "GSTK532507",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 5.1,
-    "market_cap_inr": 1057300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.04,
+    "market_cap_inr": 1073900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3.61,
       "high": 8
     },
-    "fair_value_inr": 5.893277,
+    "fair_value_inr": 6.141109,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 15.55445098039217,
+    "upside_pct": 21.847400793650795,
     "multiples": {
       "pe": 11.57,
       "ps": 0.7,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/bag-films-media-ltd"
     },
@@ -86,7 +135,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Entertainment",
       "pe_industry_id": 24,
@@ -99,7 +148,7 @@
       "industry_pe": 23.170821784289235,
       "industry_name": "Entertainment",
       "industry_id": 24,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/bag-films-media-ltd",
       "search_id": "bag-films-media-ltd"
     },
@@ -109,7 +158,7 @@
         "industry_pe": 23.170821784289235,
         "industry_name": "Entertainment",
         "industry_id": 24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "sws_statement": {
@@ -133,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.1,
-        "fetched_at": "2026-05-25T21:51:44.884Z",
+        "value": 5.04,
+        "fetched_at": "2026-05-26T12:45:05.415Z",
         "url": "https://simplywall.st/stocks/in/media/nse-bagfilms/bag-films-and-media-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1057300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1073900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 11.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.37017500000000014,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 3.61,
           "high": 8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.055202,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.0765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.508408112204393,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.02940741519998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.206924315619968,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.666935050993022,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7643,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.278025435951226,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.019011406844106463,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bag-films-media-ltd"
       }
     },
@@ -315,12 +364,12 @@
     "quick_ratio": 1.278025435951226,
     "cash_ratio": 0.019011406844106463,
     "returns_pct": {
-      "1D": 1.9999999999999927,
-      "7D": 4.722792607802865,
-      "1M": -1.1627906976744282,
-      "3M": -2.4856596558317547,
-      "6M": -17.073170731707325,
-      "1Y": -24.667651403249632,
+      "1D": -1.1764705882352864,
+      "7D": 1.0020040080160284,
+      "1M": -2.325581395348839,
+      "3M": -3.6328871892925503,
+      "6M": -22.342064714946073,
+      "1Y": -25.553914327917276,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -506,22 +555,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bag-films-media-ltd",
     "news": [
+      {
+        "id": "681262",
+        "title": "B.A.G. Films' board approved audited standalone and consolidated financial results for FY ending March 31, 2026.\nAudit reports received unmodified opinions; results submitted as per SEBI regulations on May 25, 2026.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=db890d69-ccb6-42c8-9e30-b914e1ef8906.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T15:27:07.000Z"
+      },
       {
         "id": "648816",
         "title": "B.A.G. Films Board to meet on May 25, 2026, to approve FY26 financial results.\nTrading window closed till May 27, 2026, as per insider trading rules.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=72f86789-9460-4f1c-a5de-c2ae583bdd62.pdf",
         "source": "BSE",
         "published_at": "2026-05-14T11:44:23.000Z"
-      },
-      {
-        "id": "822072465192956928",
-        "title": "B.A.G. Films gets BSE, NSE nod for 2 cr warrants convertible at Rs. 8.25 each.\nWarrants issued on preferential basis to promoter group under compliance conditions.",
-        "url": "https://sqst.in/SpZtW",
-        "source": "ScoutQuest",
-        "published_at": "2026-03-18T11:42:29.000Z"
       }
     ],
     "events": [
@@ -571,7 +620,7 @@
         "ticker": "NETWORK18",
         "name": "Network18 Media & Investments",
         "searchId": "network-media-investment-ltd",
-        "market_cap_inr": 49112700000,
+        "market_cap_inr": 48650100000,
         "pe": 31.53,
         "pb": 1
       },
@@ -579,7 +628,7 @@
         "ticker": "AQYLON",
         "name": "Aqylon Nexus",
         "searchId": "sri-adhikari-brothers-television-network-ltd",
-        "market_cap_inr": 15053800000,
+        "market_cap_inr": 15804900000,
         "pe": null,
         "pb": 0
       },
@@ -587,7 +636,7 @@
         "ticker": "DEN",
         "name": "DEN Networks",
         "searchId": "den-networks-ltd",
-        "market_cap_inr": 12894600000,
+        "market_cap_inr": 13142700000,
         "pe": 7.79,
         "pb": 0.34
       }

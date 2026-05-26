@@ -3,7 +3,7 @@
   "name": "Trust Fintech Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-trust/trust-fintech-shares",
-  "parsed_at": "2026-05-25T23:36:54.828Z",
+  "parsed_at": "2026-05-26T14:26:43.071Z",
   "company_id": "D507E6A2-2B72-483F-9F01-778F363686FB",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,69 @@
       "dividend": 2
     },
     "snowflake_total": 10,
-    "current_price_inr": 38,
-    "market_cap_inr": 905357622.778917,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 36.7,
+    "market_cap_inr": 874384861.9996383,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 5.8174,
+    "fair_value_inr": 5.817582,
     "fair_value_range_inr": {
-      "min": 5.8174,
-      "max": 5.8174,
+      "min": 5.817582,
+      "max": 5.817582,
       "count": 1
     },
-    "upside_pct": -84.69105263157894,
+    "upside_pct": -84.14827792915531,
     "multiples": {
-      "pe": 10.5,
+      "pe": 11.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,13 +99,14 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (10.5x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (11.3x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹810M)",
+      "Highly volatile share price over past 3 months",
+      "Does not have a meaningful market cap (₹905M)",
       "Does not have meaningful revenue (₹357M)",
-      "Dividend of 1.47% is not well covered by free cash flows"
+      "Dividend of 1.36% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.1129656288,
@@ -97,17 +146,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 10.5,
+      "company_pe": 11.3,
       "industry_pe": 25,
       "industry_name": "Indian Software"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 10.5,
+        "company_pe": 11.3,
         "industry_pe": 25,
         "industry_name": "Indian Software",
-        "description": "TRUST is good value based on its Price-To-Earnings Ratio (10.5x) compared to the Indian Software industry average (25x).",
+        "description": "TRUST is good value based on its Price-To-Earnings Ratio (11.3x) compared to the Indian Software industry average (25x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,7 +173,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -137,8 +186,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 38,
-        "fetched_at": "2026-05-25T23:36:54.828Z",
+        "value": 36.7,
+        "fetched_at": "2026-05-26T14:26:43.071Z",
         "url": "https://simplywall.st/stocks/in/software/nse-trust/trust-fintech-shares"
       }
     },
@@ -165,12 +214,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 11.76470588235294,
-      "7D": 1.3333333333333335,
-      "1M": -3.79746835443038,
-      "3M": 0.7957559681697537,
-      "6M": -25.12315270935961,
-      "1Y": -57.612939208031236,
+      "1D": -3.42105263157894,
+      "7D": -1.3440860215053763,
+      "1M": -7.088607594936702,
+      "3M": -4.675324675324668,
+      "6M": -27.254707631318137,
+      "1Y": -59.063022866703854,
       "5Y": null
     },
     "next_earnings_date": null,

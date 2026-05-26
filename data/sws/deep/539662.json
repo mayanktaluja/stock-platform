@@ -3,12 +3,12 @@
   "name": "BFL Asset Finvest Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-539662/bfl-asset-finvest-shares",
-  "parsed_at": "2026-05-25T23:41:53.161Z",
+  "parsed_at": "2026-05-26T14:30:43.628Z",
   "company_id": "96D41153-C7C5-426E-A206-98E676592AF9",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bfl-asset-finvest-ltd",
     "search_id": "bfl-asset-finvest-ltd",
     "company_id": "GSTK539662",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 8.65,
-    "market_cap_inr": 84500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 8.33,
+    "market_cap_inr": 88300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 6.64,
       "high": 16.76
     },
-    "fair_value_inr": 6.554374,
+    "fair_value_inr": 6.552953,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -24.226890173410407,
+    "upside_pct": -21.33309723889556,
     "multiples": {
       "pe": null,
       "ps": 0.45,
-      "pb": 0.81,
+      "pb": 0.85,
       "ev_ebitda": 7.86,
       "peg": -0.19644230769230767
     },
@@ -64,7 +114,7 @@
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹84M)",
+      "Does not have a meaningful market cap (₹88M)",
       "Highly volatile share price over past 3 months",
       "Debt is not well covered by [[operating cash flow]]",
       "Earnings have declined by 1.1% per year over past 5 years",
@@ -94,7 +144,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -115,25 +165,25 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 7.1,
+        "industry_pe": 7,
         "industry_name": "Indian Capital Markets",
-        "description": "539662 is good value based on its Price-To-Sales Ratio (0.5x) compared to the Indian Capital Markets industry average (7.1x).",
+        "description": "539662 is good value based on its Price-To-Sales Ratio (0.5x) compared to the Indian Capital Markets industry average (7x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.92506745,
+        "industry_pe": 27.269693169,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 216,
+        "count": 217,
         "source": {
           "type": "country",
           "country": "IN",
@@ -155,50 +205,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8.65,
-        "fetched_at": "2026-05-25T23:41:53.161Z",
+        "value": 8.33,
+        "fetched_at": "2026-05-26T14:30:43.628Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-539662/bfl-asset-finvest-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 84500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 88300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.85,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.19644230769230767,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "fifty_two_week": {
@@ -207,85 +257,85 @@
           "low": 6.64,
           "high": 16.76
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10.2156123,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 136.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 57.56964069438837,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 619.2575,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 189.99999999999994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bfl-asset-finvest-ltd"
       }
     },
@@ -296,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.81,
+    "pb": 0.85,
     "ps": 0.45,
     "book_value": 10.2156123,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -312,12 +362,12 @@
     "quick_ratio": 189.99999999999994,
     "cash_ratio": 2,
     "returns_pct": {
-      "1D": 4.468599033816437,
-      "7D": -12.537917087967646,
-      "1M": -6.283856988082341,
-      "3M": -9.138655462184866,
-      "6M": -26.818950930626055,
-      "1Y": -35.25449101796407,
+      "1D": -3.699421965317922,
+      "7D": -7.238307349665927,
+      "1M": -9.750812567713979,
+      "3M": -12.499999999999996,
+      "6M": -29.40677966101695,
+      "1Y": -37.6497005988024,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -495,7 +545,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bfl-asset-finvest-ltd",
     "news": [
       {
@@ -560,7 +610,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -568,7 +618,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -576,7 +626,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

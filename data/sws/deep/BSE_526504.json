@@ -3,7 +3,7 @@
   "name": "Dolphin Medical Services Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-526504/dolphin-medical-services-shares",
-  "parsed_at": "2026-05-25T22:21:18.570Z",
+  "parsed_at": "2026-05-26T13:13:06.837Z",
   "company_id": "6A766D4C-E6E9-4A74-9BBB-9825E717158D",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 7.17,
     "market_cap_inr": 108266674.43125078,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -53,7 +102,7 @@
     ],
     "risks": [
       "Shares are highly illiquid",
-      "Does not have a meaningful market cap (₹103M)",
+      "Does not have a meaningful market cap (₹108M)",
       "Makes less than USD$1m in revenue (₹8M)"
     ],
     "dividend": {
@@ -88,7 +137,7 @@
         "company_pe": null,
         "industry_pe": 2.5,
         "industry_name": "Indian Healthcare",
-        "description": "526504 is expensive based on its Price-To-Sales Ratio (13.1x) compared to the Indian Healthcare industry average (2.5x).",
+        "description": "526504 is expensive based on its Price-To-Sales Ratio (13.8x) compared to the Indian Healthcare industry average (2.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -105,7 +154,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.2,
+        "industry_pe": 35.8,
         "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
@@ -119,7 +168,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 7.17,
-        "fetched_at": "2026-05-25T22:21:18.570Z",
+        "fetched_at": "2026-05-26T13:13:06.837Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-526504/dolphin-medical-services-shares"
       }
     },

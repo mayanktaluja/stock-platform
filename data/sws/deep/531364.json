@@ -3,12 +3,12 @@
   "name": "Ekansh Concepts Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-531364/ekansh-concepts-shares",
-  "parsed_at": "2026-05-25T22:36:09.039Z",
+  "parsed_at": "2026-05-26T13:31:21.375Z",
   "company_id": "F9DC4B06-5A5B-4B74-9EBA-BC5154E79321",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd",
     "search_id": "aqua-pumps-infra-ventures-ltd",
     "company_id": "GSTK531364",
@@ -18,19 +18,68 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 1,
-      "financial_health": 5,
+      "past": 0,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 1,
+      "past_performance": 0,
       "value": 0,
-      "health": 5,
+      "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 6,
-    "current_price_inr": 226.75,
-    "market_cap_inr": 3404500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_total": 3,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 228.2,
+    "market_cap_inr": 3430200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -25.969158103638367,
+    "upside_pct": -26.439555652936015,
     "multiples": {
       "pe": null,
       "ps": 10.93,
@@ -62,11 +111,10 @@
     "rewards": [],
     "risks": [
       "Does not have meaningful revenue (₹311M)",
-      "Has a high level of debt",
-      "Large [[one-off items]] impacting financial results",
+      "Interest payments are not well covered by earnings",
+      "Earnings have declined by 40.1% per year over past 5 years",
       "Does not have a meaningful market cap (₹3B)",
-      "Highly volatile share price over past 3 months",
-      "Profit margins (1.2%) are lower than last year (8.9%)"
+      "Highly volatile share price over past 3 months"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -78,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 35.65827264919344
+      "sector_pe": 35.65587789366573
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 35.65827264919344,
+        "industry_pe": 35.65587789366573,
         "industry_name": "Miscellaneous",
         "industry_id": 39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Construction",
-        "description": "531364 is expensive based on its Price-To-Sales Ratio (10.9x) compared to the Indian Construction industry average (1.2x).",
+        "description": "531364 is expensive based on its Price-To-Sales Ratio (11.1x) compared to the Indian Construction industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,8 +174,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -139,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 226.75,
-        "fetched_at": "2026-05-25T22:36:09.039Z",
+        "value": 228.2,
+        "fetched_at": "2026-05-26T13:31:21.375Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531364/ekansh-concepts-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3404500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3430200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 6.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 10.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 23.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5168145348837211,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "fifty_two_week": {
@@ -191,91 +239,91 @@
           "low": 142.85,
           "high": 308
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 33.325511,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1775,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.27316352897748286,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.0721590677586277,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1881824020552363,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.097623635195895,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 62.419999999999995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 23.233665559246955,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2071,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3745655040153422,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.000958887690279276,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd"
       }
     },
@@ -290,7 +338,7 @@
     "ps": 10.93,
     "book_value": 33.325511,
     "face_value": 10,
-    "sector_pe": 35.65827264919344,
+    "sector_pe": 35.65587789366573,
     "roe_pct": 3.1775,
     "roa_pct": 0.27316352897748286,
     "roic_pct": 3.0721590677586277,
@@ -302,16 +350,16 @@
     "quick_ratio": 1.3745655040153422,
     "cash_ratio": 0.000958887690279276,
     "returns_pct": {
-      "1D": 0.7553876916240785,
-      "7D": 1.2276785714285714,
-      "1M": -3.5311635822165544,
-      "3M": 14.839199797417074,
-      "6M": 7.822158820732282,
-      "1Y": 15.453156822810588,
+      "1D": 0.639470782800436,
+      "7D": 1.4222222222222172,
+      "1M": -2.914273558817283,
+      "3M": 18.85416666666666,
+      "6M": 4.654895666131611,
+      "1Y": 16.19144602851323,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -450,18 +498,18 @@
       },
       "quarterly": {
         "revenue": {
-          "Dec '24": 5.46,
           "Mar '25": 8.18,
           "Jun '25": 7.25,
           "Sep '25": 15.5,
-          "Dec '25": 2.41
+          "Dec '25": 2.41,
+          "Mar '26": 5.9399999999999995
         },
         "profit": {
-          "Dec '24": -2.04,
           "Mar '25": 1.67,
           "Jun '25": 0.66,
           "Sep '25": 1.32,
-          "Dec '25": -3.2
+          "Dec '25": -3.2,
+          "Mar '26": -1.83
         }
       }
     }
@@ -528,22 +576,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/aqua-pumps-infra-ventures-ltd",
     "news": [
       {
-        "id": "653071",
-        "title": "Ekansh Concepts' board to meet on May 25, 2026, to approve FY26 audited financials.\nTrading window remains closed until 48 hours post FY26 results declaration per SEBI regulations.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=c79aa07d-b18d-44ea-b182-bc4ec4f2e64f.pdf",
-        "source": "BSE",
-        "published_at": "2026-05-15T12:25:20.000Z"
+        "id": "846735642160688256",
+        "title": "Ekansh Concepts appoints Mrs. Neha Beriwala as CFO from June 1, 2026.\nShe is a CA with 8 years' experience in taxation, compliance, and audits.",
+        "url": "https://sqst.in/QLhpT",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-25T13:05:08.000Z"
       },
       {
-        "id": "480891",
-        "title": "Ekansh Concepts Ltd's board meeting is scheduled for February 13, 2026, to review Q3 FY26 financial results.\nTrading window remains closed from January 1, 2026, until 48 hours post-results announcement.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=adbe5016-6d2a-4dc0-ab94-254bbd065bc8.pdf",
+        "id": "680385",
+        "title": "Ekansh Concepts Ltd announced CFO Mahesh Kumar Birla's resignation effective May 30, 2026.\nThe board appreciated his contributions, citing personal reasons for his departure.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=d0bace99-6572-4c57-9cb3-3ea5cec5b67d.pdf",
         "source": "BSE",
-        "published_at": "2026-02-09T13:10:04.000Z"
+        "published_at": "2026-05-25T12:59:23.000Z"
       }
     ],
     "events": [
@@ -593,7 +641,7 @@
         "ticker": "NIITMTS",
         "name": "NIIT Learning Systems ",
         "searchId": "niit-learning-systems-ltd-",
-        "market_cap_inr": 28950200000,
+        "market_cap_inr": 30071100000,
         "pe": 11.69,
         "pb": 1.88
       },
@@ -601,7 +649,7 @@
         "ticker": "FEDDERSHOL",
         "name": "Fedders Holding",
         "searchId": "im-capitals-ltd",
-        "market_cap_inr": 6576200000,
+        "market_cap_inr": 6582300000,
         "pe": 8.87,
         "pb": 0.99
       },
@@ -609,7 +657,7 @@
         "ticker": "MOLDTECH",
         "name": "Mold-Tek Technologies",
         "searchId": "moldtek-technologies-ltd",
-        "market_cap_inr": 3486900000,
+        "market_cap_inr": 3453700000,
         "pe": 34.59,
         "pb": 2.72
       }
@@ -628,6 +676,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "0c96ca8f-7254-4633-ab0b-d80cc3e937ec",
+      "type": "brief",
+      "date": "2026-05-26T11:31:26.000Z",
+      "title": "New major risk - Financial position",
+      "body": "The company's interest payments are not well covered by earnings. Net interest cover: 0.2x This is considered a major risk. If the company is unable to fund interest repayments on its debt through profits, it may be forced into reducing its debt burden through selling assets, undertaking a potentially costly capital raising or even into bankruptcy in the worst case scenario. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (0.2x net interest cover). Earnings have declined by 40% per year over the past 5 years. Minor Risks Share price has been volatile over the past 3 months (9.4% average weekly change). Revenue is less than US$5m (₹311m revenue, or US$3.3m). Market cap is less than US$100m (₹3.43b market cap",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "0eb09066-f24b-450f-b4a9-ed20f30fc7cf",
       "type": "brief",

@@ -3,7 +3,7 @@
   "name": "TBI Corn Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-tbi/tbi-corn-shares",
-  "parsed_at": "2026-05-25T23:25:41.615Z",
+  "parsed_at": "2026-05-26T14:14:02.658Z",
   "company_id": "3F964BB7-9DCA-474B-8AE7-D067B2236E04",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 65,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 64.75,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +84,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 233.21262153846152,
+    "upside_pct": 234.49915675675675,
     "multiples": {
-      "pe": 7,
+      "pe": 7.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,7 +103,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 49.4% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 70.9% below our estimate of its fair value"
+      "Trading at 70.1% below our estimate of its fair value"
     ],
     "risks": [
       "Has a high level of debt",
@@ -69,7 +120,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 19.2
+      "pe": 19.4
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -83,17 +134,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 7,
-      "industry_pe": 19.2,
+      "company_pe": 7.2,
+      "industry_pe": 19.4,
       "industry_name": "Indian Food"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 7,
-        "industry_pe": 19.2,
+        "company_pe": 7.2,
+        "industry_pe": 19.4,
         "industry_name": "Indian Food",
-        "description": "TBI is good value based on its Price-To-Earnings Ratio (7x) compared to the Indian Food industry average (19.2x).",
+        "description": "TBI is good value based on its Price-To-Earnings Ratio (7.2x) compared to the Indian Food industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -123,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 65,
-        "fetched_at": "2026-05-25T23:25:41.615Z",
+        "value": 64.75,
+        "fetched_at": "2026-05-26T14:14:02.658Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-tbi/tbi-corn-shares"
       }
     },
@@ -151,12 +202,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.1746031746031744,
-      "7D": 1.4040561622464989,
-      "1M": -3.9172209903917303,
-      "3M": -9.027291812456268,
-      "6M": -25.71428571428571,
-      "1Y": -37.5,
+      "1D": -0.38461538461538464,
+      "7D": 2.129337539432179,
+      "1M": -4.286770140428684,
+      "3M": -6.76745860331174,
+      "6M": -26.67044167610419,
+      "1Y": -37.74038461538461,
       "5Y": null
     },
     "next_earnings_date": null,

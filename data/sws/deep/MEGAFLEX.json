@@ -3,7 +3,7 @@
   "name": "Mega Flex Plastics Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-megaflex/mega-flex-plastics-shares",
-  "parsed_at": "2026-05-25T21:33:07.459Z",
+  "parsed_at": "2026-05-26T12:23:39.107Z",
   "company_id": "F78751DC-9AAF-49C4-B49A-040D456DBAF1",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 133.6,
     "market_cap_inr": 1620704748.7404468,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -65,7 +114,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 17
+      "pe": 17.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,16 +129,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 22.3,
-      "industry_pe": 17,
+      "industry_pe": 17.1,
       "industry_name": "Indian Packaging"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 22.3,
-        "industry_pe": 17,
+        "industry_pe": 17.1,
         "industry_name": "Indian Packaging",
-        "description": "MEGAFLEX is expensive based on its Price-To-Earnings Ratio (22.3x) compared to the Indian Packaging industry average (17x).",
+        "description": "MEGAFLEX is expensive based on its Price-To-Earnings Ratio (22.3x) compared to the Indian Packaging industry average (17.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -106,7 +155,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -120,7 +169,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 133.6,
-        "fetched_at": "2026-05-25T21:33:07.459Z",
+        "fetched_at": "2026-05-26T12:23:39.107Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-megaflex/mega-flex-plastics-shares"
       }
     },

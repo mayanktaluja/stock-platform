@@ -3,7 +3,7 @@
   "name": "Promax Power Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543375/promax-power-shares",
-  "parsed_at": "2026-05-25T20:45:40.327Z",
+  "parsed_at": "2026-05-26T11:13:39.022Z",
   "company_id": "7FEDD3AC-3123-4E30-9CF5-13DFAB2C1730",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 15.4,
     "market_cap_inr": 384999999.99999994,
     "market_cap_usd": 127196762990.178,
@@ -110,8 +159,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -124,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 15.4,
-        "fetched_at": "2026-05-25T20:45:40.327Z",
+        "fetched_at": "2026-05-26T11:13:39.022Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543375/promax-power-shares"
       }
     },

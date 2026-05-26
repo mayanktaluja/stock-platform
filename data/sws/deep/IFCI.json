@@ -3,12 +3,12 @@
   "name": "IFCI Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-ifci/ifci-shares",
-  "parsed_at": "2026-05-25T20:38:20.656Z",
+  "parsed_at": "2026-05-26T11:05:42.172Z",
   "company_id": "1F530C88-C8C9-42D3-9869-6841F13068EC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ifci-ltd",
     "search_id": "ifci-ltd",
     "company_id": "GSTK500106",
@@ -28,8 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 61.75,
-    "market_cap_inr": 163625700000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 64.4,
+    "market_cap_inr": 166508600000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ifci-ltd"
     },
@@ -73,13 +123,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -89,20 +139,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 37.72,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ifci-ltd",
       "search_id": "ifci-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 37.72,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "sws_statement": {
@@ -126,8 +176,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -139,56 +189,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 61.75,
-        "fetched_at": "2026-05-25T20:38:20.656Z",
+        "value": 64.4,
+        "fetched_at": "2026-05-26T11:05:42.172Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-ifci/ifci-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 163625700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 166508600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 37.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 7.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.07276875,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "fifty_two_week": {
@@ -197,91 +247,91 @@
           "low": 46.23,
           "high": 74.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 33.197479,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.0222,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7121466505735525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.343000356129833,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.148487661483719,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 49.6165970449447,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 39.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 13.259168013091275,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4991,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4873140433686924,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2284060267158343,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ifci-ltd"
       }
     },
@@ -296,7 +346,7 @@
     "ps": 7.67,
     "book_value": 33.197479,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 2.0222,
     "roa_pct": 0.7121466505735525,
     "roic_pct": 9.343000356129833,
@@ -308,12 +358,12 @@
     "quick_ratio": 1.4873140433686924,
     "cash_ratio": 1.2284060267158343,
     "returns_pct": {
-      "1D": 1.662825156404343,
-      "7D": -0.7075092458594593,
-      "1M": 3.7815126050420167,
-      "3M": 5.1600817438692115,
-      "6M": 19.254538431826955,
-      "1Y": 5.645851154833186,
+      "1D": 4.291497975708512,
+      "7D": 4.325287542523909,
+      "1M": 8.235294117647069,
+      "3M": 10.330649306150434,
+      "6M": 25.462692382622265,
+      "1Y": 10.179640718562878,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -549,7 +599,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ifci-ltd",
     "news": [
       {
@@ -614,23 +664,23 @@
         "ticker": "MAHSCOOTER",
         "name": "Maharashtra Scooters",
         "searchId": "maharashtra-scooters-ltd",
-        "market_cap_inr": 133292000000,
-        "pe": 42.92,
-        "pb": 0.48
+        "market_cap_inr": 142724000000,
+        "pe": 45.96,
+        "pb": 0.52
       },
       {
         "ticker": "501945",
         "name": "Dhenu Buildcon Infra",
         "searchId": "dhenu-buildcon-infra-ltd",
-        "market_cap_inr": 54116200000,
+        "market_cap_inr": 55124900000,
         "pe": null,
-        "pb": 6.42
+        "pb": 6.54
       },
       {
         "ticker": "PILANIINVS",
         "name": "Pilani Investment & Industries Corporation",
         "searchId": "pilani-investment-industries-corporation-ltd",
-        "market_cap_inr": 51369700000,
+        "market_cap_inr": 50835500000,
         "pe": null,
         "pb": 0.3
       }

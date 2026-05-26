@@ -3,12 +3,12 @@
   "name": "Mid India Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-500277/mid-india-industries-shares",
-  "parsed_at": "2026-05-25T20:38:02.080Z",
+  "parsed_at": "2026-05-26T11:05:11.231Z",
   "company_id": "33778ADB-FE39-40CB-85F5-28FDE2AC1399",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mid-india-industries-ltd",
     "search_id": "mid-india-industries-ltd",
     "company_id": "GSTK500277",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 6.31,
-    "market_cap_inr": 106800000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 6.45,
+    "market_cap_inr": 102900000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,27 +92,27 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -35.687020602218695,
+    "upside_pct": -37.08296124031008,
     "multiples": {
-      "pe": 35.8,
+      "pe": 35.06,
       "ps": 1.41,
       "pb": 0,
       "ev_ebitda": 0,
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
-      "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://groww.in/stocks/mid-india-industries-ltd"
     },
     "rewards": [
       "Became profitable this year"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹107M)",
+      "Does not have a meaningful market cap (₹103M)",
       "Negative shareholders equity",
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹132M)"
@@ -78,39 +127,43 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.4,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Trade Distributors",
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Trading",
+      "pe_industry_id": 64,
+      "pe_source_url": "https://groww.in/stocks/mid-india-industries-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
-      "company_pe": 35.8,
-      "industry_pe": 22.4,
-      "industry_name": "Indian Trade Distributors"
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
+      "company_pe": 35.06,
+      "industry_pe": 74.70203663474909,
+      "industry_name": "Trading",
+      "industry_id": 64,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/mid-india-industries-ltd",
+      "search_id": "mid-india-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 35.06,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 35.8,
-        "industry_pe": 22.4,
+        "company_pe": 34.5,
+        "industry_pe": 22.8,
         "industry_name": "Indian Trade Distributors",
-        "description": "500277 is expensive based on its Price-To-Earnings Ratio (35.8x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "500277 is expensive based on its Price-To-Earnings Ratio (34.5x) compared to the Indian Trade Distributors industry average (22.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +181,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -140,50 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6.31,
-        "fetched_at": "2026-05-25T20:38:02.080Z",
+        "value": 6.45,
+        "fetched_at": "2026-05-26T11:05:11.231Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-500277/mid-india-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 106800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 102900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/mid-india-industries-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 35.06,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +251,91 @@
           "low": 5.22,
           "high": 9.69
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/mid-india-industries-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.18,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": -2.7542945,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": -2.5644172,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 8.982035928143713,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2883295194508007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.898550724637681,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.406,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4021304926764314,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.015978695073235686,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mid-india-industries-ltd"
       }
     },
@@ -279,13 +344,13 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.18,
     "most_recent_reported_date": null,
     "pb": 0,
     "ps": 1.41,
-    "book_value": -2.7542945,
+    "book_value": -2.5644172,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 8.982035928143713,
     "roic_pct": 0,
@@ -297,12 +362,12 @@
     "quick_ratio": 0.4021304926764314,
     "cash_ratio": 0.015978695073235686,
     "returns_pct": {
-      "1D": -3.6641221374045836,
-      "7D": -8.417997097242381,
-      "1M": -5.961251862891213,
-      "3M": -8.683068017366145,
-      "6M": -9.857142857142863,
-      "1Y": -19.412515964240107,
+      "1D": 2.218700475435825,
+      "7D": -6.791907514450863,
+      "1M": -3.8748137108792817,
+      "3M": -3.731343283582089,
+      "6M": -7.857142857142854,
+      "1Y": -17.624521072796934,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -461,7 +526,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mid-india-industries-ltd",
     "news": [
       {
@@ -526,7 +591,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -534,15 +599,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

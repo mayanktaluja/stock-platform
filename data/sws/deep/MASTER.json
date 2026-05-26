@@ -3,7 +3,7 @@
   "name": "Master Components Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-master/master-components-shares",
-  "parsed_at": "2026-05-25T21:29:48.368Z",
+  "parsed_at": "2026-05-26T12:18:44.057Z",
   "company_id": "9B971E47-0634-4772-A8C7-C82E89F63D23",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 1
     },
     "snowflake_total": 11,
-    "current_price_inr": 340,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 340.5,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 8.142866,
+    "fair_value_inr": 8.141473,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.6050394117647,
+    "upside_pct": -97.60896534508076,
     "multiples": {
       "pe": 18.3,
       "ps": null,
@@ -83,7 +131,7 @@
     },
     "dividend_yield_pct": 0.1461722908,
     "industry_benchmarks": {
-      "pe": 21.8
+      "pe": 21.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -98,16 +146,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 18.3,
-      "industry_pe": 21.8,
+      "industry_pe": 21.9,
       "industry_name": "Indian Chemicals"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 18.3,
-        "industry_pe": 21.8,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "MASTER is good value based on its Price-To-Earnings Ratio (18.3x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "MASTER is good value based on its Price-To-Earnings Ratio (18.3x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,8 +172,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -137,8 +185,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 340,
-        "fetched_at": "2026-05-25T21:29:48.368Z",
+        "value": 340.5,
+        "fetched_at": "2026-05-26T12:18:44.057Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-master/master-components-shares"
       }
     },
@@ -165,12 +213,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": -2.7738061195310233,
-      "1M": 3.9755351681957185,
-      "3M": 9.67741935483871,
-      "6M": -6.8493150684931505,
-      "1Y": 0,
+      "1D": 0.14705882352941177,
+      "7D": -2.96380735252208,
+      "1M": 3.1818181818181817,
+      "3M": 11.23815746488075,
+      "6M": -7.4728260869565215,
+      "1Y": 0.14705882352941177,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "3rd Rock Multimedia Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-3rdrock/3rd-rock-multimedia-shares",
-  "parsed_at": "2026-05-25T20:36:09.312Z",
+  "parsed_at": "2026-05-26T11:03:04.031Z",
   "company_id": "D06110B2-527F-485A-A14B-11A48EF0F895",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": null,
     "market_cap_inr": null,
     "market_cap_usd": 127196762990.178,
@@ -94,7 +144,7 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.437551471,
+        "industry_pe": 17.487487746,
         "industry_code": "4310000",
         "type": "median_profitable",
         "count": 55,
@@ -106,8 +156,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },

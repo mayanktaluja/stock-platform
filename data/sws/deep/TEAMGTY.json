@@ -3,12 +3,12 @@
   "name": "Team India Guaranty Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-teamgty/team-india-guaranty-shares",
-  "parsed_at": "2026-05-25T23:26:30.670Z",
+  "parsed_at": "2026-05-26T14:14:55.364Z",
   "company_id": "B799FD12-8EDB-4ECA-8838-043529673EF9",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/times-guaranty-ltd",
     "search_id": "times-guaranty-ltd",
     "company_id": "GSTK511559",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 252.25,
-    "market_cap_inr": 2337000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 249.05,
+    "market_cap_inr": 2294700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 110.15,
+      "pe": 108.16,
       "ps": 44.74,
-      "pb": 4.77,
+      "pb": 4.68,
       "ev_ebitda": 48.07,
       "peg": 2.0895
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/times-guaranty-ltd"
     },
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 110.15,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 108.16,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/times-guaranty-ltd",
       "search_id": "times-guaranty-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 110.15,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 108.16,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "sws_statement": {
-        "company_pe": 110.2,
-        "industry_pe": 27.8,
+        "company_pe": 104.4,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "TEAMGTY is expensive based on its Price-To-Earnings Ratio (110.2x) compared to the Indian Capital Markets industry average (27.8x).",
+        "description": "TEAMGTY is expensive based on its Price-To-Earnings Ratio (104.4x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 252.25,
-        "fetched_at": "2026-05-25T23:26:30.670Z",
+        "value": 249.05,
+        "fetched_at": "2026-05-26T14:14:55.364Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-teamgty/team-india-guaranty-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2337000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2294700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 110.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 108.16,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 4.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.68,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 44.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 48.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.0895,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 155.06,
           "high": 332.55
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 54.4863181,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.1495,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.317718940936864,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.302344886536422,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 42.65593561368209,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 58.148893360160955,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 878.1022,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 816.4999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 765.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/times-guaranty-ltd"
       }
     },
@@ -297,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 2.36,
     "most_recent_reported_date": null,
-    "pb": 4.77,
+    "pb": 4.68,
     "ps": 44.74,
     "book_value": 54.4863181,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 5.1495,
     "roa_pct": 4.317718940936864,
     "roic_pct": 6.302344886536422,
@@ -313,12 +362,12 @@
     "quick_ratio": 816.4999999999999,
     "cash_ratio": 765.5,
     "returns_pct": {
-      "1D": -1.4840851396211723,
-      "7D": -11.831527437958762,
-      "1M": -2.606177606177606,
-      "3M": -6.487488415199258,
-      "6M": -2.606177606177606,
-      "1Y": 52.73068539597966,
+      "1D": -1.268582755203167,
+      "7D": -11.558948863636367,
+      "1M": -3.8416988416988374,
+      "3M": -5.4838709677419315,
+      "6M": -6.931988041853517,
+      "1Y": 50.79317025914266,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -422,12 +471,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/times-guaranty-ltd",
     "news": [
       {
@@ -475,6 +534,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -482,7 +551,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -490,7 +559,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -498,7 +567,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

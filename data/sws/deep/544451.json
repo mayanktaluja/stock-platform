@@ -3,7 +3,7 @@
   "name": "Monika Alcobev Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-544451/monika-alcobev-shares",
-  "parsed_at": "2026-05-25T21:09:32.603Z",
+  "parsed_at": "2026-05-26T12:00:20.008Z",
   "company_id": "63C76435-3BE0-47B7-A670-C9632C17038E",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 2
     },
     "snowflake_total": 10,
-    "current_price_inr": 229.5,
-    "market_cap_inr": 4922765976.165514,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 237.15,
+    "market_cap_inr": 5086858175.371032,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 15.841583,
+    "fair_value_inr": 15.841628,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -93.09734945533769,
+    "upside_pct": -93.31999662660763,
     "multiples": {
       "pe": 14.9,
       "ps": null,
@@ -111,8 +160,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -124,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 229.5,
-        "fetched_at": "2026-05-25T21:09:32.603Z",
+        "value": 237.15,
+        "fetched_at": "2026-05-26T12:00:20.008Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-544451/monika-alcobev-shares"
       }
     },
@@ -152,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.684563758389262,
-      "7D": 2.2955203922442635,
-      "1M": -2.3611997447351674,
-      "3M": -13.78662659654395,
-      "6M": -22.727272727272727,
-      "1Y": -20.3125,
+      "1D": 3.333333333333336,
+      "7D": 4.104477611940296,
+      "1M": 0.8934269304403294,
+      "3M": -13.622291021671828,
+      "6M": -17.19622905027932,
+      "1Y": -17.65625,
       "5Y": null
     },
     "next_earnings_date": null,

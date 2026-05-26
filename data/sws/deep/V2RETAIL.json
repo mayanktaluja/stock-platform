@@ -3,12 +3,12 @@
   "name": "V2 Retail Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-v2retail/v2-retail-shares",
-  "parsed_at": "2026-05-25T23:44:28.822Z",
+  "parsed_at": "2026-05-26T14:33:52.103Z",
   "company_id": "CDE7ACF4-5D5F-4C65-BF82-235E5A469C8A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/v-retail-ltd",
     "search_id": "v-retail-ltd",
     "company_id": "GSTK532867",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 238.77,
-    "market_cap_inr": 84960500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 238.38,
+    "market_cap_inr": 86911400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -39,11 +88,11 @@
     },
     "fair_value_inr": 2293,
     "fair_value_range_inr": {
-      "min": 54.189932,
+      "min": 54.127182,
       "max": 3795.87,
       "count": 4
     },
-    "upside_pct": 860.3384009716463,
+    "upside_pct": 861.9095561708197,
     "multiples": {
       "pe": 56.55,
       "ps": 3.07,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/v-retail-ltd"
     },
@@ -81,7 +130,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Retail",
       "pe_industry_id": 54,
@@ -94,7 +143,7 @@
       "industry_pe": 75.63467041299452,
       "industry_name": "Retail",
       "industry_id": 54,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/v-retail-ltd",
       "search_id": "v-retail-ltd"
     },
@@ -104,14 +153,14 @@
         "industry_pe": 75.63467041299452,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "sws_statement": {
-        "company_pe": 56.6,
-        "industry_pe": 18.7,
+        "company_pe": 57.8,
+        "industry_pe": 19.1,
         "industry_name": "Indian Specialty Retail",
-        "description": "V2RETAIL is expensive based on its Price-To-Earnings Ratio (56.6x) compared to the Indian Specialty Retail industry average (18.7x).",
+        "description": "V2RETAIL is expensive based on its Price-To-Earnings Ratio (57.8x) compared to the Indian Specialty Retail industry average (19.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 238.77,
-        "fetched_at": "2026-05-25T23:44:28.822Z",
+        "value": 238.38,
+        "fetched_at": "2026-05-26T14:33:52.103Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-v2retail/v2-retail-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 84960500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 86911400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 56.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 10.8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 25.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.5151508991399532,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 158.56,
           "high": 256.41
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 21.5800838,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 25.7233,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.4421084819315455,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.858894856528105,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.692709179895614,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.89387946759134,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 339.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 54.97819721778906,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4563,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.1747986369268897,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.016861391396707382,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/v-retail-ltd"
       }
     },
@@ -310,12 +359,12 @@
     "quick_ratio": 0.1747986369268897,
     "cash_ratio": 0.016861391396707382,
     "returns_pct": {
-      "1D": 2.331461878026828,
-      "7D": 9.870237437879632,
-      "1M": 17.585935191569,
-      "3M": 19.7202166064982,
-      "6M": -4.204613841524569,
-      "1Y": 20.129804789696127,
+      "1D": -0.163337102651093,
+      "7D": 5.463876476573903,
+      "1M": 17.393873731901895,
+      "3M": 21.232772211768296,
+      "6M": -1.99802664035521,
+      "1Y": 19.93358824713222,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -561,7 +610,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/v-retail-ltd",
     "news": [
       {
@@ -636,7 +685,7 @@
         "ticker": "ABFRL",
         "name": "Aditya Birla Fashion & Retail",
         "searchId": "aditya-birla-fashion-and-retail-ltd",
-        "market_cap_inr": 82396600000,
+        "market_cap_inr": 82335600000,
         "pe": null,
         "pb": 1.32
       },
@@ -644,15 +693,15 @@
         "ticker": "AVL",
         "name": "Aditya Vision",
         "searchId": "aditya-vision-ltd",
-        "market_cap_inr": 69256700000,
-        "pe": 59.26,
-        "pb": 10.06
+        "market_cap_inr": 69185700000,
+        "pe": 59.2,
+        "pb": 10.05
       },
       {
         "ticker": "ETHOSLTD",
         "name": "Ethos",
         "searchId": "ethos-ltd",
-        "market_cap_inr": 64522200000,
+        "market_cap_inr": 65112200000,
         "pe": 67.11,
         "pb": 4.34
       }

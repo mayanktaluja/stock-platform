@@ -3,7 +3,7 @@
   "name": "Ortel Communications Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-ortel/ortel-communications-shares",
-  "parsed_at": "2026-05-25T22:00:40.336Z",
+  "parsed_at": "2026-05-26T12:52:59.405Z",
   "company_id": "77A5EBFA-DF8D-44D8-825C-996428BD34C2",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 24,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 5
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1.59,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -51,7 +102,7 @@
     "rewards": [],
     "risks": [
       "Latest financial reports are more than a year old",
-      "Does not have a meaningful market cap (₹48M)"
+      "Does not have a meaningful market cap (₹50M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -95,8 +146,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -109,7 +160,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 1.59,
-        "fetched_at": "2026-05-25T22:00:40.336Z",
+        "fetched_at": "2026-05-26T12:52:59.405Z",
         "url": "https://simplywall.st/stocks/in/media/nse-ortel/ortel-communications-shares"
       }
     },
@@ -136,10 +187,10 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.6250000000000006,
-      "7D": -3.6363636363636265,
+      "1D": 0,
+      "7D": -5.357142857142849,
       "1M": -13.114754098360654,
-      "3M": -3.6363636363636265,
+      "3M": 1.2738853503184724,
       "6M": 17.777777777777775,
       "1Y": -21.287128712871283,
       "5Y": null

@@ -3,12 +3,12 @@
   "name": "QGO Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-538646/qgo-finance-shares",
-  "parsed_at": "2026-05-25T23:22:04.096Z",
+  "parsed_at": "2026-05-26T14:12:12.639Z",
   "company_id": "5374CF1D-7C8C-4BD7-9920-C215B97A239A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/qgo-finance-ltd",
     "search_id": "qgo-finance-ltd",
     "company_id": "GSTK538646",
@@ -28,26 +28,75 @@
       "dividend": 3
     },
     "snowflake_total": 8,
-    "current_price_inr": 43.99,
-    "market_cap_inr": 292000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 44.96,
+    "market_cap_inr": 305900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 35,
       "high": 57.4
     },
-    "fair_value_inr": 20.852779,
+    "fair_value_inr": 20.852836,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -52.59654694248693,
+    "upside_pct": -53.619137010676155,
     "multiples": {
-      "pe": 9.17,
+      "pe": 9.6,
       "ps": 1.69,
-      "pb": 1.5,
+      "pb": 1.57,
       "ev_ebitda": 8.81,
       "peg": 0.9012610169491521
     },
@@ -55,22 +104,22 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/qgo-finance-ltd"
     },
     "rewards": [
       "Earnings have grown 32.4% per year over the past 5 years",
-      "Price-To-Earnings ratio (9.2x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (9.8x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹292M)",
+      "Does not have a meaningful market cap (₹306M)",
       "Makes less than USD$1m in revenue (₹65M)"
     ],
     "dividend": {
-      "yield_pct": 1.43,
+      "yield_pct": 1.36,
       "payout_pct": null,
       "annualized_dividend": 0.6,
       "listing_currency": "INR",
@@ -234,15 +283,15 @@
       ],
       "payment_count": 18
     },
-    "dividend_yield_pct": 1.43,
+    "dividend_yield_pct": 1.36,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -251,28 +300,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 9.17,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 9.6,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/qgo-finance-ltd",
       "search_id": "qgo-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 9.17,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 9.6,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.2,
-        "industry_pe": 22.9,
+        "company_pe": 9.8,
+        "industry_pe": 22.5,
         "industry_name": "Indian Diversified Financial",
-        "description": "538646 is good value based on its Price-To-Earnings Ratio (9.2x) compared to the Indian Diversified Financial industry average (22.9x).",
+        "description": "538646 is good value based on its Price-To-Earnings Ratio (9.8x) compared to the Indian Diversified Financial industry average (22.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -289,8 +338,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -302,56 +351,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 43.99,
-        "fetched_at": "2026-05-25T23:22:04.096Z",
+        "value": 44.96,
+        "fetched_at": "2026-05-26T14:12:12.639Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-538646/qgo-finance-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 292000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 305900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 9.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9.6,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.57,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.9012610169491521,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
-        "value": 1.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.36,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "fifty_two_week": {
@@ -360,91 +409,91 @@
           "low": 35,
           "high": 57.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 28.0836498,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 15.6207,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9376443418013856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.67448353331076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.488372093023255,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 88.31395348837209,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 451.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 81.50577367205543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 87.6992,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 91.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 23.599999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/qgo-finance-ltd"
       }
     },
@@ -455,11 +504,11 @@
     "latest_net_income": null,
     "latest_eps": 4.58,
     "most_recent_reported_date": null,
-    "pb": 1.5,
+    "pb": 1.57,
     "ps": 1.69,
     "book_value": 28.0836498,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 15.6207,
     "roa_pct": 2.9376443418013856,
     "roic_pct": 10.67448353331076,
@@ -471,12 +520,12 @@
     "quick_ratio": 91.6,
     "cash_ratio": 23.599999999999998,
     "returns_pct": {
-      "1D": 4.738095238095243,
-      "7D": 9.48232951717273,
-      "1M": 6.256038647343004,
-      "3M": 0.15938069216757805,
-      "6M": -3.40360122968818,
-      "1Y": -18.218999814091834,
+      "1D": 2.2050466015003383,
+      "7D": 14.372933095904344,
+      "1M": 8.599033816425127,
+      "3M": 8.704061895551261,
+      "6M": -2.43055555555555,
+      "1Y": -16.41569064881948,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -538,7 +587,7 @@
     "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 1.43,
+    "yield_pct": 1.36,
     "payout_pct": null,
     "annualized_dividend": 0.6,
     "listing_currency": "INR",
@@ -732,16 +781,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Ex date",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-12T18:30:00.000Z",
-        "ex_date": "2024-05-23T18:30:00.000Z",
-        "record_date": "2024-05-23T18:30:00.000Z",
-        "value": "₹0.15"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Ex date",
         "primary_date": "2024-08-08T18:30:00.000Z",
         "announcement_date": "2024-07-28T18:30:00.000Z",
         "ex_date": "2024-08-08T18:30:00.000Z",
@@ -777,12 +816,22 @@
         "ex_date": "2025-06-05T18:30:00.000Z",
         "record_date": "2025-06-05T18:30:00.000Z",
         "value": "₹0.15"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-08-12T18:30:00.000Z",
+        "announcement_date": "2025-08-03T18:30:00.000Z",
+        "ex_date": "2025-08-12T18:30:00.000Z",
+        "record_date": "2025-08-12T18:30:00.000Z",
+        "value": "₹0.15"
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/qgo-finance-ltd",
     "news": [
       {
@@ -805,16 +854,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Ex date",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-12T18:30:00.000Z",
-        "ex_date": "2024-05-23T18:30:00.000Z",
-        "record_date": "2024-05-23T18:30:00.000Z",
-        "value": "₹0.15"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Ex date",
         "primary_date": "2024-08-08T18:30:00.000Z",
         "announcement_date": "2024-07-28T18:30:00.000Z",
         "ex_date": "2024-08-08T18:30:00.000Z",
@@ -850,6 +889,16 @@
         "ex_date": "2025-06-05T18:30:00.000Z",
         "record_date": "2025-06-05T18:30:00.000Z",
         "value": "₹0.15"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-08-12T18:30:00.000Z",
+        "announcement_date": "2025-08-03T18:30:00.000Z",
+        "ex_date": "2025-08-12T18:30:00.000Z",
+        "record_date": "2025-08-12T18:30:00.000Z",
+        "value": "₹0.15"
       }
     ],
     "peers": [
@@ -857,7 +906,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -865,7 +914,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -873,7 +922,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

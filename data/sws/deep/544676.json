@@ -3,7 +3,7 @@
   "name": "Yajur Fibres Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-544676/yajur-fibres-shares",
-  "parsed_at": "2026-05-25T21:18:22.744Z",
+  "parsed_at": "2026-05-26T12:10:15.647Z",
   "company_id": "269E4B21-4255-4C25-B3D0-8A9155C3F233",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 44.98,
-    "market_cap_inr": 1020275633.7041585,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 15,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 41.9,
+    "market_cap_inr": 950412384.4420686,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -111,7 +162,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -124,8 +175,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 44.98,
-        "fetched_at": "2026-05-25T21:18:22.744Z",
+        "value": 41.9,
+        "fetched_at": "2026-05-26T12:10:15.647Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-544676/yajur-fibres-shares"
       }
     },
@@ -152,12 +203,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.6830601092896242,
-      "7D": 7.530480516375803,
-      "1M": -13.014890736801398,
-      "3M": -16.67284179325676,
-      "6M": -65.98865784499056,
-      "1Y": -65.98865784499056,
+      "1D": -6.847487772343261,
+      "7D": -1.0625737898465237,
+      "1M": -18.97118545735835,
+      "3M": -17.730217946200668,
+      "6M": -68.31758034026466,
+      "1Y": -68.31758034026466,
       "5Y": null
     },
     "next_earnings_date": null,

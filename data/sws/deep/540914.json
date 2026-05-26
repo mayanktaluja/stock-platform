@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sru-steels-ltd",
     "search_id": "sru-steels-ltd",
     "company_id": "GSTK540914",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1.61,
-    "market_cap_inr": 99500000,
+    "market_cap_inr": 96500000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -45,7 +94,7 @@
     },
     "upside_pct": 97.37012422360246,
     "multiples": {
-      "pe": 5.72,
+      "pe": 5.55,
       "ps": 0.23,
       "pb": 0.16,
       "ev_ebitda": 0,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sru-steels-ltd"
     },
@@ -94,13 +143,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -109,21 +158,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 5.72,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 5.55,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sru-steels-ltd",
       "search_id": "sru-steels-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 5.72,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 5.55,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "sws_statement": {
@@ -148,7 +197,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -166,50 +215,50 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 99500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 96500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 5.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5.55,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "fifty_two_week": {
@@ -218,91 +267,91 @@
           "low": 1.31,
           "high": 6.19
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10.0651827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.1442,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.3327112769928022,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.919586252919586,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.0229885057471275,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.850574712643678,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.8447,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.8985704560925805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.026548672566371685,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sru-steels-ltd"
       }
     },
@@ -317,7 +366,7 @@
     "ps": 0.23,
     "book_value": 10.0651827,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 2.1442,
     "roa_pct": 2.3327112769928022,
     "roic_pct": 2.919586252919586,
@@ -557,22 +606,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sru-steels-ltd",
     "news": [
+      {
+        "id": "678280",
+        "title": "SRU Steels Ltd's Board to meet on 30th May 2026 to review audited Q4 FY26 results.\nAgenda includes approving financials, audit reports, and other key matters at the registered office.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=d1dae946-eceb-46c7-b409-539c4a405ca3.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T05:53:04.000Z"
+      },
       {
         "id": "601014",
         "title": "SRU Steels Ltd board meeting on 29th April 2026 to conduct postal ballot via e-voting.\nAgenda includes auditor appointment, scrutinizer selection, and cutoff date for voting eligibility.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=480c2597-fd22-449f-9051-22c828cfe08c.pdf",
         "source": "BSE",
         "published_at": "2026-04-25T07:59:38.000Z"
-      },
-      {
-        "id": "260324179785622",
-        "title": "SRU Steels Ltd hit an all-time low of Rs.1.31 on 24 Mar 2026.\nThe stock has been in a prolonged multi-year price decline.",
-        "url": "https://www.marketsmojo.com/news/stocks-in-action/sru-steels-ltd-stock-hits-all-time-low-amid-prolonged-downtrend-3909589",
-        "source": "Marketsmojo",
-        "published_at": "2026-03-23T04:04:48.000Z"
       }
     ],
     "events": [
@@ -632,7 +681,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -640,15 +689,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

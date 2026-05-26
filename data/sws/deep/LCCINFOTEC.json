@@ -3,12 +3,12 @@
   "name": "LCC Infotech Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-lccinfotec/lcc-infotech-shares",
-  "parsed_at": "2026-05-25T21:17:12.321Z",
+  "parsed_at": "2026-05-26T12:05:53.547Z",
   "company_id": "70E3B954-522D-4F04-9DD1-F0610878D719",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lcc-infotech-ltd",
     "search_id": "lcc-infotech-ltd",
     "company_id": "GSTK532019",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 4.29,
-    "market_cap_inr": 593700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4.24,
+    "market_cap_inr": 565900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3.64,
       "high": 6.31
     },
-    "fair_value_inr": 0.10951,
+    "fair_value_inr": 0.113321,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.44731934731934,
+    "upside_pct": -97.32733490566038,
     "multiples": {
       "pe": null,
       "ps": 0,
@@ -65,7 +114,7 @@
       "Earnings have declined by 39.1% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹4M)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹791M)"
+      "Does not have a meaningful market cap (₹754M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -101,19 +150,19 @@
         "industry_pe": 44.091917441310876,
         "industry_name": "Education",
         "industry_id": 73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2.3,
+        "industry_pe": 2.2,
         "industry_name": "Indian Consumer Services",
-        "description": "LCCINFOTEC is expensive based on its Price-To-Book Ratio (170.3x) compared to the Indian Consumer Services industry average (2.3x).",
+        "description": "LCCINFOTEC is expensive based on its Price-To-Book Ratio (162.3x) compared to the Indian Consumer Services industry average (2.2x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.724939537,
+        "industry_pe": 24.336219552,
         "industry_code": "9551701",
         "type": "median_profitable",
         "count": 27,
@@ -125,8 +174,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 22.85,
-        "sample_count": 24,
+        "industry_pe": 23,
+        "sample_count": 25,
         "industry_code": "9551701",
         "industry_name": "Consumer Services"
       },
@@ -138,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.29,
-        "fetched_at": "2026-05-25T21:17:12.321Z",
+        "value": 4.24,
+        "fetched_at": "2026-05-26T12:05:53.547Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-lccinfotec/lcc-infotech-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 593700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 565900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.091917441310876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "fifty_two_week": {
@@ -190,85 +239,85 @@
           "low": 3.64,
           "high": 6.31
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.036682,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.091917441310876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 485.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 42.965779467680605,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6804,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6771653543307086,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.011811023622047244,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lcc-infotech-ltd"
       }
     },
@@ -295,12 +344,12 @@
     "quick_ratio": 1.6771653543307086,
     "cash_ratio": 0.011811023622047244,
     "returns_pct": {
-      "1D": -4.878048780487799,
-      "7D": -6.126914660831515,
-      "1M": -10.062893081760997,
-      "3M": -8.723404255319151,
-      "6M": -16.2109375,
-      "1Y": -21.28440366972477,
+      "1D": -1.1655011655011613,
+      "7D": -7.2210065645514225,
+      "1M": -11.111111111111098,
+      "3M": -10.548523206751053,
+      "6M": -20.30075187969925,
+      "1Y": -22.20183486238532,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -446,22 +495,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lcc-infotech-ltd",
     "news": [
+      {
+        "id": "679817",
+        "title": "LCC Infotech's board to meet on May 29, 2026, to approve FY26 audited results.\nTrading window remains closed for designated persons until May 31, 2026.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=9584c735-5f3a-4837-adaa-d28ba2646058.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T11:34:25.000Z"
+      },
       {
         "id": "827496218143265280",
         "title": "LCC Infotech announces open offer to acquire 4.38 crore shares at Rs 4.55/share.\nThe offer complies with SEBI regulations and is published in multiple newspapers.",
         "url": "https://sqst.in/pwxoy",
         "source": "ScoutQuest",
         "published_at": "2026-04-02T10:54:32.000Z"
-      },
-      {
-        "id": "824605444914144384",
-        "title": "LCC Infotech sees open offer for 4.38B shares at ₹4.55/share by Kunjit Maheshbhai Patel.\nPost-offer, acquirer may hold 85.3% stake. Offer open April 6-20, 2026.",
-        "url": "https://sqst.in/P5rYv",
-        "source": "ScoutQuest",
-        "published_at": "2026-03-25T11:27:38.000Z"
       }
     ],
     "events": [
@@ -501,7 +550,7 @@
         "ticker": "CRIZAC",
         "name": "Crizac",
         "searchId": "crizac-ltd",
-        "market_cap_inr": 35661400000,
+        "market_cap_inr": 39222300000,
         "pe": 18.33,
         "pb": 5.94
       },
@@ -509,7 +558,7 @@
         "ticker": "SEIL",
         "name": "Shanti Educational Initiatives",
         "searchId": "shanti-educational-initiatives-ltd",
-        "market_cap_inr": 31773400000,
+        "market_cap_inr": 31620400000,
         "pe": null,
         "pb": 41.47
       },
@@ -517,7 +566,7 @@
         "ticker": "NAVNETEDUL",
         "name": "Navneet Education",
         "searchId": "navneet-education-ltd",
-        "market_cap_inr": 31655600000,
+        "market_cap_inr": 31478600000,
         "pe": 8.58,
         "pb": 1.55
       }

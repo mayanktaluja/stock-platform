@@ -3,12 +3,12 @@
   "name": "Hariyana Ship Breakers Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-526931/hariyana-ship-breakers-shares",
-  "parsed_at": "2026-05-25T22:06:27.640Z",
+  "parsed_at": "2026-05-26T13:01:57.405Z",
   "company_id": "B7A0D9B8-C324-49B3-A433-2B211ED2613B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd",
     "search_id": "hariyana-ship-breakers-ltd",
     "company_id": "GSTK526931",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 102.35,
-    "market_cap_inr": 627200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 102.4,
+    "market_cap_inr": 631500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,20 +104,20 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 758.5% over the past year",
-      "Price-To-Earnings ratio (6.1x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (6.2x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Earnings have declined by 12.3% per year over past 5 years",
       "Does not have meaningful revenue (₹170M)",
-      "Does not have a meaningful market cap (₹627M)"
+      "Does not have a meaningful market cap (₹631M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -86,7 +135,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Ship Building",
       "pe_industry_id": 55,
@@ -99,7 +148,7 @@
       "industry_pe": 69.10283783783784,
       "industry_name": "Ship Building",
       "industry_id": 55,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd",
       "search_id": "hariyana-ship-breakers-ltd"
     },
@@ -109,14 +158,14 @@
         "industry_pe": 69.10283783783784,
         "industry_name": "Ship Building",
         "industry_id": 55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "sws_statement": {
-        "company_pe": 6.1,
-        "industry_pe": 22.1,
+        "company_pe": 6.2,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "526931 is good value based on its Price-To-Earnings Ratio (6.1x) compared to the Indian Trade Distributors industry average (22.1x).",
+        "description": "526931 is good value based on its Price-To-Earnings Ratio (6.2x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -134,7 +183,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 102.35,
-        "fetched_at": "2026-05-25T22:06:27.640Z",
+        "value": 102.4,
+        "fetched_at": "2026-05-26T13:01:57.405Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526931/hariyana-ship-breakers-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 627200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 631500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 6.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 17.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.7691878326996198,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 69.10283783783784,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 82.25,
           "high": 142
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 16.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 242.787034,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 69.10283783783784,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.5441,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.051804872266018,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.233764158800357,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 10.459999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 9.282200225238576,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.4389,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08141592920353982,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05604719764011799,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd"
       }
     },
@@ -315,12 +364,12 @@
     "quick_ratio": 0.08141592920353982,
     "cash_ratio": 0.05604719764011799,
     "returns_pct": {
-      "1D": 0.688637481554342,
-      "7D": 0.04887585532746545,
-      "1M": -1.5202540171269243,
-      "3M": -11.000000000000005,
-      "6M": -8.206278026905835,
-      "1Y": -22.226443768996962,
+      "1D": 0.04885197850514057,
+      "7D": 1.0858835143139276,
+      "1M": -1.472144712787454,
+      "3M": -8.612226684515834,
+      "6M": -9.819462791721701,
+      "1Y": -22.18844984802431,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -511,7 +560,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hariyana-ship-breakers-ltd",
     "news": [
       {
@@ -576,15 +625,15 @@
         "ticker": "DREDGECORP",
         "name": "Dredging Corporation of India",
         "searchId": "dredging-corporation-of-india-ltd",
-        "market_cap_inr": 29829800000,
+        "market_cap_inr": 30056600000,
         "pe": null,
-        "pb": 2.42
+        "pb": 2.44
       },
       {
         "ticker": "ESSARSHPNG",
         "name": "Essar Shipping",
         "searchId": "essar-shipping-ltd",
-        "market_cap_inr": 4897100000,
+        "market_cap_inr": 4886700000,
         "pe": null,
         "pb": 0
       },
@@ -592,7 +641,7 @@
         "ticker": "TRANSWORLD",
         "name": "Transworld Shipping Lines",
         "searchId": "shreyas-shipping-logistics-ltd",
-        "market_cap_inr": 3552000000,
+        "market_cap_inr": 3545400000,
         "pe": null,
         "pb": 0.53
       }

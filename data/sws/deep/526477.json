@@ -3,12 +3,12 @@
   "name": "South Asian Enterprises Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-526477/south-asian-enterprises-shares",
-  "parsed_at": "2026-05-25T22:00:00.366Z",
+  "parsed_at": "2026-05-26T12:55:41.349Z",
   "company_id": "07E9D995-E637-40CC-974E-6C2C9457779E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/south-asian-enterprises-ltd",
     "search_id": "south-asian-enterprises-ltd",
     "company_id": "GSTK526477",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 48.47,
-    "market_cap_inr": 204100000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 193900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/south-asian-enterprises-ltd"
     },
@@ -63,7 +112,7 @@
       "Earnings have grown 2.8% per year over the past 5 years"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹204M)",
+      "Does not have a meaningful market cap (₹194M)",
       "Makes less than USD$1m in revenue (₹7M)"
     ],
     "dividend": {
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 56.05914496503882,
-      "sector_pe": 56.05914496503882
+      "pe": 56.05475305701128,
+      "sector_pe": 56.05475305701128
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -92,27 +141,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 94.48,
-      "industry_pe": 56.05914496503882,
+      "industry_pe": 56.05475305701128,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/south-asian-enterprises-ltd",
       "search_id": "south-asian-enterprises-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 94.48,
-        "industry_pe": 56.05914496503882,
+        "industry_pe": 56.05475305701128,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.2,
         "industry_name": "Indian Electronic",
-        "description": "526477 is expensive based on its Price-To-Sales Ratio (28.5x) compared to the Indian Electronic industry average (2.2x).",
+        "description": "526477 is expensive based on its Price-To-Sales Ratio (27.1x) compared to the Indian Electronic industry average (2.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,7 +178,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.2,
+        "industry_pe": 31.5,
         "sample_count": 59,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -143,55 +192,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 48.47,
-        "fetched_at": "2026-05-25T22:00:00.366Z",
+        "fetched_at": "2026-05-26T12:55:41.349Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-526477/south-asian-enterprises-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 204100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 193900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 94.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 5.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 11.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 24.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 22.57,
           "high": 56.53
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.556,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.720176730486005,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 37.91208791208789,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 14.7414,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 14.291666666666668,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 13.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/south-asian-enterprises-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 11.25,
     "book_value": 8.556,
     "face_value": 10,
-    "sector_pe": 56.05914496503882,
+    "sector_pe": 56.05475305701128,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 9.720176730486005,
@@ -512,7 +561,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/south-asian-enterprises-ltd",
     "news": [
       {
@@ -587,15 +636,15 @@
         "ticker": "WONDERLA",
         "name": "Wonderla Holidays",
         "searchId": "wonderla-holidays-ltd",
-        "market_cap_inr": 30553900000,
-        "pe": 37.37,
+        "market_cap_inr": 30512700000,
+        "pe": 37.32,
         "pb": 1.7
       },
       {
         "ticker": "IMAGICAA",
         "name": "Imagicaaworld Entertainment",
         "searchId": "adlabs-entertainment-ltd",
-        "market_cap_inr": 24269800000,
+        "market_cap_inr": 24728100000,
         "pe": null,
         "pb": 1.94
       },
@@ -603,7 +652,7 @@
         "ticker": "526721",
         "name": "Nicco Parks & Resorts",
         "searchId": "nicco-parks-resorts-ltd",
-        "market_cap_inr": 3196000000,
+        "market_cap_inr": 3232000000,
         "pe": 257,
         "pb": 3.06
       }

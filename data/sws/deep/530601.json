@@ -3,12 +3,12 @@
   "name": "Jagsonpal Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-530601/jagsonpal-services-shares",
-  "parsed_at": "2026-05-25T22:16:56.723Z",
+  "parsed_at": "2026-05-26T13:14:31.995Z",
   "company_id": "DF89CB4C-6B36-4F94-9270-81CE37523EDD",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd",
     "search_id": "jagsonpal-finance-leasing-ltd",
     "company_id": "GSTK530601",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 49.6,
-    "market_cap_inr": 946700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 51,
+    "market_cap_inr": 903000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 6.71,
+      "pb": 6.4,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -64,7 +113,7 @@
       "Earnings have declined by 58.6% per year over past 5 years",
       "Has less than 1 year of [[cash runway]]",
       "Makes less than USD$1m in revenue (₹1M)",
-      "Does not have a meaningful market cap (₹947M)"
+      "Does not have a meaningful market cap (₹903M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 21.41038809716583
+      "sector_pe": 21.411947666551587
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 21.41038809716583,
+        "industry_pe": 21.411947666551587,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Capital Markets",
-        "description": "530601 is expensive based on its Price-To-Book Ratio (6.7x) compared to the Indian Capital Markets industry average (1.2x).",
+        "description": "530601 is expensive based on its Price-To-Book Ratio (6.6x) compared to the Indian Capital Markets industry average (1.2x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -137,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 49.6,
-        "fetched_at": "2026-05-25T22:16:56.723Z",
+        "value": 51,
+        "fetched_at": "2026-05-26T13:14:31.995Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-530601/jagsonpal-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 946700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 903000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 6.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6.4,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 44.92,
           "high": 83
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 7.7453942,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.8344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.846153846153846,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.923076923076923,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd"
       }
     },
@@ -278,11 +327,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 6.71,
+    "pb": 6.4,
     "ps": 0,
     "book_value": 7.7453942,
     "face_value": 10,
-    "sector_pe": 21.41038809716583,
+    "sector_pe": 21.411947666551587,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +343,12 @@
     "quick_ratio": 3.846153846153846,
     "cash_ratio": 0.923076923076923,
     "returns_pct": {
-      "1D": -4.615384615384613,
-      "7D": -7.635009310986966,
-      "1M": -5.035420256557526,
-      "3M": -15.86089906700594,
-      "6M": -23.515805705474165,
-      "1Y": -28.230357401244387,
+      "1D": 2.8225806451612874,
+      "7D": -0.03920031360251495,
+      "1M": -2.354968408960362,
+      "3M": -12.82051282051282,
+      "6M": -21.47806004618938,
+      "1Y": -26.204601360150487,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -410,7 +459,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -423,7 +472,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jagsonpal-finance-leasing-ltd",
     "news": [
       {
@@ -473,7 +522,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -488,7 +537,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -496,7 +545,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -504,7 +553,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

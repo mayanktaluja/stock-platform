@@ -3,7 +3,7 @@
   "name": "Geekay Wires Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-geekaywire/geekay-wires-shares",
-  "parsed_at": "2026-05-25T23:35:26.611Z",
+  "parsed_at": "2026-05-26T14:26:15.737Z",
   "company_id": "F9EA829E-DDE5-45A5-8B26-B0C9D5B03CEB",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 2
     },
     "snowflake_total": 9,
-    "current_price_inr": 24.23,
-    "market_cap_inr": 2532519758.6233296,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 24.58,
+    "market_cap_inr": 2569101760.914628,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 3.747868,
+    "fair_value_inr": 3.730342,
     "fair_value_range_inr": {
-      "min": 3.747868,
-      "max": 3.747868,
+      "min": 3.730342,
+      "max": 3.730342,
       "count": 1
     },
-    "upside_pct": -84.53211721007015,
+    "upside_pct": -84.82366965012204,
     "multiples": {
       "pe": 8.4,
       "ps": null,
@@ -190,7 +238,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -203,8 +251,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 24.23,
-        "fetched_at": "2026-05-25T23:35:26.611Z",
+        "value": 24.58,
+        "fetched_at": "2026-05-26T14:26:15.737Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-geekaywire/geekay-wires-shares"
       }
     },
@@ -231,12 +279,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": -0.12366034624897418,
-      "1M": -9.216935181716002,
-      "3M": -5.277560594214222,
-      "6M": -23.73308152344979,
-      "1Y": -32.57270070961458,
+      "1D": 1.444490301279397,
+      "7D": 0.49059689288633457,
+      "1M": -7.905582615211701,
+      "3M": -4.1715399610136465,
+      "6M": -25.582803511958836,
+      "1Y": -31.598719910950336,
       "5Y": null
     },
     "next_earnings_date": null,

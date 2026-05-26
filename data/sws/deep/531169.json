@@ -3,12 +3,12 @@
   "name": "SKP Securities Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531169/skp-securities-shares",
-  "parsed_at": "2026-05-25T22:28:21.778Z",
+  "parsed_at": "2026-05-26T13:24:10.147Z",
   "company_id": "DEF14A11-FBF4-4BC5-8820-CED613FC978E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/skp-securities-ltd",
     "search_id": "skp-securities-ltd",
     "company_id": "GSTK531169",
@@ -28,26 +28,75 @@
       "dividend": 4
     },
     "snowflake_total": 11,
-    "current_price_inr": 97.04,
-    "market_cap_inr": 671800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 98.05,
+    "market_cap_inr": 660700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 74,
       "high": 143.9
     },
-    "fair_value_inr": 102.465255,
+    "fair_value_inr": 102.440629,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 5.590740931574601,
+    "upside_pct": 4.477949005609387,
     "multiples": {
-      "pe": 6.49,
+      "pe": 6.38,
       "ps": 1.64,
-      "pb": 1.11,
+      "pb": 1.09,
       "ev_ebitda": 3.93,
       "peg": 0.48608121827411155
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/skp-securities-ltd"
     },
@@ -63,17 +112,17 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings have grown 23.1% per year over the past 5 years",
-      "Trading at 3.7% below our estimate of its fair value"
+      "Trading at 4.3% below our estimate of its fair value"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹396M)",
       "High level of [[non-cash earnings]]",
-      "Dividend of 2.03% is not well covered by free cash flows",
-      "Does not have a meaningful market cap (₹672M)"
+      "Dividend of 2.04% is not well covered by free cash flows",
+      "Does not have a meaningful market cap (₹661M)"
     ],
     "dividend": {
-      "yield_pct": 2.03,
+      "yield_pct": 2.06,
       "payout_pct": null,
       "annualized_dividend": 2,
       "listing_currency": "INR",
@@ -120,15 +169,15 @@
       ],
       "payment_count": 3
     },
-    "dividend_yield_pct": 2.03,
+    "dividend_yield_pct": 2.06,
     "industry_benchmarks": {
-      "pe": 51.12804682488776,
-      "sector_pe": 51.12804682488776
+      "pe": 51.12528613573184,
+      "sector_pe": 51.12528613573184
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Stock/ Commodity Brokers",
       "pe_industry_id": 58,
@@ -137,28 +186,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 6.49,
-      "industry_pe": 51.12804682488776,
+      "company_pe": 6.38,
+      "industry_pe": 51.12528613573184,
       "industry_name": "Stock/ Commodity Brokers",
       "industry_id": 58,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/skp-securities-ltd",
       "search_id": "skp-securities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 6.49,
-        "industry_pe": 51.12804682488776,
+        "company_pe": 6.38,
+        "industry_pe": 51.12528613573184,
         "industry_name": "Stock/ Commodity Brokers",
         "industry_id": 58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "sws_statement": {
         "company_pe": 6.5,
-        "industry_pe": 27.9,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "531169 is good value based on its Price-To-Earnings Ratio (6.5x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "531169 is good value based on its Price-To-Earnings Ratio (6.5x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -188,56 +237,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 97.04,
-        "fetched_at": "2026-05-25T22:28:21.778Z",
+        "value": 98.05,
+        "fetched_at": "2026-05-26T13:24:10.147Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531169/skp-securities-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 671800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 660700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 6.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6.38,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.09,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 3.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.48608121827411155,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.12804682488776,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.12528613573184,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
-        "value": 2.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.06,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "fifty_two_week": {
@@ -246,91 +295,91 @@
           "low": 74,
           "high": 143.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 15.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 88.7069675,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.12804682488776,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.12528613573184,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 17.1315,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 9.744604655546132,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 28.065340460659627,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 24.381042207026653,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 37.30252298986089,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 32.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 18.40542832909245,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.0456,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.202658582089552,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9181436567164178,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/skp-securities-ltd"
       }
     },
@@ -341,11 +390,11 @@
     "latest_net_income": null,
     "latest_eps": 15.2,
     "most_recent_reported_date": null,
-    "pb": 1.11,
+    "pb": 1.09,
     "ps": 1.64,
     "book_value": 88.7069675,
     "face_value": 10,
-    "sector_pe": 51.12804682488776,
+    "sector_pe": 51.12528613573184,
     "roe_pct": 17.1315,
     "roa_pct": 9.744604655546132,
     "roic_pct": 28.065340460659627,
@@ -357,12 +406,12 @@
     "quick_ratio": 2.202658582089552,
     "cash_ratio": 0.9181436567164178,
     "returns_pct": {
-      "1D": -1.6519712171886038,
-      "7D": -1.6719019150876395,
-      "1M": -2.5604980419720826,
-      "3M": -0.5737704918032666,
-      "6M": -14.989049496276827,
-      "1Y": -13.085535154500672,
+      "1D": 1.0408079142621505,
+      "7D": -3.863123835670162,
+      "1M": -1.5463399939753049,
+      "3M": 1.0824742268041208,
+      "6M": -13.99122807017544,
+      "1Y": -12.18092252575012,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -429,7 +478,7 @@
     "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 2.03,
+    "yield_pct": 2.06,
     "payout_pct": null,
     "annualized_dividend": 2,
     "listing_currency": "INR",
@@ -593,7 +642,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/skp-securities-ltd",
     "news": [
       {
@@ -668,7 +717,7 @@
         "ticker": "ARSSBL",
         "name": "Anand Rathi Share & Stock Brokers",
         "searchId": "anand-rathi-share-stock-brokers-ltd",
-        "market_cap_inr": 33236900000,
+        "market_cap_inr": 33845100000,
         "pe": 25.71,
         "pb": 2.47
       },
@@ -676,7 +725,7 @@
         "ticker": "SHAREINDIA",
         "name": "Share India Securities",
         "searchId": "share-india-securities-ltd",
-        "market_cap_inr": 31007600000,
+        "market_cap_inr": 30657500000,
         "pe": 9.55,
         "pb": 1.18
       },
@@ -684,7 +733,7 @@
         "ticker": "INDOTHAI",
         "name": "Indo Thai Securities",
         "searchId": "indo-thai-securities-ltd",
-        "market_cap_inr": 27796700000,
+        "market_cap_inr": 26257900000,
         "pe": 42.02,
         "pb": 9.86
       }

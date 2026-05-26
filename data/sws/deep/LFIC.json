@@ -3,7 +3,7 @@
   "name": "Lakshmi Finance & Industrial Corporation Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-lfic/lakshmi-finance-industrial-shares",
-  "parsed_at": "2026-05-25T21:17:33.484Z",
+  "parsed_at": "2026-05-26T12:06:15.799Z",
   "company_id": "2546EB8D-C2E1-4CEB-8129-B2FD2D805E90",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,69 @@
       "dividend": 2
     },
     "snowflake_total": 9,
-    "current_price_inr": 137.15,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 140.37,
     "market_cap_inr": 411449861.0248392,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 56.033718,
+    "fair_value_inr": 56.020251,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -59.1442085308057,
+    "upside_pct": -60.0910087625561,
     "multiples": {
-      "pe": 34.2,
+      "pe": 33.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -54,10 +102,10 @@
     "risks": [
       "Profit margins (21.7%) are lower than last year (71.6%)",
       "Makes less than USD$1m in revenue (₹56M)",
-      "Does not have a meaningful market cap (₹415M)",
+      "Does not have a meaningful market cap (₹411M)",
       "Earnings have declined by 6.5% per year over past 5 years",
       "Large [[one-off items]] impacting financial results",
-      "Dividend of 2.17% is not well covered by earnings or free cash flows"
+      "Dividend of 2.19% is not well covered by earnings or free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.8789579468,
@@ -200,7 +248,7 @@
     },
     "dividend_yield_pct": 1.8789579468,
     "industry_benchmarks": {
-      "pe": 27.8
+      "pe": 27.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -214,25 +262,25 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 34.2,
-      "industry_pe": 27.8,
+      "company_pe": 33.9,
+      "industry_pe": 27.1,
       "industry_name": "Indian Capital Markets"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 34.2,
-        "industry_pe": 27.8,
+        "company_pe": 33.9,
+        "industry_pe": 27.1,
         "industry_name": "Indian Capital Markets",
-        "description": "LFIC is expensive based on its Price-To-Earnings Ratio (34.2x) compared to the Indian Capital Markets industry average (27.8x).",
+        "description": "LFIC is expensive based on its Price-To-Earnings Ratio (33.9x) compared to the Indian Capital Markets industry average (27.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.92506745,
+        "industry_pe": 27.269693169,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 216,
+        "count": 217,
         "source": {
           "type": "country",
           "country": "IN",
@@ -254,8 +302,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 137.15,
-        "fetched_at": "2026-05-25T21:17:33.484Z",
+        "value": 140.37,
+        "fetched_at": "2026-05-26T12:06:15.799Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-lfic/lakshmi-finance-industrial-shares"
       }
     },
@@ -282,12 +330,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.7956600361663612,
-      "7D": 0.2118953675288558,
-      "1M": -1.0033203406958182,
-      "3M": 6.673407482305368,
-      "6M": -28.978302521878724,
-      "1Y": -38.403844426479836,
+      "1D": 2.3477943857090766,
+      "7D": 1.5114260919872746,
+      "1M": 1.320918146383725,
+      "3M": -3.099544387684667,
+      "6M": -28.011692907328584,
+      "1Y": -36.957693344112094,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",

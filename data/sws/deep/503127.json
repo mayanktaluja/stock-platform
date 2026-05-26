@@ -3,12 +3,12 @@
   "name": "Raja Bahadur International Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-503127/raja-bahadur-international-shares",
-  "parsed_at": "2026-05-25T20:42:27.181Z",
+  "parsed_at": "2026-05-26T11:10:08.486Z",
   "company_id": "044096B9-396D-44D0-8486-97AA0059DC82",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/raja-bahadur-international-ltd",
     "search_id": "raja-bahadur-international-ltd",
     "company_id": "GSTK503127",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 5025.5,
-    "market_cap_inr": 1322500000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4775.05,
+    "market_cap_inr": 1256400000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/raja-bahadur-international-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.6218471625948,
-      "sector_pe": 31.6218471625948
+      "pe": 31.637222628337422,
+      "sector_pe": 31.637222628337422
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Realty",
       "pe_industry_id": 51,
@@ -93,27 +142,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 88.73,
-      "industry_pe": 31.6218471625948,
+      "industry_pe": 31.637222628337422,
       "industry_name": "Realty",
       "industry_id": 51,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/raja-bahadur-international-ltd",
       "search_id": "raja-bahadur-international-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 88.73,
-        "industry_pe": 31.6218471625948,
+        "industry_pe": 31.637222628337422,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "sws_statement": {
-        "company_pe": 88.7,
-        "industry_pe": 25.4,
+        "company_pe": 84.3,
+        "industry_pe": 24.6,
         "industry_name": "Indian Real Estate",
-        "description": "503127 is expensive based on its Price-To-Earnings Ratio (88.7x) compared to the Indian Real Estate industry average (25.4x).",
+        "description": "503127 is expensive based on its Price-To-Earnings Ratio (84.3x) compared to the Indian Real Estate industry average (24.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
-        "sample_count": 145,
+        "industry_pe": 23.85,
+        "sample_count": 144,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5025.5,
-        "fetched_at": "2026-05-25T20:42:27.181Z",
+        "value": 4775.05,
+        "fetched_at": "2026-05-26T11:10:08.486Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-503127/raja-bahadur-international-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1322500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1256400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 88.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 4135.1,
           "high": 5389.65
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 59.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -38.744,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 100,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 11.4954,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5038890767669937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2459422033552023,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.239099859353026,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 77.0042194092827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 89.96956374704092,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.9073,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1125784087157475,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.847144272036976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/raja-bahadur-international-ltd"
       }
     },
@@ -300,7 +349,7 @@
     "ps": 4.65,
     "book_value": -38.744,
     "face_value": 100,
-    "sector_pe": 31.6218471625948,
+    "sector_pe": 31.637222628337422,
     "roe_pct": 11.4954,
     "roa_pct": 0.5038890767669937,
     "roic_pct": 2.2459422033552023,
@@ -312,12 +361,12 @@
     "quick_ratio": 2.1125784087157475,
     "cash_ratio": 0.847144272036976,
     "returns_pct": {
-      "1D": -5,
-      "7D": -1.1603894188219097,
-      "1M": 0.7114228456913827,
-      "3M": 12.001337196344997,
-      "6M": 16.196531791907514,
-      "1Y": 5.622110130306852,
+      "1D": -4.983583723012632,
+      "7D": -6.086144163634573,
+      "1M": -4.307615230460918,
+      "3M": 6.419656786271455,
+      "6M": 12.222091656874271,
+      "1Y": 0.35834384195040314,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -483,7 +532,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/raja-bahadur-international-ltd",
     "news": [],
     "events": [
@@ -523,7 +572,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -531,7 +580,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -539,7 +588,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

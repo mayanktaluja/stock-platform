@@ -3,7 +3,7 @@
   "name": "Peeti Securities Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531352/peeti-securities-shares",
-  "parsed_at": "2026-05-25T22:25:04.404Z",
+  "parsed_at": "2026-05-26T13:18:42.262Z",
   "company_id": "83768E3E-3581-4DFF-9D87-F8D42D8405EC",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 19,
-    "market_cap_inr": 71257621.29834066,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 19.11,
+    "market_cap_inr": 71670165.42164685,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 111.53433684210528,
+    "upside_pct": 110.31671376242807,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -53,7 +102,7 @@
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹68M)",
+      "Does not have a meaningful market cap (₹71M)",
       "Earnings have declined by 50.6% per year over past 5 years",
       "Does not have meaningful revenue (₹236M)"
     ],
@@ -106,7 +155,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -119,8 +168,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 19,
-        "fetched_at": "2026-05-25T22:25:04.404Z",
+        "value": 19.11,
+        "fetched_at": "2026-05-26T13:18:42.262Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531352/peeti-securities-shares"
       }
     },
@@ -147,12 +196,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.972375690607726,
-      "7D": -0.10515247108306822,
-      "1M": -13.557779799818018,
-      "3M": -5,
-      "6M": -7.722195240407964,
-      "1Y": -15.405164737310779,
+      "1D": 0.5789473684210497,
+      "7D": 5.580110497237557,
+      "1M": -13.057324840764336,
+      "3M": -4.450000000000003,
+      "6M": -7.187955318115592,
+      "1Y": -14.915405164737317,
       "5Y": null
     },
     "next_earnings_date": null,

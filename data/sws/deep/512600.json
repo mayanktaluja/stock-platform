@@ -3,12 +3,12 @@
   "name": "Astal Laboratories Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-512600/astal-laboratories-shares",
-  "parsed_at": "2026-05-25T21:14:15.737Z",
+  "parsed_at": "2026-05-26T12:11:08.034Z",
   "company_id": "6777ABB4-0886-42DE-9C6B-B5C21F750719",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/macro-international-ltd",
     "search_id": "macro-international-ltd",
     "company_id": "GSTK512600",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 71.69,
-    "market_cap_inr": 3133200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 73.23,
+    "market_cap_inr": 3026400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +93,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -82.43296694099595,
+    "upside_pct": -82.80239519322681,
     "multiples": {
-      "pe": 31.99,
+      "pe": 30.9,
       "ps": 2.26,
-      "pb": 0.97,
+      "pb": 0.93,
       "ev_ebitda": 6.69,
       "peg": 0.00810640870616687
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/macro-international-ltd"
     },
@@ -78,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 45.29762059479049,
-      "sector_pe": 45.29762059479049
+      "pe": 45.25631416127515,
+      "sector_pe": 45.25631416127515
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Pharmaceuticals",
       "pe_industry_id": 46,
@@ -93,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 31.99,
-      "industry_pe": 45.29762059479049,
+      "company_pe": 30.9,
+      "industry_pe": 45.25631416127515,
       "industry_name": "Pharmaceuticals",
       "industry_id": 46,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/macro-international-ltd",
       "search_id": "macro-international-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 31.99,
-        "industry_pe": 45.29762059479049,
+        "company_pe": 30.9,
+        "industry_pe": 45.25631416127515,
         "industry_name": "Pharmaceuticals",
         "industry_id": 46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "sws_statement": {
-        "company_pe": 32.1,
-        "industry_pe": 29.1,
+        "company_pe": 31.6,
+        "industry_pe": 29.6,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "512600 is expensive based on its Price-To-Earnings Ratio (32.1x) compared to the Indian Pharmaceuticals industry average (29.1x).",
+        "description": "512600 is expensive based on its Price-To-Earnings Ratio (31.6x) compared to the Indian Pharmaceuticals industry average (29.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,8 +181,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -144,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 71.69,
-        "fetched_at": "2026-05-25T21:14:15.737Z",
+        "value": 73.23,
+        "fetched_at": "2026-05-26T12:11:08.034Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-512600/astal-laboratories-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3133200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3026400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 31.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 30.9,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.93,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 6.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.00810640870616687,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +252,91 @@
           "low": 60.45,
           "high": 103.2
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 76.88845,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 22.6924,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 9.702085402184707,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 20.747723854963745,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.051096997690531,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.767898383371824,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 29.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.651439920556108,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9411,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1138745780778114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08864807248179073,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/macro-international-ltd"
       }
     },
@@ -297,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 2.32,
     "most_recent_reported_date": null,
-    "pb": 0.97,
+    "pb": 0.93,
     "ps": 2.26,
     "book_value": 76.88845,
     "face_value": 10,
-    "sector_pe": 45.29762059479049,
+    "sector_pe": 45.25631416127515,
     "roe_pct": 22.6924,
     "roa_pct": 9.702085402184707,
     "roic_pct": 20.747723854963745,
@@ -313,16 +363,16 @@
     "quick_ratio": 1.1138745780778114,
     "cash_ratio": 0.08864807248179073,
     "returns_pct": {
-      "1D": -3.408784694152521,
-      "7D": -7.137305699481872,
-      "1M": 13.523357086302454,
-      "3M": -8.230926779313883,
-      "6M": -15.099478919943154,
-      "1Y": -12.551841912661633,
+      "1D": 2.1481378155949313,
+      "7D": -6.163505894413124,
+      "1M": 15.961995249406186,
+      "3M": -7.5145238696640595,
+      "6M": -18.397593046578997,
+      "1Y": -10.67333495974628,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -507,22 +557,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/macro-international-ltd",
     "news": [
       {
-        "id": "647408",
-        "title": "Astal Laboratories Ltd informs BSE about the resignation of auditors for its subsidiary Sriven Pharmachem.\nBalaji V & Co. resigned due to pending Peer Review Certificate required under SEBI regulations.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=b63fda4d-b6de-4fea-9652-bee1d6b1b40a.pdf",
-        "source": "BSE",
-        "published_at": "2026-05-14T06:46:10.000Z"
+        "id": "847088781404923904",
+        "title": "Astal Laboratories forfeited Rs 18.67 lakh as 1.86 lakh convertible warrants lapsed due to non-payment.\nWarrants were issued at Rs 40 each; no change in paid-up capital as they lapsed.",
+        "url": "https://sqst.in/OOMPO",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T12:28:23.000Z"
       },
       {
-        "id": "533214",
-        "title": "Astal Laboratories Ltd disclosed promoter ACESO Research Labs LLP's share purchase under SEBI (SAST) Regulations, 2011.\nThe disclosure was submitted to BSE as per compliance requirements under Regulation 29(2).",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=B6CC33E0_CE7F_4F75_AEB4_8487CD9FF805_112137.pdf",
+        "id": "680243",
+        "title": "Astal Laboratories to hold Board Meeting on May 30, 2026, to review audited financials.\nAgenda includes approving financial statements, appointing internal auditor, and other matters.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=4c4da459-0d7e-46fc-856f-9787705fbbee.pdf",
         "source": "BSE",
-        "published_at": "2026-03-20T05:51:41.000Z"
+        "published_at": "2026-05-25T12:33:47.000Z"
       }
     ],
     "events": [
@@ -562,7 +612,7 @@
         "ticker": "INNOVACAP",
         "name": "Innova Captab",
         "searchId": "innova-captab-ltd",
-        "market_cap_inr": 48538200000,
+        "market_cap_inr": 48672700000,
         "pe": 34.44,
         "pb": 4.45
       },
@@ -570,17 +620,17 @@
         "ticker": "GUJTHEM",
         "name": "Gujarat Themis Biosyn",
         "searchId": "gujarat-themis-biosyn-ltd",
-        "market_cap_inr": 40191800000,
-        "pe": 84.02,
-        "pb": 15.2
+        "market_cap_inr": 42196800000,
+        "pe": 88.21,
+        "pb": 15.96
       },
       {
-        "ticker": "ORCHPHARMA",
-        "name": "Orchid Pharma",
-        "searchId": "orchid-pharma-ltd",
-        "market_cap_inr": 35909100000,
-        "pe": 190.32,
-        "pb": 2.82
+        "ticker": "IOLCP",
+        "name": "IOL Chemicals & Pharmaceuticals",
+        "searchId": "iol-chemicals-pharmaceuticals-ltd",
+        "market_cap_inr": 36420900000,
+        "pe": 25.33,
+        "pb": 1.94
       }
     ],
     "details": {
@@ -597,6 +647,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "068c4235-c630-49e3-84df-2c91ce120f49",
+      "type": "event",
+      "date": "2026-05-25T12:34:00.000Z",
+      "title": "Astal Laboratories Limited to Report Q4, 2026 Results on May 30, 2026",
+      "body": "Astal Laboratories Limited announced that they will report Q4, 2026 results at 12:15 PM, Indian Standard Time on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "37f08ff7-5269-49fb-90ca-cd4cd2580a78",
       "type": "brief",

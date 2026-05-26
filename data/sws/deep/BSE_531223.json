@@ -3,7 +3,7 @@
   "name": "Anjani Synthetics Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531223/anjani-synthetics-shares",
-  "parsed_at": "2026-05-25T22:24:38.737Z",
+  "parsed_at": "2026-05-26T13:18:14.553Z",
   "company_id": "AFA60D3A-952A-448F-8D9E-51C91D7378FE",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 23.32,
-    "market_cap_inr": 343969989.35598534,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 23.08,
+    "market_cap_inr": 340429989.4655292,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 45.745421,
+    "fair_value_inr": 45.668861,
     "fair_value_range_inr": {
-      "min": 45.745421,
-      "max": 45.745421,
+      "min": 45.668861,
+      "max": 45.668861,
       "count": 1
     },
-    "upside_pct": 96.16389794168097,
+    "upside_pct": 97.87201473136916,
     "multiples": {
       "pe": 10,
       "ps": null,
@@ -108,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 23.32,
-        "fetched_at": "2026-05-25T22:24:38.737Z",
+        "value": 23.08,
+        "fetched_at": "2026-05-26T13:18:14.553Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531223/anjani-synthetics-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.4146341463414616,
-      "7D": -2.38593553788196,
-      "1M": -16.77373304782298,
-      "3M": -2.0168067226890773,
-      "6M": -0.7659574468085095,
-      "1Y": -57.17958134410577,
+      "1D": -1.029159519725566,
+      "7D": 0.962379702537178,
+      "1M": -17.63026409707352,
+      "3M": -3.1879194630872547,
+      "6M": -2.492606675116195,
+      "1Y": -57.62027175908925,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "Crayons Advertising Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-crayons/crayons-advertising-shares",
-  "parsed_at": "2026-05-25T22:57:01.508Z",
+  "parsed_at": "2026-05-26T13:49:02.483Z",
   "company_id": "9649E9D7-2B37-4402-91FC-BD045EA93F29",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 32,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": -68.03224999999999,
     "multiples": {
-      "pe": 7.8,
+      "pe": 7.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,11 +100,11 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (7.8x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (7.4x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Profit margins (3.8%) are lower than last year (6.6%)",
-      "Does not have a meaningful market cap (₹818M)",
+      "Does not have a meaningful market cap (₹782M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -82,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 7.8,
+      "company_pe": 7.4,
       "industry_pe": 17.4,
       "industry_name": "Indian Media"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 7.8,
+        "company_pe": 7.4,
         "industry_pe": 17.4,
         "industry_name": "Indian Media",
-        "description": "CRAYONS is good value based on its Price-To-Earnings Ratio (7.8x) compared to the Indian Media industry average (17.4x).",
+        "description": "CRAYONS is good value based on its Price-To-Earnings Ratio (7.4x) compared to the Indian Media industry average (17.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -123,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 32,
-        "fetched_at": "2026-05-25T22:57:01.508Z",
+        "fetched_at": "2026-05-26T13:49:02.483Z",
         "url": "https://simplywall.st/stocks/in/media/nse-crayons/crayons-advertising-shares"
       }
     },

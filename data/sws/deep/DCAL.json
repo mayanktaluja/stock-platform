@@ -3,12 +3,12 @@
   "name": "Dishman Carbogen Amcis Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-dcal/dishman-carbogen-amcis-shares",
-  "parsed_at": "2026-05-25T23:04:17.022Z",
+  "parsed_at": "2026-05-26T13:54:09.364Z",
   "company_id": "213AFEB8-AF6C-4DDA-89ED-EA17E094F7BE",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd",
     "search_id": "dishman-carbogen-amcis-ltd",
     "company_id": "GSTK540701",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 199.83,
-    "market_cap_inr": 30643300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 200.53,
+    "market_cap_inr": 31309600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 128.5,
       "high": 321.95
     },
-    "fair_value_inr": 218.142169,
+    "fair_value_inr": 218.14364,
     "fair_value_range_inr": {
-      "min": 218.142169,
-      "max": 218.142169,
+      "min": 218.14364,
+      "max": 218.14364,
       "count": 1
     },
-    "upside_pct": 9.163873792723805,
+    "upside_pct": 8.783543609434998,
     "multiples": {
       "pe": 31.42,
       "ps": 1.04,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
     },
@@ -91,13 +140,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 34.13083912188503,
-      "sector_pe": 34.13083912188503
+      "pe": 34.114828495752356,
+      "sector_pe": 34.114828495752356
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Pharmaceuticals",
       "pe_industry_id": 46,
@@ -107,20 +156,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 31.42,
-      "industry_pe": 34.13083912188503,
+      "industry_pe": 34.114828495752356,
       "industry_name": "Pharmaceuticals",
       "industry_id": 46,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd",
       "search_id": "dishman-carbogen-amcis-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 31.42,
-        "industry_pe": 34.13083912188503,
+        "industry_pe": 34.114828495752356,
         "industry_name": "Pharmaceuticals",
         "industry_id": 46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "sws_statement": {
@@ -144,7 +193,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.299999999999997,
+        "industry_pe": 31.65,
         "sample_count": 16,
         "industry_code": "9551727",
         "industry_name": "Pharmaceuticals & Biotech"
@@ -157,56 +206,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 199.83,
-        "fetched_at": "2026-05-25T23:04:17.022Z",
+        "value": 200.53,
+        "fetched_at": "2026-05-26T13:54:09.364Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-dcal/dishman-carbogen-amcis-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 30643300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31309600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 31.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -10.144300099999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.13083912188503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.114828495752356,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "fifty_two_week": {
@@ -215,91 +264,91 @@
           "low": 128.5,
           "high": 321.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 6.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 425.8684024,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.13083912188503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.114828495752356,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.4595,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.833074037326883,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9992850401651836,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.3879054538012885,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.07063678843071,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 46.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 25.79870858008389,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.8445,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7867676571502557,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4277896463175158,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd"
       }
     },
@@ -314,7 +363,7 @@
     "ps": 1.04,
     "book_value": 425.8684024,
     "face_value": 2,
-    "sector_pe": 34.13083912188503,
+    "sector_pe": 34.114828495752356,
     "roe_pct": 1.4595,
     "roa_pct": 0.833074037326883,
     "roic_pct": 2.9992850401651836,
@@ -326,12 +375,12 @@
     "quick_ratio": 0.7867676571502557,
     "cash_ratio": 0.4277896463175158,
     "returns_pct": {
-      "1D": 2.2828479295695385,
-      "7D": 6.610115236875807,
-      "1M": 18.235607360511228,
-      "3M": 11.599463866860276,
-      "6M": -18.16953316953316,
-      "1Y": -26.500662056789754,
+      "1D": 0.3502977530901209,
+      "7D": 6.506267261525387,
+      "1M": 18.649784036447556,
+      "3M": 14.242579616020054,
+      "6M": -16.49802206953987,
+      "1Y": -26.243195527438573,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -561,22 +610,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/dishman-carbogen-amcis-ltd",
     "news": [
+      {
+        "id": "846748963320523520",
+        "title": "Dishman Carbogen's Q4 FY26 revenue rose 19% to INR 851 crores.\nEBITDA margin improved to 19.3%; board approved low-cost borrowing plan.",
+        "url": "https://sqst.in/WblzI",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-25T13:58:04.000Z"
+      },
       {
         "id": "2605228998889",
         "title": "Dishman Carbogen Amcis (NSE:DCAL) shows strong EPS growth, rising from 0.21 to 6.22 within a year.\nEBIT margins improved from 7.1% to 9.5%, with significant insider ownership valued at ₹1.8 billion.",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-dcal/dishman-carbogen-amcis-shares/news/with-eps-growth-and-more-dishman-carbogen-amcis-nsedcal-make",
         "source": "Simply Wall Street",
         "published_at": "2026-05-21T19:24:27.000Z"
-      },
-      {
-        "id": "844893660662563200",
-        "title": "Dishman Carbogen Amcis reports record Q4 FY26 revenue of INR 8,514M.\nThe company targets a 25% EBITDA margin by FY28.",
-        "url": "https://sqst.in/OU9nO",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-20T11:05:46.000Z"
       }
     ],
     "events": [
@@ -626,15 +675,15 @@
         "ticker": "VIMTALABS",
         "name": "Vimta Labs",
         "searchId": "vimta-labs-ltd",
-        "market_cap_inr": 20168200000,
-        "pe": 26.02,
-        "pb": 4.41
+        "market_cap_inr": 20521100000,
+        "pe": 26.48,
+        "pb": 4.49
       },
       {
         "ticker": "WINDLAS",
         "name": "Windlas Biotech",
         "searchId": "windlas-biotech-ltd",
-        "market_cap_inr": 16342900000,
+        "market_cap_inr": 16247900000,
         "pe": 24.59,
         "pb": 2.81
       },
@@ -642,7 +691,7 @@
         "ticker": "540737",
         "name": "Shree Ganesh Remedies",
         "searchId": "shree-ganesh-remedies-ltd",
-        "market_cap_inr": 7988900000,
+        "market_cap_inr": 8392600000,
         "pe": 45,
         "pb": 4.9
       }

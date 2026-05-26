@@ -3,12 +3,12 @@
   "name": "Kaizen Agro Infrabuild Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-538833/kaizen-agro-infrabuild-shares",
-  "parsed_at": "2026-05-25T23:27:08.606Z",
+  "parsed_at": "2026-05-26T14:15:35.235Z",
   "company_id": "7C76427E-3367-4542-AA13-9141B2B7536F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/anubhav-infrastructure-ltd",
     "search_id": "anubhav-infrastructure-ltd",
     "company_id": "GSTK538833",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 8.55,
-    "market_cap_inr": 455000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 9,
+    "market_cap_inr": 439600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 470.45168421052625,
+    "upside_pct": 441.92909999999995,
     "multiples": {
-      "pe": 20.58,
+      "pe": 19.88,
       "ps": 1.15,
-      "pb": 0.38,
+      "pb": 0.36,
       "ev_ebitda": 130.86,
       "peg": 0.6012666666666666
     },
@@ -55,18 +104,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
     },
     "rewards": [
       "Earnings grew by 946.3% over the past year",
-      "Price-To-Earnings ratio (20.4x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (20.7x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹396M)",
-      "Does not have a meaningful market cap (₹455M)"
+      "Does not have a meaningful market cap (₹440M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 20.58,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 19.88,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/anubhav-infrastructure-ltd",
       "search_id": "anubhav-infrastructure-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 20.58,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 19.88,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "sws_statement": {
-        "company_pe": 20.4,
+        "company_pe": 20.7,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "538833 is expensive based on its Price-To-Earnings Ratio (20.4x) compared to the Indian Construction industry average (16.1x).",
+        "description": "538833 is expensive based on its Price-To-Earnings Ratio (20.7x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,8 +180,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8.55,
-        "fetched_at": "2026-05-25T23:27:08.606Z",
+        "value": 9,
+        "fetched_at": "2026-05-26T14:15:35.235Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-538833/kaizen-agro-infrabuild-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 455000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 439600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 20.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.88,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.36,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 130.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.6012666666666666,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 7.5,
           "high": 19.45
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 23.5190609,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2164,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7416997123085292,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8535374431112948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.659423951490652,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.06366851945427,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 12.8743,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 12.80078125,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.009114583333333334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/anubhav-infrastructure-ltd"
       }
     },
@@ -297,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 0.43,
     "most_recent_reported_date": null,
-    "pb": 0.38,
+    "pb": 0.36,
     "ps": 1.15,
     "book_value": 23.5190609,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 1.2164,
     "roa_pct": 1.7416997123085292,
     "roic_pct": 1.8535374431112948,
@@ -313,12 +362,12 @@
     "quick_ratio": 12.80078125,
     "cash_ratio": 0.009114583333333334,
     "returns_pct": {
-      "1D": -3.3898305084745646,
-      "7D": -6.043956043956032,
-      "1M": -16.58536585365853,
-      "3M": -12.844036697247704,
-      "6M": -36.00299401197604,
-      "1Y": -42.151556156968866,
+      "1D": 5.263157894736834,
+      "7D": 2.9748283752860387,
+      "1M": -12.195121951219512,
+      "3M": -10.625620655412117,
+      "6M": -32.432432432432435,
+      "1Y": -39.106901217861974,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -518,12 +567,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/anubhav-infrastructure-ltd",
     "news": [
       {
@@ -571,6 +630,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -578,25 +647,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

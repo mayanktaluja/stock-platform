@@ -3,7 +3,7 @@
   "name": "Sahaj Fashions Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-sahaj/sahaj-fashions-shares",
-  "parsed_at": "2026-05-25T22:37:45.670Z",
+  "parsed_at": "2026-05-26T13:28:40.611Z",
   "company_id": "B9D9A226-9AF6-4912-8816-B30001A36C7B",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 26,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 5
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 3.85,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -84,10 +135,10 @@
       "groww_refinitiv": null,
       "sws_statement": null,
       "sws_industry_api": {
-        "industry_pe": 18.188196269,
+        "industry_pe": 18.488832552,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 296,
+        "count": 295,
         "source": {
           "type": "country",
           "country": "IN",
@@ -96,7 +147,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -110,7 +161,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3.85,
-        "fetched_at": "2026-05-25T22:37:45.670Z",
+        "fetched_at": "2026-05-26T13:28:40.611Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-sahaj/sahaj-fashions-shares"
       }
     },

@@ -3,12 +3,12 @@
   "name": "Umiya Buildcon Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/nse-umiya-mro/umiya-buildcon-shares",
-  "parsed_at": "2026-05-25T23:41:31.095Z",
+  "parsed_at": "2026-05-26T14:31:04.140Z",
   "company_id": "30C5095F-22DD-4055-9616-E6C9FFC617CB",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mrotek-realty-ltd",
     "search_id": "mrotek-realty-ltd",
     "company_id": "GSTK532376",
@@ -28,13 +28,62 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 83.74,
-    "market_cap_inr": 1574000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 83.79,
+    "market_cap_inr": 1519200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 64.55,
+      "low": 66.1,
       "high": 110.9
     },
     "fair_value_inr": 26.801475,
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -67.99441724385001,
+    "upside_pct": -68.01351593268888,
     "multiples": {
       "pe": 3.73,
       "ps": 2.16,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mrotek-realty-ltd"
     },
@@ -63,7 +112,7 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 578.6% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (3.9x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (3.9x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
@@ -86,7 +135,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Telecom Equipment & Infra Services",
       "pe_industry_id": 60,
@@ -99,7 +148,7 @@
       "industry_pe": 18.463640689222295,
       "industry_name": "Telecom Equipment & Infra Services",
       "industry_id": 60,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/mrotek-realty-ltd",
       "search_id": "mrotek-realty-ltd"
     },
@@ -109,14 +158,14 @@
         "industry_pe": 18.463640689222295,
         "industry_name": "Telecom Equipment & Infra Services",
         "industry_id": 60,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "sws_statement": {
         "company_pe": 3.9,
-        "industry_pe": 48.2,
+        "industry_pe": 50.8,
         "industry_name": "Asian Communications",
-        "description": "UMIYA-MRO is good value based on its Price-To-Earnings Ratio (3.9x) compared to the Asian Communications industry average (48.2x).",
+        "description": "UMIYA-MRO is good value based on its Price-To-Earnings Ratio (3.9x) compared to the Asian Communications industry average (50.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -146,149 +195,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 83.74,
-        "fetched_at": "2026-05-25T23:41:31.095Z",
+        "value": 83.79,
+        "fetched_at": "2026-05-26T14:31:04.140Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-umiya-mro/umiya-buildcon-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1574000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1519200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 3.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.24089333333333335,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 18.463640689222295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 64.55,
+          "low": 66.1,
           "high": 110.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 22.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 61.5278297,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 18.463640689222295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 34.9357,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6761947632980725,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.611899651694143,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 13.541522730413154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 95.90990742020173,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 110.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 47.72300997824293,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 11.7193,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9446388800509067,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.050270442252624885,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrotek-realty-ltd"
       }
     },
@@ -315,12 +364,12 @@
     "quick_ratio": 0.9446388800509067,
     "cash_ratio": 0.050270442252624885,
     "returns_pct": {
-      "1D": -0.04774409166866347,
-      "7D": 1.110842791596235,
-      "1M": -2.332633543270352,
-      "3M": -1.9323105750087899,
-      "6M": -5.687577429890766,
-      "1Y": 22.46270839426733,
+      "1D": 0.05970862192501955,
+      "7D": 0.878882735372025,
+      "1M": -2.2743177046885803,
+      "3M": -3.1217481789802157,
+      "6M": -8.275862068965505,
+      "1Y": 22.5358291898216,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -498,7 +547,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mrotek-realty-ltd",
     "news": [
       {
@@ -563,7 +612,7 @@
         "ticker": "OPTIEMUS",
         "name": "Optiemus Infracom",
         "searchId": "optiemus-infracom-ltd",
-        "market_cap_inr": 37005400000,
+        "market_cap_inr": 38069700000,
         "pe": 56.08,
         "pb": 4.95
       },
@@ -571,7 +620,7 @@
         "ticker": "DLINKINDIA",
         "name": "D-Link (India)",
         "searchId": "dlink-india-ltd",
-        "market_cap_inr": 16325100000,
+        "market_cap_inr": 16426300000,
         "pe": 15.69,
         "pb": 3.23
       },
@@ -579,7 +628,7 @@
         "ticker": "526775",
         "name": "Valiant Communications",
         "searchId": "valiant-communications-ltd",
-        "market_cap_inr": 13921200000,
+        "market_cap_inr": 13869700000,
         "pe": 68.7,
         "pb": 15.3
       }

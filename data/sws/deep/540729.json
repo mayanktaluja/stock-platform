@@ -3,7 +3,7 @@
   "name": "Vanta Bioscience Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-540729/vanta-bioscience-shares",
-  "parsed_at": "2026-05-25T23:54:14.266Z",
+  "parsed_at": "2026-05-26T14:45:02.168Z",
   "company_id": "E311D79B-5FC5-46EB-BA1E-D3356C565642",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 24.45,
     "market_cap_inr": 154328407.62938213,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -105,7 +154,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.299999999999997,
+        "industry_pe": 31.65,
         "sample_count": 16,
         "industry_code": "9551727",
         "industry_name": "Pharmaceuticals & Biotech"
@@ -119,7 +168,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 24.45,
-        "fetched_at": "2026-05-25T23:54:14.266Z",
+        "fetched_at": "2026-05-26T14:45:02.168Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-540729/vanta-bioscience-shares"
       }
     },
@@ -155,7 +204,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -244,6 +293,17 @@
   "indices": [
     "BSE"
   ],
-  "news": [],
+  "news": [
+    {
+      "id": "1ac4ddbd-2930-4718-bee3-1596e2c71093",
+      "type": "event",
+      "date": "2026-05-26T08:11:00.000Z",
+      "title": "Vanta Bioscience Limited to Report Second Half, 2026 Results on May 30, 2026",
+      "body": "Vanta Bioscience Limited announced that they will report second half, 2026 results on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    }
+  ],
   "_api_raw_path": "data/sws/deep-api/540729.json"
 }

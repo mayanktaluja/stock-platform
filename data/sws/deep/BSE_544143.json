@@ -3,7 +3,7 @@
   "name": "Royal Sense Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares",
-  "parsed_at": "2026-05-25T22:35:58.384Z",
+  "parsed_at": "2026-05-26T13:31:38.905Z",
   "company_id": "379A2234-FCCF-42CA-8E50-0D3091449B82",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 141.7,
-    "market_cap_inr": 758115710.1758285,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 130.35,
+    "market_cap_inr": 697391551.315591,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +83,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.76877134791813,
+    "upside_pct": -98.66156425009589,
     "multiples": {
-      "pe": 8.8,
+      "pe": 8.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,13 +99,13 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Price-To-Earnings ratio (8.8x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (8.7x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 184.9% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹706M)",
+      "Does not have a meaningful market cap (₹758M)",
       "High level of [[non-cash earnings]]",
       "Highly volatile share price over past 3 months"
     ],
@@ -69,7 +119,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 41.7
+      "pe": 42.8
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -83,17 +133,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 8.8,
-      "industry_pe": 41.7,
+      "company_pe": 8.7,
+      "industry_pe": 42.8,
       "industry_name": "Indian Healthcare"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 8.8,
-        "industry_pe": 41.7,
+        "company_pe": 8.7,
+        "industry_pe": 42.8,
         "industry_name": "Indian Healthcare",
-        "description": "544143 is good value based on its Price-To-Earnings Ratio (8.8x) compared to the Indian Healthcare industry average (41.7x).",
+        "description": "544143 is good value based on its Price-To-Earnings Ratio (8.7x) compared to the Indian Healthcare industry average (42.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -110,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.2,
+        "industry_pe": 35.8,
         "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
@@ -123,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 141.7,
-        "fetched_at": "2026-05-25T22:35:58.384Z",
+        "value": 130.35,
+        "fetched_at": "2026-05-26T13:31:38.905Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares"
       }
     },
@@ -151,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 7.348484848484841,
-      "7D": 8.582375478927194,
-      "1M": -5.344021376085505,
-      "3M": -19.374110953058327,
-      "6M": -33.78504672897197,
-      "1Y": -38.257080610021795,
+      "1D": -8.009880028228649,
+      "7D": -2.7238805970149294,
+      "1M": -12.92585170340681,
+      "3M": -24.237140366172632,
+      "6M": -36.87651331719128,
+      "1Y": -43.20261437908497,
       "5Y": null
     },
     "next_earnings_date": null,

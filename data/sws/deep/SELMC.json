@@ -3,12 +3,12 @@
   "name": "SEL Manufacturing Company Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-selmc/sel-manufacturing-shares",
-  "parsed_at": "2026-05-25T22:49:02.809Z",
+  "parsed_at": "2026-05-26T13:38:55.422Z",
   "company_id": "3789377B-D3A6-4A3F-83A3-960CE6F0E648",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sel-manufacturing-company-ltd",
     "search_id": "sel-manufacturing-company-ltd",
     "company_id": "GSTK532886",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 29.75,
-    "market_cap_inr": 1009000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 30.04,
+    "market_cap_inr": 969900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 26.33,
       "high": 43.36
     },
-    "fair_value_inr": 181.776584,
+    "fair_value_inr": 181.468393,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 511.0137277310925,
+    "upside_pct": 504.08919107856195,
     "multiples": {
       "pe": null,
       "ps": 6.14,
@@ -60,10 +109,10 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 83.7% below our estimate of its fair value"
+      "Trading at 83.4% below our estimate of its fair value"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹980M)",
+      "Does not have a meaningful market cap (₹986M)",
       "Earnings have declined by 67.9% per year over past 5 years",
       "Negative shareholders equity",
       "Does not have meaningful revenue (₹160M)"
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 53.672860099337726
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +148,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 53.672860099337726,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 0.8,
         "industry_name": "Indian Luxury",
-        "description": "SELMC is expensive based on its Price-To-Sales Ratio (6.1x) compared to the Indian Luxury industry average (0.8x).",
+        "description": "SELMC is expensive based on its Price-To-Sales Ratio (6.2x) compared to the Indian Luxury industry average (0.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -139,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 29.75,
-        "fetched_at": "2026-05-25T22:49:02.809Z",
+        "value": 30.04,
+        "fetched_at": "2026-05-26T13:38:55.422Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-selmc/sel-manufacturing-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1009000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 969900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 6.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 32.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 26.33,
           "high": 43.36
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -90.7333702,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 58.0083,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.708463949843259,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0725,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.01353021129371061,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.004818979364883232,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sel-manufacturing-company-ltd"
       }
     },
@@ -284,7 +333,7 @@
     "ps": 6.14,
     "book_value": -90.7333702,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 58.0083,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +345,12 @@
     "quick_ratio": 0.01353021129371061,
     "cash_ratio": 0.004818979364883232,
     "returns_pct": {
-      "1D": 0.5407232173031434,
-      "7D": -0.3683858004018735,
-      "1M": -8.658274485723059,
-      "3M": -5.375318066157765,
-      "6M": -4.248471194077889,
-      "1Y": -24.85476130335944,
+      "1D": 0.9747899159663836,
+      "7D": 2.9119561493662136,
+      "1M": -7.767884556340193,
+      "3M": 0.5691329092735123,
+      "6M": -2.72020725388601,
+      "1Y": -24.122253094215722,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -447,12 +496,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sel-manufacturing-company-ltd",
     "news": [
       {
@@ -500,6 +559,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -507,7 +576,7 @@
         "ticker": "SANATHAN",
         "name": "Sanathan Textiles",
         "searchId": "sanathan-textiles-ltd",
-        "market_cap_inr": 34420000000,
+        "market_cap_inr": 34010600000,
         "pe": 44.52,
         "pb": 1.84
       },
@@ -515,17 +584,17 @@
         "ticker": "NITINSPIN",
         "name": "Nitin Spinners",
         "searchId": "nitin-spinners-ltd",
-        "market_cap_inr": 28025700000,
-        "pe": 15.79,
-        "pb": 1.91
+        "market_cap_inr": 28200000000,
+        "pe": 15.88,
+        "pb": 1.92
       },
       {
-        "ticker": "GANECOS",
-        "name": "Ganesha Ecosphere",
-        "searchId": "ganesha-ecosphere-ltd",
-        "market_cap_inr": 25558000000,
-        "pe": 66.89,
-        "pb": 2
+        "ticker": "SANGAMIND",
+        "name": "Sangam (India)",
+        "searchId": "sangam-india-ltd",
+        "market_cap_inr": 25726200000,
+        "pe": 30.23,
+        "pb": 2.32
       }
     ],
     "details": {

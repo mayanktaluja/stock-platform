@@ -3,12 +3,12 @@
   "name": "Alexander Stamps and Coin Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-511463/alexander-stamps-and-coin-shares",
-  "parsed_at": "2026-05-25T21:04:47.750Z",
+  "parsed_at": "2026-05-26T11:59:19.207Z",
   "company_id": "419A1F1C-274D-4AB7-AFF7-C0E54EA54232",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd",
     "search_id": "alexander-stamps-and-coin-ltd",
     "company_id": "GSTK511463",
@@ -28,14 +28,64 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 8.45,
-    "market_cap_inr": 75600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 8.39,
+    "market_cap_inr": 78700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 7.33,
-      "high": 15.3
+      "high": 15.19
     },
     "fair_value_inr": 0.202535,
     "fair_value_range_inr": {
@@ -43,11 +93,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.60313609467457,
+    "upside_pct": -97.58599523241955,
     "multiples": {
       "pe": null,
       "ps": 23.09,
-      "pb": 0.45,
+      "pb": 0.47,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -61,7 +111,7 @@
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹76M)",
+      "Does not have a meaningful market cap (₹79M)",
       "Earnings have declined by 56.2% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹3M)",
       "Highly volatile share price over past 3 months"
@@ -76,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2,
         "industry_name": "Indian Retail Distributors",
-        "description": "511463 is expensive based on its Price-To-Sales Ratio (23.1x) compared to the Indian Retail Distributors industry average (2x).",
+        "description": "511463 is expensive based on its Price-To-Sales Ratio (24x) compared to the Indian Retail Distributors industry average (2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,8 +174,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -137,137 +187,137 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8.45,
-        "fetched_at": "2026-05-25T21:04:47.750Z",
+        "value": 8.39,
+        "fetched_at": "2026-05-26T11:59:19.207Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-511463/alexander-stamps-and-coin-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 75600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 78700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.47,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 23.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 7.33,
-          "high": 15.3
+          "high": 15.19
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 18.0329682,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9199999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.846979107848673,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 21.7155,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.07894736842105095,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.06578947368421052,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd"
       }
     },
@@ -278,11 +328,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.45,
+    "pb": 0.47,
     "ps": 23.09,
     "book_value": 18.0329682,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +344,12 @@
     "quick_ratio": 0.07894736842105095,
     "cash_ratio": 0.06578947368421052,
     "returns_pct": {
-      "1D": 4.064039408866996,
-      "7D": 0.11848341232227236,
-      "1M": -6.2153163152053335,
-      "3M": -7.952069716775605,
-      "6M": -11.23949579831933,
-      "1Y": -42.004118050789295,
+      "1D": -0.7100591715976181,
+      "7D": 0.2389486260454164,
+      "1M": -6.8812430632630335,
+      "3M": -11.684210526315782,
+      "6M": -14.300306435137882,
+      "1Y": -42.4159231297186,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -508,7 +558,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/alexander-stamps-and-coin-ltd",
     "news": [],
     "events": [
@@ -568,7 +618,7 @@
         "ticker": "EMIL",
         "name": "Electronics Mart India",
         "searchId": "electronics-mart-india-ltd",
-        "market_cap_inr": 46285300000,
+        "market_cap_inr": 44861700000,
         "pe": 43.27,
         "pb": 2.85
       },
@@ -576,7 +626,7 @@
         "ticker": "SHOPERSTOP",
         "name": "Shoppers Stop",
         "searchId": "shoppers-stop-ltd",
-        "market_cap_inr": 36467800000,
+        "market_cap_inr": 37095500000,
         "pe": null,
         "pb": 12.53
       },
@@ -584,7 +634,7 @@
         "ticker": "STYLEBAAZA",
         "name": "Baazar Style Retail",
         "searchId": "baazar-style-retail-ltd",
-        "market_cap_inr": 25709400000,
+        "market_cap_inr": 25806400000,
         "pe": 54.86,
         "pb": 5.71
       }

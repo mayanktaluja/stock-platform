@@ -3,7 +3,7 @@
   "name": "Lancer Container Lines Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-539841/lancer-container-lines-shares",
-  "parsed_at": "2026-05-25T22:29:39.729Z",
+  "parsed_at": "2026-05-26T13:24:32.074Z",
   "company_id": "6510F7DB-7938-4D2A-9D7B-D861EEF048A3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,69 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 9.67,
-    "market_cap_inr": 3416060441.1429343,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 9.98,
+    "market_cap_inr": 3525572202.9582715,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 122.02121,
+    "fair_value_inr": 122.038748,
     "fair_value_range_inr": {
-      "min": 122.02121,
-      "max": 122.02121,
+      "min": 122.038748,
+      "max": 122.038748,
       "count": 1
     },
-    "upside_pct": 1161.8532574974147,
+    "upside_pct": 1122.833146292585,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -51,7 +101,7 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at 92% below our estimate of its fair value"
+      "Trading at 91.8% below our estimate of its fair value"
     ],
     "risks": [
       "Shareholders have been substantially diluted in the past year",
@@ -121,7 +171,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.7,
+        "industry_pe": 16.2,
         "sample_count": 13,
         "industry_code": "3230000",
         "industry_name": "Transportation"
@@ -134,8 +184,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 9.67,
-        "fetched_at": "2026-05-25T22:29:39.729Z",
+        "value": 9.98,
+        "fetched_at": "2026-05-26T13:24:32.074Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-539841/lancer-container-lines-shares"
       }
     },
@@ -162,12 +212,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.8205128205128212,
-      "7D": 1.2565445026177928,
-      "1M": -9.031044214487308,
-      "3M": -6.0252672497570385,
-      "6M": -37.41100323624595,
-      "1Y": -35.91782637508283,
+      "1D": 3.205791106515,
+      "7D": 5.832449628844123,
+      "1M": -6.114769520225779,
+      "3M": -0.3992015968063787,
+      "6M": -34.898891063274625,
+      "1Y": -33.863485752153736,
       "5Y": null
     },
     "next_earnings_date": null,

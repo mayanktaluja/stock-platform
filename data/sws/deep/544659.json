@@ -3,7 +3,7 @@
   "name": "Stanbik Agro Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-544659/stanbik-agro-shares",
-  "parsed_at": "2026-05-25T21:17:54.481Z",
+  "parsed_at": "2026-05-26T12:09:43.373Z",
   "company_id": "9AEAE1A1-9094-4635-9544-65180A44BF29",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 30,
-    "market_cap_inr": 399685414.06494665,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 15,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 33,
+    "market_cap_inr": 439653955.4714413,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -123,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 30,
-        "fetched_at": "2026-05-25T21:17:54.481Z",
+        "value": 33,
+        "fetched_at": "2026-05-26T12:09:43.373Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-544659/stanbik-agro-shares"
       }
     },
@@ -151,12 +202,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 0,
-      "1M": -4.761904761904762,
-      "3M": -9.090909090909092,
-      "6M": -9.990999099909986,
-      "1Y": -9.990999099909986,
+      "1D": 10,
+      "7D": 10,
+      "1M": 13.793103448275861,
+      "3M": -2.597402597402605,
+      "6M": -0.9900990099009851,
+      "1Y": -0.9900990099009851,
       "5Y": null
     },
     "next_earnings_date": null,

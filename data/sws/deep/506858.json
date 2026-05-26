@@ -3,12 +3,12 @@
   "name": "Gujarat Petrosynthese Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-506858/gujarat-petrosynthese-shares",
-  "parsed_at": "2026-05-25T20:52:48.633Z",
+  "parsed_at": "2026-05-26T11:45:05.339Z",
   "company_id": "D766A7E7-9137-46F6-AA2C-29456AC68739",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd",
     "search_id": "gujarat-petrosynthese-ltd",
     "company_id": "GSTK506858",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 59.89,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 58.4,
     "market_cap_inr": 357500000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
     },
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 43.89206012465671,
-      "sector_pe": 43.89206012465671
+      "pe": 43.81328215202272,
+      "sector_pe": 43.81328215202272
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Plastic products",
       "pe_industry_id": 48,
@@ -96,27 +145,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 15.16,
-      "industry_pe": 43.89206012465671,
+      "industry_pe": 43.81328215202272,
       "industry_name": "Plastic products",
       "industry_id": 48,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd",
       "search_id": "gujarat-petrosynthese-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 15.16,
-        "industry_pe": 43.89206012465671,
+        "industry_pe": 43.81328215202272,
         "industry_name": "Plastic products",
         "industry_id": 48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "sws_statement": {
         "company_pe": 15.2,
-        "industry_pe": 21.8,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "506858 is good value based on its Price-To-Earnings Ratio (15.2x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "506858 is good value based on its Price-To-Earnings Ratio (15.2x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 59.89,
-        "fetched_at": "2026-05-25T20:52:48.633Z",
+        "value": 58.4,
+        "fetched_at": "2026-05-26T11:45:05.339Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-506858/gujarat-petrosynthese-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 357500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 15.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -2.1111151515151536,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.89206012465671,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.81328215202272,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 50,
           "high": 81.51
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 87.5820274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.89206012465671,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.81328215202272,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.5092,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.1307786957285995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.719581256093429,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.407440212577503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.481842338352527,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2285111618913693,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.3733,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.9525139664804465,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7094972067039106,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd"
       }
     },
@@ -303,7 +352,7 @@
     "ps": 1.58,
     "book_value": 87.5820274,
     "face_value": 10,
-    "sector_pe": 43.89206012465671,
+    "sector_pe": 43.81328215202272,
     "roe_pct": 4.5092,
     "roa_pct": 4.1307786957285995,
     "roic_pct": 4.719581256093429,
@@ -315,12 +364,12 @@
     "quick_ratio": 7.9525139664804465,
     "cash_ratio": 0.7094972067039106,
     "returns_pct": {
-      "1D": 6.946428571428573,
-      "7D": 0.6723819129265398,
-      "1M": -3.914647842130592,
-      "3M": -0.26644462947543146,
-      "6M": -0.43225270157938156,
-      "1Y": -3.418803418803415,
+      "1D": -2.487894473200871,
+      "7D": 0.7939247497411129,
+      "1M": -4.418985270049104,
+      "3M": -2.6828861856357267,
+      "6M": -2.6666666666666687,
+      "1Y": -5.821641670698273,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -526,7 +575,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gujarat-petrosynthese-ltd",
     "news": [
       {
@@ -591,7 +640,7 @@
         "ticker": "STYRENIX",
         "name": "Styrenix Performance Materials",
         "searchId": "ineos-styrolution-india-ltd",
-        "market_cap_inr": 39108700000,
+        "market_cap_inr": 39985600000,
         "pe": 21.39,
         "pb": 2.86
       },
@@ -599,7 +648,7 @@
         "ticker": "MAYURUNIQ",
         "name": "Mayur Uniquoters",
         "searchId": "mayur-uniquoters-ltd",
-        "market_cap_inr": 30560200000,
+        "market_cap_inr": 32502500000,
         "pe": 15.94,
         "pb": 2.7
       },
@@ -607,7 +656,7 @@
         "ticker": "XPROINDIA",
         "name": "Xpro India",
         "searchId": "xpro-india-ltd",
-        "market_cap_inr": 26914700000,
+        "market_cap_inr": 26271600000,
         "pe": 137.67,
         "pb": 3.54
       }

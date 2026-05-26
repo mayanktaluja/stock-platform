@@ -3,7 +3,7 @@
   "name": "TAC Infosec Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-tac/tac-infosec-shares",
-  "parsed_at": "2026-05-25T23:23:47.334Z",
+  "parsed_at": "2026-05-26T14:11:49.469Z",
   "company_id": "F0ECE8AC-7B24-42C5-9525-FCFDBB7C0CF8",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 395.65,
-    "market_cap_inr": 8292507077.108082,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 387.8,
+    "market_cap_inr": 8127977365.101768,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 1.883115,
+    "fair_value_inr": 1.883137,
     "fair_value_range_inr": {
       "min": 261.41,
       "max": 1842.19,
       "count": 5
     },
-    "upside_pct": -99.52404524200684,
+    "upside_pct": -99.5144051057246,
     "multiples": {
-      "pe": 36.3,
+      "pe": 36.1,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -81,17 +130,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 36.3,
+      "company_pe": 36.1,
       "industry_pe": 25,
       "industry_name": "Indian Software"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 36.3,
+        "company_pe": 36.1,
         "industry_pe": 25,
         "industry_name": "Indian Software",
-        "description": "TAC is expensive based on its Price-To-Earnings Ratio (36.3x) compared to the Indian Software industry average (25x).",
+        "description": "TAC is expensive based on its Price-To-Earnings Ratio (36.1x) compared to the Indian Software industry average (25x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 395.65,
-        "fetched_at": "2026-05-25T23:23:47.334Z",
+        "value": 387.8,
+        "fetched_at": "2026-05-26T14:11:49.469Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tac/tac-infosec-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.5789473684210469,
-      "7D": -9.275395551479027,
-      "1M": -19.419551934826888,
-      "3M": -10.758994022781108,
-      "6M": -51.26262626262626,
-      "1Y": -38.848531684698614,
+      "1D": -1.9840768355870002,
+      "7D": -6.396331160994448,
+      "1M": -21.0183299389002,
+      "3M": -6.249244530400089,
+      "6M": -52.223727978317115,
+      "1Y": -40.06182380216383,
       "5Y": null
     },
     "next_earnings_date": null,

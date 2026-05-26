@@ -3,7 +3,7 @@
   "name": "Marinetrans India Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-marinetran/marinetrans-india-shares",
-  "parsed_at": "2026-05-25T21:29:05.405Z",
+  "parsed_at": "2026-05-26T12:17:56.244Z",
   "company_id": "946A6E80-20A3-4AD4-88DE-DE93EFCA60AC",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 15.95,
-    "market_cap_inr": 202979699.00009996,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 15.9,
+    "market_cap_inr": 202343399.00323448,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 35.904049,
+    "fair_value_inr": 35.906912,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 125.10375548589343,
+    "upside_pct": 125.82963522012578,
     "multiples": {
-      "pe": 34.1,
+      "pe": 34,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,7 +98,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 55.6% below our estimate of its fair value",
+      "Trading at 55.7% below our estimate of its fair value",
       "Earnings grew by 19.7% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -82,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 34.1,
+      "company_pe": 34,
       "industry_pe": 16.1,
       "industry_name": "Indian Logistics"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 34.1,
+        "company_pe": 34,
         "industry_pe": 16.1,
         "industry_name": "Indian Logistics",
-        "description": "MARINETRAN is expensive based on its Price-To-Earnings Ratio (34.1x) compared to the Indian Logistics industry average (16.1x).",
+        "description": "MARINETRAN is expensive based on its Price-To-Earnings Ratio (34x) compared to the Indian Logistics industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.6,
+        "industry_pe": 15.4,
         "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 15.95,
-        "fetched_at": "2026-05-25T21:29:05.405Z",
+        "value": 15.9,
+        "fetched_at": "2026-05-26T12:17:56.244Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-marinetran/marinetrans-india-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.776119402985079,
-      "7D": -13.783783783783788,
-      "1M": -5.341246290801199,
-      "3M": -22.38442822384429,
-      "6M": 4.934210526315789,
-      "1Y": -8.33333333333333,
+      "1D": -0.3134796238244448,
+      "7D": -0.3134796238244448,
+      "1M": -5.637982195845703,
+      "3M": -21.86732186732187,
+      "6M": 5.298013245033117,
+      "1Y": -8.620689655172404,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Abans Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-afsl/abans-financial-services-shares",
-  "parsed_at": "2026-05-25T21:27:52.356Z",
+  "parsed_at": "2026-05-26T12:20:46.186Z",
   "company_id": "FBD5F4BB-89E1-49FF-8E0E-BD5FFC593B7D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/abans-holdings-ltd",
     "search_id": "abans-holdings-ltd",
     "company_id": "GSTK543712",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 201.04,
-    "market_cap_inr": 10218000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 201,
+    "market_cap_inr": 10209400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 194.41,
       "high": 269.5
     },
-    "fair_value_inr": 48.540998,
+    "fair_value_inr": 48.531273,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -75.85505471547951,
+    "upside_pct": -75.85508805970149,
     "multiples": {
       "pe": 9.72,
       "ps": 0.04,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/abans-holdings-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -93,20 +142,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 9.72,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/abans-holdings-ltd",
       "search_id": "abans-holdings-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 9.72,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "sws_statement": {
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 201.04,
-        "fetched_at": "2026-05-25T21:27:52.356Z",
+        "value": 201,
+        "fetched_at": "2026-05-26T12:20:46.186Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-afsl/abans-financial-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 10218000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 10209400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 9.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.42817534246575356,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 194.41,
           "high": 269.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 20.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 246.0993652,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.7056,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.3136115028722783,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.18965142014126,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4025763549391978,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.6849189121871185,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 59.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 25.585291183653812,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.7781,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9515894424147233,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4152695735309182,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       }
     },
@@ -300,7 +349,7 @@
     "ps": 0.04,
     "book_value": 246.0993652,
     "face_value": 2,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 7.7056,
     "roa_pct": 3.3136115028722783,
     "roic_pct": 10.18965142014126,
@@ -312,12 +361,12 @@
     "quick_ratio": 1.9515894424147233,
     "cash_ratio": 0.4152695735309182,
     "returns_pct": {
-      "1D": -0.06462196152507603,
-      "7D": -0.12916045702931908,
-      "1M": -1.9125683060109366,
-      "3M": -0.08448884250286562,
-      "6M": -1.8838457784285083,
-      "1Y": -8.255373522566515,
+      "1D": -0.019896538002383626,
+      "7D": 0,
+      "1M": -1.9320843091334934,
+      "3M": -0.04972650422675003,
+      "6M": -0.3421091774505418,
+      "1Y": -8.273627527038743,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -518,7 +567,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/abans-holdings-ltd",
     "news": [
       {
@@ -583,7 +632,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -591,7 +640,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -599,7 +648,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

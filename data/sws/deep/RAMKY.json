@@ -3,12 +3,12 @@
   "name": "Ramky Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ramky/ramky-infrastructure-shares",
-  "parsed_at": "2026-05-25T22:23:54.402Z",
+  "parsed_at": "2026-05-26T13:15:54.516Z",
   "company_id": "64988382-7AAF-4F96-9E37-DD6FB1252677",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ramky-infrastructure-ltd",
     "search_id": "ramky-infrastructure-ltd",
     "company_id": "GSTK533262",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 459.35,
-    "market_cap_inr": 30305200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 468.85,
+    "market_cap_inr": 31889800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 424.5,
       "high": 705
     },
-    "fair_value_inr": 263.603608,
+    "fair_value_inr": 264.447786,
     "fair_value_range_inr": {
-      "min": 263.603608,
+      "min": 264.447786,
       "max": 645.23,
       "count": 4
     },
-    "upside_pct": -42.61377860019593,
+    "upside_pct": -43.59650506558601,
     "multiples": {
       "pe": 13.33,
       "ps": 1.66,
@@ -55,13 +104,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ramky-infrastructure-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (13.6x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (14.5x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [],
@@ -75,13 +124,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.73287436584585,
-      "sector_pe": 22.73287436584585
+      "pe": 24.2328398851662,
+      "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -91,27 +140,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 13.33,
-      "industry_pe": 22.73287436584585,
+      "industry_pe": 24.2328398851662,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ramky-infrastructure-ltd",
       "search_id": "ramky-infrastructure-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 13.33,
-        "industry_pe": 22.73287436584585,
+        "industry_pe": 24.2328398851662,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.6,
+        "company_pe": 14.5,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "RAMKY is good value based on its Price-To-Earnings Ratio (13.6x) compared to the Indian Construction industry average (16.1x).",
+        "description": "RAMKY is good value based on its Price-To-Earnings Ratio (14.5x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,8 +177,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 459.35,
-        "fetched_at": "2026-05-25T22:23:54.402Z",
+        "value": 468.85,
+        "fetched_at": "2026-05-26T13:15:54.516Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ramky/ramky-infrastructure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 30305200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31889800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 13.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 6.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.45586983729662084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 424.5,
           "high": 705
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 32.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 297.0234687,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.7953,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.047409100559693,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 12.483978542295995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.220156395253456,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 25.76146989664789,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 29.799999999999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 13.834693794580138,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4205,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9740637141631835,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.20657496367511796,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ramky-infrastructure-ltd"
       }
     },
@@ -298,7 +347,7 @@
     "ps": 1.66,
     "book_value": 297.0234687,
     "face_value": 10,
-    "sector_pe": 22.73287436584585,
+    "sector_pe": 24.2328398851662,
     "roe_pct": 9.7953,
     "roa_pct": 5.047409100559693,
     "roic_pct": 12.483978542295995,
@@ -310,12 +359,12 @@
     "quick_ratio": 0.9740637141631835,
     "cash_ratio": 0.20657496367511796,
     "returns_pct": {
-      "1D": 4.730962152302781,
-      "7D": 3.784455490284681,
-      "1M": -8.496015936254976,
-      "3M": -0.5843523428200387,
-      "6M": -22.302097428958053,
-      "1Y": -3.090717299578054,
+      "1D": 2.0681397627081743,
+      "7D": 4.630662798482481,
+      "1M": -6.6035856573705125,
+      "3M": 1.0234863176039646,
+      "6M": -21.035789473684208,
+      "1Y": -1.086497890295354,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -521,12 +570,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ramky-infrastructure-ltd",
     "news": [
       {
@@ -574,6 +633,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -581,25 +650,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

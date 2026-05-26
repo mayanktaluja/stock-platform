@@ -3,12 +3,12 @@
   "name": "Pace Digitek Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-pacedigitk/pace-digitek-shares",
-  "parsed_at": "2026-05-25T22:01:20.693Z",
+  "parsed_at": "2026-05-26T12:53:43.135Z",
   "company_id": "5AFB838D-63F0-4814-8EDD-08C171098827",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pace-digitek-ltd",
     "search_id": "pace-digitek-ltd",
     "company_id": "GSTK544550",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 190.4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 201.18,
     "market_cap_inr": 41033300000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 38.13025210084034,
+    "upside_pct": 30.72870066607018,
     "multiples": {
       "pe": 15.92,
       "ps": 1.84,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/pace-digitek-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.463640689222295,
-      "sector_pe": 18.463640689222295
+      "pe": 18.965522434145253,
+      "sector_pe": 18.965522434145253
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Telecom Equipment & Infra Services",
       "pe_industry_id": 60,
@@ -92,20 +141,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 15.92,
-      "industry_pe": 18.463640689222295,
+      "industry_pe": 18.965522434145253,
       "industry_name": "Telecom Equipment & Infra Services",
       "industry_id": 60,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/pace-digitek-ltd",
       "search_id": "pace-digitek-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 15.92,
-        "industry_pe": 18.463640689222295,
+        "industry_pe": 18.965522434145253,
         "industry_name": "Telecom Equipment & Infra Services",
         "industry_id": 60,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "sws_statement": {
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 190.4,
-        "fetched_at": "2026-05-25T22:01:20.693Z",
+        "value": 201.18,
+        "fetched_at": "2026-05-26T12:53:43.135Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-pacedigitk/pace-digitek-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 41033300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 15.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.463640689222295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.965522434145253,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 139.81,
           "high": 231.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 11.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 97.6529834,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.463640689222295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.965522434145253,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 19.0628,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 8.3593349788106,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 21.621019282783077,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.280338634598722,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.029688881706818,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 11.709999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.017929492851488,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.541,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3016664013811174,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08574437084471,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pace-digitek-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 1.84,
     "book_value": 97.6529834,
     "face_value": 2,
-    "sector_pe": 18.463640689222295,
+    "sector_pe": 18.965522434145253,
     "roe_pct": 19.0628,
     "roa_pct": 8.3593349788106,
     "roic_pct": 21.621019282783077,
@@ -311,12 +360,12 @@
     "quick_ratio": 1.3016664013811174,
     "cash_ratio": 0.08574437084471,
     "returns_pct": {
-      "1D": 0.07358351729213433,
-      "7D": 8.114246777582187,
-      "1M": 10.000577734126756,
-      "3M": 4.26592191008159,
-      "6M": -11.794681738163627,
-      "1Y": -12.656543878159548,
+      "1D": 5.661764705882353,
+      "7D": 12.882953652788693,
+      "1M": 16.228551620544227,
+      "3M": 13.526324699509058,
+      "6M": -6.025784753363231,
+      "1Y": -7.711362906555347,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -536,7 +585,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-24T18:30:00.000Z",
@@ -549,22 +598,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pace-digitek-ltd",
     "news": [
       {
-        "id": "844848947006699776",
-        "title": "Pace Digitek wins a Rs 264 crore order from BSNL.",
-        "url": "https://sqst.in/shareMessage?msgId=844848947006699751",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-20T08:08:05.000Z"
+        "id": "681800",
+        "title": "Pace Digitek forecasts FY27 revenue of ₹32-34B and FY28 revenue of ₹40-42B.\nGrowth targets were shared in the company's investor presentation.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-26T01:51:20.000Z"
       },
       {
-        "id": "844847596805714304",
-        "title": "Pace Digitek secures BSNL order for Bharatnet middle mile network in Sikkim.\nProject includes design, supply, construction, and maintenance, to be completed in 1,095 days.",
-        "url": "https://sqst.in/shareMessage?msgId=844847596805714356",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-20T08:02:43.000Z"
+        "id": "681786",
+        "title": "Pace Digitek's Q4 EBITDA rose to ₹1.63B from ₹762M YoY.\nEBITDA margin improved to 14.9% from 11.2% YoY.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-26T01:40:54.000Z"
       }
     ],
     "events": [
@@ -599,7 +648,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-24T18:30:00.000Z",
@@ -614,23 +663,23 @@
         "ticker": "GTLINFRA",
         "name": "GTL Infrastructure",
         "searchId": "gtl-infrastructure-ltd",
-        "market_cap_inr": 16908000000,
-        "pe": 2.16,
+        "market_cap_inr": 17292300000,
+        "pe": 2.21,
         "pb": 0
       },
       {
         "ticker": "STLNETWORK",
         "name": "STL Networks",
         "searchId": "stl-networks-ltd",
-        "market_cap_inr": 12201900000,
+        "market_cap_inr": 12812000000,
         "pe": null,
-        "pb": 1.07
+        "pb": 1.12
       },
       {
         "ticker": "SUYOG",
         "name": "Suyog Telematics",
         "searchId": "suyog-telematics-ltd",
-        "market_cap_inr": 9399500000,
+        "market_cap_inr": 9117700000,
         "pe": 27.01,
         "pb": 2.02
       }

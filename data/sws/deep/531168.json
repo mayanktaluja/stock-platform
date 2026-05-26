@@ -3,12 +3,12 @@
   "name": "Associated Ceramics Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-531168/associated-ceramics-shares",
-  "parsed_at": "2026-05-25T22:28:16.721Z",
+  "parsed_at": "2026-05-26T13:24:04.983Z",
   "company_id": "BE941A2B-BAAF-4684-B5AC-1A86AB26344F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/associated-ceramics-ltd",
     "search_id": "associated-ceramics-ltd",
     "company_id": "GSTK531168",
@@ -28,9 +28,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 174.25,
-    "market_cap_inr": 348100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 174.5,
+    "market_cap_inr": 356300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +96,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 13.84,
+      "pe": 14.17,
       "ps": 0.75,
-      "pb": 1.36,
+      "pb": 1.39,
       "ev_ebitda": 9.82,
       "peg": 0.15513157894736843
     },
@@ -55,13 +106,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/associated-ceramics-ltd"
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹348M)",
+      "Does not have a meaningful market cap (₹356M)",
       "Highly volatile share price over past 3 months",
       "Has not reported any financial data"
     ],
@@ -81,7 +132,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Refractories",
       "pe_industry_id": 53,
@@ -90,21 +141,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 13.84,
+      "company_pe": 14.17,
       "industry_pe": 42.16273805422961,
       "industry_name": "Refractories",
       "industry_id": 53,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/associated-ceramics-ltd",
       "search_id": "associated-ceramics-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 13.84,
+        "company_pe": 14.17,
         "industry_pe": 42.16273805422961,
         "industry_name": "Refractories",
         "industry_id": 53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "sws_statement": null,
@@ -121,7 +172,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.9,
+        "industry_pe": 23.6,
         "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
@@ -134,56 +185,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 174.25,
-        "fetched_at": "2026-05-25T22:28:16.721Z",
+        "value": 174.5,
+        "fetched_at": "2026-05-26T13:24:04.983Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-531168/associated-ceramics-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 348100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 356300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 13.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14.17,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.39,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.15513157894736843,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 42.16273805422961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "fifty_two_week": {
@@ -192,91 +243,91 @@
           "low": 140,
           "high": 264
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 12.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 125.4670788,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 42.16273805422961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.3917,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.659619450317124,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.588868522882661,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.427525306913634,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.93797113934956,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 8.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.6553911205073994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7188,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8114832535885168,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.24593301435406698,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/associated-ceramics-ltd"
       }
     },
@@ -287,7 +338,7 @@
     "latest_net_income": null,
     "latest_eps": 12.3,
     "most_recent_reported_date": null,
-    "pb": 1.36,
+    "pb": 1.39,
     "ps": 0.75,
     "book_value": 125.4670788,
     "face_value": 10,
@@ -303,12 +354,12 @@
     "quick_ratio": 0.8114832535885168,
     "cash_ratio": 0.24593301435406698,
     "returns_pct": {
-      "1D": 2.3494860499265786,
-      "7D": 2.3494860499265786,
-      "1M": -3.194444444444444,
-      "3M": -3.3287101248266295,
-      "6M": -15.841584158415847,
-      "1Y": -30.853174603174605,
+      "1D": 0.1434720229555237,
+      "7D": 2.4963289280469896,
+      "1M": -3.0555555555555554,
+      "3M": -15.434940634843711,
+      "6M": -16.76603863582161,
+      "1Y": -30.753968253968257,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -482,7 +533,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/associated-ceramics-ltd",
     "news": [
       {
@@ -530,7 +581,7 @@
         "ticker": "RPEL",
         "name": "Raghav Productivity Enhancers",
         "searchId": "raghav-productivity-enhances-ltd",
-        "market_cap_inr": 43485800000,
+        "market_cap_inr": 43619000000,
         "pe": 79.38,
         "pb": 17.78
       },
@@ -538,15 +589,15 @@
         "ticker": "FOSECOIND",
         "name": "Foseco India",
         "searchId": "foseco-india-ltd",
-        "market_cap_inr": 38198100000,
-        "pe": 49.28,
-        "pb": 3.68
+        "market_cap_inr": 37970400000,
+        "pe": 44.06,
+        "pb": 3.69
       },
       {
         "ticker": "IFGLEXPOR",
         "name": "IFGL Refractories",
         "searchId": "ifgl-refractories-ltd",
-        "market_cap_inr": 12210100000,
+        "market_cap_inr": 12747100000,
         "pe": 42.35,
         "pb": 1.07
       }

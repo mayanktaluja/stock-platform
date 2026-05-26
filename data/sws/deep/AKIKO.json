@@ -3,7 +3,7 @@
   "name": "Akiko Global Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-akiko/akiko-global-services-shares",
-  "parsed_at": "2026-05-25T21:33:03.773Z",
+  "parsed_at": "2026-05-26T12:24:53.110Z",
   "company_id": "50B9BAB5-5B1D-43C3-BF2F-3810790FDCF8",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 260.65,
-    "market_cap_inr": 2807096748.5435405,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 251,
+    "market_cap_inr": 2703170089.715821,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 84.054764,
+    "fair_value_inr": 83.961569,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -67.75186495300211,
+    "upside_pct": -66.54917569721115,
     "multiples": {
       "pe": 19.2,
       "ps": null,
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 260.65,
-        "fetched_at": "2026-05-25T21:33:03.773Z",
+        "value": 251,
+        "fetched_at": "2026-05-26T12:24:53.110Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-akiko/akiko-global-services-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.646058167184944,
-      "7D": -3.748153618906955,
-      "1M": 14.295110721333026,
-      "3M": 21.799065420560737,
-      "6M": -6.710808876163207,
-      "1Y": 206.82754561506766,
+      "1D": -3.7022827546518235,
+      "7D": -7.037037037037037,
+      "1M": 10.063582547686906,
+      "3M": 15.137614678899084,
+      "6M": -12.237762237762238,
+      "1Y": 195.46792230723955,
       "5Y": null
     },
     "next_earnings_date": null,

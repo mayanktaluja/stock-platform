@@ -3,12 +3,12 @@
   "name": "Sarda Proteins Ltd",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/bse-519242/sarda-proteins-shares",
-  "parsed_at": "2026-05-25T21:30:16.982Z",
+  "parsed_at": "2026-05-26T12:26:05.168Z",
   "company_id": "F838E685-9A5E-4DE0-98FD-F06894D8F5F5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sarda-proteins-ltd",
     "search_id": "sarda-proteins-ltd",
     "company_id": "GSTK519242",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 88.7,
     "market_cap_inr": 796200000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sarda-proteins-ltd"
     },
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -94,27 +143,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 124.93,
-      "industry_pe": 74.71695232760163,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sarda-proteins-ltd",
       "search_id": "sarda-proteins-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 124.93,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "sws_statement": {
         "company_pe": 124.8,
-        "industry_pe": 21.4,
+        "industry_pe": 20.5,
         "industry_name": "Indian Consumer Retailing",
-        "description": "519242 is expensive based on its Price-To-Earnings Ratio (124.8x) compared to the Indian Consumer Retailing industry average (21.4x).",
+        "description": "519242 is expensive based on its Price-To-Earnings Ratio (124.8x) compared to the Indian Consumer Retailing industry average (20.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
@@ -145,55 +194,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 88.7,
-        "fetched_at": "2026-05-25T21:30:16.982Z",
+        "fetched_at": "2026-05-26T12:26:05.168Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-519242/sarda-proteins-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 796200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 124.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 8.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -83.16666666666667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 59.95,
           "high": 144.3
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10.5681881,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7230575002869276,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 27.27272727272727,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.90092879256966,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.90092879256966,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 6.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.1836336508665213,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0273,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0273972602739725,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0015351913084553613,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarda-proteins-ltd"
       }
     },
@@ -301,7 +350,7 @@
     "ps": 4.93,
     "book_value": 10.5681881,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 0.7230575002869276,
     "roic_pct": 27.27272727272727,
@@ -517,7 +566,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sarda-proteins-ltd",
     "news": [
       {
@@ -592,7 +641,7 @@
         "ticker": "BNAGROCHEM",
         "name": "BN Agrochem",
         "searchId": "arihant-tournesol-ltd",
-        "market_cap_inr": 31585500000,
+        "market_cap_inr": 33145000000,
         "pe": 62.61,
         "pb": 7.11
       },
@@ -600,7 +649,7 @@
         "ticker": "MODINATUR",
         "name": "Modi Naturals",
         "searchId": "modi-naturals-ltd",
-        "market_cap_inr": 6264700000,
+        "market_cap_inr": 6115600000,
         "pe": 12.46,
         "pb": 3.64
       },
@@ -608,9 +657,9 @@
         "ticker": "543373",
         "name": "Shri Venkatesh Refineries",
         "searchId": "shri-venkatesh-refineries-ltd",
-        "market_cap_inr": 5529800000,
-        "pe": 30.6,
-        "pb": 6.75
+        "market_cap_inr": 5639300000,
+        "pe": 31.21,
+        "pb": 6.89
       }
     ],
     "details": {

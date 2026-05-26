@@ -3,12 +3,12 @@
   "name": "Virgo Global Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-532354/virgo-global-shares",
-  "parsed_at": "2026-05-25T23:01:49.070Z",
+  "parsed_at": "2026-05-26T13:54:59.900Z",
   "company_id": "953077BD-92FC-4F5E-841D-9E3700690719",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/virgo-global-ltd",
     "search_id": "virgo-global-ltd",
     "company_id": "GSTK532354",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 5.51,
-    "market_cap_inr": 56400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.67,
+    "market_cap_inr": 57900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 702.8115970961887,
+    "upside_pct": 680.1573015873015,
     "multiples": {
       "pe": null,
       "ps": 6.14,
-      "pb": 9.87,
+      "pb": 10.12,
       "ev_ebitda": 93.17,
       "peg": 0
     },
@@ -60,14 +109,14 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 87.9% below our estimate of its fair value",
+      "Trading at 87.2% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹9M)",
       "Earnings have declined by 14.8% per year over past 5 years",
-      "Does not have a meaningful market cap (₹56M)"
+      "Does not have a meaningful market cap (₹58M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 21.41038809716583
+      "sector_pe": 21.411947666551587
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,17 +149,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 21.41038809716583,
+        "industry_pe": 21.411947666551587,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.6,
         "industry_name": "Asian Tech",
-        "description": "532354 is expensive based on its Price-To-Sales Ratio (6.1x) compared to the Asian Tech industry average (1.6x).",
+        "description": "532354 is expensive based on its Price-To-Sales Ratio (6.5x) compared to the Asian Tech industry average (1.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -127,7 +176,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.4,
+        "industry_pe": 24.85,
         "sample_count": 8,
         "industry_code": "8120000",
         "industry_name": "Tech"
@@ -140,50 +189,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.51,
-        "fetched_at": "2026-05-25T23:01:49.070Z",
+        "value": 5.67,
+        "fetched_at": "2026-05-26T13:54:59.900Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-532354/virgo-global-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 56400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 57900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 9.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 10.12,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 6.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 93.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +241,85 @@
           "low": 3.25,
           "high": 7.29
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.5442723,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0735,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08812260536398472,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.007662835249042145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/virgo-global-ltd"
       }
     },
@@ -281,11 +330,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 9.87,
+    "pb": 10.12,
     "ps": 6.14,
     "book_value": 0.5442723,
     "face_value": 4,
-    "sector_pe": 21.41038809716583,
+    "sector_pe": 21.411947666551587,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -297,12 +346,12 @@
     "quick_ratio": 0.08812260536398472,
     "cash_ratio": 0.007662835249042145,
     "returns_pct": {
-      "1D": 2.607076350093104,
-      "7D": -9.67213114754098,
-      "1M": -14.040561622464903,
-      "3M": 39.49367088607594,
-      "6M": 11.313131313131306,
-      "1Y": 7.407407407407406,
+      "1D": 2.9038112522686053,
+      "7D": -2.7444253859348224,
+      "1M": -11.544461778471142,
+      "3M": 53.243243243243235,
+      "6M": 19.368421052631575,
+      "1Y": 10.526315789473685,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -411,7 +460,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/virgo-global-ltd",
     "news": [
       {
@@ -466,7 +515,7 @@
         "ticker": "CENTUM",
         "name": "Centum Electronics",
         "searchId": "centum-electronics-ltd",
-        "market_cap_inr": 47006700000,
+        "market_cap_inr": 46873200000,
         "pe": null,
         "pb": 13.7
       },
@@ -474,7 +523,7 @@
         "ticker": "AIMTRON",
         "name": "Aimtron Electronics",
         "searchId": "aimtron-electronics-ltd",
-        "market_cap_inr": 23260500000,
+        "market_cap_inr": 23565600000,
         "pe": 50.59,
         "pb": 9.92
       },
@@ -482,9 +531,9 @@
         "ticker": "VINYAS",
         "name": "Vinyas Innovative Technologies",
         "searchId": "vinyas-innovative-technologies-ltd",
-        "market_cap_inr": 12918200000,
-        "pe": 66.53,
-        "pb": 8.79
+        "market_cap_inr": 13276900000,
+        "pe": 68.37,
+        "pb": 9.03
       }
     ],
     "details": {

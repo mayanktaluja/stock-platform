@@ -3,12 +3,12 @@
   "name": "RPSG Ventures Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-rpsgvent/rpsg-ventures-shares",
-  "parsed_at": "2026-05-25T22:34:53.755Z",
+  "parsed_at": "2026-05-26T13:25:42.766Z",
   "company_id": "24F19517-C7D6-4935-B69C-1785835CB0C8",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cesc-ventures-ltd",
     "search_id": "cesc-ventures-ltd",
     "company_id": "GSTK542333",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 932,
-    "market_cap_inr": 30088800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 932.8,
+    "market_cap_inr": 30829900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 551.9,
       "high": 1179
     },
-    "fair_value_inr": 179.547037,
+    "fair_value_inr": 192.089956,
     "fair_value_range_inr": {
-      "min": 179.547037,
+      "min": 192.089956,
       "max": 3745.34,
       "count": 2
     },
-    "upside_pct": -80.73529645922747,
+    "upside_pct": -79.40716595197254,
     "multiples": {
       "pe": null,
       "ps": 0.27,
@@ -77,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 19.240887337479148
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.9,
+        "industry_pe": 2,
         "industry_name": "Indian Professional Services",
-        "description": "RPSGVENT is good value based on its Price-To-Sales Ratio (0.3x) compared to the Indian Professional Services industry average (1.9x).",
+        "description": "RPSGVENT is good value based on its Price-To-Sales Ratio (0.3x) compared to the Indian Professional Services industry average (2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -138,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 932,
-        "fetched_at": "2026-05-25T22:34:53.755Z",
+        "value": 932.8,
+        "fetched_at": "2026-05-26T13:25:42.766Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-rpsgvent/rpsg-ventures-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 30088800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 30829900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 3.4376038578680195,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "fifty_two_week": {
@@ -190,91 +239,91 @@
           "low": 551.9,
           "high": 1179
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 757.3370712,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.09557865968966293,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.440656710618116,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 328.96000000000004,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 43.27202612992942,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3693,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5722587894005242,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.125912729590295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cesc-ventures-ltd"
       }
     },
@@ -289,7 +338,7 @@
     "ps": 0.27,
     "book_value": 757.3370712,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0.09557865968966293,
@@ -301,12 +350,12 @@
     "quick_ratio": 0.5722587894005242,
     "cash_ratio": 0.125912729590295,
     "returns_pct": {
-      "1D": 2.654477365348609,
-      "7D": 1.4256175862444254,
-      "1M": 10.89957163255593,
-      "3M": 39.52095808383233,
-      "6M": 17.74366748784032,
-      "1Y": 2.395078004834097,
+      "1D": 0.08583690987123975,
+      "7D": 0.2525659627062076,
+      "1M": 10.994764397905756,
+      "3M": 41.42976271700402,
+      "6M": 17.105015378821168,
+      "1Y": 2.4829707756536923,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -542,7 +591,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cesc-ventures-ltd",
     "news": [
       {
@@ -607,7 +656,7 @@
         "ticker": "DATAMATICS",
         "name": "Datamatics Global Services",
         "searchId": "datamatics-global-services-ltd",
-        "market_cap_inr": 46487200000,
+        "market_cap_inr": 45609400000,
         "pe": 23.85,
         "pb": 3.01
       },
@@ -615,7 +664,7 @@
         "ticker": "HGS",
         "name": "Hinduja Global Solutions",
         "searchId": "hinduja-global-solutions-ltd",
-        "market_cap_inr": 18845400000,
+        "market_cap_inr": 19064000000,
         "pe": 111.91,
         "pb": 0.24
       },
@@ -623,7 +672,7 @@
         "ticker": "ACCELYA",
         "name": "Accelya Solutions India",
         "searchId": "accelya-kale-solutions-ltd",
-        "market_cap_inr": 16769700000,
+        "market_cap_inr": 17010700000,
         "pe": 16.96,
         "pb": 6.38
       }

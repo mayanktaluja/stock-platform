@@ -3,7 +3,7 @@
   "name": "Swaraj Suiting Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-swaraj/swaraj-suiting-shares",
-  "parsed_at": "2026-05-25T23:20:15.832Z",
+  "parsed_at": "2026-05-26T14:08:48.210Z",
   "company_id": "CC0FDBBE-DA60-4B94-A742-5C251976CB69",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 265.5,
-    "market_cap_inr": 5845847738.477292,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 261.6,
+    "market_cap_inr": 5759976528.759546,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 12.2,
+      "pe": 12.1,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,7 +100,7 @@
     "rewards": [
       "Earnings grew by 121.7% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (12.2x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (12.1x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -69,7 +118,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.2
+      "pe": 18.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -83,17 +132,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 12.2,
-      "industry_pe": 18.2,
+      "company_pe": 12.1,
+      "industry_pe": 18.5,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 12.2,
-        "industry_pe": 18.2,
+        "company_pe": 12.1,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "SWARAJ is good value based on its Price-To-Earnings Ratio (12.2x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "SWARAJ is good value based on its Price-To-Earnings Ratio (12.1x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 265.5,
-        "fetched_at": "2026-05-25T23:20:15.832Z",
+        "value": 261.6,
+        "fetched_at": "2026-05-26T14:08:48.210Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-swaraj/swaraj-suiting-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.778136268741701,
-      "7D": -3.57726529871074,
-      "1M": -8.321823204419896,
-      "3M": -14.174882818813646,
-      "6M": -2.425578831312026,
-      "1Y": 7.795371498172956,
+      "1D": -1.4689265536723077,
+      "7D": -4.664723032069955,
+      "1M": -9.668508287292816,
+      "3M": -14.088669950738907,
+      "6M": -6.721340702442491,
+      "1Y": 6.211936662606582,
       "5Y": null
     },
     "next_earnings_date": null,

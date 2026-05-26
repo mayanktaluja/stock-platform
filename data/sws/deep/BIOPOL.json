@@ -3,7 +3,7 @@
   "name": "Biopol Chemicals Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-biopol/biopol-chemicals-shares",
-  "parsed_at": "2026-05-25T22:03:24.166Z",
+  "parsed_at": "2026-05-26T12:57:16.475Z",
   "company_id": "2DB1008D-490F-45FD-A351-B515FD1157AA",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 111.7,
-    "market_cap_inr": 1206963117.5803015,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 15,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 108.25,
+    "market_cap_inr": 1169684489.5082152,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -109,8 +160,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -122,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 111.7,
-        "fetched_at": "2026-05-25T22:03:24.166Z",
+        "value": 108.25,
+        "fetched_at": "2026-05-26T12:57:16.475Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-biopol/biopol-chemicals-shares"
       }
     },
@@ -150,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.164282618118762,
-      "7D": -11.208267090620028,
-      "1M": 2.1957913998170224,
-      "3M": 18.703506907545176,
-      "6M": 5.876777251184836,
-      "1Y": 5.876777251184836,
+      "1D": -3.0886302596239954,
+      "7D": -14.325286901464182,
+      "1M": -0.9606587374199425,
+      "3M": 13.94736842105263,
+      "6M": 2.6066350710900474,
+      "1Y": 2.6066350710900474,
       "5Y": null
     },
     "next_earnings_date": null,

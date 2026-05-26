@@ -3,12 +3,12 @@
   "name": "Calcom Vision Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-517236/calcom-vision-shares",
-  "parsed_at": "2026-05-25T21:25:22.080Z",
+  "parsed_at": "2026-05-26T12:21:23.394Z",
   "company_id": "7A74DD94-E183-4F57-8BED-90F241F1067B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/calcom-vision-ltd",
     "search_id": "calcom-vision-ltd",
     "company_id": "GSTK517236",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 82.56,
-    "market_cap_inr": 1149700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 79.25,
+    "market_cap_inr": 1154600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/calcom-vision-ltd"
     },
@@ -68,7 +117,12 @@
       "Does not have a meaningful market cap (₹1B)"
     ],
     "dividend": {
-      "yield_pct": 0
+      "yield_pct": 0,
+      "payout_pct": null,
+      "annualized_dividend": null,
+      "listing_currency": "INR",
+      "recent_payments": [],
+      "payment_count": 0
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
@@ -78,7 +132,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -91,7 +145,7 @@
       "industry_pe": 50.063055479526334,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/calcom-vision-ltd",
       "search_id": "calcom-vision-ltd"
     },
@@ -101,14 +155,14 @@
         "industry_pe": 50.063055479526334,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "sws_statement": {
-        "company_pe": 42,
-        "industry_pe": 37.1,
+        "company_pe": 40.4,
+        "industry_pe": 36.7,
         "industry_name": "Indian Consumer Durables",
-        "description": "517236 is expensive based on its Price-To-Earnings Ratio (42x) compared to the Indian Consumer Durables industry average (37.1x).",
+        "description": "517236 is expensive based on its Price-To-Earnings Ratio (40.4x) compared to the Indian Consumer Durables industry average (36.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,7 +179,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -138,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 82.56,
-        "fetched_at": "2026-05-25T21:25:22.080Z",
+        "value": 79.25,
+        "fetched_at": "2026-05-26T12:21:23.394Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-517236/calcom-vision-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1149700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1154600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 41.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 17.826199999999982,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.063055479526334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "fifty_two_week": {
@@ -196,91 +250,91 @@
           "low": 67.01,
           "high": 147.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 42.04289,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.063055479526334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.7418,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3754045307443368,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.787594480078853,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2919773903956682,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.903861682420556,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 71.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 31.12864077669903,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2312,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4932320897986133,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0953009794211511,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/calcom-vision-ltd"
       }
     },
@@ -307,12 +361,12 @@
     "quick_ratio": 0.4932320897986133,
     "cash_ratio": 0.0953009794211511,
     "returns_pct": {
-      "1D": 0.4257389611969451,
-      "7D": 3.9013340045305926,
-      "1M": 0.48685491723467106,
-      "3M": 5.642994241842605,
-      "6M": -30.09314140558848,
-      "1Y": -27.52808988764045,
+      "1D": -4.009205426356592,
+      "7D": -0.9003376266099773,
+      "1M": -3.5418695228821773,
+      "3M": -3.058103975535168,
+      "6M": -33.770683603543375,
+      "1Y": -30.43363764044944,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -379,7 +433,12 @@
     "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0
+    "yield_pct": 0,
+    "payout_pct": null,
+    "annualized_dividend": null,
+    "listing_currency": "INR",
+    "recent_payments": [],
+    "payment_count": 0
   },
   "fiscal": null,
   "financials": {
@@ -469,7 +528,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-28T18:30:00.000Z",
@@ -482,7 +541,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/calcom-vision-ltd",
     "news": [
       {
@@ -532,7 +591,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-28T18:30:00.000Z",
@@ -547,7 +606,7 @@
         "ticker": "SYMPHONY",
         "name": "Symphony",
         "searchId": "symphony-ltd",
-        "market_cap_inr": 48818500000,
+        "market_cap_inr": 49570500000,
         "pe": 33.67,
         "pb": 8.96
       },
@@ -555,7 +614,7 @@
         "ticker": "IFBIND",
         "name": "IFB Industries",
         "searchId": "ifb-industries-ltd",
-        "market_cap_inr": 42556100000,
+        "market_cap_inr": 42671600000,
         "pe": 35.53,
         "pb": 4.61
       },
@@ -563,9 +622,9 @@
         "ticker": "ORIENTELEC",
         "name": "Orient Electric",
         "searchId": "orient-electric-ltd",
-        "market_cap_inr": 39163300000,
-        "pe": 40.88,
-        "pb": 5.15
+        "market_cap_inr": 39536700000,
+        "pe": 41.27,
+        "pb": 5.2
       }
     ],
     "details": {

@@ -3,12 +3,12 @@
   "name": "Zenith Exports Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-zenithexpo/zenith-exports-shares",
-  "parsed_at": "2026-05-26T00:04:42.094Z",
+  "parsed_at": "2026-05-26T16:09:51.008Z",
   "company_id": "5EB3644A-9DDE-4C51-8CCE-A95DAF42CEF3",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/zenith-exports-ltd",
     "search_id": "zenith-exports-ltd",
     "company_id": "GSTK512553",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 203,
-    "market_cap_inr": 1151000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 196.3,
+    "market_cap_inr": 1096200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 174,
       "high": 351.65
     },
-    "fair_value_inr": 64.663034,
+    "fair_value_inr": 64.549372,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -68.14628866995075,
+    "upside_pct": -67.11697809475294,
     "multiples": {
-      "pe": 21.27,
+      "pe": 20.26,
       "ps": 1.55,
-      "pb": 1.37,
+      "pb": 1.3,
       "ev_ebitda": 21.6,
       "peg": 0.14409808429118778
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/zenith-exports-ltd"
     },
@@ -78,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 48.250334127491435,
-      "sector_pe": 48.250334127491435
+      "pe": 48.25033412749143,
+      "sector_pe": 48.25033412749143
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Leather",
       "pe_industry_id": 35,
@@ -93,21 +143,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 21.27,
-      "industry_pe": 48.250334127491435,
+      "company_pe": 20.26,
+      "industry_pe": 48.25033412749143,
       "industry_name": "Leather",
       "industry_id": 35,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/zenith-exports-ltd",
       "search_id": "zenith-exports-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 21.27,
-        "industry_pe": 48.250334127491435,
+        "company_pe": 20.26,
+        "industry_pe": 48.25033412749143,
         "industry_name": "Leather",
         "industry_id": 35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "sws_statement": {
@@ -131,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -144,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 203,
-        "fetched_at": "2026-05-26T00:04:42.094Z",
+        "value": 196.3,
+        "fetched_at": "2026-05-26T16:09:51.008Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-zenithexpo/zenith-exports-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1151000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1096200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 21.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 20.26,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.3,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.14409808429118778,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.250334127491435,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.25033412749143,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +252,91 @@
           "low": 174,
           "high": 351.65
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 10.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 156.1481481,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.250334127491435,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.25033412749143,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.8937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9919909641646985,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.096799029689394,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6769697805988684,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.08776045260108,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 3.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1317383714960463,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 10.0111,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.64613880742913,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2355816226783967,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zenith-exports-ltd"
       }
     },
@@ -297,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 10.02,
     "most_recent_reported_date": null,
-    "pb": 1.37,
+    "pb": 1.3,
     "ps": 1.55,
     "book_value": 156.1481481,
     "face_value": 10,
-    "sector_pe": 48.250334127491435,
+    "sector_pe": 48.25033412749143,
     "roe_pct": 2.8937,
     "roa_pct": 1.9919909641646985,
     "roic_pct": 4.096799029689394,
@@ -313,12 +363,12 @@
     "quick_ratio": 4.64613880742913,
     "cash_ratio": 2.2355816226783967,
     "returns_pct": {
-      "1D": -2.628549501151185,
-      "7D": -0.284900284900291,
-      "1M": -6.8892762131914544,
-      "3M": 2.364984115778326,
-      "6M": -18.092317624273726,
-      "1Y": -21.011673151750973,
+      "1D": -3.300492610837433,
+      "7D": -3.575989782886335,
+      "1M": -9.962388771672323,
+      "3M": -2.440236568759006,
+      "6M": -20.14806980433633,
+      "1Y": -23.618677042801554,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -492,12 +542,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/zenith-exports-ltd",
     "news": [
       {
@@ -545,6 +605,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -552,7 +622,7 @@
         "ticker": "SOMATEX",
         "name": "Soma Textiles & Industries",
         "searchId": "soma-textiles-industries-ltd",
-        "market_cap_inr": 3323100000,
+        "market_cap_inr": 3395800000,
         "pe": 64.08,
         "pb": 2.07
       },
@@ -560,15 +630,15 @@
         "ticker": "514324",
         "name": "Omnitex Industries (India)",
         "searchId": "omnitex-industries-india-ltd",
-        "market_cap_inr": 2980300000,
+        "market_cap_inr": 3108000000,
         "pe": null,
-        "pb": 1.68
+        "pb": 1.75
       },
       {
         "ticker": "BTTL",
         "name": "Bhilwara Technical Textiles",
         "searchId": "bhilwara-technical-textiles-ltd",
-        "market_cap_inr": 2095600000,
+        "market_cap_inr": 2013900000,
         "pe": 178.8,
         "pb": 1.3
       }

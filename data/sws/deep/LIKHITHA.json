@@ -3,12 +3,12 @@
   "name": "Likhitha Infrastructure Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-likhitha/likhitha-infrastructure-shares",
-  "parsed_at": "2026-05-25T21:18:14.040Z",
+  "parsed_at": "2026-05-26T12:06:57.827Z",
   "company_id": "BDA0BCC9-CC91-40D0-B0D5-606038EAF7DD",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/likhitha-infrastructure-ltd",
     "search_id": "likhitha-infrastructure-ltd",
     "company_id": "GSTK543240",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 210.18,
-    "market_cap_inr": 8063600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 206,
+    "market_cap_inr": 8314100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 241349.9,
       "count": 2
     },
-    "upside_pct": -91.5151774669331,
+    "upside_pct": -91.34300970873785,
     "multiples": {
       "pe": 15.5,
       "ps": 1.7,
@@ -55,14 +104,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (15.4x) is below the Indian market (23.4x)",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Price-To-Earnings ratio (15.9x) is below the Indian market (23.4x)",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹8B)",
@@ -144,13 +192,13 @@
     },
     "dividend_yield_pct": 0.73,
     "industry_benchmarks": {
-      "pe": 22.73287436584585,
-      "sector_pe": 22.73287436584585
+      "pe": 24.2328398851662,
+      "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -160,27 +208,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 15.5,
-      "industry_pe": 22.73287436584585,
+      "industry_pe": 24.2328398851662,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/likhitha-infrastructure-ltd",
       "search_id": "likhitha-infrastructure-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 15.5,
-        "industry_pe": 22.73287436584585,
+        "industry_pe": 24.2328398851662,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.4,
-        "industry_pe": 16.2,
+        "company_pe": 15.9,
+        "industry_pe": 15.5,
         "industry_name": "Asian Energy Services",
-        "description": "LIKHITHA is good value based on its Price-To-Earnings Ratio (15.4x) compared to the Asian Energy Services industry average (16.2x).",
+        "description": "LIKHITHA is expensive based on its Price-To-Earnings Ratio (15.9x) compared to the Asian Energy Services industry average (15.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -197,7 +245,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
+        "industry_pe": 18.2,
         "sample_count": 11,
         "industry_code": "1020000",
         "industry_name": "Energy"
@@ -210,56 +258,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 210.18,
-        "fetched_at": "2026-05-25T21:18:14.040Z",
+        "value": 206,
+        "fetched_at": "2026-05-26T12:06:57.827Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-likhitha/likhitha-infrastructure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8063600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8314100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 15.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.3759943925233644,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "fifty_two_week": {
@@ -268,91 +316,91 @@
           "low": 131.45,
           "high": 324
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 13.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 100.9617997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 15.069,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 11.531750414135837,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 16.244208661860103,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.071996606934578,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.479694624111975,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.11927112092766429,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.197,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.8318025258323765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4135093761959434,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/likhitha-infrastructure-ltd"
       }
     },
@@ -367,7 +415,7 @@
     "ps": 1.7,
     "book_value": 100.9617997,
     "face_value": 5,
-    "sector_pe": 22.73287436584585,
+    "sector_pe": 24.2328398851662,
     "roe_pct": 15.069,
     "roa_pct": 11.531750414135837,
     "roic_pct": 16.244208661860103,
@@ -379,12 +427,12 @@
     "quick_ratio": 4.8318025258323765,
     "cash_ratio": 1.4135093761959434,
     "returns_pct": {
-      "1D": 3.429949313518035,
-      "7D": 7.322303921568629,
-      "1M": -9.362197593686654,
-      "3M": 38.90687991540546,
-      "6M": 3.8182267226475766,
-      "1Y": -21.72067039106145,
+      "1D": -1.9887715291654804,
+      "7D": 4.786611729996437,
+      "1M": -11.164776402604678,
+      "3M": 36.76802549462222,
+      "6M": 6.951871657754004,
+      "1Y": -23.277467411545626,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -646,7 +694,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/likhitha-infrastructure-ltd",
     "news": [
       {
@@ -721,7 +769,7 @@
         "ticker": "JNKINDIA",
         "name": "JNK India",
         "searchId": "jnk-india-ltd",
-        "market_cap_inr": 21710100000,
+        "market_cap_inr": 21282100000,
         "pe": 33.51,
         "pb": 3.82
       },
@@ -729,7 +777,7 @@
         "ticker": "ASIANENE",
         "name": "Asian Energy Services",
         "searchId": "asian-oilfield-services-ltd",
-        "market_cap_inr": 17995800000,
+        "market_cap_inr": 17395400000,
         "pe": 34.73,
         "pb": 2.92
       },
@@ -737,7 +785,7 @@
         "ticker": "SOUTHWEST",
         "name": "South West Pinnacle Exploration",
         "searchId": "south-west-pinnacle-exploration-ltd",
-        "market_cap_inr": 7588800000,
+        "market_cap_inr": 7281500000,
         "pe": 22.98,
         "pb": 3.73
       }

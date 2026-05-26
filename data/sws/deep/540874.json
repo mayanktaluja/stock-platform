@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/seas-entertainment-ltd",
     "search_id": "seas-entertainment-ltd",
     "company_id": "GSTK540874",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 81.71,
-    "market_cap_inr": 1849400000,
+    "market_cap_inr": 1888500000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 85.13,
+      "pe": 86.93,
       "ps": 9.49,
-      "pb": 7.06,
+      "pb": 7.21,
       "ev_ebitda": 68.46,
       "peg": 2.2072869565217395
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/seas-entertainment-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 21.41038809716583,
-      "sector_pe": 21.41038809716583
+      "pe": 21.411947666551587,
+      "sector_pe": 21.411947666551587
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -91,21 +140,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 85.13,
-      "industry_pe": 21.41038809716583,
+      "company_pe": 86.93,
+      "industry_pe": 21.411947666551587,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/seas-entertainment-ltd",
       "search_id": "seas-entertainment-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 85.13,
-        "industry_pe": 21.41038809716583,
+        "company_pe": 86.93,
+        "industry_pe": 21.411947666551587,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "sws_statement": {
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.8,
-        "sample_count": 34,
+        "industry_pe": 18,
+        "sample_count": 35,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
@@ -148,50 +197,50 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1849400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1888500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 85.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 86.93,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 7.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.21,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 9.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 68.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.2072869565217395,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 63,
           "high": 101
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 11.3332327,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.515,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 10.022988505747128,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.312204351939453,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.190965092402465,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.297741273100613,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 7.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 6.39080459770115,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 65.0826,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.531645569620253,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.07594936708860758,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seas-entertainment-ltd"
       }
     },
@@ -295,11 +344,11 @@
     "latest_net_income": null,
     "latest_eps": 0.94,
     "most_recent_reported_date": null,
-    "pb": 7.06,
+    "pb": 7.21,
     "ps": 9.49,
     "book_value": 11.3332327,
     "face_value": 10,
-    "sector_pe": 21.41038809716583,
+    "sector_pe": 21.411947666551587,
     "roe_pct": 10.515,
     "roa_pct": 10.022988505747128,
     "roic_pct": 10.312204351939453,
@@ -471,7 +520,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/seas-entertainment-ltd",
     "news": [
       {
@@ -506,7 +555,7 @@
         "ticker": "542866",
         "name": "Colab Platforms",
         "searchId": "jsg-leasing-ltd",
-        "market_cap_inr": 31640400000,
+        "market_cap_inr": 31324200000,
         "pe": null,
         "pb": null
       },
@@ -514,7 +563,7 @@
         "ticker": "BALAJITELE",
         "name": "Balaji Telefilms",
         "searchId": "balaji-telefilms-ltd",
-        "market_cap_inr": 11190600000,
+        "market_cap_inr": 11480800000,
         "pe": 19.13,
         "pb": 1.72
       },
@@ -522,7 +571,7 @@
         "ticker": "ONMOBILE",
         "name": "Onmobile Global",
         "searchId": "onmobile-global-ltd",
-        "market_cap_inr": 5387300000,
+        "market_cap_inr": 5494700000,
         "pe": 33.53,
         "pb": 0.86
       }

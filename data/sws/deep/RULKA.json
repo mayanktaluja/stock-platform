@@ -3,7 +3,7 @@
   "name": "Rulka Electricals Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-rulka/rulka-electricals-shares",
-  "parsed_at": "2026-05-25T22:36:03.734Z",
+  "parsed_at": "2026-05-26T13:26:57.970Z",
   "company_id": "FF1E5ED8-2CBD-4048-A091-7C2E50210577",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 15,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 95,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 399.849957,
+    "fair_value_inr": 400.167022,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 320.89469157894735,
+    "upside_pct": 321.2284442105263,
     "multiples": {
-      "pe": 12,
+      "pe": 12.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,12 +100,12 @@
     "rewards": [
       "Earnings grew by 45.8% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 76.7% below our estimate of its fair value",
+      "Trading at 76.3% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹396M)"
+      "Does not have a meaningful market cap (₹405M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -82,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 12,
+      "company_pe": 12.3,
       "industry_pe": 16.1,
       "industry_name": "Indian Construction"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 12,
+        "company_pe": 12.3,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "RULKA is good value based on its Price-To-Earnings Ratio (12x) compared to the Indian Construction industry average (16.1x).",
+        "description": "RULKA is good value based on its Price-To-Earnings Ratio (12.3x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -123,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 95,
-        "fetched_at": "2026-05-25T22:36:03.734Z",
+        "fetched_at": "2026-05-26T13:26:57.970Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rulka/rulka-electricals-shares"
       }
     },
@@ -150,11 +199,11 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.1505376344086025,
-      "7D": 4.10958904109589,
+      "1D": 0,
+      "7D": 2.095647501343367,
       "1M": -9.566872917658257,
-      "3M": 2.1505376344086025,
-      "6M": -14.337240757439137,
+      "3M": 3.825136612021858,
+      "6M": -12.037037037037036,
       "1Y": -41.57441574415744,
       "5Y": null
     },

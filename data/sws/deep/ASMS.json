@@ -3,12 +3,12 @@
   "name": "Avio Smart Market Stack Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/nse-asms/avio-smart-market-stack-shares",
-  "parsed_at": "2026-05-25T21:44:55.064Z",
+  "parsed_at": "2026-05-26T12:39:33.059Z",
   "company_id": "3A0C441F-E4E5-4A62-A999-97E02E49E00D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bartronics-india-ltd",
     "search_id": "bartronics-india-ltd",
     "company_id": "GSTK532694",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 7.35,
-    "market_cap_inr": 2226500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 7.42,
+    "market_cap_inr": 2238600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": 36.84,
       "count": 1
     },
-    "upside_pct": -97.07681632653062,
+    "upside_pct": -97.1043935309973,
     "multiples": {
-      "pe": 45.69,
+      "pe": 45.94,
       "ps": 2.83,
-      "pb": 7.5,
+      "pb": 7.54,
       "ev_ebitda": 163.04,
       "peg": 11.191500000000007
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/bartronics-india-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 21.41038809716583,
-      "sector_pe": 21.41038809716583
+      "pe": 21.411947666551587,
+      "sector_pe": 21.411947666551587
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -92,21 +141,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 45.69,
-      "industry_pe": 21.41038809716583,
+      "company_pe": 45.94,
+      "industry_pe": 21.411947666551587,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/bartronics-india-ltd",
       "search_id": "bartronics-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 45.69,
-        "industry_pe": 21.41038809716583,
+        "company_pe": 45.94,
+        "industry_pe": 21.411947666551587,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "sws_statement": {
@@ -130,7 +179,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.2,
+        "industry_pe": 31.5,
         "sample_count": 59,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7.35,
-        "fetched_at": "2026-05-25T21:44:55.064Z",
+        "value": 7.42,
+        "fetched_at": "2026-05-26T12:39:33.059Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-asms/avio-smart-market-stack-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2226500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2238600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 45.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.94,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 7.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.54,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 163.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 11.191500000000007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 6.95,
           "high": 17.6
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.9748044,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.1136,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 11.488626547653327,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.989774137829121,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.084097859327217,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.606523955147809,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5599999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4894903541606681,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8267,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8169014084507042,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.32863849765258213,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bartronics-india-ltd"
       }
     },
@@ -296,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 0.16,
     "most_recent_reported_date": null,
-    "pb": 7.5,
+    "pb": 7.54,
     "ps": 2.83,
     "book_value": 0.9748044,
     "face_value": 1,
-    "sector_pe": 21.41038809716583,
+    "sector_pe": 21.411947666551587,
     "roe_pct": 4.1136,
     "roa_pct": 11.488626547653327,
     "roic_pct": 11.989774137829121,
@@ -312,12 +361,12 @@
     "quick_ratio": 0.8169014084507042,
     "cash_ratio": 0.32863849765258213,
     "returns_pct": {
-      "1D": 0.6849315068493127,
-      "7D": -1.2096774193548487,
-      "1M": -8.125000000000004,
-      "3M": -31.881371640407785,
-      "6M": -39.10521955260978,
-      "1Y": -53.94736842105263,
+      "1D": 0.9523809523809563,
+      "7D": 0.4059539918809235,
+      "1M": -7.250000000000001,
+      "3M": -30.589335827876518,
+      "6M": -38.47429519071311,
+      "1Y": -53.50877192982456,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -518,7 +567,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bartronics-india-ltd",
     "news": [
       {
@@ -581,17 +630,17 @@
         "ticker": "ROUTE",
         "name": "Route Mobile",
         "searchId": "route-mobile-ltd",
-        "market_cap_inr": 32222900000,
+        "market_cap_inr": 32566300000,
         "pe": 12.54,
         "pb": 1.16
       },
       {
-        "ticker": "PROTEAN",
-        "name": "Protean e-Gov Technologies",
-        "searchId": "protean-egov-technologies-ltd",
-        "market_cap_inr": 26301400000,
-        "pe": 26.14,
-        "pb": 2.44
+        "ticker": "JAYKAY",
+        "name": "Jaykay Enterprises",
+        "searchId": "jaykay-enterprises-ltd",
+        "market_cap_inr": 25738200000,
+        "pe": 72.22,
+        "pb": 4.75
       }
     ],
     "details": {

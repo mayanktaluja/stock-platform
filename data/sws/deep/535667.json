@@ -3,12 +3,12 @@
   "name": "India Finsec Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-535667/india-finsec-shares",
-  "parsed_at": "2026-05-25T23:13:56.747Z",
+  "parsed_at": "2026-05-26T14:05:01.659Z",
   "company_id": "27AC4D65-9C8C-478D-9B0C-40337F7BB8B5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/india-finsec-ltd",
     "search_id": "india-finsec-ltd",
     "company_id": "GSTK535667",
@@ -28,22 +28,72 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 192.3,
-    "market_cap_inr": 5546400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 194.9,
+    "market_cap_inr": 5613600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 125,
       "high": 223.8
     },
-    "fair_value_inr": 30.751476,
+    "fair_value_inr": 30.750425,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -84.00859282371295,
+    "upside_pct": -84.22246023601846,
     "multiples": {
       "pe": 25.61,
       "ps": 6.48,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/india-finsec-ltd"
     },
@@ -78,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -94,27 +144,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 25.61,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/india-finsec-ltd",
       "search_id": "india-finsec-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 25.61,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "sws_statement": {
-        "company_pe": 36,
+        "company_pe": 36.9,
         "industry_pe": 19.5,
         "industry_name": "Indian Consumer Finance",
-        "description": "535667 is expensive based on its Price-To-Earnings Ratio (36x) compared to the Indian Consumer Finance industry average (19.5x).",
+        "description": "535667 is expensive based on its Price-To-Earnings Ratio (36.9x) compared to the Indian Consumer Finance industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -144,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 192.3,
-        "fetched_at": "2026-05-25T23:13:56.747Z",
+        "value": 194.9,
+        "fetched_at": "2026-05-26T14:05:01.659Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-535667/india-finsec-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5546400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5613600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 25.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 7.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 6.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.3520902255639098,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +252,91 @@
           "low": 125,
           "high": 223.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 7.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 26.9465891,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 19.5476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 19.525199949219246,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 13.067276999674329,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.253026347021127,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 77.93733681462142,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 11.3524,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 11.299999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.399999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/india-finsec-ltd"
       }
     },
@@ -301,7 +351,7 @@
     "ps": 6.48,
     "book_value": 26.9465891,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 19.5476,
     "roa_pct": 19.525199949219246,
     "roic_pct": 13.067276999674329,
@@ -313,12 +363,12 @@
     "quick_ratio": 11.299999999999999,
     "cash_ratio": 8.399999999999999,
     "returns_pct": {
-      "1D": 1.2105263157894797,
-      "7D": -2.3857868020304513,
-      "1M": 5.717427157779002,
-      "3M": 2.779262426509897,
-      "6M": 8.490832157968976,
-      "1Y": 35.422535211267615,
+      "1D": 1.3520540821632836,
+      "7D": -0.45965270684372095,
+      "1M": 7.146783947223749,
+      "3M": 5.351351351351354,
+      "6M": 17.551266586248488,
+      "1Y": 37.25352112676057,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -549,7 +599,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/india-finsec-ltd",
     "news": [
       {
@@ -624,7 +674,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -632,7 +682,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -640,7 +690,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

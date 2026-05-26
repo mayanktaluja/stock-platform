@@ -3,7 +3,7 @@
   "name": "Smarten Power Systems Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-smarten/smarten-power-systems-shares",
-  "parsed_at": "2026-05-25T23:03:48.962Z",
+  "parsed_at": "2026-05-26T13:52:39.901Z",
   "company_id": "1CD3AEEE-5796-429D-82BB-DE22B9F1D84D",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 49.05,
-    "market_cap_inr": 931989253.7717143,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 48.95,
+    "market_cap_inr": 930089173.7436376,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -52,12 +102,12 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 27.9% per year over the past 5 years",
-      "Price-To-Earnings ratio (7.3x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (7.3x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹918M)"
+      "Does not have a meaningful market cap (₹932M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -69,7 +119,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 28.4
+      "pe": 27.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,16 +134,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 7.3,
-      "industry_pe": 28.4,
+      "industry_pe": 27.9,
       "industry_name": "Indian Electrical"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 7.3,
-        "industry_pe": 28.4,
+        "industry_pe": 27.9,
         "industry_name": "Indian Electrical",
-        "description": "SMARTEN is good value based on its Price-To-Earnings Ratio (7.3x) compared to the Indian Electrical industry average (28.4x).",
+        "description": "SMARTEN is good value based on its Price-To-Earnings Ratio (7.3x) compared to the Indian Electrical industry average (27.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -110,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -123,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 49.05,
-        "fetched_at": "2026-05-25T23:03:48.962Z",
+        "value": 48.95,
+        "fetched_at": "2026-05-26T13:52:39.901Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-smarten/smarten-power-systems-shares"
       }
     },
@@ -151,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.5527950310559007,
-      "7D": 0.8221993833504595,
-      "1M": -20.30869212022746,
-      "3M": -13.339222614840995,
-      "6M": -30.524079320113312,
-      "1Y": -67.55952380952381,
+      "1D": -0.20387359836899965,
+      "7D": -2.39282153539381,
+      "1M": -20.471161657189267,
+      "3M": -15.603448275862064,
+      "6M": -37.40409207161125,
+      "1Y": -67.62566137566137,
       "5Y": null
     },
     "next_earnings_date": null,

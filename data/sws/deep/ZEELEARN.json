@@ -3,12 +3,12 @@
   "name": "Zee Learn Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-zeelearn/zee-learn-shares",
-  "parsed_at": "2026-05-26T00:04:29.889Z",
+  "parsed_at": "2026-05-26T16:09:38.923Z",
   "company_id": "F785E958-C5DE-4CDF-A0FE-81E92B34EAE3",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/zee-learn-ltd",
     "search_id": "zee-learn-ltd",
     "company_id": "GSTK533287",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 6.1,
-    "market_cap_inr": 1897000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 6.08,
+    "market_cap_inr": 2004900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 4.17,
       "high": 10.89
     },
-    "fair_value_inr": 44.314588,
+    "fair_value_inr": 44.523619,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 626.4686557377049,
+    "upside_pct": 632.2963651315789,
     "multiples": {
       "pe": 18.71,
       "ps": 0.45,
@@ -55,20 +104,20 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/zee-learn-ltd"
     },
     "rewards": [
+      "Earnings grew by 202.8% over the past year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 81.2% below our estimate of its fair value"
+      "Trading at 86.3% below our estimate of its fair value"
     ],
     "risks": [
+      "Interest payments are not well covered by earnings",
       "Large [[one-off items]] impacting financial results",
-      "Profit margins (2.4%) are lower than last year (50.1%)",
-      "Does not have a meaningful market cap (₹2B)",
-      "Debt is not well covered by [[operating cash flow]]",
-      "Highly volatile share price over past 3 months"
+      "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -139,7 +188,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Computer Education",
       "pe_industry_id": 15,
@@ -152,7 +201,7 @@
       "industry_pe": 16.99524161996405,
       "industry_name": "Computer Education",
       "industry_id": 15,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/zee-learn-ltd",
       "search_id": "zee-learn-ltd"
     },
@@ -162,14 +211,14 @@
         "industry_pe": 16.99524161996405,
         "industry_name": "Computer Education",
         "industry_id": 15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "sws_statement": {
-        "company_pe": 19,
-        "industry_pe": 23.7,
+        "company_pe": 5.2,
+        "industry_pe": 24.3,
         "industry_name": "Indian Consumer Services",
-        "description": "ZEELEARN is good value based on its Price-To-Earnings Ratio (19x) compared to the Indian Consumer Services industry average (23.7x).",
+        "description": "ZEELEARN is good value based on its Price-To-Earnings Ratio (5.2x) compared to the Indian Consumer Services industry average (24.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -186,8 +235,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 22.85,
-        "sample_count": 24,
+        "industry_pe": 23,
+        "sample_count": 25,
         "industry_code": "9551701",
         "industry_name": "Consumer Services"
       },
@@ -199,56 +248,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6.1,
-        "fetched_at": "2026-05-26T00:04:29.889Z",
+        "value": 6.08,
+        "fetched_at": "2026-05-26T16:09:38.923Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-zeelearn/zee-learn-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1897000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2004900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 18.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.15355479452054793,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 16.99524161996405,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "fifty_two_week": {
@@ -257,91 +306,91 @@
           "low": 4.17,
           "high": 10.89
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 5.8605034,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 16.99524161996405,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.7466,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1551911401862118,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.368240207196522,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.190771193003234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 34.11606614130187,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 161.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 23.789403632573876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9780963189034938,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.06636110223554169,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/zee-learn-ltd"
       }
     },
@@ -368,12 +417,12 @@
     "quick_ratio": 0.9780963189034938,
     "cash_ratio": 0.06636110223554169,
     "returns_pct": {
-      "1D": 4.991394148020655,
-      "7D": 4.991394148020655,
-      "1M": 16.634799235181628,
-      "3M": 4.991394148020655,
-      "6M": -17.567567567567576,
-      "1Y": -26.150121065375302,
+      "1D": -0.32786885245900943,
+      "7D": 5.555555555555561,
+      "1M": 16.252390057361367,
+      "3M": 10.746812386156645,
+      "6M": -17.503392130257804,
+      "1Y": -26.39225181598063,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -647,7 +696,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/zee-learn-ltd",
     "news": [
       {
@@ -712,7 +761,7 @@
         "ticker": "CRIZAC",
         "name": "Crizac",
         "searchId": "crizac-ltd",
-        "market_cap_inr": 35661400000,
+        "market_cap_inr": 39222300000,
         "pe": 18.33,
         "pb": 5.94
       },
@@ -720,7 +769,7 @@
         "ticker": "SEIL",
         "name": "Shanti Educational Initiatives",
         "searchId": "shanti-educational-initiatives-ltd",
-        "market_cap_inr": 31773400000,
+        "market_cap_inr": 31620400000,
         "pe": null,
         "pb": 41.47
       },
@@ -728,7 +777,7 @@
         "ticker": "NAVNETEDUL",
         "name": "Navneet Education",
         "searchId": "navneet-education-ltd",
-        "market_cap_inr": 31655600000,
+        "market_cap_inr": 31478600000,
         "pe": 8.58,
         "pb": 1.55
       }

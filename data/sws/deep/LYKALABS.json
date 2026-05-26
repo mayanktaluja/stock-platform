@@ -3,12 +3,12 @@
   "name": "Lyka Labs Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-lykalabs/lyka-labs-shares",
-  "parsed_at": "2026-05-25T21:23:13.647Z",
+  "parsed_at": "2026-05-26T12:11:37.025Z",
   "company_id": "F48F57CC-684B-43B5-9C8F-64664FDB68BC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lyka-labs-ltd",
     "search_id": "lyka-labs-ltd",
     "company_id": "GSTK500259",
@@ -16,21 +16,70 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
       "past": 0,
-      "financial_health": 4,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
-      "value": 1,
-      "health": 4,
+      "value": 2,
+      "health": 3,
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 61.72,
-    "market_cap_inr": 2203900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 59.83,
+    "market_cap_inr": 2200300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -96.48688593648735,
+    "upside_pct": -96.3759084071536,
     "multiples": {
       "pe": null,
       "ps": 1.64,
@@ -60,10 +109,11 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at good value vs. industry average Price-To-Sales ratio"
+      "Trading at good value vs. industry average Price-To-Sales ratio",
+      "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Earnings have declined by 14.9% per year over past 5 years",
+      "Earnings have declined by 32% per year over past 5 years",
       "Does not have a meaningful market cap (₹2B)",
       "Highly volatile share price over past 3 months"
     ],
@@ -77,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 34.13083912188503
+      "sector_pe": 34.114828495752356
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,22 +148,22 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 34.13083912188503,
+        "industry_pe": 34.114828495752356,
         "industry_name": "Pharmaceuticals",
         "industry_id": 46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2.3,
+        "industry_pe": 2.2,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "LYKALABS is good value based on its Price-To-Sales Ratio (1.7x) compared to the Indian Pharmaceuticals industry average (2.3x).",
+        "description": "LYKALABS is good value based on its Price-To-Sales Ratio (1.6x) compared to the Indian Pharmaceuticals industry average (2.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.1233367,
+        "industry_pe": 29.602236753,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 150,
@@ -125,8 +175,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -138,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 61.72,
-        "fetched_at": "2026-05-25T21:23:13.647Z",
+        "value": 59.83,
+        "fetched_at": "2026-05-26T12:11:37.025Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-lykalabs/lyka-labs-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2203900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2200300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.11829003322259135,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.13083912188503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.114828495752356,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "fifty_two_week": {
@@ -190,85 +240,85 @@
           "low": 44.1,
           "high": 128.78
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 28.3344074,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.13083912188503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.114828495752356,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.0279,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.208766998404617,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.904370564064251,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 31.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 18.867699642431468,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.037,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1419264774313636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.026989297347603535,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lyka-labs-ltd"
       }
     },
@@ -283,7 +333,7 @@
     "ps": 1.64,
     "book_value": 28.3344074,
     "face_value": 10,
-    "sector_pe": 34.13083912188503,
+    "sector_pe": 34.114828495752356,
     "roe_pct": 2.0279,
     "roa_pct": 0,
     "roic_pct": 4.208766998404617,
@@ -295,16 +345,16 @@
     "quick_ratio": 1.1419264774313636,
     "cash_ratio": 0.026989297347603535,
     "returns_pct": {
-      "1D": 0.5048037778863415,
-      "7D": 4.965986394557826,
-      "1M": 7.189996526571727,
-      "3M": 0.5867014341590603,
-      "6M": -25.52190177386268,
-      "1Y": -47.319904404233526,
+      "1D": -3.0622164614387564,
+      "7D": 0.15065282892533696,
+      "1M": 3.907606807919416,
+      "3M": -3.2190229699126527,
+      "6M": -25.888765019199806,
+      "1Y": -48.93308296346876,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -448,18 +498,18 @@
       },
       "quarterly": {
         "revenue": {
-          "Dec '24": 34.629999999999995,
           "Mar '25": 34.25,
           "Jun '25": 33.660000000000004,
           "Sep '25": 37.75,
-          "Dec '25": 31.89
+          "Dec '25": 31.89,
+          "Mar '26": 28.64
         },
         "profit": {
-          "Dec '24": 2.7,
           "Mar '25": 2.03,
           "Jun '25": 1,
           "Sep '25": -3.21,
-          "Dec '25": -0.15
+          "Dec '25": -0.15,
+          "Mar '26": -8.07
         }
       }
     }
@@ -526,22 +576,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lyka-labs-ltd",
     "news": [
+      {
+        "id": "846691467759349376",
+        "title": "Lyka Labs approved Rs. 2301.4 lakh impairment on subsidiary due to losses.\nFY26 audited results published; June 4 set as record date, AGM on Aug 10.",
+        "url": "https://sqst.in/c6OpP",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-25T10:09:36.000Z"
+      },
       {
         "id": "663797",
         "title": "Buzzing stocks today include SPARC, Omaxe, Mastek, JSW Energy, Jindal (India), ITC, and Lyka Labs.\nAirfloa Rail, Transformers & Rectifiers are also among the highlighted stocks.",
         "url": "https://t.co/nGnVySumkx",
         "source": "The Hindu Business Line",
         "published_at": "2026-05-20T03:55:48.000Z"
-      },
-      {
-        "id": "2605206993781",
-        "title": "NCLAT overturns earlier order, allowing Lyka Labs' insolvency plea vs Modi Lifecare.\nModi Lifecare must pay Rs 63 lakh within 30 days or face insolvency proceedings.",
-        "url": "https://legal.economictimes.indiatimes.com/news/litigation/nclat-orders-modi-lifecare-to-pay-rs-63-lakh-to-lyka-labs-or-face-insolvency/131210542",
-        "source": "The Economic Times",
-        "published_at": "2026-05-19T19:25:26.000Z"
       }
     ],
     "events": [
@@ -591,7 +641,7 @@
         "ticker": "INNOVACAP",
         "name": "Innova Captab",
         "searchId": "innova-captab-ltd",
-        "market_cap_inr": 48538200000,
+        "market_cap_inr": 48672700000,
         "pe": 34.44,
         "pb": 4.45
       },
@@ -599,17 +649,17 @@
         "ticker": "GUJTHEM",
         "name": "Gujarat Themis Biosyn",
         "searchId": "gujarat-themis-biosyn-ltd",
-        "market_cap_inr": 40191800000,
-        "pe": 84.02,
-        "pb": 15.2
+        "market_cap_inr": 42196800000,
+        "pe": 88.21,
+        "pb": 15.96
       },
       {
-        "ticker": "ORCHPHARMA",
-        "name": "Orchid Pharma",
-        "searchId": "orchid-pharma-ltd",
-        "market_cap_inr": 35909100000,
-        "pe": 190.32,
-        "pb": 2.82
+        "ticker": "IOLCP",
+        "name": "IOL Chemicals & Pharmaceuticals",
+        "searchId": "iol-chemicals-pharmaceuticals-ltd",
+        "market_cap_inr": 36420900000,
+        "pe": 25.33,
+        "pb": 1.94
       }
     ],
     "details": {
@@ -626,6 +676,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "b3725ec9-2cad-4024-bb10-6e12ced2f72e",
+      "type": "brief",
+      "date": "2026-05-26T11:39:29.000Z",
+      "title": "Full year 2026 earnings released: ₹2.81 loss per share (vs ₹2.22 profit in FY 2025)",
+      "body": "Full year 2026 results: ₹2.81 loss per share (down from ₹2.22 profit in FY 2025). Revenue: ₹1.32b (down 2.2% from FY 2025). Net loss: ₹100.3m (down 227% from profit in FY 2025). Over the last 3 years on average, earnings per share has increased by 82% per year but the company’s share price has fallen by 15% per year, which means it is significantly lagging earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "78507287-9ecf-49f0-b137-bc7621217701",
       "type": "event",

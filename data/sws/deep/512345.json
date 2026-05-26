@@ -3,12 +3,12 @@
   "name": "Lexora Global Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/bse-512345/lexora-global-shares",
-  "parsed_at": "2026-05-25T21:11:26.687Z",
+  "parsed_at": "2026-05-26T12:08:34.577Z",
   "company_id": "9BE6409C-1DDD-48D1-977B-915385680745",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/yash-trading-finance-ltd",
     "search_id": "yash-trading-finance-ltd",
     "company_id": "GSTK512345",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 210.3,
-    "market_cap_inr": 2062000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 214,
+    "market_cap_inr": 2103000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 19.64,
+      "pb": 20.03,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,10 +148,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "sws_statement": {
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.5,
+        "industry_pe": 26.7,
         "sample_count": 22,
         "industry_code": "9551702",
         "industry_name": "Utilities"
@@ -139,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 210.3,
-        "fetched_at": "2026-05-25T21:11:26.687Z",
+        "value": 214,
+        "fetched_at": "2026-05-26T12:08:34.577Z",
         "url": "https://simplywall.st/stocks/in/utilities/bse-512345/lexora-global-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2062000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2103000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 19.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 20.03,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 80.45,
           "high": 239.3
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10.498,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 56.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 23.07992202729045,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.5814,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5732189973614776,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2354881266490765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yash-trading-finance-ltd"
       }
     },
@@ -280,11 +329,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 19.64,
+    "pb": 20.03,
     "ps": 0,
     "book_value": 10.498,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,16 +345,16 @@
     "quick_ratio": 1.5732189973614776,
     "cash_ratio": 0.2354881266490765,
     "returns_pct": {
-      "1D": 1.9883608147429792,
-      "7D": 10.277923439958062,
-      "1M": 97.09465791940019,
-      "3M": 33.52380952380953,
-      "6M": 2.735710796287261,
-      "1Y": 7.652930637317644,
+      "1D": 1.7593913456966184,
+      "7D": 10.025706940874036,
+      "1M": 100.56232427366447,
+      "3M": 35.87301587301587,
+      "6M": 4.543234000977046,
+      "1Y": 9.546966982339395,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -525,7 +574,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/yash-trading-finance-ltd",
     "news": [
       {
@@ -600,7 +649,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -608,7 +657,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -616,7 +665,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }
@@ -635,6 +684,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "4e360ec4-3e20-48c8-b5da-27dc659a2685",
+      "type": "event",
+      "date": "2026-05-25T12:06:00.000Z",
+      "title": "Lexora Global Limited to Report Q4, 2026 Results on May 30, 2026",
+      "body": "Lexora Global Limited announced that they will report Q4, 2026 results at 12:15 PM, Indian Standard Time on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "b7cdc262-4a9b-4e30-9883-b6425c217627",
       "type": "brief",

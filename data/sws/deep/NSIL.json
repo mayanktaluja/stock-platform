@@ -3,12 +3,12 @@
   "name": "Nalwa Sons Investments Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-nsil/nalwa-sons-investments-shares",
-  "parsed_at": "2026-05-25T21:52:10.521Z",
+  "parsed_at": "2026-05-26T12:42:47.550Z",
   "company_id": "E54B3B58-AF9C-4D32-B8D2-988BC744EBFD",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nalwa-sons-investments-ltd",
     "search_id": "nalwa-sons-investments-ltd",
     "company_id": "GSTK532256",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 5691,
-    "market_cap_inr": 28694300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5694,
+    "market_cap_inr": 28968000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
     },
@@ -75,13 +124,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -91,35 +140,35 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 115.99,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/nalwa-sons-investments-ltd",
       "search_id": "nalwa-sons-investments-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 115.99,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "sws_statement": {
-        "company_pe": 122.5,
-        "industry_pe": 27.8,
+        "company_pe": 124.5,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "NSIL is expensive based on its Price-To-Earnings Ratio (122.5x) compared to the Indian Capital Markets industry average (27.8x).",
+        "description": "NSIL is expensive based on its Price-To-Earnings Ratio (124.5x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.92506745,
+        "industry_pe": 27.269693169,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 216,
+        "count": 217,
         "source": {
           "type": "country",
           "country": "IN",
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5691,
-        "fetched_at": "2026-05-25T21:52:10.521Z",
+        "value": 5694,
+        "fetched_at": "2026-05-26T12:42:47.550Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nsil/nalwa-sons-investments-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 28694300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 28968000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 115.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 32.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 47.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -3.641886134663342,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 4700,
           "high": 8730
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 48.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 31644.8577821,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.12683259830745391,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.15324186169813603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 27.20827522082752,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 42.73593677359367,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.0029256558345162375,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.3379,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.965551181102362,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8809055118110235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nalwa-sons-investments-ltd"
       }
     },
@@ -298,7 +347,7 @@
     "ps": 32.76,
     "book_value": 31644.8577821,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 0.148,
     "roa_pct": 0.12683259830745391,
     "roic_pct": 0.15324186169813603,
@@ -310,12 +359,12 @@
     "quick_ratio": 1.965551181102362,
     "cash_ratio": 0.8809055118110235,
     "returns_pct": {
-      "1D": 1.2633451957295374,
-      "7D": 5.058150267675835,
-      "1M": 0.6383844099807311,
-      "3M": -3.7300177619893424,
-      "6M": -16.437853314734603,
-      "1Y": -18.88540478905359,
+      "1D": 0.05271481286241434,
+      "7D": 4.630650496141125,
+      "1M": 0.6914357459902096,
+      "3M": -4.1010526315789475,
+      "6M": -15.374897822694509,
+      "1Y": -18.842645381984035,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -536,12 +585,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nalwa-sons-investments-ltd",
     "news": [
       {
@@ -589,6 +648,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -596,7 +665,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -604,7 +673,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -612,7 +681,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

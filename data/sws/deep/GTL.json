@@ -3,12 +3,12 @@
   "name": "GTL Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-gtl/gtl-shares",
-  "parsed_at": "2026-05-25T23:47:42.192Z",
+  "parsed_at": "2026-05-26T14:37:44.741Z",
   "company_id": "62E4979E-77E1-4B84-9974-8840B6D7F7B0",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gtl-ltd",
     "search_id": "gtl-ltd",
     "company_id": "GSTK500160",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 7.61,
-    "market_cap_inr": 1197000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 7.56,
+    "market_cap_inr": 1195500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 64.765291,
       "count": 3
     },
-    "upside_pct": 751.0550722733246,
+    "upside_pct": 756.6837433862435,
     "multiples": {
       "pe": 0.21,
       "ps": 0.53,
@@ -55,12 +104,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gtl-ltd"
     },
     "rewards": [
-      "Trading at 88.2% below our estimate of its fair value",
+      "Trading at 88.3% below our estimate of its fair value",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year"
@@ -88,7 +137,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Telecom-Service",
       "pe_industry_id": 61,
@@ -101,7 +150,7 @@
       "industry_pe": 70.2135389395506,
       "industry_name": "Telecom-Service",
       "industry_id": 61,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gtl-ltd",
       "search_id": "gtl-ltd"
     },
@@ -111,14 +160,14 @@
         "industry_pe": 70.2135389395506,
         "industry_name": "Telecom-Service",
         "industry_id": 61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "sws_statement": {
         "company_pe": 0.2,
-        "industry_pe": 20.3,
+        "industry_pe": 21.1,
         "industry_name": "Indian IT",
-        "description": "GTL is good value based on its Price-To-Earnings Ratio (0.2x) compared to the Indian IT industry average (20.3x).",
+        "description": "GTL is good value based on its Price-To-Earnings Ratio (0.2x) compared to the Indian IT industry average (21.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -135,7 +184,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -148,56 +197,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7.61,
-        "fetched_at": "2026-05-25T23:47:42.192Z",
+        "value": 7.56,
+        "fetched_at": "2026-05-26T14:37:44.741Z",
         "url": "https://simplywall.st/stocks/in/software/nse-gtl/gtl-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1197000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1195500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 0.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 75.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 70.2135389395506,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "fifty_two_week": {
@@ -206,91 +255,91 @@
           "low": 4.91,
           "high": 13
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 37.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -346.2278875,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 70.2135389395506,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5122,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.036215817168596,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.1662,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.02178530840750826,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0035962443463072712,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtl-ltd"
       }
     },
@@ -317,12 +366,12 @@
     "quick_ratio": 0.02178530840750826,
     "cash_ratio": 0.0035962443463072712,
     "returns_pct": {
-      "1D": 0,
-      "7D": 4.965517241379315,
-      "1M": 4.820936639118465,
-      "3M": 6.8820224719101155,
-      "6M": -7.081807081807072,
-      "1Y": -11.921296296296298,
+      "1D": -0.6570302233902853,
+      "7D": 2.162162162162152,
+      "1M": 4.1322314049586755,
+      "3M": 6.17977528089887,
+      "6M": -10.532544378698223,
+      "1Y": -12.50000000000001,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -523,7 +572,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gtl-ltd",
     "news": [
       {
@@ -589,17 +638,17 @@
         "ticker": "GTLINFRA",
         "name": "GTL Infrastructure",
         "searchId": "gtl-infrastructure-ltd",
-        "market_cap_inr": 16908000000,
-        "pe": 2.16,
+        "market_cap_inr": 17292300000,
+        "pe": 2.21,
         "pb": 0
       },
       {
         "ticker": "STLNETWORK",
         "name": "STL Networks",
         "searchId": "stl-networks-ltd",
-        "market_cap_inr": 12201900000,
+        "market_cap_inr": 12812000000,
         "pe": null,
-        "pb": 1.07
+        "pb": 1.12
       }
     ],
     "details": {

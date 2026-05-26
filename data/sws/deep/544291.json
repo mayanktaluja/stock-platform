@@ -3,7 +3,7 @@
   "name": "Rajesh Power Services Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544291/rajesh-power-services-shares",
-  "parsed_at": "2026-05-25T21:02:20.492Z",
+  "parsed_at": "2026-05-26T11:53:59.325Z",
   "company_id": "B777031C-7FFB-4379-9695-540A1E1E4B0D",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 843.45,
-    "market_cap_inr": 15188336716.79968,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 881.35,
+    "market_cap_inr": 15870816960.520954,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 10.432522,
+    "fair_value_inr": 10.443045,
     "fair_value_range_inr": {
       "min": 4000,
       "max": 4000,
       "count": 1
     },
-    "upside_pct": -98.76311316616278,
+    "upside_pct": -98.81510807284279,
     "multiples": {
       "pe": 10.5,
       "ps": null,
@@ -110,10 +158,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 16.066009054,
+        "industry_pe": 16.121502387,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 189,
+        "count": 190,
         "source": {
           "type": "country",
           "country": "IN",
@@ -122,8 +170,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -135,8 +183,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 843.45,
-        "fetched_at": "2026-05-25T21:02:20.492Z",
+        "value": 881.35,
+        "fetched_at": "2026-05-26T11:53:59.325Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544291/rajesh-power-services-shares"
       }
     },
@@ -163,12 +211,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.6864032469857945,
-      "7D": 1.0724985020970694,
-      "1M": -17.056741075818657,
-      "3M": -8.978578751416386,
-      "6M": -34.04621339484692,
-      "1Y": -36.858062584219184,
+      "1D": 4.493449522793287,
+      "7D": 5.33644077925182,
+      "1M": -13.329727603500832,
+      "3M": -0.9496516071027121,
+      "6M": -32.354747102617246,
+      "1Y": -34.02081149872735,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Diamant Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-508860/diamant-infrastructure-shares",
-  "parsed_at": "2026-05-25T20:57:06.611Z",
+  "parsed_at": "2026-05-26T11:51:02.274Z",
   "company_id": "4FD93C15-A203-4423-9A31-E3F4CD8AD05D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/diamant-infrastructure-ltd",
     "search_id": "diamant-infrastructure-ltd",
     "company_id": "GSTK508860",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.84,
-    "market_cap_inr": 28200000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 29600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +95,9 @@
     },
     "upside_pct": 917.6815476190477,
     "multiples": {
-      "pe": 40,
+      "pe": 42,
       "ps": 0,
-      "pb": 0.26,
+      "pb": 0.27,
       "ev_ebitda": 174,
       "peg": -0.25331428571428566
     },
@@ -55,19 +105,19 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/diamant-infrastructure-ltd"
     },
     "rewards": [
       "Became profitable this year",
-      "Trading at 90.6% below our estimate of its fair value"
+      "Trading at 90.2% below our estimate of its fair value"
     ],
     "risks": [
       "Has a high level of debt",
       "Makes less than USD$1m in revenue (₹0)",
       "Shares are highly illiquid",
-      "Does not have a meaningful market cap (₹28M)"
+      "Does not have a meaningful market cap (₹30M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.821146947073228,
-      "sector_pe": 31.821146947073228
+      "pe": 31.795057456430627,
+      "sector_pe": 31.795057456430627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -94,28 +144,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 40,
-      "industry_pe": 31.821146947073228,
+      "company_pe": 42,
+      "industry_pe": 31.795057456430627,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/diamant-infrastructure-ltd",
       "search_id": "diamant-infrastructure-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 40,
-        "industry_pe": 31.821146947073228,
+        "company_pe": 42,
+        "industry_pe": 31.795057456430627,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "sws_statement": {
-        "company_pe": 48.1,
+        "company_pe": 50.5,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "508860 is expensive based on its Price-To-Earnings Ratio (48.1x) compared to the Indian Construction industry average (16.1x).",
+        "description": "508860 is expensive based on its Price-To-Earnings Ratio (50.5x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -132,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -146,55 +196,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.84,
-        "fetched_at": "2026-05-25T20:57:06.611Z",
+        "fetched_at": "2026-05-26T11:51:02.274Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-508860/diamant-infrastructure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 28200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 29600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 40,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 42,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.27,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 174,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.25331428571428566,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +253,91 @@
           "low": 0.64,
           "high": 2.14
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 3.1237643,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4645,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.28382213812677387,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3311258278145695,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 65.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 33.86944181646168,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.6936,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.671834625322997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.00516795865633075,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/diamant-infrastructure-ltd"
       }
     },
@@ -298,11 +348,11 @@
     "latest_net_income": null,
     "latest_eps": 0.02,
     "most_recent_reported_date": null,
-    "pb": 0.26,
+    "pb": 0.27,
     "ps": 0,
     "book_value": 3.1237643,
     "face_value": 2,
-    "sector_pe": 31.821146947073228,
+    "sector_pe": 31.795057456430627,
     "roe_pct": 0.4645,
     "roa_pct": 0.28382213812677387,
     "roic_pct": 0.3311258278145695,
@@ -479,9 +529,16 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/diamant-infrastructure-ltd",
     "news": [
+      {
+        "id": "678402",
+        "title": "Diamant Infrastructure Ltd announces board meeting on 29th May 2026 to review standalone audited financial results for Q4 and FY ending March 2026.\nThe meeting will take place at the company's registered office in Nagpur, Maharashtra.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=621e977d-bd14-4023-b7c2-152b20146c8d.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T06:40:49.000Z"
+      },
       {
         "id": "469821",
         "title": "Diamant Infrastructure Ltd's board meeting is scheduled for 10th Feb 2026 to review Q3 FY25 results.\nThe meeting will be held at the company's registered office in Nagpur, Maharashtra.",
@@ -527,25 +584,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

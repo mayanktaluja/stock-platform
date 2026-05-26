@@ -3,12 +3,12 @@
   "name": "ERP Soft Systems Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-530909/erp-soft-systems-shares",
-  "parsed_at": "2026-05-25T22:22:01.018Z",
+  "parsed_at": "2026-05-26T13:18:47.042Z",
   "company_id": "151485A2-FB4E-4437-8496-B66150B164EB",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/erp-soft-systems-ltd",
     "search_id": "erp-soft-systems-ltd",
     "company_id": "GSTK530909",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 60,
     "market_cap_inr": 237600000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 42.94,
       "high": 147
     },
-    "fair_value_inr": 28.586038,
+    "fair_value_inr": 28.586085,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -52.35660333333334,
+    "upside_pct": -52.356525,
     "multiples": {
       "pe": 130.43,
       "ps": 2.49,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/erp-soft-systems-ltd"
     },
@@ -75,13 +124,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -91,27 +140,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 130.43,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/erp-soft-systems-ltd",
       "search_id": "erp-soft-systems-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 130.43,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "sws_statement": {
         "company_pe": 131.2,
-        "industry_pe": 20.3,
+        "industry_pe": 21.1,
         "industry_name": "Indian IT",
-        "description": "530909 is expensive based on its Price-To-Earnings Ratio (131.2x) compared to the Indian IT industry average (20.3x).",
+        "description": "530909 is expensive based on its Price-To-Earnings Ratio (131.2x) compared to the Indian IT industry average (21.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -142,55 +191,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 60,
-        "fetched_at": "2026-05-25T22:22:01.018Z",
+        "fetched_at": "2026-05-26T13:18:47.042Z",
         "url": "https://simplywall.st/stocks/in/software/bse-530909/erp-soft-systems-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 237600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 130.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 145.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 29.791300000000014,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 42.94,
           "high": 147
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 47.3232323,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9664,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8264462809917356,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9230769230769231,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8575851393188858,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.7863777089783284,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.8567493112947653,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.7502,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.18636363636363634,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/erp-soft-systems-ltd"
       }
     },
@@ -298,7 +347,7 @@
     "ps": 2.49,
     "book_value": 47.3232323,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0.9664,
     "roa_pct": 0.8264462809917356,
     "roic_pct": 0.9230769230769231,
@@ -496,7 +545,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/erp-soft-systems-ltd",
     "news": [
       {
@@ -569,17 +618,17 @@
         "ticker": "ROUTE",
         "name": "Route Mobile",
         "searchId": "route-mobile-ltd",
-        "market_cap_inr": 32222900000,
+        "market_cap_inr": 32566300000,
         "pe": 12.54,
         "pb": 1.16
       },
       {
-        "ticker": "PROTEAN",
-        "name": "Protean e-Gov Technologies",
-        "searchId": "protean-egov-technologies-ltd",
-        "market_cap_inr": 26301400000,
-        "pe": 26.14,
-        "pb": 2.44
+        "ticker": "JAYKAY",
+        "name": "Jaykay Enterprises",
+        "searchId": "jaykay-enterprises-ltd",
+        "market_cap_inr": 25738200000,
+        "pe": 72.22,
+        "pb": 4.75
       }
     ],
     "details": {

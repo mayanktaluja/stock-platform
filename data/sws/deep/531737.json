@@ -3,12 +3,12 @@
   "name": "Greencrest Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531737/greencrest-financial-services-shares",
-  "parsed_at": "2026-05-25T22:48:00.755Z",
+  "parsed_at": "2026-05-26T13:42:06.843Z",
   "company_id": "45795AB6-9788-4CCE-87A1-959E13211B9E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/greencrest-financial-services-ltd",
     "search_id": "greencrest-financial-services-ltd",
     "company_id": "GSTK531737",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.49,
-    "market_cap_inr": 182800000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 179100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +97,7 @@
     "multiples": {
       "pe": null,
       "ps": 0.5,
-      "pb": 0.32,
+      "pb": 0.31,
       "ev_ebitda": 14.07,
       "peg": 0
     },
@@ -64,7 +114,7 @@
       "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹183M)",
+      "Does not have a meaningful market cap (₹179M)",
       "Debt is not well covered by [[operating cash flow]]",
       "Does not have meaningful revenue (₹325M)",
       "Earnings have declined by 16.7% per year over past 5 years"
@@ -79,7 +129,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,17 +150,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 7.1,
+        "industry_pe": 7,
         "industry_name": "Indian Capital Markets",
-        "description": "531737 is good value based on its Price-To-Sales Ratio (0.6x) compared to the Indian Capital Markets industry average (7.1x).",
+        "description": "531737 is good value based on its Price-To-Sales Ratio (0.6x) compared to the Indian Capital Markets industry average (7x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -141,49 +191,49 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.49,
-        "fetched_at": "2026-05-25T22:48:00.755Z",
+        "fetched_at": "2026-05-26T13:42:06.843Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531737/greencrest-financial-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 182800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 179100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.31,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +242,85 @@
           "low": 0.49,
           "high": 0.71
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.5616758,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.6124234461295925,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.276243093922653,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 83.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 44.117919718179294,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.5738,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4285714285714288,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.016326530612244896,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/greencrest-financial-services-ltd"
       }
     },
@@ -281,11 +331,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.32,
+    "pb": 0.31,
     "ps": 0.5,
     "book_value": 1.5616758,
     "face_value": 1,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 1.6124234461295925,
@@ -297,11 +347,11 @@
     "quick_ratio": 0.4285714285714288,
     "cash_ratio": 0.016326530612244896,
     "returns_pct": {
-      "1D": -2.0000000000000018,
-      "7D": -2.0000000000000018,
+      "1D": 0,
+      "7D": 0,
       "1M": -5.7692307692307745,
-      "3M": -5.7692307692307745,
-      "6M": -20.967741935483872,
+      "3M": -3.921568627450984,
+      "6M": -22.222222222222225,
       "1Y": -27.941176470588243,
       "5Y": null
     },
@@ -501,7 +551,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/greencrest-financial-services-ltd",
     "news": [
       {
@@ -566,7 +616,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -574,7 +624,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -582,7 +632,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

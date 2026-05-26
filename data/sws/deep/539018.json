@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/beekay-steel-industries-ltd",
     "search_id": "beekay-steel-industries-ltd",
     "company_id": "GSTK539018",
@@ -28,13 +28,61 @@
       "dividend": 2
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 397,
-    "market_cap_inr": 7239800000,
+    "market_cap_inr": 7252100000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 380,
+      "low": 370,
       "high": 471.85
     },
     "fair_value_inr": 36.796339,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/beekay-steel-industries-ltd"
     },
@@ -210,13 +258,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 27.3031394312147,
-      "sector_pe": 27.3031394312147
+      "pe": 27.267343034228315,
+      "sector_pe": 27.267343034228315
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -226,20 +274,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 19.81,
-      "industry_pe": 27.3031394312147,
+      "industry_pe": 27.267343034228315,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/beekay-steel-industries-ltd",
       "search_id": "beekay-steel-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 19.81,
-        "industry_pe": 27.3031394312147,
+        "industry_pe": 27.267343034228315,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "sws_statement": {
@@ -263,7 +311,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -282,143 +330,143 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 7239800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7252100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 19.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.3035626642501133,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 380,
+          "low": 370,
           "high": 471.85
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 19.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 548.7044876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.4917,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.378982209350434,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.83724621640626,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1318082788671022,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.890727124183007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 31.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 21.490354778651216,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.535,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8197081553541888,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.003456704772721661,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       }
     },
@@ -433,7 +481,7 @@
     "ps": 0.62,
     "book_value": 548.7044876,
     "face_value": 10,
-    "sector_pe": 27.3031394312147,
+    "sector_pe": 27.267343034228315,
     "roe_pct": 3.4917,
     "roa_pct": 2.378982209350434,
     "roic_pct": 3.83724621640626,
@@ -827,7 +875,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/beekay-steel-industries-ltd",
     "news": [
       {
@@ -902,7 +950,7 @@
         "ticker": "POCL",
         "name": "Pondy Oxides & Chemicals",
         "searchId": "pondy-oxides-chemicals-ltd",
-        "market_cap_inr": 45252800000,
+        "market_cap_inr": 45919500000,
         "pe": 40.79,
         "pb": 6.59
       },
@@ -910,7 +958,7 @@
         "ticker": "KSL",
         "name": "Kalyani Steels",
         "searchId": "kalyani-steels-ltd",
-        "market_cap_inr": 36094500000,
+        "market_cap_inr": 36083600000,
         "pe": 14,
         "pb": 1.71
       },
@@ -918,7 +966,7 @@
         "ticker": "VSSL",
         "name": "Vardhman Special Steels",
         "searchId": "vardhman-special-steels-ltd",
-        "market_cap_inr": 26177600000,
+        "market_cap_inr": 26569200000,
         "pe": 28.12,
         "pb": 2.21
       }

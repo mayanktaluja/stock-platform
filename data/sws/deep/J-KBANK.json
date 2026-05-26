@@ -21,6 +21,54 @@
       "dividend": 0
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 3,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Allowance for Bad Loans",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 140.06,
     "market_cap_inr": 154231615767,
     "market_cap_usd": 121304781320.862,
@@ -163,7 +211,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.149999999999999,
+        "industry_pe": 11.4,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"

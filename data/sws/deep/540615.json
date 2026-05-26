@@ -3,12 +3,12 @@
   "name": "7NR Retail Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-540615/7nr-retail-shares",
-  "parsed_at": "2026-05-25T23:53:05.997Z",
+  "parsed_at": "2026-05-26T14:43:13.982Z",
   "company_id": "C6442DE2-43DC-4A9D-B48D-5BC0CDA80309",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nr-retail-ltd",
     "search_id": "nr-retail-ltd",
     "company_id": "GSTK540615",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 5.9,
-    "market_cap_inr": 163300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.87,
+    "market_cap_inr": 165200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,9 +92,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 130.8361186440678,
+    "upside_pct": 132.01586030664396,
     "multiples": {
-      "pe": 9.25,
+      "pe": 9.37,
       "ps": 0.58,
       "pb": 0.56,
       "ev_ebitda": 28.41,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/nr-retail-ltd"
     },
@@ -107,13 +156,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -122,21 +171,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 9.25,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 9.37,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/nr-retail-ltd",
       "search_id": "nr-retail-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 9.25,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 9.37,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "sws_statement": {
@@ -160,7 +209,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -173,56 +222,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.9,
-        "fetched_at": "2026-05-25T23:53:05.997Z",
+        "value": 5.87,
+        "fetched_at": "2026-05-26T14:43:13.982Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-540615/7nr-retail-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 163300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 165200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 9.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9.37,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 28.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.25130769230769234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "fifty_two_week": {
@@ -231,91 +280,91 @@
           "low": 2.75,
           "high": 9.34
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10.496915,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.0156,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.8054054054054056,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.168366791302137,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.294706723891273,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.367668097281831,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 15.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 10.075675675675676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.7319,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.17165991902834,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.02105263157894737,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nr-retail-ltd"
       }
     },
@@ -330,7 +379,7 @@
     "ps": 0.58,
     "book_value": 10.496915,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 6.0156,
     "roa_pct": 3.8054054054054056,
     "roic_pct": 6.168366791302137,
@@ -342,12 +391,12 @@
     "quick_ratio": 3.17165991902834,
     "cash_ratio": 0.02105263157894737,
     "returns_pct": {
-      "1D": 1.2006861063464884,
-      "7D": 15.459882583170254,
-      "1M": -8.099688473520244,
-      "3M": 60.32608695652174,
-      "6M": 39.479905437352244,
-      "1Y": 8.655616942909774,
+      "1D": -0.5084745762711906,
+      "7D": 9.514925373134323,
+      "1M": -8.566978193146415,
+      "3M": 63.96648044692738,
+      "6M": 41.105769230769226,
+      "1Y": 8.103130755064464,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -523,7 +572,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nr-retail-ltd",
     "news": [
       {
@@ -598,7 +647,7 @@
         "ticker": "SOMATEX",
         "name": "Soma Textiles & Industries",
         "searchId": "soma-textiles-industries-ltd",
-        "market_cap_inr": 3323100000,
+        "market_cap_inr": 3395800000,
         "pe": 64.08,
         "pb": 2.07
       },
@@ -606,15 +655,15 @@
         "ticker": "514324",
         "name": "Omnitex Industries (India)",
         "searchId": "omnitex-industries-india-ltd",
-        "market_cap_inr": 2980300000,
+        "market_cap_inr": 3108000000,
         "pe": null,
-        "pb": 1.68
+        "pb": 1.75
       },
       {
         "ticker": "BTTL",
         "name": "Bhilwara Technical Textiles",
         "searchId": "bhilwara-technical-textiles-ltd",
-        "market_cap_inr": 2095600000,
+        "market_cap_inr": 2013900000,
         "pe": 178.8,
         "pb": 1.3
       }

@@ -3,12 +3,12 @@
   "name": "SBEC Sugar Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-532102/sbec-sugar-shares",
-  "parsed_at": "2026-05-25T22:59:04.626Z",
+  "parsed_at": "2026-05-26T13:52:34.949Z",
   "company_id": "2600725F-2ECB-4F5C-9C8F-20B04FCF0DCE",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sbec-sugar-ltd",
     "search_id": "sbec-sugar-ltd",
     "company_id": "GSTK532102",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 2,
-    "current_price_inr": 29.84,
-    "market_cap_inr": 1405800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 29.6,
+    "market_cap_inr": 1422000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 227.52266,
       "count": 1
     },
-    "upside_pct": 662.4754021447721,
+    "upside_pct": 668.6576351351351,
     "multiples": {
       "pe": null,
       "ps": 0.23,
@@ -79,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 17.925088083765974
+      "sector_pe": 18.12298393574297
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,10 +149,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 17.925088083765974,
+        "industry_pe": 18.12298393574297,
         "industry_name": "Sugar",
         "industry_id": 59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "sws_statement": {
@@ -140,50 +189,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 29.84,
-        "fetched_at": "2026-05-25T22:59:04.626Z",
+        "value": 29.6,
+        "fetched_at": "2026-05-26T13:52:34.949Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-532102/sbec-sugar-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1405800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1422000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 17.925088083765974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.12298393574297,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +241,85 @@
           "low": 26.85,
           "high": 65.47
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -23.4183911,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 17.925088083765974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.12298393574297,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 27.4212,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.83438765712306,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.891786245260009,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 66.55746414025147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2112,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0521274959910375,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.010983458910880215,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sbec-sugar-ltd"
       }
     },
@@ -285,7 +334,7 @@
     "ps": 0.23,
     "book_value": -23.4183911,
     "face_value": 10,
-    "sector_pe": 17.925088083765974,
+    "sector_pe": 18.12298393574297,
     "roe_pct": 27.4212,
     "roa_pct": 0,
     "roic_pct": 9.83438765712306,
@@ -297,12 +346,12 @@
     "quick_ratio": 0.0521274959910375,
     "cash_ratio": 0.010983458910880215,
     "returns_pct": {
-      "1D": 1.1525423728813555,
-      "7D": 1.1525423728813555,
-      "1M": -2.451781627983001,
-      "3M": -0.5333333333333339,
-      "6M": -12.569586873718144,
-      "1Y": -27.748184019370452,
+      "1D": -0.8042895442359197,
+      "7D": -1.3333333333333286,
+      "1M": -3.2363517489375564,
+      "3M": -4.945407835581244,
+      "6M": -10.897049969897644,
+      "1Y": -28.329297820823236,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -485,7 +534,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-28T18:30:00.000Z",
@@ -498,7 +547,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sbec-sugar-ltd",
     "news": [
       {
@@ -548,7 +597,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-28T18:30:00.000Z",
@@ -563,15 +612,15 @@
         "ticker": "BANARISUG",
         "name": "Bannari Amman Sugars",
         "searchId": "bannari-amman-sugars-ltd",
-        "market_cap_inr": 45303400000,
-        "pe": 32.02,
-        "pb": 2.49
+        "market_cap_inr": 45553000000,
+        "pe": 32.19,
+        "pb": 2.5
       },
       {
         "ticker": "BAJAJHIND",
         "name": "Bajaj Hindusthan Sugar",
         "searchId": "bajaj-hindusthan-sugar-ltd",
-        "market_cap_inr": 44370800000,
+        "market_cap_inr": 44227300000,
         "pe": null,
         "pb": 1.02
       },
@@ -579,8 +628,8 @@
         "ticker": "DALMIASUG",
         "name": "Dalmia Bharat Sugar & Industries",
         "searchId": "dalmia-bharat-sugar-industries-ltd",
-        "market_cap_inr": 27697400000,
-        "pe": 11.65,
+        "market_cap_inr": 27507200000,
+        "pe": 11.57,
         "pb": 0.85
       }
     ],

@@ -3,12 +3,12 @@
   "name": "Sanmit Infra Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/bse-532435/sanmit-infra-shares",
-  "parsed_at": "2026-05-25T23:06:01.444Z",
+  "parsed_at": "2026-05-26T13:56:13.540Z",
   "company_id": "A168587E-29E2-4A56-A14A-1112BF246978",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sanmit-infra-ltd",
     "search_id": "sanmit-infra-ltd",
     "company_id": "GSTK532435",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 7.18,
     "market_cap_inr": 1134500000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sanmit-infra-ltd"
     },
@@ -63,10 +112,10 @@
       "Earnings grew by 274.4% over the past year"
     ],
     "risks": [
+      "Does not have a meaningful market cap (₹1B)",
       "Debt is not well covered by [[operating cash flow]]",
       "Earnings have declined by 10.9% per year over past 5 years",
-      "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹1B)"
+      "Highly volatile share price over past 3 months"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -144,13 +193,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -160,27 +209,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 59.34,
-      "industry_pe": 74.71695232760163,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sanmit-infra-ltd",
       "search_id": "sanmit-infra-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 59.34,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "sws_statement": {
         "company_pe": 59.3,
-        "industry_pe": 19.5,
+        "industry_pe": 21.3,
         "industry_name": "Indian Oil and Gas",
-        "description": "532435 is expensive based on its Price-To-Earnings Ratio (59.3x) compared to the Indian Oil and Gas industry average (19.5x).",
+        "description": "532435 is expensive based on its Price-To-Earnings Ratio (59.3x) compared to the Indian Oil and Gas industry average (21.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -197,7 +246,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
+        "industry_pe": 17.9,
         "sample_count": 31,
         "industry_code": "1030000",
         "industry_name": "Energy"
@@ -211,55 +260,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 7.18,
-        "fetched_at": "2026-05-25T23:06:01.444Z",
+        "fetched_at": "2026-05-26T13:56:13.540Z",
         "url": "https://simplywall.st/stocks/in/energy/bse-532435/sanmit-infra-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 1134500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 59.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.2226666666666666,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "fifty_two_week": {
@@ -268,91 +317,91 @@
           "low": 4.85,
           "high": 12
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 23.0483047,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.6694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1627752939228357,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.014847083670222,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.6720651317517294,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.488925851352534,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 47.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 28.56433184302037,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.4559,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7232954545454544,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0346590909090909,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sanmit-infra-ltd"
       }
     },
@@ -367,7 +416,7 @@
     "ps": 0.99,
     "book_value": 23.0483047,
     "face_value": 1,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 4.6694,
     "roa_pct": 3.1627752939228357,
     "roic_pct": 5.014847083670222,
@@ -594,7 +643,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sanmit-infra-ltd",
     "news": [
       {
@@ -669,7 +718,7 @@
         "ticker": "TRUALT",
         "name": "TruAlt Bioenergy",
         "searchId": "trualt-bioenergy-ltd",
-        "market_cap_inr": 42447500000,
+        "market_cap_inr": 41482800000,
         "pe": 28.75,
         "pb": 3.03
       },
@@ -677,7 +726,7 @@
         "ticker": "SEAMECLTD",
         "name": "Seamec",
         "searchId": "seamec-ltd",
-        "market_cap_inr": 40824900000,
+        "market_cap_inr": 41438900000,
         "pe": 16.1,
         "pb": 3.14
       },
@@ -685,7 +734,7 @@
         "ticker": "DEEPINDS",
         "name": "Deep Industries",
         "searchId": "deep-industries-ltd-363",
-        "market_cap_inr": 30003200000,
+        "market_cap_inr": 29987200000,
         "pe": 15.23,
         "pb": 1.5
       }

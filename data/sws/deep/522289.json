@@ -3,12 +3,12 @@
   "name": "NMS Global Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-522289/nms-global-shares",
-  "parsed_at": "2026-05-25T21:36:52.780Z",
+  "parsed_at": "2026-05-26T12:34:34.006Z",
   "company_id": "2441971B-95DE-43B1-827A-CC9B9BC60F0B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nms-resources-global-ltd",
     "search_id": "nms-resources-global-ltd",
     "company_id": "GSTK522289",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 78.66,
-    "market_cap_inr": 215200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 86.52,
+    "market_cap_inr": 236800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +93,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 2312.455021612001,
+    "upside_pct": 2093.2930189551553,
     "multiples": {
       "pe": 27.93,
       "ps": 1.95,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/nms-resources-global-ltd"
     },
@@ -65,7 +115,7 @@
     "risks": [
       "Interest payments are not well covered by earnings",
       "Does not have meaningful revenue (₹111M)",
-      "Does not have a meaningful market cap (₹215M)",
+      "Does not have a meaningful market cap (₹236M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -78,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 35.65827264919344,
-      "sector_pe": 35.65827264919344
+      "pe": 35.65587789366573,
+      "sector_pe": 35.65587789366573
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Miscellaneous",
       "pe_industry_id": 39,
@@ -94,27 +144,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 27.93,
-      "industry_pe": 35.65827264919344,
+      "industry_pe": 35.65587789366573,
       "industry_name": "Miscellaneous",
       "industry_id": 39,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/nms-resources-global-ltd",
       "search_id": "nms-resources-global-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 27.93,
-        "industry_pe": 35.65827264919344,
+        "industry_pe": 35.65587789366573,
         "industry_name": "Miscellaneous",
         "industry_id": 39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "sws_statement": {
-        "company_pe": 31.5,
-        "industry_pe": 21.1,
+        "company_pe": 38.1,
+        "industry_pe": 21.2,
         "industry_name": "Indian Professional Services",
-        "description": "522289 is expensive based on its Price-To-Earnings Ratio (31.5x) compared to the Indian Professional Services industry average (21.1x).",
+        "description": "522289 is expensive based on its Price-To-Earnings Ratio (38.1x) compared to the Indian Professional Services industry average (21.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -144,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 78.66,
-        "fetched_at": "2026-05-25T21:36:52.780Z",
+        "value": 86.52,
+        "fetched_at": "2026-05-26T12:34:34.006Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-522289/nms-global-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 215200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 236800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 27.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 14.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.1326440000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +252,91 @@
           "low": 33.16,
           "high": 103.94
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 5.0916944,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 51.3611,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0823727860556647,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 22.984065668759055,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.980961015412511,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.940163191296467,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 325.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 6.986224346359291,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7922,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3450321304992585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.005684626791893228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nms-resources-global-ltd"
       }
     },
@@ -301,7 +351,7 @@
     "ps": 1.95,
     "book_value": 5.0916944,
     "face_value": 10,
-    "sector_pe": 35.65827264919344,
+    "sector_pe": 35.65587789366573,
     "roe_pct": 51.3611,
     "roa_pct": 1.0823727860556647,
     "roic_pct": 22.984065668759055,
@@ -313,12 +363,12 @@
     "quick_ratio": 0.3450321304992585,
     "cash_ratio": 0.005684626791893228,
     "returns_pct": {
-      "1D": 9.99860159418262,
-      "7D": -10.379400706391706,
-      "1M": 1.7857142857142798,
-      "3M": -15.282714054927302,
-      "6M": -4.306569343065701,
-      "1Y": 124.74285714285713,
+      "1D": 9.992372234935164,
+      "7D": 3.753447655594191,
+      "1M": 11.956521739130428,
+      "3M": -2.060221870047552,
+      "6M": 10.132382892057018,
+      "1Y": 147.2,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -516,7 +566,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -529,7 +579,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nms-resources-global-ltd",
     "news": [
       {
@@ -579,7 +629,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -594,25 +644,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

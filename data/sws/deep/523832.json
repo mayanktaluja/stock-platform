@@ -3,12 +3,12 @@
   "name": "Mukat Pipes Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-523832/mukat-pipes-shares",
-  "parsed_at": "2026-05-25T21:43:41.563Z",
+  "parsed_at": "2026-05-26T12:39:54.730Z",
   "company_id": "371D712F-C4B8-4CE8-91E6-4207548114BD",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mukat-pipes-ltd",
     "search_id": "mukat-pipes-ltd",
     "company_id": "GSTK523832",
@@ -28,24 +28,73 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 21.2,
-    "market_cap_inr": 245100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 22,
+    "market_cap_inr": 250800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 11.8,
       "high": 33.62
     },
-    "fair_value_inr": 0.056299,
+    "fair_value_inr": 0.056149,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.73443867924529,
+    "upside_pct": -99.74477727272728,
     "multiples": {
-      "pe": 414.4,
+      "pe": 424,
       "ps": 4.64,
       "pb": 0,
       "ev_ebitda": 218.42,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mukat-pipes-ltd"
     },
@@ -66,7 +115,7 @@
       "Makes less than USD$1m in revenue (₹59M)",
       "Interest payments are not well covered by earnings",
       "Negative shareholders equity",
-      "Does not have a meaningful market cap (₹245M)"
+      "Does not have a meaningful market cap (₹251M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254,
-      "sector_pe": 24.858261272856254
+      "pe": 24.83232947584154,
+      "sector_pe": 24.83232947584154
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 414.4,
-      "industry_pe": 24.858261272856254,
+      "company_pe": 424,
+      "industry_pe": 24.83232947584154,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/mukat-pipes-ltd",
       "search_id": "mukat-pipes-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 414.4,
-        "industry_pe": 24.858261272856254,
+        "company_pe": 424,
+        "industry_pe": 24.83232947584154,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Metals and Mining",
-        "description": "523832 is expensive based on its Price-To-Sales Ratio (4.1x) compared to the Indian Metals and Mining industry average (1.2x).",
+        "description": "523832 is expensive based on its Price-To-Sales Ratio (4.4x) compared to the Indian Metals and Mining industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 21.2,
-        "fetched_at": "2026-05-25T21:43:41.563Z",
+        "value": 22,
+        "fetched_at": "2026-05-26T12:39:54.730Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-523832/mukat-pipes-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 245100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 250800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 414.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 424,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 218.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 11.8,
           "high": 33.62
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -5.7692308,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9451795841209818,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9469696969696956,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.06060606060606,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 65.40642722117202,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0952,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.946360153256705,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4674329501915709,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mukat-pipes-ltd"
       }
     },
@@ -301,7 +350,7 @@
     "ps": 4.64,
     "book_value": -5.7692308,
     "face_value": 5,
-    "sector_pe": 24.858261272856254,
+    "sector_pe": 24.83232947584154,
     "roe_pct": 0,
     "roa_pct": 0.9451795841209818,
     "roic_pct": 0,
@@ -313,12 +362,12 @@
     "quick_ratio": 0.946360153256705,
     "cash_ratio": 0.4674329501915709,
     "returns_pct": {
-      "1D": 2.316602316602319,
-      "7D": 16.164383561643834,
-      "1M": 35.8974358974359,
-      "3M": -16.53543307086614,
-      "6M": 57.62081784386618,
-      "1Y": 32.7489041953663,
+      "1D": 3.7735849056603805,
+      "7D": 18.91891891891892,
+      "1M": 41.02564102564103,
+      "3M": -11.646586345381522,
+      "6M": 58.3873290136789,
+      "1Y": 37.758296806512206,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -432,7 +481,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mukat-pipes-ltd",
     "news": [
       {
@@ -487,18 +536,18 @@
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "MANINDS",
         "name": "Man Industries India",
         "searchId": "man-industries-india-ltd",
-        "market_cap_inr": 42733000000,
+        "market_cap_inr": 41825300000,
         "pe": 22.75,
         "pb": 2.17
       },
@@ -506,7 +555,7 @@
         "ticker": "SAMBHV",
         "name": "Sambhv Steel Tubes",
         "searchId": "sambhv-steel-tubes-ltd",
-        "market_cap_inr": 31367800000,
+        "market_cap_inr": 31691900000,
         "pe": 22.09,
         "pb": 2.98
       }

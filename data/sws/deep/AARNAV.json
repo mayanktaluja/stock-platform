@@ -3,12 +3,12 @@
   "name": "Aarnav Fashions Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-aarnav/aarnav-fashions-shares",
-  "parsed_at": "2026-05-25T21:21:48.722Z",
+  "parsed_at": "2026-05-26T12:14:36.070Z",
   "company_id": "87209D3D-508E-466A-9DAE-809F30D2D082",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kayel-securities-ltd",
     "search_id": "kayel-securities-ltd",
     "company_id": "GSTK539562",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 23.63,
-    "market_cap_inr": 986300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 23.94,
+    "market_cap_inr": 1009500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 21,
       "high": 30.45
     },
-    "fair_value_inr": 46.623368,
+    "fair_value_inr": 47.1176,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 97.3058315700381,
+    "upside_pct": 96.81537176274018,
     "multiples": {
-      "pe": 13.9,
+      "pe": 14.23,
       "ps": 0.23,
-      "pb": 0.52,
+      "pb": 0.53,
       "ev_ebitda": 9.84,
       "peg": 0.34146976744186053
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/kayel-securities-ltd"
     },
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -94,21 +143,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 13.9,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 14.23,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/kayel-securities-ltd",
       "search_id": "kayel-securities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 13.9,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 14.23,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "sws_statement": {
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 23.63,
-        "fetched_at": "2026-05-25T21:21:48.722Z",
+        "value": 23.94,
+        "fetched_at": "2026-05-26T12:14:36.070Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-aarnav/aarnav-fashions-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 986300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1009500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 13.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14.23,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.53,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.34146976744186053,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 21,
           "high": 30.45
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 45.1578654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.0138,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7572993605314033,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.857413980217006,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.6834856939332776,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.52736554671732,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 52.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 24.89713974123829,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.1264,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9075319435104237,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.029589778076664425,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kayel-securities-ltd"
       }
     },
@@ -298,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 1.68,
     "most_recent_reported_date": null,
-    "pb": 0.52,
+    "pb": 0.53,
     "ps": 0.23,
     "book_value": 45.1578654,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 5.0138,
     "roa_pct": 1.7572993605314033,
     "roic_pct": 4.857413980217006,
@@ -314,12 +363,12 @@
     "quick_ratio": 0.9075319435104237,
     "cash_ratio": 0.029589778076664425,
     "returns_pct": {
-      "1D": 1.590713671539112,
-      "7D": 5.67978533094812,
-      "1M": 2.7838190517616384,
-      "3M": -15.395631936985325,
-      "6M": -15.395631936985325,
-      "1Y": -15.395631936985325,
+      "1D": 1.3118916631400859,
+      "7D": 8.86766712141884,
+      "1M": 4.132231404958691,
+      "3M": -14.28571428571428,
+      "6M": -14.28571428571428,
+      "1Y": -14.28571428571428,
       "5Y": null
     },
     "next_earnings_date": "2026-05-30",
@@ -483,7 +532,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kayel-securities-ltd",
     "news": [
       {
@@ -558,7 +607,7 @@
         "ticker": "PDSL",
         "name": "PDS Limited",
         "searchId": "pds-multinational-fashions-ltd",
-        "market_cap_inr": 40749500000,
+        "market_cap_inr": 42340700000,
         "pe": 22.94,
         "pb": 2.31
       },
@@ -566,7 +615,7 @@
         "ticker": "RAYMOND",
         "name": "Raymond",
         "searchId": "raymond-ltd",
-        "market_cap_inr": 36755400000,
+        "market_cap_inr": 37224700000,
         "pe": 0.69,
         "pb": 1.29
       },
@@ -574,7 +623,7 @@
         "ticker": "SIYSIL",
         "name": "Siyaram Silk Mills",
         "searchId": "siyaram-silk-mills-ltd",
-        "market_cap_inr": 27002000000,
+        "market_cap_inr": 27256100000,
         "pe": 11.69,
         "pb": 1.85
       }

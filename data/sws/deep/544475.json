@@ -3,7 +3,7 @@
   "name": "Essex Marine Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-544475/essex-marine-shares",
-  "parsed_at": "2026-05-25T21:10:21.783Z",
+  "parsed_at": "2026-05-26T12:01:09.281Z",
   "company_id": "ECBB6CDA-EDD5-4106-B0BC-9ACE19E76447",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 46.07,
-    "market_cap_inr": 703120355.378598,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 46.6,
+    "market_cap_inr": 711209215.5555171,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 46.07,
-        "fetched_at": "2026-05-25T21:10:21.783Z",
+        "value": 46.6,
+        "fetched_at": "2026-05-26T12:01:09.281Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-544475/essex-marine-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.136528028933088,
-      "7D": 7.139534883720931,
-      "1M": 14.659034345445496,
-      "3M": 85.76612903225806,
-      "6M": 79.8906677079266,
-      "1Y": 12.256335282651074,
+      "1D": 1.1504232689385743,
+      "7D": 10.087408457358855,
+      "1M": 15.978098556495773,
+      "3M": 91.84849732400166,
+      "6M": 76.18147448015124,
+      "1Y": 13.547758284600395,
       "5Y": null
     },
     "next_earnings_date": null,

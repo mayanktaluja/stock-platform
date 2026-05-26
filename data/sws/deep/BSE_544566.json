@@ -3,7 +3,7 @@
   "name": "Sunsky Logistics Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-544566/sunsky-logistics-shares",
-  "parsed_at": "2026-05-25T22:38:03.206Z",
+  "parsed_at": "2026-05-26T13:33:35.438Z",
   "company_id": "18FF4D89-1F27-4833-B59D-DEE7A885978C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 64.45,
-    "market_cap_inr": 801435766.6223714,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 62.88,
+    "market_cap_inr": 781912816.217451,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 18.160041892940253,
+    "upside_pct": 21.110284669211183,
     "multiples": {
       "pe": 26.1,
       "ps": null,
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.7,
+        "industry_pe": 16.2,
         "sample_count": 13,
         "industry_code": "3230000",
         "industry_name": "Transportation"
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 64.45,
-        "fetched_at": "2026-05-25T22:38:03.206Z",
+        "value": 62.88,
+        "fetched_at": "2026-05-26T13:33:35.438Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-544566/sunsky-logistics-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 7.866108786610883,
-      "7D": 7.416666666666671,
-      "1M": 6.476127540062782,
-      "3M": -16.472265422498698,
-      "6M": -20.185758513931884,
-      "1Y": 20.354808590102717,
+      "1D": -2.43599689681924,
+      "7D": 5.238493723849377,
+      "1M": 3.882372377333556,
+      "3M": -10.491103202846972,
+      "6M": -20.405063291139236,
+      "1Y": 17.42296918767508,
       "5Y": null
     },
     "next_earnings_date": null,

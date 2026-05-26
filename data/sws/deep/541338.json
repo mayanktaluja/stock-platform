@@ -3,12 +3,12 @@
   "name": "U.H. Zaveri Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-541338/uh-zaveri-shares",
-  "parsed_at": "2026-05-25T23:57:22.397Z",
+  "parsed_at": "2026-05-26T16:05:33.080Z",
   "company_id": "EAF67DAD-E55E-46D6-A0FE-A246D2B78130",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/uh-zaveri-ltd",
     "search_id": "uh-zaveri-ltd",
     "company_id": "GSTK541338",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 13.5,
-    "market_cap_inr": 415900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 13.55,
+    "market_cap_inr": 412900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 5.94,
       "high": 18.53
     },
-    "fair_value_inr": 5.689336,
+    "fair_value_inr": 5.682751,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -57.85677037037037,
+    "upside_pct": -58.0608782287823,
     "multiples": {
       "pe": null,
       "ps": 1.08,
-      "pb": 1.04,
+      "pb": 1.03,
       "ev_ebitda": 67.87,
       "peg": -0.6174545454545455
     },
@@ -80,7 +129,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 48.94357691126805
+      "sector_pe": 48.83631794258032
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -101,10 +150,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 48.94357691126805,
+        "industry_pe": 48.83631794258032,
         "industry_name": "Diamond, Gems and Jewellery",
         "industry_id": 20,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "sws_statement": {
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -141,50 +190,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.5,
-        "fetched_at": "2026-05-25T23:57:22.397Z",
+        "value": 13.55,
+        "fetched_at": "2026-05-26T16:05:33.080Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-541338/uh-zaveri-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 415900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 412900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.03,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 67.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.6174545454545455,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "fifty_two_week": {
@@ -193,91 +242,91 @@
           "low": 5.94,
           "high": 18.53
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 13.0490158,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2987,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.17223561832586978,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.17895490336435219,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.1296680497925311,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2074688796680498,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 43.519999999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 29.24560799173269,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 43.3906,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1607142857142831,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.10714285714285712,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uh-zaveri-ltd"
       }
     },
@@ -288,11 +337,11 @@
     "latest_net_income": null,
     "latest_eps": 0.02,
     "most_recent_reported_date": null,
-    "pb": 1.04,
+    "pb": 1.03,
     "ps": 1.08,
     "book_value": 13.0490158,
     "face_value": 10,
-    "sector_pe": 48.94357691126805,
+    "sector_pe": 48.83631794258032,
     "roe_pct": 0.2987,
     "roa_pct": 0.17223561832586978,
     "roic_pct": 0.17895490336435219,
@@ -304,12 +353,12 @@
     "quick_ratio": 1.1607142857142831,
     "cash_ratio": 0.10714285714285712,
     "returns_pct": {
-      "1D": -0.7352941176470562,
-      "7D": -3.708987161198285,
-      "1M": -5.4621848739495755,
-      "3M": -3.433476394849788,
-      "6M": 34.730538922155695,
-      "1Y": 43.46439957492029,
+      "1D": 0.3703703703703756,
+      "7D": -7.948369565217391,
+      "1M": -5.112044817927162,
+      "3M": -1.8826937002172324,
+      "6M": 37.84333672431333,
+      "1Y": 43.99574920297557,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -488,7 +537,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/uh-zaveri-ltd",
     "news": [],
     "events": [
@@ -548,7 +597,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -556,7 +605,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -564,7 +613,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

@@ -3,7 +3,7 @@
   "name": "Mehul Telecom Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-544751/mehul-telecom-shares",
-  "parsed_at": "2026-05-25T21:19:57.871Z",
+  "parsed_at": "2026-05-26T12:11:47.652Z",
   "company_id": "CB0C2F0B-1066-4D09-9F80-91CE40831280",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 98.05,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 98.4,
     "market_cap_inr": 1024779261.1317791,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,7 +161,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -123,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 98.05,
-        "fetched_at": "2026-05-25T21:19:57.871Z",
+        "value": 98.4,
+        "fetched_at": "2026-05-26T12:11:47.652Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-544751/mehul-telecom-shares"
       }
     },
@@ -151,12 +202,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.2090680100755697,
-      "7D": -6.530028598665403,
-      "1M": -10.81498999454248,
-      "3M": -10.81498999454248,
-      "6M": -10.81498999454248,
-      "1Y": -10.81498999454248,
+      "1D": 0.3569607343192336,
+      "7D": -3.9531478770131745,
+      "1M": -10.496634527924316,
+      "3M": -10.496634527924316,
+      "6M": -10.496634527924316,
+      "1Y": -10.496634527924316,
       "5Y": null
     },
     "next_earnings_date": null,

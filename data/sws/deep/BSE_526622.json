@@ -3,7 +3,7 @@
   "name": "MFL India Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-526622/mfl-india-shares",
-  "parsed_at": "2026-05-25T22:21:36.162Z",
+  "parsed_at": "2026-05-26T13:13:27.853Z",
   "company_id": "2FBB698D-BF8C-4ACC-9A99-B9B5B2F74508",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 0.42,
-    "market_cap_inr": 151321449.15799254,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 0.41,
+    "market_cap_inr": 147718557.51137367,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -52,12 +102,12 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year",
-      "Price-To-Earnings ratio (9.8x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (9.8x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Negative shareholders equity",
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹148M)"
+      "Does not have a meaningful market cap (₹151M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -110,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.6,
+        "industry_pe": 15.4,
         "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
@@ -123,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 0.42,
-        "fetched_at": "2026-05-25T22:21:36.162Z",
+        "value": 0.41,
+        "fetched_at": "2026-05-26T13:13:27.853Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-526622/mfl-india-shares"
       }
     },
@@ -151,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.4390243902439046,
-      "7D": 2.4390243902439046,
-      "1M": 0,
-      "3M": -2.325581395348839,
-      "6M": -6.666666666666672,
-      "1Y": -31.147540983606557,
+      "1D": -2.380952380952383,
+      "7D": 0,
+      "1M": -2.380952380952383,
+      "3M": 0,
+      "6M": -8.888888888888896,
+      "1Y": -32.786885245901644,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Reliable Data Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-reliable/reliable-data-services-shares",
-  "parsed_at": "2026-05-25T22:27:51.289Z",
+  "parsed_at": "2026-05-26T13:18:14.783Z",
   "company_id": "54816BBC-5D60-4ED5-8B18-51E5EA397ED2",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/reliable-data-services-ltd",
     "search_id": "reliable-data-services-ltd",
     "company_id": "GSTK544207",
@@ -28,22 +28,70 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 133.24,
-    "market_cap_inr": 1364300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 135.36,
+    "market_cap_inr": 1361200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 65,
       "high": 175
     },
-    "fair_value_inr": 0.670463,
+    "fair_value_inr": 0.670711,
     "fair_value_range_inr": {
-      "min": 0.670463,
-      "max": 0.670463,
+      "min": 0.670711,
+      "max": 0.670711,
       "count": 1
     },
-    "upside_pct": -99.49680051035725,
+    "upside_pct": -99.50449837470448,
     "multiples": {
       "pe": 12.58,
       "ps": 0.73,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/reliable-data-services-ltd"
     },
@@ -63,7 +111,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 26.5% over the past year",
-      "Price-To-Earnings ratio (13x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (13.4x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
@@ -171,13 +219,13 @@
     },
     "dividend_yield_pct": 0.03,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -187,27 +235,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12.58,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/reliable-data-services-ltd",
       "search_id": "reliable-data-services-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 12.58,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 13,
-        "industry_pe": 20.9,
+        "company_pe": 13.4,
+        "industry_pe": 21.2,
         "industry_name": "Indian Professional Services",
-        "description": "RELIABLE is good value based on its Price-To-Earnings Ratio (13x) compared to the Indian Professional Services industry average (20.9x).",
+        "description": "RELIABLE is good value based on its Price-To-Earnings Ratio (13.4x) compared to the Indian Professional Services industry average (21.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -224,7 +272,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -237,56 +285,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 133.24,
-        "fetched_at": "2026-05-25T22:27:51.289Z",
+        "value": 135.36,
+        "fetched_at": "2026-05-26T13:18:14.783Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-reliable/reliable-data-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1364300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1361200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 12.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.08490673469387755,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "fifty_two_week": {
@@ -295,91 +343,91 @@
           "low": 65,
           "high": 175
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 10.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 58.5735465,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 19.5438,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.2024309894354195,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 13.609415074046497,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.901107808700351,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.412861388813832,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 68.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 23.633988413041006,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2171,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.978606356968215,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0009168704156479218,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/reliable-data-services-ltd"
       }
     },
@@ -394,7 +442,7 @@
     "ps": 0.73,
     "book_value": 58.5735465,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 19.5438,
     "roa_pct": 6.2024309894354195,
     "roic_pct": 13.609415074046497,
@@ -406,12 +454,12 @@
     "quick_ratio": 1.978606356968215,
     "cash_ratio": 0.0009168704156479218,
     "returns_pct": {
-      "1D": 1.5316619675379255,
-      "7D": 0.5584905660377427,
-      "1M": 0.18045112781955572,
-      "3M": -6.1227365602761905,
-      "6M": -3.985011169561145,
-      "1Y": 67.47109100050277,
+      "1D": 1.5911137796457555,
+      "7D": 2.3825731790333604,
+      "1M": 1.7744360902255742,
+      "3M": -2.7096959677998864,
+      "6M": -7.09677419354837,
+      "1Y": 70.13574660633486,
       "5Y": null
     },
     "next_earnings_date": "2026-05-30",
@@ -701,7 +749,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -714,7 +762,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/reliable-data-services-ltd",
     "news": [
       {
@@ -774,7 +822,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-29T18:30:00.000Z",
@@ -789,7 +837,7 @@
         "ticker": "DATAMATICS",
         "name": "Datamatics Global Services",
         "searchId": "datamatics-global-services-ltd",
-        "market_cap_inr": 46487200000,
+        "market_cap_inr": 45609400000,
         "pe": 23.85,
         "pb": 3.01
       },
@@ -797,7 +845,7 @@
         "ticker": "RPSGVENT",
         "name": "RPSG Ventures",
         "searchId": "cesc-ventures-ltd",
-        "market_cap_inr": 30088800000,
+        "market_cap_inr": 30829900000,
         "pe": null,
         "pb": 1.2
       },
@@ -805,7 +853,7 @@
         "ticker": "HGS",
         "name": "Hinduja Global Solutions",
         "searchId": "hinduja-global-solutions-ltd",
-        "market_cap_inr": 18845400000,
+        "market_cap_inr": 19064000000,
         "pe": 111.91,
         "pb": 0.24
       }

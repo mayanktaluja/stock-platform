@@ -3,12 +3,12 @@
   "name": "Seya Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-seyaind/seya-industries-shares",
-  "parsed_at": "2026-05-25T22:49:54.701Z",
+  "parsed_at": "2026-05-26T13:39:47.489Z",
   "company_id": "5BA3470E-9207-431B-9614-D82BDF4B72EC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/seya-industries-ltd",
     "search_id": "seya-industries-ltd",
     "company_id": "GSTK524324",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 2,
-    "current_price_inr": 15.19,
-    "market_cap_inr": 402000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 14.91,
+    "market_cap_inr": 409200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -65,7 +115,7 @@
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹402M)",
+      "Does not have a meaningful market cap (₹409M)",
       "Makes less than USD$1m in revenue (₹-52M)"
     ],
     "dividend": {
@@ -92,7 +142,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 43.433484466337525
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -113,17 +163,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 43.433484466337525,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.9,
+        "industry_pe": 2,
         "industry_name": "Indian Chemicals",
-        "description": "SEYAIND is good value based on its Price-To-Book Ratio (0x) compared to the Indian Chemicals industry average (1.9x).",
+        "description": "SEYAIND is good value based on its Price-To-Book Ratio (0x) compared to the Indian Chemicals industry average (2x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -140,8 +190,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -153,50 +203,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 15.19,
-        "fetched_at": "2026-05-25T22:49:54.701Z",
+        "value": 14.91,
+        "fetched_at": "2026-05-26T13:39:47.489Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-seyaind/seya-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 402000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 409200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 82.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "fifty_two_week": {
@@ -205,85 +255,85 @@
           "low": 8.54,
           "high": 23.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 308.5226495,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 94.32000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 48.12044113619956,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7928,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.19043947571318426,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.01564048904064324,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/seya-industries-ltd"
       }
     },
@@ -298,7 +348,7 @@
     "ps": 0,
     "book_value": 308.5226495,
     "face_value": 10,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -310,12 +360,12 @@
     "quick_ratio": 0.19043947571318426,
     "cash_ratio": 0.01564048904064324,
     "returns_pct": {
-      "1D": -2.000000000000003,
-      "7D": -1.042345276872965,
-      "1M": 18.21011673151751,
-      "3M": 13.95348837209302,
-      "6M": -26.11867704280155,
-      "1Y": -3.9215686274509864,
+      "1D": -1.8433179723502262,
+      "7D": -0.9302325581395386,
+      "1M": 16.031128404669264,
+      "3M": 14.078041315990816,
+      "6M": -27.48054474708171,
+      "1Y": -5.69259962049336,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -485,7 +535,7 @@
   "events": null,
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/seya-industries-ltd",
     "news": [],
     "events": [],
@@ -494,7 +544,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -502,7 +552,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -510,9 +560,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

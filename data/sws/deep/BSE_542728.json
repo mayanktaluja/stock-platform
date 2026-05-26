@@ -3,7 +3,7 @@
   "name": "SK International Export Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-542728/sk-international-export-shares",
-  "parsed_at": "2026-05-25T22:31:28.304Z",
+  "parsed_at": "2026-05-26T13:26:17.216Z",
   "company_id": "2DE6C808-AE0A-43F1-AD11-708E2A29F290",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 32.38,
     "market_cap_inr": 237408668.83745688,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -51,7 +100,7 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Became profitable this year",
-      "Price-To-Earnings ratio (11.9x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (11.9x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Shares are highly illiquid",
@@ -69,7 +118,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.8
+      "pe": 17.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,16 +133,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 11.9,
-      "industry_pe": 18.8,
+      "industry_pe": 17.9,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 11.9,
-        "industry_pe": 18.8,
+        "industry_pe": 17.9,
         "industry_name": "Indian Luxury",
-        "description": "542728 is good value based on its Price-To-Earnings Ratio (11.9x) compared to the Indian Luxury industry average (18.8x).",
+        "description": "542728 is good value based on its Price-To-Earnings Ratio (11.9x) compared to the Indian Luxury industry average (17.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -124,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 32.38,
-        "fetched_at": "2026-05-25T22:31:28.304Z",
+        "fetched_at": "2026-05-26T13:26:17.216Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-542728/sk-international-export-shares"
       }
     },

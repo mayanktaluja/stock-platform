@@ -3,12 +3,12 @@
   "name": "OnMobile Global Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-onmobile/onmobile-global-shares",
-  "parsed_at": "2026-05-25T21:57:37.519Z",
+  "parsed_at": "2026-05-26T12:48:25.945Z",
   "company_id": "C5655FB5-912F-4D50-80CB-423C497DD41B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/onmobile-global-ltd",
     "search_id": "onmobile-global-ltd",
     "company_id": "GSTK532944",
@@ -28,22 +28,72 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 51.55,
-    "market_cap_inr": 5387300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 51.36,
+    "market_cap_inr": 5494700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 40.21,
       "high": 75.09
     },
-    "fair_value_inr": 128.97031,
+    "fair_value_inr": 128.973016,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 150.184888457808,
+    "upside_pct": 151.11568535825546,
     "multiples": {
       "pe": 33.53,
       "ps": 1.04,
@@ -55,14 +105,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/onmobile-global-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Sales ratio",
       "Trading at good value vs. peer average Price-To-Sales ratio",
-      "Trading at 55.8% below our estimate of its fair value"
+      "Trading at 60.2% below our estimate of its fair value"
     ],
     "risks": [
       "Earnings have declined by 54.3% per year over past 5 years",
@@ -176,7 +226,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Telecom-Service",
       "pe_industry_id": 61,
@@ -189,7 +239,7 @@
       "industry_pe": 39.2261065331161,
       "industry_name": "Telecom-Service",
       "industry_id": 61,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/onmobile-global-ltd",
       "search_id": "onmobile-global-ltd"
     },
@@ -199,14 +249,14 @@
         "industry_pe": 39.2261065331161,
         "industry_name": "Telecom-Service",
         "industry_id": 61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3.1,
+        "industry_pe": 3.2,
         "industry_name": "Indian Software",
-        "description": "ONMOBILE is good value based on its Price-To-Sales Ratio (0.9x) compared to the Indian Software industry average (3.1x).",
+        "description": "ONMOBILE is good value based on its Price-To-Sales Ratio (1.1x) compared to the Indian Software industry average (3.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -223,7 +273,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -236,56 +286,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 51.55,
-        "fetched_at": "2026-05-25T21:57:37.519Z",
+        "value": 51.36,
+        "fetched_at": "2026-05-26T12:48:25.945Z",
         "url": "https://simplywall.st/stocks/in/software/nse-onmobile/onmobile-global-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5387300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5494700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 33.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 99.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 39.2261065331161,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "fifty_two_week": {
@@ -294,85 +344,85 @@
           "low": 40.21,
           "high": 75.09
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 58.7409156,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 39.2261065331161,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.339712065609817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 12.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 7.842877386862951,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4611,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1559261465157833,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4229600952948183,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/onmobile-global-ltd"
       }
     },
@@ -399,12 +449,12 @@
     "quick_ratio": 1.1559261465157833,
     "cash_ratio": 0.4229600952948183,
     "returns_pct": {
-      "1D": 1.817104483507791,
-      "7D": -3.283302063789869,
-      "1M": -7.250809643756749,
-      "3M": -0.05816207832493434,
-      "6M": -11.19724375538329,
-      "1Y": -10.519007116820001,
+      "1D": -0.3685741998060092,
+      "7D": 1.2418687167356646,
+      "1M": -7.592659229938825,
+      "3M": 1.4218009478672962,
+      "6M": -10.879750130140557,
+      "1Y": -10.848810970317652,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -667,7 +717,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/onmobile-global-ltd",
     "news": [
       {
@@ -732,7 +782,7 @@
         "ticker": "542866",
         "name": "Colab Platforms",
         "searchId": "jsg-leasing-ltd",
-        "market_cap_inr": 31640400000,
+        "market_cap_inr": 31324200000,
         "pe": null,
         "pb": null
       },
@@ -740,7 +790,7 @@
         "ticker": "BALAJITELE",
         "name": "Balaji Telefilms",
         "searchId": "balaji-telefilms-ltd",
-        "market_cap_inr": 11190600000,
+        "market_cap_inr": 11480800000,
         "pe": 19.13,
         "pb": 1.72
       },
@@ -748,7 +798,7 @@
         "ticker": "ENIL",
         "name": "Entertainment Network (India)",
         "searchId": "entertainment-network-india-ltd",
-        "market_cap_inr": 5246100000,
+        "market_cap_inr": 5196100000,
         "pe": null,
         "pb": 0.69
       }

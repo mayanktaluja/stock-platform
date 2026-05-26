@@ -3,7 +3,7 @@
   "name": "Repono Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/bse-544463/repono-shares",
-  "parsed_at": "2026-05-25T21:09:54.613Z",
+  "parsed_at": "2026-05-26T12:00:41.602Z",
   "company_id": "A8E1A7EC-6B3F-4F9A-8B9B-21688C9115A6",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 58.05,
-    "market_cap_inr": 596707539.9508183,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 61.3,
+    "market_cap_inr": 630114938.8283404,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
+        "industry_pe": 17.9,
         "sample_count": 31,
         "industry_code": "1030000",
         "industry_name": "Energy"
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 58.05,
-        "fetched_at": "2026-05-25T21:09:54.613Z",
+        "value": 61.3,
+        "fetched_at": "2026-05-26T12:00:41.602Z",
         "url": "https://simplywall.st/stocks/in/energy/bse-544463/repono-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -10.45812124016659,
-      "7D": -0.08605851979346689,
-      "1M": 1.8421052631578898,
-      "3M": -3.250000000000005,
-      "6M": -19.375000000000004,
-      "1Y": -33.3448157078884,
+      "1D": 5.598621877691645,
+      "7D": -1.1290322580645207,
+      "1M": 7.543859649122803,
+      "3M": 2.166666666666662,
+      "6M": -15.541471479746487,
+      "1Y": -29.613043977494552,
       "5Y": null
     },
     "next_earnings_date": null,

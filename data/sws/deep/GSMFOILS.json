@@ -3,7 +3,7 @@
   "name": "GSM Foils Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-gsmfoils/gsm-foils-shares",
-  "parsed_at": "2026-05-25T23:47:17.256Z",
+  "parsed_at": "2026-05-26T14:37:16.990Z",
   "company_id": "7E046C89-A93D-4369-A531-CE74E686F3E7",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 199.05,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 197.6,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 12.9,
+      "pe": 12.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,7 +100,7 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 105.5% over the past year",
-      "Price-To-Earnings ratio (12.9x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (12.8x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -83,17 +132,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 12.9,
+      "company_pe": 12.8,
       "industry_pe": 26.2,
       "industry_name": "Asian Medical Equipment"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 12.9,
+        "company_pe": 12.8,
         "industry_pe": 26.2,
         "industry_name": "Asian Medical Equipment",
-        "description": "GSMFOILS is good value based on its Price-To-Earnings Ratio (12.9x) compared to the Asian Medical Equipment industry average (26.2x).",
+        "description": "GSMFOILS is good value based on its Price-To-Earnings Ratio (12.8x) compared to the Asian Medical Equipment industry average (26.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 199.05,
-        "fetched_at": "2026-05-25T23:47:17.256Z",
+        "value": 197.6,
+        "fetched_at": "2026-05-26T14:37:16.990Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-gsmfoils/gsm-foils-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.6488644871474835,
-      "7D": 1.7898235745333673,
-      "1M": 3.027950310559018,
-      "3M": -1.8733053980773888,
-      "6M": -5.685856432125089,
-      "1Y": 27.596153846153854,
+      "1D": -0.7284601858829525,
+      "7D": -0.1263583522870862,
+      "1M": 2.2774327122153237,
+      "3M": -2.612124199112869,
+      "6M": -9.956709956709954,
+      "1Y": 26.66666666666666,
       "5Y": null
     },
     "next_earnings_date": null,

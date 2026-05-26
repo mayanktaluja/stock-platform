@@ -3,7 +3,7 @@
   "name": "Artemis ADR Marketplace Limited",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/bse-543286/artemis-adr-marketplace-shares",
-  "parsed_at": "2026-05-25T20:43:03.258Z",
+  "parsed_at": "2026-05-26T11:10:52.609Z",
   "company_id": "8B08E84A-C808-4AEA-B4AE-2B5E0DC349B3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,7 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 67,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 65.66,
     "market_cap_inr": 401524400.1034862,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.86932089552239,
+    "upside_pct": -99.86665397502286,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -105,7 +154,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
@@ -118,8 +167,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 67,
-        "fetched_at": "2026-05-25T20:43:03.258Z",
+        "value": 65.66,
+        "fetched_at": "2026-05-26T11:10:52.609Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-543286/artemis-adr-marketplace-shares"
       }
     },
@@ -146,12 +195,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.9942152534632398,
-      "7D": 20.395327942497758,
-      "1M": 44.086021505376344,
-      "3M": 105.52147239263803,
-      "6M": 52.2381276982504,
-      "1Y": 605.2631578947368,
+      "1D": -2.0000000000000053,
+      "7D": 12.373780592161555,
+      "1M": 41.20430107526881,
+      "3M": 101.41104294478527,
+      "6M": 49.19336514428539,
+      "1Y": 591.1578947368421,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Cosyn Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-538922/cosyn-shares",
-  "parsed_at": "2026-05-25T23:28:24.040Z",
+  "parsed_at": "2026-05-26T14:17:27.327Z",
   "company_id": "5A19E8C9-37A5-4308-8F44-9563D82C79DD",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cosyn-ltd",
     "search_id": "cosyn-ltd",
     "company_id": "GSTK538922",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 21.89,
-    "market_cap_inr": 162500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 21.68,
+    "market_cap_inr": 164200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -93.3507857469164,
+    "upside_pct": -93.28637915129151,
     "multiples": {
       "pe": 103.19,
       "ps": 1.16,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/cosyn-ltd"
     },
@@ -64,7 +113,7 @@
       "Large [[one-off items]] impacting financial results",
       "Profit margins (1.1%) are lower than last year (6.1%)",
       "Does not have meaningful revenue (₹140M)",
-      "Does not have a meaningful market cap (₹163M)"
+      "Does not have a meaningful market cap (₹164M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -116,13 +165,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -132,27 +181,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 103.19,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/cosyn-ltd",
       "search_id": "cosyn-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 103.19,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "sws_statement": {
         "company_pe": 102.1,
-        "industry_pe": 20.3,
+        "industry_pe": 21.1,
         "industry_name": "Indian IT",
-        "description": "538922 is expensive based on its Price-To-Earnings Ratio (102.1x) compared to the Indian IT industry average (20.3x).",
+        "description": "538922 is expensive based on its Price-To-Earnings Ratio (102.1x) compared to the Indian IT industry average (21.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -169,7 +218,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -182,56 +231,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 21.89,
-        "fetched_at": "2026-05-25T23:28:24.040Z",
+        "value": 21.68,
+        "fetched_at": "2026-05-26T14:17:27.327Z",
         "url": "https://simplywall.st/stocks/in/software/bse-538922/cosyn-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 162500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 164200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 103.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.31146875000000007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "fifty_two_week": {
@@ -240,91 +289,91 @@
           "low": 18.65,
           "high": 29.48
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 36.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.6281,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.42350449973530974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5829941203075533,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1453113815318539,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.312097351467429,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6643,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.0782953419226957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5322101090188306,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cosyn-ltd"
       }
     },
@@ -339,7 +388,7 @@
     "ps": 1.16,
     "book_value": 36.64,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0.6281,
     "roa_pct": 0.42350449973530974,
     "roic_pct": 1.5829941203075533,
@@ -351,12 +400,12 @@
     "quick_ratio": 2.0782953419226957,
     "cash_ratio": 0.5322101090188306,
     "returns_pct": {
-      "1D": 1.0152284263959337,
-      "7D": 1.8139534883720956,
-      "1M": -7.167090754877005,
-      "3M": -1.3074842200180303,
-      "6M": -11.376518218623477,
-      "1Y": -20.4578488372093,
+      "1D": -0.95934216537232,
+      "7D": 1.6408813877168373,
+      "1M": -8.057675996607289,
+      "3M": 0.8372093023255801,
+      "6M": -9.666666666666668,
+      "1Y": -21.22093023255814,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -577,7 +626,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cosyn-ltd",
     "news": [
       {
@@ -640,17 +689,17 @@
         "ticker": "ROUTE",
         "name": "Route Mobile",
         "searchId": "route-mobile-ltd",
-        "market_cap_inr": 32222900000,
+        "market_cap_inr": 32566300000,
         "pe": 12.54,
         "pb": 1.16
       },
       {
-        "ticker": "PROTEAN",
-        "name": "Protean e-Gov Technologies",
-        "searchId": "protean-egov-technologies-ltd",
-        "market_cap_inr": 26301400000,
-        "pe": 26.14,
-        "pb": 2.44
+        "ticker": "JAYKAY",
+        "name": "Jaykay Enterprises",
+        "searchId": "jaykay-enterprises-ltd",
+        "market_cap_inr": 25738200000,
+        "pe": 72.22,
+        "pb": 4.75
       }
     ],
     "details": {

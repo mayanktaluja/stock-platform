@@ -3,12 +3,12 @@
   "name": "Shree Metalloys Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-531962/shree-metalloys-shares",
-  "parsed_at": "2026-05-25T22:53:37.369Z",
+  "parsed_at": "2026-05-26T13:47:21.495Z",
   "company_id": "C19565E1-E009-44D7-AF27-4217077EFB87",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/shree-metalloys-ltd",
     "search_id": "shree-metalloys-ltd",
     "company_id": "GSTK531962",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 40.55,
-    "market_cap_inr": 205400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 40.5,
+    "market_cap_inr": 213100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 27.94,
       "high": 62.29
     },
-    "fair_value_inr": 15.592542,
+    "fair_value_inr": 15.59129,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -61.54736868064118,
+    "upside_pct": -61.50298765432098,
     "multiples": {
-      "pe": 14.74,
+      "pe": 15.3,
       "ps": 0.2,
-      "pb": 1.94,
+      "pb": 2.01,
       "ev_ebitda": 9.49,
       "peg": 0.0888816326530612
     },
@@ -55,19 +104,19 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/shree-metalloys-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (15.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 29.3% over the past year",
-      "Price-To-Earnings ratio (14.7x) is below the Indian market (23.3x)"
+      "Earnings grew by 29.3% over the past year"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹205M)"
+      "Does not have a meaningful market cap (₹213M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -94,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 14.74,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 15.3,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/shree-metalloys-ltd",
       "search_id": "shree-metalloys-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 14.74,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 15.3,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "sws_statement": {
-        "company_pe": 14.7,
-        "industry_pe": 22.1,
+        "company_pe": 15.3,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "531962 is good value based on its Price-To-Earnings Ratio (14.7x) compared to the Indian Trade Distributors industry average (22.1x).",
+        "description": "531962 is good value based on its Price-To-Earnings Ratio (15.3x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +182,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 40.55,
-        "fetched_at": "2026-05-25T22:53:37.369Z",
+        "value": 40.5,
+        "fetched_at": "2026-05-26T13:47:21.495Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531962/shree-metalloys-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 205400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 213100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 14.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 15.3,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.01,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.0888816326530612,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 27.94,
           "high": 62.29
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 20.1276563,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.1979,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.791479820627803,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.630372898638983,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3378248315688162,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2329162656400383,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 46.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 27.522421524663677,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.3409,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.3181818181818183,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.1487603305785124,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shree-metalloys-ltd"
       }
     },
@@ -298,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 2.65,
     "most_recent_reported_date": null,
-    "pb": 1.94,
+    "pb": 2.01,
     "ps": 0.2,
     "book_value": 20.1276563,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 12.1979,
     "roa_pct": 7.791479820627803,
     "roic_pct": 10.630372898638983,
@@ -314,12 +363,12 @@
     "quick_ratio": 2.3181818181818183,
     "cash_ratio": 0.1487603305785124,
     "returns_pct": {
-      "1D": 3.7880726900435038,
-      "7D": 1.7565872020075175,
-      "1M": -10.584343991179722,
-      "3M": -12.532355478861094,
-      "6M": 14.225352112676049,
-      "1Y": 6.710526315789467,
+      "1D": -0.12330456226879695,
+      "7D": -3.571428571428571,
+      "1M": -10.694597574421172,
+      "3M": -12.903225806451612,
+      "6M": 9.518658734451064,
+      "1Y": 6.578947368421052,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -488,12 +537,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/shree-metalloys-ltd",
     "news": [
       {
@@ -541,6 +600,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -548,23 +617,23 @@
         "ticker": "517320",
         "name": "Magnus Steel And Infra",
         "searchId": "savant-infocomm-ltd",
-        "market_cap_inr": 8611100000,
-        "pe": 191.1,
-        "pb": 16.43
+        "market_cap_inr": 8181400000,
+        "pe": 181.57,
+        "pb": 15.61
       },
       {
         "ticker": "BMWVENTLTD",
         "name": "BMW Ventures",
         "searchId": "bmw-ventures-ltd",
-        "market_cap_inr": 5282700000,
-        "pe": 14.04,
-        "pb": 1.23
+        "market_cap_inr": 5394500000,
+        "pe": 14.33,
+        "pb": 1.26
       },
       {
         "ticker": "SHIVAUM",
         "name": "Shiv Aum Steels",
         "searchId": "shiv-aum-steels-ltd",
-        "market_cap_inr": 4509200000,
+        "market_cap_inr": 4352100000,
         "pe": 65.78,
         "pb": 3.8
       }

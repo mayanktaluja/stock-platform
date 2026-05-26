@@ -3,12 +3,12 @@
   "name": "Meghna Infracon Infrastructure Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-538668/meghna-infracon-infrastructure-shares",
-  "parsed_at": "2026-05-25T23:25:13.538Z",
+  "parsed_at": "2026-05-26T14:12:26.720Z",
   "company_id": "27919865-2D83-4F44-B507-B28A3ECE5C69",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/naysaa-securities-ltd",
     "search_id": "naysaa-securities-ltd",
     "company_id": "GSTK538668",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 779.9,
-    "market_cap_inr": 16661000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 789.75,
+    "market_cap_inr": 16942400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 470.1,
-      "high": 780
+      "high": 784.35
     },
-    "fair_value_inr": 19.999158,
+    "fair_value_inr": 19.995627,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.43567662520837,
+    "upside_pct": -97.46810674264007,
     "multiples": {
       "pe": 208.41,
       "ps": 41.82,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/naysaa-securities-ltd"
     },
@@ -103,13 +152,13 @@
     },
     "dividend_yield_pct": 0.01,
     "industry_benchmarks": {
-      "pe": 24.871539040580295,
-      "sector_pe": 24.871539040580295
+      "pe": 24.83673056579842,
+      "sector_pe": 24.83673056579842
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diversified",
       "pe_industry_id": 21,
@@ -119,27 +168,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 208.41,
-      "industry_pe": 24.871539040580295,
+      "industry_pe": 24.83673056579842,
       "industry_name": "Diversified",
       "industry_id": 21,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/naysaa-securities-ltd",
       "search_id": "naysaa-securities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 208.41,
-        "industry_pe": 24.871539040580295,
+        "industry_pe": 24.83673056579842,
         "industry_name": "Diversified",
         "industry_id": 21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Capital Markets",
-        "description": "538668 is expensive based on its Price-To-Book Ratio (68x) compared to the Indian Capital Markets industry average (1.2x).",
+        "description": "538668 is expensive based on its Price-To-Book Ratio (70x) compared to the Indian Capital Markets industry average (1.2x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -169,149 +218,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 779.9,
-        "fetched_at": "2026-05-25T23:25:13.538Z",
+        "value": 789.75,
+        "fetched_at": "2026-05-26T14:12:26.720Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-538668/meghna-infracon-infrastructure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 16661000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 16942400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 208.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 67.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 41.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 76.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.4653300492610838,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 470.1,
-          "high": 780
+          "high": 784.35
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 11.2815467,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 39.8604,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 16.731517509727624,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 27.363714352561946,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.353000251067034,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 29.023349234245543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 26.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 14.991989013504236,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2155,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8332448220924057,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.07753584705257568,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/naysaa-securities-ltd"
       }
     },
@@ -326,7 +375,7 @@
     "ps": 41.82,
     "book_value": 11.2815467,
     "face_value": 10,
-    "sector_pe": 24.871539040580295,
+    "sector_pe": 24.83673056579842,
     "roe_pct": 39.8604,
     "roa_pct": 16.731517509727624,
     "roic_pct": 27.363714352561946,
@@ -338,12 +387,12 @@
     "quick_ratio": 0.8332448220924057,
     "cash_ratio": 0.07753584705257568,
     "returns_pct": {
-      "1D": 1.6885064215398569,
-      "7D": 6.813668424296377,
-      "1M": 10.038800705467368,
-      "3M": 32.78283817144802,
-      "6M": 44.05245659401552,
-      "1Y": 49.757572848159,
+      "1D": 1.2629824336453421,
+      "7D": 7.302989130434782,
+      "1M": 11.428571428571429,
+      "3M": 33.48263331361447,
+      "6M": 48.129044358998414,
+      "1Y": 51.64898468628487,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -592,22 +641,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/naysaa-securities-ltd",
     "news": [
+      {
+        "id": "847115557841659008",
+        "title": "Meghna Infracon released Q4 & FY26 investor presentation highlighting projects, strategy, and premium housing focus.\nThe presentation emphasizes financial metrics, growth pipeline, and urban micro market opportunities.",
+        "url": "https://sqst.in/twJoW",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T14:14:47.000Z"
+      },
       {
         "id": "822796795823452928",
         "title": "Promoter of Meghna Infracon bought 19,983 shares on Mar 20, 2026.\nShares acquired at Rs. 504 each, total transaction valued at Rs. 1.01 cr.",
         "url": "https://sqst.in/yPCpx",
         "source": "ScoutQuest",
         "published_at": "2026-03-20T11:40:42.000Z"
-      },
-      {
-        "id": "480138",
-        "title": "Meghna Infracon Infrastructure Ltd's CEO, Dhaval Lapasia, resigned effective February 9, 2026.\nHe cited personal reasons for his resignation and expressed gratitude for his tenure.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=1705daa1-65da-43ea-a6d9-3f1e1952a737.pdf",
-        "source": "BSE",
-        "published_at": "2026-02-09T10:57:41.000Z"
       }
     ],
     "events": [
@@ -667,7 +716,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -675,7 +724,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -683,7 +732,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

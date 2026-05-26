@@ -3,12 +3,12 @@
   "name": "Shetron Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-526137/shetron-shares",
-  "parsed_at": "2026-05-25T21:55:10.972Z",
+  "parsed_at": "2026-05-26T12:52:08.652Z",
   "company_id": "DABD7ED8-AE68-47E8-A5EA-FF5D632A2864",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/shetron-ltd",
     "search_id": "shetron-ltd",
     "company_id": "GSTK526137",
@@ -16,38 +16,86 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 3,
       "future": 0,
       "past": 5,
       "financial_health": 4,
       "dividends": 3,
       "future_growth": 0,
       "past_performance": 5,
-      "value": 2,
+      "value": 3,
       "health": 4,
       "dividend": 3
     },
-    "snowflake_total": 14,
-    "current_price_inr": 102.7,
-    "market_cap_inr": 917100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_total": 15,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 98.8,
+    "market_cap_inr": 924300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 83.8,
       "high": 164.45
     },
-    "fair_value_inr": 238.335602,
+    "fair_value_inr": 238.327339,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 132.06971957156767,
+    "upside_pct": 141.22200303643723,
     "multiples": {
-      "pe": 22.95,
+      "pe": 23.13,
       "ps": 0.37,
-      "pb": 1.49,
+      "pb": 1.5,
       "ev_ebitda": 8.33,
       "peg": -0.7329953125
     },
@@ -55,18 +103,19 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/shetron-ltd"
     },
     "rewards": [
       "Earnings grew by 29.9% over the past year",
-      "Trading at 57.2% below our estimate of its fair value"
+      "Trading at 58.5% below our estimate of its fair value",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹917M)"
+      "Does not have a meaningful market cap (₹925M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -131,13 +180,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 25.312457865495027,
-      "sector_pe": 25.312457865495027
+      "pe": 25.392793163881098,
+      "sector_pe": 25.392793163881098
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Packaging",
       "pe_industry_id": 42,
@@ -146,28 +195,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 22.95,
-      "industry_pe": 25.312457865495027,
+      "company_pe": 23.13,
+      "industry_pe": 25.392793163881098,
       "industry_name": "Packaging",
       "industry_id": 42,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/shetron-ltd",
       "search_id": "shetron-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 22.95,
-        "industry_pe": 25.312457865495027,
+        "company_pe": 23.13,
+        "industry_pe": 25.392793163881098,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.9,
-        "industry_pe": 17,
+        "company_pe": 22.2,
+        "industry_pe": 16.6,
         "industry_name": "Indian Packaging",
-        "description": "526137 is expensive based on its Price-To-Earnings Ratio (22.9x) compared to the Indian Packaging industry average (17x).",
+        "description": "526137 is expensive based on its Price-To-Earnings Ratio (22.2x) compared to the Indian Packaging industry average (16.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -184,7 +233,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -197,56 +246,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 102.7,
-        "fetched_at": "2026-05-25T21:55:10.972Z",
+        "value": 98.8,
+        "fetched_at": "2026-05-26T12:52:08.652Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-526137/shetron-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 917100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 924300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 22.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 23.13,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.5,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.7329953125,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "fifty_two_week": {
@@ -255,91 +304,91 @@
           "low": 83.8,
           "high": 164.45
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 68.5777778,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.4809,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.5404890441409975,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.104569385868237,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.624497421110344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.854445031068513,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 61.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 24.001270244522072,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8131,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5562625191469306,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05526098739248262,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shetron-ltd"
       }
     },
@@ -350,11 +399,11 @@
     "latest_net_income": null,
     "latest_eps": 4.44,
     "most_recent_reported_date": null,
-    "pb": 1.49,
+    "pb": 1.5,
     "ps": 0.37,
     "book_value": 68.5777778,
     "face_value": 10,
-    "sector_pe": 25.312457865495027,
+    "sector_pe": 25.392793163881098,
     "roe_pct": 6.4809,
     "roa_pct": 2.5404890441409975,
     "roic_pct": 9.104569385868237,
@@ -366,12 +415,12 @@
     "quick_ratio": 0.5562625191469306,
     "cash_ratio": 0.05526098739248262,
     "returns_pct": {
-      "1D": 0.785083415112853,
-      "7D": -4.465116279069765,
-      "1M": 7.606873428331943,
-      "3M": -6.081390032007309,
-      "6M": -14.700996677740866,
-      "1Y": -21.513183034008403,
+      "1D": -3.7974683544303853,
+      "7D": -3.984450923226442,
+      "1M": 3.5205364626990776,
+      "3M": -12.797881729920565,
+      "6M": -20.92837134853942,
+      "1Y": -24.493695070691633,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -650,7 +699,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/shetron-ltd",
     "news": [
       {
@@ -725,7 +774,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -733,17 +782,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

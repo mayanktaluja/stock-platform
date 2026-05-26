@@ -3,12 +3,12 @@
   "name": "Makers Laboratories Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-506919/makers-laboratories-shares",
-  "parsed_at": "2026-05-25T20:53:58.787Z",
+  "parsed_at": "2026-05-26T11:45:22.793Z",
   "company_id": "DFD8A285-C43C-4618-9C9C-7D72B7F840AB",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/makers-laboratories-ltd",
     "search_id": "makers-laboratories-ltd",
     "company_id": "GSTK506919",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 161.3,
-    "market_cap_inr": 969100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 165.55,
+    "market_cap_inr": 951700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,15 +104,15 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/makers-laboratories-ltd"
     },
     "rewards": [],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Profit margins (0.9%) are lower than last year (5.5%)",
-      "Does not have a meaningful market cap (₹969M)"
+      "Does not have a meaningful market cap (₹952M)",
+      "Profit margins (0.9%) are lower than last year (5.5%)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -128,13 +177,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 34.13083912188503,
-      "sector_pe": 34.13083912188503
+      "pe": 34.114828495752356,
+      "sector_pe": 34.114828495752356
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Pharmaceuticals",
       "pe_industry_id": 46,
@@ -144,27 +193,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 16.47,
-      "industry_pe": 34.13083912188503,
+      "industry_pe": 34.114828495752356,
       "industry_name": "Pharmaceuticals",
       "industry_id": 46,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/makers-laboratories-ltd",
       "search_id": "makers-laboratories-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 16.47,
-        "industry_pe": 34.13083912188503,
+        "industry_pe": 34.114828495752356,
         "industry_name": "Pharmaceuticals",
         "industry_id": 46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "sws_statement": {
-        "company_pe": 79.9,
-        "industry_pe": 29.1,
+        "company_pe": 80.6,
+        "industry_pe": 29.6,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "506919 is expensive based on its Price-To-Earnings Ratio (79.9x) compared to the Indian Pharmaceuticals industry average (29.1x).",
+        "description": "506919 is expensive based on its Price-To-Earnings Ratio (80.6x) compared to the Indian Pharmaceuticals industry average (29.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -181,8 +230,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -194,56 +243,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 161.3,
-        "fetched_at": "2026-05-25T20:53:58.787Z",
+        "value": 165.55,
+        "fetched_at": "2026-05-26T11:45:22.793Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-506919/makers-laboratories-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 969100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 951700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 16.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.031082582582582584,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.13083912188503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.114828495752356,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "fifty_two_week": {
@@ -252,91 +301,91 @@
           "low": 109,
           "high": 186.7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 9.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 119.9302824,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.13083912188503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.114828495752356,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7780612244897959,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 8.327822236985828,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8793426553265099,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.802508288885685,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 11.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.070153061224489,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.179,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3050271739130432,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.04585597826086957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/makers-laboratories-ltd"
       }
     },
@@ -351,7 +400,7 @@
     "ps": 0.7,
     "book_value": 119.9302824,
     "face_value": 10,
-    "sector_pe": 34.13083912188503,
+    "sector_pe": 34.114828495752356,
     "roe_pct": 0,
     "roa_pct": 0.7780612244897959,
     "roic_pct": 8.327822236985828,
@@ -363,12 +412,12 @@
     "quick_ratio": 1.3050271739130432,
     "cash_ratio": 0.04585597826086957,
     "returns_pct": {
-      "1D": -1.7960426179604194,
-      "7D": 1.0018785222291942,
-      "1M": 8.109919571045593,
-      "3M": 14.316087880935518,
-      "6M": 28.936850519584347,
-      "1Y": 10.366062264796446,
+      "1D": 2.6348419094854307,
+      "7D": 6.394601542416464,
+      "1M": 10.958445040214492,
+      "3M": 3.0821917808219284,
+      "6M": 38.246346555323605,
+      "1Y": 13.274033527198087,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -637,22 +686,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/makers-laboratories-ltd",
     "news": [
+      {
+        "id": "682725",
+        "title": "Makers Laboratories Ltd's board approved audited standalone and consolidated financial results for FY25-26, reporting unmodified auditor opinions.\nThe company registered Rs. 5,034.7 lacs in standalone revenue; consolidated revenue was Rs. 14,059.5 lacs for FY25-26.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=c3718305-25f8-47f1-bc0b-7fe2dad7acf2.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-26T07:20:39.000Z"
+      },
       {
         "id": "260219157248544",
         "title": "Makers Labs Q3 FY25 net sales rose 34.4% YoY to Rs 12.7 cr; net loss reduced to Rs 0.17 cr.\nEBITDA surged to Rs 0.72 cr from Rs 0.01 cr YoY; stock closed at Rs 147.65 on Feb 18, 2026.",
         "url": "https://www.moneycontrol.com/europe/?url=https://www.moneycontrol.com/news/business/earnings/makers-labs-standalone-december-2025-net-sales-at-rs-12-70-crore-up-34-43-y-o-y-13835820.html",
         "source": "Moneycontrol",
         "published_at": "2026-02-19T09:14:33.000Z"
-      },
-      {
-        "id": "482226",
-        "title": "Makers Laboratories Ltd reported standalone and consolidated unaudited financial results for Q3 and nine months ended Dec 31, 2025.\nRevenue from operations was Rs. 3,907.3 lakhs for nine months; meeting reviewed by auditors and approved by board on Feb 10, 2026.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=2e4e5f7e-c86a-421a-a0f9-c67c72d265a0.pdf",
-        "source": "BSE",
-        "published_at": "2026-02-10T07:47:31.000Z"
       }
     ],
     "events": [
@@ -702,7 +751,7 @@
         "ticker": "INNOVACAP",
         "name": "Innova Captab",
         "searchId": "innova-captab-ltd",
-        "market_cap_inr": 48538200000,
+        "market_cap_inr": 48672700000,
         "pe": 34.44,
         "pb": 4.45
       },
@@ -710,17 +759,17 @@
         "ticker": "GUJTHEM",
         "name": "Gujarat Themis Biosyn",
         "searchId": "gujarat-themis-biosyn-ltd",
-        "market_cap_inr": 40191800000,
-        "pe": 84.02,
-        "pb": 15.2
+        "market_cap_inr": 42196800000,
+        "pe": 88.21,
+        "pb": 15.96
       },
       {
-        "ticker": "ORCHPHARMA",
-        "name": "Orchid Pharma",
-        "searchId": "orchid-pharma-ltd",
-        "market_cap_inr": 35909100000,
-        "pe": 190.32,
-        "pb": 2.82
+        "ticker": "IOLCP",
+        "name": "IOL Chemicals & Pharmaceuticals",
+        "searchId": "iol-chemicals-pharmaceuticals-ltd",
+        "market_cap_inr": 36420900000,
+        "pe": 25.33,
+        "pb": 1.94
       }
     ],
     "details": {

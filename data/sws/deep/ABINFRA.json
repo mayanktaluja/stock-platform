@@ -3,12 +3,12 @@
   "name": "A B Infrabuild Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-abinfra/a-b-infrabuild-shares",
-  "parsed_at": "2026-05-25T21:23:16.458Z",
+  "parsed_at": "2026-05-26T12:15:59.095Z",
   "company_id": "8ED658B0-9EEB-4D02-8E51-11D602F7D8C7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ab-infrabuild-ltd",
     "search_id": "ab-infrabuild-ltd",
     "company_id": "GSTK544281",
@@ -28,26 +28,74 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 13.34,
-    "market_cap_inr": 8304300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 12.55,
+    "market_cap_inr": 8534200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 11.18,
+      "low": 12.37,
       "high": 23.56
     },
-    "fair_value_inr": 0.052163,
+    "fair_value_inr": 0.052215,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.60897301349326,
+    "upside_pct": -99.58394422310757,
     "multiples": {
-      "pe": 41.94,
+      "pe": 43.1,
       "ps": 3.41,
-      "pb": 5.28,
+      "pb": 5.43,
       "ev_ebitda": 20.13,
       "peg": 1.8805333333333345
     },
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ab-infrabuild-ltd"
     },
@@ -89,13 +137,13 @@
     },
     "dividend_yield_pct": 0.03,
     "industry_benchmarks": {
-      "pe": 31.821146947073228,
-      "sector_pe": 31.821146947073228
+      "pe": 31.795057456430627,
+      "sector_pe": 31.795057456430627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -104,21 +152,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 41.94,
-      "industry_pe": 31.821146947073228,
+      "company_pe": 43.1,
+      "industry_pe": 31.795057456430627,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ab-infrabuild-ltd",
       "search_id": "ab-infrabuild-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 41.94,
-        "industry_pe": 31.821146947073228,
+        "company_pe": 43.1,
+        "industry_pe": 31.795057456430627,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "sws_statement": {
@@ -142,8 +190,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -155,149 +203,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.34,
-        "fetched_at": "2026-05-25T21:23:16.458Z",
+        "value": 12.55,
+        "fetched_at": "2026-05-26T12:15:59.095Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-abinfra/a-b-infrabuild-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8304300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8534200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 41.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.1,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 5.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5.43,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 20.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.8805333333333345,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 11.18,
+          "low": 12.37,
           "high": 23.56
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 2.4611421,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.821146947073228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.795057456430627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.2455,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.1609721733004585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 16.977630725788426,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.3312843209573,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.9576264240636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 29.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 16.14653046847482,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.1096,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2702076194315663,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4355976617617416,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ab-infrabuild-ltd"
       }
     },
@@ -308,11 +356,11 @@
     "latest_net_income": null,
     "latest_eps": 0.31,
     "most_recent_reported_date": null,
-    "pb": 5.28,
+    "pb": 5.43,
     "ps": 3.41,
     "book_value": 2.4611421,
     "face_value": 1,
-    "sector_pe": 31.821146947073228,
+    "sector_pe": 31.795057456430627,
     "roe_pct": 12.2455,
     "roa_pct": 7.1609721733004585,
     "roic_pct": 16.977630725788426,
@@ -324,12 +372,12 @@
     "quick_ratio": 1.2702076194315663,
     "cash_ratio": 0.4355976617617416,
     "returns_pct": {
-      "1D": 2.4577572964669763,
-      "7D": 0.9841029523088494,
-      "1M": -14.377406931964057,
-      "3M": -34.285714285714285,
-      "6M": -28.163704900376953,
-      "1Y": 2.4892440073755364,
+      "1D": -5.922038980509739,
+      "7D": -2.1060842433697315,
+      "1M": -19.448010269576375,
+      "3M": -31.458219552157285,
+      "6M": -33.842909857669994,
+      "1Y": -3.580208973570984,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -552,7 +600,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ab-infrabuild-ltd",
     "news": [],
     "events": [
@@ -612,25 +660,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

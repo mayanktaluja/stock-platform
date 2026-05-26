@@ -3,12 +3,12 @@
   "name": "Baazar Style Retail Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-stylebaaza/baazar-style-retail-shares",
-  "parsed_at": "2026-05-25T23:13:21.569Z",
+  "parsed_at": "2026-05-26T14:01:51.257Z",
   "company_id": "618FD2AE-A851-47E5-872B-B76BAAF2F120",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/baazar-style-retail-ltd",
     "search_id": "baazar-style-retail-ltd",
     "company_id": "GSTK544243",
@@ -28,9 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 15,
-    "current_price_inr": 345.2,
-    "market_cap_inr": 25709400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 4,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 351.35,
+    "market_cap_inr": 25806400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -39,11 +87,11 @@
     },
     "fair_value_inr": 485,
     "fair_value_range_inr": {
-      "min": 645.932978,
-      "max": 645.932978,
+      "min": 645.783386,
+      "max": 645.783386,
       "count": 5
     },
-    "upside_pct": 40.49826187717266,
+    "upside_pct": 38.03899245766329,
     "multiples": {
       "pe": 54.86,
       "ps": 1.39,
@@ -55,14 +103,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/baazar-style-retail-ltd"
     },
     "rewards": [
-      "Trading at 46.8% below our estimate of its fair value",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings grew by 219.6% over the past year",
+      "Trading at 45.6% below our estimate of its fair value",
       "Earnings are forecast to grow 49.88% per year"
     ],
     "risks": [
@@ -86,7 +134,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Retail",
       "pe_industry_id": 54,
@@ -99,7 +147,7 @@
       "industry_pe": 75.63467041299452,
       "industry_name": "Retail",
       "industry_id": 54,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/baazar-style-retail-ltd",
       "search_id": "baazar-style-retail-ltd"
     },
@@ -109,14 +157,14 @@
         "industry_pe": 75.63467041299452,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "sws_statement": {
-        "company_pe": 54.7,
-        "industry_pe": 18.8,
+        "company_pe": 55.9,
+        "industry_pe": 19.1,
         "industry_name": "Indian Specialty Retail",
-        "description": "STYLEBAAZA is expensive based on its Price-To-Earnings Ratio (54.7x) compared to the Indian Specialty Retail industry average (18.8x).",
+        "description": "STYLEBAAZA is expensive based on its Price-To-Earnings Ratio (55.9x) compared to the Indian Specialty Retail industry average (19.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -146,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 345.2,
-        "fetched_at": "2026-05-25T23:13:21.569Z",
+        "value": 351.35,
+        "fetched_at": "2026-05-26T14:01:51.257Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-stylebaaza/baazar-style-retail-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 25709400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25806400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 54.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 5.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -3.2757982905982908,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +252,91 @@
           "low": 229.95,
           "high": 427
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 6.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 60.3316339,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.8883,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.434194381145125,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.282628434742375,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.4660049735576142,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.737433079587774,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 221.07999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 52.8644048890093,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.945,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.17846139590910134,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.014918112534457599,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/baazar-style-retail-ltd"
       }
     },
@@ -315,12 +363,12 @@
     "quick_ratio": 0.17846139590910134,
     "cash_ratio": 0.014918112534457599,
     "returns_pct": {
-      "1D": 0.4510403026334967,
-      "7D": -6.71530874206189,
-      "1M": -10.973565441650551,
-      "3M": 5.5818932558495185,
-      "6M": 13.66480079025354,
-      "1Y": 27.97034291010194,
+      "1D": 1.7815758980301373,
+      "7D": -0.05689091167685638,
+      "1M": -9.387491940683425,
+      "3M": 10.801009145380005,
+      "6M": 18.120692553370326,
+      "1Y": 30.250231696014833,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -550,7 +598,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/baazar-style-retail-ltd",
     "news": [
       {
@@ -615,7 +663,7 @@
         "ticker": "EMIL",
         "name": "Electronics Mart India",
         "searchId": "electronics-mart-india-ltd",
-        "market_cap_inr": 46285300000,
+        "market_cap_inr": 44861700000,
         "pe": 43.27,
         "pb": 2.85
       },
@@ -623,7 +671,7 @@
         "ticker": "SHOPERSTOP",
         "name": "Shoppers Stop",
         "searchId": "shoppers-stop-ltd",
-        "market_cap_inr": 36467800000,
+        "market_cap_inr": 37095500000,
         "pe": null,
         "pb": 12.53
       },
@@ -631,9 +679,9 @@
         "ticker": "BUILDPRO",
         "name": "Shankara Buildpro",
         "searchId": "shankara-buildpro-ltd",
-        "market_cap_inr": 25699400000,
-        "pe": 20.15,
-        "pb": 4.71
+        "market_cap_inr": 25646100000,
+        "pe": 20.11,
+        "pb": 4.7
       }
     ],
     "details": {

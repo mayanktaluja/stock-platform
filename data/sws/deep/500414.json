@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/timex-group-india-ltd",
     "search_id": "timex-group-india-ltd",
     "company_id": "GSTK500414",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 364.7,
-    "market_cap_inr": 38219700000,
+    "market_cap_inr": 38573000000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 318.05,
-      "high": 377
+      "high": 388.4
     },
     "fair_value_inr": 53.311171,
     "fair_value_range_inr": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": -85.38218508363038,
     "multiples": {
-      "pe": 66.65,
+      "pe": 67.27,
       "ps": 5.47,
-      "pb": 32.02,
+      "pb": 32.32,
       "ev_ebitda": 31.58,
       "peg": 0.9742819047619049
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/timex-group-india-ltd"
     },
@@ -73,13 +122,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 59.627955716846344,
-      "sector_pe": 59.627955716846344
+      "pe": 59.63065901146537,
+      "sector_pe": 59.63065901146537
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -88,21 +137,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 66.65,
-      "industry_pe": 59.627955716846344,
+      "company_pe": 67.27,
+      "industry_pe": 59.63065901146537,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/timex-group-india-ltd",
       "search_id": "timex-group-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 66.65,
-        "industry_pe": 59.627955716846344,
+        "company_pe": 67.27,
+        "industry_pe": 59.63065901146537,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "sws_statement": {
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -145,143 +194,143 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 38219700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 38573000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 66.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 67.27,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 32.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 32.32,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 5.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 31.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.9742819047619049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 318.05,
-          "high": 377
+          "high": 388.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 5.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 11.8231798,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 46.9839,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 17.628338587829397,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 51.7275167963636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.481682884945622,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.451345163136805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 10.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.741597763369222,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8256413330136658,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05454327499400623,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/timex-group-india-ltd"
       }
     },
@@ -292,11 +341,11 @@
     "latest_net_income": null,
     "latest_eps": 5.68,
     "most_recent_reported_date": null,
-    "pb": 32.02,
+    "pb": 32.32,
     "ps": 5.47,
     "book_value": 11.8231798,
     "face_value": 1,
-    "sector_pe": 59.627955716846344,
+    "sector_pe": 59.63065901146537,
     "roe_pct": 46.9839,
     "roa_pct": 17.628338587829397,
     "roic_pct": 51.7275167963636,
@@ -442,7 +491,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/timex-group-india-ltd",
     "news": [
       {
@@ -507,7 +556,7 @@
         "ticker": "KDDL",
         "name": "KDDL",
         "searchId": "kddl-ltd",
-        "market_cap_inr": 34579400000,
+        "market_cap_inr": 34356800000,
         "pe": 25.58,
         "pb": 3.2
       },
@@ -515,15 +564,15 @@
         "ticker": "SONAMLTD",
         "name": "Sonam",
         "searchId": "sonam-clock-ltd",
-        "market_cap_inr": 2337500000,
-        "pe": 38.16,
-        "pb": 4.42
+        "market_cap_inr": 2308600000,
+        "pe": 37.69,
+        "pb": 4.36
       },
       {
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       }

@@ -3,7 +3,7 @@
   "name": "Sunita Tools Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544001/sunita-tools-shares",
-  "parsed_at": "2026-05-25T20:56:09.813Z",
+  "parsed_at": "2026-05-26T11:48:03.861Z",
   "company_id": "F8A871E7-2395-416A-A2FD-4E0360A89434",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 703.5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 684.7,
     "market_cap_inr": 4418304213.585018,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -88.35443596304194,
+    "upside_pct": -88.03468044399007,
     "multiples": {
       "pe": 72,
       "ps": null,
@@ -107,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -120,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 703.5,
-        "fetched_at": "2026-05-25T20:56:09.813Z",
+        "value": 684.7,
+        "fetched_at": "2026-05-26T11:48:03.861Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544001/sunita-tools-shares"
       }
     },
@@ -148,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.132530120481928,
-      "7D": -7.7074450639553955,
-      "1M": -18.83940932164282,
-      "3M": -23.549228428602483,
-      "6M": -19.81535305180373,
-      "1Y": 8.589951377633707,
+      "1D": -2.6723525230987852,
+      "7D": -5.447766346751354,
+      "1M": -21.008306414397776,
+      "3M": -28.29615666561943,
+      "6M": -24.200154987268892,
+      "1Y": 5.688045072161769,
       "5Y": null
     },
     "next_earnings_date": null,

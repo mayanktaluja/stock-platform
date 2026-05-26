@@ -3,7 +3,7 @@
   "name": "SSPN Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-539026/sspn-finance-shares",
-  "parsed_at": "2026-05-25T23:30:52.748Z",
+  "parsed_at": "2026-05-26T14:20:12.018Z",
   "company_id": "9D1E0072-DBDD-4D38-AE73-B09EB7A04AF4",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 10.59,
     "market_cap_inr": 40097980.39227109,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -120,7 +170,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 10.59,
-        "fetched_at": "2026-05-25T23:30:52.748Z",
+        "fetched_at": "2026-05-26T14:20:12.018Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-539026/sspn-finance-shares"
       }
     },

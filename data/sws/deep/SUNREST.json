@@ -3,7 +3,7 @@
   "name": "Sunrest Lifescience Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunrest/sunrest-lifescience-shares",
-  "parsed_at": "2026-05-25T23:17:46.189Z",
+  "parsed_at": "2026-05-26T14:06:09.213Z",
   "company_id": "328EDBD1-811C-4893-A16F-AFCB0B97D2A0",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 35,
     "market_cap_inr": 150191988.27300954,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": 1.8096057142857094,
     "multiples": {
-      "pe": 8.8,
+      "pe": 8.5,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,7 +98,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Price-To-Earnings ratio (8.8x) is below the Indian market (23.3x)",
+      "Trading at 1.8% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Became profitable this year"
@@ -57,7 +106,7 @@
     "risks": [
       "Highly volatile share price over past 3 months",
       "Has a high level of debt",
-      "Does not have a meaningful market cap (₹154M)"
+      "Does not have a meaningful market cap (₹150M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -83,17 +132,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 8.8,
+      "company_pe": 8.5,
       "industry_pe": 29.1,
       "industry_name": "Indian Pharmaceuticals"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 8.8,
+        "company_pe": 8.5,
         "industry_pe": 29.1,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "SUNREST is good value based on its Price-To-Earnings Ratio (8.8x) compared to the Indian Pharmaceuticals industry average (29.1x).",
+        "description": "SUNREST is good value based on its Price-To-Earnings Ratio (8.5x) compared to the Indian Pharmaceuticals industry average (29.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -110,8 +159,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -124,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 35,
-        "fetched_at": "2026-05-25T23:17:46.189Z",
+        "fetched_at": "2026-05-26T14:06:09.213Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunrest/sunrest-lifescience-shares"
       }
     },

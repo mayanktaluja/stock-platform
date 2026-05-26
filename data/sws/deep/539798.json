@@ -3,12 +3,12 @@
   "name": "Umiya Tubes Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-539798/umiya-tubes-shares",
-  "parsed_at": "2026-05-25T23:43:19.730Z",
+  "parsed_at": "2026-05-26T14:32:07.862Z",
   "company_id": "9022BC42-5104-4523-BF06-FDE5706C1845",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/umiya-tubes-ltd",
     "search_id": "umiya-tubes-ltd",
     "company_id": "GSTK539798",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 36.4,
-    "market_cap_inr": 449300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 38.22,
+    "market_cap_inr": 471600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 13.67,
       "high": 45.36
     },
-    "fair_value_inr": 0.203992,
+    "fair_value_inr": 0.204747,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.43958241758241,
+    "upside_pct": -99.46429356357929,
     "multiples": {
-      "pe": 37.1,
+      "pe": 40.9,
       "ps": 79.4,
-      "pb": 3.98,
+      "pb": 4.18,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -65,7 +114,7 @@
     "risks": [
       "Makes less than USD$1m in revenue (₹45M)",
       "Large [[one-off items]] impacting financial results",
-      "Does not have a meaningful market cap (₹497M)"
+      "Does not have a meaningful market cap (₹522M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -77,8 +126,8 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.5,
-      "sector_pe": 44.85265749196877
+      "pe": 22.4,
+      "sector_pe": 44.8465306218029
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -92,29 +141,29 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 37.1,
-      "industry_pe": 22.5,
+      "company_pe": 40.9,
+      "industry_pe": 22.4,
       "industry_name": "Indian Metals and Mining"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 44.85265749196877,
+        "industry_pe": 44.8465306218029,
         "industry_name": "Capital Goods-Non Electrical Equipment",
         "industry_id": 9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "sws_statement": {
-        "company_pe": 37.1,
-        "industry_pe": 22.5,
+        "company_pe": 40.9,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "539798 is expensive based on its Price-To-Earnings Ratio (37.1x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "539798 is expensive based on its Price-To-Earnings Ratio (40.9x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.503170331,
+        "industry_pe": 22.39994967,
         "industry_code": "2050000",
         "type": "median_profitable",
         "count": 190,
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -139,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 36.4,
-        "fetched_at": "2026-05-25T23:43:19.730Z",
+        "value": 38.22,
+        "fetched_at": "2026-05-26T14:32:07.862Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-539798/umiya-tubes-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 449300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 471600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 3.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.18,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 79.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 13.67,
           "high": 45.36
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.7082326,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.652769845802397,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 14.775160599571732,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 29.580573951434875,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 30.46357615894039,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 2.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8275271273557967,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.1106,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.621621621621622,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5255255255255256,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/umiya-tubes-ltd"
       }
     },
@@ -280,11 +329,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 3.98,
+    "pb": 4.18,
     "ps": 79.4,
     "book_value": 8.7082326,
     "face_value": 10,
-    "sector_pe": 44.85265749196877,
+    "sector_pe": 44.8465306218029,
     "roe_pct": 0,
     "roa_pct": 7.652769845802397,
     "roic_pct": 14.775160599571732,
@@ -296,12 +345,12 @@
     "quick_ratio": 4.621621621621622,
     "cash_ratio": 1.5255255255255256,
     "returns_pct": {
-      "1D": 4.959630911188001,
-      "7D": 6.060606060606056,
-      "1M": -6.642728904847406,
-      "3M": 18.644067796610166,
-      "6M": 55.223880597014926,
-      "1Y": 145.9459459459459,
+      "1D": 5.000000000000001,
+      "7D": 13.716155905980361,
+      "1M": -1.9748653500897744,
+      "3M": 25.806451612903224,
+      "6M": 55.23964256701868,
+      "1Y": 158.24324324324323,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -500,7 +549,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/umiya-tubes-ltd",
     "news": [
       {
@@ -562,18 +611,18 @@
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "MANINDS",
         "name": "Man Industries India",
         "searchId": "man-industries-india-ltd",
-        "market_cap_inr": 42733000000,
+        "market_cap_inr": 41825300000,
         "pe": 22.75,
         "pb": 2.17
       },
@@ -581,7 +630,7 @@
         "ticker": "SAMBHV",
         "name": "Sambhv Steel Tubes",
         "searchId": "sambhv-steel-tubes-ltd",
-        "market_cap_inr": 31367800000,
+        "market_cap_inr": 31691900000,
         "pe": 22.09,
         "pb": 2.98
       }

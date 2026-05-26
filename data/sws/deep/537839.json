@@ -3,12 +3,12 @@
   "name": "HBG Hotels Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-537839/hbg-hotels-shares",
-  "parsed_at": "2026-05-25T23:19:09.919Z",
+  "parsed_at": "2026-05-26T14:08:59.943Z",
   "company_id": "3200D75B-1CF9-4545-96F3-3D69CBC0741F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/phoenix-township-ltd",
     "search_id": "phoenix-township-ltd",
     "company_id": "GSTK537839",
@@ -20,34 +20,83 @@
       "future": 0,
       "past": 1,
       "financial_health": 1,
-      "dividends": 2,
+      "dividends": 1,
       "future_growth": 0,
       "past_performance": 1,
       "value": 2,
       "health": 1,
-      "dividend": 2
+      "dividend": 1
     },
-    "snowflake_total": 6,
-    "current_price_inr": 95.76,
-    "market_cap_inr": 2041700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 102.02,
+    "market_cap_inr": 1964900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 71.3,
-      "high": 286
+      "high": 281.05
     },
-    "fair_value_inr": 3.177245,
+    "fair_value_inr": 3.177365,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -96.68207497911445,
+    "upside_pct": -96.88554695157812,
     "multiples": {
-      "pe": 3.84,
+      "pe": 3.7,
       "ps": 7.39,
-      "pb": 0.56,
+      "pb": 0.54,
       "ev_ebitda": 7.57,
       "peg": -0.10666396298312464
     },
@@ -55,19 +104,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/phoenix-township-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (3.5x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (3.6x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹2B)",
       "Profit margins  are lower than last year",
-      "Dividend of 0.3% is not well covered by free cash flows",
       "Does not have meaningful revenue (₹246M)",
       "Debt is not well covered by [[operating cash flow]]",
       "Large [[one-off items]] impacting financial results",
@@ -123,13 +171,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.21757118145562,
-      "sector_pe": 40.21757118145562
+      "pe": 40.23629672107296,
+      "sector_pe": 40.23629672107296
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Hotels & Restaurants",
       "pe_industry_id": 31,
@@ -138,28 +186,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 3.84,
-      "industry_pe": 40.21757118145562,
+      "company_pe": 3.7,
+      "industry_pe": 40.23629672107296,
       "industry_name": "Hotels & Restaurants",
       "industry_id": 31,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/phoenix-township-ltd",
       "search_id": "phoenix-township-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 3.84,
-        "industry_pe": 40.21757118145562,
+        "company_pe": 3.7,
+        "industry_pe": 40.23629672107296,
         "industry_name": "Hotels & Restaurants",
         "industry_id": 31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "sws_statement": {
-        "company_pe": 3.5,
-        "industry_pe": 26.1,
+        "company_pe": 3.6,
+        "industry_pe": 25.9,
         "industry_name": "Indian Hospitality",
-        "description": "537839 is good value based on its Price-To-Earnings Ratio (3.5x) compared to the Indian Hospitality industry average (26.1x).",
+        "description": "537839 is good value based on its Price-To-Earnings Ratio (3.6x) compared to the Indian Hospitality industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -176,7 +224,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -189,149 +237,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 95.76,
-        "fetched_at": "2026-05-25T23:19:09.919Z",
+        "value": 102.02,
+        "fetched_at": "2026-05-26T14:08:59.943Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-537839/hbg-hotels-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2041700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1964900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 3.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.7,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.54,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 7.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.10666396298312464,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 71.3,
-          "high": 286
+          "high": 281.05
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 25.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 178.8808466,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1153,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.6679633515892901,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.156534229728138,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.439421338155487,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.279999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 4.012898602651379,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.3404,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.303901437371664,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5195071868583162,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/phoenix-township-ltd"
       }
     },
@@ -342,11 +390,11 @@
     "latest_net_income": null,
     "latest_eps": 25.88,
     "most_recent_reported_date": null,
-    "pb": 0.56,
+    "pb": 0.54,
     "ps": 7.39,
     "book_value": 178.8808466,
     "face_value": 10,
-    "sector_pe": 40.21757118145562,
+    "sector_pe": 40.23629672107296,
     "roe_pct": 1.1153,
     "roa_pct": 0.6679633515892901,
     "roic_pct": 1.156534229728138,
@@ -358,12 +406,12 @@
     "quick_ratio": 6.303901437371664,
     "cash_ratio": 0.5195071868583162,
     "returns_pct": {
-      "1D": -3.758793969849241,
-      "7D": -2.781725888324868,
-      "1M": 8.818181818181824,
-      "3M": -4.239999999999995,
-      "6M": -34.63481228668942,
-      "1Y": -64.04055576417575,
+      "1D": 6.537176274018369,
+      "7D": 0.058846606512360025,
+      "1M": 15.931818181818178,
+      "3M": 2.019999999999996,
+      "6M": -28.58242912145607,
+      "1Y": -61.68982350732257,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -628,7 +676,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/phoenix-township-ltd",
     "news": [
       {
@@ -703,7 +751,7 @@
         "ticker": "ITDC",
         "name": "India Tourism Development Corp",
         "searchId": "india-tourism-development-corporation-ltd",
-        "market_cap_inr": 47198900000,
+        "market_cap_inr": 47537700000,
         "pe": 57.32,
         "pb": 11.17
       },
@@ -711,7 +759,7 @@
         "ticker": "MHRIL",
         "name": "Mahindra Holidays & Resorts India",
         "searchId": "mahindra-holidays-resorts-india-ltd",
-        "market_cap_inr": 44277800000,
+        "market_cap_inr": 44964800000,
         "pe": 66.01,
         "pb": 0
       },
@@ -719,7 +767,7 @@
         "ticker": "JUNIPER",
         "name": "Juniper Hotels",
         "searchId": "juniper-hotels-ltd",
-        "market_cap_inr": 43888600000,
+        "market_cap_inr": 44022100000,
         "pe": 31.01,
         "pb": 1.53
       }

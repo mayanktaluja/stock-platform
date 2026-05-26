@@ -3,7 +3,7 @@
   "name": "Panache Digilife Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/nse-panache/panache-digilife-shares",
-  "parsed_at": "2026-05-25T22:01:51.263Z",
+  "parsed_at": "2026-05-26T12:54:16.049Z",
   "company_id": "967B7FFE-6961-45EE-A70F-09B172136E2A",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 348.15,
-    "market_cap_inr": 5301629153.064558,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 351.3,
+    "market_cap_inr": 5349597361.687719,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 32.8,
+      "pe": 33.5,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -119,7 +168,7 @@
     },
     "dividend_yield_pct": 0.5077942887,
     "industry_benchmarks": {
-      "pe": 22.5
+      "pe": 23
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -133,17 +182,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 32.8,
-      "industry_pe": 22.5,
+      "company_pe": 33.5,
+      "industry_pe": 23,
       "industry_name": "Asian Tech"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 32.8,
-        "industry_pe": 22.5,
+        "company_pe": 33.5,
+        "industry_pe": 23,
         "industry_name": "Asian Tech",
-        "description": "PANACHE is expensive based on its Price-To-Earnings Ratio (32.8x) compared to the Asian Tech industry average (22.5x).",
+        "description": "PANACHE is expensive based on its Price-To-Earnings Ratio (33.5x) compared to the Asian Tech industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -160,7 +209,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.4,
+        "industry_pe": 24.85,
         "sample_count": 8,
         "industry_code": "8120000",
         "industry_name": "Tech"
@@ -173,8 +222,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 348.15,
-        "fetched_at": "2026-05-25T22:01:51.263Z",
+        "value": 351.3,
+        "fetched_at": "2026-05-26T12:54:16.049Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-panache/panache-digilife-shares"
       }
     },
@@ -201,12 +250,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.162283887839605,
-      "7D": -5.918119173084727,
-      "1M": 10.523809523809517,
-      "3M": 0.7815892314372525,
-      "6M": -3.278233087928882,
-      "1Y": 88.18918918918918,
+      "1D": 0.9047824213701089,
+      "7D": -4.758031720211471,
+      "1M": 11.523809523809527,
+      "3M": 1.1226252158894745,
+      "6M": -6.829332979710913,
+      "1Y": 89.8918918918919,
       "5Y": null
     },
     "next_earnings_date": null,

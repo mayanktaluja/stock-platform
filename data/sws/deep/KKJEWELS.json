@@ -3,7 +3,7 @@
   "name": "Kabra Jewels Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares",
-  "parsed_at": "2026-05-25T21:07:54.586Z",
+  "parsed_at": "2026-05-26T11:55:53.053Z",
   "company_id": "5134B04F-09E9-4028-98DE-A0D90D0F24C3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 109.15,
-    "market_cap_inr": 1144437668.4672716,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 108.65,
+    "market_cap_inr": 1139195168.840761,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +83,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 111.42264681630782,
+    "upside_pct": 112.39559963184537,
     "multiples": {
-      "pe": 7.5,
+      "pe": 7.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,13 +102,12 @@
       "Earnings grew by 47.8% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (7.5x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (7.6x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹1B)",
-      "Highly volatile share price over past 3 months"
+      "Does not have a meaningful market cap (₹1B)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -70,7 +119,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.7
+      "pe": 19.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,22 +133,22 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 7.5,
-      "industry_pe": 18.7,
+      "company_pe": 7.6,
+      "industry_pe": 19.1,
       "industry_name": "Indian Specialty Retail"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 7.5,
-        "industry_pe": 18.7,
+        "company_pe": 7.6,
+        "industry_pe": 19.1,
         "industry_name": "Indian Specialty Retail",
-        "description": "KKJEWELS is good value based on its Price-To-Earnings Ratio (7.5x) compared to the Indian Specialty Retail industry average (18.7x).",
+        "description": "KKJEWELS is good value based on its Price-To-Earnings Ratio (7.6x) compared to the Indian Specialty Retail industry average (19.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.829506759,
+        "industry_pe": 19.132599109,
         "industry_code": "4440000",
         "type": "median_profitable",
         "count": 66,
@@ -111,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -124,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 109.15,
-        "fetched_at": "2026-05-25T21:07:54.586Z",
+        "value": 108.65,
+        "fetched_at": "2026-05-26T11:55:53.053Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares"
       }
     },
@@ -152,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.8314087759815295,
-      "7D": 8.069306930693076,
-      "1M": 1.8190298507462712,
-      "3M": 23.33333333333334,
-      "6M": 27.660818713450297,
-      "1Y": -29.557921910293633,
+      "1D": -0.45808520384791573,
+      "7D": 7.574257425742579,
+      "1M": 1.3526119402985102,
+      "3M": 24.45589919816725,
+      "6M": 25.971014492753632,
+      "1Y": -29.880606647305573,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Revathi Equipment India Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-rvth/revathi-equipment-india-shares",
-  "parsed_at": "2026-05-25T22:36:31.556Z",
+  "parsed_at": "2026-05-26T13:27:27.201Z",
   "company_id": "31C23B96-5ACF-4FB1-B22D-2176026178EF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/revathi-equipment-india-ltd",
     "search_id": "revathi-equipment-india-ltd",
     "company_id": "GSTK544246",
@@ -28,9 +28,60 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 799.45,
-    "market_cap_inr": 2140700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 823.45,
+    "market_cap_inr": 2458900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +94,7 @@
       "max": 332.25,
       "count": 1
     },
-    "upside_pct": 160.79335242979548,
+    "upside_pct": 153.19235606290607,
     "multiples": {
       "pe": 23.97,
       "ps": 1.45,
@@ -55,18 +106,19 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/revathi-equipment-india-ltd"
     },
     "rewards": [
-      "Trading at 67.9% below our estimate of its fair value"
+      "Price-To-Earnings ratio (18.2x) is below the Indian market (23.4x)",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Profit margins (6.3%) are lower than last year (12.7%)",
+      "Highly volatile share price over past 3 months",
       "Does not have a meaningful market cap (₹2B)",
-      "Revenue has declined by 36% over the past year",
-      "Large [[one-off items]] impacting financial results"
+      "Revenue has declined by 12.5% over the past year",
+      "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -84,7 +136,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Engineering",
       "pe_industry_id": 72,
@@ -97,7 +149,7 @@
       "industry_pe": 51.004825493896476,
       "industry_name": "Engineering",
       "industry_id": 72,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/revathi-equipment-india-ltd",
       "search_id": "revathi-equipment-india-ltd"
     },
@@ -107,14 +159,14 @@
         "industry_pe": 51.004825493896476,
         "industry_name": "Engineering",
         "industry_id": 72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 23,
-        "industry_pe": 16.9,
+        "company_pe": 18.2,
+        "industry_pe": 16.5,
         "industry_name": "Asian Energy Services",
-        "description": "RVTH is expensive based on its Price-To-Earnings Ratio (23x) compared to the Asian Energy Services industry average (16.9x).",
+        "description": "RVTH is expensive based on its Price-To-Earnings Ratio (18.2x) compared to the Asian Energy Services industry average (16.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +183,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
+        "industry_pe": 18.2,
         "sample_count": 11,
         "industry_code": "1020000",
         "industry_name": "Energy"
@@ -144,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 799.45,
-        "fetched_at": "2026-05-25T22:36:31.556Z",
+        "value": 823.45,
+        "fetched_at": "2026-05-26T13:27:27.201Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-rvth/revathi-equipment-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2140700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2458900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 23.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.41215763908500425,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 51.004825493896476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +254,91 @@
           "low": 491.1,
           "high": 1300
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 29.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 414.4092114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 51.004825493896476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.8498,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.244480968211871,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.992641587741964,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.82299027495977,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.814874414048834,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 48.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 25.363266220910692,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.7036,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1469329529243937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.03170074496750674,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/revathi-equipment-india-ltd"
       }
     },
@@ -313,12 +365,12 @@
     "quick_ratio": 1.1469329529243937,
     "cash_ratio": 0.03170074496750674,
     "returns_pct": {
-      "1D": 19.44568952637085,
-      "7D": 23.945736434108532,
-      "1M": 26.95728124503732,
-      "3M": 27.91200000000001,
-      "6M": 2.9224332153202504,
-      "1Y": -13.136306839789208,
+      "1D": 3.002063918944274,
+      "7D": 23.013146100985967,
+      "1M": 30.768619977767187,
+      "3M": 28.0637636080871,
+      "6M": 6.073682854566545,
+      "1Y": -10.528603248764053,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -506,7 +558,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/revathi-equipment-india-ltd",
     "news": [
       {
@@ -571,25 +623,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

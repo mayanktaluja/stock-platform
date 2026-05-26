@@ -3,12 +3,12 @@
   "name": "Gloster Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-glosterltd/gloster-shares",
-  "parsed_at": "2026-05-25T23:39:42.185Z",
+  "parsed_at": "2026-05-26T14:31:12.501Z",
   "company_id": "58EBA1F9-1631-496F-9FD4-AC3E78FBDBBF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd",
     "search_id": "kettlewell-bullen-company-ltd",
     "company_id": "GSTK542351",
@@ -28,22 +28,70 @@
       "dividend": 2
     },
     "snowflake_total": 6,
-    "current_price_inr": 676.9,
-    "market_cap_inr": 6954400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 675.85,
+    "market_cap_inr": 7359900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 495,
       "high": 830
     },
-    "fair_value_inr": 123.400323,
+    "fair_value_inr": 122.594044,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -81.76978534495495,
+    "upside_pct": -81.86076141155581,
     "multiples": {
       "pe": 91.44,
       "ps": 0.52,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
     },
@@ -131,13 +179,13 @@
     },
     "dividend_yield_pct": 3.15,
     "industry_benchmarks": {
-      "pe": 34.08245820635203,
-      "sector_pe": 34.08245820635203
+      "pe": 34.04694988503199,
+      "sector_pe": 34.04694988503199
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -147,20 +195,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 91.44,
-      "industry_pe": 34.08245820635203,
+      "industry_pe": 34.04694988503199,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd",
       "search_id": "kettlewell-bullen-company-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 91.44,
-        "industry_pe": 34.08245820635203,
+        "industry_pe": 34.04694988503199,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "sws_statement": {
@@ -172,10 +220,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.188196269,
+        "industry_pe": 18.488832552,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 296,
+        "count": 295,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,7 +232,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -197,56 +245,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 676.9,
-        "fetched_at": "2026-05-25T23:39:42.185Z",
+        "value": 675.85,
+        "fetched_at": "2026-05-26T14:31:12.501Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-glosterltd/gloster-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 6954400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7359900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 91.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 16.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.3017474600870827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 3.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "fifty_two_week": {
@@ -255,91 +303,91 @@
           "low": 495,
           "high": 830
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 6.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 988.2747554,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8493,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3450699435463759,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.643692413891007,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5736166492043989,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.644696872620923,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 69.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 34.1587503117419,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.4709,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7621239055672776,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.02350849794819824,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd"
       }
     },
@@ -354,7 +402,7 @@
     "ps": 0.52,
     "book_value": 988.2747554,
     "face_value": 10,
-    "sector_pe": 34.08245820635203,
+    "sector_pe": 34.04694988503199,
     "roe_pct": 0.8493,
     "roa_pct": 0.3450699435463759,
     "roic_pct": 1.643692413891007,
@@ -366,16 +414,16 @@
     "quick_ratio": 0.7621239055672776,
     "cash_ratio": 0.02350849794819824,
     "returns_pct": {
-      "1D": 6.464296948726019,
-      "7D": 4.605161489723375,
-      "1M": 17.92682926829268,
-      "3M": 17.701269344461824,
-      "6M": 9.283177268324184,
-      "1Y": 10.92175337976239,
+      "1D": -0.15511892450878337,
+      "7D": 5.766823161189362,
+      "1M": 17.743902439024396,
+      "3M": 18.830769230769235,
+      "6M": 7.456872565386751,
+      "1Y": 10.749692748873416,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -645,22 +693,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kettlewell-bullen-company-ltd",
     "news": [
+      {
+        "id": "677622",
+        "title": "Gloster reported Q4 net profit of 82M vs a loss of 23M YoY.\nQ4 revenue rose to 3.8B from 2.8B YoY, showcasing strong growth.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-25T01:19:12.000Z"
+      },
       {
         "id": "846012598685425792",
         "title": "Gloster Ltd's FY26 audited results approved; auditor gave unmodified opinion.\nBoard recommended Rs. 20/share dividend; Rs. 14,582.2 lakh goodwill amortized per NCLT.",
         "url": "https://sqst.in/QsrlP",
         "source": "ScoutQuest",
         "published_at": "2026-05-23T13:12:01.000Z"
-      },
-      {
-        "id": "845659228577623424",
-        "title": "NCLT approved Gloster's merger of two wholly-owned subsidiaries on May 22, 2026.\nNo new shares issued; merger aims to utilize capital assets efficiently for growth.",
-        "url": "https://sqst.in/6YKX0",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-22T13:47:51.000Z"
       }
     ],
     "events": [
@@ -720,23 +768,23 @@
         "ticker": "CHEVIOT",
         "name": "Cheviot Co",
         "searchId": "cheviot-company-ltd",
-        "market_cap_inr": 6621200000,
-        "pe": 12.81,
+        "market_cap_inr": 6648600000,
+        "pe": 12.86,
         "pb": 0.94
       },
       {
         "ticker": "526179",
         "name": "Ludlow Jute & Specialities",
         "searchId": "ludlow-jute-specialities-ltd",
-        "market_cap_inr": 3888000000,
-        "pe": 22.48,
-        "pb": 2.16
+        "market_cap_inr": 4077000000,
+        "pe": 23.57,
+        "pb": 2.26
       },
       {
         "ticker": "532806",
         "name": "Ai Champdany Industries",
         "searchId": "ai-champdany-industries-ltd",
-        "market_cap_inr": 989700000,
+        "market_cap_inr": 976100000,
         "pe": null,
         "pb": 0
       }
@@ -774,6 +822,16 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "60688cc1-873e-4164-b961-aaf32c72feeb",
+      "type": "event",
+      "date": "2026-05-24T00:00:00.000Z",
+      "title": "Gloster Limited announces Annual dividend, payable on September 06, 2026",
+      "body": "Gloster Limited announced Annual dividend of INR 20.0000 per share payable on September 06, 2026, ex-date on July 03, 2026 and record date on July 03, 2026.",
+      "keyDevTypeId": "45",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
     },
     {
       "id": "79ea7ae6-ba82-4051-8ba8-c9e08ae1b161",

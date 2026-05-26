@@ -3,12 +3,12 @@
   "name": "Martin Burn Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-523566/martin-burn-shares",
-  "parsed_at": "2026-05-25T21:42:31.976Z",
+  "parsed_at": "2026-05-26T12:38:43.701Z",
   "company_id": "753D0C58-E895-43E7-A27E-1396DC527FAA",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/martin-burn-ltd",
     "search_id": "martin-burn-ltd",
     "company_id": "GSTK523566",
@@ -28,24 +28,74 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 44.11,
-    "market_cap_inr": 226600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 46,
+    "market_cap_inr": 227200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 36.12,
       "high": 77
     },
-    "fair_value_inr": 259.859147,
+    "fair_value_inr": 260.692415,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 489.11618000453416,
+    "upside_pct": 466.7226413043478,
     "multiples": {
-      "pe": 3.94,
+      "pe": 3.95,
       "ps": 0,
       "pb": 0.46,
       "ev_ebitda": 4.05,
@@ -55,13 +105,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/martin-burn-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 83.1% below our estimate of its fair value",
+      "Trading at 82.4% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 224.4% over the past year"
     ],
@@ -108,13 +158,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 46.662492027725364,
-      "sector_pe": 46.662492027725364
+      "pe": 46.673178821898745,
+      "sector_pe": 46.673178821898745
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Realty",
       "pe_industry_id": 51,
@@ -123,28 +173,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 3.94,
-      "industry_pe": 46.662492027725364,
+      "company_pe": 3.95,
+      "industry_pe": 46.673178821898745,
       "industry_name": "Realty",
       "industry_id": 51,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/martin-burn-ltd",
       "search_id": "martin-burn-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 3.94,
-        "industry_pe": 46.662492027725364,
+        "company_pe": 3.95,
+        "industry_pe": 46.673178821898745,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "sws_statement": {
-        "company_pe": 3.9,
+        "company_pe": 4.1,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "523566 is good value based on its Price-To-Earnings Ratio (3.9x) compared to the Indian Construction industry average (16.1x).",
+        "description": "523566 is good value based on its Price-To-Earnings Ratio (4.1x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -161,8 +211,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -174,56 +224,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 44.11,
-        "fetched_at": "2026-05-25T21:42:31.976Z",
+        "value": 46,
+        "fetched_at": "2026-05-26T12:38:43.701Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-523566/martin-burn-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 226600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 227200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 3.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.95,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.014591797752808985,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 46.662492027725364,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 46.673178821898745,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "fifty_two_week": {
@@ -232,91 +282,91 @@
           "low": 36.12,
           "high": 77
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 11.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 95.6918447,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 46.662492027725364,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 46.673178821898745,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.8676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.69620253164557,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.289989959375442,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.13844936708860758,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8928,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7692307692307692,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0497737556561086,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/martin-burn-ltd"
       }
     },
@@ -331,7 +381,7 @@
     "ps": 0,
     "book_value": 95.6918447,
     "face_value": 10,
-    "sector_pe": 46.662492027725364,
+    "sector_pe": 46.673178821898745,
     "roe_pct": 10.8676,
     "roa_pct": 5.69620253164557,
     "roic_pct": 10.289989959375442,
@@ -343,12 +393,12 @@
     "quick_ratio": 1.7692307692307692,
     "cash_ratio": 0.0497737556561086,
     "returns_pct": {
-      "1D": 0.2499999999999987,
-      "7D": 1.239384897865502,
-      "1M": -6.148936170212767,
-      "3M": -8.104166666666668,
-      "6M": -17.85847299813781,
-      "1Y": -21.51245551601424,
+      "1D": 4.284742688732715,
+      "7D": 4.998858708057516,
+      "1M": -2.127659574468085,
+      "3M": -7.649066452519579,
+      "6M": -13.20754716981132,
+      "1Y": -18.149466192170824,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -536,7 +586,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-27T18:30:00.000Z",
@@ -549,7 +599,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/martin-burn-ltd",
     "news": [
       {
@@ -599,7 +649,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-27T18:30:00.000Z",
@@ -614,7 +664,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -622,7 +672,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -630,7 +680,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

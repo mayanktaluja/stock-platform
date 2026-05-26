@@ -3,7 +3,7 @@
   "name": "Defrail Technologies Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-544677/defrail-technologies-shares",
-  "parsed_at": "2026-05-25T21:18:27.269Z",
+  "parsed_at": "2026-05-26T12:10:19.176Z",
   "company_id": "7657FA8E-9275-4C68-92F7-6FD2B1A80EEB",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 76.6,
-    "market_cap_inr": 538070606.3014811,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 15,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 75,
+    "market_cap_inr": 526831533.5850011,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -113,8 +164,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -126,8 +177,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 76.6,
-        "fetched_at": "2026-05-25T21:18:27.269Z",
+        "value": 75,
+        "fetched_at": "2026-05-26T12:10:19.176Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-544677/defrail-technologies-shares"
       }
     },
@@ -154,12 +205,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.5249343832020885,
-      "7D": -3.037974683544311,
-      "1M": 0.7894736842105189,
-      "3M": -27.70174610665409,
-      "6M": -15.124653739612196,
-      "1Y": -15.124653739612196,
+      "1D": -2.0887728459529953,
+      "7D": -6.25,
+      "1M": 1.3513513513513513,
+      "3M": -23.85786802030457,
+      "6M": -16.897506925207757,
+      "1Y": -16.897506925207757,
       "5Y": null
     },
     "next_earnings_date": null,

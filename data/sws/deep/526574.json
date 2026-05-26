@@ -3,12 +3,12 @@
   "name": "Enterprise International Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-526574/enterprise-international-shares",
-  "parsed_at": "2026-05-25T22:01:18.476Z",
+  "parsed_at": "2026-05-26T12:57:05.242Z",
   "company_id": "ED1C5C81-46F4-49D7-926A-F09A58328081",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/enterprise-international-ltd",
     "search_id": "enterprise-international-ltd",
     "company_id": "GSTK526574",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 21.46,
-    "market_cap_inr": 61000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 22.49,
+    "market_cap_inr": 64000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 216.1259925442684,
+    "upside_pct": 201.6480124499778,
     "multiples": {
       "pe": null,
       "ps": 1.27,
-      "pb": 0.48,
+      "pb": 0.5,
       "ev_ebitda": 8.41,
       "peg": 0.059663865546218484
     },
@@ -62,13 +111,13 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at 69.9% below our estimate of its fair value"
+      "Trading at 66.8% below our estimate of its fair value"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹53M)",
       "Earnings have declined by 19.8% per year over past 5 years",
-      "Does not have a meaningful market cap (₹61M)"
+      "Does not have a meaningful market cap (₹64M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -80,7 +129,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -101,17 +150,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2,
+        "industry_pe": 1.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "526574 is good value based on its Price-To-Sales Ratio (1.1x) compared to the Indian Retail Distributors industry average (2x).",
+        "description": "526574 is good value based on its Price-To-Sales Ratio (1.3x) compared to the Indian Retail Distributors industry average (1.9x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,8 +177,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -141,50 +190,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 21.46,
-        "fetched_at": "2026-05-25T22:01:18.476Z",
+        "value": 22.49,
+        "fetched_at": "2026-05-26T12:57:05.242Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-526574/enterprise-international-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 61000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 64000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.5,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.059663865546218484,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "fifty_two_week": {
@@ -193,85 +242,85 @@
           "low": 17.67,
           "high": 29.75
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 42.8144475,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.2907,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.209302325581395,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.41860465116279066,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/enterprise-international-ltd"
       }
     },
@@ -282,11 +331,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.48,
+    "pb": 0.5,
     "ps": 1.27,
     "book_value": 42.8144475,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -298,12 +347,12 @@
     "quick_ratio": 5.209302325581395,
     "cash_ratio": 0.41860465116279066,
     "returns_pct": {
-      "1D": 4.9902152641878645,
-      "7D": 21.448783248443686,
-      "1M": -4.110813226094719,
-      "3M": -0.18604651162790303,
-      "6M": 2.1904761904761942,
-      "1Y": -6.93842150910667,
+      "1D": 4.7996272134203055,
+      "7D": 21.239892183288397,
+      "1M": 0.49151027703306277,
+      "3M": 8.54247104247104,
+      "6M": 7.095238095238088,
+      "1Y": -2.471812662619256,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -477,7 +526,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/enterprise-international-ltd",
     "news": [
       {
@@ -542,7 +591,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -550,15 +599,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

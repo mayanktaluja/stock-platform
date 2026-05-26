@@ -3,12 +3,12 @@
   "name": "Accedere Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-531533/accedere-shares",
-  "parsed_at": "2026-05-25T22:40:48.334Z",
+  "parsed_at": "2026-05-26T13:36:26.818Z",
   "company_id": "24B66F6C-E56C-4CB9-8F90-C48FFF2B5EDE",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ecom-infotech-india-ltd",
     "search_id": "ecom-infotech-india-ltd",
     "company_id": "GSTK531533",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 58.49,
-    "market_cap_inr": 281000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 56.49,
+    "market_cap_inr": 288700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +93,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.13851256625064,
+    "upside_pct": -98.07260754115774,
     "multiples": {
       "pe": null,
       "ps": 8.34,
@@ -63,9 +113,8 @@
       "Earnings grew by 91% over the past year"
     ],
     "risks": [
-      "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹34M)",
-      "Does not have a meaningful market cap (₹281M)"
+      "Does not have a meaningful market cap (₹289M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -77,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 19.240887337479148
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,10 +147,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "sws_statement": {
@@ -125,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -138,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 58.49,
-        "fetched_at": "2026-05-25T22:40:48.334Z",
+        "value": 56.49,
+        "fetched_at": "2026-05-26T13:36:26.818Z",
         "url": "https://simplywall.st/stocks/in/software/bse-531533/accedere-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 281000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 288700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 6.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 8.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 130.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.7888176470588234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "fifty_two_week": {
@@ -190,91 +239,91 @@
           "low": 38.28,
           "high": 88.6
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.8336402,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.0362,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8050541516245486,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4514672686230248,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9585798816568047,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.21301775147929,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 12.509999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 9.927797833935019,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.2429,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.950819672131148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7868852459016393,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ecom-infotech-india-ltd"
       }
     },
@@ -289,7 +338,7 @@
     "ps": 8.34,
     "book_value": 8.8336402,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 3.0362,
     "roa_pct": 1.8050541516245486,
     "roic_pct": 0.4514672686230248,
@@ -301,12 +350,12 @@
     "quick_ratio": 2.950819672131148,
     "cash_ratio": 0.7868852459016393,
     "returns_pct": {
-      "1D": 2.7402072720885338,
-      "7D": 10.37931685223627,
-      "1M": 10.358490566037739,
-      "3M": 47.80381821560637,
-      "6M": -19.556138028958966,
-      "1Y": -33.29289697543562,
+      "1D": -3.4193879295606084,
+      "7D": 1.5459284558691344,
+      "1M": 6.584905660377362,
+      "3M": 35.97155539568782,
+      "6M": -25.088606691845772,
+      "1Y": -35.573871604417135,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -472,7 +521,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ecom-infotech-india-ltd",
     "news": [
       {
@@ -555,17 +604,17 @@
         "ticker": "ROUTE",
         "name": "Route Mobile",
         "searchId": "route-mobile-ltd",
-        "market_cap_inr": 32222900000,
+        "market_cap_inr": 32566300000,
         "pe": 12.54,
         "pb": 1.16
       },
       {
-        "ticker": "PROTEAN",
-        "name": "Protean e-Gov Technologies",
-        "searchId": "protean-egov-technologies-ltd",
-        "market_cap_inr": 26301400000,
-        "pe": 26.14,
-        "pb": 2.44
+        "ticker": "JAYKAY",
+        "name": "Jaykay Enterprises",
+        "searchId": "jaykay-enterprises-ltd",
+        "market_cap_inr": 25738200000,
+        "pe": 72.22,
+        "pb": 4.75
       }
     ],
     "details": {

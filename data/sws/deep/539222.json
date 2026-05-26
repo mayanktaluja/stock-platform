@@ -3,12 +3,12 @@
   "name": "Growington Ventures India Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-539222/growington-ventures-india-shares",
-  "parsed_at": "2026-05-25T23:35:45.668Z",
+  "parsed_at": "2026-05-26T14:23:18.290Z",
   "company_id": "FFDD2F68-CDAB-4277-947E-91157C7E806C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vmv-holidays-ltd",
     "search_id": "vmv-holidays-ltd",
     "company_id": "GSTK539222",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 0.81,
-    "market_cap_inr": 539500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 0.82,
+    "market_cap_inr": 520200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/vmv-holidays-ltd"
     },
@@ -63,12 +112,12 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 86.6% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (11.7x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (11.4x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
       "Shareholders have been substantially diluted in the past year",
-      "Does not have a meaningful market cap (₹539M)"
+      "Does not have a meaningful market cap (₹520M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 56.05914496503882,
-      "sector_pe": 56.05914496503882
+      "pe": 56.05475305701128,
+      "sector_pe": 56.05475305701128
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -96,27 +145,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12,
-      "industry_pe": 56.05914496503882,
+      "industry_pe": 56.05475305701128,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/vmv-holidays-ltd",
       "search_id": "vmv-holidays-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 12,
-        "industry_pe": 56.05914496503882,
+        "industry_pe": 56.05475305701128,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "sws_statement": {
-        "company_pe": 11.7,
-        "industry_pe": 26.1,
+        "company_pe": 11.4,
+        "industry_pe": 25.9,
         "industry_name": "Indian Hospitality",
-        "description": "539222 is good value based on its Price-To-Earnings Ratio (11.7x) compared to the Indian Hospitality industry average (26.1x).",
+        "description": "539222 is good value based on its Price-To-Earnings Ratio (11.4x) compared to the Indian Hospitality industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +182,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 0.81,
-        "fetched_at": "2026-05-25T23:35:45.668Z",
+        "value": 0.82,
+        "fetched_at": "2026-05-26T14:23:18.290Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-539222/growington-ventures-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 539500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 520200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.12600000000000003,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 0.59,
           "high": 2.13
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.137337,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.4391179290508145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.845769421308173,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.5118325242718456,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.195691747572817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 10.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 7.6318312559923305,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.4639,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.2731925783749203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08637236084452975,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vmv-holidays-ltd"
       }
     },
@@ -303,7 +352,7 @@
     "ps": 0.41,
     "book_value": 1.137337,
     "face_value": 1,
-    "sector_pe": 56.05914496503882,
+    "sector_pe": 56.05475305701128,
     "roe_pct": 6.33,
     "roa_pct": 4.4391179290508145,
     "roic_pct": 6.845769421308173,
@@ -315,12 +364,12 @@
     "quick_ratio": 3.2731925783749203,
     "cash_ratio": 0.08637236084452975,
     "returns_pct": {
-      "1D": -3.5714285714285614,
-      "7D": -2.4096385542168566,
-      "1M": -6.896551724137924,
-      "3M": -15.624999999999991,
-      "6M": -29.565217391304337,
-      "1Y": -58.24742268041236,
+      "1D": 1.2345679012345552,
+      "7D": -2.380952380952383,
+      "1M": -5.747126436781615,
+      "3M": -15.4639175257732,
+      "6M": -29.914529914529915,
+      "1Y": -57.731958762886606,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -560,7 +609,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vmv-holidays-ltd",
     "news": [
       {
@@ -628,7 +677,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -636,15 +685,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

@@ -3,12 +3,12 @@
   "name": "Karma Energy Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-karmaeng/karma-energy-shares",
-  "parsed_at": "2026-05-25T21:02:15.800Z",
+  "parsed_at": "2026-05-26T11:50:33.525Z",
   "company_id": "59EFDCE4-E7C9-48FA-8EB4-1FB45EEA7278",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/karma-energy-ltd",
     "search_id": "karma-energy-ltd",
     "company_id": "GSTK533451",
@@ -28,24 +28,74 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 46.17,
-    "market_cap_inr": 532200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 45.16,
+    "market_cap_inr": 532100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 34.38,
       "high": 86.93
     },
-    "fair_value_inr": 42.262934,
+    "fair_value_inr": 41.009458,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -8.462347844920945,
+    "upside_pct": -9.190748449955702,
     "multiples": {
-      "pe": 24.47,
+      "pe": 24.46,
       "ps": 5.35,
       "pb": 1.28,
       "ev_ebitda": 17.17,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/karma-energy-ltd"
     },
@@ -63,7 +113,7 @@
       "Became profitable this year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (24.5x) is below the Renewable Energy industry average (33x)"
+      "Price-To-Earnings ratio (24.7x) is below the Renewable Energy industry average (35.1x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹532M)",
@@ -80,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 34.164480816854145,
-      "sector_pe": 34.164480816854145
+      "pe": 32.67305792550647,
+      "sector_pe": 32.67305792550647
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Power Generation & Distribution",
       "pe_industry_id": 49,
@@ -95,33 +145,33 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 24.47,
-      "industry_pe": 34.164480816854145,
+      "company_pe": 24.46,
+      "industry_pe": 32.67305792550647,
       "industry_name": "Power Generation & Distribution",
       "industry_id": 49,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/karma-energy-ltd",
       "search_id": "karma-energy-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 24.47,
-        "industry_pe": 34.164480816854145,
+        "company_pe": 24.46,
+        "industry_pe": 32.67305792550647,
         "industry_name": "Power Generation & Distribution",
         "industry_id": 49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "sws_statement": {
-        "company_pe": 24.5,
-        "industry_pe": 33,
+        "company_pe": 24.7,
+        "industry_pe": 35.1,
         "industry_name": "Indian Renewable Energy",
-        "description": "KARMAENG is good value based on its Price-To-Earnings Ratio (24.5x) compared to the Indian Renewable Energy industry average (33x).",
+        "description": "KARMAENG is good value based on its Price-To-Earnings Ratio (24.7x) compared to the Indian Renewable Energy industry average (35.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 32.95481049,
+        "industry_pe": 35.067452454,
         "industry_code": "9551702",
         "type": "median_profitable",
         "count": 25,
@@ -133,7 +183,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.5,
+        "industry_pe": 26.7,
         "sample_count": 22,
         "industry_code": "9551702",
         "industry_name": "Utilities"
@@ -146,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 46.17,
-        "fetched_at": "2026-05-25T21:02:15.800Z",
+        "value": 45.16,
+        "fetched_at": "2026-05-26T11:50:33.525Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-karmaeng/karma-energy-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 532200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 532100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 24.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.46,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 5.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.03433064516129033,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.164480816854145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 32.67305792550647,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +254,91 @@
           "low": 34.38,
           "high": 86.93
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 35.9674269,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.164480816854145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 32.67305792550647,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.0234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.182972075766452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.59877800407332,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 24.032586558044805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.3977738722905686,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.245,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.325471698113208,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0660377358490566,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/karma-energy-ltd"
       }
     },
@@ -303,7 +353,7 @@
     "ps": 5.35,
     "book_value": 35.9674269,
     "face_value": 10,
-    "sector_pe": 34.164480816854145,
+    "sector_pe": 32.67305792550647,
     "roe_pct": 0.0234,
     "roa_pct": 3.182972075766452,
     "roic_pct": 0,
@@ -315,12 +365,12 @@
     "quick_ratio": 4.325471698113208,
     "cash_ratio": 0.0660377358490566,
     "returns_pct": {
-      "1D": 1.6065140845070511,
-      "7D": -6.024832078159985,
-      "1M": -10.070120763537206,
-      "3M": 5.194805194805197,
-      "6M": -13.604041916167658,
-      "1Y": -22.3250336473755,
+      "1D": -2.187567684643719,
+      "7D": -5.916666666666673,
+      "1M": -12.037397740553187,
+      "3M": 2.987457240592919,
+      "6M": -15.856158002608542,
+      "1Y": -24.024226110363394,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -551,7 +601,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/karma-energy-ltd",
     "news": [
       {
@@ -616,7 +666,7 @@
         "ticker": "RTNPOWER",
         "name": "RattanIndia Power",
         "searchId": "rattanindia-power-ltd",
-        "market_cap_inr": 49029100000,
+        "market_cap_inr": 49405000000,
         "pe": 91.3,
         "pb": 1.06
       },
@@ -624,7 +674,7 @@
         "ticker": "519477",
         "name": "Cian Agro Industries & Infrastructure",
         "searchId": "cian-agro-industries-infrastructure-ltd",
-        "market_cap_inr": 42574900000,
+        "market_cap_inr": 44703300000,
         "pe": 25.18,
         "pb": 2.13
       },
@@ -632,7 +682,7 @@
         "ticker": "ORIANA",
         "name": "Oriana Power",
         "searchId": "oriana-power-ltd",
-        "market_cap_inr": 38534300000,
+        "market_cap_inr": 39869200000,
         "pe": 24.31,
         "pb": 7.56
       }

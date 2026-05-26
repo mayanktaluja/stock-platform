@@ -3,12 +3,12 @@
   "name": "Robust Hotels Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-rhl/robust-hotels-shares",
-  "parsed_at": "2026-05-25T22:29:32.664Z",
+  "parsed_at": "2026-05-26T13:20:30.599Z",
   "company_id": "3801D7D8-6B7C-4B34-9794-FC6DDB90FB00",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/robust-hotels-ltd",
     "search_id": "robust-hotels-ltd",
     "company_id": "GSTK543901",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 15,
-    "current_price_inr": 190.15,
-    "market_cap_inr": 3399500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 184.92,
+    "market_cap_inr": 3389200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 160.98,
       "high": 314
     },
-    "fair_value_inr": 497.951705,
+    "fair_value_inr": 497.107127,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 161.8731028135682,
+    "upside_pct": 168.82280283365782,
     "multiples": {
-      "pe": 12.48,
+      "pe": 12.44,
       "ps": 2.24,
-      "pb": 0.62,
+      "pb": 0.61,
       "ev_ebitda": 9.99,
       "peg": 0.10188112094395282
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/robust-hotels-ltd"
     },
@@ -63,7 +112,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 221.9% over the past year",
-      "Trading at 61.7% below our estimate of its fair value"
+      "Trading at 62.8% below our estimate of its fair value"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹3B)"
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.21757118145562,
-      "sector_pe": 40.21757118145562
+      "pe": 40.23629672107296,
+      "sector_pe": 40.23629672107296
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Hotels & Restaurants",
       "pe_industry_id": 31,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 12.48,
-      "industry_pe": 40.21757118145562,
+      "company_pe": 12.44,
+      "industry_pe": 40.23629672107296,
       "industry_name": "Hotels & Restaurants",
       "industry_id": 31,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/robust-hotels-ltd",
       "search_id": "robust-hotels-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 12.48,
-        "industry_pe": 40.21757118145562,
+        "company_pe": 12.44,
+        "industry_pe": 40.23629672107296,
         "industry_name": "Hotels & Restaurants",
         "industry_id": 31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.1,
-        "industry_pe": 26.1,
+        "company_pe": 11.7,
+        "industry_pe": 25.9,
         "industry_name": "Indian Hospitality",
-        "description": "RHL is good value based on its Price-To-Earnings Ratio (12.1x) compared to the Indian Hospitality industry average (26.1x).",
+        "description": "RHL is good value based on its Price-To-Earnings Ratio (11.7x) compared to the Indian Hospitality industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 190.15,
-        "fetched_at": "2026-05-25T22:29:32.664Z",
+        "value": 184.92,
+        "fetched_at": "2026-05-26T13:20:30.599Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-rhl/robust-hotels-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3399500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3389200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 12.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 12.44,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.61,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.10188112094395282,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 160.98,
           "high": 314
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 15.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 319.4048727,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.985123713261491,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.557060533576713,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.44850948509485,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 48.45528455284553,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 16.505333318716495,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.521642892277423,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2830791933103788,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/robust-hotels-ltd"
       }
     },
@@ -297,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 15.75,
     "most_recent_reported_date": null,
-    "pb": 0.62,
+    "pb": 0.61,
     "ps": 2.24,
     "book_value": 319.4048727,
     "face_value": 10,
-    "sector_pe": 40.21757118145562,
+    "sector_pe": 40.23629672107296,
     "roe_pct": 0,
     "roa_pct": 2.985123713261491,
     "roic_pct": 4.557060533576713,
@@ -313,12 +362,12 @@
     "quick_ratio": 5.521642892277423,
     "cash_ratio": 0.2830791933103788,
     "returns_pct": {
-      "1D": -0.4450261780104682,
-      "7D": 9.571280396450394,
-      "1M": 2.717156439066552,
-      "3M": 1.8260683302988092,
-      "6M": -14.149623007810739,
-      "1Y": -17.698234072022156,
+      "1D": -2.7504601630291967,
+      "7D": 1.559753954305786,
+      "1M": -0.1080380293863532,
+      "3M": -3.0055074744295927,
+      "6M": -15.037904893177126,
+      "1Y": -19.96191135734072,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -437,7 +486,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/robust-hotels-ltd",
     "news": [
       {
@@ -485,7 +534,7 @@
         "ticker": "ITDC",
         "name": "India Tourism Development Corp",
         "searchId": "india-tourism-development-corporation-ltd",
-        "market_cap_inr": 47198900000,
+        "market_cap_inr": 47537700000,
         "pe": 57.32,
         "pb": 11.17
       },
@@ -493,7 +542,7 @@
         "ticker": "MHRIL",
         "name": "Mahindra Holidays & Resorts India",
         "searchId": "mahindra-holidays-resorts-india-ltd",
-        "market_cap_inr": 44277800000,
+        "market_cap_inr": 44964800000,
         "pe": 66.01,
         "pb": 0
       },
@@ -501,7 +550,7 @@
         "ticker": "JUNIPER",
         "name": "Juniper Hotels",
         "searchId": "juniper-hotels-ltd",
-        "market_cap_inr": 43888600000,
+        "market_cap_inr": 44022100000,
         "pe": 31.01,
         "pb": 1.53
       }

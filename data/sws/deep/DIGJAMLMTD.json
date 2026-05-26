@@ -3,12 +3,12 @@
   "name": "Digjam Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-digjamlmtd/digjam-shares",
-  "parsed_at": "2026-05-25T23:10:44.783Z",
+  "parsed_at": "2026-05-26T14:00:42.386Z",
   "company_id": "9663BD13-E48B-4D8F-80A7-038608207D41",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/digjam-ltd",
     "search_id": "digjam-ltd",
     "company_id": "GSTK539979",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 46.79,
-    "market_cap_inr": 966400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 45.63,
+    "market_cap_inr": 944000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": 28.59,
       "ps": 3.05,
-      "pb": 20.93,
+      "pb": 21.36,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/digjam-ltd"
     },
@@ -64,7 +113,7 @@
     ],
     "risks": [
       "Does not have meaningful revenue (₹335M)",
-      "Does not have a meaningful market cap (₹954M)",
+      "Does not have a meaningful market cap (₹936M)",
       "Debt is not well covered by [[operating cash flow]]",
       "Profit margins (6.9%) are lower than last year (10.9%)"
     ],
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -94,27 +143,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 28.59,
-      "industry_pe": 53.672860099337726,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/digjam-ltd",
       "search_id": "digjam-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 28.59,
-        "industry_pe": 53.672860099337726,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "sws_statement": {
-        "company_pe": 41,
-        "industry_pe": 18.2,
+        "company_pe": 39.2,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "DIGJAMLMTD is expensive based on its Price-To-Earnings Ratio (41x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "DIGJAMLMTD is expensive based on its Price-To-Earnings Ratio (39.2x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 46.79,
-        "fetched_at": "2026-05-25T23:10:44.783Z",
+        "value": 45.63,
+        "fetched_at": "2026-05-26T14:00:42.386Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-digjamlmtd/digjam-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 966400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 944000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 28.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 20.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.36,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,85 @@
           "low": 32.83,
           "high": 59.75
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
-        "url": "https://groww.in/stocks/digjam-ltd"
-      },
-      "latest_eps": {
-        "provider": "groww_refinitiv",
-        "value": 1.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 2.3085,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.21,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 23.8943,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9714144898964998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.47703180212014,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.119999999999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.736,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1263.8999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 71.895022178413,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.31028906407924,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.014352132605619567,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/digjam-ltd"
       }
     },
@@ -295,13 +338,13 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": 1.69,
+    "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 20.93,
+    "pb": 21.36,
     "ps": 3.05,
-    "book_value": 2.3085,
+    "book_value": 2.21,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 23.8943,
     "roa_pct": 1.9714144898964998,
     "roic_pct": 5.47703180212014,
@@ -313,12 +356,12 @@
     "quick_ratio": 0.31028906407924,
     "cash_ratio": 0.014352132605619567,
     "returns_pct": {
-      "1D": -1.887188089746275,
-      "7D": 0.8187890540831774,
-      "1M": -4.000820681165373,
-      "3M": 4.093437152391537,
-      "6M": 12.719826547819807,
-      "1Y": 19.362244897959172,
+      "1D": -2.479162214148315,
+      "7D": -2.645615532323437,
+      "1M": -6.380796060730405,
+      "3M": -1.9974226804123703,
+      "6M": 9.925319200192737,
+      "1Y": 16.403061224489793,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -447,7 +490,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/digjam-ltd",
     "news": [
       {
@@ -512,7 +555,7 @@
         "ticker": "SOMATEX",
         "name": "Soma Textiles & Industries",
         "searchId": "soma-textiles-industries-ltd",
-        "market_cap_inr": 3323100000,
+        "market_cap_inr": 3395800000,
         "pe": 64.08,
         "pb": 2.07
       },
@@ -520,15 +563,15 @@
         "ticker": "514324",
         "name": "Omnitex Industries (India)",
         "searchId": "omnitex-industries-india-ltd",
-        "market_cap_inr": 2980300000,
+        "market_cap_inr": 3108000000,
         "pe": null,
-        "pb": 1.68
+        "pb": 1.75
       },
       {
         "ticker": "BTTL",
         "name": "Bhilwara Technical Textiles",
         "searchId": "bhilwara-technical-textiles-ltd",
-        "market_cap_inr": 2095600000,
+        "market_cap_inr": 2013900000,
         "pe": 178.8,
         "pb": 1.3
       }

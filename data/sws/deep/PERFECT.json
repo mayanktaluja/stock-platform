@@ -3,7 +3,7 @@
   "name": "Perfect Infraengineers Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-perfect/perfect-infraengineers-shares",
-  "parsed_at": "2026-05-25T22:06:12.181Z",
+  "parsed_at": "2026-05-26T12:59:08.972Z",
   "company_id": "5EDFFE45-5A6F-4788-A4AA-8169E11505FD",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 25,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 2.6,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -50,7 +101,7 @@
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹44M)",
+      "Does not have a meaningful market cap (₹45M)",
       "Latest financial reports are more than a year old",
       "High level of [[non-cash earnings]]"
     ],
@@ -84,10 +135,10 @@
       "groww_refinitiv": null,
       "sws_statement": null,
       "sws_industry_api": {
-        "industry_pe": 16.066009054,
+        "industry_pe": 16.121502387,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 189,
+        "count": 190,
         "source": {
           "type": "country",
           "country": "IN",
@@ -96,8 +147,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -110,7 +161,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 2.6,
-        "fetched_at": "2026-05-25T22:06:12.181Z",
+        "fetched_at": "2026-05-26T12:59:08.972Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-perfect/perfect-infraengineers-shares"
       }
     },

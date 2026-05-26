@@ -3,7 +3,7 @@
   "name": "Oneclick Logistics India Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-olil/oneclick-logistics-india-shares",
-  "parsed_at": "2026-05-25T21:56:34.111Z",
+  "parsed_at": "2026-05-26T12:47:21.023Z",
   "company_id": "120F0D77-D49A-49AB-9903-79E254AC7FDB",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 447,
-    "market_cap_inr": 1610898810.7917526,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 445.95,
+    "market_cap_inr": 1607114820.2966042,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 98.5,
+      "pe": 95.5,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -80,17 +129,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 98.5,
+      "company_pe": 95.5,
       "industry_pe": 16.1,
       "industry_name": "Indian Logistics"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 98.5,
+        "company_pe": 95.5,
         "industry_pe": 16.1,
         "industry_name": "Indian Logistics",
-        "description": "OLIL is expensive based on its Price-To-Earnings Ratio (98.5x) compared to the Indian Logistics industry average (16.1x).",
+        "description": "OLIL is expensive based on its Price-To-Earnings Ratio (95.5x) compared to the Indian Logistics industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.6,
+        "industry_pe": 15.4,
         "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
@@ -120,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 447,
-        "fetched_at": "2026-05-25T21:56:34.111Z",
+        "value": 445.95,
+        "fetched_at": "2026-05-26T12:47:21.023Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-olil/oneclick-logistics-india-shares"
       }
     },
@@ -148,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -2.857763772682816,
-      "7D": -0.8869179600886918,
-      "1M": 41.63498098859314,
-      "3M": 52.45566166439291,
-      "6M": 39.0357698289269,
-      "1Y": 153.1860662701784,
+      "1D": -0.23489932885906295,
+      "7D": -3.0543478260869588,
+      "1M": 41.30228136882128,
+      "3M": 48.65,
+      "6M": 38.88196823419494,
+      "1Y": 152.59133389974508,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "Chavda Infra Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-chavda/chavda-infra-shares",
-  "parsed_at": "2026-05-25T22:49:09.276Z",
+  "parsed_at": "2026-05-26T13:42:54.103Z",
   "company_id": "7A71E59F-41F2-4FAF-B2FE-EE40E32A6D33",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 93.8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 94.5,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,7 +83,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.18586247334756,
+    "upside_pct": -94.22893015873017,
     "multiples": {
       "pe": 11.4,
       "ps": null,
@@ -123,8 +173,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -136,8 +186,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 93.8,
-        "fetched_at": "2026-05-25T22:49:09.276Z",
+        "value": 94.5,
+        "fetched_at": "2026-05-26T13:42:54.103Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-chavda/chavda-infra-shares"
       }
     },
@@ -164,16 +214,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.7407407407407437,
-      "7D": -3.745510518214475,
-      "1M": -9.720885466795002,
-      "3M": -11.0056925996205,
-      "6M": 13.148371531966212,
-      "1Y": -33.87381036305957,
+      "1D": 0.746268656716421,
+      "7D": 1.5037593984962467,
+      "1M": -9.047160731472575,
+      "3M": -8.2078678970374,
+      "6M": 9.565217391304348,
+      "1Y": -33.38033133591822,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -221,6 +271,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "6747db4e-c357-4a2c-ba31-1f1659a5dde6",
+      "type": "event",
+      "date": "2026-05-25T00:00:00.000Z",
+      "title": "Chavda Infra Limited to Report Q4, 2026 Results on May 29, 2026",
+      "body": "Chavda Infra Limited announced that they will report Q4, 2026 results on May 29, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "78556d7b-abe2-40fc-9c0b-c3910700cba4",
       "type": "brief",

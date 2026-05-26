@@ -3,7 +3,7 @@
   "name": "Vilas Transcore Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-vilas/vilas-transcore-shares",
-  "parsed_at": "2026-05-25T23:51:05.363Z",
+  "parsed_at": "2026-05-26T14:40:03.865Z",
   "company_id": "5BECE317-BA3C-438F-9815-524A4A17A23D",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 385.25,
-    "market_cap_inr": 9430920505.178268,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 370.5,
+    "market_cap_inr": 9069840485.836596,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 23.3,
+      "pe": 22.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,7 +99,7 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (23.3x) is below the Electrical industry average (27.7x)",
+      "Price-To-Earnings ratio (22.9x) is below the Indian market (23.4x)",
       "Earnings have grown 24.7% per year over the past 5 years"
     ],
     "risks": [
@@ -68,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.7
+      "pe": 27.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -82,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 23.3,
-      "industry_pe": 27.7,
+      "company_pe": 22.9,
+      "industry_pe": 27.9,
       "industry_name": "Indian Electrical"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 23.3,
-        "industry_pe": 27.7,
+        "company_pe": 22.9,
+        "industry_pe": 27.9,
         "industry_name": "Indian Electrical",
-        "description": "VILAS is good value based on its Price-To-Earnings Ratio (23.3x) compared to the Indian Electrical industry average (27.7x).",
+        "description": "VILAS is good value based on its Price-To-Earnings Ratio (22.9x) compared to the Indian Electrical industry average (27.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 385.25,
-        "fetched_at": "2026-05-25T23:51:05.363Z",
+        "value": 370.5,
+        "fetched_at": "2026-05-26T14:40:03.865Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vilas/vilas-transcore-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.26971064507566,
-      "7D": 8.231493187245404,
-      "1M": -16.83756071235834,
-      "3M": -3.5065748278021287,
-      "6M": -4.605670422186461,
-      "1Y": -18.249336870026525,
+      "1D": -3.8286826735885784,
+      "7D": -3.1499150437851293,
+      "1M": -20.021586616297895,
+      "3M": -5.7251908396946565,
+      "6M": -9.41320293398533,
+      "1Y": -21.379310344827587,
       "5Y": null
     },
     "next_earnings_date": null,

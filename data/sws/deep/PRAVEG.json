@@ -3,12 +3,12 @@
   "name": "Praveg Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-praveg/praveg-shares",
-  "parsed_at": "2026-05-25T22:12:07.133Z",
+  "parsed_at": "2026-05-26T13:05:16.800Z",
   "company_id": "2B2081CE-81B2-40D5-AE9C-7403CCC05A92",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sword-shield-pharma-ltd",
     "search_id": "sword-shield-pharma-ltd",
     "company_id": "GSTK531637",
@@ -28,22 +28,70 @@
       "dividend": 2
     },
     "snowflake_total": 8,
-    "current_price_inr": 263.65,
-    "market_cap_inr": 6693300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 267.9,
+    "market_cap_inr": 6888100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 241.4,
       "high": 325
     },
-    "fair_value_inr": 11.981502,
+    "fair_value_inr": 11.919149,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -95.45552740375499,
+    "upside_pct": -95.55089622993654,
     "multiples": {
       "pe": null,
       "ps": 2.95,
@@ -66,7 +114,7 @@
       "Earnings have declined by 11.9% per year over past 5 years",
       "Shares are highly illiquid",
       "Does not have a meaningful market cap (₹7B)",
-      "Dividend of 0.39% is not well covered by free cash flows"
+      "Dividend of 0.37% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.39,
@@ -102,14 +150,14 @@
         "industry_pe": 34.96977353291087,
         "industry_name": "Hotels & Restaurants",
         "industry_id": 31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.6,
         "industry_name": "Indian Media",
-        "description": "PRAVEG is expensive based on its Price-To-Sales Ratio (3x) compared to the Indian Media industry average (1.6x).",
+        "description": "PRAVEG is expensive based on its Price-To-Sales Ratio (3.1x) compared to the Indian Media industry average (1.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,8 +174,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -139,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 263.65,
-        "fetched_at": "2026-05-25T22:12:07.133Z",
+        "value": 267.9,
+        "fetched_at": "2026-05-26T13:05:16.800Z",
         "url": "https://simplywall.st/stocks/in/media/nse-praveg/praveg-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 6693300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6888100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 24.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 5.293059523809525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 34.96977353291087,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +239,85 @@
           "low": 241.4,
           "high": 325
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 170.3068319,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 34.96977353291087,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 23.64241348713399,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 24.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 17.102308023128018,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6166,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4341057204923968,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.1309437605599807,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sword-shield-pharma-ltd"
       }
     },
@@ -296,12 +344,12 @@
     "quick_ratio": 1.4341057204923968,
     "cash_ratio": 0.1309437605599807,
     "returns_pct": {
-      "1D": 3.574936161854239,
-      "7D": 6.892357591729159,
-      "1M": -4.440014498006525,
-      "3M": -1.1065266316579314,
-      "6M": -1.1065266316579314,
-      "1Y": -1.1065266316579314,
+      "1D": 1.611985586952399,
+      "7D": 8.593433319821642,
+      "1M": -2.8996013048205875,
+      "3M": 0.48762190547635204,
+      "6M": 0.48762190547635204,
+      "1Y": 0.48762190547635204,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -547,7 +595,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sword-shield-pharma-ltd",
     "news": [
       {
@@ -622,7 +670,7 @@
         "ticker": "ITDC",
         "name": "India Tourism Development Corp",
         "searchId": "india-tourism-development-corporation-ltd",
-        "market_cap_inr": 47198900000,
+        "market_cap_inr": 47537700000,
         "pe": 57.32,
         "pb": 11.17
       },
@@ -630,7 +678,7 @@
         "ticker": "MHRIL",
         "name": "Mahindra Holidays & Resorts India",
         "searchId": "mahindra-holidays-resorts-india-ltd",
-        "market_cap_inr": 44277800000,
+        "market_cap_inr": 44964800000,
         "pe": 66.01,
         "pb": 0
       },
@@ -638,7 +686,7 @@
         "ticker": "JUNIPER",
         "name": "Juniper Hotels",
         "searchId": "juniper-hotels-ltd",
-        "market_cap_inr": 43888600000,
+        "market_cap_inr": 44022100000,
         "pe": 31.01,
         "pb": 1.53
       }

@@ -3,12 +3,12 @@
   "name": "Superior Industrial Enterprises Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-519234/superior-industrial-enterprises-shares",
-  "parsed_at": "2026-05-25T21:30:07.786Z",
+  "parsed_at": "2026-05-26T12:25:55.557Z",
   "company_id": "418BC4B5-00E5-40E0-ABD1-991468CDE694",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd",
     "search_id": "superior-industrial-enterprises-ltd",
     "company_id": "GSTK519234",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 15,
-    "current_price_inr": 33,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 32.99,
     "market_cap_inr": 457100000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 290.58178484848486,
+    "upside_pct": 290.7001788420733,
     "multiples": {
       "pe": 6.12,
       "ps": 1,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
     },
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.648491785773274,
-      "sector_pe": 22.648491785773274
+      "pe": 22.52141247469539,
+      "sector_pe": 22.52141247469539
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Packaging",
       "pe_industry_id": 42,
@@ -96,27 +145,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 6.12,
-      "industry_pe": 22.648491785773274,
+      "industry_pe": 22.52141247469539,
       "industry_name": "Packaging",
       "industry_id": 42,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd",
       "search_id": "superior-industrial-enterprises-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 6.12,
-        "industry_pe": 22.648491785773274,
+        "industry_pe": 22.52141247469539,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "sws_statement": {
         "company_pe": 6.5,
-        "industry_pe": 17,
+        "industry_pe": 16.6,
         "industry_name": "Indian Packaging",
-        "description": "519234 is good value based on its Price-To-Earnings Ratio (6.5x) compared to the Indian Packaging industry average (17x).",
+        "description": "519234 is good value based on its Price-To-Earnings Ratio (6.5x) compared to the Indian Packaging industry average (16.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +182,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 33,
-        "fetched_at": "2026-05-25T21:30:07.786Z",
+        "value": 32.99,
+        "fetched_at": "2026-05-26T12:25:55.557Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-519234/superior-industrial-enterprises-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 457100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 6.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.2742999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.648491785773274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.52141247469539,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 27.01,
           "high": 65
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 5.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 104.1802888,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.648491785773274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.52141247469539,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.9807,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.318223639820892,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.564135705921077,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.452151009657591,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 19.490781387181734,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 4.391829724590566,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4749,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8320312500000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.517578125,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd"
       }
     },
@@ -303,7 +352,7 @@
     "ps": 1,
     "book_value": 104.1802888,
     "face_value": 10,
-    "sector_pe": 22.648491785773274,
+    "sector_pe": 22.52141247469539,
     "roe_pct": 4.9807,
     "roa_pct": 4.318223639820892,
     "roic_pct": 5.564135705921077,
@@ -315,12 +364,12 @@
     "quick_ratio": 0.8320312500000001,
     "cash_ratio": 0.517578125,
     "returns_pct": {
-      "1D": 0,
-      "7D": -2.941176470588235,
-      "1M": -3.339191564147629,
-      "3M": -9.688013136288996,
-      "6M": -29.78723404255319,
-      "1Y": -41.07142857142857,
+      "1D": -0.030303030303024274,
+      "7D": -5.173900546133939,
+      "1M": -3.3684827182190937,
+      "3M": -9.591668950397368,
+      "6M": -34.00680136027206,
+      "1Y": -41.08928571428571,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -531,12 +580,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/superior-industrial-enterprises-ltd",
     "news": [],
     "events": [
@@ -569,6 +628,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -576,7 +645,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -584,17 +653,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

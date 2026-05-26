@@ -3,7 +3,7 @@
   "name": "Tejas Cargo India Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-tejascargo/tejas-cargo-india-shares",
-  "parsed_at": "2026-05-25T23:29:45.859Z",
+  "parsed_at": "2026-05-26T14:15:41.638Z",
   "company_id": "B22E33D2-09B4-4A80-9EB2-ED132D02904C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 380,
     "market_cap_inr": 9079279324.060392,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -66,7 +116,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 16.8
+      "pe": 16.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,16 +131,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 39.5,
-      "industry_pe": 16.8,
+      "industry_pe": 16.1,
       "industry_name": "Indian Transportation"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 39.5,
-        "industry_pe": 16.8,
+        "industry_pe": 16.1,
         "industry_name": "Indian Transportation",
-        "description": "TEJASCARGO is expensive based on its Price-To-Earnings Ratio (39.5x) compared to the Indian Transportation industry average (16.8x).",
+        "description": "TEJASCARGO is expensive based on its Price-To-Earnings Ratio (39.5x) compared to the Indian Transportation industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -121,7 +171,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 380,
-        "fetched_at": "2026-05-25T23:29:45.859Z",
+        "fetched_at": "2026-05-26T14:15:41.638Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-tejascargo/tejas-cargo-india-shares"
       }
     },

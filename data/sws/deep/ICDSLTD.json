@@ -3,12 +3,12 @@
   "name": "ICDS Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-icdsltd/icds-shares",
-  "parsed_at": "2026-05-25T20:37:03.861Z",
+  "parsed_at": "2026-05-26T11:04:17.981Z",
   "company_id": "43CA0C40-9F1F-404E-8BC8-B0E3DCEB04D0",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/icds-ltd",
     "search_id": "icds-ltd",
     "company_id": "GSTK511194",
@@ -28,8 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 44.99,
-    "market_cap_inr": 584800000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 42.85,
+    "market_cap_inr": 637700000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -55,7 +106,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/icds-ltd"
     },
@@ -75,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.871539040580295,
-      "sector_pe": 24.871539040580295
+      "pe": 24.83673056579842,
+      "sector_pe": 24.83673056579842
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diversified",
       "pe_industry_id": 21,
@@ -91,20 +142,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 24.94,
-      "industry_pe": 24.871539040580295,
+      "industry_pe": 24.83673056579842,
       "industry_name": "Diversified",
       "industry_id": 21,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/icds-ltd",
       "search_id": "icds-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 24.94,
-        "industry_pe": 24.871539040580295,
+        "industry_pe": 24.83673056579842,
         "industry_name": "Diversified",
         "industry_id": 21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "sws_statement": null,
@@ -134,56 +185,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 44.99,
-        "fetched_at": "2026-05-25T20:37:03.861Z",
+        "value": 42.85,
+        "fetched_at": "2026-05-26T11:04:17.981Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-icdsltd/icds-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 584800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 637700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 24.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 13.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 16.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.2915500000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "fifty_two_week": {
@@ -192,91 +243,91 @@
           "low": 36.4,
           "high": 68.49
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 23.032157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.7406,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.1320640676941665,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.070983246629538,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 55.924170616113734,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 76.54028436018956,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2719854941069809,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.3799,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.119521912350598,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.434262948207172,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/icds-ltd"
       }
     },
@@ -291,7 +342,7 @@
     "ps": 13.86,
     "book_value": 23.032157,
     "face_value": 10,
-    "sector_pe": 24.871539040580295,
+    "sector_pe": 24.83673056579842,
     "roe_pct": 3.7406,
     "roa_pct": 7.1320640676941665,
     "roic_pct": 10.070983246629538,
@@ -303,12 +354,12 @@
     "quick_ratio": 7.119521912350598,
     "cash_ratio": 2.434262948207172,
     "returns_pct": {
-      "1D": 0.2227667631989339,
-      "7D": 2.9990842490842544,
-      "1M": -3.702910958904103,
-      "3M": 3.9270039270039336,
-      "6M": -0.17750166407809695,
-      "1Y": -29.08259773013871,
+      "1D": -4.756612580573462,
+      "7D": -0.8331404767414938,
+      "1M": -8.2833904109589,
+      "3M": 2.6593195975083836,
+      "6M": -2.61363636363636,
+      "1Y": -32.455863808322825,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -531,7 +582,7 @@
         "value": null
       },
       {
-        "title": "Quarterly Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-28T18:30:00.000Z",
@@ -544,7 +595,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/icds-ltd",
     "news": [
       {
@@ -594,7 +645,7 @@
         "value": null
       },
       {
-        "title": "Quarterly Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-28T18:30:00.000Z",
@@ -609,7 +660,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -617,7 +668,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -625,7 +676,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

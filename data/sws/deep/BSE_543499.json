@@ -3,7 +3,7 @@
   "name": "Achyut Healthcare Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-543499/achyut-healthcare-shares",
-  "parsed_at": "2026-05-25T22:34:44.907Z",
+  "parsed_at": "2026-05-26T13:30:23.069Z",
   "company_id": "B06C1076-D5F8-4122-9A95-EA11305EAB85",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 5.75,
-    "market_cap_inr": 1387802723.109803,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.78,
+    "market_cap_inr": 1395043432.9695065,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -103,7 +152,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.2,
+        "industry_pe": 35.8,
         "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
@@ -116,8 +165,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.75,
-        "fetched_at": "2026-05-25T22:34:44.907Z",
+        "value": 5.78,
+        "fetched_at": "2026-05-26T13:30:23.069Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-543499/achyut-healthcare-shares"
       }
     },
@@ -144,12 +193,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.2323943661971881,
-      "7D": 14.54183266932272,
-      "1M": 6.0885608856088576,
-      "3M": 12.304687499999996,
-      "6M": 1.4109347442680789,
-      "1Y": 71.64179104477611,
+      "1D": 0.5217391304347869,
+      "7D": 14.455445544554465,
+      "1M": 6.642066420664213,
+      "3M": 8.239700374531843,
+      "6M": 0.5217391304347869,
+      "1Y": 72.53731343283583,
       "5Y": null
     },
     "next_earnings_date": null,

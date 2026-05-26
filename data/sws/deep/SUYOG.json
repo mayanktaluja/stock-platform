@@ -3,12 +3,12 @@
   "name": "Suyog Telematics Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-suyog/suyog-telematics-shares",
-  "parsed_at": "2026-05-25T23:19:45.082Z",
+  "parsed_at": "2026-05-26T14:08:18.653Z",
   "company_id": "CD27612A-04CF-4A55-A766-15C2B65E9F26",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/suyog-telematics-ltd",
     "search_id": "suyog-telematics-ltd",
     "company_id": "GSTK537259",
@@ -28,22 +28,70 @@
       "dividend": 1
     },
     "snowflake_total": 7,
-    "current_price_inr": 774.5,
-    "market_cap_inr": 9399500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 768.25,
+    "market_cap_inr": 9117700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 526.5,
       "high": 988.8
     },
-    "fair_value_inr": 18.690458,
+    "fair_value_inr": 18.825661,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.58677107811491,
+    "upside_pct": -97.54953973315979,
     "multiples": {
       "pe": 27.01,
       "ps": 4.36,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/suyog-telematics-ltd"
     },
@@ -110,7 +158,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Telecom Equipment & Infra Services",
       "pe_industry_id": 60,
@@ -123,7 +171,7 @@
       "industry_pe": 18.463640689222295,
       "industry_name": "Telecom Equipment & Infra Services",
       "industry_id": 60,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/suyog-telematics-ltd",
       "search_id": "suyog-telematics-ltd"
     },
@@ -133,14 +181,14 @@
         "industry_pe": 18.463640689222295,
         "industry_name": "Telecom Equipment & Infra Services",
         "industry_id": 60,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "sws_statement": {
-        "company_pe": 27,
+        "company_pe": 25.8,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "SUYOG is expensive based on its Price-To-Earnings Ratio (27x) compared to the Indian Construction industry average (16.1x).",
+        "description": "SUYOG is expensive based on its Price-To-Earnings Ratio (25.8x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -157,8 +205,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -170,56 +218,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 774.5,
-        "fetched_at": "2026-05-25T23:19:45.082Z",
+        "value": 768.25,
+        "fetched_at": "2026-05-26T14:08:18.653Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-suyog/suyog-telematics-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 9399500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9117700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 27.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5687025708061002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 18.463640689222295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "fifty_two_week": {
@@ -228,91 +276,91 @@
           "low": 526.5,
           "high": 988.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 29.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 396.4390738,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 18.463640689222295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.507878096817664,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.017843715941233,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.11394163964799,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 62.691060676239,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 62.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 35.09510728723956,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.2188,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.768426013195099,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.06540999057492931,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/suyog-telematics-ltd"
       }
     },
@@ -339,12 +387,12 @@
     "quick_ratio": 1.768426013195099,
     "cash_ratio": 0.06540999057492931,
     "returns_pct": {
-      "1D": -3.5491905354919058,
-      "7D": 1.7539249819352325,
-      "1M": 2.8415881025096237,
-      "3M": 16.861561674839685,
-      "6M": 17.428549768781753,
-      "1Y": -5.027590435315757,
+      "1D": -0.8069722401549387,
+      "7D": -1.1197631765235916,
+      "1M": 2.0116850351878868,
+      "3M": 17.093430879439104,
+      "6M": 16.79081787777441,
+      "1Y": -5.793991416309012,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -548,16 +596,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-23T18:30:00.000Z",
-        "ex_date": "2024-08-29T18:30:00.000Z",
-        "record_date": "2024-08-29T18:30:00.000Z",
-        "value": "₹1.25"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Announced",
         "primary_date": "2025-08-11T18:30:00.000Z",
         "announcement_date": "2025-08-11T18:30:00.000Z",
         "ex_date": "2025-08-28T18:30:00.000Z",
@@ -573,12 +611,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-10T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/suyog-telematics-ltd",
     "news": [
       {
@@ -621,16 +669,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
-        "primary_date": "2024-05-23T18:30:00.000Z",
-        "announcement_date": "2024-05-23T18:30:00.000Z",
-        "ex_date": "2024-08-29T18:30:00.000Z",
-        "record_date": "2024-08-29T18:30:00.000Z",
-        "value": "₹1.25"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Announced",
         "primary_date": "2025-08-11T18:30:00.000Z",
         "announcement_date": "2025-08-11T18:30:00.000Z",
         "ex_date": "2025-08-28T18:30:00.000Z",
@@ -642,6 +680,16 @@
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-10T18:30:00.000Z",
         "announcement_date": null,
         "ex_date": null,
         "record_date": null,
@@ -661,17 +709,17 @@
         "ticker": "GTLINFRA",
         "name": "GTL Infrastructure",
         "searchId": "gtl-infrastructure-ltd",
-        "market_cap_inr": 16908000000,
-        "pe": 2.16,
+        "market_cap_inr": 17292300000,
+        "pe": 2.21,
         "pb": 0
       },
       {
         "ticker": "STLNETWORK",
         "name": "STL Networks",
         "searchId": "stl-networks-ltd",
-        "market_cap_inr": 12201900000,
+        "market_cap_inr": 12812000000,
         "pe": null,
-        "pb": 1.07
+        "pb": 1.12
       }
     ],
     "details": {

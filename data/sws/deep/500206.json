@@ -3,12 +3,12 @@
   "name": "Margo Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-500206/margo-finance-shares",
-  "parsed_at": "2026-05-25T20:37:16.798Z",
+  "parsed_at": "2026-05-26T11:04:22.199Z",
   "company_id": "4127CD4E-030B-4E84-A7A9-5F95D52573BD",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/margo-finance-ltd",
     "search_id": "margo-finance-ltd",
     "company_id": "GSTK500206",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 63.28,
-    "market_cap_inr": 297800000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 63.77,
+    "market_cap_inr": 289200000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 191.68,
+      "pe": 186.12,
       "ps": 29.9,
-      "pb": 0.23,
+      "pb": 0.22,
       "ev_ebitda": 38.12,
       "peg": 2.550452173913044
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/margo-finance-ltd"
     },
@@ -64,7 +113,7 @@
       "Profit margins (15.5%) are lower than last year (40.6%)",
       "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹10M)",
-      "Does not have a meaningful market cap (₹298M)"
+      "Does not have a meaningful market cap (₹289M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -91,28 +140,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 191.68,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 186.12,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/margo-finance-ltd",
       "search_id": "margo-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 191.68,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 186.12,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 4.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "500206 is expensive based on its Price-To-Sales Ratio (29.9x) compared to the Indian Consumer Finance industry average (4.3x).",
+        "description": "500206 is expensive based on its Price-To-Sales Ratio (29.1x) compared to the Indian Consumer Finance industry average (4.3x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 63.28,
-        "fetched_at": "2026-05-25T20:37:16.798Z",
+        "value": 63.77,
+        "fetched_at": "2026-05-26T11:04:22.199Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-500206/margo-finance-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 297800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 289200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 191.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 186.12,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.22,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 29.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 38.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.550452173913044,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 54,
           "high": 96.2
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 289.2678337,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.0387,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.08717889108450542,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.11351596791281976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.151515151515154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 65.65656565656566,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 28.3347,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/margo-finance-ltd"
       }
     },
@@ -295,11 +344,11 @@
     "latest_net_income": null,
     "latest_eps": 0.34,
     "most_recent_reported_date": null,
-    "pb": 0.23,
+    "pb": 0.22,
     "ps": 29.9,
     "book_value": 289.2678337,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0.0387,
     "roa_pct": 0.08717889108450542,
     "roic_pct": 0.11351596791281976,
@@ -311,12 +360,12 @@
     "quick_ratio": 35,
     "cash_ratio": 3,
     "returns_pct": {
-      "1D": -2.9001074113856076,
-      "7D": 1.687289088863899,
-      "1M": -9.61291244107985,
-      "3M": 5.449091818030333,
-      "6M": -18.610932475884244,
-      "1Y": -23.026395815594203,
+      "1D": 0.7743362831858438,
+      "7D": 1.1740441059812818,
+      "1M": -8.913012426796174,
+      "3M": 3.8430223090701947,
+      "6M": -17.44983818770226,
+      "1Y": -22.430361269918492,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -485,12 +534,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/margo-finance-ltd",
     "news": [],
     "events": [
@@ -523,6 +582,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -530,7 +599,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -538,7 +607,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -546,7 +615,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

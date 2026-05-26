@@ -3,12 +3,12 @@
   "name": "HPL Electric & Power Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-hpl/hpl-electric-power-shares",
-  "parsed_at": "2026-05-25T20:36:05.024Z",
+  "parsed_at": "2026-05-26T11:03:06.345Z",
   "company_id": "B4470953-E6ED-450D-A60C-CF3FC4AE528B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hpl-electric-power-ltd",
     "search_id": "hpl-electric-power-ltd",
     "company_id": "GSTK540136",
@@ -28,8 +28,56 @@
       "dividend": 1
     },
     "snowflake_total": 12,
-    "current_price_inr": 372.1,
-    "market_cap_inr": 23537200000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 375,
+    "market_cap_inr": 23942300000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": "micro2",
     "shares_outstanding": 64300486,
@@ -43,7 +91,7 @@
       "max": 134.236886,
       "count": 8
     },
-    "upside_pct": 83.64955657081428,
+    "upside_pct": 82.22933333333333,
     "multiples": {
       "pe": 24.11,
       "ps": 1.32,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hpl-electric-power-ltd"
     },
@@ -197,15 +245,15 @@
     },
     "dividend_yield_pct": 0.27,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.6391097265,
-      "net_income_margin_1y": 0.07753917233,
-      "pe": 48.15532676426625,
-      "sector_pe": 48.15532676426625
+      "future_revenue_growth_3y": 0.6377821511,
+      "net_income_margin_1y": 0.07763624547,
+      "pe": 48.15038693249581,
+      "sector_pe": 48.15038693249581
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Capital Goods - Electrical Equipment",
       "pe_industry_id": 8,
@@ -215,20 +263,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 24.11,
-      "industry_pe": 48.15532676426625,
+      "industry_pe": 48.15038693249581,
       "industry_name": "Capital Goods - Electrical Equipment",
       "industry_id": 8,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/hpl-electric-power-ltd",
       "search_id": "hpl-electric-power-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 24.11,
-        "industry_pe": 48.15532676426625,
+        "industry_pe": 48.15038693249581,
         "industry_name": "Capital Goods - Electrical Equipment",
         "industry_id": 8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "sws_statement": {
@@ -252,73 +300,73 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.663618377,
+        "industry_pe": 21.841672065,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 34.0157137402312
+        "company_pe": 34.2808187384754
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 372.1,
-        "fetched_at": "2026-05-25T20:36:05.024Z",
+        "value": 375,
+        "fetched_at": "2026-05-26T11:03:06.345Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hpl/hpl-electric-power-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 23537200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 23942300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 24.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.24508316326530613,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.15532676426625,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.15038693249581,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "fifty_two_week": {
@@ -327,91 +375,91 @@
           "low": 255.55,
           "high": 639.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 15.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 148.6079259,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.15532676426625,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.15038693249581,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.0387,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.471921826406559,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.538644069106544,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.674518201284797,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.566106483401912,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 77.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 32.780251625671475,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.9818,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7232028481591776,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05984960654810428,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hpl-electric-power-ltd"
       }
     },
@@ -426,7 +474,7 @@
     "ps": 1.32,
     "book_value": 148.6079259,
     "face_value": 10,
-    "sector_pe": 48.15532676426625,
+    "sector_pe": 48.15038693249581,
     "roe_pct": 10.0387,
     "roa_pct": 4.471921826406559,
     "roic_pct": 10.538644069106544,
@@ -438,12 +486,12 @@
     "quick_ratio": 0.7232028481591776,
     "cash_ratio": 0.05984960654810428,
     "returns_pct": {
-      "1D": 1.638896476372576,
-      "7D": 7.901986370885893,
-      "1M": 5.5453127215997755,
-      "3M": 7.543352601156076,
-      "6M": -11.60470364651383,
-      "1Y": -32.129502963976286,
+      "1D": 0.7793603869927377,
+      "7D": 7.388316151202752,
+      "1M": 6.3678910792795325,
+      "3M": 8.08473843493299,
+      "6M": -11.032028469750891,
+      "1Y": -31.600547195622436,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -809,7 +857,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hpl-electric-power-ltd",
     "news": [
       {
@@ -881,28 +929,28 @@
     ],
     "peers": [
       {
-        "ticker": "GVPIL",
-        "name": "GE Power India",
-        "searchId": "ge-power-india-ltd",
-        "market_cap_inr": 49173500000,
-        "pe": 19.46,
-        "pb": 8.44
-      },
-      {
         "ticker": "KSHINTL",
         "name": "KSH International",
         "searchId": "ksh-international-ltd",
-        "market_cap_inr": 48218300000,
-        "pe": 51.27,
-        "pb": 6.26
+        "market_cap_inr": 47042800000,
+        "pe": 50.02,
+        "pb": 6.11
       },
       {
         "ticker": "PITTIENG",
         "name": "Pitti Engineering",
         "searchId": "pitti-engineering-ltd",
-        "market_cap_inr": 35364200000,
+        "market_cap_inr": 35202300000,
         "pe": 30.02,
         "pb": 3.58
+      },
+      {
+        "ticker": "HIRECT",
+        "name": "Hind Rectifiers",
+        "searchId": "hind-rectifiers-ltd",
+        "market_cap_inr": 33415000000,
+        "pe": 85.94,
+        "pb": 15.9
       }
     ],
     "details": {

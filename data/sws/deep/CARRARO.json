@@ -3,12 +3,12 @@
   "name": "Carraro India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-carraro/carraro-india-shares",
-  "parsed_at": "2026-05-25T22:45:13.471Z",
+  "parsed_at": "2026-05-26T13:38:19.681Z",
   "company_id": "E41B4D48-00C0-477B-9C6F-4F2462E6C595",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/carraro-india-ltd",
     "search_id": "carraro-india-ltd",
     "company_id": "GSTK544320",
@@ -28,22 +28,71 @@
       "dividend": 3
     },
     "snowflake_total": 14,
-    "current_price_inr": 606.75,
-    "market_cap_inr": 33857900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 608.5,
+    "market_cap_inr": 34571400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 401.05,
       "high": 667.55
     },
-    "fair_value_inr": 121.183192,
+    "fair_value_inr": 121.240512,
     "fair_value_range_inr": {
-      "min": 121.183192,
-      "max": 121.183192,
+      "min": 121.240512,
+      "max": 121.240512,
       "count": 1
     },
-    "upside_pct": -80.02749204779563,
+    "upside_pct": -80.07551158586689,
     "multiples": {
       "pe": 30.06,
       "ps": 1.62,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/carraro-india-ltd"
     },
@@ -87,13 +136,13 @@
     },
     "dividend_yield_pct": 0.76,
     "industry_benchmarks": {
-      "pe": 34.470020385874214,
-      "sector_pe": 34.470020385874214
+      "pe": 34.4375940983943,
+      "sector_pe": 34.4375940983943
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Auto Ancillaries",
       "pe_industry_id": 4,
@@ -103,20 +152,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 30.06,
-      "industry_pe": 34.470020385874214,
+      "industry_pe": 34.4375940983943,
       "industry_name": "Auto Ancillaries",
       "industry_id": 4,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/carraro-india-ltd",
       "search_id": "carraro-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 30.06,
-        "industry_pe": 34.470020385874214,
+        "industry_pe": 34.4375940983943,
         "industry_name": "Auto Ancillaries",
         "industry_id": 4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "sws_statement": {
@@ -128,7 +177,7 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.36236382,
+        "industry_pe": 26.470899195,
         "industry_code": "3070000",
         "type": "median_profitable",
         "count": 216,
@@ -140,7 +189,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -153,56 +202,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 606.75,
-        "fetched_at": "2026-05-25T22:45:13.471Z",
+        "value": 608.5,
+        "fetched_at": "2026-05-26T13:38:19.681Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-carraro/carraro-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 33857900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34571400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 30.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 6.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.4874222222222222,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.470020385874214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.4375940983943,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "fifty_two_week": {
@@ -211,91 +260,91 @@
           "low": 401.05,
           "high": 667.55
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 19.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 86.6477065,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.470020385874214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.4375940983943,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 20.1374,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 10.107716279384865,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 23.1520905485423,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.702682687943431,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 10.314612646616181,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 37.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 15.522322335885102,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6819,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9130020449085748,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.18592785244892693,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/carraro-india-ltd"
       }
     },
@@ -310,7 +359,7 @@
     "ps": 1.62,
     "book_value": 86.6477065,
     "face_value": 10,
-    "sector_pe": 34.470020385874214,
+    "sector_pe": 34.4375940983943,
     "roe_pct": 20.1374,
     "roa_pct": 10.107716279384865,
     "roic_pct": 23.1520905485423,
@@ -322,16 +371,16 @@
     "quick_ratio": 0.9130020449085748,
     "cash_ratio": 0.18592785244892693,
     "returns_pct": {
-      "1D": 1.9833599462139597,
-      "7D": 9.442640692640698,
-      "1M": 11.586206896551724,
-      "3M": 17.257706058556373,
-      "6M": 12.236403995560483,
-      "1Y": 34.68368479467259,
+      "1D": 0.288421920065925,
+      "7D": 10.395500725689395,
+      "1M": 11.908045977011493,
+      "3M": 17.40304842755162,
+      "6M": 9.196949304620906,
+      "1Y": 35.07214206437292,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -584,22 +633,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/carraro-india-ltd",
     "news": [
+      {
+        "id": "684364",
+        "title": "Carraro India Q4 net profit surged 73% YoY to ₹410M from ₹237M.\nRevenue rose 36% YoY to ₹6B from ₹4.4B, indicating strong growth.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-26T12:20:22.000Z"
+      },
       {
         "id": "840574646339946880",
         "title": "Carraro India Ltd gains relief as Rs. 6.37 crore IGST tax demand dropped.\nCustoms order, dated May 7, 2026, reduces contingent liability by Rs. 6.37 crore.",
         "url": "https://sqst.in/z1Pe8",
         "source": "ScoutQuest",
         "published_at": "2026-05-08T13:03:32.000Z"
-      },
-      {
-        "id": "829978148594859136",
-        "title": "Carraro India received a tax demand of Rs. 21.8B from IT Dept on 8 Apr 2026.\nThe demand relates to transfer pricing, corporate tax; company plans to appeal.",
-        "url": "https://sqst.in/ilFEF",
-        "source": "ScoutQuest",
-        "published_at": "2026-04-09T07:16:50.000Z"
       }
     ],
     "events": [
@@ -659,7 +708,7 @@
         "ticker": "LGBBROSLTD",
         "name": "LG Balakrishnan & Bros",
         "searchId": "lg-balakrishnan-brothers-ltd",
-        "market_cap_inr": 49233900000,
+        "market_cap_inr": 49241900000,
         "pe": 15.45,
         "pb": 2.29
       },
@@ -667,7 +716,7 @@
         "ticker": "SUBROS",
         "name": "Subros",
         "searchId": "subros-ltd",
-        "market_cap_inr": 47403600000,
+        "market_cap_inr": 47860200000,
         "pe": 28.62,
         "pb": 3.81
       },
@@ -675,7 +724,7 @@
         "ticker": "JAMNAAUTO",
         "name": "Jamna Auto Industries",
         "searchId": "jamna-auto-industries-ltd",
-        "market_cap_inr": 45915500000,
+        "market_cap_inr": 46994900000,
         "pe": 23.68,
         "pb": 4.43
       }

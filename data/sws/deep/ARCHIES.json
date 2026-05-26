@@ -3,12 +3,12 @@
   "name": "Archies Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-archies/archies-shares",
-  "parsed_at": "2026-05-25T21:40:46.732Z",
+  "parsed_at": "2026-05-26T12:33:59.363Z",
   "company_id": "7B2AE128-A37A-43E5-8AE4-CA7DD02ABE0D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/archies-ltd",
     "search_id": "archies-ltd",
     "company_id": "GSTK532212",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 14.79,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 14.94,
     "market_cap_inr": 506000000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 10.86,
       "high": 25.4
     },
-    "fair_value_inr": 25.859127,
+    "fair_value_inr": 25.829481,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 74.84196754563897,
+    "upside_pct": 72.88809236947793,
     "multiples": {
       "pe": null,
       "ps": 0.78,
@@ -62,11 +111,11 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at 43.3% below our estimate of its fair value"
+      "Trading at 42.2% below our estimate of its fair value"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹493M)",
+      "Does not have a meaningful market cap (₹500M)",
       "Earnings have declined by 18.5% per year over past 5 years"
     ],
     "dividend": {
@@ -79,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 76.39971853206873
+      "sector_pe": 76.39971853206875
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,10 +149,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 76.39971853206873,
+        "industry_pe": 76.39971853206875,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "sws_statement": {
@@ -127,7 +176,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -140,50 +189,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 14.79,
-        "fetched_at": "2026-05-25T21:40:46.732Z",
+        "value": 14.94,
+        "fetched_at": "2026-05-26T12:33:59.363Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-archies/archies-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 506000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +241,85 @@
           "low": 10.86,
           "high": 25.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 38.5671699,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1543193102937175,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 13.856849423289622,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 33.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 22.38828967642527,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.6014,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.29862270450751255,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.007929883138564273,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archies-ltd"
       }
     },
@@ -285,7 +334,7 @@
     "ps": 0.78,
     "book_value": 38.5671699,
     "face_value": 2,
-    "sector_pe": 76.39971853206873,
+    "sector_pe": 76.39971853206875,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 3.1543193102937175,
@@ -297,12 +346,12 @@
     "quick_ratio": 0.29862270450751255,
     "cash_ratio": 0.007929883138564273,
     "returns_pct": {
-      "1D": 1.3013698630136952,
-      "7D": 3.716690042075732,
-      "1M": 3.4989503149055285,
-      "3M": -4.642166344294008,
-      "6M": -21.993670886075957,
-      "1Y": -22.848200312989057,
+      "1D": 1.014198782961463,
+      "7D": 0.809716599190278,
+      "1M": 4.548635409377189,
+      "3M": -2.60756192959583,
+      "6M": -21.077654516640255,
+      "1Y": -22.065727699530527,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -466,12 +515,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/archies-ltd",
     "news": [
       {
@@ -519,6 +578,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -526,7 +595,7 @@
         "ticker": "EMIL",
         "name": "Electronics Mart India",
         "searchId": "electronics-mart-india-ltd",
-        "market_cap_inr": 46285300000,
+        "market_cap_inr": 44861700000,
         "pe": 43.27,
         "pb": 2.85
       },
@@ -534,7 +603,7 @@
         "ticker": "SHOPERSTOP",
         "name": "Shoppers Stop",
         "searchId": "shoppers-stop-ltd",
-        "market_cap_inr": 36467800000,
+        "market_cap_inr": 37095500000,
         "pe": null,
         "pb": 12.53
       },
@@ -542,7 +611,7 @@
         "ticker": "STYLEBAAZA",
         "name": "Baazar Style Retail",
         "searchId": "baazar-style-retail-ltd",
-        "market_cap_inr": 25709400000,
+        "market_cap_inr": 25806400000,
         "pe": 54.86,
         "pb": 5.71
       }

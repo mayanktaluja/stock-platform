@@ -3,12 +3,12 @@
   "name": "MRC Agrotech Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-540809/mrc-agrotech-shares",
-  "parsed_at": "2026-05-25T23:54:46.126Z",
+  "parsed_at": "2026-05-26T14:47:31.767Z",
   "company_id": "F960103D-EC1E-4E42-A9AF-A554F1E30624",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mrc-exim-ltd",
     "search_id": "mrc-exim-ltd",
     "company_id": "GSTK540809",
@@ -28,13 +28,62 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 40.17,
-    "market_cap_inr": 1295700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 38.28,
+    "market_cap_inr": 1258400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 19,
+      "low": 20.61,
       "high": 54.5
     },
     "fair_value_inr": null,
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 153.19,
+      "pe": 148.78,
       "ps": 3.18,
-      "pb": 0.9,
+      "pb": 0.87,
       "ev_ebitda": 19.92,
       "peg": -0.552
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mrc-exim-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -92,21 +141,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 153.19,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 148.78,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/mrc-exim-ltd",
       "search_id": "mrc-exim-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 153.19,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 148.78,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "sws_statement": {
@@ -131,7 +180,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -143,149 +192,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 40.17,
-        "fetched_at": "2026-05-25T23:54:46.126Z",
+        "value": 38.28,
+        "fetched_at": "2026-05-26T14:47:31.767Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-540809/mrc-agrotech-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1295700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1258400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 153.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 148.78,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.87,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.552,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 19,
+          "low": 20.61,
           "high": 54.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 45.9328516,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6745,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2950819672131146,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.8220131211550252,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.0638820638820636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9975429975429977,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3114754098360655,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.4957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.8110516934046346,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.1532976827094474,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mrc-exim-ltd"
       }
     },
@@ -296,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 0.27,
     "most_recent_reported_date": null,
-    "pb": 0.9,
+    "pb": 0.87,
     "ps": 3.18,
     "book_value": 45.9328516,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 2.6745,
     "roa_pct": 2.2950819672131146,
     "roic_pct": 2.8220131211550252,
@@ -312,12 +361,12 @@
     "quick_ratio": 2.8110516934046346,
     "cash_ratio": 0.1532976827094474,
     "returns_pct": {
-      "1D": -2.877176015473882,
-      "7D": 4.202334630350206,
-      "1M": 13.123063925654757,
-      "3M": -10.053739364084182,
-      "6M": -22.120977122915853,
-      "1Y": 82.59090909090911,
+      "1D": -4.705003734129949,
+      "7D": -0.6746237675142658,
+      "1M": 7.800619543790491,
+      "3M": -16.583133580300718,
+      "6M": -24.27299703264094,
+      "1Y": 74.00000000000001,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -531,7 +580,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mrc-exim-ltd",
     "news": [
       {
@@ -596,7 +645,7 @@
         "ticker": "HARRMALAYA",
         "name": "Harrisons Malayalam",
         "searchId": "harrisons-malayalam-ltd",
-        "market_cap_inr": 4053400000,
+        "market_cap_inr": 3899700000,
         "pe": 16.07,
         "pb": 2.46
       },
@@ -604,17 +653,17 @@
         "ticker": "540198",
         "name": "Osiajee Texfab",
         "searchId": "osiajee-texfab-ltd",
-        "market_cap_inr": 2160800000,
-        "pe": 439.73,
-        "pb": 29.44
+        "market_cap_inr": 2225100000,
+        "pe": 452.8,
+        "pb": 30.32
       },
       {
-        "ticker": "538092",
-        "name": "Shri Vasuprada Plantations",
-        "searchId": "joonktollee-tea-industries-ltd",
-        "market_cap_inr": 836700000,
-        "pe": 388.46,
-        "pb": 0.69
+        "ticker": "544548",
+        "name": "Gujarat Peanut and Agri Products",
+        "searchId": "gujarat-peanut-and-agri-products-ltd",
+        "market_cap_inr": 830200000,
+        "pe": 12.78,
+        "pb": 1.93
       }
     ],
     "details": {

@@ -3,7 +3,7 @@
   "name": "Kiran Syntex Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-530443/kiran-syntex-shares",
-  "parsed_at": "2026-05-25T22:23:41.007Z",
+  "parsed_at": "2026-05-26T13:17:18.445Z",
   "company_id": "FE31FBC1-9EA5-4ECE-8077-6F8111E1B2C7",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 18.5,
     "market_cap_inr": 78623156.22355418,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -50,7 +99,6 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at good value vs. peer average Price-To-Sales ratio",
       "Earnings have grown 11.5% per year over the past 5 years"
     ],
     "risks": [
@@ -108,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -122,7 +170,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 18.5,
-        "fetched_at": "2026-05-25T22:23:41.007Z",
+        "fetched_at": "2026-05-26T13:17:18.445Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-530443/kiran-syntex-shares"
       }
     },

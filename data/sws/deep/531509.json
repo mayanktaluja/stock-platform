@@ -3,12 +3,12 @@
   "name": "Step Two Corporation Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531509/step-two-shares",
-  "parsed_at": "2026-05-25T22:40:16.500Z",
+  "parsed_at": "2026-05-26T13:35:59.367Z",
   "company_id": "6AE78792-2CEC-4078-A93B-D60E720FE908",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/step-two-corporation-ltd",
     "search_id": "step-two-corporation-ltd",
     "company_id": "GSTK531509",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 33.6,
     "market_cap_inr": 248500000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/step-two-corporation-ltd"
     },
@@ -63,7 +112,7 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (15.5x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (15.5x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹248M)",
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 23.16143255533119,
+      "sector_pe": 23.16143255533119
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -96,27 +145,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 15.48,
-      "industry_pe": 22.74789650623654,
+      "industry_pe": 23.16143255533119,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/step-two-corporation-ltd",
       "search_id": "step-two-corporation-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 15.48,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 23.16143255533119,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "sws_statement": {
         "company_pe": 15.5,
-        "industry_pe": 22.9,
+        "industry_pe": 23,
         "industry_name": "Indian Diversified Financial",
-        "description": "531509 is good value based on its Price-To-Earnings Ratio (15.5x) compared to the Indian Diversified Financial industry average (22.9x).",
+        "description": "531509 is good value based on its Price-To-Earnings Ratio (15.5x) compared to the Indian Diversified Financial industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -147,55 +196,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 33.6,
-        "fetched_at": "2026-05-25T22:40:16.500Z",
+        "fetched_at": "2026-05-26T13:35:59.367Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531509/step-two-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 248500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 15.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 5.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 23.16143255533119,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 24.94,
           "high": 42.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.3512468,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 23.16143255533119,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
-        "value": 18.534031413612563,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
-        "value": 19.744008159102496,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
-        "value": 44.13965087281796,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
-        "value": 53.865336658354124,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
-        "value": 4.585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 42.3468,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
-        "value": 4.285714285714286,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.6666666666666683,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
-        "value": 3.2857142857142856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.6666666666666667,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/step-two-corporation-ltd"
       }
     },
@@ -303,17 +352,17 @@
     "ps": 5.57,
     "book_value": 12.3512468,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 23.16143255533119,
     "roe_pct": 0,
-    "roa_pct": 18.534031413612563,
-    "roic_pct": 19.744008159102496,
-    "net_margin_pct": 44.13965087281796,
-    "operating_margin_pct": 53.865336658354124,
+    "roa_pct": 0,
+    "roic_pct": 0,
+    "net_margin_pct": 0,
+    "operating_margin_pct": 0,
     "debt_to_equity_pct": 0,
     "debt_to_asset_pct": 0,
-    "current_ratio": 4.585,
-    "quick_ratio": 4.285714285714286,
-    "cash_ratio": 3.2857142857142856,
+    "current_ratio": 42.3468,
+    "quick_ratio": 1.6666666666666683,
+    "cash_ratio": 0.6666666666666667,
     "returns_pct": {
       "1D": -0.5917159763313483,
       "7D": 2.4390243902439157,
@@ -399,18 +448,18 @@
   },
   "past_performance": {
     "roe_pct": 0,
-    "roa_pct": 18.534031413612563,
-    "roic_pct": 19.744008159102496,
-    "net_margin_pct": 44.13965087281796,
-    "operating_margin_pct": 53.865336658354124,
+    "roa_pct": 0,
+    "roic_pct": 0,
+    "net_margin_pct": 0,
+    "operating_margin_pct": 0,
     "source": "groww_refinitiv"
   },
   "financial_health": {
     "debt_to_equity_pct": 0,
     "debt_to_asset_pct": 0,
-    "current_ratio": 4.585,
-    "quick_ratio": 4.285714285714286,
-    "cash_ratio": 3.2857142857142856,
+    "current_ratio": 42.3468,
+    "quick_ratio": 1.6666666666666683,
+    "cash_ratio": 0.6666666666666667,
     "source": "groww_refinitiv"
   },
   "events": {
@@ -459,7 +508,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/step-two-corporation-ltd",
     "news": [
       {
@@ -524,7 +573,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -532,7 +581,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -540,7 +589,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

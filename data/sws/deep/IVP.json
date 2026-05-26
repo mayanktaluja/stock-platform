@@ -3,12 +3,12 @@
   "name": "IVP Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-ivp/ivp-shares",
-  "parsed_at": "2026-05-25T20:50:17.029Z",
+  "parsed_at": "2026-05-26T11:17:09.149Z",
   "company_id": "8B25B3BC-1E74-4B88-B0B1-0320F6E807FA",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ivp-ltd",
     "search_id": "ivp-ltd",
     "company_id": "GSTK507580",
@@ -28,8 +28,56 @@
       "dividend": 3
     },
     "snowflake_total": 17,
-    "current_price_inr": 179.74,
-    "market_cap_inr": 1822200000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 175.79,
+    "market_cap_inr": 1850600000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +91,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 351.451916657394,
+    "upside_pct": 361.5960378861141,
     "multiples": {
-      "pe": 9.76,
+      "pe": 9.91,
       "ps": 0.31,
-      "pb": 1.16,
+      "pb": 1.18,
       "ev_ebitda": 8.77,
       "peg": -1.6683946808510615
     },
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ivp-ltd"
     },
@@ -198,13 +246,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 43.433484466337525,
-      "sector_pe": 43.433484466337525
+      "pe": 43.427221847196755,
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -213,21 +261,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 9.76,
-      "industry_pe": 43.433484466337525,
+      "company_pe": 9.91,
+      "industry_pe": 43.427221847196755,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ivp-ltd",
       "search_id": "ivp-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 9.76,
-        "industry_pe": 43.433484466337525,
+        "company_pe": 9.91,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "sws_statement": {
@@ -251,8 +299,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -264,56 +312,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 179.74,
-        "fetched_at": "2026-05-25T20:50:17.029Z",
+        "value": 175.79,
+        "fetched_at": "2026-05-26T11:17:09.149Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ivp/ivp-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1822200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1850600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 9.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9.91,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.18,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.6683946808510615,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "fifty_two_week": {
@@ -322,91 +370,91 @@
           "low": 110,
           "high": 206.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 18.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 152.071636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 11.8913,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.5542563143124415,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.175073089467345,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1956942225212353,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.478849550079893,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 41.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 19.10956501403181,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0717046877552132,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0176403332062939,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ivp-ltd"
       }
     },
@@ -417,11 +465,11 @@
     "latest_net_income": null,
     "latest_eps": 18.08,
     "most_recent_reported_date": null,
-    "pb": 1.16,
+    "pb": 1.18,
     "ps": 0.31,
     "book_value": 152.071636,
     "face_value": 10,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 11.8913,
     "roa_pct": 5.5542563143124415,
     "roic_pct": 11.175073089467345,
@@ -433,12 +481,12 @@
     "quick_ratio": 1.0717046877552132,
     "cash_ratio": 0.0176403332062939,
     "returns_pct": {
-      "1D": 1.8530061766872614,
-      "7D": 14.265734265734265,
-      "1M": 25.815483690326186,
-      "3M": 30.32192575406034,
-      "6M": 9.058916327892728,
-      "1Y": 4.36650795494136,
+      "1D": -2.1976187826861118,
+      "7D": 12.548818746398613,
+      "1M": 23.050538989220197,
+      "3M": 26.695495495495493,
+      "6M": 7.326454606508334,
+      "1Y": 2.072929973289974,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -765,7 +813,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ivp-ltd",
     "news": [
       {
@@ -840,7 +888,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -848,7 +896,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -856,9 +904,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

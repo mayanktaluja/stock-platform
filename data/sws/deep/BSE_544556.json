@@ -3,7 +3,7 @@
   "name": "Dhillon Freight Carrier Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-544556/dhillon-freight-carrier-shares",
-  "parsed_at": "2026-05-25T22:37:57.691Z",
+  "parsed_at": "2026-05-26T13:33:31.905Z",
   "company_id": "2EC80AD5-5BC6-4ECA-9001-7D7B7522A23A",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,69 @@
       "dividend": 0
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 37.4,
     "market_cap_inr": 146608003.1137983,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 57.33127,
+    "fair_value_inr": 56.611649,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 53.29216577540109,
+    "upside_pct": 51.36804545454547,
     "multiples": {
       "pe": 7.4,
       "ps": null,
@@ -124,7 +174,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 37.4,
-        "fetched_at": "2026-05-25T22:37:57.691Z",
+        "fetched_at": "2026-05-26T13:33:31.905Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-544556/dhillon-freight-carrier-shares"
       }
     },

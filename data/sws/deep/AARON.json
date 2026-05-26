@@ -3,7 +3,7 @@
   "name": "Aaron Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-aaron/aaron-industries-shares",
-  "parsed_at": "2026-05-25T21:21:53.303Z",
+  "parsed_at": "2026-05-26T12:14:40.482Z",
   "company_id": "36C04FAC-DD2A-4CEE-B416-189131B60FEB",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,69 @@
       "dividend": 3
     },
     "snowflake_total": 11,
-    "current_price_inr": 125.97,
-    "market_cap_inr": 2638628024.89998,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 124.1,
+    "market_cap_inr": 2599458108.2010603,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 5.480464,
+    "fair_value_inr": 5.480638,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -95.6493895371914,
+    "upside_pct": -95.5836921837228,
     "multiples": {
-      "pe": 36.7,
+      "pe": 38.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -55,7 +103,7 @@
       "Profit margins (7.4%) are lower than last year (10.6%)",
       "Has a high level of debt",
       "Unstable dividend track record",
-      "Does not have a meaningful market cap (₹2B)"
+      "Does not have a meaningful market cap (₹3B)"
     ],
     "dividend": {
       "yield_pct": 0.3503400085,
@@ -133,7 +181,7 @@
     },
     "dividend_yield_pct": 0.3503400085,
     "industry_benchmarks": {
-      "pe": 26.4
+      "pe": 26.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -147,17 +195,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 36.7,
-      "industry_pe": 26.4,
+      "company_pe": 38.2,
+      "industry_pe": 26.5,
       "industry_name": "Indian Machinery"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 36.7,
-        "industry_pe": 26.4,
+        "company_pe": 38.2,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "AARON is expensive based on its Price-To-Earnings Ratio (36.7x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "AARON is expensive based on its Price-To-Earnings Ratio (38.2x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -174,7 +222,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -187,8 +235,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 125.97,
-        "fetched_at": "2026-05-25T21:21:53.303Z",
+        "value": 124.1,
+        "fetched_at": "2026-05-26T12:14:40.482Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-aaron/aaron-industries-shares"
       }
     },
@@ -215,12 +263,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 5.70613409415121,
-      "7D": 1.2051096649795132,
-      "1M": -10.348017934666567,
-      "3M": -21.782055262340894,
-      "6M": -31.564078883033623,
-      "1Y": -39.31350114416476,
+      "1D": -1.4844804318488565,
+      "7D": 0.3233629749393625,
+      "1M": -11.678884065191088,
+      "3M": -22.95753662776261,
+      "6M": -33.47627981774324,
+      "1Y": -40.21438034445381,
       "5Y": null
     },
     "next_earnings_date": null,

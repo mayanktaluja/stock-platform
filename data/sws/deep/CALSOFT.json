@@ -3,12 +3,12 @@
   "name": "California Software Company Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-calsoft/california-software-shares",
-  "parsed_at": "2026-05-25T22:43:15.507Z",
+  "parsed_at": "2026-05-26T13:37:03.047Z",
   "company_id": "B79B49BC-9E85-42BE-85E0-0D67DF3A9A09",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/california-software-company-ltd",
     "search_id": "california-software-company-ltd",
     "company_id": "GSTK532386",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 20.38,
-    "market_cap_inr": 497300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 19.84,
+    "market_cap_inr": 485000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/california-software-company-ltd"
     },
@@ -81,13 +131,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -97,20 +147,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 4.68,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/california-software-company-ltd",
       "search_id": "california-software-company-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 4.68,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "sws_statement": {
@@ -134,7 +184,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -147,56 +197,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 20.38,
-        "fetched_at": "2026-05-25T22:43:15.507Z",
+        "value": 19.84,
+        "fetched_at": "2026-05-26T13:37:03.047Z",
         "url": "https://simplywall.st/stocks/in/software/nse-calsoft/california-software-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 497300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 485000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 4.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.2113846153846153,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +255,91 @@
           "low": 9.96,
           "high": 27.83
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 13.4345587,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 25.7457,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 21.44009681323114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 28.824020073548457,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 54.06917599186164,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 76.19532044760936,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 3.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.247277127874143,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.0898,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.716867469879518,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.725301204819277,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/california-software-company-ltd"
       }
     },
@@ -304,7 +354,7 @@
     "ps": 2.5,
     "book_value": 13.4345587,
     "face_value": 10,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 25.7457,
     "roa_pct": 21.44009681323114,
     "roic_pct": 28.824020073548457,
@@ -316,12 +366,12 @@
     "quick_ratio": 5.716867469879518,
     "cash_ratio": 0.725301204819277,
     "returns_pct": {
-      "1D": -2.113352545629209,
-      "7D": -5.735430157261804,
-      "1M": 69.55074875207985,
-      "3M": 49.30402930402929,
-      "6M": 22.40240240240241,
-      "1Y": 88.87859128822984,
+      "1D": -2.6496565260058844,
+      "7D": -12.599118942731275,
+      "1M": 65.05823627287855,
+      "3M": 47.94929157345265,
+      "6M": 19.879154078549842,
+      "1Y": 83.87395736793329,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -487,22 +537,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/california-software-company-ltd",
     "news": [
+      {
+        "id": "678824",
+        "title": "California Software Company Ltd to hold Board Meeting on May 28, 2026.\nMeeting to discuss and approve corporate and business matters, per SEBI LODR rules.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=48502284-5d13-40ab-b31a-ff69ef12e7f3.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T08:25:11.000Z"
+      },
       {
         "id": "589228",
         "title": "California Software's board meeting on April 29, 2026, to approve audited FY results.\nTrading window closed from March 31 to May 1, 2026, for insider trading prevention.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=540837c4-343b-494b-aada-e3fb95ed4358.pdf",
         "source": "BSE",
         "published_at": "2026-04-20T13:36:37.000Z"
-      },
-      {
-        "id": "521513",
-        "title": "California Software Company Ltd announces board meeting on March 10, 2026, at shorter notice for urgent compliance matters.\nAgenda includes Rights Issue oversight, equity share conversion, and submission of regulatory documents to NSE, BSE, NSDL, and CDSL.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=1c5ef3bb-5398-4f2f-b611-71c5888eac30.pdf",
-        "source": "BSE",
-        "published_at": "2026-03-09T17:04:23.000Z"
       }
     ],
     "events": [
@@ -562,7 +612,7 @@
         "ticker": "MAPMYINDIA",
         "name": "CE Info Systems",
         "searchId": "c-e-info-systems-ltd",
-        "market_cap_inr": 47138300000,
+        "market_cap_inr": 47483300000,
         "pe": 35.18,
         "pb": 5.21
       },
@@ -570,17 +620,17 @@
         "ticker": "AURIONPRO",
         "name": "Aurionpro Solutions",
         "searchId": "aurionpro-solutions-ltd",
-        "market_cap_inr": 45231700000,
+        "market_cap_inr": 45555000000,
         "pe": 21.36,
         "pb": 2.6
       },
       {
-        "ticker": "MOSCHIP",
-        "name": "Moschip Technologies",
-        "searchId": "moschip-semiconductor-technology-ltd",
-        "market_cap_inr": 39030500000,
-        "pe": 111.08,
-        "pb": 10.6
+        "ticker": "EMUDHRA",
+        "name": "eMudhra",
+        "searchId": "emudhra-ltd",
+        "market_cap_inr": 40097400000,
+        "pe": 35.36,
+        "pb": 4.27
       }
     ],
     "details": {

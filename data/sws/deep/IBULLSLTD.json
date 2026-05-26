@@ -3,12 +3,12 @@
   "name": "Indiabulls Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-ibullsltd/indiabulls-shares",
-  "parsed_at": "2026-05-25T20:36:59.168Z",
+  "parsed_at": "2026-05-26T11:04:12.430Z",
   "company_id": "60E6971D-C08B-4B27-9FA8-AD5D415F92C6",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd",
     "search_id": "indiabulls-integrated-services-ltd",
     "company_id": "GSTK533520",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 19.96,
-    "market_cap_inr": 44418900000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 20.11,
+    "market_cap_inr": 46441200000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 420.2219889779559,
+    "upside_pct": 416.34166583789164,
     "multiples": {
       "pe": 12.83,
       "ps": 5.32,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
     },
@@ -94,13 +143,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.871539040580295,
-      "sector_pe": 24.871539040580295
+      "pe": 24.83673056579842,
+      "sector_pe": 24.83673056579842
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diversified",
       "pe_industry_id": 21,
@@ -110,20 +159,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12.83,
-      "industry_pe": 24.871539040580295,
+      "industry_pe": 24.83673056579842,
       "industry_name": "Diversified",
       "industry_id": 21,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd",
       "search_id": "indiabulls-integrated-services-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 12.83,
-        "industry_pe": 24.871539040580295,
+        "industry_pe": 24.83673056579842,
         "industry_name": "Diversified",
         "industry_id": 21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "sws_statement": {
@@ -147,7 +196,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -160,56 +209,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 19.96,
-        "fetched_at": "2026-05-25T20:36:59.168Z",
+        "value": 20.11,
+        "fetched_at": "2026-05-26T11:04:12.430Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-ibullsltd/indiabulls-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 44418900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 46441200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 12.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 5.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "fifty_two_week": {
@@ -218,91 +267,91 @@
           "low": 8.9,
           "high": 22.78
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 13.3436167,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.9252,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 8.178884035433684,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 21.211106285922103,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 40.958506323645885,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 31.09025894549906,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 14.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 10.987365308631029,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.3617,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.450804394742005,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8381155581714734,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd"
       }
     },
@@ -317,7 +366,7 @@
     "ps": 5.32,
     "book_value": 13.3436167,
     "face_value": 2,
-    "sector_pe": 24.871539040580295,
+    "sector_pe": 24.83673056579842,
     "roe_pct": 10.9252,
     "roa_pct": 8.178884035433684,
     "roic_pct": 21.211106285922103,
@@ -329,12 +378,12 @@
     "quick_ratio": 5.450804394742005,
     "cash_ratio": 1.8381155581714734,
     "returns_pct": {
-      "1D": 4.667016255899322,
-      "7D": 8.184281842818438,
-      "1M": 20.604229607250755,
-      "3M": 119.09989023051595,
-      "6M": 0,
-      "1Y": 17.966903073286044,
+      "1D": 0.7515030060120169,
+      "7D": 14.521640091116177,
+      "1M": 21.510574018126878,
+      "3M": 120.74643249176728,
+      "6M": 0.7515030060120169,
+      "1Y": 18.853427895981074,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -584,7 +633,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/indiabulls-integrated-services-ltd",
     "news": [
       {
@@ -649,7 +698,7 @@
         "ticker": "RTNINDIA",
         "name": "RattanIndia Enterprises",
         "searchId": "rattanindia-infrastructure-ltd",
-        "market_cap_inr": 47743600000,
+        "market_cap_inr": 48338000000,
         "pe": null,
         "pb": 4.62
       },
@@ -657,7 +706,7 @@
         "ticker": "MSTCLTD",
         "name": "MSTC",
         "searchId": "mstc-ltd",
-        "market_cap_inr": 30046700000,
+        "market_cap_inr": 30261400000,
         "pe": 13.87,
         "pb": 3.62
       },
@@ -665,7 +714,7 @@
         "ticker": "543787",
         "name": "Macfos",
         "searchId": "macfos-ltd",
-        "market_cap_inr": 11912300000,
+        "market_cap_inr": 11717000000,
         "pe": 46.46,
         "pb": 12.43
       }

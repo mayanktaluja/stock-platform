@@ -3,12 +3,12 @@
   "name": "PC Jeweller Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-pcjeweller/pc-jeweller-shares",
-  "parsed_at": "2026-05-25T22:05:34.171Z",
+  "parsed_at": "2026-05-26T12:58:25.210Z",
   "company_id": "5048ACA2-6734-48DE-9191-2D425E8945FD",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pc-jeweller-ltd",
     "search_id": "pc-jeweller-ltd",
     "company_id": "GSTK534809",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 8.92,
-    "market_cap_inr": 81277200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 9.12,
+    "market_cap_inr": 86715100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,14 +104,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/pc-jeweller-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (12.4x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (13.5x) is below the Indian market (23.4x)",
       "Earnings grew by 81.7% over the past year"
     ],
     "risks": [
@@ -118,13 +167,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 47.54550502661084,
-      "sector_pe": 47.54550502661084
+      "pe": 47.54705930701353,
+      "sector_pe": 47.54705930701353
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diamond, Gems and Jewellery",
       "pe_industry_id": 20,
@@ -134,27 +183,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12.31,
-      "industry_pe": 47.54550502661084,
+      "industry_pe": 47.54705930701353,
       "industry_name": "Diamond, Gems and Jewellery",
       "industry_id": 20,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/pc-jeweller-ltd",
       "search_id": "pc-jeweller-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 12.31,
-        "industry_pe": 47.54550502661084,
+        "industry_pe": 47.54705930701353,
         "industry_name": "Diamond, Gems and Jewellery",
         "industry_id": 20,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.4,
-        "industry_pe": 18.7,
+        "company_pe": 13.5,
+        "industry_pe": 19.1,
         "industry_name": "Indian Specialty Retail",
-        "description": "PCJEWELLER is good value based on its Price-To-Earnings Ratio (12.4x) compared to the Indian Specialty Retail industry average (18.7x).",
+        "description": "PCJEWELLER is good value based on its Price-To-Earnings Ratio (13.5x) compared to the Indian Specialty Retail industry average (19.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -171,7 +220,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -184,56 +233,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8.92,
-        "fetched_at": "2026-05-25T22:05:34.171Z",
+        "value": 9.12,
+        "fetched_at": "2026-05-26T12:58:25.210Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-pcjeweller/pc-jeweller-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 81277200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 86715100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 12.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.13445045045045045,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.54550502661084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.54705930701353,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "fifty_two_week": {
@@ -242,91 +291,91 @@
           "low": 7.47,
           "high": 19.65
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.878879,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.54550502661084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.54705930701353,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.4856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.370130707737589,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.308532895017764,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.02920091148834,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 26.558939498681415,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 22.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 17.884852012997868,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 101.0461,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7443115264797507,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08138940809968848,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pc-jeweller-ltd"
       }
     },
@@ -341,7 +390,7 @@
     "ps": 2.6,
     "book_value": 8.878879,
     "face_value": 1,
-    "sector_pe": 47.54550502661084,
+    "sector_pe": 47.54705930701353,
     "roe_pct": 8.4856,
     "roa_pct": 7.370130707737589,
     "roic_pct": 9.308532895017764,
@@ -353,12 +402,12 @@
     "quick_ratio": 0.7443115264797507,
     "cash_ratio": 0.08138940809968848,
     "returns_pct": {
-      "1D": 6.571087216248515,
-      "7D": 9.313725490196076,
-      "1M": -4.5989304812834195,
-      "3M": -11.420059582919565,
-      "6M": -12.377210216110019,
-      "1Y": -31.013147718484145,
+      "1D": 2.242152466367705,
+      "7D": 12.731767614338683,
+      "1M": -2.4598930481283467,
+      "3M": -9.433962264150955,
+      "6M": -8.525576730190586,
+      "1Y": -29.46635730858469,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -644,21 +693,21 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pc-jeweller-ltd",
     "news": [
+      {
+        "id": "26052510648183",
+        "title": "PC Jeweller saw 1.82 crore shares traded, gaining 3.9% intraday.\nMixed technical signals and a weak Mojo Grade caution investors.",
+        "url": "https://www.marketsmojo.com/news/stocks-in-action/pc-jeweller-ltd-sees-exceptional-volume-surge-amid-mixed-technical-signals-4010602",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-25T05:30:06.000Z"
+      },
       {
         "id": "1453166450",
         "title": "Jewellery stocks, including PC Jeweller, fell up to 8% after PM Modi's gold advisory.\nSensex dropped 1,045 points while Nifty fell 298; Consumer Durables index declined 3%.",
         "url": "https://www.moneycontrol.com/news/business/markets/titan-senco-gold-other-jewellery-stocks-fall-up-to-7-5-amid-pm-modi-s-advisory-on-gold-buying-13914642.html",
         "source": "Moneycontrol",
-        "published_at": "2026-05-10T18:30:00.000Z"
-      },
-      {
-        "id": "1668283244",
-        "title": "PC Jeweller saw 22.7M shares traded on May 11, with a 5.3% return.\nDespite sector outperformance, PC Jeweller trades below all key averages, Mojo score 34.0.",
-        "url": "https://www.marketsmojo.com/news/stocks-in-action/pc-jeweller-ltd-sees-exceptional-volume-amid-sector-downturn-3985230",
-        "source": "Markets Mojo",
         "published_at": "2026-05-10T18:30:00.000Z"
       }
     ],
@@ -719,15 +768,15 @@
         "ticker": "THANGAMAYL",
         "name": "Thangamayil Jewellery",
         "searchId": "thangamayil-jewellery-ltd",
-        "market_cap_inr": 118633900000,
-        "pe": 33.74,
-        "pb": 8.38
+        "market_cap_inr": 119011500000,
+        "pe": 33.84,
+        "pb": 8.4
       },
       {
         "ticker": "SKYGOLD",
         "name": "Sky Gold and Diamonds",
         "searchId": "sky-gold-ltd",
-        "market_cap_inr": 73077200000,
+        "market_cap_inr": 75051900000,
         "pe": 31.88,
         "pb": 7.05
       },
@@ -735,7 +784,7 @@
         "ticker": "BLUESTONE",
         "name": "Bluestone Jewellery And Lifestyle",
         "searchId": "bluestone-jewellery-and-lifestyle-ltd",
-        "market_cap_inr": 72333400000,
+        "market_cap_inr": 73925500000,
         "pe": null,
         "pb": 4.02
       }

@@ -3,12 +3,12 @@
   "name": "Max Financial Services Limited",
   "sector": "Insurance",
   "sws_url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares",
-  "parsed_at": "2026-05-25T21:33:57.649Z",
+  "parsed_at": "2026-05-26T12:24:35.846Z",
   "company_id": "D77F94A3-496A-4463-A41F-8A69E25955A7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/max-financial-services-ltd",
     "search_id": "max-financial-services-ltd",
     "company_id": "GSTK500271",
@@ -28,13 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 1726.8,
-    "market_cap_inr": 579723800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 2,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1725.6,
+    "market_cap_inr": 596272000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": "large7",
     "shares_outstanding": 343446614,
     "fifty_two_week": {
-      "low": 1368,
+      "low": 1433.6,
       "high": 1892.5
     },
     "fair_value_inr": 2050.56,
@@ -43,9 +85,9 @@
       "max": 2050.56,
       "count": 5
     },
-    "upside_pct": 18.749131341209175,
+    "upside_pct": 18.8317107093185,
     "multiples": {
-      "pe": 411.4320135079523,
+      "pe": 411.14609827966325,
       "ps": 1.22,
       "pb": 10.98,
       "ev_ebitda": 79.11,
@@ -61,7 +103,6 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Sales ratio",
-      "Analysts in good agreement that stock price will rise by 23%",
       "Earnings are forecast to grow 47.96% per year",
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
@@ -92,10 +133,10 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.2317879394,
+      "future_revenue_growth_3y": 0.2323369554,
       "net_income_margin_1y": 0.1056122218,
       "pe": 54.462237842,
-      "sector_pe": 35.65827264919344
+      "sector_pe": 35.65587789366573
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -109,7 +150,7 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 411.4320135079523,
+      "company_pe": 411.14609827966325,
       "industry_pe": 54.462237842,
       "industry_name": "Insurance",
       "industry_code": "7210000",
@@ -119,10 +160,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 35.65827264919344,
+        "industry_pe": 35.65587789366573,
         "industry_name": "Miscellaneous",
         "industry_id": 39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "sws_statement": {
@@ -146,160 +187,160 @@
         }
       },
       "internal_median": {
-        "industry_pe": 54.5,
+        "industry_pe": 53.3,
         "sample_count": 15,
         "industry_code": "7210000",
         "industry_name": "Insurance"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.772272813,
+        "industry_pe": 11.863561156,
         "industry_name": "Insurance",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 411.4320135079523
+        "company_pe": 411.14609827966325
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1726.8,
-        "fetched_at": "2026-05-25T21:33:57.649Z",
+        "value": 1725.6,
+        "fetched_at": "2026-05-26T12:24:35.846Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 579723800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 596272000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 10.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 79.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 43.01251874999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 1368,
+          "low": 1433.6,
           "high": 1892.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 153.054966,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5898,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.04164665181026459,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.0820460772426967,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.1737840517631058,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.49305587456168554,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 35.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9342975182516389,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.036,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0360022073730097,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.01127290964444985,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       }
     },
@@ -314,7 +355,7 @@
     "ps": 1.22,
     "book_value": 153.054966,
     "face_value": 2,
-    "sector_pe": 35.65827264919344,
+    "sector_pe": 35.65587789366573,
     "roe_pct": 1.5898,
     "roa_pct": 0.04164665181026459,
     "roic_pct": 3.0820460772426967,
@@ -326,12 +367,12 @@
     "quick_ratio": 1.0360022073730097,
     "cash_ratio": 0.01127290964444985,
     "returns_pct": {
-      "1D": 2.785714285714283,
-      "7D": 7.8104513953923895,
-      "1M": 8.78850878850879,
-      "3M": -6.248982029426143,
-      "6M": -0.5700466401796562,
-      "1Y": 16.952251947172364,
+      "1D": -0.06949270326615968,
+      "7D": 6.656777303912468,
+      "1M": 8.71290871290871,
+      "3M": -6.960694451932935,
+      "6M": -0.1619995371441901,
+      "1Y": 16.870978665763626,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -623,7 +664,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/max-financial-services-ltd",
     "news": [
       {
@@ -688,7 +729,7 @@
         "ticker": "LICI",
         "name": "Life Insurance Corporation of India Ltd.",
         "searchId": "life-insurance-corporation-of-india",
-        "market_cap_inr": 5144436900000,
+        "market_cap_inr": 5295288100000,
         "pe": 8.95,
         "pb": 2.91
       },
@@ -696,15 +737,15 @@
         "ticker": "SBILIFE",
         "name": "SBI Life Insurance Company",
         "searchId": "sbi-life-insurance-company-ltd",
-        "market_cap_inr": 1876092800000,
-        "pe": 75.94,
-        "pb": 9.83
+        "market_cap_inr": 1907186300000,
+        "pe": 77.2,
+        "pb": 9.99
       },
       {
         "ticker": "HDFCLIFE",
         "name": "HDFC Life Insurance Company",
         "searchId": "hdfc-standard-life-insurance-co-ltd",
-        "market_cap_inr": 1330403600000,
+        "market_cap_inr": 1337416500000,
         "pe": 69.59,
         "pb": 7.5
       }

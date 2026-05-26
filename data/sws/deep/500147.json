@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cmi-fpe-ltd",
     "search_id": "cmi-fpe-ltd",
     "company_id": "GSTK500147",
@@ -28,14 +28,62 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 5379.85,
-    "market_cap_inr": 30533200000,
+    "market_cap_inr": 32261000000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 5015.25,
-      "high": 5715
+      "high": 6599.5
     },
     "fair_value_inr": 4910.329835,
     "fair_value_range_inr": {
@@ -45,9 +93,9 @@
     },
     "upside_pct": -8.727383941931482,
     "multiples": {
-      "pe": 169,
+      "pe": 178.56,
       "ps": 6.34,
-      "pb": 14.53,
+      "pb": 15.35,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/cmi-fpe-ltd"
     },
@@ -180,13 +228,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 44.85265749196877,
-      "sector_pe": 44.85265749196877
+      "pe": 44.8465306218029,
+      "sector_pe": 44.8465306218029
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Capital Goods-Non Electrical Equipment",
       "pe_industry_id": 9,
@@ -195,21 +243,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 169,
-      "industry_pe": 44.85265749196877,
+      "company_pe": 178.56,
+      "industry_pe": 44.8465306218029,
       "industry_name": "Capital Goods-Non Electrical Equipment",
       "industry_id": 9,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/cmi-fpe-ltd",
       "search_id": "cmi-fpe-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 169,
-        "industry_pe": 44.85265749196877,
+        "company_pe": 178.56,
+        "industry_pe": 44.8465306218029,
         "industry_name": "Capital Goods-Non Electrical Equipment",
         "industry_id": 9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "sws_statement": {
@@ -233,7 +281,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -252,143 +300,143 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 30533200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 32261000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 169,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 178.56,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 14.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 15.35,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 6.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 5015.25,
-          "high": 5715
+          "high": 6599.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 36.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 425.5888447,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.6917,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.018502035515736,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.723073086594209,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.526859375324701,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 2.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7748092159981324,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3304,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2900845978839486,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5002981909747531,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cmi-fpe-ltd"
       }
     },
@@ -399,11 +447,11 @@
     "latest_net_income": null,
     "latest_eps": 36.59,
     "most_recent_reported_date": null,
-    "pb": 14.53,
+    "pb": 15.35,
     "ps": 6.34,
     "book_value": 425.5888447,
     "face_value": 10,
-    "sector_pe": 44.85265749196877,
+    "sector_pe": 44.8465306218029,
     "roe_pct": 9.6917,
     "roa_pct": 4.018502035515736,
     "roic_pct": 0,
@@ -670,22 +718,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cmi-fpe-ltd",
     "news": [
+      {
+        "id": "847064173423356032",
+        "title": "John Cockerill India posts Q1 standalone revenue of ₹200 Cr, up 162% YoY.\nConsolidated revenue rises to ₹340 Cr (+56% YoY); robust order book at ₹3,300 Cr.",
+        "url": "https://sqst.in/qTf1w",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T10:50:36.000Z"
+      },
       {
         "id": "670017",
         "title": "John Cockerill India Ltd schedules board meeting on May 26, 2026, to discuss fund-raising options.\nTrading window remains closed till 48 hours post-meeting; details on company's website.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=9e843833-e20e-4a40-8aab-a068ea8e42f8.pdf",
         "source": "BSE",
         "published_at": "2026-05-21T12:39:26.000Z"
-      },
-      {
-        "id": "844513467187648768",
-        "title": "John Cockerill India's standalone revenue surged 162% YoY to ₹2,000 Mn in Q1CY26.\nConsolidated revenue rose 56% YoY to ₹3,445 Mn; order book hit ₹33,000 Mn.",
-        "url": "https://sqst.in/ROSMM",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-19T09:55:00.000Z"
       }
     ],
     "events": [
@@ -745,25 +793,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

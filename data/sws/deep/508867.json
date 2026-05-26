@@ -3,12 +3,12 @@
   "name": "New Markets Avenue Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-508867/new-markets-avenue-shares",
-  "parsed_at": "2026-05-25T20:57:11.005Z",
+  "parsed_at": "2026-05-26T11:51:07.274Z",
   "company_id": "6727411C-17BB-4B61-AD5A-77C990056E1C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/new-markets-advisory-ltd",
     "search_id": "new-markets-advisory-ltd",
     "company_id": "GSTK508867",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 22.85,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 23.99,
     "market_cap_inr": 112900000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 9.55,
       "high": 22.85
     },
-    "fair_value_inr": 11.306076,
+    "fair_value_inr": 11.28075,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -50.52045514223196,
+    "upside_pct": -52.97728220091705,
     "multiples": {
       "pe": null,
       "ps": 31.19,
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +148,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.9,
+        "industry_pe": 2,
         "industry_name": "Indian Professional Services",
-        "description": "508867 is expensive based on its Price-To-Sales Ratio (7.8x) compared to the Indian Professional Services industry average (1.9x).",
+        "description": "508867 is expensive based on its Price-To-Sales Ratio (8.2x) compared to the Indian Professional Services industry average (2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -139,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 22.85,
-        "fetched_at": "2026-05-25T20:57:11.005Z",
+        "value": 23.99,
+        "fetched_at": "2026-05-26T11:51:07.274Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-508867/new-markets-avenue-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 112900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 31.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 9.55,
           "high": 22.85
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 9.8342105,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 11.4584,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 42.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 29.6969696969697,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 156.1746,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/new-markets-advisory-ltd"
       }
     },
@@ -284,7 +333,7 @@
     "ps": 31.19,
     "book_value": 9.8342105,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 11.4584,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +345,12 @@
     "quick_ratio": 98,
     "cash_ratio": 17,
     "returns_pct": {
-      "1D": 1.9634091923248604,
-      "7D": 6.032482598607892,
-      "1M": 8.140085186938014,
-      "3M": 79.07523510971788,
-      "6M": 139.2670157068063,
-      "1Y": 139.2670157068063,
+      "1D": 4.989059080962788,
+      "7D": 7.050423917893791,
+      "1M": 13.535257927117838,
+      "3M": 70.74733096085407,
+      "6M": 151.20418848167537,
+      "1Y": 151.20418848167537,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -432,7 +481,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-27T18:30:00.000Z",
@@ -445,7 +494,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/new-markets-advisory-ltd",
     "news": [
       {
@@ -495,7 +544,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-27T18:30:00.000Z",
@@ -510,7 +559,7 @@
         "ticker": "AKIKO",
         "name": "Akiko Global Services",
         "searchId": "akiko-global-services-ltd",
-        "market_cap_inr": 2943900000,
+        "market_cap_inr": 2807100000,
         "pe": 16.9,
         "pb": 4.94
       },

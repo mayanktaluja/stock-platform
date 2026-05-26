@@ -3,7 +3,7 @@
   "name": "Fonebox Retail Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-fonebox/fonebox-retail-shares",
-  "parsed_at": "2026-05-25T23:31:04.071Z",
+  "parsed_at": "2026-05-26T14:20:59.429Z",
   "company_id": "3401F21D-ED8A-4649-BAD0-4D7FD4676A80",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,69 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 99.25,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 99.2,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 152.06885,
+    "fair_value_inr": 152.038943,
     "fair_value_range_inr": {
-      "min": 152.06885,
-      "max": 152.06885,
+      "min": 152.038943,
+      "max": 152.038943,
       "count": 1
     },
-    "upside_pct": 53.21798488664987,
+    "upside_pct": 53.2650635080645,
     "multiples": {
       "pe": 16.7,
       "ps": null,
@@ -108,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -121,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 99.25,
-        "fetched_at": "2026-05-25T23:31:04.071Z",
+        "value": 99.2,
+        "fetched_at": "2026-05-26T14:20:59.429Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-fonebox/fonebox-retail-shares"
       }
     },
@@ -149,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 19.21921921921922,
-      "7D": 52.69230769230769,
-      "1M": 55.078125,
-      "3M": 24.0625,
-      "6M": -0.25125628140703515,
-      "1Y": 1.3789581205311483,
+      "1D": -0.05037783375314575,
+      "7D": 48.059701492537314,
+      "1M": 55.00000000000001,
+      "3M": 30.35479632063076,
+      "6M": -0.30150753768843935,
+      "1Y": 1.327885597548516,
       "5Y": null
     },
     "next_earnings_date": null,

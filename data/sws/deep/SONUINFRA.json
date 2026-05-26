@@ -3,7 +3,7 @@
   "name": "Sonu Infratech Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-sonuinfra/sonu-infratech-shares",
-  "parsed_at": "2026-05-25T23:06:08.989Z",
+  "parsed_at": "2026-05-26T13:56:28.938Z",
   "company_id": "CFC0853C-26CF-4DA5-A2DC-0E1643A72023",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 47.5,
-    "market_cap_inr": 491577556.4364791,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 47.45,
+    "market_cap_inr": 491060106.37707233,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 34.595106,
+    "fair_value_inr": 34.623185,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -27.16819789473684,
+    "upside_pct": -27.032276080084305,
     "multiples": {
-      "pe": 4,
+      "pe": 3.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,13 +101,13 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings have grown 51.1% per year over the past 5 years",
-      "Price-To-Earnings ratio (4x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (3.8x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Has a high level of debt",
       "Shareholders have been substantially diluted in the past year",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹516M)"
+      "Does not have a meaningful market cap (₹492M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -84,17 +133,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 4,
+      "company_pe": 3.8,
       "industry_pe": 16.1,
       "industry_name": "Indian Construction"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 4,
+        "company_pe": 3.8,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "SONUINFRA is good value based on its Price-To-Earnings Ratio (4x) compared to the Indian Construction industry average (16.1x).",
+        "description": "SONUINFRA is good value based on its Price-To-Earnings Ratio (3.8x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -111,8 +160,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -124,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 47.5,
-        "fetched_at": "2026-05-25T23:06:08.989Z",
+        "value": 47.45,
+        "fetched_at": "2026-05-26T13:56:28.938Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-sonuinfra/sonu-infratech-shares"
       }
     },
@@ -152,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.809619238476951,
-      "7D": -8.212560386473431,
-      "1M": -19.695688926458153,
-      "3M": -34.93150684931507,
-      "6M": -47.74477447744775,
-      "1Y": -66.59634317862165,
+      "1D": -0.10526315789473085,
+      "7D": -5.099999999999994,
+      "1M": -19.780219780219774,
+      "3M": -34.097222222222214,
+      "6M": -47.799779977997794,
+      "1Y": -66.63150492264415,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Universal Arts Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/bse-532378/universal-arts-shares",
-  "parsed_at": "2026-05-25T23:02:24.780Z",
+  "parsed_at": "2026-05-26T13:55:22.660Z",
   "company_id": "251C7E17-AC3A-43FF-9D18-7A90478C0F65",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/universal-arts-ltd",
     "search_id": "universal-arts-ltd",
     "company_id": "GSTK532378",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 5.2,
-    "market_cap_inr": 56800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4.75,
+    "market_cap_inr": 51800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -73.97809615384615,
+    "upside_pct": -71.51286315789474,
     "multiples": {
       "pe": 43.85,
       "ps": 0,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/universal-arts-ltd"
     },
@@ -64,7 +113,7 @@
       "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹49K)",
       "Large [[one-off items]] impacting financial results",
-      "Does not have a meaningful market cap (₹57M)"
+      "Does not have a meaningful market cap (₹52M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -82,7 +131,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Entertainment",
       "pe_industry_id": 24,
@@ -95,7 +144,7 @@
       "industry_pe": 23.170821784289235,
       "industry_name": "Entertainment",
       "industry_id": 24,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/universal-arts-ltd",
       "search_id": "universal-arts-ltd"
     },
@@ -105,14 +154,14 @@
         "industry_pe": 23.170821784289235,
         "industry_name": "Entertainment",
         "industry_id": 24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "sws_statement": {
-        "company_pe": 45,
-        "industry_pe": 27.1,
+        "company_pe": 37.5,
+        "industry_pe": 28.9,
         "industry_name": "Indian Entertainment",
-        "description": "532378 is expensive based on its Price-To-Earnings Ratio (45x) compared to the Indian Entertainment industry average (27.1x).",
+        "description": "532378 is expensive based on its Price-To-Earnings Ratio (37.5x) compared to the Indian Entertainment industry average (28.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.8,
-        "sample_count": 34,
+        "industry_pe": 18,
+        "sample_count": 35,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.2,
-        "fetched_at": "2026-05-25T23:02:24.780Z",
+        "value": 4.75,
+        "fetched_at": "2026-05-26T13:55:22.660Z",
         "url": "https://simplywall.st/stocks/in/media/bse-532378/universal-arts-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 56800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 43.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.6149142857142856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 3.92,
           "high": 6.53
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 7.359452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.934,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7310252996005329,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7759562841530054,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 317.2358,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 359,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/universal-arts-ltd"
       }
     },
@@ -311,16 +360,16 @@
     "quick_ratio": 359,
     "cash_ratio": 1,
     "returns_pct": {
-      "1D": -8.771929824561402,
-      "7D": -1.886792452830182,
-      "1M": 1.960784313725501,
-      "3M": 4.0000000000000036,
-      "6M": 1.5625000000000013,
-      "1Y": 10.403397027600853,
+      "1D": -8.653846153846157,
+      "7D": -16.373239436619713,
+      "1M": -6.862745098039209,
+      "3M": -16.666666666666668,
+      "6M": -6.679764243614929,
+      "1Y": 0.8492569002123149,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -552,7 +601,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/universal-arts-ltd",
     "news": [
       {
@@ -610,7 +659,7 @@
         "ticker": "542727",
         "name": "City Pulse Multiventures",
         "searchId": "city-pulse-multiplex-ltd",
-        "market_cap_inr": 34783900000,
+        "market_cap_inr": 34498500000,
         "pe": null,
         "pb": 14.12
       },
@@ -618,7 +667,7 @@
         "ticker": "539469",
         "name": "Panorama Studios International",
         "searchId": "apunka-invest-commercial-ltd",
-        "market_cap_inr": 10470900000,
+        "market_cap_inr": 11823100000,
         "pe": 30.92,
         "pb": 4.93
       },
@@ -626,7 +675,7 @@
         "ticker": "531910",
         "name": "JOJO",
         "searchId": "madhuveer-com-network-ltd",
-        "market_cap_inr": 8592600000,
+        "market_cap_inr": 8199500000,
         "pe": 152.88,
         "pb": 9.52
       }
@@ -645,6 +694,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "bb44ee40-ddb8-47a1-bbb3-6062da809e44",
+      "type": "brief",
+      "date": "2026-05-26T11:54:13.000Z",
+      "title": "Investor sentiment deteriorates as stock falls 16%",
+      "body": "After last week's 16% share price decline to ₹4.75, the stock trades at a trailing P/E ratio of 37.5x. Average trailing P/E is 29x in the Entertainment industry in India. Total returns to shareholders of 109% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "b520a2e4-5df5-4879-aeee-0aeba0c23c8a",
       "type": "event",

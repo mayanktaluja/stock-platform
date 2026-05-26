@@ -3,7 +3,7 @@
   "name": "Shree Krishna Infrastructure Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-542146/shree-krishna-infrastructure-shares",
-  "parsed_at": "2026-05-25T20:37:42.640Z",
+  "parsed_at": "2026-05-26T11:04:56.866Z",
   "company_id": "5DC6C92A-59EC-4ADE-BBA0-15A1A9CB11CE",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 11.76,
     "market_cap_inr": 129360000,
     "market_cap_usd": 127196762990.178,
@@ -103,8 +152,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
-        "sample_count": 145,
+        "industry_pe": 23.85,
+        "sample_count": 144,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -117,7 +166,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 11.76,
-        "fetched_at": "2026-05-25T20:37:42.640Z",
+        "fetched_at": "2026-05-26T11:04:56.866Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-542146/shree-krishna-infrastructure-shares"
       }
     },

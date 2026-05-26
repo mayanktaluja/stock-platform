@@ -3,12 +3,12 @@
   "name": "Addi Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-507852/addi-industries-shares",
-  "parsed_at": "2026-05-25T20:55:45.564Z",
+  "parsed_at": "2026-05-26T11:49:34.320Z",
   "company_id": "25B5EE68-CA4B-4955-94F5-70B0195D2EDE",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/addi-industries-ltd",
     "search_id": "addi-industries-ltd",
     "company_id": "GSTK507852",
@@ -28,26 +28,75 @@
       "dividend": 2
     },
     "snowflake_total": 10,
-    "current_price_inr": 97.3,
-    "market_cap_inr": 1045100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 95,
+    "market_cap_inr": 1050500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 80.64,
+      "low": 84,
       "high": 141.25
     },
-    "fair_value_inr": 9.93783,
+    "fair_value_inr": 9.939296,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -89.78640287769784,
+    "upside_pct": -89.53758315789474,
     "multiples": {
-      "pe": 38.41,
+      "pe": 38.61,
       "ps": 0,
-      "pb": 1.32,
+      "pb": 1.33,
       "ev_ebitda": 0,
       "peg": -0.5612727272727271
     },
@@ -55,14 +104,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/addi-industries-ltd"
     },
     "rewards": [],
     "risks": [
       "Makes less than USD$1m in revenue (₹0)",
-      "Dividend of 1.29% is not well covered by free cash flows",
+      "Dividend of 1.28% is not well covered by free cash flows",
       "Does not have a meaningful market cap (₹1B)"
     ],
     "dividend": {
@@ -102,13 +151,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -117,28 +166,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 38.41,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 38.61,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/addi-industries-ltd",
       "search_id": "addi-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 38.41,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 38.61,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.8,
-        "industry_pe": 18.2,
+        "company_pe": 37,
+        "industry_pe": 17.9,
         "industry_name": "Indian Luxury",
-        "description": "507852 is expensive based on its Price-To-Earnings Ratio (36.8x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "507852 is expensive based on its Price-To-Earnings Ratio (37x) compared to the Indian Luxury industry average (17.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -155,7 +204,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -168,149 +217,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 97.3,
-        "fetched_at": "2026-05-25T20:55:45.564Z",
+        "value": 95,
+        "fetched_at": "2026-05-26T11:49:34.320Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-507852/addi-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1045100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1050500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 38.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 38.61,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.33,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5612727272727271,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 80.64,
+          "low": 84,
           "high": 141.25
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 73.3233403,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.8801,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.387923490436305,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.312266586876782,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 58.5699,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 58.17910447761193,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 54.02985074626866,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/addi-industries-ltd"
       }
     },
@@ -321,11 +370,11 @@
     "latest_net_income": null,
     "latest_eps": 2.52,
     "most_recent_reported_date": null,
-    "pb": 1.32,
+    "pb": 1.33,
     "ps": 0,
     "book_value": 73.3233403,
     "face_value": 5,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 4.8801,
     "roa_pct": 3.387923490436305,
     "roic_pct": 6.312266586876782,
@@ -337,12 +386,12 @@
     "quick_ratio": 58.17910447761193,
     "cash_ratio": 54.02985074626866,
     "returns_pct": {
-      "1D": 0.5165289256198348,
-      "7D": -5.258033106134377,
-      "1M": -5.350194552529183,
-      "3M": -2.8942115768463132,
-      "6M": -13.893805309734516,
-      "1Y": 4.668674698795185,
+      "1D": -2.3638232271325768,
+      "7D": -5.894006934125808,
+      "1M": -7.587548638132294,
+      "3M": -5.707196029776675,
+      "6M": -17.319408181026986,
+      "1Y": 2.1944922547332255,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -555,7 +604,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/addi-industries-ltd",
     "news": [
       {
@@ -630,7 +679,7 @@
         "ticker": "LUXIND",
         "name": "Lux Industries",
         "searchId": "lux-industries-ltd",
-        "market_cap_inr": 39533700000,
+        "market_cap_inr": 40963600000,
         "pe": 37.27,
         "pb": 2.16
       },
@@ -638,7 +687,7 @@
         "ticker": "KKCL",
         "name": "Kewal Kiran Clothing",
         "searchId": "kewal-kiran-clothing-ltd",
-        "market_cap_inr": 26874700000,
+        "market_cap_inr": 27469400000,
         "pe": 17.65,
         "pb": 2.86
       },
@@ -646,9 +695,9 @@
         "ticker": "CANTABIL",
         "name": "Cantabil Retail India",
         "searchId": "cantabil-retail-india-ltd",
-        "market_cap_inr": 18300000000,
-        "pe": 19.11,
-        "pb": 3.83
+        "market_cap_inr": 18170400000,
+        "pe": 18.97,
+        "pb": 3.8
       }
     ],
     "details": {

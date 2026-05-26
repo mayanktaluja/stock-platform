@@ -3,12 +3,12 @@
   "name": "Utique Enterprises Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-500014/utique-enterprises-shares",
-  "parsed_at": "2026-05-25T20:36:23.433Z",
+  "parsed_at": "2026-05-26T11:03:18.856Z",
   "company_id": "C5B97A66-C621-452A-88E4-FA88268C3395",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/apple-finance-ltd",
     "search_id": "apple-finance-ltd",
     "company_id": "GSTK500014",
@@ -28,8 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 4.1,
-    "market_cap_inr": 231600000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4.19,
+    "market_cap_inr": 228300000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -45,7 +95,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 6.71,
+      "pe": 6.61,
       "ps": 0.29,
       "pb": 0.32,
       "ev_ebitda": 3.52,
@@ -55,21 +105,21 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/apple-finance-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (6.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (6.6x) is below the Indian market (23.4x)",
       "Earnings grew by 148.7% over the past year"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Large [[one-off items]] impacting financial results",
       "Earnings have declined by 27% per year over past 5 years",
-      "Does not have a meaningful market cap (₹232M)"
+      "Does not have a meaningful market cap (₹228M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -81,13 +131,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -96,28 +146,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 6.71,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 6.61,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/apple-finance-ltd",
       "search_id": "apple-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 6.71,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 6.61,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 6.7,
-        "industry_pe": 27.9,
+        "company_pe": 6.6,
+        "industry_pe": 27.1,
         "industry_name": "Indian Capital Markets",
-        "description": "500014 is good value based on its Price-To-Earnings Ratio (6.7x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "500014 is good value based on its Price-To-Earnings Ratio (6.6x) compared to the Indian Capital Markets industry average (27.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -147,56 +197,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.1,
-        "fetched_at": "2026-05-25T20:36:23.433Z",
+        "value": 4.19,
+        "fetched_at": "2026-05-26T11:03:18.856Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-500014/utique-enterprises-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 231600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 228300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 6.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6.61,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 3.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.5750000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +255,91 @@
           "low": 3.2,
           "high": 6.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.881588,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.751471997809119,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.62194103399315,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.358201456920371,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.251695553880936,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.177598247295632,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 128.4223,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 81.7605633802817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 37.352112676056336,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/apple-finance-ltd"
       }
     },
@@ -304,7 +354,7 @@
     "ps": 0.29,
     "book_value": 12.881588,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 4.751471997809119,
     "roic_pct": 7.62194103399315,
@@ -316,12 +366,12 @@
     "quick_ratio": 81.7605633802817,
     "cash_ratio": 37.352112676056336,
     "returns_pct": {
-      "1D": -1.4423076923077043,
-      "7D": 1.2345679012345634,
-      "1M": -0.966183574879228,
-      "3M": -11.63793103448276,
-      "6M": -17.50503018108652,
-      "1Y": -14.583333333333337,
+      "1D": 2.1951219512195306,
+      "7D": -0.7109004739336342,
+      "1M": 1.2077294685990512,
+      "3M": -5.203619909502252,
+      "6M": -17.519685039370074,
+      "1Y": -12.708333333333321,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -464,7 +514,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-27T18:30:00.000Z",
@@ -477,7 +527,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/apple-finance-ltd",
     "news": [
       {
@@ -520,7 +570,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Quarterly & Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-27T18:30:00.000Z",
@@ -535,23 +585,23 @@
         "ticker": "517320",
         "name": "Magnus Steel And Infra",
         "searchId": "savant-infocomm-ltd",
-        "market_cap_inr": 8611100000,
-        "pe": 191.1,
-        "pb": 16.43
+        "market_cap_inr": 8181400000,
+        "pe": 181.57,
+        "pb": 15.61
       },
       {
         "ticker": "BMWVENTLTD",
         "name": "BMW Ventures",
         "searchId": "bmw-ventures-ltd",
-        "market_cap_inr": 5282700000,
-        "pe": 14.04,
-        "pb": 1.23
+        "market_cap_inr": 5394500000,
+        "pe": 14.33,
+        "pb": 1.26
       },
       {
         "ticker": "SHIVAUM",
         "name": "Shiv Aum Steels",
         "searchId": "shiv-aum-steels-ltd",
-        "market_cap_inr": 4509200000,
+        "market_cap_inr": 4352100000,
         "pe": 65.78,
         "pb": 3.8
       }

@@ -3,12 +3,12 @@
   "name": "OCCL Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-occlltd/occl-shares",
-  "parsed_at": "2026-05-25T21:55:59.249Z",
+  "parsed_at": "2026-05-26T12:46:49.482Z",
   "company_id": "E4225F8D-A53E-4409-849F-5BAECA6A5E93",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/occl-ltd",
     "search_id": "occl-ltd",
     "company_id": "GSTK544278",
@@ -28,9 +28,60 @@
       "dividend": 2
     },
     "snowflake_total": 2,
-    "current_price_inr": 114,
-    "market_cap_inr": 5794800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 117.87,
+    "market_cap_inr": 5705300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +94,11 @@
       "max": 217,
       "count": 1
     },
-    "upside_pct": 90.35087719298247,
+    "upside_pct": 84.10112836175448,
     "multiples": {
-      "pe": 12.15,
+      "pe": 11.96,
       "ps": 1.15,
-      "pb": 1.34,
+      "pb": 1.32,
       "ev_ebitda": 8.35,
       "peg": -0.17300919146284469
     },
@@ -55,7 +106,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/occl-ltd"
     },
@@ -66,7 +117,7 @@
       "Does not have a meaningful market cap (₹6B)"
     ],
     "dividend": {
-      "yield_pct": 1.55,
+      "yield_pct": 1.58,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
@@ -100,15 +151,15 @@
       ],
       "payment_count": 2
     },
-    "dividend_yield_pct": 1.55,
+    "dividend_yield_pct": 1.58,
     "industry_benchmarks": {
-      "pe": 43.433484466337525,
-      "sector_pe": 43.433484466337525
+      "pe": 43.427221847196755,
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -117,21 +168,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 12.15,
-      "industry_pe": 43.433484466337525,
+      "company_pe": 11.96,
+      "industry_pe": 43.427221847196755,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/occl-ltd",
       "search_id": "occl-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 12.15,
-        "industry_pe": 43.433484466337525,
+        "company_pe": 11.96,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "sws_statement": null,
@@ -148,8 +199,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -161,56 +212,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 114,
-        "fetched_at": "2026-05-25T21:55:59.249Z",
+        "value": 117.87,
+        "fetched_at": "2026-05-26T12:46:49.482Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-occlltd/occl-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5794800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5705300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 12.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11.96,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.32,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.17300919146284469,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
-        "value": 1.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.58,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "fifty_two_week": {
@@ -219,91 +270,91 @@
           "low": 75.71,
           "high": 159.42
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 9.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 86.3395636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 11.0622,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 8.180836034239174,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.521987255142202,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.72919549318047,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 17.687289978256572,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 19.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 13.973240255962768,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.9393,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0474082421120412,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.032759175788795884,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/occl-ltd"
       }
     },
@@ -314,11 +365,11 @@
     "latest_net_income": null,
     "latest_eps": 9.55,
     "most_recent_reported_date": null,
-    "pb": 1.34,
+    "pb": 1.32,
     "ps": 1.15,
     "book_value": 86.3395636,
     "face_value": 2,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 11.0622,
     "roa_pct": 8.180836034239174,
     "roic_pct": 10.521987255142202,
@@ -330,12 +381,12 @@
     "quick_ratio": 1.0474082421120412,
     "cash_ratio": 0.032759175788795884,
     "returns_pct": {
-      "1D": -1.8426037540898919,
-      "7D": 24.78108581436077,
-      "1M": 14.343029087261783,
-      "3M": 28.1618887015177,
-      "6M": 9.070034443168776,
-      "1Y": 30.419860427868674,
+      "1D": 3.3947368421052673,
+      "7D": 24.55880798900984,
+      "1M": 18.2246740220662,
+      "3M": 30.908485117725455,
+      "6M": 14.570373250388812,
+      "1Y": 34.8472714792358,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -407,7 +458,7 @@
     "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 1.55,
+    "yield_pct": 1.58,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -521,7 +572,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/occl-ltd",
     "news": [
       {
@@ -596,7 +647,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -604,7 +655,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -612,9 +663,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

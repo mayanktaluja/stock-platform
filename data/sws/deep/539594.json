@@ -3,12 +3,12 @@
   "name": "Mishtann Foods Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-539594/mishtann-foods-shares",
-  "parsed_at": "2026-05-25T23:41:13.829Z",
+  "parsed_at": "2026-05-26T14:30:02.207Z",
   "company_id": "E6494824-CB18-49B6-B448-77BEA0C8F568",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mishtann-foods-ltd",
     "search_id": "mishtann-foods-ltd",
     "company_id": "GSTK539594",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 4.31,
-    "market_cap_inr": 4676800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4.27,
+    "market_cap_inr": 4644500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 26.41,
       "count": 6
     },
-    "upside_pct": -99.59037122969838,
+    "upside_pct": -99.58653395784542,
     "multiples": {
       "pe": 1.36,
       "ps": 0.32,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mishtann-foods-ltd"
     },
@@ -222,13 +271,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 47.95404921040772,
-      "sector_pe": 47.95404921040772
+      "pe": 47.953882758287406,
+      "sector_pe": 47.953882758287406
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "FMCG",
       "pe_industry_id": 27,
@@ -238,27 +287,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 1.36,
-      "industry_pe": 47.95404921040772,
+      "industry_pe": 47.953882758287406,
       "industry_name": "FMCG",
       "industry_id": 27,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/mishtann-foods-ltd",
       "search_id": "mishtann-foods-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 1.36,
-        "industry_pe": 47.95404921040772,
+        "industry_pe": 47.953882758287406,
         "industry_name": "FMCG",
         "industry_id": 27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "sws_statement": {
         "company_pe": 1.4,
-        "industry_pe": 19.2,
+        "industry_pe": 19.4,
         "industry_name": "Indian Food",
-        "description": "539594 is good value based on its Price-To-Earnings Ratio (1.4x) compared to the Indian Food industry average (19.2x).",
+        "description": "539594 is good value based on its Price-To-Earnings Ratio (1.4x) compared to the Indian Food industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -288,56 +337,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.31,
-        "fetched_at": "2026-05-25T23:41:13.829Z",
+        "value": 4.27,
+        "fetched_at": "2026-05-26T14:30:02.207Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-539594/mishtann-foods-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4676800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4644500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 1.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 1.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.17546666666666663,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.95404921040772,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.953882758287406,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "fifty_two_week": {
@@ -346,91 +395,91 @@
           "low": 2.97,
           "high": 7.79
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10.8532961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.95404921040772,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.953882758287406,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 28.5994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 18.223097921335782,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 28.39552381828946,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 23.825494035467788,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 24.128233970753655,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 3.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 2.430773152623025,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.8085,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.7310156603470674,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.001517871477151656,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishtann-foods-ltd"
       }
     },
@@ -445,7 +494,7 @@
     "ps": 0.32,
     "book_value": 10.8532961,
     "face_value": 1,
-    "sector_pe": 47.95404921040772,
+    "sector_pe": 47.953882758287406,
     "roe_pct": 28.5994,
     "roa_pct": 18.223097921335782,
     "roic_pct": 28.39552381828946,
@@ -457,12 +506,12 @@
     "quick_ratio": 2.7310156603470674,
     "cash_ratio": 0.001517871477151656,
     "returns_pct": {
-      "1D": -0.6912442396313422,
-      "7D": 1.6509433962264008,
-      "1M": -7.5107296137339175,
-      "3M": -0.6912442396313422,
-      "6M": -10.020876826722347,
-      "1Y": -14.653465346534658,
+      "1D": -0.928074245939676,
+      "7D": -0.46620046620047695,
+      "1M": -8.369098712446364,
+      "3M": -0.23364485981309988,
+      "6M": -11.041666666666671,
+      "1Y": -15.44554455445545,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -767,7 +816,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mishtann-foods-ltd",
     "news": [
       {
@@ -825,15 +874,15 @@
         "ticker": "GOPAL",
         "name": "Gopal Snacks",
         "searchId": "gopal-snacks-ltd",
-        "market_cap_inr": 36427100000,
-        "pe": 49.46,
-        "pb": 7.61
+        "market_cap_inr": 36483200000,
+        "pe": 49.53,
+        "pb": 7.62
       },
       {
         "ticker": "GRMOVER",
         "name": "GRM Overseas",
         "searchId": "grm-overseas-ltd",
-        "market_cap_inr": 33630200000,
+        "market_cap_inr": 32459400000,
         "pe": 45.85,
         "pb": 4.19
       },
@@ -841,7 +890,7 @@
         "ticker": "ADFFOODS",
         "name": "ADF Foods",
         "searchId": "adf-foods-ltd",
-        "market_cap_inr": 31020000000,
+        "market_cap_inr": 30525600000,
         "pe": 34.47,
         "pb": 5.43
       }

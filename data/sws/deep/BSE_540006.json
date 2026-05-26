@@ -3,7 +3,7 @@
   "name": "East West Freight Carriers Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-540006/east-west-freight-carriers-shares",
-  "parsed_at": "2026-05-25T22:29:53.701Z",
+  "parsed_at": "2026-05-26T13:24:45.940Z",
   "company_id": "983A14D1-0215-48D2-8442-5006FA471CF8",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 2.79,
-    "market_cap_inr": 355934222.5264259,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.8,
+    "market_cap_inr": 357209972.42795426,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -78.40182795698925,
+    "upside_pct": -78.47896428571428,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -55,7 +104,7 @@
     "risks": [
       "Interest payments are not well covered by earnings",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹346M)"
+      "Does not have a meaningful market cap (₹356M)"
     ],
     "dividend": {
       "yield_pct": 0.0890311377,
@@ -146,7 +195,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.6,
+        "industry_pe": 15.4,
         "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
@@ -159,8 +208,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.79,
-        "fetched_at": "2026-05-25T22:29:53.701Z",
+        "value": 2.8,
+        "fetched_at": "2026-05-26T13:24:45.940Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-540006/east-west-freight-carriers-shares"
       }
     },
@@ -187,12 +236,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.9520295202952056,
-      "7D": -2.7874564459930338,
-      "1M": -10.000000000000002,
-      "3M": -12.539184952978053,
-      "6M": -28.092783505154635,
-      "1Y": -55.78446909667195,
+      "1D": 0.35842293906809275,
+      "7D": -1.75438596491229,
+      "1M": -9.677419354838717,
+      "3M": -14.373088685015297,
+      "6M": -27.835051546391753,
+      "1Y": -55.62599049128367,
       "5Y": null
     },
     "next_earnings_date": null,

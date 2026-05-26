@@ -3,7 +3,7 @@
   "name": "Rajnandini Metal Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-rajmet/rajnandini-metal-shares",
-  "parsed_at": "2026-05-25T22:22:35.626Z",
+  "parsed_at": "2026-05-26T13:14:36.613Z",
   "company_id": "E6DA8585-5ADF-4265-894B-9DA1CF25ED58",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 3.89,
-    "market_cap_inr": 1075507270.200256,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 3.88,
+    "market_cap_inr": 1072742470.0197927,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 1.171511,
+    "fair_value_inr": 1.17168,
     "fair_value_range_inr": {
-      "min": 1.171511,
-      "max": 1.171511,
+      "min": 1.17168,
+      "max": 1.17168,
       "count": 3
     },
-    "upside_pct": -69.88403598971722,
+    "upside_pct": -69.80206185567009,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -120,7 +169,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -132,8 +181,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3.89,
-        "fetched_at": "2026-05-25T22:22:35.626Z",
+        "value": 3.88,
+        "fetched_at": "2026-05-26T13:14:36.613Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rajmet/rajnandini-metal-shares"
       }
     },
@@ -160,12 +209,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.7653061224489747,
-      "7D": -1.2690355329949194,
-      "1M": -3.233830845771131,
-      "3M": 0,
-      "6M": -4.656862745098038,
-      "1Y": -30.535714285714278,
+      "1D": -0.2570694087403658,
+      "7D": 1.0416666666666676,
+      "1M": -3.4825870646766095,
+      "3M": -0.2570694087403658,
+      "6M": -4.901960784313729,
+      "1Y": -30.71428571428571,
       "5Y": null
     },
     "next_earnings_date": null,

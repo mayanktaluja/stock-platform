@@ -3,12 +3,12 @@
   "name": "Ace Men Engg Works Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-539661/ace-men-engg-works-shares",
-  "parsed_at": "2026-05-25T23:41:49.157Z",
+  "parsed_at": "2026-05-26T14:30:39.015Z",
   "company_id": "AC078ACB-5FC3-4EA3-A31F-1BF4F2D2955A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ace-men-engg-works-ltd",
     "search_id": "ace-men-engg-works-ltd",
     "company_id": "GSTK539661",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 99.74,
-    "market_cap_inr": 1271900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 98.35,
+    "market_cap_inr": 1288100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 53.35,
       "high": 107.14
     },
-    "fair_value_inr": 0.096237,
+    "fair_value_inr": 0.096318,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.903512131542,
+    "upside_pct": -99.90206609049314,
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 1.91,
+      "pb": 1.93,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -79,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -100,22 +149,22 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 9,
+        "industry_pe": 9.5,
         "industry_name": "Indian Aerospace & Defense",
-        "description": "539661 is expensive based on its Price-To-Book Ratio (32.8x) compared to the Indian Aerospace & Defense industry average (9x).",
+        "description": "539661 is expensive based on its Price-To-Book Ratio (32.8x) compared to the Indian Aerospace & Defense industry average (9.5x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 53.135411447,
+        "industry_pe": 54.368751046,
         "industry_code": "3020000",
         "type": "median_profitable",
         "count": 23,
@@ -127,7 +176,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 49.45,
+        "industry_pe": 50.85,
         "sample_count": 20,
         "industry_code": "3020000",
         "industry_name": "Capital Goods"
@@ -140,50 +189,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 99.74,
-        "fetched_at": "2026-05-25T23:41:49.157Z",
+        "value": 98.35,
+        "fetched_at": "2026-05-26T14:30:39.015Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539661/ace-men-engg-works-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1271900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1288100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.93,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "fifty_two_week": {
@@ -192,85 +241,85 @@
           "low": 53.35,
           "high": 107.14
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 51.6433466,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.1033,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3428,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3442622950819672,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.01639344262295082,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ace-men-engg-works-ltd"
       }
     },
@@ -281,11 +330,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 1.91,
+    "pb": 1.93,
     "ps": 0,
     "book_value": 51.6433466,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0.1033,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -297,12 +346,12 @@
     "quick_ratio": 0.3442622950819672,
     "cash_ratio": 0.01639344262295082,
     "returns_pct": {
-      "1D": 1.2691643821707788,
-      "7D": 1.7858965200530665,
-      "1M": 6.106382978723398,
-      "3M": -3.1650485436893256,
-      "6M": 3.895833333333328,
-      "1Y": 42.7916964924839,
+      "1D": -1.393623420894326,
+      "7D": 4.973849930622261,
+      "1M": 4.62765957446808,
+      "3M": -4.929917834702763,
+      "6M": 1.917098445595849,
+      "1Y": 40.8017179670723,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -513,12 +562,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ace-men-engg-works-ltd",
     "news": [
       {
@@ -569,6 +628,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -576,23 +645,23 @@
         "ticker": "544224",
         "name": "Afcom Holdings",
         "searchId": "afcom-holdings-ltd",
-        "market_cap_inr": 26724200000,
-        "pe": 22.12,
-        "pb": 5.19
+        "market_cap_inr": 27125900000,
+        "pe": 22.46,
+        "pb": 5.27
       },
       {
         "ticker": "500285",
         "name": "Spicejet",
         "searchId": "spicejet-ltd",
-        "market_cap_inr": 19839300000,
+        "market_cap_inr": 20190300000,
         "pe": null,
-        "pb": 6.88
+        "pb": 7
       },
       {
         "ticker": "TAALTECH",
         "name": "TAAL Tech",
         "searchId": "taal-enterprises-ltd",
-        "market_cap_inr": 8872200000,
+        "market_cap_inr": 8893400000,
         "pe": 17.16,
         "pb": 3.99
       }

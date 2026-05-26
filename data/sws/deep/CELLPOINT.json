@@ -3,7 +3,7 @@
   "name": "Cell Point (India) Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-cellpoint/cell-point-india-shares",
-  "parsed_at": "2026-05-25T22:47:29.335Z",
+  "parsed_at": "2026-05-26T13:41:28.367Z",
   "company_id": "88ED8403-D0AE-4D6D-B2BE-8F8AB657FAA5",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 17.45,
-    "market_cap_inr": 326063722.65591836,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 18.3,
+    "market_cap_inr": 341946482.78528976,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +82,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -84.99414326647565,
+    "upside_pct": -85.69113661202185,
     "multiples": {
-      "pe": 13.8,
+      "pe": 15.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,13 +99,13 @@
     },
     "rewards": [
       "Earnings grew by 869.6% over the past year",
-      "Price-To-Earnings ratio (13.8x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (15.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "Earnings have declined by 7.6% per year over past 5 years",
       "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹307M)",
+      "Does not have a meaningful market cap (₹326M)",
       "Highly volatile share price over past 3 months",
       "Large [[one-off items]] impacting financial results"
     ],
@@ -84,7 +133,7 @@
     },
     "dividend_yield_pct": 1.0627956927,
     "industry_benchmarks": {
-      "pe": 18.7
+      "pe": 19.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -98,17 +147,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 13.8,
-      "industry_pe": 18.7,
+      "company_pe": 15.3,
+      "industry_pe": 19.1,
       "industry_name": "Indian Specialty Retail"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 13.8,
-        "industry_pe": 18.7,
+        "company_pe": 15.3,
+        "industry_pe": 19.1,
         "industry_name": "Indian Specialty Retail",
-        "description": "CELLPOINT is good value based on its Price-To-Earnings Ratio (13.8x) compared to the Indian Specialty Retail industry average (18.7x).",
+        "description": "CELLPOINT is good value based on its Price-To-Earnings Ratio (15.3x) compared to the Indian Specialty Retail industry average (19.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -138,8 +187,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 17.45,
-        "fetched_at": "2026-05-25T22:47:29.335Z",
+        "value": 18.3,
+        "fetched_at": "2026-05-26T13:41:28.367Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-cellpoint/cell-point-india-shares"
       }
     },
@@ -166,12 +215,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 6.079027355623101,
-      "7D": 13.680781758957652,
-      "1M": 2.6470588235294077,
-      "3M": 10.793650793650789,
-      "6M": -0.2857142857142898,
-      "1Y": -2.5139664804469235,
+      "1D": 4.871060171919779,
+      "7D": 11.246200607902743,
+      "1M": 7.647058823529417,
+      "3M": 21.19205298013246,
+      "6M": 0.27397260273972995,
+      "1Y": 2.234636871508392,
       "5Y": null
     },
     "next_earnings_date": null,

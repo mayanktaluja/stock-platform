@@ -3,12 +3,12 @@
   "name": "MFS Intercorp Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-513721/mfs-intercorp-shares",
-  "parsed_at": "2026-05-25T21:20:25.062Z",
+  "parsed_at": "2026-05-26T12:16:12.453Z",
   "company_id": "E7849EEF-D319-4E3E-919C-DC0F4ACA6C50",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mfs-intercorp-ltd",
     "search_id": "mfs-intercorp-ltd",
     "company_id": "GSTK513721",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 17.21,
     "market_cap_inr": 74300000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 10.71,
       "high": 18.97
     },
-    "fair_value_inr": 2.670909,
+    "fair_value_inr": 2.684969,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -84.4804822777455,
+    "upside_pct": -84.39878558977338,
     "multiples": {
       "pe": null,
       "ps": 0,
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 77.26574413929079
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,10 +146,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 77.26574413929079,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "sws_statement": {
@@ -124,7 +173,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -138,49 +187,49 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 17.21,
-        "fetched_at": "2026-05-25T21:20:25.062Z",
+        "fetched_at": "2026-05-26T12:16:12.453Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-513721/mfs-intercorp-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 74300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 7.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 77.26574413929079,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 10.71,
           "high": 18.97
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 2.200463,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 77.26574413929079,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3616,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3614190687361418,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.037694013303769404,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mfs-intercorp-ltd"
       }
     },
@@ -282,7 +331,7 @@
     "ps": 0,
     "book_value": 2.200463,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 77.26574413929079,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -503,7 +552,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mfs-intercorp-ltd",
     "news": [
       {
@@ -578,23 +627,23 @@
         "ticker": "517320",
         "name": "Magnus Steel And Infra",
         "searchId": "savant-infocomm-ltd",
-        "market_cap_inr": 8611100000,
-        "pe": 191.1,
-        "pb": 16.43
+        "market_cap_inr": 8181400000,
+        "pe": 181.57,
+        "pb": 15.61
       },
       {
         "ticker": "BMWVENTLTD",
         "name": "BMW Ventures",
         "searchId": "bmw-ventures-ltd",
-        "market_cap_inr": 5282700000,
-        "pe": 14.04,
-        "pb": 1.23
+        "market_cap_inr": 5394500000,
+        "pe": 14.33,
+        "pb": 1.26
       },
       {
         "ticker": "SHIVAUM",
         "name": "Shiv Aum Steels",
         "searchId": "shiv-aum-steels-ltd",
-        "market_cap_inr": 4509200000,
+        "market_cap_inr": 4352100000,
         "pe": 65.78,
         "pb": 3.8
       }

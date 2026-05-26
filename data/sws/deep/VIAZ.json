@@ -3,7 +3,7 @@
   "name": "Viaz Tyres Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-viaz/viaz-tyres-shares",
-  "parsed_at": "2026-05-25T23:50:07.229Z",
+  "parsed_at": "2026-05-26T14:39:05.828Z",
   "company_id": "2D6186A0-0D1E-40AD-8E25-CB836A565DED",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 63.3,
-    "market_cap_inr": 775488221.278188,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 61,
+    "market_cap_inr": 747310924.1385382,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 14.7,
+      "pe": 14.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,7 +100,7 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 58% over the past year",
-      "Price-To-Earnings ratio (14.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (14.2x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -68,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.2
+      "pe": 27.6
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -82,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 14.7,
-      "industry_pe": 27.2,
+      "company_pe": 14.2,
+      "industry_pe": 27.6,
       "industry_name": "Indian Auto Components"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 14.7,
-        "industry_pe": 27.2,
+        "company_pe": 14.2,
+        "industry_pe": 27.6,
         "industry_name": "Indian Auto Components",
-        "description": "VIAZ is good value based on its Price-To-Earnings Ratio (14.7x) compared to the Indian Auto Components industry average (27.2x).",
+        "description": "VIAZ is good value based on its Price-To-Earnings Ratio (14.2x) compared to the Indian Auto Components industry average (27.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.299999999999997,
-        "sample_count": 122,
+        "industry_pe": 26.3,
+        "sample_count": 123,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
       },
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 63.3,
-        "fetched_at": "2026-05-25T23:50:07.229Z",
+        "value": 61,
+        "fetched_at": "2026-05-26T14:39:05.828Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-viaz/viaz-tyres-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.9549549549549505,
-      "7D": 2.2617124394184147,
-      "1M": 3.770491803278684,
-      "3M": -0.3933910306845004,
-      "6M": -23.272727272727277,
-      "1Y": 12.934879571810884,
+      "1D": -3.6334913112164253,
+      "7D": -5.499612703330747,
+      "1M": -3.09769658459095,
+      "3M": -6.009244992295848,
+      "6M": -23.75,
+      "1Y": 8.831400535236401,
       "5Y": null
     },
     "next_earnings_date": null,

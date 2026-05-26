@@ -3,12 +3,12 @@
   "name": "Pressure Sensitive Systems (India) Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-526773/pressure-sensitive-systems-india-shares",
-  "parsed_at": "2026-05-25T22:04:45.039Z",
+  "parsed_at": "2026-05-26T13:00:06.169Z",
   "company_id": "99D3BE34-FBAD-4231-A7F9-0BCC4148E46E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd",
     "search_id": "pressure-sensitive-systems-india-ltd",
     "company_id": "GSTK526773",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1.06,
     "market_cap_inr": 157300000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -59,11 +109,14 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
-    "rewards": [],
+    "rewards": [
+      "Trading at good value vs. industry average Price-To-Sales ratio",
+      "Trading at good value vs. peer average Price-To-Sales ratio"
+    ],
     "risks": [
       "Shares are highly illiquid",
       "Does not have a meaningful market cap (₹157M)",
-      "Makes less than USD$1m in revenue (₹45M)"
+      "Does not have meaningful revenue (₹211M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -75,7 +128,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 25.312457865495027
+      "sector_pe": 25.392793163881098
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -96,17 +149,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 25.312457865495027,
+        "industry_pe": 25.392793163881098,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Chemicals",
-        "description": "526773 is expensive based on its Price-To-Sales Ratio (3.5x) compared to the Indian Chemicals industry average (1.2x).",
+        "description": "526773 is good value based on its Price-To-Sales Ratio (0.7x) compared to the Indian Chemicals industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -123,8 +176,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -137,49 +190,49 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 1.06,
-        "fetched_at": "2026-05-25T22:04:45.039Z",
+        "fetched_at": "2026-05-26T13:00:06.169Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-526773/pressure-sensitive-systems-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 157300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "fifty_two_week": {
@@ -188,85 +241,85 @@
           "low": 0.96,
           "high": 3.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 0.8553673,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.8537361,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.3503,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9900000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7262569832402236,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6883,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7427466150870407,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd"
       }
     },
@@ -279,9 +332,9 @@
     "most_recent_reported_date": null,
     "pb": 1.24,
     "ps": 3.5,
-    "book_value": 0.8553673,
+    "book_value": 0.8537361,
     "face_value": 1,
-    "sector_pe": 25.312457865495027,
+    "sector_pe": 25.392793163881098,
     "roe_pct": 8.3503,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -483,7 +536,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pressure-sensitive-systems-india-ltd",
     "news": [
       {
@@ -548,7 +601,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -556,17 +609,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

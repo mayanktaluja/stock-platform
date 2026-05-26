@@ -3,12 +3,12 @@
   "name": "M.K. Exim (India) Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-538890/mk-exim-india-shares",
-  "parsed_at": "2026-05-25T23:27:51.506Z",
+  "parsed_at": "2026-05-26T14:16:26.489Z",
   "company_id": "BE980E6F-EB0E-44B5-9F02-D04F9FC1AA3D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mk-exim-india-ltd",
     "search_id": "mk-exim-india-ltd",
     "company_id": "GSTK538890",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 54.52,
-    "market_cap_inr": 2352200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 54.54,
+    "market_cap_inr": 2200800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 39.88,
       "high": 94.98
     },
-    "fair_value_inr": 11.42394,
+    "fair_value_inr": 11.403832,
     "fair_value_range_inr": {
-      "min": 11.42394,
-      "max": 11.42394,
+      "min": 11.403832,
+      "max": 11.403832,
       "count": 2
     },
-    "upside_pct": -79.04633162142332,
+    "upside_pct": -79.09088375504216,
     "multiples": {
       "pe": 13.21,
       "ps": 2.54,
@@ -55,14 +104,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mk-exim-india-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (13.7x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (12.9x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹2B)"
@@ -104,13 +153,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 56.05914496503882,
-      "sector_pe": 56.05914496503882
+      "pe": 56.05475305701128,
+      "sector_pe": 56.05475305701128
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -120,27 +169,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 13.21,
-      "industry_pe": 56.05914496503882,
+      "industry_pe": 56.05475305701128,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/mk-exim-india-ltd",
       "search_id": "mk-exim-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 13.21,
-        "industry_pe": 56.05914496503882,
+        "industry_pe": 56.05475305701128,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.7,
-        "industry_pe": 18.2,
+        "company_pe": 12.9,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "538890 is good value based on its Price-To-Earnings Ratio (13.7x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "538890 is good value based on its Price-To-Earnings Ratio (12.9x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -157,7 +206,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -170,56 +219,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 54.52,
-        "fetched_at": "2026-05-25T23:27:51.506Z",
+        "value": 54.54,
+        "fetched_at": "2026-05-26T14:16:26.489Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-538890/mk-exim-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2352200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2200800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 13.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.920913432835821,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "fifty_two_week": {
@@ -228,91 +277,91 @@
           "low": 39.88,
           "high": 94.98
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 24.8490422,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 20.5114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 18.00448430493274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 27.811914689789425,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 13.945814518930186,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.32684960055575,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 6.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.941704035874439,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 13.7845,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.859744990892532,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2513661202185793,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mk-exim-india-ltd"
       }
     },
@@ -327,7 +376,7 @@
     "ps": 2.54,
     "book_value": 24.8490422,
     "face_value": 10,
-    "sector_pe": 56.05914496503882,
+    "sector_pe": 56.05475305701128,
     "roe_pct": 20.5114,
     "roa_pct": 18.00448430493274,
     "roic_pct": 27.811914689789425,
@@ -339,12 +388,12 @@
     "quick_ratio": 5.859744990892532,
     "cash_ratio": 1.2513661202185793,
     "returns_pct": {
-      "1D": -6.435558606487042,
-      "7D": -6.962457337883957,
-      "1M": -16.006778616545976,
-      "3M": 5.068413952592026,
-      "6M": -0.7464045148370592,
-      "1Y": -20.536364961375888,
+      "1D": 0.036683785766683824,
+      "7D": -9.627174813587411,
+      "1M": -15.975966723155135,
+      "3M": 3.7276531000380393,
+      "6M": -3.7076271186440706,
+      "1Y": -20.5072146917359,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -587,7 +636,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mk-exim-india-ltd",
     "news": [
       {
@@ -662,7 +711,7 @@
         "ticker": "SHRIAHIMSA",
         "name": "Shri Ahimsa Naturals",
         "searchId": "shri-ahimsa-naturals-ltd",
-        "market_cap_inr": 6913300000,
+        "market_cap_inr": 6927300000,
         "pe": 31.56,
         "pb": 4.41
       },
@@ -670,15 +719,15 @@
         "ticker": "531412",
         "name": "Radix Industries India",
         "searchId": "radix-industries-india-ltd",
-        "market_cap_inr": 2749300000,
-        "pe": 86.01,
-        "pb": 11.8
+        "market_cap_inr": 2843100000,
+        "pe": 88.94,
+        "pb": 12.2
       },
       {
         "ticker": "523120",
         "name": "Thrive Future Habitats",
         "searchId": "ador-multiproducts-ltd",
-        "market_cap_inr": 1212900000,
+        "market_cap_inr": 1189700000,
         "pe": null,
         "pb": 2.29
       }

@@ -3,7 +3,7 @@
   "name": "Faalcon Concepts Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544164/faalcon-concepts-shares",
-  "parsed_at": "2026-05-25T20:58:31.249Z",
+  "parsed_at": "2026-05-26T11:50:33.661Z",
   "company_id": "D53938C0-7E06-4BF7-A045-AE473501FE37",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 36,
-    "market_cap_inr": 350824341.9738271,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 38,
+    "market_cap_inr": 370314583.1945953,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -111,8 +161,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -124,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 36,
-        "fetched_at": "2026-05-25T20:58:31.249Z",
+        "value": 38,
+        "fetched_at": "2026-05-26T11:50:33.661Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544164/faalcon-concepts-shares"
       }
     },
@@ -152,12 +202,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -2.7027027027027026,
-      "7D": -5.263157894736842,
-      "1M": -8.975979772439944,
-      "3M": -1.7735334242837617,
-      "6M": -18.62567811934901,
-      "1Y": -31.49381541389153,
+      "1D": 5.555555555555555,
+      "7D": 5.555555555555555,
+      "1M": -5,
+      "3M": -0.757377905458342,
+      "6M": -18.803418803418797,
+      "1Y": -27.68791627021884,
       "5Y": null
     },
     "next_earnings_date": null,

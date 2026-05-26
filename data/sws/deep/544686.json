@@ -3,7 +3,7 @@
   "name": "Shayona Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544686/shayona-engineering-shares",
-  "parsed_at": "2026-05-25T21:18:49.340Z",
+  "parsed_at": "2026-05-26T12:10:40.367Z",
   "company_id": "54CF88E1-4CA0-401D-91F3-244407AC9382",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 141.8,
-    "market_cap_inr": 551923557.2442582,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 15,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 135.1,
+    "market_cap_inr": 525845363.777851,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -112,7 +163,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -125,8 +176,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 141.8,
-        "fetched_at": "2026-05-25T21:18:49.340Z",
+        "value": 135.1,
+        "fetched_at": "2026-05-26T12:10:40.367Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544686/shayona-engineering-shares"
       }
     },
@@ -153,12 +204,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.271907681211688,
-      "7D": 7.505686125852923,
-      "1M": 10.007757951900702,
-      "3M": 5.4275092936803055,
-      "6M": -6.092715231788072,
-      "1Y": -6.092715231788072,
+      "1D": -4.724964739069123,
+      "7D": 4.728682170542632,
+      "1M": 4.809930178432885,
+      "3M": 0.4460966542750887,
+      "6M": -10.529801324503316,
+      "1Y": -10.529801324503316,
       "5Y": null
     },
     "next_earnings_date": null,

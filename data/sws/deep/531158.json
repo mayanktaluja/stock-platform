@@ -3,12 +3,12 @@
   "name": "Catvision Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-531158/catvision-shares",
-  "parsed_at": "2026-05-25T22:28:09.007Z",
+  "parsed_at": "2026-05-26T13:23:55.048Z",
   "company_id": "B66D3350-9DA7-400B-A480-11B250A59F3D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/catvision-ltd",
     "search_id": "catvision-ltd",
     "company_id": "GSTK531158",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 19.78,
-    "market_cap_inr": 105300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 19.64,
+    "market_cap_inr": 107900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 15.5,
       "high": 30.25
     },
-    "fair_value_inr": 66.300105,
+    "fair_value_inr": 66.30026,
     "fair_value_range_inr": {
-      "min": 66.300105,
-      "max": 66.300105,
+      "min": 66.30026,
+      "max": 66.30026,
       "count": 1
     },
-    "upside_pct": 235.18758847320527,
+    "upside_pct": 237.57769857433803,
     "multiples": {
       "pe": null,
       "ps": 0.49,
-      "pb": 0.45,
+      "pb": 0.46,
       "ev_ebitda": 18.81,
       "peg": 0
     },
@@ -60,13 +110,13 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 67.5% below our estimate of its fair value",
+      "Trading at 70.4% below our estimate of its fair value",
       "Trading at good value vs. industry average Price-To-Sales ratio",
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
       "Does not have meaningful revenue (₹218M)",
-      "Does not have a meaningful market cap (₹105M)"
+      "Does not have a meaningful market cap (₹108M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -105,7 +155,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -126,17 +176,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3.7,
+        "industry_pe": 3.8,
         "industry_name": "Indian Communications",
-        "description": "531158 is good value based on its Price-To-Sales Ratio (0.5x) compared to the Indian Communications industry average (3.7x).",
+        "description": "531158 is good value based on its Price-To-Sales Ratio (0.5x) compared to the Indian Communications industry average (3.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -166,50 +216,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 19.78,
-        "fetched_at": "2026-05-25T22:28:09.007Z",
+        "value": 19.64,
+        "fetched_at": "2026-05-26T13:23:55.048Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-531158/catvision-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 105300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 107900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.46,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 18.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "fifty_two_week": {
@@ -218,85 +268,85 @@
           "low": 15.5,
           "high": 30.25
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 42.8471102,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.7568192325473877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0058403634003894,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.0416,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4130105900151284,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2965204236006051,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/catvision-ltd"
       }
     },
@@ -307,11 +357,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.45,
+    "pb": 0.46,
     "ps": 0.49,
     "book_value": 42.8471102,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -323,12 +373,12 @@
     "quick_ratio": 1.4130105900151284,
     "cash_ratio": 0.2965204236006051,
     "returns_pct": {
-      "1D": 2.4870466321243545,
-      "7D": -1.0999999999999943,
-      "1M": 2.116675271037688,
-      "3M": 7.441607821835965,
-      "6M": -6.521739130434778,
-      "1Y": -12.632508833922259,
+      "1D": -0.7077856420626925,
+      "7D": -1.652478718077107,
+      "1M": 1.3939081053174989,
+      "3M": 7.675438596491241,
+      "6M": -9.949564419990823,
+      "1Y": -13.250883392226148,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -581,7 +631,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/catvision-ltd",
     "news": [],
     "events": [
@@ -641,7 +691,7 @@
         "ticker": "542866",
         "name": "Colab Platforms",
         "searchId": "jsg-leasing-ltd",
-        "market_cap_inr": 31640400000,
+        "market_cap_inr": 31324200000,
         "pe": null,
         "pb": null
       },
@@ -649,7 +699,7 @@
         "ticker": "BALAJITELE",
         "name": "Balaji Telefilms",
         "searchId": "balaji-telefilms-ltd",
-        "market_cap_inr": 11190600000,
+        "market_cap_inr": 11480800000,
         "pe": 19.13,
         "pb": 1.72
       },
@@ -657,7 +707,7 @@
         "ticker": "ONMOBILE",
         "name": "Onmobile Global",
         "searchId": "onmobile-global-ltd",
-        "market_cap_inr": 5387300000,
+        "market_cap_inr": 5494700000,
         "pe": 33.53,
         "pb": 0.86
       }

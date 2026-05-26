@@ -21,6 +21,43 @@
       "dividend": 3
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Reducing Debt",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 380,
     "market_cap_inr": 1399285998101.3716,
     "market_cap_usd": 121304781320.862,
@@ -109,7 +146,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"

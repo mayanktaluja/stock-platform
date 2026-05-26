@@ -3,7 +3,7 @@
   "name": "Nutech Global Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531304/nutech-global-shares",
-  "parsed_at": "2026-05-25T22:24:54.075Z",
+  "parsed_at": "2026-05-26T13:18:33.775Z",
   "company_id": "1EF0BF04-9610-4588-BA6B-DBCDE9568BE5",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 22.58,
-    "market_cap_inr": 72339530.16261098,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 23.39,
+    "market_cap_inr": 74934526.59448498,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 12.695232,
+    "fair_value_inr": 12.674797,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -43.77665190434012,
+    "upside_pct": -45.81104318084652,
     "multiples": {
-      "pe": 26.5,
+      "pe": 28.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,7 +101,7 @@
       "Became profitable this year"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹69M)",
+      "Does not have a meaningful market cap (₹72M)",
       "Interest payments are not well covered by earnings",
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹412M)"
@@ -67,7 +116,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.8
+      "pe": 18.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,17 +130,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 26.5,
-      "industry_pe": 18.8,
+      "company_pe": 28.8,
+      "industry_pe": 18.5,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 26.5,
-        "industry_pe": 18.8,
+        "company_pe": 28.8,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "531304 is expensive based on its Price-To-Earnings Ratio (26.5x) compared to the Indian Luxury industry average (18.8x).",
+        "description": "531304 is expensive based on its Price-To-Earnings Ratio (28.8x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 22.58,
-        "fetched_at": "2026-05-25T22:24:54.075Z",
+        "value": 23.39,
+        "fetched_at": "2026-05-26T13:18:33.775Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531304/nutech-global-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.925650557620812,
-      "7D": 6.811731315042563,
-      "1M": 5.761124121779845,
-      "3M": -21.18673647469459,
-      "6M": -16.370370370370377,
-      "1Y": 0.44483985765123607,
+      "1D": 3.5872453498671493,
+      "7D": 5.4078413699864765,
+      "1M": 9.555035128805615,
+      "3M": -14.165137614678896,
+      "6M": -13.370370370370368,
+      "1Y": 4.048042704626336,
       "5Y": null
     },
     "next_earnings_date": null,

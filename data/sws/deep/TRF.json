@@ -3,12 +3,12 @@
   "name": "TRF Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-trf/trf-shares",
-  "parsed_at": "2026-05-25T23:36:15.416Z",
+  "parsed_at": "2026-05-26T14:25:57.754Z",
   "company_id": "951B0236-0A0F-4473-BBD2-842230B9B63A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/trf-ltd",
     "search_id": "trf-ltd",
     "company_id": "GSTK505854",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 243.15,
-    "market_cap_inr": 2583400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 236.7,
+    "market_cap_inr": 2673000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 313.671695,
       "count": 1
     },
-    "upside_pct": 29.0033703475221,
+    "upside_pct": 32.51867131389945,
     "multiples": {
       "pe": 48.52,
       "ps": 3.04,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/trf-ltd"
     },
@@ -73,13 +122,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.022718435747265,
-      "sector_pe": 40.022718435747265
+      "pe": 40.1175820884929,
+      "sector_pe": 40.1175820884929
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Capital Goods-Non Electrical Equipment",
       "pe_industry_id": 9,
@@ -89,27 +138,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 48.52,
-      "industry_pe": 40.022718435747265,
+      "industry_pe": 40.1175820884929,
       "industry_name": "Capital Goods-Non Electrical Equipment",
       "industry_id": 9,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/trf-ltd",
       "search_id": "trf-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 48.52,
-        "industry_pe": 40.022718435747265,
+        "industry_pe": 40.1175820884929,
         "industry_name": "Capital Goods-Non Electrical Equipment",
         "industry_id": 9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.5,
         "industry_name": "Indian Machinery",
-        "description": "TRF is expensive based on its Price-To-Sales Ratio (3x) compared to the Indian Machinery industry average (2.5x).",
+        "description": "TRF is expensive based on its Price-To-Sales Ratio (3.1x) compared to the Indian Machinery industry average (2.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -139,56 +188,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 243.15,
-        "fetched_at": "2026-05-25T23:36:15.416Z",
+        "value": 236.7,
+        "fetched_at": "2026-05-26T14:25:57.754Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-trf/trf-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2583400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2673000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 48.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5893439450686643,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.022718435747265,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.1175820884929,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "fifty_two_week": {
@@ -197,85 +246,85 @@
           "low": 215.5,
           "high": 417.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 76.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.022718435747265,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.1175820884929,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.1974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9697230345776708,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.078551269990593,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.58090310442145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 153.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 37.17242961178967,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6724,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.566340078747368,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.1129017489240912,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/trf-ltd"
       }
     },
@@ -290,7 +339,7 @@
     "ps": 3.04,
     "book_value": 76.7,
     "face_value": 10,
-    "sector_pe": 40.022718435747265,
+    "sector_pe": 40.1175820884929,
     "roe_pct": 8.1974,
     "roa_pct": 1.9697230345776708,
     "roic_pct": 0,
@@ -302,12 +351,12 @@
     "quick_ratio": 2.566340078747368,
     "cash_ratio": 0.1129017489240912,
     "returns_pct": {
-      "1D": 3.534170747285506,
-      "7D": 5.786382423319561,
-      "1M": -8.099629601632769,
-      "3M": -9.034792368125704,
-      "6M": -21.892065531641506,
-      "1Y": -37.50963762528913,
+      "1D": -2.652683528686003,
+      "7D": 0.7234042553191441,
+      "1M": -10.537455589991684,
+      "3M": -12.576177285318563,
+      "6M": -23.186759694953754,
+      "1Y": -39.167309175019284,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -498,7 +547,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/trf-ltd",
     "news": [
       {
@@ -563,25 +612,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

@@ -3,12 +3,12 @@
   "name": "Nibe Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-nibe/nibe-shares",
-  "parsed_at": "2026-05-25T21:49:37.031Z",
+  "parsed_at": "2026-05-26T12:40:02.507Z",
   "company_id": "5AC0E8FD-C7AB-4A2E-90B7-B47F8D3FFA81",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kavita-fabrics-ltd",
     "search_id": "kavita-fabrics-ltd",
     "company_id": "GSTK535136",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 1410.2,
-    "market_cap_inr": 21705200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1425.3,
+    "market_cap_inr": 21094100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 809.6,
       "high": 2001
     },
-    "fair_value_inr": 13.01625,
+    "fair_value_inr": 13.033539,
     "fair_value_range_inr": {
       "min": 19626.4,
       "max": 19626.4,
       "count": 1
     },
-    "upside_pct": -99.07699262515955,
+    "upside_pct": -99.08555819827404,
     "multiples": {
       "pe": null,
       "ps": 7.53,
-      "pb": 7.56,
+      "pb": 7.35,
       "ev_ebitda": 25.09,
       "peg": 4.520504854368935
     },
@@ -100,7 +150,7 @@
     },
     "dividend_yield_pct": 0.08,
     "industry_benchmarks": {
-      "sector_pe": 51.55828445747804
+      "sector_pe": 51.55828445747803
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -121,17 +171,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 51.55828445747804,
+        "industry_pe": 51.55828445747803,
         "industry_name": "Aerospace & Defence",
         "industry_id": 85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 0.8,
         "industry_name": "Indian Luxury",
-        "description": "NIBE is expensive based on its Price-To-Sales Ratio (6.6x) compared to the Indian Luxury industry average (0.8x).",
+        "description": "NIBE is expensive based on its Price-To-Sales Ratio (6.5x) compared to the Indian Luxury industry average (0.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -148,7 +198,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -161,50 +211,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1410.2,
-        "fetched_at": "2026-05-25T21:49:37.031Z",
+        "value": 1425.3,
+        "fetched_at": "2026-05-26T12:40:02.507Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-nibe/nibe-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 21705200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21094100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 7.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.35,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 7.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 25.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 4.520504854368935,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.55828445747804,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.55828445747803,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "fifty_two_week": {
@@ -213,85 +263,85 @@
           "low": 809.6,
           "high": 2001
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 192.1335438,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.55828445747804,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.55828445747803,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.7402,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.086392826132696,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.026444730166453,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 33.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 20.278433100873666,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.3442,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.0423146473779386,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.03821579264617239,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kavita-fabrics-ltd"
       }
     },
@@ -302,11 +352,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 7.56,
+    "pb": 7.35,
     "ps": 7.53,
     "book_value": 192.1335438,
     "face_value": 10,
-    "sector_pe": 51.55828445747804,
+    "sector_pe": 51.55828445747803,
     "roe_pct": 3.7402,
     "roa_pct": 0,
     "roic_pct": 1.086392826132696,
@@ -318,12 +368,12 @@
     "quick_ratio": 2.0423146473779386,
     "cash_ratio": 0.03821579264617239,
     "returns_pct": {
-      "1D": -2.7783522923129924,
-      "7D": 32.63732129420617,
-      "1M": 35.36837053035757,
-      "3M": 37.500000000000014,
-      "6M": 26.79374213270994,
-      "1Y": -11.845971119584922,
+      "1D": 1.0707701035314074,
+      "7D": 28.555966447190396,
+      "1M": 36.81785457163427,
+      "3M": 37.08762142925843,
+      "6M": 29.40802614853821,
+      "1Y": -10.902044133274995,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -540,22 +590,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kavita-fabrics-ltd",
     "news": [
+      {
+        "id": "761064652187710080",
+        "title": "HRTI Pvt Ltd sold 90,319 shares of NIBE Limited at an avg price of 1,454.05.",
+        "url": "https://www.nseindia.com/report-detail/display-bulk-and-block-deals",
+        "source": "NSE Bulk Trades",
+        "published_at": "2026-05-25T15:30:26.000Z"
+      },
       {
         "id": "672882",
         "title": "Nibe Ltd's board to meet on May 29, 2026, to review audited financial results and consider final dividend.\nTrading window remains closed until 48 hours post results, per SEBI insider trading rules.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=2fc6667b-b1c2-4d2f-97c8-a7ea0d146077.pdf",
         "source": "BSE",
         "published_at": "2026-05-22T09:12:46.000Z"
-      },
-      {
-        "id": "6148747977907360768",
-        "title": "Yuga Stocks sold 114,531 shares of NIBE at an avg price of 1388.95.",
-        "url": "https://www.nseindia.com/report-detail/display-bulk-and-block-deals",
-        "source": "NSE Bulk Trades",
-        "published_at": "2026-05-21T15:30:27.000Z"
       }
     ],
     "events": [
@@ -615,7 +665,7 @@
         "ticker": "AVANTEL",
         "name": "Avantel",
         "searchId": "avantel-ltd",
-        "market_cap_inr": 43111600000,
+        "market_cap_inr": 45622600000,
         "pe": 289.73,
         "pb": 12.75
       },
@@ -623,17 +673,17 @@
         "ticker": "ROSSTECH",
         "name": "Rossell Techsys Ltd.",
         "searchId": "rossell-techsysltd",
-        "market_cap_inr": 34829700000,
+        "market_cap_inr": 38467400000,
         "pe": 159.03,
         "pb": 22.49
       },
       {
-        "ticker": "IDEAFORGE",
-        "name": "Ideaforge Technology",
-        "searchId": "ideaforge-technology-ltd",
-        "market_cap_inr": 33627600000,
-        "pe": null,
-        "pb": 5.61
+        "ticker": "PREMEXPLN",
+        "name": "Premier Explosives",
+        "searchId": "premier-explosives-ltd",
+        "market_cap_inr": 38423100000,
+        "pe": 74.45,
+        "pb": 11.61
       }
     ],
     "details": {

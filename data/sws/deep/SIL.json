@@ -3,12 +3,12 @@
   "name": "Standard Industries Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-sil/standard-industries-shares",
-  "parsed_at": "2026-05-25T23:00:32.795Z",
+  "parsed_at": "2026-05-26T13:50:23.284Z",
   "company_id": "8089BAAC-CD3F-4BA1-B3B0-32BECA0C4F57",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/standard-industries-ltd",
     "search_id": "standard-industries-ltd",
     "company_id": "GSTK530017",
@@ -28,22 +28,71 @@
       "dividend": 3
     },
     "snowflake_total": 11,
-    "current_price_inr": 16.35,
-    "market_cap_inr": 1030500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 16.23,
+    "market_cap_inr": 1063400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 11.7,
       "high": 21.71
     },
-    "fair_value_inr": 297.286856,
+    "fair_value_inr": 302.798545,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 1718.2682324159018,
+    "upside_pct": 1765.671873074553,
     "multiples": {
       "pe": null,
       "ps": 3,
@@ -60,13 +109,13 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 94.7% below our estimate of its fair value"
+      "Trading at 94.6% below our estimate of its fair value"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹1B)",
       "Does not have meaningful revenue (₹343M)",
       "Earnings have declined by 50.7% per year over past 5 years",
-      "Dividend of 9.99% is not well covered by earnings or free cash flows"
+      "Dividend of 9.93% is not well covered by earnings or free cash flows"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -222,7 +271,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 34.08245820635203
+      "sector_pe": 34.04694988503199
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -243,17 +292,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 34.08245820635203,
+        "industry_pe": 34.04694988503199,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2,
+        "industry_pe": 1.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "SIL is expensive based on its Price-To-Sales Ratio (3x) compared to the Indian Retail Distributors industry average (2x).",
+        "description": "SIL is expensive based on its Price-To-Sales Ratio (3x) compared to the Indian Retail Distributors industry average (1.9x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -270,8 +319,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -283,50 +332,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 16.35,
-        "fetched_at": "2026-05-25T23:00:32.795Z",
+        "value": 16.23,
+        "fetched_at": "2026-05-26T13:50:23.284Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-sil/standard-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1030500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1063400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "fifty_two_week": {
@@ -335,85 +384,85 @@
           "low": 11.7,
           "high": 21.71
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 17.8868902,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 3.1399999999999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.880894075965196,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9342894775354893,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05502707449143861,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/standard-industries-ltd"
       }
     },
@@ -428,7 +477,7 @@
     "ps": 3,
     "book_value": 17.8868902,
     "face_value": 5,
-    "sector_pe": 34.08245820635203,
+    "sector_pe": 34.04694988503199,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -440,12 +489,12 @@
     "quick_ratio": 1.9342894775354893,
     "cash_ratio": 0.05502707449143861,
     "returns_pct": {
-      "1D": 2.1236727045596493,
-      "7D": 5.551969012265986,
-      "1M": 1.301115241635693,
-      "3M": 0.18382352941177166,
-      "6M": -3.8235294117646976,
-      "1Y": -14.12815126050419,
+      "1D": -0.7339449541284464,
+      "7D": 1.9472361809045258,
+      "1M": 0.5576208178438653,
+      "3M": 6.426229508196723,
+      "6M": -2.9886431560071727,
+      "1Y": -14.758403361344532,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -795,7 +844,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/standard-industries-ltd",
     "news": [
       {
@@ -870,7 +919,7 @@
         "ticker": "SOMATEX",
         "name": "Soma Textiles & Industries",
         "searchId": "soma-textiles-industries-ltd",
-        "market_cap_inr": 3323100000,
+        "market_cap_inr": 3395800000,
         "pe": 64.08,
         "pb": 2.07
       },
@@ -878,15 +927,15 @@
         "ticker": "514324",
         "name": "Omnitex Industries (India)",
         "searchId": "omnitex-industries-india-ltd",
-        "market_cap_inr": 2980300000,
+        "market_cap_inr": 3108000000,
         "pe": null,
-        "pb": 1.68
+        "pb": 1.75
       },
       {
         "ticker": "BTTL",
         "name": "Bhilwara Technical Textiles",
         "searchId": "bhilwara-technical-textiles-ltd",
-        "market_cap_inr": 2095600000,
+        "market_cap_inr": 2013900000,
         "pe": 178.8,
         "pb": 1.3
       }

@@ -3,7 +3,7 @@
   "name": "Shining Tools Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544607/shining-tools-shares",
-  "parsed_at": "2026-05-25T21:15:11.767Z",
+  "parsed_at": "2026-05-26T12:07:08.024Z",
   "company_id": "D2773AED-837C-4E1E-B04A-DAD369AD82E5",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 71.73,
-    "market_cap_inr": 405877014.95353,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 71.05,
+    "market_cap_inr": 402029303.1151304,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -111,7 +161,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -124,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 71.73,
-        "fetched_at": "2026-05-25T21:15:11.767Z",
+        "value": 71.05,
+        "fetched_at": "2026-05-26T12:07:08.024Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544607/shining-tools-shares"
       }
     },
@@ -152,16 +202,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.9933774834437035,
-      "7D": 2.4714285714285773,
-      "1M": 24.74782608695653,
-      "3M": 17.590163934426236,
-      "6M": 9.095057034220538,
-      "1Y": -27.398785425101206,
+      "1D": -0.9479994423532787,
+      "7D": -2.671232876712333,
+      "1M": 23.565217391304344,
+      "3M": 16.47540983606557,
+      "6M": 13.679999999999994,
+      "1Y": -28.087044534412957,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -221,6 +271,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "bcaad3dc-78b8-4292-981d-7005092bf7b2",
+      "type": "event",
+      "date": "2026-05-25T14:24:00.000Z",
+      "title": "Shining Tools Limited to Report Fiscal Year 2026 Results on May 30, 2026",
+      "body": "Shining Tools Limited announced that they will report fiscal year 2026 results at 12:15 PM, Indian Standard Time on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "c23511a8-494c-4ae2-8898-c549d77cf6f9",
       "type": "brief",

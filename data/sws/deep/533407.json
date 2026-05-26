@@ -3,12 +3,12 @@
   "name": "True Green Bio Energy Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-533407/true-green-bio-energy-shares",
-  "parsed_at": "2026-05-25T23:08:50.407Z",
+  "parsed_at": "2026-05-26T14:01:37.627Z",
   "company_id": "BA201E19-125F-40AC-90E1-36EF51C44694",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd",
     "search_id": "cil-nova-petrochemicals-ltd",
     "company_id": "GSTK533407",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 158.8,
-    "market_cap_inr": 5339100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 159,
+    "market_cap_inr": 5233600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 5.53,
-      "pb": 4.17,
+      "pb": 4.09,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -77,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 53.672860099337726
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 53.672860099337726,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 0.8,
         "industry_name": "Indian Luxury",
-        "description": "533407 is expensive based on its Price-To-Sales Ratio (5.5x) compared to the Indian Luxury industry average (0.8x).",
+        "description": "533407 is expensive based on its Price-To-Sales Ratio (5.4x) compared to the Indian Luxury industry average (0.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -138,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 158.8,
-        "fetched_at": "2026-05-25T23:08:50.407Z",
+        "value": 159,
+        "fetched_at": "2026-05-26T14:01:37.627Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-533407/true-green-bio-energy-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5339100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5233600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 4.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.09,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 5.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "fifty_two_week": {
@@ -190,91 +239,91 @@
           "low": 52.75,
           "high": 179
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 38.8445209,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3245948758610436,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 33.2035640849897,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3575129533678751,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.89637305699482,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 191.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 60.699241786015165,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.4068,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9022889017118676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.15849201769571072,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd"
       }
     },
@@ -285,11 +334,11 @@
     "latest_net_income": null,
     "latest_eps": 0.1,
     "most_recent_reported_date": null,
-    "pb": 4.17,
+    "pb": 4.09,
     "ps": 5.53,
     "book_value": 38.8445209,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 0,
     "roa_pct": 0.3245948758610436,
     "roic_pct": 33.2035640849897,
@@ -301,12 +350,12 @@
     "quick_ratio": 0.9022889017118676,
     "cash_ratio": 0.15849201769571072,
     "returns_pct": {
-      "1D": -1.9753086419753016,
-      "7D": -4.8532055122828,
-      "1M": 18.595967139656462,
-      "3M": 128.32494608195546,
-      "6M": 136.13382899628255,
-      "1Y": 122.31555368892622,
+      "1D": 0.12594458438286438,
+      "7D": -2.8117359413202903,
+      "1M": 18.745332337565344,
+      "3M": 127.17531075867983,
+      "6M": 140,
+      "1Y": 122.5955480890382,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -490,12 +539,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cil-nova-petrochemicals-ltd",
     "news": [
       {
@@ -543,6 +602,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -550,7 +619,7 @@
         "ticker": "GHCL",
         "name": "GHCL",
         "searchId": "ghcl-ltd",
-        "market_cap_inr": 40915300000,
+        "market_cap_inr": 40805000000,
         "pe": 8.66,
         "pb": 1.15
       },
@@ -558,7 +627,7 @@
         "ticker": "TIRUMALCHM",
         "name": "Thirumalai Chemicals",
         "searchId": "thirumalai-chemicals-ltd",
-        "market_cap_inr": 25129200000,
+        "market_cap_inr": 25454700000,
         "pe": null,
         "pb": 1.58
       },
@@ -566,9 +635,9 @@
         "ticker": "DCW",
         "name": "DCW",
         "searchId": "dcw-ltd",
-        "market_cap_inr": 13875200000,
-        "pe": 28.84,
-        "pb": 1.29
+        "market_cap_inr": 14135000000,
+        "pe": 29.38,
+        "pb": 1.32
       }
     ],
     "details": {

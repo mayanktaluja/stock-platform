@@ -3,12 +3,12 @@
   "name": "Archidply Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-archidply/archidply-industries-shares",
-  "parsed_at": "2026-05-25T21:40:41.518Z",
+  "parsed_at": "2026-05-26T12:33:55.859Z",
   "company_id": "8F89B07B-65F4-4D78-89D6-63F01C8DC9CA",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/archidply-industries-ltd",
     "search_id": "archidply-industries-ltd",
     "company_id": "GSTK532994",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 81.34,
-    "market_cap_inr": 1609100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 83.16,
+    "market_cap_inr": 1626100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 60,
       "high": 120.4
     },
-    "fair_value_inr": 43.078065,
+    "fair_value_inr": 43.082054,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -47.039507007622326,
+    "upside_pct": -48.19377825877826,
     "multiples": {
       "pe": 20.15,
       "ps": 0.23,
@@ -55,15 +104,15 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/archidply-industries-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (19.4x) is below the Indian market (23.3x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Became profitable this year"
+      "Became profitable this year",
+      "Price-To-Earnings ratio (20.7x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹2B)",
@@ -100,7 +149,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Plywood Boards/Laminates",
       "pe_industry_id": 86,
@@ -113,7 +162,7 @@
       "industry_pe": 44.746278631751636,
       "industry_name": "Plywood Boards/Laminates",
       "industry_id": 86,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/archidply-industries-ltd",
       "search_id": "archidply-industries-ltd"
     },
@@ -123,14 +172,14 @@
         "industry_pe": 44.746278631751636,
         "industry_name": "Plywood Boards/Laminates",
         "industry_id": 86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.4,
-        "industry_pe": 24.1,
+        "company_pe": 20.7,
+        "industry_pe": 28.1,
         "industry_name": "Indian Forestry",
-        "description": "ARCHIDPLY is good value based on its Price-To-Earnings Ratio (19.4x) compared to the Indian Forestry industry average (24.1x).",
+        "description": "ARCHIDPLY is good value based on its Price-To-Earnings Ratio (20.7x) compared to the Indian Forestry industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -147,7 +196,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.049999999999997,
+        "industry_pe": 22.049999999999997,
         "sample_count": 40,
         "industry_code": "2060000",
         "industry_name": "Materials"
@@ -160,56 +209,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 81.34,
-        "fetched_at": "2026-05-25T21:40:41.518Z",
+        "value": 83.16,
+        "fetched_at": "2026-05-26T12:33:55.859Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-archidply/archidply-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1609100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1626100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 20.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.746278631751636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "fifty_two_week": {
@@ -218,91 +267,91 @@
           "low": 60,
           "high": 120.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 56.3176441,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.746278631751636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.9345,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.258822314582957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.260999676480102,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3046071268823616,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.30087967794841,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 163.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 47.102253659292145,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.7617,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7560169203092333,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.003695239947488696,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/archidply-industries-ltd"
       }
     },
@@ -329,12 +378,12 @@
     "quick_ratio": 0.7560169203092333,
     "cash_ratio": 0.003695239947488696,
     "returns_pct": {
-      "1D": 4.201895977453242,
-      "7D": 2.59838546922301,
-      "1M": 7.663798808735946,
-      "3M": -1.8462652347049606,
-      "6M": -9.872576177285316,
-      "1Y": -16.437230326689953,
+      "1D": 2.23752151462994,
+      "7D": 3.962995374421805,
+      "1M": 10.072799470549306,
+      "3M": 1.303447435741251,
+      "6M": -8.464501926252062,
+      "1Y": -14.567495377028978,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -526,7 +575,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/archidply-industries-ltd",
     "news": [
       {
@@ -591,7 +640,7 @@
         "ticker": "STYLAMIND",
         "name": "Stylam Industries",
         "searchId": "stylam-industries-ltd",
-        "market_cap_inr": 46744400000,
+        "market_cap_inr": 48409600000,
         "pe": 31.19,
         "pb": 5.79
       },
@@ -599,7 +648,7 @@
         "ticker": "RESPONIND",
         "name": "Responsive Industries",
         "searchId": "responsive-industries-ltd",
-        "market_cap_inr": 44163700000,
+        "market_cap_inr": 46789800000,
         "pe": 24.54,
         "pb": 3
       },
@@ -607,7 +656,7 @@
         "ticker": "GREENPLY",
         "name": "Greenply Industries",
         "searchId": "greenply-industries-ltd",
-        "market_cap_inr": 32343400000,
+        "market_cap_inr": 32618200000,
         "pe": 36.02,
         "pb": 3.61
       }

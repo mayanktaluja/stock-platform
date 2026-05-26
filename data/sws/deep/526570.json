@@ -3,12 +3,12 @@
   "name": "Midwest Gold Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-526570/midwest-gold-shares",
-  "parsed_at": "2026-05-25T22:01:13.763Z",
+  "parsed_at": "2026-05-26T12:57:01.095Z",
   "company_id": "9FB3B07F-22F9-4181-84A9-8F7E69E30CD4",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/midwest-gold-ltd",
     "search_id": "midwest-gold-ltd",
     "company_id": "GSTK526570",
@@ -28,13 +28,62 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 4546.85,
-    "market_cap_inr": 57165200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4673.95,
+    "market_cap_inr": 58982600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 529.8,
+      "low": 551.15,
       "high": 5900
     },
     "fair_value_inr": 0.031704,
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.99930272606309,
+    "upside_pct": -99.99932168722387,
     "multiples": {
       "pe": null,
       "ps": 0,
@@ -74,7 +123,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 11.418772595604295
+      "sector_pe": 11.4186542492942
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -95,17 +144,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 11.418772595604295,
+        "industry_pe": 11.4186542492942,
         "industry_name": "Mining & Mineral products",
         "industry_id": 38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.7,
         "industry_name": "Indian Trade Distributors",
-        "description": "526570 is expensive based on its Price-To-Book Ratio (66.1x) compared to the Indian Trade Distributors industry average (1.7x).",
+        "description": "526570 is expensive based on its Price-To-Book Ratio (70.1x) compared to the Indian Trade Distributors industry average (1.7x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -123,7 +172,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -135,137 +184,137 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4546.85,
-        "fetched_at": "2026-05-25T22:01:13.763Z",
+        "value": 4673.95,
+        "fetched_at": "2026-05-26T12:57:01.095Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526570/midwest-gold-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 57165200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 58982600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 13.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 11.418772595604295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11.4186542492942,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 529.8,
+          "low": 551.15,
           "high": 5900
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 326.5415863,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 11.418772595604295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11.4186542492942,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 188.54999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 63.451394122079876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.5781,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7003931847968548,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6070773263433814,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/midwest-gold-ltd"
       }
     },
@@ -280,7 +329,7 @@
     "ps": 0,
     "book_value": 326.5415863,
     "face_value": 10,
-    "sector_pe": 11.418772595604295,
+    "sector_pe": 11.4186542492942,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -292,12 +341,12 @@
     "quick_ratio": 1.7003931847968548,
     "cash_ratio": 0.6070773263433814,
     "returns_pct": {
-      "1D": 3.179213706246108,
-      "7D": 2.0926655664455165,
-      "1M": 11.720333673231211,
-      "3M": 0.9547387235365298,
-      "6M": 33.59728506787331,
-      "1Y": 724.9750521636579,
+      "1D": 2.79534183005816,
+      "7D": 10.146344912098794,
+      "1M": 14.843298893079595,
+      "3M": 2.0457398613612754,
+      "6M": 30.996356502242143,
+      "1Y": 748.0359248843329,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -497,7 +546,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/midwest-gold-ltd",
     "news": [
       {
@@ -542,7 +591,7 @@
         "ticker": "MIDWESTLTD",
         "name": "Midwest",
         "searchId": "midwest-ltd",
-        "market_cap_inr": 47591200000,
+        "market_cap_inr": 45517400000,
         "pe": 40.36,
         "pb": 5.47
       },
@@ -550,17 +599,17 @@
         "ticker": "531281",
         "name": "Marble City India",
         "searchId": "pg-industry-ltd",
-        "market_cap_inr": 2449500000,
-        "pe": 29,
-        "pb": 3.22
+        "market_cap_inr": 2499500000,
+        "pe": 29.6,
+        "pb": 3.28
       },
       {
         "ticker": "513528",
         "name": "Glittek Granites",
         "searchId": "glittek-granites-ltd",
-        "market_cap_inr": 1103300000,
+        "market_cap_inr": 1109200000,
         "pe": 4.48,
-        "pb": 10.38
+        "pb": 10.44
       }
     ],
     "details": {

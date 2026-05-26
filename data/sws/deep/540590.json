@@ -3,12 +3,12 @@
   "name": "Riddhi Corporate Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-540590/riddhi-services-shares",
-  "parsed_at": "2026-05-25T23:52:51.539Z",
+  "parsed_at": "2026-05-26T14:42:59.677Z",
   "company_id": "22921FDE-6A5D-42CE-BE89-209E4C5E1515",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/riddhi-corporate-services-ltd",
     "search_id": "riddhi-corporate-services-ltd",
     "company_id": "GSTK540590",
@@ -28,26 +28,74 @@
       "dividend": 3
     },
     "snowflake_total": 14,
-    "current_price_inr": 60.18,
-    "market_cap_inr": 750000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 62.71,
+    "market_cap_inr": 714200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 50.75,
       "high": 83
     },
-    "fair_value_inr": 557.566256,
+    "fair_value_inr": 557.615301,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 826.4976005317382,
+    "upside_pct": 789.1967804177963,
     "multiples": {
-      "pe": 7.77,
+      "pe": 7.4,
       "ps": 0.17,
-      "pb": 1.02,
+      "pb": 0.98,
       "ev_ebitda": 3.58,
       "peg": 0.03261129943502825
     },
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
     },
@@ -145,13 +193,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 21.41038809716583,
-      "sector_pe": 21.41038809716583
+      "pe": 21.411947666551587,
+      "sector_pe": 21.411947666551587
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -160,21 +208,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 7.77,
-      "industry_pe": 21.41038809716583,
+      "company_pe": 7.4,
+      "industry_pe": 21.411947666551587,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/riddhi-corporate-services-ltd",
       "search_id": "riddhi-corporate-services-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 7.77,
-        "industry_pe": 21.41038809716583,
+        "company_pe": 7.4,
+        "industry_pe": 21.411947666551587,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "sws_statement": {
@@ -198,7 +246,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -211,56 +259,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 60.18,
-        "fetched_at": "2026-05-25T23:52:51.539Z",
+        "value": 62.71,
+        "fetched_at": "2026-05-26T14:42:59.677Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-540590/riddhi-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 750000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 714200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 7.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.4,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.98,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 3.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.03261129943502825,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "fifty_two_week": {
@@ -269,91 +317,91 @@
           "low": 50.75,
           "high": 83
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 8.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 61.713744,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 20.2833,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.723766072169225,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 15.11281133129688,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.178914602787928,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.9419858347994765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 59.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 25.668068969603603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.166,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7361715351149782,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4165630826600373,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       }
     },
@@ -364,11 +412,11 @@
     "latest_net_income": null,
     "latest_eps": 8.13,
     "most_recent_reported_date": null,
-    "pb": 1.02,
+    "pb": 0.98,
     "ps": 0.17,
     "book_value": 61.713744,
     "face_value": 10,
-    "sector_pe": 21.41038809716583,
+    "sector_pe": 21.411947666551587,
     "roe_pct": 20.2833,
     "roa_pct": 5.723766072169225,
     "roic_pct": 15.11281133129688,
@@ -380,12 +428,12 @@
     "quick_ratio": 1.7361715351149782,
     "cash_ratio": 0.4165630826600373,
     "returns_pct": {
-      "1D": -4.778481012658233,
-      "7D": -6.100795755968176,
-      "1M": -11.134081512108681,
-      "3M": -4.248210023866351,
-      "6M": -13.410071942446045,
-      "1Y": 5.932054215807072,
+      "1D": 4.204054503157197,
+      "7D": 6.7585972080354075,
+      "1M": -7.398109864146482,
+      "3M": -3.5230769230769217,
+      "6M": -9.769784172661868,
+      "1Y": 10.385495511353632,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -654,7 +702,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/riddhi-corporate-services-ltd",
     "news": [
       {
@@ -722,7 +770,7 @@
         "ticker": "DATAMATICS",
         "name": "Datamatics Global Services",
         "searchId": "datamatics-global-services-ltd",
-        "market_cap_inr": 46487200000,
+        "market_cap_inr": 45609400000,
         "pe": 23.85,
         "pb": 3.01
       },
@@ -730,7 +778,7 @@
         "ticker": "RPSGVENT",
         "name": "RPSG Ventures",
         "searchId": "cesc-ventures-ltd",
-        "market_cap_inr": 30088800000,
+        "market_cap_inr": 30829900000,
         "pe": null,
         "pb": 1.2
       },
@@ -738,7 +786,7 @@
         "ticker": "HGS",
         "name": "Hinduja Global Solutions",
         "searchId": "hinduja-global-solutions-ltd",
-        "market_cap_inr": 18845400000,
+        "market_cap_inr": 19064000000,
         "pe": 111.91,
         "pb": 0.24
       }

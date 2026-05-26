@@ -3,12 +3,12 @@
   "name": "Wagend Infra Venture Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-503675/wagend-infra-venture-shares",
-  "parsed_at": "2026-05-25T20:43:19.384Z",
+  "parsed_at": "2026-05-26T11:11:07.259Z",
   "company_id": "76980664-2CF3-4287-AB37-B4A13B8B8668",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/wagend-infra-venture-ltd",
     "search_id": "wagend-infra-venture-ltd",
     "company_id": "GSTK503675",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 1.13,
-    "market_cap_inr": 50000000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.16,
+    "market_cap_inr": 53300000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 2.53,
-      "pb": 0.54,
+      "pb": 0.58,
       "ev_ebitda": 191.33,
       "peg": 0
     },
@@ -63,7 +112,8 @@
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹50M)",
+      "Highly volatile share price over past 3 months",
+      "Does not have a meaningful market cap (₹53M)",
       "Has less than 1 year of [[cash runway]]",
       "Makes less than USD$1m in revenue (₹20M)"
     ],
@@ -77,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +148,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Construction",
-        "description": "503675 is expensive based on its Price-To-Sales Ratio (2.5x) compared to the Indian Construction industry average (1.2x).",
+        "description": "503675 is expensive based on its Price-To-Sales Ratio (2.7x) compared to the Indian Construction industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,8 +175,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -138,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.13,
-        "fetched_at": "2026-05-25T20:43:19.384Z",
+        "value": 1.16,
+        "fetched_at": "2026-05-26T11:11:07.259Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-503675/wagend-infra-venture-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 50000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.58,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 191.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "fifty_two_week": {
@@ -190,85 +240,85 @@
           "low": 0.87,
           "high": 1.43
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.9545252,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 15.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.456140350877192,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 313.0247,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.801369863013699,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08904109589041097,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/wagend-infra-venture-ltd"
       }
     },
@@ -279,11 +329,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.54,
+    "pb": 0.58,
     "ps": 2.53,
     "book_value": 1.9545252,
     "face_value": 2,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -295,12 +345,12 @@
     "quick_ratio": 7.801369863013699,
     "cash_ratio": 0.08904109589041097,
     "returns_pct": {
-      "1D": 6.603773584905645,
-      "7D": 0,
-      "1M": -0.8771929824561412,
-      "3M": 0.8928571428571237,
-      "6M": 0.8928571428571237,
-      "1Y": 4.629629629629613,
+      "1D": 2.654867256637171,
+      "7D": 5.454545454545439,
+      "1M": 1.7543859649122824,
+      "3M": 1.7543859649122824,
+      "6M": 4.504504504504489,
+      "1Y": 7.407407407407393,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -469,7 +519,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/wagend-infra-venture-ltd",
     "news": [
       {
@@ -517,25 +567,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

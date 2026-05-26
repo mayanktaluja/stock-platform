@@ -3,7 +3,7 @@
   "name": "Digilogic Systems Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544684/digilogic-systems-shares",
-  "parsed_at": "2026-05-25T21:18:44.619Z",
+  "parsed_at": "2026-05-26T12:10:35.750Z",
   "company_id": "32F1B8E3-D1F3-4F7D-9229-2D86BD8077F6",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 103.48,
-    "market_cap_inr": 2995852603.108949,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 102.03,
+    "market_cap_inr": 2953873609.346792,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 49.45,
+        "industry_pe": 50.85,
         "sample_count": 20,
         "industry_code": "3020000",
         "industry_name": "Capital Goods"
@@ -123,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 103.48,
-        "fetched_at": "2026-05-25T21:18:44.619Z",
+        "value": 102.03,
+        "fetched_at": "2026-05-26T12:10:35.750Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544684/digilogic-systems-shares"
       }
     },
@@ -151,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.9507389162561617,
-      "7D": 4.842958459979737,
-      "1M": 10.085106382978728,
-      "3M": 17.564189956828002,
-      "6M": 30.90449082858951,
-      "1Y": 30.90449082858951,
+      "1D": -1.4012369540007756,
+      "7D": 0.5320721253325513,
+      "1M": 8.542553191489363,
+      "3M": 12.60346540116985,
+      "6M": 29.07020872865276,
+      "1Y": 29.07020872865276,
       "5Y": null
     },
     "next_earnings_date": null,

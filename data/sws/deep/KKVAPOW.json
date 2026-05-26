@@ -3,7 +3,7 @@
   "name": "KKV Agro Powers Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-kkvapow/kkv-agro-powers-shares",
-  "parsed_at": "2026-05-25T21:07:58.958Z",
+  "parsed_at": "2026-05-26T11:55:58.683Z",
   "company_id": "7DE9A7AE-8189-4549-951C-26EC8EF1C247",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 3
     },
     "snowflake_total": 15,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 613,
     "market_cap_inr": 382243824.5016734,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 106.262923,
+    "fair_value_inr": 106.287984,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -82.66510228384992,
+    "upside_pct": -82.66101402936378,
     "multiples": {
       "pe": 7,
       "ps": null,
@@ -52,7 +100,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 1159.9% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (7x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (7x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Unstable dividend track record",
@@ -98,8 +146,8 @@
           "divAmount": 4.5454545455,
           "divAmountListingCurrency": 4.5454545455,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 4.5455,
           "annualizedDividendListingCurrency": 4.5455,
           "annualizedYield": 0.5463464201
@@ -111,8 +159,8 @@
           "divAmount": 4.5454545455,
           "divAmountListingCurrency": 4.5454545455,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 4.5455,
           "annualizedDividendListingCurrency": 4.5455,
           "annualizedYield": 0.5463464201
@@ -200,7 +248,7 @@
     },
     "dividend_yield_pct": 0.7515472051,
     "industry_benchmarks": {
-      "pe": 34.1
+      "pe": 33
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -215,16 +263,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 7,
-      "industry_pe": 34.1,
+      "industry_pe": 33,
       "industry_name": "Indian Renewable Energy"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 7,
-        "industry_pe": 34.1,
+        "industry_pe": 33,
         "industry_name": "Indian Renewable Energy",
-        "description": "KKVAPOW is good value based on its Price-To-Earnings Ratio (7x) compared to the Indian Renewable Energy industry average (34.1x).",
+        "description": "KKVAPOW is good value based on its Price-To-Earnings Ratio (7x) compared to the Indian Renewable Energy industry average (33x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -241,7 +289,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.5,
+        "industry_pe": 26.7,
         "sample_count": 22,
         "industry_code": "9551702",
         "industry_name": "Utilities"
@@ -255,7 +303,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 613,
-        "fetched_at": "2026-05-25T21:07:58.958Z",
+        "fetched_at": "2026-05-26T11:55:58.683Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-kkvapow/kkv-agro-powers-shares"
       }
     },
@@ -377,8 +425,8 @@
         "divAmount": 4.5454545455,
         "divAmountListingCurrency": 4.5454545455,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 4.5455,
         "annualizedDividendListingCurrency": 4.5455,
         "annualizedYield": 0.5463464201
@@ -390,8 +438,8 @@
         "divAmount": 4.5454545455,
         "divAmountListingCurrency": 4.5454545455,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 4.5455,
         "annualizedDividendListingCurrency": 4.5455,
         "annualizedYield": 0.5463464201

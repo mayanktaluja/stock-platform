@@ -3,12 +3,12 @@
   "name": "Jet Freight Logistics Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-jetfreight/jet-freight-logistics-shares",
-  "parsed_at": "2026-05-25T20:54:26.645Z",
+  "parsed_at": "2026-05-26T11:43:20.596Z",
   "company_id": "1F146591-650D-4E19-8781-DB1FB205372B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jet-freight-logistics-ltd",
     "search_id": "jet-freight-logistics-ltd",
     "company_id": "GSTK543420",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 20.32,
-    "market_cap_inr": 963300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 20.4,
+    "market_cap_inr": 938300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -81.9187057086614,
+    "upside_pct": -81.98961274509803,
     "multiples": {
       "pe": 14.12,
       "ps": 0.22,
@@ -55,19 +104,19 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/jet-freight-logistics-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (14x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (13.8x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 81.5% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹955M)"
+      "Does not have a meaningful market cap (₹943M)",
+      "Interest payments are not well covered by earnings"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -112,7 +161,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Logistics",
       "pe_industry_id": 36,
@@ -125,7 +174,7 @@
       "industry_pe": 44.625110317113496,
       "industry_name": "Logistics",
       "industry_id": 36,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/jet-freight-logistics-ltd",
       "search_id": "jet-freight-logistics-ltd"
     },
@@ -135,14 +184,14 @@
         "industry_pe": 44.625110317113496,
         "industry_name": "Logistics",
         "industry_id": 36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "sws_statement": {
-        "company_pe": 14,
+        "company_pe": 13.8,
         "industry_pe": 16.1,
         "industry_name": "Indian Logistics",
-        "description": "JETFREIGHT is good value based on its Price-To-Earnings Ratio (14x) compared to the Indian Logistics industry average (16.1x).",
+        "description": "JETFREIGHT is good value based on its Price-To-Earnings Ratio (13.8x) compared to the Indian Logistics industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -159,7 +208,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.6,
+        "industry_pe": 15.4,
         "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
@@ -172,56 +221,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 20.32,
-        "fetched_at": "2026-05-25T20:54:26.645Z",
+        "value": 20.4,
+        "fetched_at": "2026-05-26T11:43:20.596Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-jetfreight/jet-freight-logistics-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 963300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 938300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 14.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 6.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.007319480519480519,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.625110317113496,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "fifty_two_week": {
@@ -230,91 +279,91 @@
           "low": 11.9,
           "high": 23
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 15.339674,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.625110317113496,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.5647,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.5385814497272023,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.374948370270717,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5327481431465229,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.629754670267838,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 104.28999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 38.57105741751104,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.9389,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2882274629136554,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.1391213389121339,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jet-freight-logistics-ltd"
       }
     },
@@ -341,12 +390,12 @@
     "quick_ratio": 1.2882274629136554,
     "cash_ratio": 0.1391213389121339,
     "returns_pct": {
-      "1D": -1.3113161728994638,
-      "7D": -2.025072324011563,
-      "1M": -2.5419664268585183,
-      "3M": 12.01764057331863,
-      "6M": 13.519553072625708,
-      "1Y": 31.52103559870551,
+      "1D": 0.3937007874015664,
+      "7D": -5.642923219241454,
+      "1M": -2.1582733812949777,
+      "3M": 12.956810631229235,
+      "6M": 9.266202463845724,
+      "1Y": 32.03883495145631,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -549,7 +598,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jet-freight-logistics-ltd",
     "news": [
       {
@@ -614,15 +663,15 @@
         "ticker": "VRLLOG",
         "name": "VRL Logistics",
         "searchId": "vrl-logistics-ltd",
-        "market_cap_inr": 41871200000,
-        "pe": 17.68,
+        "market_cap_inr": 41967400000,
+        "pe": 17.72,
         "pb": 3.67
       },
       {
         "ticker": "REFEX",
         "name": "Refex Industries",
         "searchId": "refex-industries-ltd",
-        "market_cap_inr": 38291100000,
+        "market_cap_inr": 38922300000,
         "pe": 24.35,
         "pb": 2.82
       },
@@ -630,7 +679,7 @@
         "ticker": "MAHLOG",
         "name": "Mahindra Logistics",
         "searchId": "mahindra-logistics-ltd",
-        "market_cap_inr": 35080100000,
+        "market_cap_inr": 35402600000,
         "pe": 330.42,
         "pb": 2.99
       }
@@ -725,16 +774,6 @@
       "date": "2026-01-13T11:45:20.000Z",
       "title": "New major risk - Share price stability",
       "body": "The company's share price has been highly volatile over the past 3 months. It is more volatile than 90% of Indian stocks, typically moving 8.4% a week. This is considered a major risk. Share price volatility increases the risk of potential losses in the short-term as the stock tends to have larger drops in price more frequently than other stocks. It may also indicate the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (2.1x net interest cover). Share price has been highly volatile over the past 3 months (8.4% average weekly change). Market cap is ",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "8b714e65-938c-4a32-a5ee-78d0ee966b61",
-      "type": "brief",
-      "date": "2025-11-27T12:02:30.000Z",
-      "title": "Investor sentiment improves as stock rises 29%",
-      "body": "After last week's 29% share price gain to ₹18.67, the stock trades at a trailing P/E ratio of 18.3x. Average trailing P/E is 19x in the Logistics industry in India. Total returns to shareholders of 5.5% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

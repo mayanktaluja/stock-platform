@@ -3,7 +3,7 @@
   "name": "Janus Corporation Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/bse-542924/janus-shares",
-  "parsed_at": "2026-05-25T20:41:33.988Z",
+  "parsed_at": "2026-05-26T11:09:27.928Z",
   "company_id": "EA7ED80A-CF47-4696-AE11-51D382989C13",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": null,
     "market_cap_inr": 117579944.17149585,
     "market_cap_usd": 127196762990.178,
@@ -112,8 +161,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },

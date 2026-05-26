@@ -3,12 +3,12 @@
   "name": "W.S. Industries (India) Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-wsi/ws-industries-india-shares",
-  "parsed_at": "2026-05-26T00:00:52.804Z",
+  "parsed_at": "2026-05-26T16:08:20.602Z",
   "company_id": "7D6F8FE3-4E18-446B-8446-8066A230E50D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ws-industries-india-ltd",
     "search_id": "ws-industries-india-ltd",
     "company_id": "GSTK504220",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 67.32,
-    "market_cap_inr": 5054600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 69.16,
+    "market_cap_inr": 5077400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ws-industries-india-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.73287436584585,
-      "sector_pe": 22.73287436584585
+      "pe": 24.2328398851662,
+      "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -92,27 +141,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 229.66,
-      "industry_pe": 22.73287436584585,
+      "industry_pe": 24.2328398851662,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ws-industries-india-ltd",
       "search_id": "ws-industries-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 229.66,
-        "industry_pe": 22.73287436584585,
+        "industry_pe": 24.2328398851662,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Construction",
-        "description": "WSI is expensive based on its Price-To-Sales Ratio (4.8x) compared to the Indian Construction industry average (1.2x).",
+        "description": "WSI is expensive based on its Price-To-Sales Ratio (5x) compared to the Indian Construction industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 67.32,
-        "fetched_at": "2026-05-26T00:00:52.804Z",
+        "value": 69.16,
+        "fetched_at": "2026-05-26T16:08:20.602Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-wsi/ws-industries-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5054600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5077400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 229.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 5.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 33.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 59.25,
           "high": 101.49
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 49.4200865,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5975,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.43685905742105074,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.979905246539417,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.5792349726775963,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.797814207650273,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 17.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.68372144681796,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.901,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.0514293006636035,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3816998468606432,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ws-industries-india-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 5.52,
     "book_value": 49.4200865,
     "face_value": 10,
-    "sector_pe": 22.73287436584585,
+    "sector_pe": 24.2328398851662,
     "roe_pct": 0.5975,
     "roa_pct": 0.43685905742105074,
     "roic_pct": 2.979905246539417,
@@ -311,12 +360,12 @@
     "quick_ratio": 3.0514293006636035,
     "cash_ratio": 1.3816998468606432,
     "returns_pct": {
-      "1D": 1.0962606998047602,
-      "7D": 0.5977286312014218,
-      "1M": -3.6634230108757904,
-      "3M": -6.797729475287291,
-      "6M": -14.176440591534936,
-      "1Y": -8.408163265306131,
+      "1D": 2.7332144979203856,
+      "7D": 0.10131712259370845,
+      "1M": -1.0303377218088134,
+      "3M": -2.274975272007912,
+      "6M": -10.611348067726519,
+      "1Y": -5.9047619047619095,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -542,22 +591,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ws-industries-india-ltd",
     "news": [
+      {
+        "id": "847086122211993728",
+        "title": "W. S. Industries terminates lease for 2365.38 sq.m. industrial land near Bengaluru.\nSale consideration is at least ₹6.04 Cr; buyer unrelated to promoters, no approval needed.",
+        "url": "https://sqst.in/5Nygz",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T12:17:49.000Z"
+      },
       {
         "id": "844529820778945792",
         "title": "W.S. Industries disclosed Renaatus Procon Pvt Ltd bought 2,000 shares at Rs.75.46 during trading window closure.\nMarket reopened with lower prices (BSE Rs.67.5, NSE Rs.66.92). No notional gain or violations occurred.",
         "url": "https://sqst.in/gw1ks",
         "source": "ScoutQuest",
         "published_at": "2026-05-19T10:59:59.000Z"
-      },
-      {
-        "id": "2605175012657",
-        "title": "WS Industries fell 4.85% to Rs.68.51, underperforming Sensex's 2.6% drop.\nStock faced bearish momentum, revenue decline, and sector challenges despite profit turnaround.",
-        "url": "https://www.marketsmojo.com/news/stocks-in-action/w-s-industries-falls-485-mixed-signals-amid-profit-turnaround-and-revenue-challenges-3995674",
-        "source": "Marketsmojo",
-        "published_at": "2026-05-17T11:31:06.000Z"
       }
     ],
     "events": [
@@ -607,25 +656,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

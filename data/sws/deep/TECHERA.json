@@ -3,7 +3,7 @@
   "name": "TechEra Engineering (India) Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-techera/techera-engineering-india-shares",
-  "parsed_at": "2026-05-25T23:26:44.640Z",
+  "parsed_at": "2026-05-26T14:15:10.262Z",
   "company_id": "EAAB89DB-270E-45C3-B4B6-21C1334429A8",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 182.15,
     "market_cap_inr": 3009286848.7832403,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": -4.678116387592639,
     "multiples": {
-      "pe": 48.7,
+      "pe": 51,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,7 +100,7 @@
     },
     "rewards": [
       "Earnings have grown 50.5% per year over the past 5 years",
-      "Price-To-Earnings ratio (48.7x) is below the Aerospace & Defense industry average (53.1x)",
+      "Price-To-Earnings ratio (51x) is below the Aerospace & Defense industry average (53.1x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -82,17 +132,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 48.7,
+      "company_pe": 51,
       "industry_pe": 53.1,
       "industry_name": "Indian Aerospace & Defense"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 48.7,
+        "company_pe": 51,
         "industry_pe": 53.1,
         "industry_name": "Indian Aerospace & Defense",
-        "description": "TECHERA is good value based on its Price-To-Earnings Ratio (48.7x) compared to the Indian Aerospace & Defense industry average (53.1x).",
+        "description": "TECHERA is good value based on its Price-To-Earnings Ratio (51x) compared to the Indian Aerospace & Defense industry average (53.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 49.45,
+        "industry_pe": 50.85,
         "sample_count": 20,
         "industry_code": "3020000",
         "industry_name": "Capital Goods"
@@ -123,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 182.15,
-        "fetched_at": "2026-05-25T23:26:44.640Z",
+        "fetched_at": "2026-05-26T14:15:10.262Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-techera/techera-engineering-india-shares"
       }
     },

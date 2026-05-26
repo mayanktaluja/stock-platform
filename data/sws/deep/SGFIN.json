@@ -3,12 +3,12 @@
   "name": "SG Finserve Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-sgfin/sg-finserve-shares",
-  "parsed_at": "2026-05-25T22:50:08.093Z",
+  "parsed_at": "2026-05-26T13:40:01.567Z",
   "company_id": "8DB9CE7D-1938-4FBB-BDEA-32B59B74CA51",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/moongipa-securities-ltd",
     "search_id": "moongipa-securities-ltd",
     "company_id": "GSTK539199",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 579.2,
-    "market_cap_inr": 38571600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 578.8,
+    "market_cap_inr": 38140000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 323,
       "high": 650
     },
-    "fair_value_inr": 54.154034,
+    "fair_value_inr": 54.252673,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -90.65020131215469,
+    "upside_pct": -90.62669782308225,
     "multiples": {
-      "pe": 30.22,
+      "pe": 29.88,
       "ps": 11.55,
-      "pb": 2.59,
+      "pb": 2.56,
       "ev_ebitda": 25.23,
       "peg": 20.07030499999989
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/moongipa-securities-ltd"
     },
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 30.22,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 29.88,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/moongipa-securities-ltd",
       "search_id": "moongipa-securities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 30.22,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 29.88,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.2,
-        "industry_pe": 22.9,
+        "company_pe": 29.8,
+        "industry_pe": 22.5,
         "industry_name": "Indian Diversified Financial",
-        "description": "SGFIN is expensive based on its Price-To-Earnings Ratio (30.2x) compared to the Indian Diversified Financial industry average (22.9x).",
+        "description": "SGFIN is expensive based on its Price-To-Earnings Ratio (29.8x) compared to the Indian Diversified Financial industry average (22.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,8 +180,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 579.2,
-        "fetched_at": "2026-05-25T22:50:08.093Z",
+        "value": 578.8,
+        "fetched_at": "2026-05-26T13:40:01.567Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-sgfin/sg-finserve-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 38571600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 38140000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 30.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 29.88,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.56,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 11.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 25.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 20.07030499999989,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 323,
           "high": 650
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 19.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 225.8847002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.7423,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.0588968227344613,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.749906045262951,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 38.27197505696127,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 91.94447775512651,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 185.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 64.7951310681938,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 55.5467,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 55.561643835616444,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 46.60045662100457,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/moongipa-securities-ltd"
       }
     },
@@ -297,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 19.37,
     "most_recent_reported_date": null,
-    "pb": 2.59,
+    "pb": 2.56,
     "ps": 11.55,
     "book_value": 225.8847002,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 8.7423,
     "roa_pct": 3.0588968227344613,
     "roic_pct": 5.749906045262951,
@@ -313,12 +362,12 @@
     "quick_ratio": 55.561643835616444,
     "cash_ratio": 46.60045662100457,
     "returns_pct": {
-      "1D": -0.9575923392612704,
-      "7D": 5.5105200837963375,
-      "1M": 8.48473496909535,
-      "3M": 46.68861593010004,
-      "6M": 43.99005593536359,
-      "1Y": 45.47281175436395,
+      "1D": -0.06906077348067868,
+      "7D": 1.8386557578956508,
+      "1M": 8.409814572017229,
+      "3M": 46.88491308209616,
+      "6M": 42.4387842992494,
+      "1Y": 45.3723471053623,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -492,7 +541,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/moongipa-securities-ltd",
     "news": [
       {
@@ -557,7 +606,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -565,7 +614,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -573,7 +622,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

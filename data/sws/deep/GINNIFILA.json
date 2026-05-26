@@ -3,12 +3,12 @@
   "name": "Ginni Filaments Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-ginnifila/ginni-filaments-shares",
-  "parsed_at": "2026-05-25T23:36:57.702Z",
+  "parsed_at": "2026-05-26T14:27:38.758Z",
   "company_id": "E76B2764-082D-43FB-A200-F5442BEE912B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ginni-filaments-ltd",
     "search_id": "ginni-filaments-ltd",
     "company_id": "GSTK590025",
@@ -28,24 +28,73 @@
       "dividend": 0
     },
     "snowflake_total": 14,
-    "current_price_inr": 45,
-    "market_cap_inr": 3853400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 44.72,
+    "market_cap_inr": 3856000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 31.5,
       "high": 57.8
     },
-    "fair_value_inr": 109.165832,
+    "fair_value_inr": 109.175595,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 142.59073777777778,
+    "upside_pct": 144.13147361359572,
     "multiples": {
-      "pe": 10.41,
+      "pe": 10.42,
       "ps": 1.04,
       "pb": 1.64,
       "ev_ebitda": 7.71,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ginni-filaments-ltd"
     },
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -94,21 +143,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 10.41,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 10.42,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ginni-filaments-ltd",
       "search_id": "ginni-filaments-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 10.41,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 10.42,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "sws_statement": {
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 45,
-        "fetched_at": "2026-05-25T23:36:57.702Z",
+        "value": 44.72,
+        "fetched_at": "2026-05-26T14:27:38.758Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-ginnifila/ginni-filaments-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3853400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3856000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 10.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 10.42,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.37250675675675676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 31.5,
           "high": 57.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 27.5026137,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 19.0828,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 13.774532177088087,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 19.123813107163944,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.2786080446988,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.157205240174676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 17.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 12.481363152289669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.6087,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.962914979757085,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3834817813765182,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ginni-filaments-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 1.04,
     "book_value": 27.5026137,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 19.0828,
     "roa_pct": 13.774532177088087,
     "roic_pct": 19.123813107163944,
@@ -314,12 +363,12 @@
     "quick_ratio": 1.962914979757085,
     "cash_ratio": 0.3834817813765182,
     "returns_pct": {
-      "1D": 0.13351134846462456,
-      "7D": 7.9654510556621885,
-      "1M": 6.282475200755779,
-      "3M": 15.384615384615385,
-      "6M": 17.89363374377783,
-      "1Y": 22.415669205658332,
+      "1D": -0.6222222222222248,
+      "7D": 6.501547987616091,
+      "1M": 5.621162021728851,
+      "3M": 14.402660526988987,
+      "6M": 10.91269841269841,
+      "1Y": 21.653971708378673,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -483,7 +532,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ginni-filaments-ltd",
     "news": [
       {
@@ -548,7 +597,7 @@
         "ticker": "PDSL",
         "name": "PDS Limited",
         "searchId": "pds-multinational-fashions-ltd",
-        "market_cap_inr": 40749500000,
+        "market_cap_inr": 42340700000,
         "pe": 22.94,
         "pb": 2.31
       },
@@ -556,7 +605,7 @@
         "ticker": "RAYMOND",
         "name": "Raymond",
         "searchId": "raymond-ltd",
-        "market_cap_inr": 36755400000,
+        "market_cap_inr": 37224700000,
         "pe": 0.69,
         "pb": 1.29
       },
@@ -564,7 +613,7 @@
         "ticker": "SIYSIL",
         "name": "Siyaram Silk Mills",
         "searchId": "siyaram-silk-mills-ltd",
-        "market_cap_inr": 27002000000,
+        "market_cap_inr": 27256100000,
         "pe": 11.69,
         "pb": 1.85
       }

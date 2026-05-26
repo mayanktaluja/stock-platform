@@ -3,7 +3,7 @@
   "name": "Purv Flexipack Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-purvflexi/purv-flexipack-shares",
-  "parsed_at": "2026-05-25T22:18:28.408Z",
+  "parsed_at": "2026-05-26T13:11:32.928Z",
   "company_id": "A9E47281-9824-490C-A799-AA40EB2FE4F3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 59,
-    "market_cap_inr": 1237982224.236586,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 57,
+    "market_cap_inr": 1196016725.1099222,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 12.9,
+      "pe": 12.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,7 +100,7 @@
     },
     "rewards": [
       "Earnings have grown 11.6% per year over the past 5 years",
-      "Price-To-Earnings ratio (12.9x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (12.8x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -70,7 +120,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 22.4
+      "pe": 23.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,17 +134,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 12.9,
-      "industry_pe": 22.4,
+      "company_pe": 12.8,
+      "industry_pe": 23.9,
       "industry_name": "Indian Trade Distributors"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 12.9,
-        "industry_pe": 22.4,
+        "company_pe": 12.8,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "PURVFLEXI is good value based on its Price-To-Earnings Ratio (12.9x) compared to the Indian Trade Distributors industry average (22.4x).",
+        "description": "PURVFLEXI is good value based on its Price-To-Earnings Ratio (12.8x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -112,7 +162,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -124,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 59,
-        "fetched_at": "2026-05-25T22:18:28.408Z",
+        "value": 57,
+        "fetched_at": "2026-05-26T13:11:32.928Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-purvflexi/purv-flexipack-shares"
       }
     },
@@ -152,12 +202,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.608695652173913,
-      "7D": -2.6402640264026425,
-      "1M": -0.673400673400671,
-      "3M": -1.6666666666666667,
-      "6M": -35.869565217391305,
-      "1Y": -29.761904761904763,
+      "1D": -3.389830508474576,
+      "7D": -1.7241379310344827,
+      "1M": -4.040404040404038,
+      "3M": -5,
+      "6M": -37.43139407244785,
+      "1Y": -32.142857142857146,
       "5Y": null
     },
     "next_earnings_date": null,

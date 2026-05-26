@@ -3,7 +3,7 @@
   "name": "Garware Synthetics Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-514400/garware-synthetics-shares",
-  "parsed_at": "2026-05-25T22:15:40.610Z",
+  "parsed_at": "2026-05-26T13:07:24.475Z",
   "company_id": "6C689DFE-4C7D-4A15-BD99-6C12452EC519",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 20.66,
-    "market_cap_inr": 120011864.88679235,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 20.5,
+    "market_cap_inr": 119082440.95736898,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.22030493707648,
+    "upside_pct": -97.19860975609757,
     "multiples": {
       "pe": 25.8,
       "ps": null,
@@ -111,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -124,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 20.66,
-        "fetched_at": "2026-05-25T22:15:40.610Z",
+        "value": 20.5,
+        "fetched_at": "2026-05-26T13:07:24.475Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-514400/garware-synthetics-shares"
       }
     },
@@ -152,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 15.612758813654162,
-      "1M": -14.27385892116183,
-      "3M": -14.38043928719436,
-      "6M": 2.0246913580246924,
-      "1Y": -13.700918964076864,
+      "1D": -0.7744433688286552,
+      "7D": 9.275053304904041,
+      "1M": -14.93775933609959,
+      "3M": -10.59747056258177,
+      "6M": 1.2345679012345678,
+      "1Y": -14.369256474519638,
       "5Y": null
     },
     "next_earnings_date": null,

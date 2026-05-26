@@ -3,12 +3,12 @@
   "name": "UR Sugar Industries Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-539097/ur-sugar-industries-shares",
-  "parsed_at": "2026-05-25T23:31:21.864Z",
+  "parsed_at": "2026-05-26T14:20:41.167Z",
   "company_id": "EF0C66A3-741D-4B07-925B-2FD440CB24D8",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/yogya-enterprises-ltd",
     "search_id": "yogya-enterprises-ltd",
     "company_id": "GSTK539097",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 2.82,
-    "market_cap_inr": 143900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.79,
+    "market_cap_inr": 148100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 34.25,
+      "pe": 35.25,
       "ps": 0,
-      "pb": 0.77,
+      "pb": 0.8,
       "ev_ebitda": 15.52,
       "peg": -2.0808333333333335
     },
@@ -55,15 +104,16 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/yogya-enterprises-ltd"
     },
     "rewards": [],
     "risks": [
+      "High level of [[non-cash earnings]]",
       "Earnings have declined by 24.4% per year over past 5 years",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹144M)",
+      "Does not have a meaningful market cap (₹148M)",
       "Makes less than USD$1m in revenue (₹9M)"
     ],
     "dividend": {
@@ -76,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -91,33 +141,33 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 34.25,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 35.25,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/yogya-enterprises-ltd",
       "search_id": "yogya-enterprises-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 34.25,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 35.25,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "sws_statement": {
-        "company_pe": 32.4,
-        "industry_pe": 19.2,
+        "company_pe": 33,
+        "industry_pe": 19.4,
         "industry_name": "Indian Food",
-        "description": "539097 is expensive based on its Price-To-Earnings Ratio (32.4x) compared to the Indian Food industry average (19.2x).",
+        "description": "539097 is expensive based on its Price-To-Earnings Ratio (33x) compared to the Indian Food industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.249908727,
+        "industry_pe": 19.375449861,
         "industry_code": "5120000",
         "type": "median_profitable",
         "count": 216,
@@ -142,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.82,
-        "fetched_at": "2026-05-25T23:31:21.864Z",
+        "value": 2.79,
+        "fetched_at": "2026-05-26T14:20:41.167Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-539097/ur-sugar-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 143900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 148100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 34.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.25,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.8,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -2.0808333333333335,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +250,91 @@
           "low": 1.81,
           "high": 7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 3.5428571,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.384,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.3404255319148937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 13.828124999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 80.2285,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 78.64999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/yogya-enterprises-ltd"
       }
     },
@@ -295,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 0.08,
     "most_recent_reported_date": null,
-    "pb": 0.77,
+    "pb": 0.8,
     "ps": 0,
     "book_value": 3.5428571,
     "face_value": 2,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 2.384,
     "roa_pct": 2.3404255319148937,
     "roic_pct": 13.828124999999996,
@@ -311,12 +361,12 @@
     "quick_ratio": 78.64999999999999,
     "cash_ratio": 77,
     "returns_pct": {
-      "1D": 2.9197080291970665,
-      "7D": 0.35587188612098886,
-      "1M": -10.759493670886085,
-      "3M": 2.173913043478263,
-      "6M": -30.37037037037037,
-      "1Y": -54.807692307692314,
+      "1D": -1.0638297872340359,
+      "7D": -0.35714285714284955,
+      "1M": -11.708860759493673,
+      "3M": 1.8248175182481685,
+      "6M": -31.784841075794617,
+      "1Y": -55.28846153846154,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -524,7 +574,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/yogya-enterprises-ltd",
     "news": [
       {
@@ -589,15 +639,15 @@
         "ticker": "BANARISUG",
         "name": "Bannari Amman Sugars",
         "searchId": "bannari-amman-sugars-ltd",
-        "market_cap_inr": 45303400000,
-        "pe": 32.02,
-        "pb": 2.49
+        "market_cap_inr": 45553000000,
+        "pe": 32.19,
+        "pb": 2.5
       },
       {
         "ticker": "BAJAJHIND",
         "name": "Bajaj Hindusthan Sugar",
         "searchId": "bajaj-hindusthan-sugar-ltd",
-        "market_cap_inr": 44370800000,
+        "market_cap_inr": 44227300000,
         "pe": null,
         "pb": 1.02
       },
@@ -605,8 +655,8 @@
         "ticker": "DALMIASUG",
         "name": "Dalmia Bharat Sugar & Industries",
         "searchId": "dalmia-bharat-sugar-industries-ltd",
-        "market_cap_inr": 27697400000,
-        "pe": 11.65,
+        "market_cap_inr": 27507200000,
+        "pe": 11.57,
         "pb": 0.85
       }
     ],

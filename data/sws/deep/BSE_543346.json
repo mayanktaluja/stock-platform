@@ -3,7 +3,7 @@
   "name": "Aashka Hospitals Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-543346/aashka-hospitals-shares",
-  "parsed_at": "2026-05-25T22:34:32.116Z",
+  "parsed_at": "2026-05-26T13:29:53.160Z",
   "company_id": "17E44F2E-7499-4867-9E13-F9301376D2F4",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 75,
     "market_cap_inr": 1752599967.3188887,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -65,7 +115,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 38.7
+      "pe": 41.7
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,16 +130,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 72.2,
-      "industry_pe": 38.7,
+      "industry_pe": 41.7,
       "industry_name": "Indian Healthcare"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 72.2,
-        "industry_pe": 38.7,
+        "industry_pe": 41.7,
         "industry_name": "Indian Healthcare",
-        "description": "543346 is expensive based on its Price-To-Earnings Ratio (72.2x) compared to the Indian Healthcare industry average (38.7x).",
+        "description": "543346 is expensive based on its Price-To-Earnings Ratio (72.2x) compared to the Indian Healthcare industry average (41.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -106,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.2,
+        "industry_pe": 35.8,
         "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
@@ -120,7 +170,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 75,
-        "fetched_at": "2026-05-25T22:34:32.116Z",
+        "fetched_at": "2026-05-26T13:29:53.160Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-543346/aashka-hospitals-shares"
       }
     },

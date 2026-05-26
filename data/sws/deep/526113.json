@@ -3,12 +3,12 @@
   "name": "Uniroyal Marine Exports Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-526113/uniroyal-marine-exports-shares",
-  "parsed_at": "2026-05-25T21:54:59.144Z",
+  "parsed_at": "2026-05-26T12:51:52.981Z",
   "company_id": "7543F6E4-E6C6-48DC-9BA2-9A5D429A4354",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd",
     "search_id": "uniroyal-marine-exports-ltd",
     "company_id": "GSTK526113",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 13.31,
     "market_cap_inr": 86200000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 11.34,
       "high": 20.19
     },
-    "fair_value_inr": 387.49643,
+    "fair_value_inr": 387.454998,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 2811.3180315552213,
+    "upside_pct": 2811.006746806912,
     "multiples": {
       "pe": 6.52,
       "ps": 0.43,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
     },
@@ -81,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 50.05803822102532,
-      "sector_pe": 50.05803822102532
+      "pe": 50.038385860693985,
+      "sector_pe": 50.038385860693985
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "FMCG",
       "pe_industry_id": 27,
@@ -97,27 +146,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 6.52,
-      "industry_pe": 50.05803822102532,
+      "industry_pe": 50.038385860693985,
       "industry_name": "FMCG",
       "industry_id": 27,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd",
       "search_id": "uniroyal-marine-exports-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 6.52,
-        "industry_pe": 50.05803822102532,
+        "industry_pe": 50.038385860693985,
         "industry_name": "FMCG",
         "industry_id": 27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "sws_statement": {
         "company_pe": 6.8,
-        "industry_pe": 19.2,
+        "industry_pe": 19.4,
         "industry_name": "Indian Food",
-        "description": "526113 is good value based on its Price-To-Earnings Ratio (6.8x) compared to the Indian Food industry average (19.2x).",
+        "description": "526113 is good value based on its Price-To-Earnings Ratio (6.8x) compared to the Indian Food industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -148,55 +197,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 13.31,
-        "fetched_at": "2026-05-25T21:54:59.144Z",
+        "fetched_at": "2026-05-26T12:51:52.981Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-526113/uniroyal-marine-exports-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 86200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 6.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 11.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.5827586206896553,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 50.05803822102532,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 50.038385860693985,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +254,91 @@
           "low": 11.34,
           "high": 20.19
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1.1968516,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 50.05803822102532,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 50.038385860693985,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.403252944475604,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 21.86297151655119,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.613226452905812,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.230460921843687,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1648.2800000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 72.68648345485138,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.6698,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.38713910761154857,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.049868766404199474,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd"
       }
     },
@@ -304,7 +353,7 @@
     "ps": 0.43,
     "book_value": 1.1968516,
     "face_value": 10,
-    "sector_pe": 50.05803822102532,
+    "sector_pe": 50.038385860693985,
     "roe_pct": 0,
     "roa_pct": 7.403252944475604,
     "roic_pct": 21.86297151655119,
@@ -520,9 +569,16 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/uniroyal-marine-exports-ltd",
     "news": [
+      {
+        "id": "679367",
+        "title": "Uniroyal Marine Exports Ltd schedules board meeting on May 30, 2026, to review audited financial results.\nThe results will cover the quarter and year ended March 31, 2026, per SEBI regulations.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=b58ef1ac-73f1-46f1-9882-ce9781b5b515.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T10:13:30.000Z"
+      },
       {
         "id": "472582",
         "title": "Uniroyal Marine Exports Ltd schedules board meeting on February 10, 2026.\nMeeting to consider and approve Q3 FY26 un-audited financial results.",
@@ -578,23 +634,23 @@
         "ticker": "APEX",
         "name": "Apex Frozen Foods",
         "searchId": "apex-frozen-foods-ltd",
-        "market_cap_inr": 14060900000,
-        "pe": 42.57,
-        "pb": 2.76
+        "market_cap_inr": 14432800000,
+        "pe": 43.69,
+        "pb": 2.83
       },
       {
         "ticker": "SHINDL",
         "name": "Sharat Industries",
         "searchId": "sharat-industries-ltd",
-        "market_cap_inr": 6125300000,
-        "pe": 37.37,
-        "pb": 4.04
+        "market_cap_inr": 6201800000,
+        "pe": 37.83,
+        "pb": 4.09
       },
       {
         "ticker": "COASTCORP",
         "name": "Coastal Corporation",
         "searchId": "coastal-corporation-ltd",
-        "market_cap_inr": 3896700000,
+        "market_cap_inr": 3939600000,
         "pe": 25.19,
         "pb": 1.44
       }

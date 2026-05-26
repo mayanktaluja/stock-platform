@@ -3,7 +3,7 @@
   "name": "AVSL Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-avsl/avsl-industries-shares",
-  "parsed_at": "2026-05-25T21:50:42.598Z",
+  "parsed_at": "2026-05-26T12:44:02.246Z",
   "company_id": "ECEAEC65-5184-41F0-A3FE-D7D06E2C2A1E",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 3,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 119.7,
     "market_cap_inr": 638134518.631635,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -65,7 +114,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 21.8
+      "pe": 21.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,16 +129,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 26.2,
-      "industry_pe": 21.8,
+      "industry_pe": 21.9,
       "industry_name": "Indian Chemicals"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 26.2,
-        "industry_pe": 21.8,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "AVSL is expensive based on its Price-To-Earnings Ratio (26.2x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "AVSL is expensive based on its Price-To-Earnings Ratio (26.2x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -106,8 +155,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -120,7 +169,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 119.7,
-        "fetched_at": "2026-05-25T21:50:42.598Z",
+        "fetched_at": "2026-05-26T12:44:02.246Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-avsl/avsl-industries-shares"
       }
     },

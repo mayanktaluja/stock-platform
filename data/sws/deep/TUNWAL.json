@@ -3,7 +3,7 @@
   "name": "Tunwal E-Motors Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-tunwal/tunwal-e-motors-shares",
-  "parsed_at": "2026-05-25T23:37:28.893Z",
+  "parsed_at": "2026-05-26T14:27:16.472Z",
   "company_id": "E70CBA4C-205B-4F43-83F6-AACBDE06E335",
   "classification_status": "Active",
   "groww_source": null,
@@ -13,29 +13,77 @@
       "future": 0,
       "past": 2,
       "financial_health": 5,
-      "dividends": 1,
+      "dividends": 2,
       "future_growth": 0,
       "past_performance": 2,
       "value": 2,
       "health": 5,
-      "dividend": 1
+      "dividend": 2
     },
-    "snowflake_total": 10,
-    "current_price_inr": 35.75,
+    "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 30.6,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 0.810788,
+    "fair_value_inr": 0.810787,
     "fair_value_range_inr": {
       "min": 102.65,
       "max": 102.65,
       "count": 1
     },
-    "upside_pct": -97.73206153846154,
+    "upside_pct": -97.35036928104574,
     "multiples": {
-      "pe": 12.6,
+      "pe": 11.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,13 +98,14 @@
     },
     "rewards": [
       "Earnings grew by 26.8% over the past year",
-      "Price-To-Earnings ratio (12.6x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (11.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹2B)"
+      "Does not have a meaningful market cap (₹2B)",
+      "Dividend of 0.33% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.316623677,
@@ -82,7 +131,7 @@
     },
     "dividend_yield_pct": 0.316623677,
     "industry_benchmarks": {
-      "pe": 18.4
+      "pe": 18
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -96,17 +145,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 12.6,
-      "industry_pe": 18.4,
+      "company_pe": 11.3,
+      "industry_pe": 18,
       "industry_name": "Asian Auto"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 12.6,
-        "industry_pe": 18.4,
+        "company_pe": 11.3,
+        "industry_pe": 18,
         "industry_name": "Asian Auto",
-        "description": "TUNWAL is good value based on its Price-To-Earnings Ratio (12.6x) compared to the Asian Auto industry average (18.4x).",
+        "description": "TUNWAL is good value based on its Price-To-Earnings Ratio (11.3x) compared to the Asian Auto industry average (18x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -136,8 +185,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 35.75,
-        "fetched_at": "2026-05-25T23:37:28.893Z",
+        "value": 30.6,
+        "fetched_at": "2026-05-26T14:27:16.472Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-tunwal/tunwal-e-motors-shares"
       }
     },
@@ -164,12 +213,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 5.147058823529411,
-      "7D": 7.843137254901965,
-      "1M": 14.03508771929824,
-      "3M": 23.48877374784111,
-      "6M": 9.66257668711656,
-      "1Y": -0.4178272980501353,
+      "1D": -14.405594405594401,
+      "7D": -7.552870090634441,
+      "1M": -2.3923444976076556,
+      "3M": 5.51724137931035,
+      "6M": -21.437740693196407,
+      "1Y": -14.763231197771582,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -237,26 +286,6 @@
       "date": "2026-04-07T11:28:15.000Z",
       "title": "Investor sentiment improves as stock rises 17%",
       "body": "After last week's 17% share price gain to ₹33.70, the stock trades at a trailing P/E ratio of 12.5x. Average trailing P/E is 27x in the Auto industry in India. Total returns to shareholders of 8.0% over the past year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "4c3b59a8-17a9-4b32-b74f-a57420187d23",
-      "type": "brief",
-      "date": "2025-11-27T17:45:14.000Z",
-      "title": "New minor risk - Share price stability",
-      "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 5.0% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Major Risk High level of non-cash earnings (25% accrual ratio). Minor Risks Share price has been volatile over the past 3 months (5.0% average weekly change). Market cap is less than US$100m (₹1.80b marke",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "e0b319f4-db40-455c-9402-7f085196d305",
-      "type": "brief",
-      "date": "2025-11-27T11:46:37.000Z",
-      "title": "Investor sentiment improves as stock rises 19%",
-      "body": "After last week's 19% share price gain to ₹38.95, the stock trades at a trailing P/E ratio of 14.4x. Average trailing P/E is 33x in the Auto industry in India. Total loss to shareholders of 3.7% over the past year.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

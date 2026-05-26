@@ -3,12 +3,12 @@
   "name": "BF Utilities Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-bfutilitie/bf-utilities-shares",
-  "parsed_at": "2026-05-25T22:01:36.346Z",
+  "parsed_at": "2026-05-26T12:55:16.956Z",
   "company_id": "1A6C74D4-6181-48D1-8925-0638BC347EFC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bf-utilities-ltd",
     "search_id": "bf-utilities-ltd",
     "company_id": "GSTK532430",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 552.05,
-    "market_cap_inr": 20769500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 568,
+    "market_cap_inr": 20705500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 368.7,
       "high": 898.7
     },
-    "fair_value_inr": 1172.359362,
+    "fair_value_inr": 1170.484062,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 112.36470645774838,
+    "upside_pct": 106.07113767605634,
     "multiples": {
       "pe": 5.45,
       "ps": 2.34,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/bf-utilities-ltd"
     },
@@ -75,13 +124,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 26.819387382058306,
-      "sector_pe": 26.819387382058306
+      "pe": 25.861524872271445,
+      "sector_pe": 25.861524872271445
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Power Generation & Distribution",
       "pe_industry_id": 49,
@@ -91,20 +140,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 5.45,
-      "industry_pe": 26.819387382058306,
+      "industry_pe": 25.861524872271445,
       "industry_name": "Power Generation & Distribution",
       "industry_id": 49,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/bf-utilities-ltd",
       "search_id": "bf-utilities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 5.45,
-        "industry_pe": 26.819387382058306,
+        "industry_pe": 25.861524872271445,
         "industry_name": "Power Generation & Distribution",
         "industry_id": 49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "sws_statement": {
@@ -128,8 +177,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 552.05,
-        "fetched_at": "2026-05-25T22:01:36.346Z",
+        "value": 568,
+        "fetched_at": "2026-05-26T12:55:16.956Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bfutilitie/bf-utilities-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 20769500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 20705500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 5.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 10.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 1.707695285087718,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 26.819387382058306,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.861524872271445,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 368.7,
           "high": 898.7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 101.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 53.5180563,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 26.819387382058306,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.861524872271445,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.544801898041724,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 42.43854900803047,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.01935964259122,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 78.5126018186331,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 848.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 45.73862588663381,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2627,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.887112634506785,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5823336049223162,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/bf-utilities-ltd"
       }
     },
@@ -298,7 +347,7 @@
     "ps": 2.34,
     "book_value": 53.5180563,
     "face_value": 5,
-    "sector_pe": 26.819387382058306,
+    "sector_pe": 25.861524872271445,
     "roe_pct": 0,
     "roa_pct": 6.544801898041724,
     "roic_pct": 42.43854900803047,
@@ -310,12 +359,12 @@
     "quick_ratio": 0.887112634506785,
     "cash_ratio": 0.5823336049223162,
     "returns_pct": {
-      "1D": 0.02717883674578316,
-      "7D": 6.563073062445711,
-      "1M": -3.132128443586598,
-      "3M": 11.009451035592187,
-      "6M": -14.45064311173098,
-      "1Y": -26.471763452317532,
+      "1D": 2.889231047912335,
+      "7D": 8.252334667428999,
+      "1M": -0.3333918231268604,
+      "3M": 15.201298042794845,
+      "6M": -10.929904343735306,
+      "1Y": -24.347362812999464,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -561,7 +610,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/bf-utilities-ltd",
     "news": [
       {
@@ -636,7 +685,7 @@
         "ticker": "RTNPOWER",
         "name": "RattanIndia Power",
         "searchId": "rattanindia-power-ltd",
-        "market_cap_inr": 49029100000,
+        "market_cap_inr": 49405000000,
         "pe": 91.3,
         "pb": 1.06
       },
@@ -644,7 +693,7 @@
         "ticker": "519477",
         "name": "Cian Agro Industries & Infrastructure",
         "searchId": "cian-agro-industries-infrastructure-ltd",
-        "market_cap_inr": 42574900000,
+        "market_cap_inr": 44703300000,
         "pe": 25.18,
         "pb": 2.13
       },
@@ -652,7 +701,7 @@
         "ticker": "ORIANA",
         "name": "Oriana Power",
         "searchId": "oriana-power-ltd",
-        "market_cap_inr": 38534300000,
+        "market_cap_inr": 39869200000,
         "pe": 24.31,
         "pb": 7.56
       }

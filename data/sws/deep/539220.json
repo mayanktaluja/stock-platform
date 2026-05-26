@@ -3,12 +3,12 @@
   "name": "Mishka Exim Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-539220/mishka-exim-shares",
-  "parsed_at": "2026-05-25T23:35:40.264Z",
+  "parsed_at": "2026-05-26T14:23:12.962Z",
   "company_id": "FA9EFE3C-C9AB-44E5-830E-E6BD0C2454BF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mishka-exim-ltd",
     "search_id": "mishka-exim-ltd",
     "company_id": "GSTK539220",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 41,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 40.5,
     "market_cap_inr": 592500000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mishka-exim-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 47.54550502661084,
-      "sector_pe": 47.54550502661084
+      "pe": 47.54705930701353,
+      "sector_pe": 47.54705930701353
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diamond, Gems and Jewellery",
       "pe_industry_id": 20,
@@ -93,27 +142,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 29.93,
-      "industry_pe": 47.54550502661084,
+      "industry_pe": 47.54705930701353,
       "industry_name": "Diamond, Gems and Jewellery",
       "industry_id": 20,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/mishka-exim-ltd",
       "search_id": "mishka-exim-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 29.93,
-        "industry_pe": 47.54550502661084,
+        "industry_pe": 47.54705930701353,
         "industry_name": "Diamond, Gems and Jewellery",
         "industry_id": 20,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "sws_statement": {
-        "company_pe": 30,
-        "industry_pe": 25.3,
+        "company_pe": 29.6,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "539220 is expensive based on its Price-To-Earnings Ratio (30x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "539220 is expensive based on its Price-To-Earnings Ratio (29.6x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 41,
-        "fetched_at": "2026-05-25T23:35:40.264Z",
+        "value": 40.5,
+        "fetched_at": "2026-05-26T14:23:12.962Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-539220/mishka-exim-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 592500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 29.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 59.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 3.959999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.54550502661084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.54705930701353,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 24.95,
           "high": 56.39
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 16.7404844,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 47.54550502661084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47.54705930701353,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 8.1667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.166242269916332,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 8.295075125208681,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.818263205013427,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.44404655326768,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.35000000000000003,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.29101491451436884,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 13.2551,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.356164383561643,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.17808219178082194,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mishka-exim-ltd"
       }
     },
@@ -300,7 +349,7 @@
     "ps": 2.65,
     "book_value": 16.7404844,
     "face_value": 10,
-    "sector_pe": 47.54550502661084,
+    "sector_pe": 47.54705930701353,
     "roe_pct": 8.1667,
     "roa_pct": 7.166242269916332,
     "roic_pct": 8.295075125208681,
@@ -312,12 +361,12 @@
     "quick_ratio": 5.356164383561643,
     "cash_ratio": 0.17808219178082194,
     "returns_pct": {
-      "1D": 0,
-      "7D": 2.5,
-      "1M": 3.79746835443038,
-      "3M": 0.24449877750611593,
-      "6M": -8.88888888888889,
-      "1Y": 63.476874003189806,
+      "1D": -1.2195121951219512,
+      "7D": -5.813953488372093,
+      "1M": 2.5316455696202533,
+      "3M": -0.2463054187192153,
+      "6M": -10,
+      "1Y": 61.48325358851676,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -553,7 +602,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mishka-exim-ltd",
     "news": [
       {
@@ -618,7 +667,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -626,7 +675,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -634,7 +683,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

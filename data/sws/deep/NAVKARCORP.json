@@ -3,12 +3,12 @@
   "name": "Navkar Corporation Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-navkarcorp/navkar-shares",
-  "parsed_at": "2026-05-25T21:46:08.015Z",
+  "parsed_at": "2026-05-26T12:35:16.749Z",
   "company_id": "33F0DABA-6AED-4FD5-8A17-2F95E06A2DFF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/navkar-corporation-ltd",
     "search_id": "navkar-corporation-ltd",
     "company_id": "GSTK539332",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 97.2,
-    "market_cap_inr": 14239100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 98.16,
+    "market_cap_inr": 14585300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 47.3,
+      "pe": 48.45,
       "ps": 2.08,
-      "pb": 0.73,
+      "pb": 0.74,
       "ev_ebitda": 367.19,
       "peg": 0
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/navkar-corporation-ltd"
     },
@@ -81,7 +130,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Logistics",
       "pe_industry_id": 36,
@@ -90,28 +139,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 47.3,
+      "company_pe": 48.45,
       "industry_pe": 42.3546925486215,
       "industry_name": "Logistics",
       "industry_id": 36,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/navkar-corporation-ltd",
       "search_id": "navkar-corporation-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 47.3,
+        "company_pe": 48.45,
         "industry_pe": 42.3546925486215,
         "industry_name": "Logistics",
         "industry_id": 36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "sws_statement": {
-        "company_pe": 47.4,
-        "industry_pe": 12.5,
+        "company_pe": 49,
+        "industry_pe": 12.4,
         "industry_name": "Asian Infrastructure",
-        "description": "NAVKARCORP is expensive based on its Price-To-Earnings Ratio (47.4x) compared to the Asian Infrastructure industry average (12.5x).",
+        "description": "NAVKARCORP is expensive based on its Price-To-Earnings Ratio (49x) compared to the Asian Infrastructure industry average (12.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 13.5,
+        "industry_pe": 14,
         "sample_count": 19,
         "industry_code": "3250000",
         "industry_name": "Transportation"
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 97.2,
-        "fetched_at": "2026-05-25T21:46:08.015Z",
+        "value": 98.16,
+        "fetched_at": "2026-05-26T12:35:16.749Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-navkarcorp/navkar-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 14239100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14585300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 47.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.45,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.74,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 367.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 42.3546925486215,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 74.05,
           "high": 140.2
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 130.080377,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 42.3546925486215,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5396,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3635664455885412,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.892629587820642,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.384191310166262,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 17.641497083509098,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 8.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 7.852043540024792,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.6877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5733333333333333,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.13605584642233856,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/navkar-corporation-ltd"
       }
     },
@@ -294,7 +343,7 @@
     "latest_net_income": null,
     "latest_eps": 2,
     "most_recent_reported_date": null,
-    "pb": 0.73,
+    "pb": 0.74,
     "ps": 2.08,
     "book_value": 130.080377,
     "face_value": 10,
@@ -310,12 +359,12 @@
     "quick_ratio": 1.5733333333333333,
     "cash_ratio": 0.13605584642233856,
     "returns_pct": {
-      "1D": 2.445193929173701,
-      "7D": 2.8680283627897216,
-      "1M": -2.2722702594007553,
-      "3M": 3.404255319148939,
-      "6M": -4.892367906066536,
-      "1Y": -10.850224708795743,
+      "1D": 0.9876543209876478,
+      "7D": 2.613422538155969,
+      "1M": -1.307058113814596,
+      "3M": 3.840050777530938,
+      "6M": -1.5939849624060185,
+      "1Y": -9.969733100981387,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -493,7 +542,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/navkar-corporation-ltd",
     "news": [
       {
@@ -558,15 +607,15 @@
         "ticker": "VRLLOG",
         "name": "VRL Logistics",
         "searchId": "vrl-logistics-ltd",
-        "market_cap_inr": 41871200000,
-        "pe": 17.68,
+        "market_cap_inr": 41967400000,
+        "pe": 17.72,
         "pb": 3.67
       },
       {
         "ticker": "REFEX",
         "name": "Refex Industries",
         "searchId": "refex-industries-ltd",
-        "market_cap_inr": 38291100000,
+        "market_cap_inr": 38922300000,
         "pe": 24.35,
         "pb": 2.82
       },
@@ -574,7 +623,7 @@
         "ticker": "MAHLOG",
         "name": "Mahindra Logistics",
         "searchId": "mahindra-logistics-ltd",
-        "market_cap_inr": 35080100000,
+        "market_cap_inr": 35402600000,
         "pe": 330.42,
         "pb": 2.99
       }

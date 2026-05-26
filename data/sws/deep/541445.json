@@ -3,7 +3,7 @@
   "name": "Waa Solar Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/bse-541445/waa-solar-shares",
-  "parsed_at": "2026-05-25T20:35:58.179Z",
+  "parsed_at": "2026-05-26T11:02:57.570Z",
   "company_id": "340D4210-7E63-4C7E-AA87-18DD6CBEBB5C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,7 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 57.72,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 56.5,
     "market_cap_inr": 765757599.8029675,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -61.100523215523225,
+    "upside_pct": -60.26056991150443,
     "multiples": {
       "pe": 7.8,
       "ps": null,
@@ -113,7 +162,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.5,
+        "industry_pe": 26.7,
         "sample_count": 22,
         "industry_code": "9551702",
         "industry_name": "Utilities"
@@ -126,8 +175,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 57.72,
-        "fetched_at": "2026-05-25T20:35:58.179Z",
+        "value": 56.5,
+        "fetched_at": "2026-05-26T11:02:57.570Z",
         "url": "https://simplywall.st/stocks/in/utilities/bse-541445/waa-solar-shares"
       }
     },
@@ -154,12 +203,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 7.887850467289717,
-      "7D": 6.122448979591834,
-      "1M": -15.42857142857143,
-      "3M": 13.421104342699937,
-      "6M": 13.220870929776387,
-      "1Y": -29.506595017098192,
+      "1D": -2.1136521136521114,
+      "7D": 0.5338078291814896,
+      "1M": -17.216117216117215,
+      "3M": 15.165103954341616,
+      "6M": 11.859037814294203,
+      "1Y": -30.996580361504638,
       "5Y": null
     },
     "next_earnings_date": null,

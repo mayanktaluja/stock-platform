@@ -3,7 +3,7 @@
   "name": "Inspire Films Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-inspire/inspire-films-shares",
-  "parsed_at": "2026-05-25T20:47:25.380Z",
+  "parsed_at": "2026-05-26T11:14:19.042Z",
   "company_id": "EC5A9283-65AC-42A7-9F66-D24AD91531F1",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 11.05,
     "market_cap_inr": 150382743.7475603,
     "market_cap_usd": 127196762990.178,
@@ -109,8 +159,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.8,
-        "sample_count": 34,
+        "industry_pe": 18,
+        "sample_count": 35,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
@@ -123,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 11.05,
-        "fetched_at": "2026-05-25T20:47:25.380Z",
+        "fetched_at": "2026-05-26T11:14:19.042Z",
         "url": "https://simplywall.st/stocks/in/media/nse-inspire/inspire-films-shares"
       }
     },

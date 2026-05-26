@@ -3,12 +3,12 @@
   "name": "MKVentures Capital Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-514238/mkventures-capital-shares",
-  "parsed_at": "2026-05-25T21:21:03.237Z",
+  "parsed_at": "2026-05-26T12:16:55.940Z",
   "company_id": "FE894912-CDED-4109-BE4D-E73B1B1DA699",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ikab-securities-investment-ltd",
     "search_id": "ikab-securities-investment-ltd",
     "company_id": "GSTK514238",
@@ -28,22 +28,70 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 990.4,
-    "market_cap_inr": 3770600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1013.15,
+    "market_cap_inr": 3806600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 732,
       "high": 1890.05
     },
-    "fair_value_inr": 531.802211,
+    "fair_value_inr": 531.708416,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -46.30430018174474,
+    "upside_pct": -47.519279869713266,
     "multiples": {
       "pe": 78.05,
       "ps": 28.67,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ikab-securities-investment-ltd"
     },
@@ -101,13 +149,13 @@
     },
     "dividend_yield_pct": 0.13,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -117,27 +165,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 78.05,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ikab-securities-investment-ltd",
       "search_id": "ikab-securities-investment-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 78.05,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "sws_statement": {
-        "company_pe": 78,
-        "industry_pe": 27.9,
+        "company_pe": 80.6,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "514238 is expensive based on its Price-To-Earnings Ratio (78x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "514238 is expensive based on its Price-To-Earnings Ratio (80.6x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -167,56 +215,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 990.4,
-        "fetched_at": "2026-05-25T21:21:03.237Z",
+        "value": 1013.15,
+        "fetched_at": "2026-05-26T12:16:55.940Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-514238/mkventures-capital-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3770600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3806600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 78.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 28.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 30.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.0003184210526317,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "fifty_two_week": {
@@ -225,91 +273,91 @@
           "low": 732,
           "high": 1890.05
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 12.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 287.9986731,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.1248,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.118700434893835,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.969202322673619,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 41.530524505589,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 66.80997420464317,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3014,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2999999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.988135593220339,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ikab-securities-investment-ltd"
       }
     },
@@ -324,7 +372,7 @@
     "ps": 28.67,
     "book_value": 287.9986731,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 7.1248,
     "roa_pct": 4.118700434893835,
     "roic_pct": 5.969202322673619,
@@ -336,12 +384,12 @@
     "quick_ratio": 1.2999999999999998,
     "cash_ratio": 0.988135593220339,
     "returns_pct": {
-      "1D": 0.9530604964069134,
-      "7D": 3.668812477102628,
-      "1M": -3.8819875776397623,
-      "3M": 10.566564331565724,
-      "6M": -17.897703722125506,
-      "1Y": -39.4306332752347,
+      "1D": 2.2970516962843295,
+      "7D": 7.83353733170135,
+      "1M": -1.674107142857154,
+      "3M": 13.448295168243662,
+      "6M": -14.041488143214703,
+      "1Y": -38.0393236094548,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -543,7 +591,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ikab-securities-investment-ltd",
     "news": [
       {
@@ -618,7 +666,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -626,7 +674,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -634,7 +682,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

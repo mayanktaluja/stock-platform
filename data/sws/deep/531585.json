@@ -3,12 +3,12 @@
   "name": "Devine Impex Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-531585/devine-impex-shares",
-  "parsed_at": "2026-05-25T22:43:23.559Z",
+  "parsed_at": "2026-05-26T13:37:52.886Z",
   "company_id": "FFDBEAB4-5D4F-461D-9A4E-3B316B3B209F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/devine-impex-ltd",
     "search_id": "devine-impex-ltd",
     "company_id": "GSTK531585",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 8.03,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 8.4,
     "market_cap_inr": 76500000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.07566625155665,
+    "upside_pct": -98.16042857142857,
     "multiples": {
       "pe": 66.92,
       "ps": 4.06,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/devine-impex-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -92,27 +141,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 66.92,
-      "industry_pe": 74.71695232760163,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/devine-impex-ltd",
       "search_id": "devine-impex-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 66.92,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "sws_statement": {
-        "company_pe": 66.2,
-        "industry_pe": 25.3,
+        "company_pe": 69.2,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "531585 is expensive based on its Price-To-Earnings Ratio (66.2x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "531585 is expensive based on its Price-To-Earnings Ratio (69.2x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8.03,
-        "fetched_at": "2026-05-25T22:43:23.559Z",
+        "value": 8.4,
+        "fetched_at": "2026-05-26T13:37:52.886Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-531585/devine-impex-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 76500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 66.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 169.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -11.866799999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 7.38,
           "high": 10.91
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 14.2977487,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2268,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8683068017366135,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8524799416484319,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.382978723404255,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.510638297872342,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 119.2748,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 19.399999999999995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.09999999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/devine-impex-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 4.06,
     "book_value": 14.2977487,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0.2268,
     "roa_pct": 0.8683068017366135,
     "roic_pct": 0.8524799416484319,
@@ -311,12 +360,12 @@
     "quick_ratio": 19.399999999999995,
     "cash_ratio": 0.09999999999999999,
     "returns_pct": {
-      "1D": 0,
-      "7D": -1.472392638036822,
-      "1M": -5.6404230317273845,
-      "3M": -15.205913410770869,
-      "6M": -21.042281219272375,
-      "1Y": -15.116279069767458,
+      "1D": 4.6077210460772235,
+      "7D": 4.6077210460772235,
+      "1M": -1.7543859649122848,
+      "3M": -15.57788944723617,
+      "6M": -9.09090909090909,
+      "1Y": -11.205073995771675,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -481,7 +530,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-26T18:30:00.000Z",
@@ -494,7 +543,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/devine-impex-ltd",
     "news": [
       {
@@ -544,7 +593,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-26T18:30:00.000Z",
@@ -559,7 +608,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -567,7 +616,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -575,7 +624,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

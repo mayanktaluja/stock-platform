@@ -3,12 +3,12 @@
   "name": "Unjha Formulations Limited",
   "sector": "Household",
   "sws_url": "https://simplywall.st/stocks/in/household/bse-531762/unjha-formulations-shares",
-  "parsed_at": "2026-05-25T22:48:29.850Z",
+  "parsed_at": "2026-05-26T13:42:35.964Z",
   "company_id": "D776E295-3C43-4C8D-AAB0-CA8B901325A5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/unjha-formulations-ltd",
     "search_id": "unjha-formulations-ltd",
     "company_id": "GSTK531762",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 15,
-    "current_price_inr": 20,
-    "market_cap_inr": 86600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 19.26,
+    "market_cap_inr": 89600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 18.6,
       "high": 30.4
     },
-    "fair_value_inr": 52.654868,
+    "fair_value_inr": 52.654844,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 163.27434,
+    "upside_pct": 173.38963655244024,
     "multiples": {
-      "pe": 12.31,
+      "pe": 12.74,
       "ps": 0.56,
-      "pb": 2.26,
+      "pb": 2.33,
       "ev_ebitda": 14.28,
       "peg": 0.5126758620689654
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/unjha-formulations-ltd"
     },
@@ -63,10 +112,10 @@
       "Earnings grew by 72.9% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 63.3% below our estimate of its fair value"
+      "Trading at 63.4% below our estimate of its fair value"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹87M)",
+      "Does not have a meaningful market cap (₹90M)",
       "Does not have meaningful revenue (₹157M)"
     ],
     "dividend": {
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 45.29762059479049,
-      "sector_pe": 45.29762059479049
+      "pe": 45.25631416127515,
+      "sector_pe": 45.25631416127515
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Pharmaceuticals",
       "pe_industry_id": 46,
@@ -94,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 12.31,
-      "industry_pe": 45.29762059479049,
+      "company_pe": 12.74,
+      "industry_pe": 45.25631416127515,
       "industry_name": "Pharmaceuticals",
       "industry_id": 46,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/unjha-formulations-ltd",
       "search_id": "unjha-formulations-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 12.31,
-        "industry_pe": 45.29762059479049,
+        "company_pe": 12.74,
+        "industry_pe": 45.25631416127515,
         "industry_name": "Pharmaceuticals",
         "industry_id": 46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.3,
-        "industry_pe": 42.2,
+        "company_pe": 12.2,
+        "industry_pe": 41.9,
         "industry_name": "Indian Personal Products",
-        "description": "531762 is good value based on its Price-To-Earnings Ratio (12.3x) compared to the Indian Personal Products industry average (42.2x).",
+        "description": "531762 is good value based on its Price-To-Earnings Ratio (12.2x) compared to the Indian Personal Products industry average (41.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 20,
-        "fetched_at": "2026-05-25T22:48:29.850Z",
+        "value": 19.26,
+        "fetched_at": "2026-05-26T13:42:35.964Z",
         "url": "https://simplywall.st/stocks/in/household/bse-531762/unjha-formulations-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 86600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 89600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 12.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 12.74,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.33,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.5126758620689654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 18.6,
           "high": 30.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.571588,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 18.3353,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 12.885662431941924,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 32.272727272727266,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.554201411161,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.055805003207184,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.5267,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1437125748502996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9820359281437125,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unjha-formulations-ltd"
       }
     },
@@ -298,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 1.57,
     "most_recent_reported_date": null,
-    "pb": 2.26,
+    "pb": 2.33,
     "ps": 0.56,
     "book_value": 8.571588,
     "face_value": 10,
-    "sector_pe": 45.29762059479049,
+    "sector_pe": 45.25631416127515,
     "roe_pct": 18.3353,
     "roa_pct": 12.885662431941924,
     "roic_pct": 32.272727272727266,
@@ -314,12 +363,12 @@
     "quick_ratio": 2.1437125748502996,
     "cash_ratio": 0.9820359281437125,
     "returns_pct": {
-      "1D": 3.46611484738749,
-      "7D": 0,
-      "1M": -4.625655698617067,
-      "3M": -12.663755458515277,
-      "6M": -22.148695990657846,
-      "1Y": -13.043478260869565,
+      "1D": -3.699999999999992,
+      "7D": 1.261829652996856,
+      "1M": -8.154506437768227,
+      "3M": -12.335002275830668,
+      "6M": -24.706802189210308,
+      "1Y": -16.260869565217384,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -463,7 +512,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/unjha-formulations-ltd",
     "news": [
       {
@@ -528,7 +577,7 @@
         "ticker": "INNOVACAP",
         "name": "Innova Captab",
         "searchId": "innova-captab-ltd",
-        "market_cap_inr": 48538200000,
+        "market_cap_inr": 48672700000,
         "pe": 34.44,
         "pb": 4.45
       },
@@ -536,17 +585,17 @@
         "ticker": "GUJTHEM",
         "name": "Gujarat Themis Biosyn",
         "searchId": "gujarat-themis-biosyn-ltd",
-        "market_cap_inr": 40191800000,
-        "pe": 84.02,
-        "pb": 15.2
+        "market_cap_inr": 42196800000,
+        "pe": 88.21,
+        "pb": 15.96
       },
       {
-        "ticker": "ORCHPHARMA",
-        "name": "Orchid Pharma",
-        "searchId": "orchid-pharma-ltd",
-        "market_cap_inr": 35909100000,
-        "pe": 190.32,
-        "pb": 2.82
+        "ticker": "IOLCP",
+        "name": "IOL Chemicals & Pharmaceuticals",
+        "searchId": "iol-chemicals-pharmaceuticals-ltd",
+        "market_cap_inr": 36420900000,
+        "pe": 25.33,
+        "pb": 1.94
       }
     ],
     "details": {

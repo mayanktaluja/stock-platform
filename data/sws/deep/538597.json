@@ -3,12 +3,12 @@
   "name": "TTI Enterprise Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-538597/tti-enterprise-shares",
-  "parsed_at": "2026-05-25T23:21:29.336Z",
+  "parsed_at": "2026-05-26T14:11:38.037Z",
   "company_id": "5C639F32-AB35-47AD-A388-FA1B42926A90",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tti-enterprise-ltd",
     "search_id": "tti-enterprise-ltd",
     "company_id": "GSTK538597",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 8.74,
-    "market_cap_inr": 233700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 8.65,
+    "market_cap_inr": 222000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 8.31,
-      "pb": 0.82,
+      "pb": 0.78,
       "ev_ebitda": 27.3,
       "peg": 0.08713333333333331
     },
@@ -64,7 +113,7 @@
     ],
     "risks": [
       "Makes less than USD$1m in revenue (₹28M)",
-      "Does not have a meaningful market cap (₹234M)"
+      "Does not have a meaningful market cap (₹222M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 4.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "538597 is expensive based on its Price-To-Sales Ratio (8.3x) compared to the Indian Consumer Finance industry average (4.3x).",
+        "description": "538597 is expensive based on its Price-To-Sales Ratio (7.8x) compared to the Indian Consumer Finance industry average (4.3x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -137,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8.74,
-        "fetched_at": "2026-05-25T23:21:29.336Z",
+        "value": 8.65,
+        "fetched_at": "2026-05-26T14:11:38.037Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-538597/tti-enterprise-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 233700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 222000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.78,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 8.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 27.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.08713333333333331,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 6,
           "high": 12
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 11.2433269,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.0586,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.252669039145905,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 3.7699999999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6060100166944915,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tti-enterprise-ltd"
       }
     },
@@ -278,11 +327,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.82,
+    "pb": 0.78,
     "ps": 8.31,
     "book_value": 11.2433269,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 2.0586,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +343,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -4.99999999999999,
-      "7D": -4.166666666666656,
-      "1M": -14.145383104125733,
-      "3M": -12.512512512512513,
-      "6M": 7.635467980295579,
-      "1Y": -17.54716981132075,
+      "1D": -1.0297482837528589,
+      "7D": -3.888888888888885,
+      "1M": -15.029469548133589,
+      "3M": -10.362694300518134,
+      "6M": 5.487804878048793,
+      "1Y": -18.396226415094333,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -479,7 +528,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tti-enterprise-ltd",
     "news": [
       {
@@ -554,7 +603,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -562,7 +611,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -570,7 +619,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }
@@ -628,16 +677,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "83395ea3-f32d-4145-adab-a82a4debf8a2",
-      "type": "brief",
-      "date": "2025-11-27T12:30:54.000Z",
-      "title": "New minor risk - Profit margin trend",
-      "body": "The company's profit margins are lower than last year and have reduced by more than 30%. Net profit margin: 21% Last year net profit margin: 83% This is considered a minor risk. A large drop in profit margin could indicate the company does not have strong competitive advantages or it is yet to establish itself and its core business. Even if it is a well established business, this may make it a much riskier investment than one that has a combination of proven competitive advantages and a stable or growing profit margin. Currently, the following risks have been identified for the company: Major Risks High level of non-cash earnings (301% accrual ratio). Revenue is less than US$1m (₹28m revenue, or US$318k). Market cap is less than US$10m (₹206.3m market cap, or US$2.31m). Minor Risk Profit m",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/538597.json"

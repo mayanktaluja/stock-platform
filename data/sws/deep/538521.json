@@ -3,12 +3,12 @@
   "name": "Yaan Enterprises Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-538521/yaan-enterprises-shares",
-  "parsed_at": "2026-05-25T23:20:28.544Z",
+  "parsed_at": "2026-05-26T14:10:31.070Z",
   "company_id": "BC77F4E7-C33D-4AB8-9099-8B1DBDCF410E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/crown-tours-ltd",
     "search_id": "crown-tours-ltd",
     "company_id": "GSTK538521",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 92.65,
-    "market_cap_inr": 287500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 90.3,
+    "market_cap_inr": 287200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,9 +92,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -47.70965029681597,
+    "upside_pct": -46.34882724252491,
     "multiples": {
-      "pe": 36.81,
+      "pe": 36.77,
       "ps": 1.18,
       "pb": 5.38,
       "ev_ebitda": 36.72,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/crown-tours-ltd"
     },
@@ -67,7 +116,7 @@
       "Debt is not well covered by [[operating cash flow]]",
       "High level of [[non-cash earnings]]",
       "Does not have meaningful revenue (₹246M)",
-      "Does not have a meaningful market cap (₹288M)"
+      "Does not have a meaningful market cap (₹287M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.05075337575877,
-      "sector_pe": 31.05075337575877
+      "pe": 30.972079315866594,
+      "sector_pe": 30.972079315866594
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diversified",
       "pe_industry_id": 21,
@@ -94,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 36.81,
-      "industry_pe": 31.05075337575877,
+      "company_pe": 36.77,
+      "industry_pe": 30.972079315866594,
       "industry_name": "Diversified",
       "industry_id": 21,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/crown-tours-ltd",
       "search_id": "crown-tours-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 36.81,
-        "industry_pe": 31.05075337575877,
+        "company_pe": 36.77,
+        "industry_pe": 30.972079315866594,
         "industry_name": "Diversified",
         "industry_id": 21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.8,
+        "company_pe": 35.8,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "538521 is expensive based on its Price-To-Earnings Ratio (36.8x) compared to the Indian Construction industry average (16.1x).",
+        "description": "538521 is expensive based on its Price-To-Earnings Ratio (35.8x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -132,8 +181,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 92.65,
-        "fetched_at": "2026-05-25T23:20:28.544Z",
+        "value": 90.3,
+        "fetched_at": "2026-05-26T14:10:31.070Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-538521/yaan-enterprises-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 287500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 287200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 36.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 36.77,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 5.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 36.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -7.1542399999999935,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.05075337575877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 30.972079315866594,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 59.16,
           "high": 133.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 17.2258065,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.05075337575877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 30.972079315866594,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 14.632,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.550625711035267,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.09653725078699,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.2746623004502657,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.262791649611134,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 109.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 33.16268486916951,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.7392,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3163444639718804,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.14411247803163443,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/crown-tours-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 1.18,
     "book_value": 17.2258065,
     "face_value": 10,
-    "sector_pe": 31.05075337575877,
+    "sector_pe": 30.972079315866594,
     "roe_pct": 14.632,
     "roa_pct": 4.550625711035267,
     "roic_pct": 11.09653725078699,
@@ -314,12 +363,12 @@
     "quick_ratio": 1.3163444639718804,
     "cash_ratio": 0.14411247803163443,
     "returns_pct": {
-      "1D": -0.10781671159029037,
-      "7D": -14.371534195933453,
-      "1M": -18.713809440252675,
-      "3M": 15.093167701863361,
-      "6M": -6.177215189873412,
-      "1Y": 38.28358208955225,
+      "1D": -2.5364274150027075,
+      "7D": -20.053120849933602,
+      "1M": -20.775574662221448,
+      "3M": 6.863905325443784,
+      "6M": -8.556962025316459,
+      "1Y": 34.776119402985074,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -458,7 +507,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/crown-tours-ltd",
     "news": [
       {
@@ -523,25 +572,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

@@ -3,12 +3,12 @@
   "name": "Lippi Systems Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-526604/lippi-systems-shares",
-  "parsed_at": "2026-05-25T22:01:31.425Z",
+  "parsed_at": "2026-05-26T12:57:20.412Z",
   "company_id": "ECABDA3A-D399-46DF-98E6-D5ED2C65EBD6",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lippi-systems-ltd",
     "search_id": "lippi-systems-ltd",
     "company_id": "GSTK526604",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 77.5,
-    "market_cap_inr": 516700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 81.37,
+    "market_cap_inr": 542500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 19.9,
-      "high": 73.81
+      "high": 77.5
     },
     "fair_value_inr": 46.289131,
     "fair_value_range_inr": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -40.272089032258066,
+    "upside_pct": -43.11277989430995,
     "multiples": {
-      "pe": 12.51,
+      "pe": 13.14,
       "ps": 0,
-      "pb": 2.53,
+      "pb": 2.65,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -55,20 +104,20 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/lippi-systems-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (12.5x) is below the Indian market (23.4x)",
       "Became profitable this year",
+      "Price-To-Earnings ratio (13.8x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹76M)",
-      "Does not have a meaningful market cap (₹517M)"
+      "Does not have a meaningful market cap (₹543M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 44.85265749196877,
-      "sector_pe": 44.85265749196877
+      "pe": 44.8465306218029,
+      "sector_pe": 44.8465306218029
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Capital Goods-Non Electrical Equipment",
       "pe_industry_id": 9,
@@ -95,28 +144,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 12.51,
-      "industry_pe": 44.85265749196877,
+      "company_pe": 13.14,
+      "industry_pe": 44.8465306218029,
       "industry_name": "Capital Goods-Non Electrical Equipment",
       "industry_id": 9,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/lippi-systems-ltd",
       "search_id": "lippi-systems-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 12.51,
-        "industry_pe": 44.85265749196877,
+        "company_pe": 13.14,
+        "industry_pe": 44.8465306218029,
         "industry_name": "Capital Goods-Non Electrical Equipment",
         "industry_id": 9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.5,
-        "industry_pe": 26.4,
+        "company_pe": 13.8,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "526604 is good value based on its Price-To-Earnings Ratio (12.5x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "526604 is good value based on its Price-To-Earnings Ratio (13.8x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +182,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -146,149 +195,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 77.5,
-        "fetched_at": "2026-05-25T22:01:31.425Z",
+        "value": 81.37,
+        "fetched_at": "2026-05-26T12:57:20.412Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526604/lippi-systems-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 516700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 542500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 12.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 13.14,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.65,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 19.9,
-          "high": 73.81
+          "high": 77.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 5.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 29.2177143,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 44.85265749196877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 44.8465306218029,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 17.778734395178645,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 18.339253996447603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 10.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 9.212225570383126,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 42.2836,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.090909090909091,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.030303030303030304,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lippi-systems-ltd"
       }
     },
@@ -299,11 +348,11 @@
     "latest_net_income": null,
     "latest_eps": 5.9,
     "most_recent_reported_date": null,
-    "pb": 2.53,
+    "pb": 2.65,
     "ps": 0,
     "book_value": 29.2177143,
     "face_value": 10,
-    "sector_pe": 44.85265749196877,
+    "sector_pe": 44.8465306218029,
     "roe_pct": 0,
     "roa_pct": 17.778734395178645,
     "roic_pct": 18.339253996447603,
@@ -315,12 +364,12 @@
     "quick_ratio": 3.090909090909091,
     "cash_ratio": 0.030303030303030304,
     "returns_pct": {
-      "1D": 4.999322585015578,
-      "7D": 27.572016460905353,
-      "1M": 35.15870247645621,
-      "3M": 90.74575436869307,
-      "6M": 163.6951343994556,
-      "1Y": 219.1927512355848,
+      "1D": 4.99354838709678,
+      "7D": 27.579178425838823,
+      "1M": 41.907917683990235,
+      "3M": 90.74074074074076,
+      "6M": 185.50877192982458,
+      "1Y": 235.13179571663923,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -499,22 +548,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lippi-systems-ltd",
     "news": [
+      {
+        "id": "678535",
+        "title": "Lippi Systems Ltd to hold a Board Meeting on May 30, 2026, to adopt audited financial results for Q4 & FY26.\nOther business matters may also be discussed with the Chairman's permission.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=f17208f8-ee75-43ec-bcff-602006737d56.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T07:14:37.000Z"
+      },
       {
         "id": "844414821351872384",
         "title": "Lippi Systems Ltd: Vivro Financial Services submitted a Public Announcement to BSE.\nThe announcement pertains to Open Offer under specific SEBI regulations.",
         "url": "https://sqst.in/vwNaP",
         "source": "ScoutQuest",
         "published_at": "2026-05-19T03:23:01.000Z"
-      },
-      {
-        "id": "660016",
-        "title": "Lippi Systems Ltd announces an open offer with no further details provided.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=A975360B-64B7-4D9F-9CC7-5DCE2C98F926-085148.pdf",
-        "source": "BSE",
-        "published_at": "2026-05-19T03:21:55.000Z"
       }
     ],
     "events": [
@@ -554,25 +603,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {

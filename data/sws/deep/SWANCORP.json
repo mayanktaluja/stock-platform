@@ -3,12 +3,12 @@
   "name": "Swan Corp Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-swancorp/swan-shares",
-  "parsed_at": "2026-05-25T23:20:05.330Z",
+  "parsed_at": "2026-05-26T14:08:36.999Z",
   "company_id": "8E2A7D53-B62B-4AF8-A1B0-48DFF5DCFEFC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/swan-energy-ltd",
     "search_id": "swan-energy-ltd",
     "company_id": "GSTK503310",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 322.95,
-    "market_cap_inr": 99789000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 318.7,
+    "market_cap_inr": 101215200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 295.65,
       "high": 526.7
     },
-    "fair_value_inr": 1.042643,
+    "fair_value_inr": 1.04252,
     "fair_value_range_inr": {
-      "min": 1.042643,
+      "min": 1.04252,
       "max": 770,
       "count": 3
     },
-    "upside_pct": -99.67715033286886,
+    "upside_pct": -99.67288358958267,
     "multiples": {
       "pe": null,
       "ps": 2.29,
@@ -202,7 +251,7 @@
     },
     "dividend_yield_pct": 0.03,
     "industry_benchmarks": {
-      "sector_pe": 34.08245820635203
+      "sector_pe": 34.04694988503199
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -223,10 +272,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 34.08245820635203,
+        "industry_pe": 34.04694988503199,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "sws_statement": {
@@ -250,7 +299,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -263,50 +312,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 322.95,
-        "fetched_at": "2026-05-25T23:20:05.330Z",
+        "value": 318.7,
+        "fetched_at": "2026-05-26T14:08:36.999Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-swancorp/swan-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 99789000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 101215200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.36202996742671023,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "fifty_two_week": {
@@ -315,85 +364,85 @@
           "low": 295.65,
           "high": 526.7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 235.9708502,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.08245820635203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.04694988503199,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.8468,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.270477751079225,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 34.38,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 18.70922178859516,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.2713,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5815436268372236,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.493807469316469,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/swan-energy-ltd"
       }
     },
@@ -408,7 +457,7 @@
     "ps": 2.29,
     "book_value": 235.9708502,
     "face_value": 1,
-    "sector_pe": 34.08245820635203,
+    "sector_pe": 34.04694988503199,
     "roe_pct": 7.8468,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -420,12 +469,12 @@
     "quick_ratio": 1.5815436268372236,
     "cash_ratio": 0.493807469316469,
     "returns_pct": {
-      "1D": 1.6045304388862562,
-      "7D": 3.2944186790340675,
-      "1M": -1.7493154852449042,
-      "3M": -16.279974076474403,
-      "6M": -26.393162393162395,
-      "1Y": -26.560545764639006,
+      "1D": -1.315993187799969,
+      "7D": 1.5615041427660858,
+      "1M": -3.0422878004259206,
+      "3M": -14.717687985014718,
+      "6M": -27.60931289040318,
+      "1Y": -27.527003979533827,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -802,7 +851,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/swan-energy-ltd",
     "news": [
       {
@@ -877,7 +926,7 @@
         "ticker": "CHENNPETRO",
         "name": "Chennai Petroleum Corporation",
         "searchId": "chennai-petroleum-corporation-ltd",
-        "market_cap_inr": 151375900000,
+        "market_cap_inr": 153468100000,
         "pe": 4.88,
         "pb": 1.36
       },
@@ -885,7 +934,7 @@
         "ticker": "RELIANCE",
         "name": "Reliance Industries",
         "searchId": "reliance-industries-ltd",
-        "market_cap_inr": 18331171900000,
+        "market_cap_inr": 18496945500000,
         "pe": 19.14,
         "pb": 2.03
       },
@@ -893,7 +942,7 @@
         "ticker": "IOC",
         "name": "Indian Oil Corporation",
         "searchId": "indian-oil-corporation-ltd",
-        "market_cap_inr": 1969912800000,
+        "market_cap_inr": 2032046200000,
         "pe": 4.51,
         "pb": 0.9
       }

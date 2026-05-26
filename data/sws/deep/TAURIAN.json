@@ -3,7 +3,7 @@
   "name": "Taurian MPS Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-taurian/taurian-mps-shares",
-  "parsed_at": "2026-05-25T23:25:37.388Z",
+  "parsed_at": "2026-05-26T14:13:57.738Z",
   "company_id": "F925E627-CDB8-46C0-8918-8E55A04D2DFB",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 281.6,
-    "market_cap_inr": 2501509310.8331847,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 294.15,
+    "market_cap_inr": 2612993479.3380013,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 27.4,
+      "pe": 27.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -66,7 +115,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 26.4
+      "pe": 26.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,17 +129,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 27.4,
-      "industry_pe": 26.4,
+      "company_pe": 27.7,
+      "industry_pe": 26.5,
       "industry_name": "Indian Machinery"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 27.4,
-        "industry_pe": 26.4,
+        "company_pe": 27.7,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "TAURIAN is expensive based on its Price-To-Earnings Ratio (27.4x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "TAURIAN is expensive based on its Price-To-Earnings Ratio (27.7x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -120,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 281.6,
-        "fetched_at": "2026-05-25T23:25:37.388Z",
+        "value": 294.15,
+        "fetched_at": "2026-05-26T14:13:57.738Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-taurian/taurian-mps-shares"
       }
     },
@@ -148,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.2302405498281708,
-      "7D": 3.5294117647058907,
-      "1M": -0.5649717514124173,
-      "3M": 21.144332114433226,
-      "6M": 9.742790335151987,
-      "1Y": 27.709750566893433,
+      "1D": 4.45667613636362,
+      "7D": 6.7114093959731544,
+      "1M": 3.8665254237288096,
+      "3M": 29.86754966887416,
+      "6M": 20.652173913043466,
+      "1Y": 33.40136054421768,
       "5Y": null
     },
     "next_earnings_date": null,

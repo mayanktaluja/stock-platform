@@ -3,12 +3,12 @@
   "name": "Godavari Biorefineries Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-godavarib/godavari-biorefineries-shares",
-  "parsed_at": "2026-05-25T23:40:45.300Z",
+  "parsed_at": "2026-05-26T14:32:18.997Z",
   "company_id": "47C4578D-18A2-4A41-911B-245CAC0CA892",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/godavari-biorefineries-ltd",
     "search_id": "godavari-biorefineries-ltd",
     "company_id": "GSTK544279",
@@ -28,13 +28,62 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 292.9,
-    "market_cap_inr": 16235600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 283.85,
+    "market_cap_inr": 14994600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 187.55,
+      "low": 198,
       "high": 353
     },
     "fair_value_inr": 145.128812,
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -50.45107135541139,
+    "upside_pct": -48.87130103928131,
     "multiples": {
       "pe": 71.94,
       "ps": 0.81,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/godavari-biorefineries-ltd"
     },
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 17.925088083765974,
-      "sector_pe": 17.925088083765974
+      "pe": 18.12298393574297,
+      "sector_pe": 18.12298393574297
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Sugar",
       "pe_industry_id": 59,
@@ -95,20 +144,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 71.94,
-      "industry_pe": 17.925088083765974,
+      "industry_pe": 18.12298393574297,
       "industry_name": "Sugar",
       "industry_id": 59,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/godavari-biorefineries-ltd",
       "search_id": "godavari-biorefineries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 71.94,
-        "industry_pe": 17.925088083765974,
+        "industry_pe": 18.12298393574297,
         "industry_name": "Sugar",
         "industry_id": 59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "sws_statement": {
@@ -120,10 +169,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.529539483,
+        "industry_pe": 19.966189129,
         "industry_code": "1030000",
         "type": "median_profitable",
-        "count": 33,
+        "count": 34,
         "source": {
           "type": "country",
           "country": "IN",
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
+        "industry_pe": 17.9,
         "sample_count": 31,
         "industry_code": "1030000",
         "industry_name": "Energy"
@@ -145,149 +194,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 292.9,
-        "fetched_at": "2026-05-25T23:40:45.300Z",
+        "value": 283.85,
+        "fetched_at": "2026-05-26T14:32:18.997Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-godavarib/godavari-biorefineries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 16235600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14994600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 71.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 17.925088083765974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.12298393574297,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 187.55,
+          "low": 198,
           "high": 353
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 141.678639,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 17.925088083765974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.12298393574297,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.4269,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6836602914949887,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.3599143132366835,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6910060199466894,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.7063004782014035,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 67.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 33.65516675891192,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.2152,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7222366238075488,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.09855868934052261,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/godavari-biorefineries-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 0.81,
     "book_value": 141.678639,
     "face_value": 10,
-    "sector_pe": 17.925088083765974,
+    "sector_pe": 18.12298393574297,
     "roe_pct": 6.4269,
     "roa_pct": 3.6836602914949887,
     "roic_pct": 7.3599143132366835,
@@ -314,12 +363,12 @@
     "quick_ratio": 0.7222366238075488,
     "cash_ratio": 0.09855868934052261,
     "returns_pct": {
-      "1D": -7.67533490937747,
-      "7D": -3.982953614161624,
-      "1M": -12.042042042042048,
-      "3M": 7.328691828508611,
-      "6M": 15.610815077955392,
-      "1Y": 28.021329603566585,
+      "1D": -3.089791737794454,
+      "7D": -9.371008939974447,
+      "1M": -14.759759759759753,
+      "3M": 2.3620627479264376,
+      "6M": 16.42739950779328,
+      "1Y": 24.065737138860978,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -555,7 +604,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/godavari-biorefineries-ltd",
     "news": [
       {
@@ -620,7 +669,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -628,7 +677,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -636,9 +685,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

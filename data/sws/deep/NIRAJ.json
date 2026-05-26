@@ -3,12 +3,12 @@
   "name": "Niraj Cement Structurals Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-niraj/niraj-cement-structurals-shares",
-  "parsed_at": "2026-05-25T21:50:29.330Z",
+  "parsed_at": "2026-05-26T12:40:55.688Z",
   "company_id": "60D036C1-DD31-4CA8-AFB6-11AEE3A84C0E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/niraj-cement-structurals-ltd",
     "search_id": "niraj-cement-structurals-ltd",
     "company_id": "GSTK532986",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 28.89,
-    "market_cap_inr": 1731100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 28.88,
+    "market_cap_inr": 1709000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 20.15,
-      "high": 62.25
+      "high": 60.5
     },
     "fair_value_inr": 20.469307,
     "fair_value_range_inr": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -29.14743163724472,
+    "upside_pct": -29.122898199445977,
     "multiples": {
       "pe": 8.19,
       "ps": 0.32,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
     },
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.73287436584585,
-      "sector_pe": 22.73287436584585
+      "pe": 24.2328398851662,
+      "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Infrastructure Developers & Operators",
       "pe_industry_id": 32,
@@ -96,20 +145,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 8.19,
-      "industry_pe": 22.73287436584585,
+      "industry_pe": 24.2328398851662,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/niraj-cement-structurals-ltd",
       "search_id": "niraj-cement-structurals-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 8.19,
-        "industry_pe": 22.73287436584585,
+        "industry_pe": 24.2328398851662,
         "industry_name": "Infrastructure Developers & Operators",
         "industry_id": 32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "sws_statement": {
@@ -133,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -146,149 +195,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 28.89,
-        "fetched_at": "2026-05-25T21:50:29.330Z",
+        "value": 28.88,
+        "fetched_at": "2026-05-26T12:40:55.688Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-niraj/niraj-cement-structurals-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1731100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1709000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 8.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 4.708000000000005,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 20.15,
-          "high": 62.25
+          "high": 60.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 44.547664,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.73287436584585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.9504,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.521333504514915,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.536854343653957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.8983801335744075,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.270986310468247,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 28.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 16.266529721401977,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.1698,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9945349609275245,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.16282751928086214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/niraj-cement-structurals-ltd"
       }
     },
@@ -303,7 +352,7 @@
     "ps": 0.32,
     "book_value": 44.547664,
     "face_value": 10,
-    "sector_pe": 22.73287436584585,
+    "sector_pe": 24.2328398851662,
     "roe_pct": 7.9504,
     "roa_pct": 4.521333504514915,
     "roic_pct": 7.536854343653957,
@@ -315,12 +364,12 @@
     "quick_ratio": 1.9945349609275245,
     "cash_ratio": 0.16282751928086214,
     "returns_pct": {
-      "1D": -0.06918021445866335,
-      "7D": 0.2081165452653565,
-      "1M": -0.8919382504288097,
-      "3M": -6.140350877192984,
-      "6M": -22.980538523060513,
-      "1Y": -51.57559503855179,
+      "1D": -0.034614053305647506,
+      "7D": -1.2311901504787943,
+      "1M": -0.9262435677530003,
+      "3M": 1.6543470608940476,
+      "6M": -20.35300606729178,
+      "1Y": -51.59235668789809,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -526,7 +575,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/niraj-cement-structurals-ltd",
     "news": [
       {
@@ -591,25 +640,25 @@
         "ticker": "HGINFRA",
         "name": "HG Infra Engineering (Part IX)",
         "searchId": "hg-infra-engineering-ltd",
-        "market_cap_inr": 39083100000,
+        "market_cap_inr": 39288400000,
         "pe": 9.97,
         "pb": 1.27
+      },
+      {
+        "ticker": "JKIL",
+        "name": "J Kumar Infraprojects",
+        "searchId": "j-kumar-infraproject-ltd",
+        "market_cap_inr": 38438100000,
+        "pe": 9.54,
+        "pb": 1.1
       },
       {
         "ticker": "543971",
         "name": "Bondada Engineering",
         "searchId": "bondada-engineering-ltd",
-        "market_cap_inr": 38844900000,
+        "market_cap_inr": 37973900000,
         "pe": 18.4,
         "pb": 5.6
-      },
-      {
-        "ticker": "KNRCON",
-        "name": "KNR Constructions",
-        "searchId": "knr-construction-ltd",
-        "market_cap_inr": 37108900000,
-        "pe": 10.97,
-        "pb": 0.78
       }
     ],
     "details": {

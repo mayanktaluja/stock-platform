@@ -3,7 +3,7 @@
   "name": "Gini Silk Mills Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531744/gini-silk-mills-shares",
-  "parsed_at": "2026-05-25T22:26:08.681Z",
+  "parsed_at": "2026-05-26T13:19:55.474Z",
   "company_id": "364800F6-8F89-4D62-AF6B-F5B9A9038A2B",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,69 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 56.06,
-    "market_cap_inr": 313521130.282052,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 56,
+    "market_cap_inr": 313185574.30957747,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 8.073262,
+    "fair_value_inr": 8.073842,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -85.59889047449161,
+    "upside_pct": -85.582425,
     "multiples": {
       "pe": 20.5,
       "ps": null,
@@ -160,7 +210,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -173,8 +223,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 56.06,
-        "fetched_at": "2026-05-25T22:26:08.681Z",
+        "value": 56,
+        "fetched_at": "2026-05-26T13:19:55.474Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531744/gini-silk-mills-shares"
       }
     },
@@ -201,12 +251,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.6604227530503444,
-      "7D": -7.628933926511775,
-      "1M": 2.5237746891002244,
-      "3M": -8.248772504091653,
-      "6M": -17.266824085005904,
-      "1Y": -39.29615592853275,
+      "1D": -0.10702818408848068,
+      "7D": -2.710215427380129,
+      "1M": 2.4140453547915146,
+      "3M": -10.385661705872943,
+      "6M": -13.872654567825279,
+      "1Y": -39.361126150514345,
       "5Y": null
     },
     "next_earnings_date": null,

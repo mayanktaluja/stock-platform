@@ -3,12 +3,12 @@
   "name": "Sarthak Metals Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-smlt/sarthak-metals-shares",
-  "parsed_at": "2026-05-25T23:04:45.637Z",
+  "parsed_at": "2026-05-26T13:54:58.787Z",
   "company_id": "39767E1E-0F67-4FF5-8000-249FA919A7FF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sarthak-metals-ltd",
     "search_id": "sarthak-metals-ltd",
     "company_id": "GSTK540393",
@@ -28,26 +28,74 @@
       "dividend": 2
     },
     "snowflake_total": 11,
-    "current_price_inr": 75.53,
-    "market_cap_inr": 1057100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 74.31,
+    "market_cap_inr": 1031000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 56.61,
       "high": 140
     },
-    "fair_value_inr": 4.250759,
+    "fair_value_inr": 4.232905,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.3720918840196,
+    "upside_pct": -94.30372089893689,
     "multiples": {
-      "pe": 22.91,
+      "pe": 22.35,
       "ps": 0.55,
-      "pb": 0.85,
+      "pb": 0.83,
       "ev_ebitda": 13.93,
       "peg": -0.5665401974612131
     },
@@ -55,19 +103,20 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sarthak-metals-ltd"
     },
     "rewards": [
-      "Earnings grew by 11.9% over the past year",
-      "Price-To-Earnings ratio (22.9x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (22x) is below the Indian market (23.4x)",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Earnings grew by 11.9% over the past year"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹1B)",
       "Earnings have declined by 27.6% per year over past 5 years",
       "High level of [[non-cash earnings]]",
-      "Dividend of 0.65% is not well covered by free cash flows"
+      "Dividend of 0.67% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -171,13 +220,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254,
-      "sector_pe": 24.858261272856254
+      "pe": 24.83232947584154,
+      "sector_pe": 24.83232947584154
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -186,28 +235,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 22.91,
-      "industry_pe": 24.858261272856254,
+      "company_pe": 22.35,
+      "industry_pe": 24.83232947584154,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sarthak-metals-ltd",
       "search_id": "sarthak-metals-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 22.91,
-        "industry_pe": 24.858261272856254,
+        "company_pe": 22.35,
+        "industry_pe": 24.83232947584154,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.9,
-        "industry_pe": 22.5,
+        "company_pe": 22,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "SMLT is expensive based on its Price-To-Earnings Ratio (22.9x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "SMLT is good value based on its Price-To-Earnings Ratio (22x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -224,7 +273,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -237,56 +286,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 75.53,
-        "fetched_at": "2026-05-25T23:04:45.637Z",
+        "value": 74.31,
+        "fetched_at": "2026-05-26T13:54:58.787Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-smlt/sarthak-metals-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1057100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1031000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 22.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.35,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.83,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5665401974612131,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "fifty_two_week": {
@@ -295,91 +344,91 @@
           "low": 56.61,
           "high": 140
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 90.7830676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.3647179038026427,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.7919273350721356,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.397919375812744,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.180754226267881,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 5.3100000000000005,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 4.81716663017298,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 22.7071,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.681081081081081,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.009009009009009009,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sarthak-metals-ltd"
       }
     },
@@ -390,11 +439,11 @@
     "latest_net_income": null,
     "latest_eps": 3.37,
     "most_recent_reported_date": null,
-    "pb": 0.85,
+    "pb": 0.83,
     "ps": 0.55,
     "book_value": 90.7830676,
     "face_value": 10,
-    "sector_pe": 24.858261272856254,
+    "sector_pe": 24.83232947584154,
     "roe_pct": 3.71,
     "roa_pct": 3.3647179038026427,
     "roic_pct": 3.7919273350721356,
@@ -406,12 +455,12 @@
     "quick_ratio": 5.681081081081081,
     "cash_ratio": 0.009009009009009009,
     "returns_pct": {
-      "1D": -2.3907986559834513,
-      "7D": 8.147193585337911,
-      "1M": 7.332670171948267,
-      "3M": 6.726013847675576,
-      "6M": -24.987585658953222,
-      "1Y": -36.82669789227167,
+      "1D": -1.6152522176618545,
+      "7D": 6.081370449678809,
+      "1M": 5.5989768367201895,
+      "3M": 4.4266441821247975,
+      "6M": -24.566033905187293,
+      "1Y": -37.84710605553697,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -682,7 +731,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sarthak-metals-ltd",
     "news": [
       {
@@ -757,7 +806,7 @@
         "ticker": "POCL",
         "name": "Pondy Oxides & Chemicals",
         "searchId": "pondy-oxides-chemicals-ltd",
-        "market_cap_inr": 45252800000,
+        "market_cap_inr": 45919500000,
         "pe": 40.79,
         "pb": 6.59
       },
@@ -765,7 +814,7 @@
         "ticker": "KSL",
         "name": "Kalyani Steels",
         "searchId": "kalyani-steels-ltd",
-        "market_cap_inr": 36094500000,
+        "market_cap_inr": 36083600000,
         "pe": 14,
         "pb": 1.71
       },
@@ -773,7 +822,7 @@
         "ticker": "VSSL",
         "name": "Vardhman Special Steels",
         "searchId": "vardhman-special-steels-ltd",
-        "market_cap_inr": 26177600000,
+        "market_cap_inr": 26569200000,
         "pe": 28.12,
         "pb": 2.21
       }

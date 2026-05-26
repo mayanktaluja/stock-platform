@@ -3,12 +3,12 @@
   "name": "The KCP Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-kcp/kcp-shares",
-  "parsed_at": "2026-05-25T21:05:19.490Z",
+  "parsed_at": "2026-05-26T11:52:55.493Z",
   "company_id": "A01F1CFF-9ED7-4B76-A50A-3B6D93B661B7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kcp-ltd",
     "search_id": "kcp-ltd",
     "company_id": "GSTK590066",
@@ -28,9 +28,57 @@
       "dividend": 1
     },
     "snowflake_total": 9,
-    "current_price_inr": 164.07,
-    "market_cap_inr": 20717600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 161.87,
+    "market_cap_inr": 21104400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +91,7 @@
       "max": 201.37,
       "count": 2
     },
-    "upside_pct": -98.11675870055464,
+    "upside_pct": -98.09116327917465,
     "multiples": {
       "pe": 9.18,
       "ps": 0.82,
@@ -55,14 +103,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/kcp-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (13.9x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (13.9x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Earnings have declined by 0.02% per year over past 5 years"
@@ -195,13 +243,13 @@
     },
     "dividend_yield_pct": 0.16,
     "industry_benchmarks": {
-      "pe": 32.991094760617976,
-      "sector_pe": 32.991094760617976
+      "pe": 33.03147334098155,
+      "sector_pe": 33.03147334098155
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Cement",
       "pe_industry_id": 11,
@@ -211,27 +259,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 9.18,
-      "industry_pe": 32.991094760617976,
+      "industry_pe": 33.03147334098155,
       "industry_name": "Cement",
       "industry_id": 11,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/kcp-ltd",
       "search_id": "kcp-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 9.18,
-        "industry_pe": 32.991094760617976,
+        "industry_pe": 33.03147334098155,
         "industry_name": "Cement",
         "industry_id": 11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "sws_statement": {
         "company_pe": 13.9,
-        "industry_pe": 25.4,
+        "industry_pe": 25.5,
         "industry_name": "Indian Basic Materials",
-        "description": "KCP is good value based on its Price-To-Earnings Ratio (13.9x) compared to the Indian Basic Materials industry average (25.4x).",
+        "description": "KCP is good value based on its Price-To-Earnings Ratio (13.9x) compared to the Indian Basic Materials industry average (25.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -248,7 +296,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.9,
+        "industry_pe": 23.6,
         "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
@@ -261,56 +309,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 164.07,
-        "fetched_at": "2026-05-25T21:05:19.490Z",
+        "value": 161.87,
+        "fetched_at": "2026-05-26T11:52:55.493Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-kcp/kcp-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 20717600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21104400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 9.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -2.0838011049723777,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 32.991094760617976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 33.03147334098155,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "fifty_two_week": {
@@ -319,91 +367,91 @@
           "low": 125,
           "high": 230
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 17.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 127.2042631,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 32.991094760617976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 33.03147334098155,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.153,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.419807750314441,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 19.159044759337135,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.145956576276419,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.55166014427091,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 50.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 23.466925427838074,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.215,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6370655147284037,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1672880514569979,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kcp-ltd"
       }
     },
@@ -418,7 +466,7 @@
     "ps": 0.82,
     "book_value": 127.2042631,
     "face_value": 1,
-    "sector_pe": 32.991094760617976,
+    "sector_pe": 33.03147334098155,
     "roe_pct": 9.153,
     "roa_pct": 4.419807750314441,
     "roic_pct": 19.159044759337135,
@@ -430,12 +478,12 @@
     "quick_ratio": 1.6370655147284037,
     "cash_ratio": 1.1672880514569979,
     "returns_pct": {
-      "1D": 1.6857762627827697,
-      "7D": 2.9103681866649853,
-      "1M": -6.937039137833248,
-      "3M": 1.365377486716903,
-      "6M": -11.347057869995139,
-      "1Y": -26.924104756814543,
+      "1D": -1.3408910830742906,
+      "7D": 0.42809281548579087,
+      "1M": -8.18491208167896,
+      "3M": 0.27256395961097546,
+      "6M": -12.930988112527563,
+      "1Y": -27.903972920007124,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -799,7 +847,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kcp-ltd",
     "news": [
       {
@@ -874,23 +922,23 @@
         "ticker": "HEIDELBERG",
         "name": "Heidelberg Cement India",
         "searchId": "heidelberg-cement-india-ltd",
-        "market_cap_inr": 36008800000,
-        "pe": 25.88,
-        "pb": 2.75
+        "market_cap_inr": 36700000000,
+        "pe": 26.38,
+        "pb": 2.8
       },
       {
         "ticker": "ORIENTCEM",
         "name": "Orient Cement",
         "searchId": "orient-cement-ltd",
-        "market_cap_inr": 28014500000,
-        "pe": 8.29,
-        "pb": 1.31
+        "market_cap_inr": 28487000000,
+        "pe": 8.43,
+        "pb": 1.33
       },
       {
         "ticker": "SAGCEM",
         "name": "Sagar Cements",
         "searchId": "sagar-cements-ltd",
-        "market_cap_inr": 23671100000,
+        "market_cap_inr": 23912900000,
         "pe": null,
         "pb": 1.4
       }

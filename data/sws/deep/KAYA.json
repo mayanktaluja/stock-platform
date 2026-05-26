@@ -3,12 +3,12 @@
   "name": "Kaya Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-kaya/kaya-shares",
-  "parsed_at": "2026-05-25T21:02:39.900Z",
+  "parsed_at": "2026-05-26T11:51:03.876Z",
   "company_id": "BA68C4D6-96D3-4A7B-AA12-4E0FB9FA0AF7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kaya-ltd",
     "search_id": "kaya-ltd",
     "company_id": "GSTK539276",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 248.25,
-    "market_cap_inr": 3680000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 245.7,
+    "market_cap_inr": 3753600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -78,7 +127,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 60.45827539566765
+      "sector_pe": 60.18961000944288
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,22 +148,22 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 60.45827539566765,
+        "industry_pe": 60.18961000944288,
         "industry_name": "Healthcare",
         "industry_id": 30,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 3.6,
         "industry_name": "Indian Consumer Services",
-        "description": "KAYA is good value based on its Price-To-Sales Ratio (1.6x) compared to the Indian Consumer Services industry average (3.6x).",
+        "description": "KAYA is good value based on its Price-To-Sales Ratio (1.7x) compared to the Indian Consumer Services industry average (3.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.724939537,
+        "industry_pe": 24.336219552,
         "industry_code": "9551701",
         "type": "median_profitable",
         "count": 27,
@@ -126,8 +175,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 22.85,
-        "sample_count": 24,
+        "industry_pe": 23,
+        "sample_count": 25,
         "industry_code": "9551701",
         "industry_name": "Consumer Services"
       },
@@ -139,50 +188,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 248.25,
-        "fetched_at": "2026-05-25T21:02:39.900Z",
+        "value": 245.7,
+        "fetched_at": "2026-05-26T11:51:03.876Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-kaya/kaya-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 3680000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3753600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 3.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.022204744682155334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 60.45827539566765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 60.18961000944288,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "fifty_two_week": {
@@ -191,85 +240,85 @@
           "low": 228.2,
           "high": 487.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -100.5835685,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 60.45827539566765,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 60.18961000944288,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 62.9561,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5461,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3022972502610512,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.00904977375565611,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaya-ltd"
       }
     },
@@ -284,7 +333,7 @@
     "ps": 1.66,
     "book_value": -100.5835685,
     "face_value": 10,
-    "sector_pe": 60.45827539566765,
+    "sector_pe": 60.18961000944288,
     "roe_pct": 62.9561,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +345,12 @@
     "quick_ratio": 0.3022972502610512,
     "cash_ratio": 0.00904977375565611,
     "returns_pct": {
-      "1D": 2.265705458290422,
-      "7D": 3.6101836393990006,
-      "1M": -5.471784327164726,
-      "3M": -21.6011369019422,
-      "6M": -39.569133398247324,
-      "1Y": -24.90925589836661,
+      "1D": -1.0271903323262885,
+      "7D": -0.9074410163339384,
+      "1M": -6.442769019876633,
+      "3M": -24.931255728689283,
+      "6M": -38.96410383803255,
+      "1Y": -25.68058076225046,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -537,7 +586,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kaya-ltd",
     "news": [
       {
@@ -602,7 +651,7 @@
         "ticker": "530163",
         "name": "Kerala Ayurveda",
         "searchId": "kerala-ayurveda-ltd",
-        "market_cap_inr": 2745200000,
+        "market_cap_inr": 2751100000,
         "pe": null,
         "pb": 10.39
       },
@@ -610,7 +659,7 @@
         "ticker": "539528",
         "name": "Aayush Wellness",
         "searchId": "aayush-food-herbs-ltd",
-        "market_cap_inr": 1553600000,
+        "market_cap_inr": 1551200000,
         "pe": 34.32,
         "pb": 14.6
       },
@@ -618,9 +667,9 @@
         "ticker": "531398",
         "name": "Source Natural Foods & Herbal Supplements",
         "searchId": "source-natural-foods-and-herbal-supplements-ltd",
-        "market_cap_inr": 697800000,
-        "pe": 25.09,
-        "pb": 2.95
+        "market_cap_inr": 692900000,
+        "pe": 24.92,
+        "pb": 2.93
       }
     ],
     "details": {

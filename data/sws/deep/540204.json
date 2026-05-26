@@ -3,12 +3,12 @@
   "name": "Eiko LifeSciences Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-540204/eiko-lifesciences-shares",
-  "parsed_at": "2026-05-25T23:50:13.168Z",
+  "parsed_at": "2026-05-26T14:39:21.596Z",
   "company_id": "5A7274BF-A6CD-43EA-8D77-2FA9B5AEAA1C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/narendra-investments-delhi-ltd",
     "search_id": "narendra-investments-delhi-ltd",
     "company_id": "GSTK540204",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 15,
-    "current_price_inr": 49.38,
-    "market_cap_inr": 711100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 53.03,
+    "market_cap_inr": 708400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 45.9,
       "high": 65.9
     },
-    "fair_value_inr": 90.606877,
+    "fair_value_inr": 90.582563,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 83.48901782098014,
+    "upside_pct": 70.81380916462379,
     "multiples": {
       "pe": 14.04,
       "ps": 1.56,
@@ -55,20 +104,20 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 208.8% over the past year",
-      "Trading at 45.3% below our estimate of its fair value",
+      "Trading at 41.5% below our estimate of its fair value",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "Shareholders have been diluted in the past year",
       "Does not have meaningful revenue (₹456M)",
-      "Does not have a meaningful market cap (₹752M)"
+      "Does not have a meaningful market cap (₹749M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -94,13 +143,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.392941562985385,
-      "sector_pe": 40.392941562985385
+      "pe": 40.39707827675086,
+      "sector_pe": 40.39707827675086
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -110,27 +159,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 14.04,
-      "industry_pe": 40.392941562985385,
+      "industry_pe": 40.39707827675086,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/narendra-investments-delhi-ltd",
       "search_id": "narendra-investments-delhi-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 14.04,
-        "industry_pe": 40.392941562985385,
+        "industry_pe": 40.39707827675086,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.7,
-        "industry_pe": 21.8,
+        "company_pe": 19,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "540204 is good value based on its Price-To-Earnings Ratio (17.7x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "540204 is good value based on its Price-To-Earnings Ratio (19x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -147,8 +196,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -160,56 +209,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 49.38,
-        "fetched_at": "2026-05-25T23:50:13.168Z",
+        "value": 53.03,
+        "fetched_at": "2026-05-26T14:39:21.596Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-540204/eiko-lifesciences-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 711100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 708400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 14.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.2646075268817204,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "fifty_two_week": {
@@ -218,91 +267,91 @@
           "low": 45.9,
           "high": 65.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 43.3685258,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.392941562985385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.39707827675086,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.8569,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.161210623841877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.58392111807565,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.744247205785669,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 17.422748191978965,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5596046942557134,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.3994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.77810650887574,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.393491124260355,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/narendra-investments-delhi-ltd"
       }
     },
@@ -317,7 +366,7 @@
     "ps": 1.56,
     "book_value": 43.3685258,
     "face_value": 10,
-    "sector_pe": 40.392941562985385,
+    "sector_pe": 40.39707827675086,
     "roe_pct": 5.8569,
     "roa_pct": 6.161210623841877,
     "roic_pct": 9.58392111807565,
@@ -329,12 +378,12 @@
     "quick_ratio": 7.77810650887574,
     "cash_ratio": 2.393491124260355,
     "returns_pct": {
-      "1D": -0.3832963485979377,
-      "7D": 0.7549479698020906,
-      "1M": -2.3531738184694437,
-      "3M": -4.004665629860022,
-      "6M": -4.468949506674396,
-      "1Y": -3.6111653328127944,
+      "1D": 7.391656541109757,
+      "7D": 6.592964824120605,
+      "1M": 4.8645441961637355,
+      "3M": -0.5252297880322663,
+      "6M": 5.301826846703737,
+      "1Y": 3.513566269763819,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -536,12 +585,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-25T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/narendra-investments-delhi-ltd",
     "news": [
       {
@@ -589,6 +648,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-25T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -596,7 +665,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -604,7 +673,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -612,9 +681,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

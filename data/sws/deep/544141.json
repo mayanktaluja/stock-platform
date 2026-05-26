@@ -3,7 +3,7 @@
   "name": "Pune E - Stock Broking Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-544141/pune-e-stock-broking-shares",
-  "parsed_at": "2026-05-25T20:58:09.214Z",
+  "parsed_at": "2026-05-26T11:50:07.277Z",
   "company_id": "D76C7615-7BA6-41F7-B090-9B1460E8915E",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,69 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 282.3,
     "market_cap_inr": 4982839102.094281,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 70.286405,
+    "fair_value_inr": 70.273703,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -75.10222989727241,
+    "upside_pct": -75.10672936592277,
     "multiples": {
       "pe": 25.3,
       "ps": null,
@@ -122,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 282.3,
-        "fetched_at": "2026-05-25T20:58:09.214Z",
+        "fetched_at": "2026-05-26T11:50:07.277Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-544141/pune-e-stock-broking-shares"
       }
     },
@@ -149,11 +199,11 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.8214285714285755,
-      "7D": -4.0448674371176,
+      "1D": 0,
+      "7D": -2.3014362346426642,
       "1M": -9.649543927028317,
-      "3M": 18.141870684243578,
-      "6M": 26.450167973124305,
+      "3M": 20.358132594329568,
+      "6M": 27.73755656108598,
       "1Y": 63.98489689224513,
       "5Y": null
     },

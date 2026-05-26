@@ -3,12 +3,12 @@
   "name": "GP Petroleums Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-gulfpetro/gp-petroleums-shares",
-  "parsed_at": "2026-05-25T23:48:30.971Z",
+  "parsed_at": "2026-05-26T14:38:30.596Z",
   "company_id": "DFF009C9-06B2-4DAE-984C-8349C932C3C0",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gp-petroleums-ltd",
     "search_id": "gp-petroleums-ltd",
     "company_id": "GSTK532543",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 33.29,
-    "market_cap_inr": 1676900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 33.27,
+    "market_cap_inr": 1695200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 455.84691799339146,
+    "upside_pct": 456.1810610159302,
     "multiples": {
-      "pe": 6.51,
+      "pe": 6.58,
       "ps": 0.25,
-      "pb": 0.49,
+      "pb": 0.5,
       "ev_ebitda": 5.29,
       "peg": -1.3969142857142847
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gp-petroleums-ltd"
     },
@@ -144,13 +193,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 43.433484466337525,
-      "sector_pe": 43.433484466337525
+      "pe": 43.427221847196755,
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -159,21 +208,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 6.51,
-      "industry_pe": 43.433484466337525,
+      "company_pe": 6.58,
+      "industry_pe": 43.427221847196755,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gp-petroleums-ltd",
       "search_id": "gp-petroleums-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 6.51,
-        "industry_pe": 43.433484466337525,
+        "company_pe": 6.58,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "sws_statement": {
@@ -197,7 +246,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
+        "industry_pe": 17.9,
         "sample_count": 31,
         "industry_code": "1030000",
         "industry_name": "Energy"
@@ -210,56 +259,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 33.29,
-        "fetched_at": "2026-05-25T23:48:30.971Z",
+        "value": 33.27,
+        "fetched_at": "2026-05-26T14:38:30.596Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-gulfpetro/gp-petroleums-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1676900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1695200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 6.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6.58,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.5,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.3969142857142847,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "fifty_two_week": {
@@ -268,91 +317,91 @@
           "low": 23.25,
           "high": 51.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 5.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 66.8336783,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.9815,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.768684519790963,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.964711953967339,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.089494516119284,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.130464996827506,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.9381891831070437,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.1211,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.851354022534098,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.06621862028068788,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gp-petroleums-ltd"
       }
     },
@@ -363,11 +412,11 @@
     "latest_net_income": null,
     "latest_eps": 5.05,
     "most_recent_reported_date": null,
-    "pb": 0.49,
+    "pb": 0.5,
     "ps": 0.25,
     "book_value": 66.8336783,
     "face_value": 5,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 7.9815,
     "roa_pct": 6.768684519790963,
     "roic_pct": 7.964711953967339,
@@ -379,12 +428,12 @@
     "quick_ratio": 4.851354022534098,
     "cash_ratio": 0.06621862028068788,
     "returns_pct": {
-      "1D": 2.02267851670241,
-      "7D": 0.42232277526395345,
-      "1M": 3.7071651090342606,
-      "3M": 3.0012376237623726,
-      "6M": -10.917848541610914,
-      "1Y": -24.426787741203178,
+      "1D": -0.06007810153197964,
+      "7D": 1.2477175897748134,
+      "1M": 3.6448598130841168,
+      "3M": 2.180589680589683,
+      "6M": -11.774065234685754,
+      "1Y": -24.472190692394992,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -594,7 +643,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gp-petroleums-ltd",
     "news": [
       {
@@ -669,7 +718,7 @@
         "ticker": "GULFOILLUB",
         "name": "Gulf Oil Lubricants India",
         "searchId": "gulf-oil-lubricants-india-ltd",
-        "market_cap_inr": 44576900000,
+        "market_cap_inr": 45789800000,
         "pe": 12.81,
         "pb": 2.7
       },
@@ -677,7 +726,7 @@
         "ticker": "VEEDOL",
         "name": "Veedol Corporation",
         "searchId": "tide-water-oil-company-india-ltd",
-        "market_cap_inr": 24829200000,
+        "market_cap_inr": 24884100000,
         "pe": 12.96,
         "pb": 2.4
       },
@@ -685,7 +734,7 @@
         "ticker": "540401",
         "name": "Maximus International",
         "searchId": "maximus-international-ltd",
-        "market_cap_inr": 1422900000,
+        "market_cap_inr": 1473300000,
         "pe": 15.61,
         "pb": 1.8
       }

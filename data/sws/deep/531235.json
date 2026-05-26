@@ -3,12 +3,12 @@
   "name": "Citiport Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531235/citiport-financial-services-shares",
-  "parsed_at": "2026-05-25T22:30:06.170Z",
+  "parsed_at": "2026-05-26T13:25:37.681Z",
   "company_id": "1BEF1C36-4287-431A-BFA8-3F3105AC9493",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/citi-port-financial-services-ltd",
     "search_id": "citi-port-financial-services-ltd",
     "company_id": "GSTK531235",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 42.23,
-    "market_cap_inr": 133600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 41.39,
+    "market_cap_inr": 130900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +95,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 55.96,
+      "pe": 54.84,
       "ps": 20.71,
-      "pb": 4.06,
+      "pb": 3.98,
       "ev_ebitda": 56.69,
       "peg": 0
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/citi-port-financial-services-ltd"
     },
@@ -65,7 +115,7 @@
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹134M)",
+      "Does not have a meaningful market cap (₹131M)",
       "Makes less than USD$1m in revenue (₹5M)"
     ],
     "dividend": {
@@ -78,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -93,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 55.96,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 54.84,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/citi-port-financial-services-ltd",
       "search_id": "citi-port-financial-services-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 55.96,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 54.84,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 56.3,
-        "industry_pe": 22.9,
+        "company_pe": 54,
+        "industry_pe": 22.5,
         "industry_name": "Indian Diversified Financial",
-        "description": "531235 is expensive based on its Price-To-Earnings Ratio (56.3x) compared to the Indian Diversified Financial industry average (22.9x).",
+        "description": "531235 is expensive based on its Price-To-Earnings Ratio (54x) compared to the Indian Diversified Financial industry average (22.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,8 +181,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -144,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 42.23,
-        "fetched_at": "2026-05-25T22:30:06.170Z",
+        "value": 41.39,
+        "fetched_at": "2026-05-26T13:25:37.681Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531235/citiport-financial-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 133600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 130900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 55.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 54.84,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 4.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.98,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 20.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 56.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +252,91 @@
           "low": 17.5,
           "high": 52.94
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10.6145161,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.1208,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.436229205175601,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.760802469135802,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 36.36363636363636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 65.15151515151516,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 43.9027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 44.00000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4166666666666667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/citi-port-financial-services-ltd"
       }
     },
@@ -297,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 0.77,
     "most_recent_reported_date": null,
-    "pb": 4.06,
+    "pb": 3.98,
     "ps": 20.71,
     "book_value": 10.6145161,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 5.1208,
     "roa_pct": 4.436229205175601,
     "roic_pct": 9.760802469135802,
@@ -313,12 +363,12 @@
     "quick_ratio": 44.00000000000001,
     "cash_ratio": 0.4166666666666667,
     "returns_pct": {
-      "1D": -1.9958226966813795,
-      "7D": -0.070989115002369,
-      "1M": 7.592356687898081,
-      "3M": 13.674293405114396,
-      "6M": 119.49064449064448,
-      "1Y": 37.06588769879909,
+      "1D": -1.989107269713465,
+      "7D": -2.058684335068617,
+      "1M": 5.452229299363059,
+      "3M": 14.972222222222223,
+      "6M": 115.12474012474014,
+      "1Y": 34.33950016228498,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -498,7 +548,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-24T18:30:00.000Z",
@@ -511,7 +561,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/citi-port-financial-services-ltd",
     "news": [
       {
@@ -564,7 +614,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-24T18:30:00.000Z",
@@ -579,7 +629,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -587,7 +637,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -595,7 +645,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

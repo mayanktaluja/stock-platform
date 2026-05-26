@@ -3,12 +3,12 @@
   "name": "Stanpacks (India) Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-530931/stanpacks-india-shares",
-  "parsed_at": "2026-05-25T22:22:30.968Z",
+  "parsed_at": "2026-05-26T13:19:16.419Z",
   "company_id": "3EFD18AD-9C2A-4F4B-9E0D-0A2EC25750A7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/stanpacks-india-ltd",
     "search_id": "stanpacks-india-ltd",
     "company_id": "GSTK530931",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 11,
-    "market_cap_inr": 63900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 10.49,
+    "market_cap_inr": 67100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 9.1,
       "high": 15.75
     },
-    "fair_value_inr": 4.086375,
+    "fair_value_inr": 4.086241,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -62.851136363636364,
+    "upside_pct": -61.046320305052426,
     "multiples": {
       "pe": null,
       "ps": 0.21,
-      "pb": 0.92,
+      "pb": 0.97,
       "ev_ebitda": 12.24,
       "peg": -1.556192
     },
@@ -67,7 +116,7 @@
       "Earnings have declined by 25.3% per year over past 5 years",
       "Interest payments are not well covered by earnings",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹64M)",
+      "Does not have a meaningful market cap (₹67M)",
       "Does not have meaningful revenue (₹302M)"
     ],
     "dividend": {
@@ -80,7 +129,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 25.312457865495027
+      "sector_pe": 25.392793163881098
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -101,10 +150,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 25.312457865495027,
+        "industry_pe": 25.392793163881098,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "sws_statement": {
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -141,50 +190,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 11,
-        "fetched_at": "2026-05-25T22:22:30.968Z",
+        "value": 10.49,
+        "fetched_at": "2026-05-26T13:19:16.419Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-530931/stanpacks-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 63900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 67100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.97,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.556192,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "fifty_two_week": {
@@ -193,85 +242,85 @@
           "low": 9.1,
           "high": 15.75
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 11.3779528,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.691374365762189,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.475670307845084,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 117.80999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 50.40098704503393,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 12.9738,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.423887587822014,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanpacks-india-ltd"
       }
     },
@@ -282,11 +331,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.92,
+    "pb": 0.97,
     "ps": 0.21,
     "book_value": 11.3779528,
     "face_value": 10,
-    "sector_pe": 25.312457865495027,
+    "sector_pe": 25.392793163881098,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 2.691374365762189,
@@ -298,12 +347,12 @@
     "quick_ratio": 0.423887587822014,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 4.961832061068698,
-      "7D": 7.003891050583665,
-      "1M": -0.09082652134423058,
-      "3M": -11.218724778046816,
-      "6M": -6.858594411515669,
-      "1Y": -6.7796610169491585,
+      "1D": -4.636363636363634,
+      "7D": 4.7952047952048,
+      "1M": -4.722979109900087,
+      "3M": -10.950764006791164,
+      "6M": -9.568965517241375,
+      "1Y": -11.10169491525424,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -502,7 +551,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/stanpacks-india-ltd",
     "news": [
       {
@@ -567,7 +616,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -575,17 +624,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

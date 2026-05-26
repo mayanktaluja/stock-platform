@@ -3,7 +3,7 @@
   "name": "Athena Constructions Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-539099/athena-constructions-shares",
-  "parsed_at": "2026-05-25T23:31:31.482Z",
+  "parsed_at": "2026-05-26T14:20:52.111Z",
   "company_id": "F3C20602-0FD0-49CF-9CF7-832D2FEEDB12",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 4.8,
     "market_cap_inr": 35999993.4473745,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -89,9 +138,9 @@
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.6,
+        "industry_pe": 1.5,
         "industry_name": "Indian Real Estate",
-        "description": "539099 is good value based on its Price-To-Book Ratio (0.6x) compared to the Indian Real Estate industry average (1.6x).",
+        "description": "539099 is good value based on its Price-To-Book Ratio (0.6x) compared to the Indian Real Estate industry average (1.5x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,8 +157,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
-        "sample_count": 145,
+        "industry_pe": 23.85,
+        "sample_count": 144,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -122,7 +171,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 4.8,
-        "fetched_at": "2026-05-25T23:31:31.482Z",
+        "fetched_at": "2026-05-26T14:20:52.111Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-539099/athena-constructions-shares"
       }
     },

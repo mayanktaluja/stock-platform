@@ -3,12 +3,12 @@
   "name": "Eforu Entertainment Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-531190/eforu-entertainment-shares",
-  "parsed_at": "2026-05-25T22:28:58.513Z",
+  "parsed_at": "2026-05-26T13:24:30.675Z",
   "company_id": "F4D8CCF7-51E5-4B28-B66F-0647176FD7BF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tavernier-resources-ltd",
     "search_id": "tavernier-resources-ltd",
     "company_id": "GSTK531190",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 87.49,
-    "market_cap_inr": 508200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 85.67,
+    "market_cap_inr": 523100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 58.62,
+      "pe": 60.34,
       "ps": 38.23,
-      "pb": 5.81,
+      "pb": 5.98,
       "ev_ebitda": 11.79,
       "peg": -0.013636363636363636
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/tavernier-resources-ltd"
     },
@@ -64,7 +113,7 @@
       "Makes less than USD$1m in revenue (₹17M)",
       "High level of [[non-cash earnings]]",
       "Profit margins (51.5%) are lower than last year (90.7%)",
-      "Does not have a meaningful market cap (₹508M)"
+      "Does not have a meaningful market cap (₹523M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -91,28 +140,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 58.62,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 60.34,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/tavernier-resources-ltd",
       "search_id": "tavernier-resources-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 58.62,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 60.34,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "sws_statement": {
-        "company_pe": 58.5,
-        "industry_pe": 25.3,
+        "company_pe": 59,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "531190 is expensive based on its Price-To-Earnings Ratio (58.5x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "531190 is expensive based on its Price-To-Earnings Ratio (59x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 87.49,
-        "fetched_at": "2026-05-25T22:28:58.513Z",
+        "value": 85.67,
+        "fetched_at": "2026-05-26T13:24:30.675Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-531190/eforu-entertainment-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 508200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 523100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 58.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 60.34,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 5.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5.98,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 38.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.79,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.013636363636363636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 43.82,
           "high": 103.05
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 14.6328818,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.9268,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 9.723756906077348,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.244470314318976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 66.16541353383458,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 78.94736842105263,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 24.8809,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 17.56666666666667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5333333333333333,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tavernier-resources-ltd"
       }
     },
@@ -295,11 +344,11 @@
     "latest_net_income": null,
     "latest_eps": 1.45,
     "most_recent_reported_date": null,
-    "pb": 5.81,
+    "pb": 5.98,
     "ps": 38.23,
     "book_value": 14.6328818,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 9.9268,
     "roa_pct": 9.723756906077348,
     "roic_pct": 10.244470314318976,
@@ -311,12 +360,12 @@
     "quick_ratio": 17.56666666666667,
     "cash_ratio": 0.5333333333333333,
     "returns_pct": {
-      "1D": 2.9294117647058764,
-      "7D": 1.7325581395348777,
-      "1M": -4.46604062022276,
-      "3M": -7.895567954521529,
-      "6M": 37.26074678380921,
-      "1Y": 26.81548050442093,
+      "1D": -2.0802377414561586,
+      "7D": 2.463820117210863,
+      "1M": -6.453374099148282,
+      "3M": -9.783066554338662,
+      "6M": 33.859375,
+      "1Y": 24.17741701695899,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -465,7 +514,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tavernier-resources-ltd",
     "news": [
       {
@@ -540,7 +589,7 @@
         "ticker": "542727",
         "name": "City Pulse Multiventures",
         "searchId": "city-pulse-multiplex-ltd",
-        "market_cap_inr": 34783900000,
+        "market_cap_inr": 34498500000,
         "pe": null,
         "pb": 14.12
       },
@@ -548,7 +597,7 @@
         "ticker": "539469",
         "name": "Panorama Studios International",
         "searchId": "apunka-invest-commercial-ltd",
-        "market_cap_inr": 10470900000,
+        "market_cap_inr": 11823100000,
         "pe": 30.92,
         "pb": 4.93
       },
@@ -556,7 +605,7 @@
         "ticker": "531910",
         "name": "JOJO",
         "searchId": "madhuveer-com-network-ltd",
-        "market_cap_inr": 8592600000,
+        "market_cap_inr": 8199500000,
         "pe": 152.88,
         "pb": 9.52
       }

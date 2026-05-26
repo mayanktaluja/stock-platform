@@ -3,7 +3,7 @@
   "name": "HMT Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-hmt/hmt-shares",
-  "parsed_at": "2026-05-25T23:58:22.299Z",
+  "parsed_at": "2026-05-26T16:03:51.739Z",
   "company_id": "C3930B9C-9035-4BBB-AF6E-ABCABA388DDC",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 2,
-    "current_price_inr": 56.7,
-    "market_cap_inr": 20162613936.11024,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 57.27,
+    "market_cap_inr": 20365306880.44151,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 1.344564,
+    "fair_value_inr": 1.329358,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.62863492063492,
+    "upside_pct": -97.67878819626331,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -102,7 +151,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -115,8 +164,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 56.7,
-        "fetched_at": "2026-05-25T23:58:22.299Z",
+        "value": 57.27,
+        "fetched_at": "2026-05-26T16:03:51.739Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hmt/hmt-shares"
       }
     },
@@ -143,12 +192,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.12330456226880444,
-      "7D": -0.6483266164359514,
-      "1M": -9.655831739961751,
-      "3M": 7.671857197113571,
-      "6M": 12.25499901009702,
-      "1Y": 7.488151658767777,
+      "1D": 1.0052910052910058,
+      "7D": -0.8311688311688258,
+      "1M": -8.747609942638615,
+      "3M": 3.5811177428106418,
+      "6M": 9.461009174311933,
+      "1Y": 8.568720379146926,
       "5Y": null
     },
     "next_earnings_date": null,

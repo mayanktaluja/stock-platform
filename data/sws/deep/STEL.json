@@ -3,12 +3,12 @@
   "name": "STEL Holdings Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-stel/stel-holdings-shares",
-  "parsed_at": "2026-05-25T23:12:19.974Z",
+  "parsed_at": "2026-05-26T14:01:02.678Z",
   "company_id": "6EA2F87C-4D45-4AA8-A63D-290E3CCC42A0",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/stel-holdings-ltd",
     "search_id": "stel-holdings-ltd",
     "company_id": "GSTK533316",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 468.1,
-    "market_cap_inr": 8149000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 457.5,
+    "market_cap_inr": 8746000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/stel-holdings-ltd"
     },
@@ -64,7 +113,7 @@
     ],
     "risks": [
       "Does not have meaningful revenue (₹406M)",
-      "Does not have a meaningful market cap (₹8B)",
+      "Does not have a meaningful market cap (₹9B)",
       "Profit margins (41.7%) are lower than last year (85.5%)"
     ],
     "dividend": {
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -93,27 +142,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 27.58,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/stel-holdings-ltd",
       "search_id": "stel-holdings-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 27.58,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "sws_statement": {
-        "company_pe": 48.2,
-        "industry_pe": 27.8,
+        "company_pe": 49.7,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "STEL is expensive based on its Price-To-Earnings Ratio (48.2x) compared to the Indian Capital Markets industry average (27.8x).",
+        "description": "STEL is expensive based on its Price-To-Earnings Ratio (49.7x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 468.1,
-        "fetched_at": "2026-05-25T23:12:19.974Z",
+        "value": 457.5,
+        "fetched_at": "2026-05-26T14:01:02.678Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-stel/stel-holdings-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8149000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8746000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 27.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 20.4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 32.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.29570070921986,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 380,
           "high": 633.3
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 16.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 1005.4256219,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9194,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.454237755081961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.617944072555706,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 74.04809619238478,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1413,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1411578112609042,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1320380650277557,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stel-holdings-ltd"
       }
     },
@@ -300,7 +349,7 @@
     "ps": 20.4,
     "book_value": 1005.4256219,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 0.9194,
     "roa_pct": 1.454237755081961,
     "roic_pct": 1.617944072555706,
@@ -312,12 +361,12 @@
     "quick_ratio": 1.1411578112609042,
     "cash_ratio": 1.1320380650277557,
     "returns_pct": {
-      "1D": 5.475439387111313,
-      "7D": 5.380459252588931,
-      "1M": 1.4521022973558835,
-      "3M": -4.16624014740505,
-      "6M": -6.697229419972088,
-      "1Y": 8.595290569539499,
+      "1D": -2.264473403118996,
+      "7D": 4.2853886482790085,
+      "1M": -0.845253576072817,
+      "3M": -6.537282941777324,
+      "6M": -9.816676522767596,
+      "1Y": 6.1361790975524855,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -540,7 +589,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-26T18:30:00.000Z",
@@ -553,7 +602,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/stel-holdings-ltd",
     "news": [
       {
@@ -603,7 +652,7 @@
         "value": null
       },
       {
-        "title": "Result",
+        "title": "Annual Result",
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2026-05-26T18:30:00.000Z",
@@ -618,7 +667,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -626,7 +675,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -634,7 +683,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

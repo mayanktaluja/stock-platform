@@ -3,7 +3,7 @@
   "name": "Transvoy Logistics India Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-543754/transvoy-logistics-india-shares",
-  "parsed_at": "2026-05-25T22:35:16.393Z",
+  "parsed_at": "2026-05-26T13:30:57.704Z",
   "company_id": "75F21F6E-577A-487D-AE7F-98D5D45E31F0",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 83.79,
     "market_cap_inr": 223136158.63162217,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 9.2,
+      "pe": 8.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,13 +101,13 @@
       "Earnings grew by 405.8% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.2x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (8.3x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "High level of [[non-cash earnings]]",
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹248M)"
+      "Does not have a meaningful market cap (₹223M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -84,17 +133,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 9.2,
+      "company_pe": 8.3,
       "industry_pe": 16.1,
       "industry_name": "Indian Logistics"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 9.2,
+        "company_pe": 8.3,
         "industry_pe": 16.1,
         "industry_name": "Indian Logistics",
-        "description": "543754 is good value based on its Price-To-Earnings Ratio (9.2x) compared to the Indian Logistics industry average (16.1x).",
+        "description": "543754 is good value based on its Price-To-Earnings Ratio (8.3x) compared to the Indian Logistics industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -111,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.6,
+        "industry_pe": 15.4,
         "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
@@ -125,7 +174,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 83.79,
-        "fetched_at": "2026-05-25T22:35:16.393Z",
+        "fetched_at": "2026-05-26T13:30:57.704Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-543754/transvoy-logistics-india-shares"
       }
     },

@@ -3,12 +3,12 @@
   "name": "National Fittings Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-531289/national-fittings-shares",
-  "parsed_at": "2026-05-25T22:34:47.204Z",
+  "parsed_at": "2026-05-26T13:29:19.885Z",
   "company_id": "1F2CAC79-7F57-4C57-9161-FEC7FC4F379C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/national-fittings-ltd",
     "search_id": "national-fittings-ltd",
     "company_id": "GSTK531289",
@@ -28,26 +28,74 @@
       "dividend": 2
     },
     "snowflake_total": 10,
-    "current_price_inr": 174.75,
-    "market_cap_inr": 1763500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 157.3,
+    "market_cap_inr": 1587300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 133.6,
       "high": 235
     },
-    "fair_value_inr": 11.531902,
+    "fair_value_inr": 11.477977,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -93.40091444921316,
+    "upside_pct": -92.70312968849332,
     "multiples": {
-      "pe": 8.06,
+      "pe": 17.42,
       "ps": 1.93,
-      "pb": 2.09,
+      "pb": 1.78,
       "ev_ebitda": 2.32,
       "peg": 0.015581799271970877
     },
@@ -55,24 +103,24 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/national-fittings-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (19.4x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (15.7x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹2B)",
       "Highly volatile share price over past 3 months",
-      "Dividend of 0.52% is not well covered by free cash flows",
+      "Dividend of 0.64% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]",
       "Profit margins (9.5%) are lower than last year (29.8%)"
     ],
     "dividend": {
-      "yield_pct": 0.51,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 1,
       "listing_currency": "INR",
@@ -197,7 +245,7 @@
       ],
       "payment_count": 9
     },
-    "dividend_yield_pct": 0.51,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 47.01031591607157,
       "sector_pe": 47.01031591607157
@@ -205,7 +253,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Castings, Forgings & Fastners",
       "pe_industry_id": 10,
@@ -214,28 +262,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 8.06,
+      "company_pe": 17.42,
       "industry_pe": 47.01031591607157,
       "industry_name": "Castings, Forgings & Fastners",
       "industry_id": 10,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/national-fittings-ltd",
       "search_id": "national-fittings-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 8.06,
+        "company_pe": 17.42,
         "industry_pe": 47.01031591607157,
         "industry_name": "Castings, Forgings & Fastners",
         "industry_id": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.4,
-        "industry_pe": 22.5,
+        "company_pe": 15.7,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "531289 is good value based on its Price-To-Earnings Ratio (19.4x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "531289 is good value based on its Price-To-Earnings Ratio (15.7x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -252,7 +300,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -265,56 +313,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 174.75,
-        "fetched_at": "2026-05-25T22:34:47.204Z",
+        "value": 157.3,
+        "fetched_at": "2026-05-26T13:29:19.885Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-531289/national-fittings-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1763500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1587300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 8.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17.42,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.78,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 2.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.015581799271970877,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 47.01031591607157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
-        "value": 0.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "fifty_two_week": {
@@ -323,91 +371,91 @@
           "low": 133.6,
           "high": 235
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
-        "value": 24.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 10.03,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 93.0656041,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 98.0418338,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 47.01031591607157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.2266,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 7.601802403204274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 16.047498597851696,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.967177242888404,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.43544857768052,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 17.599999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 13.07576769025367,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.7754,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.702479338842975,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.827685950413223,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/national-fittings-ltd"
       }
     },
@@ -416,11 +464,11 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": 24.09,
+    "latest_eps": 10.03,
     "most_recent_reported_date": null,
-    "pb": 2.09,
+    "pb": 1.78,
     "ps": 1.93,
-    "book_value": 93.0656041,
+    "book_value": 98.0418338,
     "face_value": 10,
     "sector_pe": 47.01031591607157,
     "roe_pct": 10.2266,
@@ -434,12 +482,12 @@
     "quick_ratio": 2.702479338842975,
     "cash_ratio": 1.827685950413223,
     "returns_pct": {
-      "1D": -9.992274014936907,
-      "7D": 20.5588133839255,
-      "1M": 11.23488224061108,
-      "3M": 7.439286812173375,
-      "6M": -0.0571918787532138,
-      "1Y": 3.0061892130857615,
+      "1D": -9.985693848354787,
+      "7D": -9.441565918249843,
+      "1M": 0.12730744748568876,
+      "3M": -3.467321264191456,
+      "6M": -8.360034954849983,
+      "1Y": -7.279693486590035,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -561,7 +609,7 @@
     "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.51,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 1,
     "listing_currency": "INR",
@@ -777,7 +825,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/national-fittings-ltd",
     "news": [
       {
@@ -849,18 +897,18 @@
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "MANINDS",
         "name": "Man Industries India",
         "searchId": "man-industries-india-ltd",
-        "market_cap_inr": 42733000000,
+        "market_cap_inr": 41825300000,
         "pe": 22.75,
         "pb": 2.17
       },
@@ -868,7 +916,7 @@
         "ticker": "SAMBHV",
         "name": "Sambhv Steel Tubes",
         "searchId": "sambhv-steel-tubes-ltd",
-        "market_cap_inr": 31367800000,
+        "market_cap_inr": 31691900000,
         "pe": 22.09,
         "pb": 2.98
       }

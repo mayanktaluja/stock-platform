@@ -3,12 +3,12 @@
   "name": "Paramount Communications Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-paracables/paramount-communications-shares",
-  "parsed_at": "2026-05-25T22:02:09.768Z",
+  "parsed_at": "2026-05-26T12:54:32.643Z",
   "company_id": "F6CA3DD7-CA22-4A0D-B111-D96F02FC9C87",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/paramount-communications-ltd",
     "search_id": "paramount-communications-ltd",
     "company_id": "GSTK530555",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 65.35,
-    "market_cap_inr": 18141700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 66.62,
+    "market_cap_inr": 19954600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 28.3,
-      "high": 62.75
+      "high": 65.35
     },
     "fair_value_inr": 24.844174,
     "fair_value_range_inr": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -61.98290130068861,
+    "upside_pct": -62.70763434404084,
     "multiples": {
       "pe": 31.28,
       "ps": 0.98,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/paramount-communications-ltd"
     },
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 51.06345874713519,
-      "sector_pe": 51.06345874713519
+      "pe": 51.00861182494756,
+      "sector_pe": 51.00861182494756
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Cables",
       "pe_industry_id": 7,
@@ -92,20 +141,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 31.28,
-      "industry_pe": 51.06345874713519,
+      "industry_pe": 51.00861182494756,
       "industry_name": "Cables",
       "industry_id": 7,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/paramount-communications-ltd",
       "search_id": "paramount-communications-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 31.28,
-        "industry_pe": 51.06345874713519,
+        "industry_pe": 51.00861182494756,
         "industry_name": "Cables",
         "industry_id": 7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "sws_statement": {
@@ -129,7 +178,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -142,149 +191,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 65.35,
-        "fetched_at": "2026-05-25T22:02:09.768Z",
+        "value": 66.62,
+        "fetched_at": "2026-05-26T12:54:32.643Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-paracables/paramount-communications-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 18141700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19954600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 31.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 16.280799999999864,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.06345874713519,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.00861182494756,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 28.3,
-          "high": 62.75
+          "high": 65.35
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 24.5569417,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 51.06345874713519,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 51.00861182494756,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.6793,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.292163203827581,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.15372478341597,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.12174981054172,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.1389709148875005,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 15.809999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 10.897089443140032,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.6747,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.568603508353933,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.09860916698930816,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/paramount-communications-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 0.98,
     "book_value": 24.5569417,
     "face_value": 2,
-    "sector_pe": 51.06345874713519,
+    "sector_pe": 51.00861182494756,
     "roe_pct": 7.6793,
     "roa_pct": 5.292163203827581,
     "roic_pct": 9.15372478341597,
@@ -311,12 +360,12 @@
     "quick_ratio": 1.568603508353933,
     "cash_ratio": 0.09860916698930816,
     "returns_pct": {
-      "1D": 9.998316781686581,
-      "7D": 19.84228864845038,
-      "1M": 77.82312925170066,
-      "3M": 86.34160250926716,
-      "6M": 64.77559253656077,
-      "1Y": 20.638729924312337,
+      "1D": 1.943381790359618,
+      "7D": 21.747076023391823,
+      "1M": 81.27891156462587,
+      "3M": 96.0565038257799,
+      "6M": 65.88645418326696,
+      "1Y": 22.983201033782542,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -532,7 +581,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/paramount-communications-ltd",
     "news": [
       {
@@ -597,7 +646,7 @@
         "ticker": "RAMRAT",
         "name": "Ram Ratna Wires",
         "searchId": "ram-ratna-wires-ltd",
-        "market_cap_inr": 40443500000,
+        "market_cap_inr": 43911400000,
         "pe": 45.94,
         "pb": 7.97
       },
@@ -605,7 +654,7 @@
         "ticker": "UNIVCABLES",
         "name": "Universal Cables",
         "searchId": "universal-cables-ltd",
-        "market_cap_inr": 35044100000,
+        "market_cap_inr": 40598800000,
         "pe": 22.25,
         "pb": 1.87
       },
@@ -613,9 +662,9 @@
         "ticker": "VMARCIND",
         "name": "V-Marc India",
         "searchId": "vmarc-india-ltd",
-        "market_cap_inr": 27397600000,
-        "pe": 27.38,
-        "pb": 9.46
+        "market_cap_inr": 28188800000,
+        "pe": 28.17,
+        "pb": 9.74
       }
     ],
     "details": {

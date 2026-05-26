@@ -3,12 +3,12 @@
   "name": "Available Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-availfc/available-finance-shares",
-  "parsed_at": "2026-05-25T21:49:48.657Z",
+  "parsed_at": "2026-05-26T12:43:06.761Z",
   "company_id": "2C9CE21C-D9E9-4251-A56A-552308F7600F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/available-finance-ltd",
     "search_id": "available-finance-ltd",
     "company_id": "GSTK531310",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 13,
-    "current_price_inr": 157.04,
-    "market_cap_inr": 1590200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 158.23,
+    "market_cap_inr": 1612200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 145.05,
       "high": 164.4
     },
-    "fair_value_inr": 718.776468,
+    "fair_value_inr": 717.638658,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 357.70279419256246,
+    "upside_pct": 353.54146369209377,
     "multiples": {
       "pe": 1.3,
       "ps": 0,
-      "pb": 8.35,
+      "pb": 8.46,
       "ev_ebitda": 0,
       "peg": -210.81569999999985
     },
@@ -81,7 +130,7 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 22.9,
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -102,10 +151,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "sws_statement": {
@@ -129,8 +178,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -142,50 +191,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 157.04,
-        "fetched_at": "2026-05-25T21:49:48.657Z",
+        "value": 158.23,
+        "fetched_at": "2026-05-26T12:43:06.761Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-availfc/available-finance-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1590200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1612200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 8.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.46,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -210.81569999999985,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "fifty_two_week": {
@@ -194,91 +243,91 @@
           "low": 145.05,
           "high": 164.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 18.6686202,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2022,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.141078838174274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1795262043409214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 37.28813559322034,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 54.23728813559321,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 15.2946,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 18.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/available-finance-ltd"
       }
     },
@@ -289,11 +338,11 @@
     "latest_net_income": null,
     "latest_eps": 0.23,
     "most_recent_reported_date": null,
-    "pb": 8.35,
+    "pb": 8.46,
     "ps": 0,
     "book_value": 18.6686202,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 1.2022,
     "roa_pct": 1.141078838174274,
     "roic_pct": 1.1795262043409214,
@@ -305,16 +354,16 @@
     "quick_ratio": 18.5,
     "cash_ratio": 8,
     "returns_pct": {
-      "1D": 0.6602140888404597,
-      "7D": 5.6157105387046835,
-      "1M": 0.08922880815805377,
-      "3M": 2.2063130491376417,
-      "6M": 2.2063130491376417,
-      "1Y": 2.2063130491376417,
+      "1D": 0.7577687213448788,
+      "7D": 0.17092934920231817,
+      "1M": 0.8476736775015832,
+      "3M": 2.980800520663836,
+      "6M": 2.980800520663836,
+      "1Y": 2.980800520663836,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -486,7 +535,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/available-finance-ltd",
     "news": [
       {
@@ -541,7 +590,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -549,7 +598,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -557,7 +606,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }
@@ -575,6 +624,17 @@
   "indices": [
     "NSEI"
   ],
-  "news": [],
+  "news": [
+    {
+      "id": "9d66f278-c852-42dd-8194-fe30178a4579",
+      "type": "event",
+      "date": "2026-05-26T09:27:00.000Z",
+      "title": "Available Finance Limited to Report Q4, 2026 Results on May 30, 2026",
+      "body": "Available Finance Limited announced that they will report Q4, 2026 results at 3:30 PM, Indian Standard Time on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    }
+  ],
   "_api_raw_path": "data/sws/deep-api/AVAILFC.json"
 }

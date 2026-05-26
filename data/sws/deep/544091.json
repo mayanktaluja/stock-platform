@@ -3,7 +3,7 @@
   "name": "Qualitek Labs Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-544091/qualitek-labs-shares",
-  "parsed_at": "2026-05-25T20:57:33.730Z",
+  "parsed_at": "2026-05-26T11:49:28.994Z",
   "company_id": "59ABDD05-A0A7-4363-B63D-43E180603FB5",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 410,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 415.95,
     "market_cap_inr": 4777332396.429336,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 410,
-        "fetched_at": "2026-05-25T20:57:33.730Z",
+        "value": 415.95,
+        "fetched_at": "2026-05-26T11:49:28.994Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-544091/qualitek-labs-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.49019607843137253,
-      "7D": 13.90470898735936,
-      "1M": 13.88888888888889,
-      "3M": 30.138073321694964,
-      "6M": 6.493506493506493,
-      "1Y": 34.646962233169134,
+      "1D": 1.4512195121951192,
+      "7D": 11.709413186518052,
+      "1M": 15.541666666666664,
+      "3M": 20.75772971403687,
+      "6M": 6.653846153846151,
+      "1Y": 36.600985221674875,
       "5Y": null
     },
     "next_earnings_date": null,

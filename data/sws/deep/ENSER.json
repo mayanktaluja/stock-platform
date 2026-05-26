@@ -3,7 +3,7 @@
   "name": "Enser Communications Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-enser/enser-communications-shares",
-  "parsed_at": "2026-05-25T23:20:34.484Z",
+  "parsed_at": "2026-05-26T14:12:44.803Z",
   "company_id": "1F286FEA-AD24-47B1-9C19-805AE143EB35",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 15.8,
-    "market_cap_inr": 1377137466.528754,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 15.4,
+    "market_cap_inr": 1342273226.8697982,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 15.5,
+      "pe": 15.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,7 +101,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings have grown 41.4% per year over the past 5 years",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (15.5x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (15.8x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
@@ -70,7 +119,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 20.9
+      "pe": 21.2
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,22 +133,22 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 15.5,
-      "industry_pe": 20.9,
+      "company_pe": 15.8,
+      "industry_pe": 21.2,
       "industry_name": "Indian Professional Services"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 15.5,
-        "industry_pe": 20.9,
+        "company_pe": 15.8,
+        "industry_pe": 21.2,
         "industry_name": "Indian Professional Services",
-        "description": "ENSER is good value based on its Price-To-Earnings Ratio (15.5x) compared to the Indian Professional Services industry average (20.9x).",
+        "description": "ENSER is good value based on its Price-To-Earnings Ratio (15.8x) compared to the Indian Professional Services industry average (21.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.149725381,
+        "industry_pe": 21.15985065,
         "industry_code": "9612010",
         "type": "median_profitable",
         "count": 61,
@@ -111,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -124,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 15.8,
-        "fetched_at": "2026-05-25T23:20:34.484Z",
+        "value": 15.4,
+        "fetched_at": "2026-05-26T14:12:44.803Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-enser/enser-communications-shares"
       }
     },
@@ -152,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.290429042904292,
-      "7D": -0.3154574132492046,
-      "1M": 3.2679738562091507,
-      "3M": 37.39130434782609,
-      "6M": -4.819277108433739,
-      "1Y": -19.387755102040817,
+      "1D": -2.531645569620255,
+      "7D": -2.839116719242898,
+      "1M": 0.6535947712418277,
+      "3M": 26.74897119341564,
+      "6M": -15.38461538461538,
+      "1Y": -21.428571428571434,
       "5Y": null
     },
     "next_earnings_date": null,

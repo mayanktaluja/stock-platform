@@ -3,12 +3,12 @@
   "name": "Brand Concepts Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-bconcepts/brand-concepts-shares",
-  "parsed_at": "2026-05-25T22:00:11.103Z",
+  "parsed_at": "2026-05-26T12:51:31.717Z",
   "company_id": "DD713CF2-1F34-461D-9EF3-71021676C82A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/brand-concepts-ltd",
     "search_id": "brand-concepts-ltd",
     "company_id": "GSTK543442",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 209.73,
-    "market_cap_inr": 2629300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 199.18,
+    "market_cap_inr": 2621800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/brand-concepts-ltd"
     },
@@ -112,7 +161,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Retail",
       "pe_industry_id": 54,
@@ -125,7 +174,7 @@
       "industry_pe": 75.63467041299452,
       "industry_name": "Retail",
       "industry_id": 54,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/brand-concepts-ltd",
       "search_id": "brand-concepts-ltd"
     },
@@ -135,14 +184,14 @@
         "industry_pe": 75.63467041299452,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1,
         "industry_name": "Indian Specialty Retail",
-        "description": "BCONCEPTS is good value based on its Price-To-Sales Ratio (0.8x) compared to the Indian Specialty Retail industry average (1x).",
+        "description": "BCONCEPTS is good value based on its Price-To-Sales Ratio (0.7x) compared to the Indian Specialty Retail industry average (1x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -159,7 +208,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -172,56 +221,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 209.73,
-        "fetched_at": "2026-05-25T22:00:11.103Z",
+        "value": 199.18,
+        "fetched_at": "2026-05-26T12:51:31.717Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-bconcepts/brand-concepts-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2629300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2621800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 242.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 15.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.229799466192171,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "fifty_two_week": {
@@ -230,91 +279,91 @@
           "low": 196.8,
           "high": 449
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 66.2575645,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 75.63467041299452,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8102,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.524716929025131,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 11.840604605647584,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5458828937539504,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.564615296213296,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 219.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 50.140845070422536,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6708,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5478120681713496,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.027637033625057577,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/brand-concepts-ltd"
       }
     },
@@ -341,12 +390,12 @@
     "quick_ratio": 0.5478120681713496,
     "cash_ratio": 0.027637033625057577,
     "returns_pct": {
-      "1D": -1.5767985358299375,
-      "7D": -2.31485794131346,
-      "1M": -14.75083326558817,
-      "3M": -19.319099826889786,
-      "6M": -36.9233082706767,
-      "1Y": -37.15955056179776,
+      "1D": -5.030277022838881,
+      "7D": -8.842105263157892,
+      "1M": -19.039102511990897,
+      "3M": -22.63352107205282,
+      "6M": -39.89740494870247,
+      "1Y": -40.320599250936326,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -564,7 +613,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/brand-concepts-ltd",
     "news": [
       {
@@ -619,7 +668,7 @@
         "ticker": "VIPIND",
         "name": "VIP Industries",
         "searchId": "vip-industries-ltd",
-        "market_cap_inr": 43034600000,
+        "market_cap_inr": 43567300000,
         "pe": null,
         "pb": 14.87
       },
@@ -627,15 +676,15 @@
         "ticker": "544641",
         "name": "KV Toys India",
         "searchId": "k-v-toys-india-ltd",
-        "market_cap_inr": 1420900000,
+        "market_cap_inr": 1656700000,
         "pe": null,
-        "pb": 2.89
+        "pb": 3.37
       },
       {
         "ticker": "TOKYOPLAST",
         "name": "Tokyo Plast International",
         "searchId": "tokyo-plast-international-ltd",
-        "market_cap_inr": 800400000,
+        "market_cap_inr": 794100000,
         "pe": 127.65,
         "pb": 1.28
       }

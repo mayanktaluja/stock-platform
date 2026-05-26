@@ -3,7 +3,7 @@
   "name": "Gorani Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531608/gorani-industries-shares",
-  "parsed_at": "2026-05-25T22:25:47.411Z",
+  "parsed_at": "2026-05-26T13:19:32.010Z",
   "company_id": "2BAF7526-533C-4396-9753-CB5590B1F365",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 49.14,
-    "market_cap_inr": 263518178.12049103,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 49.5,
+    "market_cap_inr": 265448714.22393784,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +82,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -20.297775742775748,
+    "upside_pct": -20.877428282828287,
     "multiples": {
-      "pe": 27.4,
+      "pe": 28.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,12 +99,11 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (27.4x) is below the Consumer Durables industry average (37.1x)"
+      "Price-To-Earnings ratio (28.6x) is below the Consumer Durables industry average (36.7x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹254M)",
+      "Does not have a meaningful market cap (₹264M)",
       "Earnings have declined by 4.1% per year over past 5 years",
       "Interest payments are not well covered by earnings",
       "Does not have meaningful revenue (₹365M)"
@@ -70,7 +118,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 37.1
+      "pe": 36.7
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,17 +132,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 27.4,
-      "industry_pe": 37.1,
+      "company_pe": 28.6,
+      "industry_pe": 36.7,
       "industry_name": "Indian Consumer Durables"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 27.4,
-        "industry_pe": 37.1,
+        "company_pe": 28.6,
+        "industry_pe": 36.7,
         "industry_name": "Indian Consumer Durables",
-        "description": "531608 is good value based on its Price-To-Earnings Ratio (27.4x) compared to the Indian Consumer Durables industry average (37.1x).",
+        "description": "531608 is good value based on its Price-To-Earnings Ratio (28.6x) compared to the Indian Consumer Durables industry average (36.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -111,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -124,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 49.14,
-        "fetched_at": "2026-05-25T22:25:47.411Z",
+        "value": 49.5,
+        "fetched_at": "2026-05-26T13:19:32.010Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531608/gorani-industries-shares"
       }
     },
@@ -152,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.605313092979129,
-      "7D": 2.4817518248175134,
-      "1M": -0.7272727272727262,
-      "3M": -16.071733561058917,
-      "6M": -23.182741910270437,
-      "1Y": -41.91489361702127,
+      "1D": 0.7326007326007314,
+      "7D": 3.9697542533081296,
+      "1M": 0,
+      "3M": -16.876574307304782,
+      "6M": -22.413793103448274,
+      "1Y": -41.48936170212766,
       "5Y": null
     },
     "next_earnings_date": null,

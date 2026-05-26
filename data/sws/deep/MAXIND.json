@@ -3,12 +3,12 @@
   "name": "Max India Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-maxind/max-india-shares",
-  "parsed_at": "2026-05-25T21:30:17.167Z",
+  "parsed_at": "2026-05-26T12:19:10.342Z",
   "company_id": "AA4330E6-C786-4E71-8008-B9EF60D452B4",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/advaita-allied-health-services-ltd",
     "search_id": "advaita-allied-health-services-ltd",
     "company_id": "GSTK543223",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 155.32,
-    "market_cap_inr": 8135800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 151.86,
+    "market_cap_inr": 8275000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 18.400881901895076
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,22 +146,22 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 2.5,
         "industry_name": "Indian Healthcare",
-        "description": "MAXIND is expensive based on its Price-To-Sales Ratio (4.4x) compared to the Indian Healthcare industry average (2.5x).",
+        "description": "MAXIND is expensive based on its Price-To-Sales Ratio (4.3x) compared to the Indian Healthcare industry average (2.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 41.712688979,
+        "industry_pe": 42.754932835,
         "industry_code": "6030000",
         "type": "median_profitable",
         "count": 79,
@@ -124,7 +173,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.2,
+        "industry_pe": 35.8,
         "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
@@ -137,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 155.32,
-        "fetched_at": "2026-05-25T21:30:17.167Z",
+        "value": 151.86,
+        "fetched_at": "2026-05-26T12:19:10.342Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-maxind/max-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8135800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8275000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 120,
           "high": 241.57
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 88.9884603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 43.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 24.317614904460118,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.4868,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9436902592330867,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.110759846766095,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/advaita-allied-health-services-ltd"
       }
     },
@@ -282,7 +331,7 @@
     "ps": 4.17,
     "book_value": 88.9884603,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +343,12 @@
     "quick_ratio": 1.9436902592330867,
     "cash_ratio": 1.110759846766095,
     "returns_pct": {
-      "1D": 0.4852170537620496,
-      "7D": -1.9258697985729691,
-      "1M": 0.3748222825384413,
-      "3M": -0.2568713074749587,
-      "6M": -24.2858535634201,
-      "1Y": -15.176669761345648,
+      "1D": -2.2276590265258687,
+      "7D": -3.0825196247367312,
+      "1M": -1.8611865063978255,
+      "3M": -3.5442073170731607,
+      "6M": -26.069811596319546,
+      "1Y": -17.066244334006882,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -510,22 +559,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/advaita-allied-health-services-ltd",
     "news": [
+      {
+        "id": "847108930841338496",
+        "title": "Max UK's subsidiary dissolved on May 26, 2026, after voluntary strike-off.\nMax India noted the event for regulatory records, indicating structural change.",
+        "url": "https://sqst.in/O8IDE",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T13:48:27.000Z"
+      },
       {
         "id": "567932",
         "title": "Max India Ltd appoints Ms. Mrinalini Mirchandani as Independent Director for a 5-year term starting April 15, 2026.\nMs. Mirchandani, ex-Senior Partner at McKinsey, brings expertise in healthcare, private equity, and organizational strategy.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=bfd4b9fe-d7b7-498c-bb95-a025fc5eba82.pdf",
         "source": "BSE",
         "published_at": "2026-04-09T12:00:57.000Z"
-      },
-      {
-        "id": "824646754605853184",
-        "title": "Max India Ltd's subsidiary Antara Purukul received Rs. 31.5 Cr tax demand for AY 2024-25.\nTax order under Section 143(3); company plans rectification and appeal, signaling possible legal proceedings.",
-        "url": "https://sqst.in/LJnbP",
-        "source": "ScoutQuest",
-        "published_at": "2026-03-25T14:11:47.000Z"
       }
     ],
     "events": [
@@ -585,7 +634,7 @@
         "ticker": "ARTEMISMED",
         "name": "Artemis Medicare Services",
         "searchId": "artemis-medicare-services-ltd",
-        "market_cap_inr": 43328400000,
+        "market_cap_inr": 45536800000,
         "pe": 41.79,
         "pb": 5
       },
@@ -593,17 +642,17 @@
         "ticker": "INDRAMEDCO",
         "name": "Indraprastha Medical Corporation",
         "searchId": "indraprastha-medical-corporation-ltd",
-        "market_cap_inr": 32924400000,
-        "pe": 17.93,
-        "pb": 4.45
+        "market_cap_inr": 33424000000,
+        "pe": 18.2,
+        "pb": 4.51
       },
       {
-        "ticker": "DRAGARWQ",
-        "name": "Dr Agarwal's Eye Hospital",
-        "searchId": "dr-agarwals-eye-hospital-ltd",
-        "market_cap_inr": 24892700000,
-        "pe": 35.51,
-        "pb": 7.19
+        "ticker": "FISCHER",
+        "name": "Fischer Medical Ventures",
+        "searchId": "fischer-chemic-ltd",
+        "market_cap_inr": 24740700000,
+        "pe": 61.03,
+        "pb": 6.41
       }
     ],
     "details": {

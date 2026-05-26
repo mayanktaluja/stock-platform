@@ -3,7 +3,7 @@
   "name": "Evans Electric Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-542668/evans-electric-shares",
-  "parsed_at": "2026-05-25T20:39:15.356Z",
+  "parsed_at": "2026-05-26T11:06:29.359Z",
   "company_id": "B36B7328-5FBF-4471-9DA7-38A3776E68FD",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,7 +21,56 @@
       "dividend": 4
     },
     "snowflake_total": 11,
-    "current_price_inr": 67,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 61.5,
     "market_cap_inr": 367695980.52173537,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -33,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 155.50270149253734,
+    "upside_pct": 178.35253658536587,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -212,7 +261,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -225,8 +274,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 67,
-        "fetched_at": "2026-05-25T20:39:15.356Z",
+        "value": 61.5,
+        "fetched_at": "2026-05-26T11:06:29.359Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-542668/evans-electric-shares"
       }
     },
@@ -253,12 +302,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.438304314912949,
-      "7D": -26.333150082462893,
-      "1M": -33,
-      "3M": -35.88516746411483,
-      "6M": -49.60511470477623,
-      "1Y": -48.91345787266489,
+      "1D": -8.208955223880597,
+      "7D": -31.666666666666664,
+      "1M": -38.5,
+      "3M": -43.37016574585635,
+      "6M": -53.75939849624061,
+      "1Y": -53.107129241326724,
       "5Y": null
     },
     "next_earnings_date": null,

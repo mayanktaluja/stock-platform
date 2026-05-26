@@ -3,12 +3,12 @@
   "name": "MPIL Corporation Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-500450/mpil-shares",
-  "parsed_at": "2026-05-25T20:39:20.712Z",
+  "parsed_at": "2026-05-26T11:06:29.802Z",
   "company_id": "D6957320-CE94-4581-80A5-6ACC60BD2027",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mpil-corporation-ltd",
     "search_id": "mpil-corporation-ltd",
     "company_id": "GSTK500450",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 575.4,
-    "market_cap_inr": 312400000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 547.05,
+    "market_cap_inr": 328000000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.51010636079249,
+    "upside_pct": -99.48471839868385,
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 3.41,
+      "pb": 3.58,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -65,7 +114,7 @@
     "risks": [
       "Makes less than USD$1m in revenue (₹600K)",
       "Earnings have declined by 60.9% per year over past 5 years",
-      "Does not have a meaningful market cap (₹313M)"
+      "Does not have a meaningful market cap (₹329M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -182,7 +231,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 40.19415527479973
+      "sector_pe": 40.194235371717696
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -203,17 +252,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 40.19415527479973,
+        "industry_pe": 40.194235371717696,
         "industry_name": "Miscellaneous",
         "industry_id": 39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.9,
         "industry_name": "Indian Commercial Services",
-        "description": "500450 is expensive based on its Price-To-Book Ratio (2.3x) compared to the Indian Commercial Services industry average (1.9x).",
+        "description": "500450 is expensive based on its Price-To-Book Ratio (2.4x) compared to the Indian Commercial Services industry average (1.9x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -230,7 +279,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -243,50 +292,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 575.4,
-        "fetched_at": "2026-05-25T20:39:20.712Z",
+        "value": 547.05,
+        "fetched_at": "2026-05-26T11:06:29.802Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-500450/mpil-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 312400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 328000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 3.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.58,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.19415527479973,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.194235371717696,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "fifty_two_week": {
@@ -295,85 +344,85 @@
           "low": 324.7,
           "high": 675
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 160.7433368,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.19415527479973,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.194235371717696,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 31.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 14.292114695340501,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.637,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6374859708193041,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.011223344556677891,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/mpil-corporation-ltd"
       }
     },
@@ -384,11 +433,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 3.41,
+    "pb": 3.58,
     "ps": 0,
     "book_value": 160.7433368,
     "face_value": 10,
-    "sector_pe": 40.19415527479973,
+    "sector_pe": 40.194235371717696,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -400,12 +449,12 @@
     "quick_ratio": 1.6374859708193041,
     "cash_ratio": 0.011223344556677891,
     "returns_pct": {
-      "1D": 4.9999999999999964,
-      "7D": 10.99537037037037,
-      "1M": 23.08021390374331,
-      "3M": 60.59168294725089,
-      "6M": 51.02362204724409,
-      "1Y": -6.103133159268926,
+      "1D": -4.927007299270078,
+      "7D": 10.515151515151507,
+      "1M": 17.016042780748652,
+      "3M": 60.707990599294945,
+      "6M": 51.13966017405718,
+      "1Y": -10.729438642297652,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -639,7 +688,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/mpil-corporation-ltd",
     "news": [
       {
@@ -707,7 +756,7 @@
         "ticker": "NIITMTS",
         "name": "NIIT Learning Systems ",
         "searchId": "niit-learning-systems-ltd-",
-        "market_cap_inr": 28950200000,
+        "market_cap_inr": 30071100000,
         "pe": 11.69,
         "pb": 1.88
       },
@@ -715,7 +764,7 @@
         "ticker": "FEDDERSHOL",
         "name": "Fedders Holding",
         "searchId": "im-capitals-ltd",
-        "market_cap_inr": 6576200000,
+        "market_cap_inr": 6582300000,
         "pe": 8.87,
         "pb": 0.99
       },
@@ -723,7 +772,7 @@
         "ticker": "MOLDTECH",
         "name": "Mold-Tek Technologies",
         "searchId": "moldtek-technologies-ltd",
-        "market_cap_inr": 3486900000,
+        "market_cap_inr": 3453700000,
         "pe": 34.59,
         "pb": 2.72
       }

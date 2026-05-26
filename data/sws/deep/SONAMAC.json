@@ -3,7 +3,7 @@
   "name": "Sona Machinery Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-sonamac/sona-machinery-shares",
-  "parsed_at": "2026-05-25T23:05:55.466Z",
+  "parsed_at": "2026-05-26T13:56:14.397Z",
   "company_id": "94B69DC4-3C8D-414E-B495-606774C7E071",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 36,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 37.8,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 23.7,
+      "pe": 24.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -50,7 +100,7 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (23.7x) is below the Machinery industry average (26.6x)"
+      "Price-To-Earnings ratio (24.9x) is below the Machinery industry average (26.5x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹494M)",
@@ -68,7 +118,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 26.6
+      "pe": 26.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -82,17 +132,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 23.7,
-      "industry_pe": 26.6,
+      "company_pe": 24.9,
+      "industry_pe": 26.5,
       "industry_name": "Indian Machinery"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 23.7,
-        "industry_pe": 26.6,
+        "company_pe": 24.9,
+        "industry_pe": 26.5,
         "industry_name": "Indian Machinery",
-        "description": "SONAMAC is good value based on its Price-To-Earnings Ratio (23.7x) compared to the Indian Machinery industry average (26.6x).",
+        "description": "SONAMAC is good value based on its Price-To-Earnings Ratio (24.9x) compared to the Indian Machinery industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -109,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -122,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 36,
-        "fetched_at": "2026-05-25T23:05:55.466Z",
+        "value": 37.8,
+        "fetched_at": "2026-05-26T13:56:14.397Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-sonamac/sona-machinery-shares"
       }
     },
@@ -150,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 6.50887573964498,
-      "1M": -15.789473684210526,
-      "3M": -5.387647831800256,
-      "6M": -30.902111324376204,
-      "1Y": -61.49732620320856,
+      "1D": 4.999999999999992,
+      "7D": 8.309455587392547,
+      "1M": -11.57894736842106,
+      "3M": 0.7999999999999924,
+      "6M": -29.935125115848017,
+      "1Y": -59.57219251336898,
       "5Y": null
     },
     "next_earnings_date": null,

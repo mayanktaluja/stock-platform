@@ -3,12 +3,12 @@
   "name": "NTPC Green Energy Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-ntpcgreen/ntpc-green-energy-shares",
-  "parsed_at": "2026-05-25T21:55:09.187Z",
+  "parsed_at": "2026-05-26T12:42:59.333Z",
   "company_id": "71AC8091-70A3-41AE-B8AE-2C3DD97FD539",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ntpc-green-energy-ltd",
     "search_id": "ntpc-green-energy-ltd",
     "company_id": "GSTK544289",
@@ -28,22 +28,72 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 102.02,
-    "market_cap_inr": 879708800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "title": "Accelerating Growth",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 103.04,
+    "market_cap_inr": 859485600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 84,
       "high": 119.95
     },
-    "fair_value_inr": 104.85714,
+    "fair_value_inr": 105.42857,
     "fair_value_range_inr": {
       "min": 100.03,
       "max": 225.13,
       "count": 16
     },
-    "upside_pct": 2.7809645167614243,
+    "upside_pct": 2.318099767080733,
     "multiples": {
       "pe": 158.18,
       "ps": 34.25,
@@ -55,14 +105,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ntpc-green-energy-ltd"
     },
     "rewards": [
       "Revenue grew by 37.4% over the past year",
-      "Trading below our calculated fair Price-To-Sales ratio",
-      "Earnings are forecast to grow 63.01% per year"
+      "Earnings are forecast to grow 51.08% per year"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 26.819387382058306,
-      "sector_pe": 26.819387382058306
+      "pe": 25.861524872271445,
+      "sector_pe": 25.861524872271445
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Power Generation & Distribution",
       "pe_industry_id": 49,
@@ -94,27 +143,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 158.18,
-      "industry_pe": 26.819387382058306,
+      "industry_pe": 25.861524872271445,
       "industry_name": "Power Generation & Distribution",
       "industry_id": 49,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ntpc-green-energy-ltd",
       "search_id": "ntpc-green-energy-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 158.18,
-        "industry_pe": 26.819387382058306,
+        "industry_pe": 25.861524872271445,
         "industry_name": "Power Generation & Distribution",
         "industry_id": 49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3.1,
+        "industry_pe": 3.2,
         "industry_name": "Indian Renewable Energy",
-        "description": "NTPCGREEN is expensive based on its Price-To-Sales Ratio (29x) compared to the Indian Renewable Energy industry average (3.1x).",
+        "description": "NTPCGREEN is expensive based on its Price-To-Sales Ratio (28.6x) compared to the Indian Renewable Energy industry average (3.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.5,
+        "industry_pe": 26.7,
         "sample_count": 22,
         "industry_code": "9551702",
         "industry_name": "Utilities"
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 102.02,
-        "fetched_at": "2026-05-25T21:55:09.187Z",
+        "value": 103.04,
+        "fetched_at": "2026-05-26T12:42:59.333Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-ntpcgreen/ntpc-green-energy-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 879708800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 859485600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 158.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 4.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 34.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 46.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -26.938500000000055,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 26.819387382058306,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.861524872271445,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 84,
           "high": 119.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 22.2497937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 26.819387382058306,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.861524872271445,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.7556,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8654927255386102,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9749928555409957,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 18.282827576073498,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 93.46457133661254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 167.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 52.52600163062407,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2686,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.23052423505758513,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.09947916414948134,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ntpc-green-energy-ltd"
       }
     },
@@ -301,7 +350,7 @@
     "ps": 34.25,
     "book_value": 22.2497937,
     "face_value": 10,
-    "sector_pe": 26.819387382058306,
+    "sector_pe": 25.861524872271445,
     "roe_pct": 2.7556,
     "roa_pct": 0.8654927255386102,
     "roic_pct": 2.9749928555409957,
@@ -313,12 +362,12 @@
     "quick_ratio": 0.23052423505758513,
     "cash_ratio": 0.09947916414948134,
     "returns_pct": {
-      "1D": -2.270332407318713,
-      "7D": -4.627465644573247,
-      "1M": -7.515184480101538,
-      "3M": 13.481646273637363,
-      "6M": 7.900581702802749,
-      "1Y": -9.379996446971045,
+      "1D": 0.9998039600078517,
+      "7D": -4.291287386215855,
+      "1M": -6.590517632127637,
+      "3M": 14.209709598758598,
+      "6M": 8.463157894736849,
+      "1Y": -8.473974062888606,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -548,22 +597,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ntpc-green-energy-ltd",
     "news": [
+      {
+        "id": "26052510660754",
+        "title": "Engineers India surged 5.5% to Rs 227.75, while NTPC Green dropped 4.1% to Rs 100.10 post Q4 results.\nAntique maintained Buy on Engineers India (target Rs 256); NTPC Green rated Sell by Elara, NTPC rated Buy by JM Financial.",
+        "url": "https://www.businesstoday.in/markets/stocks/story/engineers-india-shares-climb-5-ntpc-green-ntpc-drop-up-to-4-targets-for-three-psus-post-q4-results-533092-2026-05-25",
+        "source": "Business Today",
+        "published_at": "2026-05-25T01:00:00.000Z"
+      },
       {
         "id": "2605249937215",
         "title": "NTPC Green Energy's Q4 PAT declined 15% YoY to Rs 197 cr.\nFY26 net profit rose 9.9% to Rs 522.6 cr; board approved Rs 5,000 cr NCDs.",
         "url": "https://www.business-standard.com/amp/markets/capital-market-news/ntpc-green-energy-q4-pat-slides-15-yoy-to-rs-197-cr-126052300698_1.html",
         "source": "Business Standard",
         "published_at": "2026-05-23T09:46:02.000Z"
-      },
-      {
-        "id": "674378",
-        "title": "NTPC Green Energy's Q4 EBITDA drops to ₹4.17B from ₹4.7B YoY.\nEBITDA margin declines to 83.75% from 85.95% YoY.",
-        "url": null,
-        "source": "Livesquawk",
-        "published_at": "2026-05-22T13:10:27.000Z"
       }
     ],
     "events": [
@@ -613,7 +662,7 @@
         "ticker": "ADANIPOWER",
         "name": "Adani Power",
         "searchId": "adani-power-ltd",
-        "market_cap_inr": 4229133500000,
+        "market_cap_inr": 4502976200000,
         "pe": 32.59,
         "pb": 6.51
       },
@@ -621,7 +670,7 @@
         "ticker": "ADANIGREEN",
         "name": "Adani Green Energy",
         "searchId": "adani-green-energy-ltd",
-        "market_cap_inr": 2242959800000,
+        "market_cap_inr": 2324412600000,
         "pe": 112.91,
         "pb": 11.23
       },
@@ -629,7 +678,7 @@
         "ticker": "NHPC",
         "name": "NHPC",
         "searchId": "nhpc-ltd",
-        "market_cap_inr": 787128900000,
+        "market_cap_inr": 793658200000,
         "pe": 18.66,
         "pb": 1.9
       }

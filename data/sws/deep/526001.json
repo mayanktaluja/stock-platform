@@ -3,12 +3,12 @@
   "name": "Jauss Polymers Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-526001/jauss-polymers-shares",
-  "parsed_at": "2026-05-25T21:54:17.390Z",
+  "parsed_at": "2026-05-26T12:51:11.073Z",
   "company_id": "DCD70457-9E2A-4734-AE27-54F69E2214A4",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jauss-polymers-ltd",
     "search_id": "jauss-polymers-ltd",
     "company_id": "GSTK526001",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 24.63,
-    "market_cap_inr": 108500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 5
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 25.86,
+    "market_cap_inr": 113900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -59,11 +108,9 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
-    "rewards": [
-      "Trading at good value vs. industry average Price-To-Book ratio"
-    ],
+    "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹109M)",
+      "Does not have a meaningful market cap (₹114M)",
       "Makes less than USD$1m in revenue (₹0)"
     ],
     "dividend": {
@@ -76,7 +123,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 39.75406581907038
+      "sector_pe": 39.72706494962617
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +144,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 39.75406581907038,
+        "industry_pe": 39.72706494962617,
         "industry_name": "Plastic products",
         "industry_id": 48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.3,
         "industry_name": "Indian Packaging",
-        "description": "526001 is good value based on its Price-To-Book Ratio (1.2x) compared to the Indian Packaging industry average (1.3x).",
+        "description": "526001 is expensive based on its Price-To-Book Ratio (1.4x) compared to the Indian Packaging industry average (1.3x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,7 +171,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -137,50 +184,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 24.63,
-        "fetched_at": "2026-05-25T21:54:17.390Z",
+        "value": 25.86,
+        "fetched_at": "2026-05-26T12:51:11.073Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-526001/jauss-polymers-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 108500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 113900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 39.75406581907038,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 39.72706494962617,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +236,85 @@
           "low": 6.23,
           "high": 37.11
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 16.5252428,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 39.75406581907038,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 39.72706494962617,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6021,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6153846153846152,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3076923076923077,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jauss-polymers-ltd"
       }
     },
@@ -282,7 +329,7 @@
     "ps": 0,
     "book_value": 16.5252428,
     "face_value": 10,
-    "sector_pe": 39.75406581907038,
+    "sector_pe": 39.72706494962617,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +341,12 @@
     "quick_ratio": 1.6153846153846152,
     "cash_ratio": 0.3076923076923077,
     "returns_pct": {
-      "1D": 4.987212276214826,
-      "7D": 0.4486133768352342,
-      "1M": -8.777777777777782,
-      "3M": -30.96973094170404,
-      "6M": 182.77841561423648,
-      "1Y": 224.50592885375494,
+      "1D": 4.993909866017054,
+      "7D": 7.525987525987521,
+      "1M": -4.222222222222224,
+      "3M": -28.936521022258866,
+      "6M": 211.94209891435466,
+      "1Y": 240.71146245059288,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -480,27 +527,37 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-25T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jauss-polymers-ltd",
     "news": [
+      {
+        "id": "847104820419224320",
+        "title": "Jauss Polymers reported zero turnover and significant losses in audited FY25-26 results.\nAdverse auditor opinion issued; Rs.469.1L receivables written off; new internal auditor for FY26-27.",
+        "url": "https://sqst.in/wQU4z",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T13:32:07.000Z"
+      },
       {
         "id": "830438447656979712",
         "title": "Gretex Corporate Services Ltd submitted Letter of Offer to BSE for Jauss Polymers Ltd.\nThe Letter of Offer is addressed to public shareholders of Jauss Polymers Ltd.",
         "url": "https://sqst.in/mmWY1",
         "source": "ScoutQuest",
         "published_at": "2026-04-10T13:45:54.000Z"
-      },
-      {
-        "id": "566693",
-        "title": "Noize Brands acquired 18,51,894 shares (40.04%) of Jauss Polymers Ltd via an off-market transfer.\nPost-acquisition, Noize Brands will become a promoter of Jauss Polymers Ltd.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=fd74ac0b-b90e-405a-8d72-9746bb469325.pdf",
-        "source": "BSE",
-        "published_at": "2026-04-09T06:26:45.000Z"
       }
     ],
     "events": [
@@ -533,6 +590,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-25T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -540,7 +607,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -548,17 +615,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

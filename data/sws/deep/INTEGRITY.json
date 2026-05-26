@@ -3,7 +3,7 @@
   "name": "Integrity Infrabuild Developers Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-integrity/integrity-infrabuild-developers-shares",
-  "parsed_at": "2026-05-25T20:47:36.183Z",
+  "parsed_at": "2026-05-26T11:14:27.724Z",
   "company_id": "E62D13F9-4EA5-45D0-9257-E1606FE038D4",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 165,
     "market_cap_inr": 709499978.996241,
     "market_cap_usd": 127196762990.178,
@@ -107,8 +157,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -121,7 +171,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 165,
-        "fetched_at": "2026-05-25T20:47:36.183Z",
+        "fetched_at": "2026-05-26T11:14:27.724Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-integrity/integrity-infrabuild-developers-shares"
       }
     },

@@ -3,12 +3,12 @@
   "name": "Kanoria Energy & Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-539620/kanoria-energy-infrastructure-shares",
-  "parsed_at": "2026-05-25T23:41:37.231Z",
+  "parsed_at": "2026-05-26T14:30:25.544Z",
   "company_id": "F502C17B-AEC7-40E1-AD6C-60D9F76FE234",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/a-infrastructure-ltd",
     "search_id": "a-infrastructure-ltd",
     "company_id": "GSTK539620",
@@ -28,9 +28,57 @@
       "dividend": 2
     },
     "snowflake_total": 11,
-    "current_price_inr": 15.4,
-    "market_cap_inr": 1357000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 15.12,
+    "market_cap_inr": 1313500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +91,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 1592.9307857142855,
+    "upside_pct": 1624.281355820106,
     "multiples": {
-      "pe": 318.2,
+      "pe": 308,
       "ps": 0.5,
-      "pb": 1.44,
+      "pb": 1.4,
       "ev_ebitda": 14.78,
       "peg": -1.068488
     },
@@ -55,21 +103,21 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/a-infrastructure-ltd"
     },
     "rewards": [
-      "Trading at 93.9% below our estimate of its fair value",
+      "Trading at 94.2% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
-      "Unstable dividend track record",
+      "Dividend of 0.33% is not well covered by earnings",
+      "Earnings have declined by 30.2% per year over past 5 years",
       "Does not have a meaningful market cap (₹1B)",
       "Highly volatile share price over past 3 months",
       "Profit margins (0.1%) are lower than last year (1.2%)",
-      "Earnings have declined by 30.2% per year over past 5 years",
       "Interest payments are not well covered by earnings"
     ],
     "dividend": {
@@ -219,7 +267,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Cement - Products",
       "pe_industry_id": 12,
@@ -228,21 +276,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 318.2,
+      "company_pe": 308,
       "industry_pe": 23.744053828499897,
       "industry_name": "Cement - Products",
       "industry_id": 12,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/a-infrastructure-ltd",
       "search_id": "a-infrastructure-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 318.2,
+        "company_pe": 308,
         "industry_pe": 23.744053828499897,
         "industry_name": "Cement - Products",
         "industry_id": 12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "sws_statement": {
@@ -279,56 +327,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 15.4,
-        "fetched_at": "2026-05-25T23:41:37.231Z",
+        "value": 15.12,
+        "fetched_at": "2026-05-26T14:30:25.544Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539620/kanoria-energy-infrastructure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1357000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1313500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 318.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 308,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.4,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.068488,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.744053828499897,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "fifty_two_week": {
@@ -337,91 +385,91 @@
           "low": 11,
           "high": 29.6
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 11.024054,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.744053828499897,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4165,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.15039855617386075,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.949428979419664,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.14826895989324634,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.412632515382903,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 86.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 30.707625206798017,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1251,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4284505959246443,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.059669357939254125,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/a-infrastructure-ltd"
       }
     },
@@ -432,7 +480,7 @@
     "latest_net_income": null,
     "latest_eps": 0.05,
     "most_recent_reported_date": null,
-    "pb": 1.44,
+    "pb": 1.4,
     "ps": 0.5,
     "book_value": 11.024054,
     "face_value": 5,
@@ -448,12 +496,12 @@
     "quick_ratio": 0.4284505959246443,
     "cash_ratio": 0.059669357939254125,
     "returns_pct": {
-      "1D": -3.2055311125078556,
-      "7D": -0.5167958656330753,
-      "1M": -9.465020576131694,
-      "3M": -4.407200496585966,
-      "6M": -19.58224543080939,
-      "1Y": -39.41778127458694,
+      "1D": -1.8181818181818254,
+      "7D": -1.1764705882353037,
+      "1M": -11.111111111111125,
+      "3M": -8.252427184466027,
+      "6M": -22.54098360655738,
+      "1Y": -40.51927616050355,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -753,9 +801,16 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/a-infrastructure-ltd",
     "news": [
+      {
+        "id": "680086",
+        "title": "Kanoria Energy & Infrastructure Ltd schedules an EGM for preference shareholders on June 19, 2026, via video conferencing.\nThe agenda includes approving changes to 5% redeemable preference shares' redemption terms at shareholders' request.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=101c25ed-3f7d-4ae2-a243-eb954cc206a9.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T12:14:32.000Z"
+      },
       {
         "id": "641241",
         "title": "Kanoria Energy & Infrastructure Ltd's board to meet on May 20, 2026, to approve Q4 & FY26 results.\nAgenda includes dividend recommendations, preference shares payment, and other items. Trading window closed till results release.",
@@ -818,18 +873,18 @@
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "MANINDS",
         "name": "Man Industries India",
         "searchId": "man-industries-india-ltd",
-        "market_cap_inr": 42733000000,
+        "market_cap_inr": 41825300000,
         "pe": 22.75,
         "pb": 2.17
       },
@@ -837,7 +892,7 @@
         "ticker": "SAMBHV",
         "name": "Sambhv Steel Tubes",
         "searchId": "sambhv-steel-tubes-ltd",
-        "market_cap_inr": 31367800000,
+        "market_cap_inr": 31691900000,
         "pe": 22.09,
         "pb": 2.98
       }

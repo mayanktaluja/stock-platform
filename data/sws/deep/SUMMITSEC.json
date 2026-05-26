@@ -3,12 +3,12 @@
   "name": "Summit Securities Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-summitsec/summit-securities-shares",
-  "parsed_at": "2026-05-25T23:14:16.723Z",
+  "parsed_at": "2026-05-26T14:02:49.687Z",
   "company_id": "57E65B3E-9894-462B-A333-1DA9E662181D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/summit-securities-ltd",
     "search_id": "summit-securities-ltd",
     "company_id": "GSTK533306",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 1602,
-    "market_cap_inr": 17061300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1572.9,
+    "market_cap_inr": 17512600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/summit-securities-ltd"
     },
@@ -63,7 +112,7 @@
       "Earnings grew by 52.5% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (16.3x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (16.4x) is below the Indian market (23.4x)"
     ],
     "risks": [],
     "dividend": {
@@ -76,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -92,27 +141,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 16.31,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/summit-securities-ltd",
       "search_id": "summit-securities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 16.31,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "sws_statement": {
-        "company_pe": 16.3,
-        "industry_pe": 27.8,
+        "company_pe": 16.4,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "SUMMITSEC is good value based on its Price-To-Earnings Ratio (16.3x) compared to the Indian Capital Markets industry average (27.8x).",
+        "description": "SUMMITSEC is good value based on its Price-To-Earnings Ratio (16.4x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -142,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1602,
-        "fetched_at": "2026-05-25T23:14:16.723Z",
+        "value": 1572.9,
+        "fetched_at": "2026-05-26T14:02:49.687Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-summitsec/summit-securities-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 17061300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17512600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 16.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 11.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -3.2804688549618333,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +249,91 @@
           "low": 1312,
           "high": 2495
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 95.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 7847.0497444,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2231,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.066470149945927,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9361640447869897,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 58.03427810749348,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 77.43080592378944,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.495,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.650793650793651,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/summit-securities-ltd"
       }
     },
@@ -299,7 +348,7 @@
     "ps": 11.91,
     "book_value": 7847.0497444,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 1.2231,
     "roa_pct": 1.066470149945927,
     "roic_pct": 0.9361640447869897,
@@ -311,12 +360,12 @@
     "quick_ratio": 2.5,
     "cash_ratio": 1.650793650793651,
     "returns_pct": {
-      "1D": 1.7659763689493049,
-      "7D": 8.35306053432533,
-      "1M": -1.4093174964613262,
-      "3M": -4.863709246392308,
-      "6M": -22.932602107086154,
-      "1Y": -21.773524097856345,
+      "1D": -1.816479400749058,
+      "7D": 5.259987954226069,
+      "1M": -3.200196935196012,
+      "3M": -6.901450133175491,
+      "6M": -24.430671663303542,
+      "1Y": -23.194491918550707,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -552,7 +601,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/summit-securities-ltd",
     "news": [
       {
@@ -617,7 +666,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -625,7 +674,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -633,7 +682,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

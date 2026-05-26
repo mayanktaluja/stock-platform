@@ -3,12 +3,12 @@
   "name": "United Credit Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531091/united-credit-shares",
-  "parsed_at": "2026-05-25T22:27:15.908Z",
+  "parsed_at": "2026-05-26T13:23:00.120Z",
   "company_id": "FE9C9D80-1C21-4C04-BF9B-E2A1E5F5B3F7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/united-credit-ltd",
     "search_id": "united-credit-ltd",
     "company_id": "GSTK531091",
@@ -28,14 +28,64 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 27.66,
-    "market_cap_inr": 156800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 26.3,
+    "market_cap_inr": 147400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 19,
-      "high": 38.4
+      "high": 38.02
     },
     "fair_value_inr": null,
     "fair_value_range_inr": {
@@ -45,9 +95,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 22.81,
+      "pe": 21.44,
       "ps": 4.97,
-      "pb": 0.52,
+      "pb": 0.49,
       "ev_ebitda": 11.7,
       "peg": -0.4425168141592921
     },
@@ -55,18 +105,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/united-credit-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (22.8x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (20.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Profit margins (20.6%) are lower than last year (36.8%)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹157M)",
+      "Does not have a meaningful market cap (₹147M)",
       "Makes less than USD$1m in revenue (₹33M)"
     ],
     "dividend": {
@@ -93,13 +143,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -108,28 +158,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 22.81,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 21.44,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/united-credit-ltd",
       "search_id": "united-credit-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 22.81,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 21.44,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.8,
+        "company_pe": 20.3,
         "industry_pe": 19.5,
         "industry_name": "Indian Consumer Finance",
-        "description": "531091 is expensive based on its Price-To-Earnings Ratio (22.8x) compared to the Indian Consumer Finance industry average (19.5x).",
+        "description": "531091 is expensive based on its Price-To-Earnings Ratio (20.3x) compared to the Indian Consumer Finance industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -159,149 +209,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 27.66,
-        "fetched_at": "2026-05-25T22:27:15.908Z",
+        "value": 26.3,
+        "fetched_at": "2026-05-26T13:23:00.120Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531091/united-credit-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 156800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 147400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 22.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.44,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.49,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.4425168141592921,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 19,
-          "high": 38.4
+          "high": 38.02
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 56.8617295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.632,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.210829862223646,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.305341645275639,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 22.402597402597404,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 30.1948051948052,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1199999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0893944248638257,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.6908,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.625,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/united-credit-ltd"
       }
     },
@@ -312,11 +362,11 @@
     "latest_net_income": null,
     "latest_eps": 1.29,
     "most_recent_reported_date": null,
-    "pb": 0.52,
+    "pb": 0.49,
     "ps": 4.97,
     "book_value": 56.8617295,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 2.632,
     "roa_pct": 2.210829862223646,
     "roic_pct": 2.305341645275639,
@@ -328,12 +378,12 @@
     "quick_ratio": 5.625,
     "cash_ratio": 1.25,
     "returns_pct": {
-      "1D": -6.014271151885829,
-      "7D": -7.8,
-      "1M": 3.016759776536308,
-      "3M": -1.2495537308104299,
-      "6M": -8.833223467369807,
-      "1Y": -18.694885361552036,
+      "1D": -4.916847433116411,
+      "7D": -2.8085735402808503,
+      "1M": -2.0484171322160174,
+      "3M": -8.680555555555555,
+      "6M": -17.554858934169275,
+      "1Y": -22.69253380364492,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -486,7 +536,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/united-credit-ltd",
     "news": [
       {
@@ -544,7 +594,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -552,7 +602,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -560,7 +610,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

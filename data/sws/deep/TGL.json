@@ -3,7 +3,7 @@
   "name": "Teerth Gopicon Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-tgl/teerth-gopicon-shares",
-  "parsed_at": "2026-05-25T23:30:36.240Z",
+  "parsed_at": "2026-05-26T14:18:47.271Z",
   "company_id": "86737678-0027-4FD3-A735-EF5E04473698",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 21.35,
-    "market_cap_inr": 256191484.84130502,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 22.4,
+    "market_cap_inr": 268791066.0630085,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -54,7 +104,7 @@
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹244M)"
+      "Does not have a meaningful market cap (₹256M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -105,8 +155,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -118,8 +168,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 21.35,
-        "fetched_at": "2026-05-25T23:30:36.240Z",
+        "value": 22.4,
+        "fetched_at": "2026-05-26T14:18:47.271Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-tgl/teerth-gopicon-shares"
       }
     },
@@ -146,12 +196,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.914004914004914,
-      "7D": -2.733485193621858,
-      "1M": -25.99653379549393,
-      "3M": -57.34265734265733,
-      "6M": -60.82568807339449,
-      "1Y": -90.92454835281616,
+      "1D": 4.918032786885232,
+      "7D": 3.94431554524361,
+      "1M": -22.357019064124792,
+      "3M": -52.99055613850997,
+      "6M": -56.75675675675676,
+      "1Y": -90.47821466524974,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -204,17 +254,6 @@
   "indices": [
     "NSEI"
   ],
-  "news": [
-    {
-      "id": "d6cc1e7a-c7c4-49f4-8dcf-4ca5532222c9",
-      "type": "brief",
-      "date": "2025-11-27T11:40:01.000Z",
-      "title": "New major risk - Financial position",
-      "body": "The company's debt is not well covered by operating cash flow. Currently running at an operating cash loss. This is considered a major risk. If the company's operating cash flows are too small relative to the size of their debt, it increases their balance sheet risk. The company has less cash from operations to cover its expenses from servicing large debt and it increases the risk of liquidity issues. It also extends the time it would take for the company to pay back the debt in full, meaning it may not be able to easily pay it all off in a distress scenario. Currently, the following risks have been identified for the company: Major Risks Debt is not well covered by operating cash flow (currently running at an operating cash loss). Share price has been highly volatile over the past 3 month",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    }
-  ],
+  "news": [],
   "_api_raw_path": "data/sws/deep-api/TGL.json"
 }

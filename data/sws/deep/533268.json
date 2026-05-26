@@ -3,12 +3,12 @@
   "name": "Sea TV Network Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/bse-533268/sea-tv-network-shares",
-  "parsed_at": "2026-05-25T23:08:35.155Z",
+  "parsed_at": "2026-05-26T14:01:18.766Z",
   "company_id": "CF84F895-93C4-4B0C-8BDB-0D868A2971F4",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sea-tv-network-ltd",
     "search_id": "sea-tv-network-ltd",
     "company_id": "GSTK533268",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 4.05,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4,
     "market_cap_inr": 48700000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 759.1920987654321,
+    "upside_pct": 769.932,
     "multiples": {
       "pe": 9.42,
       "ps": 0.56,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sea-tv-network-ltd"
     },
@@ -63,7 +112,7 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Became profitable this year",
-      "Price-To-Earnings ratio (9.4x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (9.3x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Negative shareholders equity",
@@ -87,7 +136,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Entertainment",
       "pe_industry_id": 24,
@@ -100,7 +149,7 @@
       "industry_pe": 23.170821784289235,
       "industry_name": "Entertainment",
       "industry_id": 24,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sea-tv-network-ltd",
       "search_id": "sea-tv-network-ltd"
     },
@@ -110,14 +159,14 @@
         "industry_pe": 23.170821784289235,
         "industry_name": "Entertainment",
         "industry_id": 24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.4,
-        "industry_pe": 17.4,
+        "company_pe": 9.3,
+        "industry_pe": 17.5,
         "industry_name": "Indian Media",
-        "description": "533268 is good value based on its Price-To-Earnings Ratio (9.4x) compared to the Indian Media industry average (17.4x).",
+        "description": "533268 is good value based on its Price-To-Earnings Ratio (9.3x) compared to the Indian Media industry average (17.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -134,8 +183,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -147,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.05,
-        "fetched_at": "2026-05-25T23:08:35.155Z",
+        "value": 4,
+        "fetched_at": "2026-05-26T14:01:18.766Z",
         "url": "https://simplywall.st/stocks/in/media/bse-533268/sea-tv-network-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 48700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 9.42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 314.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +254,91 @@
           "low": 3.38,
           "high": 6.82
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -33.4775374,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.0017657445556214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.902777777777778,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 13.425925925925927,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2634,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2523089840470193,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0041981528127623844,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sea-tv-network-ltd"
       }
     },
@@ -316,12 +365,12 @@
     "quick_ratio": 0.2523089840470193,
     "cash_ratio": 0.0041981528127623844,
     "returns_pct": {
-      "1D": 0,
-      "7D": 14.084507042253522,
-      "1M": 4.11311053984575,
-      "3M": -3.1100478468899495,
-      "6M": -19.000000000000004,
-      "1Y": -38.82175226586103,
+      "1D": -1.2345679012345634,
+      "7D": 3.092783505154642,
+      "1M": 5.263157894736848,
+      "3M": -7.407407407407414,
+      "6M": -18.032786885245898,
+      "1Y": -39.57703927492447,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -497,7 +546,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sea-tv-network-ltd",
     "news": [
       {
@@ -562,7 +611,7 @@
         "ticker": "NETWORK18",
         "name": "Network18 Media & Investments",
         "searchId": "network-media-investment-ltd",
-        "market_cap_inr": 49112700000,
+        "market_cap_inr": 48650100000,
         "pe": 31.53,
         "pb": 1
       },
@@ -570,7 +619,7 @@
         "ticker": "AQYLON",
         "name": "Aqylon Nexus",
         "searchId": "sri-adhikari-brothers-television-network-ltd",
-        "market_cap_inr": 15053800000,
+        "market_cap_inr": 15804900000,
         "pe": null,
         "pb": 0
       },
@@ -578,7 +627,7 @@
         "ticker": "DEN",
         "name": "DEN Networks",
         "searchId": "den-networks-ltd",
-        "market_cap_inr": 12894600000,
+        "market_cap_inr": 13142700000,
         "pe": 7.79,
         "pb": 0.34
       }

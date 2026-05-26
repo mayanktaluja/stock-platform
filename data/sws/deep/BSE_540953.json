@@ -3,7 +3,7 @@
   "name": "Kenvi Jewels Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-540953/kenvi-jewels-shares",
-  "parsed_at": "2026-05-25T22:30:55.786Z",
+  "parsed_at": "2026-05-26T13:25:46.927Z",
   "company_id": "604400F4-6D80-467C-9D13-B9D9C30CC33A",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,21 +21,70 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 2.11,
-    "market_cap_inr": 266662160.7012412,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 2.13,
+    "market_cap_inr": 269189764.12021035,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 2.41412,
+    "fair_value_inr": 2.409975,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 14.413270142180105,
+    "upside_pct": 13.144366197183114,
     "multiples": {
-      "pe": 23,
+      "pe": 23.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,7 +98,7 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 12.6% below our estimate of its fair value",
+      "Trading at 11.6% below our estimate of its fair value",
       "Earnings grew by 61.5% over the past year"
     ],
     "risks": [
@@ -67,7 +116,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.2
+      "pe": 18.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,17 +130,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 23,
-      "industry_pe": 18.2,
+      "company_pe": 23.2,
+      "industry_pe": 18.5,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 23,
-        "industry_pe": 18.2,
+        "company_pe": 23.2,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "540953 is expensive based on its Price-To-Earnings Ratio (23x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "540953 is expensive based on its Price-To-Earnings Ratio (23.2x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -121,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.11,
-        "fetched_at": "2026-05-25T22:30:55.786Z",
+        "value": 2.13,
+        "fetched_at": "2026-05-26T13:25:46.927Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-540953/kenvi-jewels-shares"
       }
     },
@@ -149,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": -1.4018691588785164,
-      "1M": -7.860262008733631,
-      "3M": -11.715481171548127,
-      "6M": -12.448132780082997,
-      "1Y": -38.483965014577265,
+      "1D": 0.9478672985782,
+      "7D": -0.46728971962617905,
+      "1M": -6.986899563318784,
+      "3M": -11.250000000000002,
+      "6M": -11.250000000000002,
+      "1Y": -37.90087463556852,
       "5Y": null
     },
     "next_earnings_date": null,

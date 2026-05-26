@@ -3,12 +3,12 @@
   "name": "Taparia Tools Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-505685/taparia-tools-shares",
-  "parsed_at": "2026-05-25T20:50:10.375Z",
+  "parsed_at": "2026-05-26T11:42:04.613Z",
   "company_id": "DB0DAEE5-C5C7-45BC-A872-992AB3C2C4F0",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/taparia-tools-ltd",
     "search_id": "taparia-tools-ltd",
     "company_id": "GSTK505685",
@@ -28,22 +28,70 @@
       "dividend": 3
     },
     "snowflake_total": 17,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 27.69,
     "market_cap_inr": 420300000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 10.5,
       "high": 28.04
     },
-    "fair_value_inr": 1006.951695,
+    "fair_value_inr": 1223.183686,
     "fair_value_range_inr": {
-      "min": 1006.951695,
-      "max": 1006.951695,
+      "min": 1223.183686,
+      "max": 1223.183686,
       "count": 9
     },
-    "upside_pct": 3536.51749729144,
+    "upside_pct": 4317.420317804261,
     "multiples": {
       "pe": 0.29,
       "ps": 0.04,
@@ -55,20 +103,20 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/taparia-tools-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings have grown 21.8% per year over the past 5 years",
+      "Earnings grew by 23.7% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 97.2% below our estimate of its fair value"
+      "Trading at 97.7% below our estimate of its fair value"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹420M)",
-      "Shares are highly illiquid",
-      "Dividend of 234.74% is not well covered by free cash flows"
+      "Unstable dividend track record",
+      "Shares are highly illiquid"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -211,13 +259,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 77.26574413929079,
+      "sector_pe": 77.26574413929079
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -227,27 +275,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 0.29,
-      "industry_pe": 74.71695232760163,
+      "industry_pe": 77.26574413929079,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/taparia-tools-ltd",
       "search_id": "taparia-tools-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 0.29,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 77.26574413929079,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "sws_statement": {
         "company_pe": 0.3,
-        "industry_pe": 28.5,
+        "industry_pe": 27.8,
         "industry_name": "Indian Building",
-        "description": "505685 is good value based on its Price-To-Earnings Ratio (0.3x) compared to the Indian Building industry average (28.5x).",
+        "description": "505685 is good value based on its Price-To-Earnings Ratio (0.3x) compared to the Indian Building industry average (27.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -278,55 +326,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 27.69,
-        "fetched_at": "2026-05-25T20:50:10.375Z",
+        "fetched_at": "2026-05-26T11:42:04.613Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-505685/taparia-tools-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 420300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 0.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.009646831220813881,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 77.26574413929079,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "fifty_two_week": {
@@ -335,91 +383,91 @@
           "low": 10.5,
           "high": 28.04
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 94.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 268.9111093,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 77.26574413929079,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
-        "value": 33.5116,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.7932,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
-        "value": 29.31143398610233,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 29.10232772528233,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
-        "value": 35.537388417405566,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.34131777353367,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
-        "value": 14.391195597798898,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14.806382583715227,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
-        "value": 19.664832416208107,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 20.069180484849667,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
-        "value": 0.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.38,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
-        "value": 0.3036292869806207,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.31497272797111475,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
-        "value": 6.0307,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6.1479,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
-        "value": 3.8159771754636234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.917457542457543,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
-        "value": 0.055894177149526644,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.0979020979020979,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/taparia-tools-ltd"
       }
     },
@@ -434,17 +482,17 @@
     "ps": 0.04,
     "book_value": 268.9111093,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
-    "roe_pct": 33.5116,
-    "roa_pct": 29.31143398610233,
-    "roic_pct": 35.537388417405566,
-    "net_margin_pct": 14.391195597798898,
-    "operating_margin_pct": 19.664832416208107,
-    "debt_to_equity_pct": 0.37,
-    "debt_to_asset_pct": 0.3036292869806207,
-    "current_ratio": 6.0307,
-    "quick_ratio": 3.8159771754636234,
-    "cash_ratio": 0.055894177149526644,
+    "sector_pe": 77.26574413929079,
+    "roe_pct": 34.7932,
+    "roa_pct": 29.10232772528233,
+    "roic_pct": 35.34131777353367,
+    "net_margin_pct": 14.806382583715227,
+    "operating_margin_pct": 20.069180484849667,
+    "debt_to_equity_pct": 0.38,
+    "debt_to_asset_pct": 0.31497272797111475,
+    "current_ratio": 6.1479,
+    "quick_ratio": 3.917457542457543,
+    "cash_ratio": 0.0979020979020979,
     "returns_pct": {
       "1D": 4.965883244882495,
       "7D": 4.965883244882495,
@@ -455,7 +503,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -720,19 +768,19 @@
     }
   },
   "past_performance": {
-    "roe_pct": 33.5116,
-    "roa_pct": 29.31143398610233,
-    "roic_pct": 35.537388417405566,
-    "net_margin_pct": 14.391195597798898,
-    "operating_margin_pct": 19.664832416208107,
+    "roe_pct": 34.7932,
+    "roa_pct": 29.10232772528233,
+    "roic_pct": 35.34131777353367,
+    "net_margin_pct": 14.806382583715227,
+    "operating_margin_pct": 20.069180484849667,
     "source": "groww_refinitiv"
   },
   "financial_health": {
-    "debt_to_equity_pct": 0.37,
-    "debt_to_asset_pct": 0.3036292869806207,
-    "current_ratio": 6.0307,
-    "quick_ratio": 3.8159771754636234,
-    "cash_ratio": 0.055894177149526644,
+    "debt_to_equity_pct": 0.38,
+    "debt_to_asset_pct": 0.31497272797111475,
+    "current_ratio": 6.1479,
+    "quick_ratio": 3.917457542457543,
+    "cash_ratio": 0.0979020979020979,
     "source": "groww_refinitiv"
   },
   "events": {
@@ -791,7 +839,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/taparia-tools-ltd",
     "news": [
       {
@@ -866,25 +914,25 @@
         "ticker": "526433",
         "name": "ASM Technologies",
         "searchId": "asm-technologies-ltd",
-        "market_cap_inr": 47872700000,
+        "market_cap_inr": 47785900000,
         "pe": 78.8,
         "pb": 15.59
-      },
-      {
-        "ticker": "ANUP",
-        "name": "Anup Engineering",
-        "searchId": "anveshan-heavy-engineering-ltd",
-        "market_cap_inr": 39595200000,
-        "pe": 34.32,
-        "pb": 6.22
       },
       {
         "ticker": "GREAVESCOT",
         "name": "Greaves Cotton",
         "searchId": "greaves-cotton-ltd",
-        "market_cap_inr": 39462000000,
+        "market_cap_inr": 39974500000,
         "pe": 112.19,
         "pb": 2.76
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39580200000,
+        "pe": 34.32,
+        "pb": 6.22
       }
     ],
     "details": {
@@ -901,6 +949,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "f3034d9f-e489-4e44-867e-1b385c3b2275",
+      "type": "event",
+      "date": "2026-05-25T14:12:00.000Z",
+      "title": "Taparia Tools Limited, Annual General Meeting, Jul 29, 2026",
+      "body": "Taparia Tools Limited, Annual General Meeting, Jul 29, 2026.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "c4c39a97-0b12-40df-bce7-7df11e2cbcf3",
       "type": "event",

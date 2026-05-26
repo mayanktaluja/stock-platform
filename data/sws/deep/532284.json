@@ -3,12 +3,12 @@
   "name": "TCFC Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-532284/tcfc-finance-shares",
-  "parsed_at": "2026-05-25T23:00:25.082Z",
+  "parsed_at": "2026-05-26T13:53:59.786Z",
   "company_id": "08FCFA48-78A6-4233-A531-E32E876E4508",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tcfc-finance-ltd",
     "search_id": "tcfc-finance-ltd",
     "company_id": "GSTK532284",
@@ -16,21 +16,70 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
-      "past": 1,
+      "past": 0,
       "financial_health": 6,
       "dividends": 3,
       "future_growth": 0,
-      "past_performance": 1,
-      "value": 1,
+      "past_performance": 0,
+      "value": 2,
       "health": 6,
       "dividend": 3
     },
     "snowflake_total": 11,
-    "current_price_inr": 28.11,
-    "market_cap_inr": 294500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 27.8,
+    "market_cap_inr": 294600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,9 +92,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.1005691924582,
+    "upside_pct": -97.06823741007194,
     "multiples": {
-      "pe": 43.23,
+      "pe": 43.25,
       "ps": 11.13,
       "pb": 0.26,
       "ev_ebitda": 33.1,
@@ -55,17 +104,17 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/tcfc-finance-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Trading at good value vs. peer average Price-To-Book ratio",
+      "Trading at good value vs. industry average Price-To-Book ratio"
     ],
     "risks": [
-      "Earnings have declined by 13.4% per year over past 5 years",
-      "Makes less than USD$1m in revenue (₹27M)",
-      "Profit margins (25.5%) are lower than last year (70.9%)",
+      "Earnings have declined by 21.9% per year over past 5 years",
+      "Makes less than USD$1m in revenue (₹-15M)",
       "Unstable dividend track record",
       "Does not have a meaningful market cap (₹295M)"
     ],
@@ -158,13 +207,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -173,29 +222,29 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 43.23,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 43.25,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/tcfc-finance-ltd",
       "search_id": "tcfc-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 43.23,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 43.25,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 43,
-        "industry_pe": 27.8,
+        "company_pe": null,
+        "industry_pe": 1.2,
         "industry_name": "Indian Capital Markets",
-        "description": "532284 is expensive based on its Price-To-Earnings Ratio (43x) compared to the Indian Capital Markets industry average (27.8x).",
-        "title": "Price-To-Earnings vs Industry",
+        "description": "532284 is good value based on its Price-To-Book Ratio (0.3x) compared to the Indian Capital Markets industry average (1.2x).",
+        "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
@@ -224,56 +273,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 28.11,
-        "fetched_at": "2026-05-25T23:00:25.082Z",
+        "value": 27.8,
+        "fetched_at": "2026-05-26T13:53:59.786Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-532284/tcfc-finance-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 294500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 294600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 43.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.25,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 11.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 33.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.4534416272469252,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "fifty_two_week": {
@@ -282,91 +331,91 @@
           "low": 22.11,
           "high": 54.92
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 107.5862595,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.6081,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.5804524114383267,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.609682025611229,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 25.373134328358198,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 40.67164179104476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 187.3869,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 186.79245283018867,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.735849056603773,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tcfc-finance-ltd"
       }
     },
@@ -381,7 +430,7 @@
     "ps": 11.13,
     "book_value": 107.5862595,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0.6081,
     "roa_pct": 0.5804524114383267,
     "roic_pct": 0.609682025611229,
@@ -393,16 +442,16 @@
     "quick_ratio": 186.79245283018867,
     "cash_ratio": 3.735849056603773,
     "returns_pct": {
-      "1D": 0.03558718861209256,
-      "7D": -3.7987679671457886,
-      "1M": -4.873096446700512,
-      "3M": 1.1514933429291123,
-      "6M": -36.84565266232307,
-      "1Y": -45.81727062451812,
+      "1D": -1.1028103877623576,
+      "7D": -1.5929203539822985,
+      "1M": -5.922165820642978,
+      "3M": 7.087827426810477,
+      "6M": -39.72246313963573,
+      "1Y": -46.41480339244411,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -636,22 +685,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tcfc-finance-ltd",
     "news": [
       {
-        "id": "594687",
-        "title": "Hon'ble NCLT approved TCFC Finance Ltd's share capital reduction from INR 10.48 Cr to INR 9.94 Cr.\nThe resolution cancels 5.33L shares without payment, with compliance to statutory and regulatory norms.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=ad87820c-95d1-40b8-aa5c-b74c8f16842f.pdf",
-        "source": "BSE",
-        "published_at": "2026-04-22T15:13:43.000Z"
+        "id": "846709838815061376",
+        "title": "TCFC Finance reports FY2026 net loss of INR 181.5L on income of INR 283.6L.\nBoard approves INR 53.3L capital reduction; record date set for June 4, 2026.",
+        "url": "https://sqst.in/hXiX7",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-25T11:22:36.000Z"
       },
       {
-        "id": "475802",
-        "title": "TCFC Finance Ltd to hold Board Meeting on 13th Feb 2026 for Q3 FY25 results.\nTrading window closed from 1st Jan 2026 until 48 hours post results announcement.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=11678ea3-a718-4119-8dfc-75555029a678.pdf",
-        "source": "BSE",
-        "published_at": "2026-02-06T10:45:56.000Z"
+        "id": "846706697277170432",
+        "title": "TCFC Finance's FY26 Q4 results approved with unmodified audit opinion.\nEquity capital reduced from ₹10.48 Cr to ₹9.95 Cr; 5.33L shares canceled.",
+        "url": "https://sqst.in/Y2cZq",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-25T11:10:07.000Z"
       }
     ],
     "events": [
@@ -711,7 +760,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -719,7 +768,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -727,7 +776,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

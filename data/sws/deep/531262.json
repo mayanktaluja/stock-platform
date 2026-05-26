@@ -3,12 +3,12 @@
   "name": "Equilateral Enterprises Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-531262/equilateral-enterprises-shares",
-  "parsed_at": "2026-05-25T22:33:47.883Z",
+  "parsed_at": "2026-05-26T13:26:28.108Z",
   "company_id": "236DBC58-BC4C-4F1B-BBFF-6BCA77D5CC76",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/surya-industrial-corporation-ltd",
     "search_id": "surya-industrial-corporation-ltd",
     "company_id": "GSTK531262",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 22.52,
-    "market_cap_inr": 292300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 23,
+    "market_cap_inr": 277700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +93,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 600.0293206039075,
+    "upside_pct": 585.4200130434782,
     "multiples": {
-      "pe": 69.71,
+      "pe": 66.24,
       "ps": 0.52,
-      "pb": 2.57,
+      "pb": 2.44,
       "ev_ebitda": 223.11,
       "peg": 0.32943076923076925
     },
@@ -55,16 +105,16 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
     },
     "rewards": [
       "Earnings grew by 161.5% over the past year",
-      "Trading at 85% below our estimate of its fair value"
+      "Trading at 85.4% below our estimate of its fair value"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹292M)"
+      "Does not have a meaningful market cap (₹278M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -76,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 48.94357691126805,
-      "sector_pe": 48.94357691126805
+      "pe": 48.83631794258032,
+      "sector_pe": 48.83631794258032
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diamond, Gems and Jewellery",
       "pe_industry_id": 20,
@@ -91,28 +141,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 69.71,
-      "industry_pe": 48.94357691126805,
+      "company_pe": 66.24,
+      "industry_pe": 48.83631794258032,
       "industry_name": "Diamond, Gems and Jewellery",
       "industry_id": 20,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/surya-industrial-corporation-ltd",
       "search_id": "surya-industrial-corporation-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 69.71,
-        "industry_pe": 48.94357691126805,
+        "company_pe": 66.24,
+        "industry_pe": 48.83631794258032,
         "industry_name": "Diamond, Gems and Jewellery",
         "industry_id": 20,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "sws_statement": {
-        "company_pe": 69.6,
-        "industry_pe": 25.3,
+        "company_pe": 67.6,
+        "industry_pe": 26.9,
         "industry_name": "Indian Retail Distributors",
-        "description": "531262 is expensive based on its Price-To-Earnings Ratio (69.6x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "531262 is expensive based on its Price-To-Earnings Ratio (67.6x) compared to the Indian Retail Distributors industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -129,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -142,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 22.52,
-        "fetched_at": "2026-05-25T22:33:47.883Z",
+        "value": 23,
+        "fetched_at": "2026-05-26T13:26:28.108Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-531262/equilateral-enterprises-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 292300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 277700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 69.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 66.24,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.44,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 223.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.32943076923076925,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "fifty_two_week": {
@@ -200,91 +250,91 @@
           "low": 18.86,
           "high": 32.94
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 9.2239513,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 48.94357691126805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 48.83631794258032,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.772,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.735537190082645,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.69718309859155,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7520143240823636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7878245299910476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.68,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 2.190082644628099,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9275,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.7829268292682925,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.04390243902439024,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/surya-industrial-corporation-ltd"
       }
     },
@@ -295,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 0.34,
     "most_recent_reported_date": null,
-    "pb": 2.57,
+    "pb": 2.44,
     "ps": 0.52,
     "book_value": 9.2239513,
     "face_value": 10,
-    "sector_pe": 48.94357691126805,
+    "sector_pe": 48.83631794258032,
     "roe_pct": 4.772,
     "roa_pct": 1.735537190082645,
     "roic_pct": 3.69718309859155,
@@ -311,16 +361,16 @@
     "quick_ratio": 1.7829268292682925,
     "cash_ratio": 0.04390243902439024,
     "returns_pct": {
-      "1D": -4.978902953586497,
-      "7D": -3.760683760683756,
-      "1M": 0.5357142857142903,
-      "3M": 12.599999999999998,
-      "6M": -16.56168951463505,
-      "1Y": -19.36985320443967,
+      "1D": 2.131438721136769,
+      "7D": -1.7094017094017033,
+      "1M": 2.678571428571435,
+      "3M": 10.047846889952162,
+      "6M": -11.538461538461538,
+      "1Y": -17.651271034729678,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -480,22 +530,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/surya-industrial-corporation-ltd",
     "news": [
+      {
+        "id": "679187",
+        "title": "Equilateral Enterprises Ltd schedules Board Meeting on May 30, 2026, to approve FY26 audited results.\nTrading window remains closed since April 1, 2026, until 48 hours after results approval.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=c4b117bb-d52c-4dcf-b486-43d3384db202.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T09:41:47.000Z"
+      },
       {
         "id": "482121",
         "title": "Equilateral Enterprises Ltd plans a board meeting on Feb 14, 2026, to approve Q3 FY26 unaudited financial results.\nTrading window remains closed till 48 hours post-results approval as per insider trading regulations.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=63ab06f5-e79b-40c3-b938-225af607dbc4.pdf",
         "source": "BSE",
         "published_at": "2026-02-10T07:22:32.000Z"
-      },
-      {
-        "id": "466333",
-        "title": "Equilateral Enterprises Ltd held an EOGM on Feb 2, 2026, via VC/OAVM, discussing shifting the registered office within Uttar Pradesh.\nE-voting was facilitated through NSDL, and results will be announced within 2 working days and shared with BSE.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=f53524cd-7157-4fa3-b105-7015692d53f5.pdf",
-        "source": "BSE",
-        "published_at": "2026-02-02T14:30:47.000Z"
       }
     ],
     "events": [
@@ -535,7 +585,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -543,7 +593,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -551,7 +601,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

@@ -3,12 +3,12 @@
   "name": "Saurashtra Cement Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-saurashcem/saurashtra-cement-shares",
-  "parsed_at": "2026-05-25T22:46:15.179Z",
+  "parsed_at": "2026-05-26T13:35:49.387Z",
   "company_id": "2E1B37C2-24B1-4000-8925-7B294C12FC54",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/saurashtra-cement-ltd",
     "search_id": "saurashtra-cement-ltd",
     "company_id": "GSTK502175",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 61.26,
-    "market_cap_inr": 6769600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 60.19,
+    "market_cap_inr": 6824100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -76.89695886385896,
+    "upside_pct": -76.48625519189234,
     "multiples": {
       "pe": 46.79,
       "ps": 0.41,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/saurashtra-cement-ltd"
     },
@@ -104,13 +153,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 32.991094760617976,
-      "sector_pe": 32.991094760617976
+      "pe": 33.03147334098155,
+      "sector_pe": 33.03147334098155
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Cement",
       "pe_industry_id": 11,
@@ -120,20 +169,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 46.79,
-      "industry_pe": 32.991094760617976,
+      "industry_pe": 33.03147334098155,
       "industry_name": "Cement",
       "industry_id": 11,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/saurashtra-cement-ltd",
       "search_id": "saurashtra-cement-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 46.79,
-        "industry_pe": 32.991094760617976,
+        "industry_pe": 33.03147334098155,
         "industry_name": "Cement",
         "industry_id": 11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "sws_statement": {
@@ -157,7 +206,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.9,
+        "industry_pe": 23.6,
         "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
@@ -170,56 +219,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 61.26,
-        "fetched_at": "2026-05-25T22:46:15.179Z",
+        "value": 60.19,
+        "fetched_at": "2026-05-26T13:35:49.387Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-saurashcem/saurashtra-cement-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 6769600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6824100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 46.79,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.363536912751678,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 32.991094760617976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 33.03147334098155,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "fifty_two_week": {
@@ -228,91 +277,91 @@
           "low": 47.65,
           "high": 128.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 86.4103499,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 32.991094760617976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 33.03147334098155,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.259,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.496278196909203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.243840873412566,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.4261276672368772,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.659554034992947,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 11.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 6.733881632807286,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.3888,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6909931445956892,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4417290633581603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/saurashtra-cement-ltd"
       }
     },
@@ -327,7 +376,7 @@
     "ps": 0.41,
     "book_value": 86.4103499,
     "face_value": 10,
-    "sector_pe": 32.991094760617976,
+    "sector_pe": 33.03147334098155,
     "roe_pct": 2.259,
     "roa_pct": 1.496278196909203,
     "roic_pct": 7.243840873412566,
@@ -339,12 +388,12 @@
     "quick_ratio": 0.6909931445956892,
     "cash_ratio": 0.4417290633581603,
     "returns_pct": {
-      "1D": 0.24545900834560397,
-      "7D": 2.304609218436866,
-      "1M": 1.105793035154307,
-      "3M": -6.601616100015254,
-      "6M": -32.858395440596226,
-      "1Y": -33.658219623131906,
+      "1D": -1.746653607574274,
+      "7D": -0.34768211920529946,
+      "1M": -0.660174946360795,
+      "3M": -7.980431126739029,
+      "6M": -34.554746112862894,
+      "1Y": -34.81698072341348,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -617,7 +666,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/saurashtra-cement-ltd",
     "news": [
       {
@@ -692,23 +741,23 @@
         "ticker": "HEIDELBERG",
         "name": "Heidelberg Cement India",
         "searchId": "heidelberg-cement-india-ltd",
-        "market_cap_inr": 36008800000,
-        "pe": 25.88,
-        "pb": 2.75
+        "market_cap_inr": 36700000000,
+        "pe": 26.38,
+        "pb": 2.8
       },
       {
         "ticker": "ORIENTCEM",
         "name": "Orient Cement",
         "searchId": "orient-cement-ltd",
-        "market_cap_inr": 28014500000,
-        "pe": 8.29,
-        "pb": 1.31
+        "market_cap_inr": 28487000000,
+        "pe": 8.43,
+        "pb": 1.33
       },
       {
         "ticker": "SAGCEM",
         "name": "Sagar Cements",
         "searchId": "sagar-cements-ltd",
-        "market_cap_inr": 23671100000,
+        "market_cap_inr": 23912900000,
         "pe": null,
         "pb": 1.4
       }

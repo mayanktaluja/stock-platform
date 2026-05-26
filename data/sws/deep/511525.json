@@ -3,12 +3,12 @@
   "name": "Pan India Corporation Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-511525/pan-india-shares",
-  "parsed_at": "2026-05-25T21:05:13.718Z",
+  "parsed_at": "2026-05-26T11:59:48.235Z",
   "company_id": "062600E2-8A15-4F5E-8028-CFA7E0FD18D8",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pan-india-corporation-ltd",
     "search_id": "pan-india-corporation-ltd",
     "company_id": "GSTK511525",
@@ -28,14 +28,63 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 1.93,
-    "market_cap_inr": 402800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.95,
+    "market_cap_inr": 413500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.35,
-      "high": 2.82
+      "high": 2.78
     },
     "fair_value_inr": null,
     "fair_value_range_inr": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 4.73,
+      "pb": 4.86,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -62,10 +111,9 @@
     "rewards": [],
     "risks": [
       "Has less than 1 year of [[cash runway]]",
-      "Does not have a meaningful market cap (₹403M)",
+      "Does not have a meaningful market cap (₹414M)",
       "Earnings have declined by 38.2% per year over past 5 years",
-      "Makes less than USD$1m in revenue (₹266K)",
-      "Highly volatile share price over past 3 months"
+      "Makes less than USD$1m in revenue (₹266K)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -77,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 22.74789650623654
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 22.74789650623654,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.3,
         "industry_name": "Indian Diversified Financial",
-        "description": "511525 is expensive based on its Price-To-Book Ratio (4.7x) compared to the Indian Diversified Financial industry average (1.3x).",
+        "description": "511525 is expensive based on its Price-To-Book Ratio (4.9x) compared to the Indian Diversified Financial industry average (1.3x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,8 +173,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.2,
-        "sample_count": 127,
+        "industry_pe": 19.549999999999997,
+        "sample_count": 128,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -138,137 +186,137 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.93,
-        "fetched_at": "2026-05-25T21:05:13.718Z",
+        "value": 1.95,
+        "fetched_at": "2026-05-26T11:59:48.235Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511525/pan-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 402800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 413500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 4.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.86,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 1.35,
-          "high": 2.82
+          "high": 2.78
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.3974862,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.131,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.666666666666667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.3333333333333335,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/pan-india-corporation-ltd"
       }
     },
@@ -279,11 +327,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 4.73,
+    "pb": 4.86,
     "ps": 0,
     "book_value": 0.3974862,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -295,12 +343,12 @@
     "quick_ratio": 2.666666666666667,
     "cash_ratio": 2.3333333333333335,
     "returns_pct": {
-      "1D": 2.659574468085109,
-      "7D": 3.208556149732611,
-      "1M": 2.659574468085109,
-      "3M": 10.285714285714283,
-      "6M": -7.211538461538468,
-      "1Y": -29.044117647058833,
+      "1D": 1.0362694300518145,
+      "7D": 4.278074866310152,
+      "1M": 3.7234042553191524,
+      "3M": 12.716763005780345,
+      "6M": -6.698564593301431,
+      "1Y": -28.308823529411768,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -446,7 +494,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/pan-india-corporation-ltd",
     "news": [],
     "events": [
@@ -496,7 +544,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -504,7 +552,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -512,7 +560,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

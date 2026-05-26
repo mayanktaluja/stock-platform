@@ -3,7 +3,7 @@
   "name": "Nacdac Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544313/nacdac-infrastructure-shares",
-  "parsed_at": "2026-05-25T21:02:54.869Z",
+  "parsed_at": "2026-05-26T11:54:31.329Z",
   "company_id": "B63CD28F-26BD-4DBB-89F1-7AAA06A6E70C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 29.35,
-    "market_cap_inr": 308912730.46986896,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 28,
+    "market_cap_inr": 294703797.38181704,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 112.566699,
+    "fair_value_inr": 112.661391,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 283.5321942078365,
+    "upside_pct": 302.36211071428573,
     "multiples": {
       "pe": 7,
       "ps": null,
@@ -109,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 29.35,
-        "fetched_at": "2026-05-25T21:02:54.869Z",
+        "value": 28,
+        "fetched_at": "2026-05-26T11:54:31.329Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544313/nacdac-infrastructure-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 4.8214285714285765,
-      "1M": -1.8394648829431341,
-      "3M": 12.841214917339483,
-      "6M": -22.884918549658433,
-      "1Y": -26.625,
+      "1D": -4.5996592844974495,
+      "7D": -4.92359932088285,
+      "1M": -6.35451505016722,
+      "3M": 5.660377358490567,
+      "6M": -29.929929929929934,
+      "1Y": -30,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,12 +3,12 @@
   "name": "Transchem Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-500422/transchem-shares",
-  "parsed_at": "2026-05-25T20:39:07.867Z",
+  "parsed_at": "2026-05-26T11:06:16.659Z",
   "company_id": "F5DEB430-B53B-4EE5-8BF9-4B7A6D7FFD8B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/transchem-ltd",
     "search_id": "transchem-ltd",
     "company_id": "GSTK500422",
@@ -28,8 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 193.6,
-    "market_cap_inr": 2257100000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 203.25,
+    "market_cap_inr": 2369700000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +93,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 190.93983729338845,
+    "upside_pct": 177.12645756457567,
     "multiples": {
-      "pe": 52.54,
+      "pe": 55.16,
       "ps": 0,
-      "pb": 2.7,
+      "pb": 2.84,
       "ev_ebitda": 0,
       "peg": 0.3185000000000002
     },
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/transchem-ltd"
     },
@@ -75,13 +125,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -90,28 +140,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 52.54,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 55.16,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/transchem-ltd",
       "search_id": "transchem-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 52.54,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 55.16,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "sws_statement": {
-        "company_pe": 52.5,
-        "industry_pe": 19.2,
+        "company_pe": 55.2,
+        "industry_pe": 19.4,
         "industry_name": "Indian Food",
-        "description": "500422 is expensive based on its Price-To-Earnings Ratio (52.5x) compared to the Indian Food industry average (19.2x).",
+        "description": "500422 is expensive based on its Price-To-Earnings Ratio (55.2x) compared to the Indian Food industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -141,56 +191,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 193.6,
-        "fetched_at": "2026-05-25T20:39:07.867Z",
+        "value": 203.25,
+        "fetched_at": "2026-05-26T11:06:16.659Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-500422/transchem-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2257100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2369700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 52.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 55.16,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.7,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.84,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.3185000000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +249,91 @@
           "low": 37,
           "high": 214.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 68.2843137,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.1391,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.89000341958281,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.419512110599237,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 21.3883,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 21.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 10.6075,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/transchem-ltd"
       }
     },
@@ -294,11 +344,11 @@
     "latest_net_income": null,
     "latest_eps": 3.51,
     "most_recent_reported_date": null,
-    "pb": 2.7,
+    "pb": 2.84,
     "ps": 0,
     "book_value": 68.2843137,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 5.1391,
     "roa_pct": 4.89000341958281,
     "roic_pct": 10.419512110599237,
@@ -310,12 +360,12 @@
     "quick_ratio": 21.37,
     "cash_ratio": 10.6075,
     "returns_pct": {
-      "1D": 4.989154013015178,
-      "7D": 4.479222881813266,
-      "1M": 14.31945674638323,
-      "3M": 11.232404481470832,
-      "6M": 123.01578159198247,
-      "1Y": 363.49054345223834,
+      "1D": 4.984504132231407,
+      "7D": 15.450156205623394,
+      "1M": 20.017714791851198,
+      "3M": 14.507042253521126,
+      "6M": 122.98409215578714,
+      "1Y": 386.593248743117,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -449,7 +499,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/transchem-ltd",
     "news": [
       {
@@ -514,7 +564,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -522,15 +572,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

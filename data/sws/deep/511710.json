@@ -3,12 +3,12 @@
   "name": "Cubical Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-511710/cubical-financial-services-shares",
-  "parsed_at": "2026-05-25T21:07:13.594Z",
+  "parsed_at": "2026-05-26T12:02:10.414Z",
   "company_id": "03061AE3-672C-408F-9CE0-0E2466E38ADC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cfsl-ltd",
     "search_id": "cfsl-ltd",
     "company_id": "GSTK511710",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 3.76,
-    "market_cap_inr": 234000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 3.94,
+    "market_cap_inr": 245000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +94,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 119.67,
+      "pe": 125.33,
       "ps": 17.92,
-      "pb": 1.53,
+      "pb": 1.6,
       "ev_ebitda": 19.49,
       "peg": -0.5175000000000001
     },
@@ -55,13 +104,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/cfsl-ltd"
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹234M)",
+      "Does not have a meaningful market cap (₹245M)",
       "Makes less than USD$1m in revenue (₹13M)"
     ],
     "dividend": {
@@ -74,13 +123,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -89,28 +138,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 119.67,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 125.33,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/cfsl-ltd",
       "search_id": "cfsl-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 119.67,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 125.33,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "sws_statement": {
-        "company_pe": 134.2,
-        "industry_pe": 27.9,
+        "company_pe": 147.3,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "511710 is expensive based on its Price-To-Earnings Ratio (134.2x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "511710 is expensive based on its Price-To-Earnings Ratio (147.3x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -140,56 +189,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3.76,
-        "fetched_at": "2026-05-25T21:07:13.594Z",
+        "value": 3.94,
+        "fetched_at": "2026-05-26T12:02:10.414Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511710/cubical-financial-services-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 234000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 245000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 119.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 125.33,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.6,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 17.92,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5175000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "fifty_two_week": {
@@ -198,91 +247,91 @@
           "low": 1.68,
           "high": 3.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 2.3437164,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1411,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1031797534068788,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.226601929342618,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.977099236641221,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 25.190839694656486,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 138.1561,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 140,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 9.454545454545455,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/cfsl-ltd"
       }
     },
@@ -293,11 +342,11 @@
     "latest_net_income": null,
     "latest_eps": 0.03,
     "most_recent_reported_date": null,
-    "pb": 1.53,
+    "pb": 1.6,
     "ps": 17.92,
     "book_value": 2.3437164,
     "face_value": 2,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 1.1411,
     "roa_pct": 1.1031797534068788,
     "roic_pct": 1.226601929342618,
@@ -309,12 +358,12 @@
     "quick_ratio": 140,
     "cash_ratio": 9.454545454545455,
     "returns_pct": {
-      "1D": 4.735376044568243,
-      "7D": 26.599326599326584,
-      "1M": 80.76923076923075,
-      "3M": 79.04761904761904,
-      "6M": 23.68421052631578,
-      "1Y": 82.52427184466018,
+      "1D": 4.787234042553196,
+      "7D": 26.68810289389068,
+      "1M": 89.42307692307692,
+      "3M": 94.08866995073893,
+      "6M": 27.096774193548384,
+      "1Y": 91.26213592233009,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -483,7 +532,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/cfsl-ltd",
     "news": [],
     "events": [
@@ -533,7 +582,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -541,7 +590,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -549,7 +598,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

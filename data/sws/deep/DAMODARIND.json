@@ -3,12 +3,12 @@
   "name": "Damodar Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-damodarind/damodar-industries-shares",
-  "parsed_at": "2026-05-25T23:03:12.349Z",
+  "parsed_at": "2026-05-26T13:53:14.772Z",
   "company_id": "6B20D51C-4142-4530-8AF1-2EB403E25D09",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/damodar-industries-ltd",
     "search_id": "damodar-industries-ltd",
     "company_id": "GSTK521220",
@@ -28,24 +28,73 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 30.72,
-    "market_cap_inr": 707400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 30.6,
+    "market_cap_inr": 709500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 20,
       "high": 41.49
     },
-    "fair_value_inr": 73.231315,
+    "fair_value_inr": 73.041205,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 138.3831868489583,
+    "upside_pct": 138.69674836601305,
     "multiples": {
-      "pe": 13.14,
+      "pe": 13.18,
       "ps": 0.17,
       "pb": 0.48,
       "ev_ebitda": 5.86,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/damodar-industries-ltd"
     },
@@ -132,13 +181,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -147,21 +196,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 13.14,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 13.18,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/damodar-industries-ltd",
       "search_id": "damodar-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 13.14,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 13.18,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "sws_statement": {
@@ -185,7 +234,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -198,56 +247,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 30.72,
-        "fetched_at": "2026-05-25T23:03:12.349Z",
+        "value": 30.6,
+        "fetched_at": "2026-05-26T13:53:14.772Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-damodarind/damodar-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 707400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 709500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 13.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 13.18,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 3.6904000000000172,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "fifty_two_week": {
@@ -256,91 +305,91 @@
           "low": 20,
           "high": 41.49
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 63.4635193,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6331,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5722719036764274,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.421571054389691,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.2510755063600212,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.631886147478083,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 113.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 48.962534338652176,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6222653004707837,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0036001107726391585,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/damodar-industries-ltd"
       }
     },
@@ -355,7 +404,7 @@
     "ps": 0.17,
     "book_value": 63.4635193,
     "face_value": 5,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 3.6331,
     "roa_pct": 1.5722719036764274,
     "roic_pct": 6.421571054389691,
@@ -367,12 +416,12 @@
     "quick_ratio": 0.6222653004707837,
     "cash_ratio": 0.0036001107726391585,
     "returns_pct": {
-      "1D": 0.7543456871105295,
-      "7D": 8.436286621955528,
-      "1M": 9.79270907791279,
-      "3M": 23.821039903264815,
-      "6M": 1.3526888815572422,
-      "1Y": -16.68022782750203,
+      "1D": -0.3906249999999917,
+      "7D": 7.481559536354067,
+      "1M": 9.363831308077202,
+      "3M": 23.08930008045053,
+      "6M": -5.263157894736829,
+      "1Y": -17.005695687550844,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -589,7 +638,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/damodar-industries-ltd",
     "news": [
       {
@@ -654,7 +703,7 @@
         "ticker": "SANATHAN",
         "name": "Sanathan Textiles",
         "searchId": "sanathan-textiles-ltd",
-        "market_cap_inr": 34420000000,
+        "market_cap_inr": 34010600000,
         "pe": 44.52,
         "pb": 1.84
       },
@@ -662,17 +711,17 @@
         "ticker": "NITINSPIN",
         "name": "Nitin Spinners",
         "searchId": "nitin-spinners-ltd",
-        "market_cap_inr": 28025700000,
-        "pe": 15.79,
-        "pb": 1.91
+        "market_cap_inr": 28200000000,
+        "pe": 15.88,
+        "pb": 1.92
       },
       {
-        "ticker": "GANECOS",
-        "name": "Ganesha Ecosphere",
-        "searchId": "ganesha-ecosphere-ltd",
-        "market_cap_inr": 25558000000,
-        "pe": 66.89,
-        "pb": 2
+        "ticker": "SANGAMIND",
+        "name": "Sangam (India)",
+        "searchId": "sangam-india-ltd",
+        "market_cap_inr": 25726200000,
+        "pe": 30.23,
+        "pb": 2.32
       }
     ],
     "details": {

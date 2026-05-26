@@ -3,7 +3,7 @@
   "name": "Graphisads Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-graphisad/graphisads-shares",
-  "parsed_at": "2026-05-25T23:42:56.076Z",
+  "parsed_at": "2026-05-26T14:34:33.950Z",
   "company_id": "6FC4728E-4542-4E81-BD46-691C964AA6DF",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 33.45,
-    "market_cap_inr": 611348884.0835367,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 32.05,
+    "market_cap_inr": 585761785.7960343,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +83,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -44.111653213751865,
+    "upside_pct": -41.67035257410296,
     "multiples": {
-      "pe": 9.8,
+      "pe": 9.1,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,11 +101,11 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.8x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (9.1x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Large [[one-off items]] impacting financial results",
-      "Does not have a meaningful market cap (₹631M)"
+      "Does not have a meaningful market cap (₹611M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -67,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 17.4
+      "pe": 17.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,22 +131,22 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 9.8,
-      "industry_pe": 17.4,
+      "company_pe": 9.1,
+      "industry_pe": 17.5,
       "industry_name": "Indian Media"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 9.8,
-        "industry_pe": 17.4,
+        "company_pe": 9.1,
+        "industry_pe": 17.5,
         "industry_name": "Indian Media",
-        "description": "GRAPHISAD is good value based on its Price-To-Earnings Ratio (9.8x) compared to the Indian Media industry average (17.4x).",
+        "description": "GRAPHISAD is good value based on its Price-To-Earnings Ratio (9.1x) compared to the Indian Media industry average (17.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.437551471,
+        "industry_pe": 17.487487746,
         "industry_code": "4310000",
         "type": "median_profitable",
         "count": 55,
@@ -108,8 +158,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -121,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 33.45,
-        "fetched_at": "2026-05-25T23:42:56.076Z",
+        "value": 32.05,
+        "fetched_at": "2026-05-26T14:34:33.950Z",
         "url": "https://simplywall.st/stocks/in/media/nse-graphisad/graphisads-shares"
       }
     },
@@ -149,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.043478260869557,
-      "7D": -7.083333333333325,
-      "1M": -5.1063829787233965,
-      "3M": 0.149700598802408,
-      "6M": -6.433566433566426,
-      "1Y": -23.014959723820482,
+      "1D": -4.185351270553081,
+      "7D": -10.97222222222223,
+      "1M": -9.078014184397171,
+      "3M": 0.9448818897637705,
+      "6M": -7.6368876080691805,
+      "1Y": -26.237054085155364,
       "5Y": null
     },
     "next_earnings_date": null,

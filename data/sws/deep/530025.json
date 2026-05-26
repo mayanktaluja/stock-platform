@@ -3,12 +3,12 @@
   "name": "Samyak International Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-530025/samyak-international-shares",
-  "parsed_at": "2026-05-25T22:07:18.587Z",
+  "parsed_at": "2026-05-26T13:02:53.631Z",
   "company_id": "E2ABF8DA-01FF-4254-BBF7-2AF1ABB2FA3C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/samyak-international-ltd",
     "search_id": "samyak-international-ltd",
     "company_id": "GSTK530025",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 14.88,
-    "market_cap_inr": 119600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 15.3,
+    "market_cap_inr": 119000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 1858.5792741935486,
+    "upside_pct": 1804.8143529411764,
     "multiples": {
       "pe": null,
       "ps": 0.26,
@@ -64,7 +113,7 @@
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹120M)",
+      "Does not have a meaningful market cap (₹119M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -77,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 56.05914496503882
+      "sector_pe": 56.05475305701128
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 56.05914496503882,
+        "industry_pe": 56.05475305701128,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.3,
         "industry_name": "Indian Trade Distributors",
-        "description": "530025 is good value based on its Price-To-Sales Ratio (0.2x) compared to the Indian Trade Distributors industry average (1.3x).",
+        "description": "530025 is good value based on its Price-To-Sales Ratio (0.3x) compared to the Indian Trade Distributors industry average (1.3x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -126,7 +175,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -138,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 14.88,
-        "fetched_at": "2026-05-25T22:07:18.587Z",
+        "value": 15.3,
+        "fetched_at": "2026-05-26T13:02:53.631Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-530025/samyak-international-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 119600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 119000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 6.3,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "fifty_two_week": {
@@ -190,85 +239,85 @@
           "low": 10.35,
           "high": 41
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 66.3522233,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 56.05914496503882,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 56.05475305701128,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.106322181212049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.060846560846562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 9.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 6.432824229873154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5548,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8628257887517147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05898491083676269,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/samyak-international-ltd"
       }
     },
@@ -283,7 +332,7 @@
     "ps": 0.26,
     "book_value": 66.3522233,
     "face_value": 10,
-    "sector_pe": 56.05914496503882,
+    "sector_pe": 56.05475305701128,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 1.106322181212049,
@@ -295,12 +344,12 @@
     "quick_ratio": 0.8628257887517147,
     "cash_ratio": 0.05898491083676269,
     "returns_pct": {
-      "1D": -0.46822742474915396,
-      "7D": -5.2832590706556335,
-      "1M": -9.818181818181813,
-      "3M": -19.56756756756756,
-      "6M": -35.972461273666084,
-      "1Y": -59.288645690834464,
+      "1D": 2.8225806451612896,
+      "7D": 1.0568031704095122,
+      "1M": -7.272727272727268,
+      "3M": -7.103825136612012,
+      "6M": -34.33476394849785,
+      "1Y": -58.13953488372092,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -536,7 +585,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/samyak-international-ltd",
     "news": [
       {
@@ -601,7 +650,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -609,15 +658,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

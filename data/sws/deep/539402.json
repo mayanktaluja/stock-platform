@@ -3,12 +3,12 @@
   "name": "Naksh Precious Metals Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-539402/naksh-precious-metals-shares",
-  "parsed_at": "2026-05-25T23:37:52.303Z",
+  "parsed_at": "2026-05-26T14:26:39.826Z",
   "company_id": "CEF0C424-FE9A-4930-9BDD-E914EE6E9076",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vaksons-automobiles-ltd",
     "search_id": "vaksons-automobiles-ltd",
     "company_id": "GSTK539402",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 4.47,
-    "market_cap_inr": 49400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 4.4,
+    "market_cap_inr": 47000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3.13,
       "high": 8.83
     },
-    "fair_value_inr": 18.55473,
+    "fair_value_inr": 18.533231,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 315.09463087248326,
+    "upside_pct": 321.20979545454543,
     "multiples": {
-      "pe": 19.58,
+      "pe": 18.63,
       "ps": 3.27,
-      "pb": 0.75,
+      "pb": 0.71,
       "ev_ebitda": 14.41,
       "peg": 0.012554999999999997
     },
@@ -55,17 +104,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/vaksons-automobiles-ltd"
     },
     "rewards": [
-      "Trading at 74.6% below our estimate of its fair value",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at 76.3% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Makes less than USD$1m in revenue (₹17M)",
-      "Does not have a meaningful market cap (₹49M)",
+      "Does not have a meaningful market cap (₹47M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -78,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 76.39971853206873,
-      "sector_pe": 76.39971853206873
+      "pe": 76.39971853206875,
+      "sector_pe": 76.39971853206875
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Retail",
       "pe_industry_id": 54,
@@ -93,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 19.58,
-      "industry_pe": 76.39971853206873,
+      "company_pe": 18.63,
+      "industry_pe": 76.39971853206875,
       "industry_name": "Retail",
       "industry_id": 54,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/vaksons-automobiles-ltd",
       "search_id": "vaksons-automobiles-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 19.58,
-        "industry_pe": 76.39971853206873,
+        "company_pe": 18.63,
+        "industry_pe": 76.39971853206875,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.3,
-        "industry_pe": 18.7,
+        "company_pe": 18,
+        "industry_pe": 19.1,
         "industry_name": "Indian Specialty Retail",
-        "description": "539402 is expensive based on its Price-To-Earnings Ratio (19.3x) compared to the Indian Specialty Retail industry average (18.7x).",
+        "description": "539402 is good value based on its Price-To-Earnings Ratio (18x) compared to the Indian Specialty Retail industry average (19.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -144,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.47,
-        "fetched_at": "2026-05-25T23:37:52.303Z",
+        "value": 4.4,
+        "fetched_at": "2026-05-26T14:26:39.826Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-539402/naksh-precious-metals-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 49400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 47000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 19.58,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.63,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.71,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.012554999999999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +252,91 @@
           "low": 3.13,
           "high": 8.83
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 6.2859109,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.409,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6312849162011176,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.952380952380951,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 17.218543046357617,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 22.516556291390724,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 4.279999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.910614525139665,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 24.257,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 23.499999999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.3076923076923075,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vaksons-automobiles-ltd"
       }
     },
@@ -297,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 0.24,
     "most_recent_reported_date": null,
-    "pb": 0.75,
+    "pb": 0.71,
     "ps": 3.27,
     "book_value": 6.2859109,
     "face_value": 10,
-    "sector_pe": 76.39971853206873,
+    "sector_pe": 76.39971853206875,
     "roe_pct": 5.409,
     "roa_pct": 3.6312849162011176,
     "roic_pct": 4.952380952380951,
@@ -313,12 +363,12 @@
     "quick_ratio": 23.499999999999996,
     "cash_ratio": 6.3076923076923075,
     "returns_pct": {
-      "1D": -4.893617021276605,
-      "7D": -14.367816091954024,
-      "1M": 5.176470588235288,
-      "3M": -7.835051546391751,
-      "6M": -21.02473498233216,
-      "1Y": -46.14457831325302,
+      "1D": -1.565995525727056,
+      "7D": -11.290322580645155,
+      "1M": 3.5294117647058907,
+      "3M": -17.293233082706767,
+      "6M": -22.94220665499124,
+      "1Y": -46.98795180722892,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -504,9 +554,16 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vaksons-automobiles-ltd",
     "news": [
+      {
+        "id": "678207",
+        "title": "Naksh Precious Metals Ltd's board will meet on May 29, 2026, to approve audited financial results.\nTrading window remains closed, reopening 48 hours post-board meeting conclusion as per SEBI rules.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=ded2df71-5540-4329-824b-7a71f9fb74e2.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T05:27:01.000Z"
+      },
       {
         "id": "487090",
         "title": "Naksh Precious Metals Ltd will hold a board meeting on Feb 14, 2026, to review and approve unaudited Q3 FY25 results.\nTrading window remains closed and will reopen 48 hours post board meeting conclusion as per SEBI norms.",
@@ -552,7 +609,7 @@
         "ticker": "GOLDIAM",
         "name": "Goldiam International",
         "searchId": "goldiam-international-ltd",
-        "market_cap_inr": 44145200000,
+        "market_cap_inr": 45985800000,
         "pe": 28.21,
         "pb": 4.32
       },
@@ -560,7 +617,7 @@
         "ticker": "VAIBHAVGBL",
         "name": "Vaibhav Global",
         "searchId": "vaibhav-global-ltd",
-        "market_cap_inr": 36922000000,
+        "market_cap_inr": 38300300000,
         "pe": 13.87,
         "pb": 2.24
       },
@@ -568,7 +625,7 @@
         "ticker": "RAJESHEXPO",
         "name": "Rajesh Exports",
         "searchId": "rajesh-exports-ltd",
-        "market_cap_inr": 31991400000,
+        "market_cap_inr": 33571100000,
         "pe": 19.04,
         "pb": 0.19
       }

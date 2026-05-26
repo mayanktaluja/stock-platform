@@ -3,7 +3,7 @@
   "name": "Fidel Softech Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-fidel/fidel-softech-shares",
-  "parsed_at": "2026-05-25T23:29:24.927Z",
+  "parsed_at": "2026-05-26T14:19:12.346Z",
   "company_id": "C8D4E592-947B-40A7-8345-C3C4BFEE5624",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 3
     },
     "snowflake_total": 16,
-    "current_price_inr": 155.75,
-    "market_cap_inr": 2141649828.3657973,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 168,
+    "market_cap_inr": 2310094196.88895,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 77.976849,
+    "fair_value_inr": 77.980621,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -49.93460738362761,
+    "upside_pct": -53.58296369047619,
     "multiples": {
       "pe": 17,
       "ps": null,
@@ -149,7 +197,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -162,8 +210,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 155.75,
-        "fetched_at": "2026-05-25T23:29:24.927Z",
+        "value": 168,
+        "fetched_at": "2026-05-26T14:19:12.346Z",
         "url": "https://simplywall.st/stocks/in/software/nse-fidel/fidel-softech-shares"
       }
     },
@@ -190,12 +238,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.4240506329113924,
-      "7D": -1.7660044150110445,
-      "1M": 11.25,
-      "3M": 17.992424242424242,
-      "6M": 8.916083916083917,
-      "1Y": -18.689637170451583,
+      "1D": 7.865168539325842,
+      "7D": -1.1473962930273542,
+      "1M": 20,
+      "3M": 23.711340206185557,
+      "6M": 18.980169971671398,
+      "1Y": -12.294440093970248,
       "5Y": null
     },
     "next_earnings_date": null,

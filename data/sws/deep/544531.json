@@ -3,7 +3,7 @@
   "name": "True Colors Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544531/true-colors-shares",
-  "parsed_at": "2026-05-25T21:13:11.490Z",
+  "parsed_at": "2026-05-26T12:05:02.035Z",
   "company_id": "648ECB7D-748A-4550-8FA6-539D02459A39",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 152.6,
-    "market_cap_inr": 3762292006.298096,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 152.35,
+    "market_cap_inr": 3756128356.222247,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -111,7 +161,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -123,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 152.6,
-        "fetched_at": "2026-05-25T21:13:11.490Z",
+        "value": 152.35,
+        "fetched_at": "2026-05-26T12:05:02.035Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544531/true-colors-shares"
       }
     },
@@ -151,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -5.099502487562199,
-      "7D": -12.172661870503601,
-      "1M": -14.70095025153718,
-      "3M": -11.072261072261073,
-      "6M": -40.58789176562196,
-      "1Y": -16.634799235181653,
+      "1D": -0.16382699868938402,
+      "7D": -14.14482952944491,
+      "1M": -14.840693124650647,
+      "3M": -8.608278344331131,
+      "6M": -41.01819589624468,
+      "1Y": -16.771373941546035,
       "5Y": null
     },
     "next_earnings_date": null,

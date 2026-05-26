@@ -3,7 +3,7 @@
   "name": "York Exports Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-530675/york-exports-shares",
-  "parsed_at": "2026-05-25T22:23:55.924Z",
+  "parsed_at": "2026-05-26T13:17:32.391Z",
   "company_id": "1BE689A3-56AA-4F73-A3C3-DD7E357E1657",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 61.05,
-    "market_cap_inr": 205298945.5886935,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 66.76,
+    "market_cap_inr": 224500534.11140344,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -96,7 +147,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -109,8 +160,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 61.05,
-        "fetched_at": "2026-05-25T22:23:55.924Z",
+        "value": 66.76,
+        "fetched_at": "2026-05-26T13:17:32.391Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-530675/york-exports-shares"
       }
     },
@@ -137,12 +188,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 9.999999999999995,
-      "7D": 19.68241521270339,
-      "1M": -7.946320868516279,
-      "3M": -3.3560234288428124,
-      "6M": -6.293169608595561,
-      "1Y": 39.066059225512525,
+      "1D": 9.352989352989367,
+      "7D": 30.87629876494806,
+      "1M": 0.6634499396863872,
+      "3M": 7.141710800834542,
+      "6M": -2.397660818713451,
+      "1Y": 52.072892938496594,
       "5Y": null
     },
     "next_earnings_date": null,

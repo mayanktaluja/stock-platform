@@ -3,12 +3,12 @@
   "name": "Incap Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-517370/incap-shares",
-  "parsed_at": "2026-05-25T21:26:06.605Z",
+  "parsed_at": "2026-05-26T12:22:13.209Z",
   "company_id": "7BEBB2A5-D284-4BB6-BE7C-92E0CC6C062E",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/incap-ltd",
     "search_id": "incap-ltd",
     "company_id": "GSTK517370",
@@ -28,26 +28,74 @@
       "dividend": 3
     },
     "snowflake_total": 12,
-    "current_price_inr": 89.95,
-    "market_cap_inr": 460300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 87.31,
+    "market_cap_inr": 461400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 64,
       "high": 160.99
     },
-    "fair_value_inr": 1399.500436,
+    "fair_value_inr": 1399.359128,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 1455.864853807671,
+    "upside_pct": 1502.7478272820983,
     "multiples": {
-      "pe": 55.73,
+      "pe": 55.87,
       "ps": 1.62,
-      "pb": 2.72,
+      "pb": 2.73,
       "ev_ebitda": 27.22,
       "peg": 3.12
     },
@@ -55,18 +103,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/incap-ltd"
     },
     "rewards": [
-      "Trading at 93.6% below our estimate of its fair value"
+      "Trading at 93.8% below our estimate of its fair value"
     ],
     "risks": [
       "Unstable dividend track record",
       "Does not have meaningful revenue (₹284M)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹461M)"
+      "Does not have a meaningful market cap (₹462M)"
     ],
     "dividend": {
       "yield_pct": 1.11,
@@ -183,13 +231,13 @@
     },
     "dividend_yield_pct": 1.11,
     "industry_benchmarks": {
-      "pe": 59.627955716846344,
-      "sector_pe": 59.627955716846344
+      "pe": 59.63065901146537,
+      "sector_pe": 59.63065901146537
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -198,28 +246,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 55.73,
-      "industry_pe": 59.627955716846344,
+      "company_pe": 55.87,
+      "industry_pe": 59.63065901146537,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/incap-ltd",
       "search_id": "incap-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 55.73,
-        "industry_pe": 59.627955716846344,
+        "company_pe": 55.87,
+        "industry_pe": 59.63065901146537,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "sws_statement": {
-        "company_pe": 79.4,
-        "industry_pe": 36.1,
+        "company_pe": 77.3,
+        "industry_pe": 33,
         "industry_name": "Indian Electronic",
-        "description": "517370 is expensive based on its Price-To-Earnings Ratio (79.4x) compared to the Indian Electronic industry average (36.1x).",
+        "description": "517370 is expensive based on its Price-To-Earnings Ratio (77.3x) compared to the Indian Electronic industry average (33x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -236,7 +284,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.2,
+        "industry_pe": 31.5,
         "sample_count": 59,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -249,56 +297,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 89.95,
-        "fetched_at": "2026-05-25T21:26:06.605Z",
+        "value": 87.31,
+        "fetched_at": "2026-05-26T12:22:13.209Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-517370/incap-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 460300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 461400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 55.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 55.87,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.72,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.73,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 27.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 3.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 1.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "fifty_two_week": {
@@ -307,91 +355,91 @@
           "low": 64,
           "high": 160.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 32.9471735,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 59.627955716846344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 59.63065901146537,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.8843,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.4835427887492516,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.163113994439295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.920478536242083,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.368754398311048,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 8.93,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 4.518252543387193,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5056,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.83575489576753,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.00505369551484523,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/incap-ltd"
       }
     },
@@ -402,11 +450,11 @@
     "latest_net_income": null,
     "latest_eps": 1.61,
     "most_recent_reported_date": null,
-    "pb": 2.72,
+    "pb": 2.73,
     "ps": 1.62,
     "book_value": 32.9471735,
     "face_value": 10,
-    "sector_pe": 59.627955716846344,
+    "sector_pe": 59.63065901146537,
     "roe_pct": 4.8843,
     "roa_pct": 2.4835427887492516,
     "roic_pct": 6.163113994439295,
@@ -418,12 +466,12 @@
     "quick_ratio": 0.83575489576753,
     "cash_ratio": 0.00505369551484523,
     "returns_pct": {
-      "1D": 0.24517998439763608,
-      "7D": -2.228260869565214,
-      "1M": -4.30851063829787,
-      "3M": 12.297128589263433,
-      "6M": 4.108796296296293,
-      "1Y": 0.3010704727921454,
+      "1D": -2.9349638688160096,
+      "7D": -5.09782608695652,
+      "1M": -7.117021276595742,
+      "3M": -8.268543811725158,
+      "6M": 6.345919610231435,
+      "1Y": -2.642729705619987,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -642,16 +690,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
-        "primary_date": "2024-05-24T18:30:00.000Z",
-        "announcement_date": "2024-05-24T18:30:00.000Z",
-        "ex_date": "2024-09-19T18:30:00.000Z",
-        "record_date": "2024-09-20T18:30:00.000Z",
-        "value": "₹1.00"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Announced",
         "primary_date": "2025-05-28T18:30:00.000Z",
         "announcement_date": "2025-05-28T18:30:00.000Z",
         "ex_date": "2025-09-18T18:30:00.000Z",
@@ -667,12 +705,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-31T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/incap-ltd",
     "news": [
       {
@@ -715,16 +763,6 @@
         "title": "Dividend",
         "type": "DIVIDEND",
         "status": "Announced",
-        "primary_date": "2024-05-24T18:30:00.000Z",
-        "announcement_date": "2024-05-24T18:30:00.000Z",
-        "ex_date": "2024-09-19T18:30:00.000Z",
-        "record_date": "2024-09-20T18:30:00.000Z",
-        "value": "₹1.00"
-      },
-      {
-        "title": "Dividend",
-        "type": "DIVIDEND",
-        "status": "Announced",
         "primary_date": "2025-05-28T18:30:00.000Z",
         "announcement_date": "2025-05-28T18:30:00.000Z",
         "ex_date": "2025-09-18T18:30:00.000Z",
@@ -740,32 +778,42 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-31T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
       {
-        "ticker": "GVPIL",
-        "name": "GE Power India",
-        "searchId": "ge-power-india-ltd",
-        "market_cap_inr": 49173500000,
-        "pe": 19.46,
-        "pb": 8.44
-      },
-      {
         "ticker": "SHILCTECH",
         "name": "Shilchar Technologies",
         "searchId": "shilchar-technologies-ltd",
-        "market_cap_inr": 46632000000,
-        "pe": 29.48,
-        "pb": 9.5
+        "market_cap_inr": 46682300000,
+        "pe": 29.52,
+        "pb": 9.51
       },
       {
         "ticker": "RAMRAT",
         "name": "Ram Ratna Wires",
         "searchId": "ram-ratna-wires-ltd",
-        "market_cap_inr": 40443500000,
+        "market_cap_inr": 43911400000,
         "pe": 45.94,
         "pb": 7.97
+      },
+      {
+        "ticker": "UNIVCABLES",
+        "name": "Universal Cables",
+        "searchId": "universal-cables-ltd",
+        "market_cap_inr": 40598800000,
+        "pe": 22.25,
+        "pb": 1.87
       }
     ],
     "details": {

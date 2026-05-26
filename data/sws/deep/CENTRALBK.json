@@ -3,12 +3,12 @@
   "name": "Central Bank of India",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-centralbk/central-bank-of-india-shares",
-  "parsed_at": "2026-05-25T22:47:53.766Z",
+  "parsed_at": "2026-05-26T13:41:47.296Z",
   "company_id": "7C12F8B4-B760-459E-9790-86FB6569C20A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/central-bank-of-india",
     "search_id": "central-bank-of-india",
     "company_id": "GSTK532885",
@@ -28,22 +28,72 @@
       "dividend": 4
     },
     "snowflake_total": 13,
-    "current_price_inr": 31.27,
-    "market_cap_inr": 283308900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 31.02,
+    "market_cap_inr": 283218300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 31.3,
+      "low": 31.11,
       "high": 41.2
     },
     "fair_value_inr": 17.936217,
     "fair_value_range_inr": {
-      "min": 17.936217,
+      "min": 17.935416,
       "max": 2613361.8,
       "count": 3
     },
-    "upside_pct": -42.64081547809403,
+    "upside_pct": -42.178539651837525,
     "multiples": {
       "pe": 6.25,
       "ps": 0.66,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/central-bank-of-india"
     },
@@ -137,7 +187,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Banks",
       "pe_industry_id": 6,
@@ -150,7 +200,7 @@
       "industry_pe": 12.451171201703186,
       "industry_name": "Banks",
       "industry_id": 6,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/central-bank-of-india",
       "search_id": "central-bank-of-india"
     },
@@ -160,7 +210,7 @@
         "industry_pe": 12.451171201703186,
         "industry_name": "Banks",
         "industry_id": 6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "sws_statement": {
@@ -184,7 +234,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.149999999999999,
+        "industry_pe": 11.4,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
@@ -197,149 +247,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 31.27,
-        "fetched_at": "2026-05-25T22:47:53.766Z",
+        "value": 31.02,
+        "fetched_at": "2026-05-26T13:41:47.296Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-centralbk/central-bank-of-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 283308900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 283218300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 6.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.81,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 17.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.23605312499999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 12.451171201703186,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 5.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 31.3,
+          "low": 31.11,
           "high": 41.2
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 5.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 38.755887,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 12.451171201703186,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.733415711269295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 50.38061447431153,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.350301512122694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 78.75739955816931,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/central-bank-of-india"
       }
     },
@@ -366,12 +416,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 0,
-      "7D": -7.403020432336403,
-      "1M": -13.163010274923629,
-      "3M": -20.614369129220616,
-      "6M": -19.303225806451614,
-      "1Y": -16.14373826763207,
+      "1D": -0.799488327470419,
+      "7D": -8.871915393654522,
+      "1M": -13.8572618717023,
+      "3M": -22.931677018633543,
+      "6M": -19.90704879938032,
+      "1Y": -16.814159292035395,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -670,22 +720,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/central-bank-of-india",
     "news": [
       {
-        "id": "2605249867724",
-        "title": "Central Bank of India plans new businesses post-PCA exit to boost profitability.\nThe bank is entering wealth management to attract high-quality customers.",
-        "url": "https://www.thehindu.com/business/central-bank-plans-new-businesses-to-improve-profitability/article71015436.ece",
-        "source": "The Hindu",
-        "published_at": "2026-05-23T17:45:06.000Z"
+        "id": "847100395432701824",
+        "title": "Central Bank of India's promoters sold equity shares, disclosed under SEBI insider trading law.\nForm B was submitted as per regulations, and info shared with stock exchanges.",
+        "url": "https://sqst.in/6u7qB",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-26T13:14:32.000Z"
       },
       {
-        "id": "675737",
-        "title": "Analysts advise retail investors to skip Central Bank of India OFS citing margin and earnings concerns.",
-        "url": "https://economictimes.indiatimes.com/markets/stocks/news/retail-players-can-skip-central-bank-of-india-ofs-say-analysts-cite-margin-and-earnings-concerns/articleshow/131271911.cms",
-        "source": "The Economic Times",
-        "published_at": "2026-05-23T06:36:32.000Z"
+        "id": "26052510754946",
+        "title": "LIC increased its stake in Central Bank of India to 6.06% from 3.16%.\nLIC acquired 26.26 crore shares; Central Bank's shares closed at Rs 31.29, down 0.03% on BSE.",
+        "url": "https://www.news18.com/agency-feeds/lic-hikes-stake-in-central-bank-of-india-to-6-06-pc-10111717.html",
+        "source": "News18",
+        "published_at": "2026-05-25T12:00:00.000Z"
       }
     ],
     "events": [
@@ -745,7 +795,7 @@
         "ticker": "SBIN",
         "name": "State Bank of India",
         "searchId": "state-bank-of-india",
-        "market_cap_inr": 8760779200000,
+        "market_cap_inr": 8952776000000,
         "pe": 10.11,
         "pb": 1.54
       },
@@ -753,7 +803,7 @@
         "ticker": "BANKBARODA",
         "name": "Bank of Baroda",
         "searchId": "bank-of-baroda",
-        "market_cap_inr": 1370411000000,
+        "market_cap_inr": 1404800500000,
         "pe": 6.83,
         "pb": 0.83
       },
@@ -761,7 +811,7 @@
         "ticker": "UNIONBANK",
         "name": "Union Bank of India",
         "searchId": "union-bank-of-india",
-        "market_cap_inr": 1227865500000,
+        "market_cap_inr": 1289697700000,
         "pe": 6.32,
         "pb": 0.96
       }

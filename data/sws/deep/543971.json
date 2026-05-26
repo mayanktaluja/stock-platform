@@ -3,7 +3,7 @@
   "name": "Bondada Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares",
-  "parsed_at": "2026-05-25T20:55:35.240Z",
+  "parsed_at": "2026-05-26T11:47:31.057Z",
   "company_id": "3FFC210F-F42F-4D90-ACD1-4D264F54E4D3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 340.05,
-    "market_cap_inr": 37947367270.33327,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 336.8,
+    "market_cap_inr": 37584688418.315674,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 95.59687,
+    "fair_value_inr": 95.666525,
     "fair_value_range_inr": {
-      "min": 95.59687,
+      "min": 95.666525,
       "max": 173.57,
       "count": 2
     },
-    "upside_pct": -71.88740773415674,
+    "upside_pct": -71.59544982185274,
     "multiples": {
       "pe": 19.1,
       "ps": null,
@@ -133,8 +181,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -146,8 +194,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 340.05,
-        "fetched_at": "2026-05-25T20:55:35.240Z",
+        "value": 336.8,
+        "fetched_at": "2026-05-26T11:47:31.057Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares"
       }
     },
@@ -174,12 +222,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -2.242345838723591,
-      "7D": 5.083436341161924,
-      "1M": -7.166257166257166,
-      "3M": 7.322076692441214,
-      "6M": -10.560231457127822,
-      "1Y": -27.269810715431504,
+      "1D": -0.955741802676077,
+      "7D": 0.29779630732578916,
+      "1M": -8.053508053508054,
+      "3M": 3.154670750382852,
+      "6M": -11.47325535550006,
+      "1Y": -27.964923537589563,
       "5Y": null
     },
     "next_earnings_date": null,

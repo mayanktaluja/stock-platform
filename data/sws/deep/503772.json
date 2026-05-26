@@ -3,12 +3,12 @@
   "name": "Modella Woollens Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-503772/modella-woollens-shares",
-  "parsed_at": "2026-05-25T20:43:35.244Z",
+  "parsed_at": "2026-05-26T11:11:26.084Z",
   "company_id": "BADA3553-3BA3-449A-8883-F492EEB9467B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/modella-woollens-ltd",
     "search_id": "modella-woollens-ltd",
     "company_id": "GSTK503772",
@@ -28,7 +28,56 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 60,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 57,
     "market_cap_inr": 54600000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -84.44094333333332,
+    "upside_pct": -83.62204561403509,
     "multiples": {
       "pe": null,
       "ps": 0,
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,10 +146,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "sws_statement": {
@@ -124,8 +173,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -137,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 60,
-        "fetched_at": "2026-05-25T20:43:35.244Z",
+        "value": 57,
+        "fetched_at": "2026-05-26T11:11:26.084Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-503772/modella-woollens-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 54600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 52.5,
           "high": 74.75
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -5.8241758,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 37.4437,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 37.037037037037045,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0366,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.03448275862068966,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.01724137931034483,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modella-woollens-ltd"
       }
     },
@@ -282,7 +331,7 @@
     "ps": 0,
     "book_value": -5.8241758,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 37.4437,
     "roa_pct": 0,
     "roic_pct": 37.037037037037045,
@@ -294,12 +343,12 @@
     "quick_ratio": 0.03448275862068966,
     "cash_ratio": 0.01724137931034483,
     "returns_pct": {
-      "1D": 0,
-      "7D": -10.714285714285717,
-      "1M": -14.297957434652197,
-      "3M": -11.76470588235294,
-      "6M": -14.199914199914208,
-      "1Y": 1.660454083361567,
+      "1D": -5,
+      "7D": -5,
+      "1M": -18.150488225157957,
+      "3M": -16.299559471365633,
+      "6M": -17.391304347826086,
+      "1Y": -3.422568620806511,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -413,7 +462,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/modella-woollens-ltd",
     "news": [
       {
@@ -478,7 +527,7 @@
         "ticker": "SOMATEX",
         "name": "Soma Textiles & Industries",
         "searchId": "soma-textiles-industries-ltd",
-        "market_cap_inr": 3323100000,
+        "market_cap_inr": 3395800000,
         "pe": 64.08,
         "pb": 2.07
       },
@@ -486,15 +535,15 @@
         "ticker": "514324",
         "name": "Omnitex Industries (India)",
         "searchId": "omnitex-industries-india-ltd",
-        "market_cap_inr": 2980300000,
+        "market_cap_inr": 3108000000,
         "pe": null,
-        "pb": 1.68
+        "pb": 1.75
       },
       {
         "ticker": "BTTL",
         "name": "Bhilwara Technical Textiles",
         "searchId": "bhilwara-technical-textiles-ltd",
-        "market_cap_inr": 2095600000,
+        "market_cap_inr": 2013900000,
         "pe": 178.8,
         "pb": 1.3
       }

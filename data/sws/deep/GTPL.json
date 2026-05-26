@@ -3,12 +3,12 @@
   "name": "GTPL Hathway Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-gtpl/gtpl-hathway-shares",
-  "parsed_at": "2026-05-25T23:47:51.544Z",
+  "parsed_at": "2026-05-26T14:37:53.249Z",
   "company_id": "C15F17F4-8B1A-47B3-80AF-AED3F658C855",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gtpl-hathway-ltd",
     "search_id": "gtpl-hathway-ltd",
     "company_id": "GSTK540602",
@@ -28,22 +28,70 @@
       "dividend": 3
     },
     "snowflake_total": 7,
-    "current_price_inr": 66.74,
-    "market_cap_inr": 7549600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 66.53,
+    "market_cap_inr": 7512500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 55.01,
       "high": 133.4
     },
-    "fair_value_inr": 16.3502,
+    "fair_value_inr": 16.350273,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -75.5016481869943,
+    "upside_pct": -75.42421013076807,
     "multiples": {
       "pe": 61.03,
       "ps": 0.2,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gtpl-hathway-ltd"
     },
@@ -200,7 +248,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Entertainment",
       "pe_industry_id": 24,
@@ -213,7 +261,7 @@
       "industry_pe": 23.170821784289235,
       "industry_name": "Entertainment",
       "industry_id": 24,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gtpl-hathway-ltd",
       "search_id": "gtpl-hathway-ltd"
     },
@@ -223,7 +271,7 @@
         "industry_pe": 23.170821784289235,
         "industry_name": "Entertainment",
         "industry_id": 24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "sws_statement": {
@@ -235,7 +283,7 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.437551471,
+        "industry_pe": 17.487487746,
         "industry_code": "4310000",
         "type": "median_profitable",
         "count": 55,
@@ -247,8 +295,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -260,56 +308,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 66.74,
-        "fetched_at": "2026-05-25T23:47:51.544Z",
+        "value": 66.53,
+        "fetched_at": "2026-05-26T14:37:53.249Z",
         "url": "https://simplywall.st/stocks/in/media/nse-gtpl/gtpl-hathway-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 7549600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7512500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 61.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 3.06,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.45327827648114905,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 2.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "fifty_two_week": {
@@ -318,91 +366,91 @@
           "low": 55.01,
           "high": 133.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 101.92887,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 23.170821784289235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3745,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4951840148982614,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.7832416667946656,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4361141210095693,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.628813645908673,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 43.8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 15.327196959289276,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5616,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4796966918786767,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.042854050474953526,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gtpl-hathway-ltd"
       }
     },
@@ -429,12 +477,12 @@
     "quick_ratio": 0.4796966918786767,
     "cash_ratio": 0.042854050474953526,
     "returns_pct": {
-      "1D": -0.8615567439096826,
-      "7D": -0.4474940334129047,
-      "1M": 0.16509079993996614,
-      "3M": -3.0364666569809726,
-      "6M": -33.139651372470446,
-      "1Y": -39.07248493700932,
+      "1D": -0.31465388073118633,
+      "7D": -1.1441307578008857,
+      "1M": -0.15008254539996146,
+      "3M": 12.610020311442119,
+      "6M": -33.007753499144094,
+      "1Y": -39.264195727588096,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -788,7 +836,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gtpl-hathway-ltd",
     "news": [
       {
@@ -863,7 +911,7 @@
         "ticker": "NETWORK18",
         "name": "Network18 Media & Investments",
         "searchId": "network-media-investment-ltd",
-        "market_cap_inr": 49112700000,
+        "market_cap_inr": 48650100000,
         "pe": 31.53,
         "pb": 1
       },
@@ -871,7 +919,7 @@
         "ticker": "AQYLON",
         "name": "Aqylon Nexus",
         "searchId": "sri-adhikari-brothers-television-network-ltd",
-        "market_cap_inr": 15053800000,
+        "market_cap_inr": 15804900000,
         "pe": null,
         "pb": 0
       },
@@ -879,7 +927,7 @@
         "ticker": "DEN",
         "name": "DEN Networks",
         "searchId": "den-networks-ltd",
-        "market_cap_inr": 12894600000,
+        "market_cap_inr": 13142700000,
         "pe": 7.79,
         "pb": 0.34
       }

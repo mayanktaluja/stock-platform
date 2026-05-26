@@ -3,12 +3,12 @@
   "name": "IIRM Holdings India Limited",
   "sector": "Insurance",
   "sws_url": "https://simplywall.st/stocks/in/insurance/bse-526530/iirm-holdings-india-shares",
-  "parsed_at": "2026-05-25T22:00:46.897Z",
+  "parsed_at": "2026-05-26T12:56:32.087Z",
   "company_id": "C36B1177-0823-477C-999C-2212665218BB",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sudev-industries-ltd",
     "search_id": "sudev-industries-ltd",
     "company_id": "GSTK526530",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 123.1,
-    "market_cap_inr": 8366100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 118.33,
+    "market_cap_inr": 8388600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -73.40612753858652,
+    "upside_pct": -72.33410208738273,
     "multiples": {
       "pe": 42.78,
       "ps": 3.43,
@@ -55,13 +104,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sudev-industries-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (42.7x) is below the Insurance industry average (54.5x)"
+      "Price-To-Earnings ratio (41.2x) is below the Insurance industry average (53.2x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹8B)",
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 35.65827264919344,
-      "sector_pe": 35.65827264919344
+      "pe": 35.65587789366573,
+      "sector_pe": 35.65587789366573
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Miscellaneous",
       "pe_industry_id": 39,
@@ -93,27 +142,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 42.78,
-      "industry_pe": 35.65827264919344,
+      "industry_pe": 35.65587789366573,
       "industry_name": "Miscellaneous",
       "industry_id": 39,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sudev-industries-ltd",
       "search_id": "sudev-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 42.78,
-        "industry_pe": 35.65827264919344,
+        "industry_pe": 35.65587789366573,
         "industry_name": "Miscellaneous",
         "industry_id": 39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 42.7,
-        "industry_pe": 11.4,
+        "company_pe": 41.2,
+        "industry_pe": 11.5,
         "industry_name": "Asian Insurance",
-        "description": "526530 is expensive based on its Price-To-Earnings Ratio (42.7x) compared to the Asian Insurance industry average (11.4x).",
+        "description": "526530 is expensive based on its Price-To-Earnings Ratio (41.2x) compared to the Asian Insurance industry average (11.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,7 +179,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 54.5,
+        "industry_pe": 53.3,
         "sample_count": 15,
         "industry_code": "7210000",
         "industry_name": "Insurance"
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 123.1,
-        "fetched_at": "2026-05-25T22:00:46.897Z",
+        "value": 118.33,
+        "fetched_at": "2026-05-26T12:56:32.087Z",
         "url": "https://simplywall.st/stocks/in/insurance/bse-526530/iirm-holdings-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8366100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8388600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 42.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 5.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 13.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -5.90074666666667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 68,
           "high": 128.99
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 21.3198949,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 35.65827264919344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 35.65587789366573,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 12.3413,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 9.348018854716013,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 13.259058842492847,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.2214833969544,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.183762262447154,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 32.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 21.93494189573902,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.4114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.6040902951958325,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.13158402469612196,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sudev-industries-ltd"
       }
     },
@@ -300,7 +349,7 @@
     "ps": 3.43,
     "book_value": 21.3198949,
     "face_value": 5,
-    "sector_pe": 35.65827264919344,
+    "sector_pe": 35.65587789366573,
     "roe_pct": 12.3413,
     "roa_pct": 9.348018854716013,
     "roic_pct": 13.259058842492847,
@@ -312,12 +361,12 @@
     "quick_ratio": 2.6040902951958325,
     "cash_ratio": 0.13158402469612196,
     "returns_pct": {
-      "1D": 0.2687953083000719,
-      "7D": 8.467706405850736,
-      "1M": 43.10625435945129,
-      "3M": 36.79297699744416,
-      "6M": 68.58394960284853,
-      "1Y": 55.704528206425486,
+      "1D": -3.874898456539396,
+      "7D": -3.749796648771758,
+      "1M": 37.56103231806557,
+      "3M": 31.624026696329246,
+      "6M": 63.303891802373734,
+      "1Y": 49.67113584619276,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -534,7 +583,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sudev-industries-ltd",
     "news": [
       {
@@ -589,7 +638,7 @@
         "ticker": "MEDIASSIST",
         "name": "Medi Assist Healthcare Services",
         "searchId": "medi-assist-healthcare-services-ltd",
-        "market_cap_inr": 27860100000,
+        "market_cap_inr": 27322200000,
         "pe": 31.18,
         "pb": 3.32
       },
@@ -597,17 +646,17 @@
         "ticker": "NIVABUPA",
         "name": "Niva Bupa Health Insurance Company",
         "searchId": "niva-bupa-health-insurance-company-ltd",
-        "market_cap_inr": 158807400000,
-        "pe": 121.07,
-        "pb": 4.19
+        "market_cap_inr": 156941500000,
+        "pe": 119.65,
+        "pb": 4.14
       },
       {
         "ticker": "CANHLIFE",
         "name": "Canara HSBC Life Insurance Company",
         "searchId": "canara-hsbc-life-insurance-company-ltd",
-        "market_cap_inr": 132145000000,
-        "pe": 104.59,
-        "pb": 8.23
+        "market_cap_inr": 132287500000,
+        "pe": 104.7,
+        "pb": 8.24
       }
     ],
     "details": {

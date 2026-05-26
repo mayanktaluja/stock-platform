@@ -3,12 +3,12 @@
   "name": "Arcee Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-520121/arcee-industries-shares",
-  "parsed_at": "2026-05-25T21:34:00.125Z",
+  "parsed_at": "2026-05-26T12:31:33.777Z",
   "company_id": "0A0E3DD4-3DCF-4B5A-AD7E-B92AAD3C5D04",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/arcee-industries-ltd",
     "search_id": "arcee-industries-ltd",
     "company_id": "GSTK520121",
@@ -16,21 +16,70 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 1,
       "future": 0,
       "past": 0,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
-      "value": 0,
+      "value": 1,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 6,
-    "current_price_inr": 13.88,
-    "market_cap_inr": 75100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 13.19,
+    "market_cap_inr": 71300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.46940922190201,
+    "upside_pct": -98.38934040940106,
     "multiples": {
       "pe": null,
       "ps": 79.14,
-      "pb": 2.33,
+      "pb": 2.21,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -59,11 +108,13 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
-    "rewards": [],
+    "rewards": [
+      "Trading at good value vs. industry average Price-To-Book ratio"
+    ],
     "risks": [
       "Makes less than USD$1m in revenue (₹1M)",
       "Earnings have declined by 25.6% per year over past 5 years",
-      "Does not have a meaningful market cap (₹75M)"
+      "Does not have a meaningful market cap (₹71M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -75,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 24.858261272856254
+      "sector_pe": 24.83232947584154
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -96,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 24.858261272856254,
+        "industry_pe": 24.83232947584154,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2.2,
+        "industry_pe": 2.1,
         "industry_name": "Indian Building",
-        "description": "520121 is expensive based on its Price-To-Book Ratio (2.3x) compared to the Indian Building industry average (2.2x).",
+        "description": "520121 is good value based on its Price-To-Book Ratio (2.1x) compared to the Indian Building industry average (2.1x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -136,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.88,
-        "fetched_at": "2026-05-25T21:34:00.125Z",
+        "value": 13.19,
+        "fetched_at": "2026-05-26T12:31:33.777Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-520121/arcee-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 75100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 71300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.21,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 79.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "fifty_two_week": {
@@ -188,85 +239,85 @@
           "low": 4.79,
           "high": 19.11
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 6.2797665,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 5.510000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6511156186612577,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6969,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4967320261437909,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.11111111111111112,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/arcee-industries-ltd"
       }
     },
@@ -277,11 +328,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 2.33,
+    "pb": 2.21,
     "ps": 79.14,
     "book_value": 6.2797665,
     "face_value": 10,
-    "sector_pe": 24.858261272856254,
+    "sector_pe": 24.83232947584154,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -293,12 +344,12 @@
     "quick_ratio": 1.4967320261437909,
     "cash_ratio": 0.11111111111111112,
     "returns_pct": {
-      "1D": -4.996577686516076,
-      "7D": 9.810126582278482,
-      "1M": -8.079470198675489,
-      "3M": -2.59649122807017,
-      "6M": 101.15942028985508,
-      "1Y": 98.28571428571429,
+      "1D": -4.971181556195974,
+      "7D": -0.6028636021100231,
+      "1M": -12.649006622516556,
+      "3M": -9.222298692360633,
+      "6M": 101.06707317073172,
+      "1Y": 88.42857142857142,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -477,12 +528,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/arcee-industries-ltd",
     "news": [
       {
@@ -540,22 +601,32 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-29T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "MANINDS",
         "name": "Man Industries India",
         "searchId": "man-industries-india-ltd",
-        "market_cap_inr": 42733000000,
+        "market_cap_inr": 41825300000,
         "pe": 22.75,
         "pb": 2.17
       },
@@ -563,7 +634,7 @@
         "ticker": "SAMBHV",
         "name": "Sambhv Steel Tubes",
         "searchId": "sambhv-steel-tubes-ltd",
-        "market_cap_inr": 31367800000,
+        "market_cap_inr": 31691900000,
         "pe": 22.09,
         "pb": 2.98
       }

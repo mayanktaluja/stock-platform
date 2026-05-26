@@ -3,12 +3,12 @@
   "name": "Unipro Technologies Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-540189/unipro-technologies-shares",
-  "parsed_at": "2026-05-25T23:49:50.451Z",
+  "parsed_at": "2026-05-26T14:38:58.492Z",
   "company_id": "C7D8712E-C911-492D-A5A7-2DE6F1B3B44F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/unipro-technologies-ltd",
     "search_id": "unipro-technologies-ltd",
     "company_id": "GSTK540189",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 0,
-    "current_price_inr": 21.85,
-    "market_cap_inr": 140000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 22.79,
+    "market_cap_inr": 133000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -63,7 +112,7 @@
     "risks": [
       "Has less than 1 year of [[cash runway]]",
       "540189 has negative shareholders equity.",
-      "Does not have a meaningful market cap (₹140M)",
+      "Does not have a meaningful market cap (₹133M)",
       "Earnings have declined by 31.7% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹10M)"
     ],
@@ -77,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 21.41038809716583
+      "sector_pe": 21.411947666551587
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -98,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 21.41038809716583,
+        "industry_pe": 21.411947666551587,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3.1,
+        "industry_pe": 3.2,
         "industry_name": "Indian Software",
-        "description": "540189 is expensive based on its Price-To-Sales Ratio (14x) compared to the Indian Software industry average (3.1x).",
+        "description": "540189 is expensive based on its Price-To-Sales Ratio (13.9x) compared to the Indian Software industry average (3.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -125,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -138,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 21.85,
-        "fetched_at": "2026-05-25T23:49:50.451Z",
+        "value": 22.79,
+        "fetched_at": "2026-05-26T14:38:58.492Z",
         "url": "https://simplywall.st/stocks/in/software/bse-540189/unipro-technologies-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 140000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 133000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "fifty_two_week": {
@@ -190,85 +239,85 @@
           "low": 3.24,
           "high": 36.62
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": -1.9804763,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 21.41038809716583,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 21.411947666551587,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 23.0795,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 56.934306569343065,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5706,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5728155339805825,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.07766990291262135,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/unipro-technologies-ltd"
       }
     },
@@ -283,7 +332,7 @@
     "ps": 0,
     "book_value": -1.9804763,
     "face_value": 10,
-    "sector_pe": 21.41038809716583,
+    "sector_pe": 21.411947666551587,
     "roe_pct": 23.0795,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -295,12 +344,12 @@
     "quick_ratio": 0.5728155339805825,
     "cash_ratio": 0.07766990291262135,
     "returns_pct": {
-      "1D": -4.999999999999994,
-      "7D": 4.395604395604404,
-      "1M": -31.310908519333537,
-      "3M": 9.031936127744522,
-      "6M": 387.7232142857143,
-      "1Y": 574.3827160493827,
+      "1D": 4.302059496567495,
+      "7D": 14.580191050779279,
+      "1M": -28.35586293618359,
+      "3M": 11.497064579256348,
+      "6M": 408.7053571428571,
+      "1Y": 603.3950617283949,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -469,7 +518,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/unipro-technologies-ltd",
     "news": [
       {
@@ -527,7 +576,7 @@
         "ticker": "MAPMYINDIA",
         "name": "CE Info Systems",
         "searchId": "c-e-info-systems-ltd",
-        "market_cap_inr": 47138300000,
+        "market_cap_inr": 47483300000,
         "pe": 35.18,
         "pb": 5.21
       },
@@ -535,17 +584,17 @@
         "ticker": "AURIONPRO",
         "name": "Aurionpro Solutions",
         "searchId": "aurionpro-solutions-ltd",
-        "market_cap_inr": 45231700000,
+        "market_cap_inr": 45555000000,
         "pe": 21.36,
         "pb": 2.6
       },
       {
-        "ticker": "MOSCHIP",
-        "name": "Moschip Technologies",
-        "searchId": "moschip-semiconductor-technology-ltd",
-        "market_cap_inr": 39030500000,
-        "pe": 111.08,
-        "pb": 10.6
+        "ticker": "EMUDHRA",
+        "name": "eMudhra",
+        "searchId": "emudhra-ltd",
+        "market_cap_inr": 40097400000,
+        "pe": 35.36,
+        "pb": 4.27
       }
     ],
     "details": {

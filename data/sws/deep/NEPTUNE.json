@@ -3,7 +3,7 @@
   "name": "Neptune Petrochemicals Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-neptune/neptune-petrochemicals-shares",
-  "parsed_at": "2026-05-25T21:47:46.853Z",
+  "parsed_at": "2026-05-26T12:37:06.773Z",
   "company_id": "FBAE3ACD-1B28-47D1-A0AF-15E031FC0968",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,19 +11,69 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 4,
+      "past": 3,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 4,
+      "past_performance": 3,
       "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 196,
     "market_cap_inr": 4440085378.70807,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": 951.1772984693879,
     "multiples": {
-      "pe": 14.2,
+      "pe": 14.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,8 +101,8 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (14.2x) is below the Indian market (23.4x)",
-      "Earnings grew by 20.9% over the past year"
+      "Price-To-Earnings ratio (14.6x) is below the Indian market (23.4x)",
+      "Earnings have grown 33.5% per year over the past 5 years"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹4B)"
@@ -67,7 +117,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 19.5
+      "pe": 20
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -81,17 +131,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 14.2,
-      "industry_pe": 19.5,
+      "company_pe": 14.6,
+      "industry_pe": 20,
       "industry_name": "Indian Oil and Gas"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 14.2,
-        "industry_pe": 19.5,
+        "company_pe": 14.6,
+        "industry_pe": 20,
         "industry_name": "Indian Oil and Gas",
-        "description": "NEPTUNE is good value based on its Price-To-Earnings Ratio (14.2x) compared to the Indian Oil and Gas industry average (19.5x).",
+        "description": "NEPTUNE is good value based on its Price-To-Earnings Ratio (14.6x) compared to the Indian Oil and Gas industry average (20x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -108,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
+        "industry_pe": 17.9,
         "sample_count": 31,
         "industry_code": "1030000",
         "industry_name": "Energy"
@@ -122,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 196,
-        "fetched_at": "2026-05-25T21:47:46.853Z",
+        "fetched_at": "2026-05-26T12:37:06.773Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-neptune/neptune-petrochemicals-shares"
       }
     },
@@ -149,10 +199,10 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.1578947368421053,
-      "7D": 4.925053533190572,
+      "1D": 0,
+      "7D": 0.5128205128205128,
       "1M": -6.666666666666667,
-      "3M": -18.16283924843424,
+      "3M": -14.41048034934498,
       "6M": 21.73913043478261,
       "1Y": 40.65303193397919,
       "5Y": null

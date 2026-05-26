@@ -3,12 +3,12 @@
   "name": "Gratex Industries Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-526751/gratex-industries-shares",
-  "parsed_at": "2026-05-25T22:04:32.859Z",
+  "parsed_at": "2026-05-26T12:59:50.277Z",
   "company_id": "7DD048F9-DC1D-41F4-B058-102BA6A9089A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gratex-industries-ltd",
     "search_id": "gratex-industries-ltd",
     "company_id": "GSTK526751",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 24.5,
     "market_cap_inr": 74200000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gratex-industries-ltd"
     },
@@ -74,13 +123,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 16.509185808938476,
-      "sector_pe": 16.509185808938476
+      "pe": 17.179335198846765,
+      "sector_pe": 17.179335198846765
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Paper",
       "pe_industry_id": 44,
@@ -90,27 +139,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 90.74,
-      "industry_pe": 16.509185808938476,
+      "industry_pe": 17.179335198846765,
       "industry_name": "Paper",
       "industry_id": 44,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gratex-industries-ltd",
       "search_id": "gratex-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 90.74,
-        "industry_pe": 16.509185808938476,
+        "industry_pe": 17.179335198846765,
         "industry_name": "Paper",
         "industry_id": 44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "sws_statement": {
         "company_pe": 90.5,
-        "industry_pe": 25.3,
+        "industry_pe": 25.7,
         "industry_name": "Indian Retail Distributors",
-        "description": "526751 is expensive based on its Price-To-Earnings Ratio (90.5x) compared to the Indian Retail Distributors industry average (25.3x).",
+        "description": "526751 is expensive based on its Price-To-Earnings Ratio (90.5x) compared to the Indian Retail Distributors industry average (25.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -127,8 +176,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -141,55 +190,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 24.5,
-        "fetched_at": "2026-05-25T22:04:32.859Z",
+        "fetched_at": "2026-05-26T12:59:50.277Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-526751/gratex-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
         "value": 74200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 90.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -3.6332,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 16.509185808938476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17.179335198846765,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "fifty_two_week": {
@@ -198,91 +247,91 @@
           "low": 16.18,
           "high": 26.46
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.1706271,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 16.509185808938476,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17.179335198846765,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.8409,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.0785219399538106,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.4193548387096775,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.4258760107816713,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.008086253369273,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0699999999999998,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9237875288683602,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.866,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.307692307692308,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.019230769230769232,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gratex-industries-ltd"
       }
     },
@@ -297,7 +346,7 @@
     "ps": 2,
     "book_value": 12.1706271,
     "face_value": 10,
-    "sector_pe": 16.509185808938476,
+    "sector_pe": 17.179335198846765,
     "roe_pct": 2.8409,
     "roa_pct": 2.0785219399538106,
     "roic_pct": 2.4193548387096775,
@@ -448,9 +497,16 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gratex-industries-ltd",
     "news": [
+      {
+        "id": "683994",
+        "title": "Gratex Industries Ltd's Board approved audited financials for Q4 & FY ending 31st March 2026, with unmodified auditor opinion.\nAppointments of secretarial auditor and internal auditor for FY 2026-27 were also approved during the meeting.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=18a8258e-e319-4091-a880-edb04cda40d8.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-26T11:30:44.000Z"
+      },
       {
         "id": "485692",
         "title": "Gratex Industries Ltd reported unaudited standalone financial results for Q3 and nine months ended Dec 31, 2025, showing revenue of Rs. 98.6 lac for Q3.\nNet profit for Q3 stood at Rs. 2.64 lac. Board meeting details and limited review report were disclosed as per SEBI regulations.",
@@ -503,26 +559,26 @@
     ],
     "peers": [
       {
-        "ticker": "ELECTCAST",
-        "name": "Electrosteel Castings",
-        "searchId": "electrosteel-castings-ltd",
-        "market_cap_inr": 48261700000,
-        "pe": 29.91,
-        "pb": 0.81
-      },
-      {
         "ticker": "STYLAMIND",
         "name": "Stylam Industries",
         "searchId": "stylam-industries-ltd",
-        "market_cap_inr": 46744400000,
+        "market_cap_inr": 48409600000,
         "pe": 31.19,
         "pb": 5.79
+      },
+      {
+        "ticker": "SURYAROSNI",
+        "name": "Surya Roshni",
+        "searchId": "surya-roshni-ltd",
+        "market_cap_inr": 47314000000,
+        "pe": 16.84,
+        "pb": 2.13
       },
       {
         "ticker": "RESPONIND",
         "name": "Responsive Industries",
         "searchId": "responsive-industries-ltd",
-        "market_cap_inr": 44163700000,
+        "market_cap_inr": 46789800000,
         "pe": 24.54,
         "pb": 3
       }

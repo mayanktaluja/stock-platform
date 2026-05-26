@@ -3,12 +3,12 @@
   "name": "Newtime Infrastructure Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-531959/newtime-infrastructure-shares",
-  "parsed_at": "2026-05-25T22:53:27.023Z",
+  "parsed_at": "2026-05-26T13:47:12.136Z",
   "company_id": "F13CAABB-80DB-4C03-9A0B-7E1A31B9AC0F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/newtime-infrastructure-ltd",
     "search_id": "newtime-infrastructure-ltd",
     "company_id": "GSTK531959",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 1.86,
-    "market_cap_inr": 991900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.85,
+    "market_cap_inr": 976200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.62,
       "high": 4.13
     },
-    "fair_value_inr": 2.255652,
+    "fair_value_inr": 2.263513,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 21.2716129032258,
+    "upside_pct": 22.352054054054054,
     "multiples": {
       "pe": null,
       "ps": 26.62,
@@ -60,11 +109,11 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 16.4% below our estimate of its fair value"
+      "Trading at 18.3% below our estimate of its fair value"
     ],
     "risks": [
       "Makes less than USD$1m in revenue (₹37M)",
-      "Does not have a meaningful market cap (₹992M)"
+      "Does not have a meaningful market cap (₹976M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 31.6218471625948
+      "sector_pe": 31.637222628337422
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 31.6218471625948,
+        "industry_pe": 31.637222628337422,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 4.7,
+        "industry_pe": 4.8,
         "industry_name": "Indian Real Estate",
-        "description": "531959 is expensive based on its Price-To-Sales Ratio (26.6x) compared to the Indian Real Estate industry average (4.7x).",
+        "description": "531959 is expensive based on its Price-To-Sales Ratio (26.1x) compared to the Indian Real Estate industry average (4.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,8 +173,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
-        "sample_count": 145,
+        "industry_pe": 23.85,
+        "sample_count": 144,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -137,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.86,
-        "fetched_at": "2026-05-25T22:53:27.023Z",
+        "value": 1.85,
+        "fetched_at": "2026-05-26T13:47:12.136Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-531959/newtime-infrastructure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 991900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 976200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 6.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 26.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 146.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 1.62,
           "high": 4.13
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.309103,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 31.6218471625948,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 31.637222628337422,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.695006295595831,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.013404825737267,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 327.59000000000003,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 56.35804433131827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.5646,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2633292633292634,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.013431013431013432,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/newtime-infrastructure-ltd"
       }
     },
@@ -282,7 +331,7 @@
     "ps": 26.62,
     "book_value": 0.309103,
     "face_value": 1,
-    "sector_pe": 31.6218471625948,
+    "sector_pe": 31.637222628337422,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0.695006295595831,
@@ -294,12 +343,12 @@
     "quick_ratio": 1.2633292633292634,
     "cash_ratio": 0.013431013431013432,
     "returns_pct": {
-      "1D": -1.5873015873015772,
-      "7D": 1.0869565217391313,
-      "1M": -6.060606060606054,
-      "3M": -7.462686567164164,
-      "6M": -18.421052631578934,
-      "1Y": -36.3013698630137,
+      "1D": -0.5376344086021511,
+      "7D": -3.645833333333325,
+      "1M": -6.56565656565656,
+      "3M": -6.56565656565656,
+      "6M": -19.213973799126634,
+      "1Y": -36.64383561643835,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -455,9 +504,16 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/newtime-infrastructure-ltd",
     "news": [
+      {
+        "id": "678867",
+        "title": "Newtime Infrastructure's board meeting is scheduled for 30 May 2026 to approve audited financial results.\nTrading window remains closed for designated persons until 48 hours post-results declaration.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=8df7eb1c-308e-40d0-857f-162daec0353f.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-25T08:31:01.000Z"
+      },
       {
         "id": "493757",
         "title": "Mr. Manoj Kumar resigned as Independent Director of Newtime Infra, effective Feb 13, 2026.\nThe Board appreciated his contributions; resignation letter details enclosed as Annexure II.",
@@ -503,7 +559,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -511,7 +567,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -519,7 +575,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

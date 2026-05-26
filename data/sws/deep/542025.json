@@ -3,7 +3,7 @@
   "name": "Sun Retail Limited",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/bse-542025/sun-retail-shares",
-  "parsed_at": "2026-05-25T20:37:24.432Z",
+  "parsed_at": "2026-05-26T11:04:38.841Z",
   "company_id": "E4E990DA-F0A0-45D9-AED9-EC23D687E352",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.36,
     "market_cap_inr": 55860427.29935445,
     "market_cap_usd": 127196762990.178,
@@ -106,7 +155,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
@@ -120,7 +169,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.36,
-        "fetched_at": "2026-05-25T20:37:24.432Z",
+        "fetched_at": "2026-05-26T11:04:38.841Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-542025/sun-retail-shares"
       }
     },

@@ -3,12 +3,12 @@
   "name": "Sical Logistics Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-sicallog/sical-logistics-shares",
-  "parsed_at": "2026-05-25T22:59:33.351Z",
+  "parsed_at": "2026-05-26T13:49:22.901Z",
   "company_id": "6E602549-7E61-43D8-A468-3857BB16C802",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sical-logistics-ltd",
     "search_id": "sical-logistics-ltd",
     "company_id": "GSTK520086",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 65,
-    "market_cap_inr": 5071900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 64.43,
+    "market_cap_inr": 5146100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -96.32516615384615,
+    "upside_pct": -96.29265559521963,
     "multiples": {
       "pe": 8.43,
       "ps": 1.41,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sical-logistics-ltd"
     },
@@ -63,7 +112,7 @@
       "Became profitable this year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (8.7x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (8.8x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹5B)",
@@ -87,7 +136,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Logistics",
       "pe_industry_id": 36,
@@ -100,7 +149,7 @@
       "industry_pe": 44.625110317113496,
       "industry_name": "Logistics",
       "industry_id": 36,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/sical-logistics-ltd",
       "search_id": "sical-logistics-ltd"
     },
@@ -110,14 +159,14 @@
         "industry_pe": 44.625110317113496,
         "industry_name": "Logistics",
         "industry_id": 36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "sws_statement": {
-        "company_pe": 8.7,
-        "industry_pe": 12.5,
+        "company_pe": 8.8,
+        "industry_pe": 12.4,
         "industry_name": "Asian Infrastructure",
-        "description": "SICALLOG is good value based on its Price-To-Earnings Ratio (8.7x) compared to the Asian Infrastructure industry average (12.5x).",
+        "description": "SICALLOG is good value based on its Price-To-Earnings Ratio (8.8x) compared to the Asian Infrastructure industry average (12.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -134,7 +183,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 13.5,
+        "industry_pe": 14,
         "sample_count": 19,
         "industry_code": "3250000",
         "industry_name": "Transportation"
@@ -147,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 65,
-        "fetched_at": "2026-05-25T22:59:33.351Z",
+        "value": 64.43,
+        "fetched_at": "2026-05-26T13:49:22.901Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-sicallog/sical-logistics-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5071900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5146100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 8.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 5.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.625110317113496,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +254,91 @@
           "low": 60.11,
           "high": 103.38
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 7.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 11.978228,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 44.625110317113496,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 12.421413928680835,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 47.24718635068994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 68.53428803758584,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.1846,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1944444444444444,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.29245014245014245,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sical-logistics-ltd"
       }
     },
@@ -316,12 +365,12 @@
     "quick_ratio": 1.1944444444444444,
     "cash_ratio": 0.29245014245014245,
     "returns_pct": {
-      "1D": 1.9128253370962665,
-      "7D": 2.4590163934426266,
-      "1M": -5.440791387838224,
-      "3M": -1.5449863677673374,
-      "6M": -30.107526881720432,
-      "1Y": -33.6734693877551,
+      "1D": -0.8769230769230665,
+      "7D": -0.7700600646850454,
+      "1M": -6.270002909514094,
+      "3M": -1.828432119457548,
+      "6M": -27.279909706546263,
+      "1Y": -34.25510204081632,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -492,7 +541,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sical-logistics-ltd",
     "news": [
       {
@@ -567,15 +616,15 @@
         "ticker": "VRLLOG",
         "name": "VRL Logistics",
         "searchId": "vrl-logistics-ltd",
-        "market_cap_inr": 41871200000,
-        "pe": 17.68,
+        "market_cap_inr": 41967400000,
+        "pe": 17.72,
         "pb": 3.67
       },
       {
         "ticker": "REFEX",
         "name": "Refex Industries",
         "searchId": "refex-industries-ltd",
-        "market_cap_inr": 38291100000,
+        "market_cap_inr": 38922300000,
         "pe": 24.35,
         "pb": 2.82
       },
@@ -583,7 +632,7 @@
         "ticker": "MAHLOG",
         "name": "Mahindra Logistics",
         "searchId": "mahindra-logistics-ltd",
-        "market_cap_inr": 35080100000,
+        "market_cap_inr": 35402600000,
         "pe": 330.42,
         "pb": 2.99
       }

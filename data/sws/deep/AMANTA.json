@@ -3,12 +3,12 @@
   "name": "Amanta Healthcare Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-amanta/amanta-healthcare-shares",
-  "parsed_at": "2026-05-25T21:35:04.227Z",
+  "parsed_at": "2026-05-26T12:27:01.406Z",
   "company_id": "39A6E71C-930D-4F7F-BE85-714E5D2D923D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/amanta-healthcare-ltd",
     "search_id": "amanta-healthcare-ltd",
     "company_id": "GSTK544502",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 132.27,
-    "market_cap_inr": 5010900000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 133.25,
+    "market_cap_inr": 5152700000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -69.29043093672036,
+    "upside_pct": -69.51628742964353,
     "multiples": {
-      "pe": 33.69,
+      "pe": 34.65,
       "ps": 1.76,
-      "pb": 2.28,
+      "pb": 2.34,
       "ev_ebitda": 0,
       "peg": 0
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/amanta-healthcare-ltd"
     },
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 45.29762059479049,
-      "sector_pe": 45.29762059479049
+      "pe": 45.25631416127515,
+      "sector_pe": 45.25631416127515
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Pharmaceuticals",
       "pe_industry_id": 46,
@@ -92,21 +141,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 33.69,
-      "industry_pe": 45.29762059479049,
+      "company_pe": 34.65,
+      "industry_pe": 45.25631416127515,
       "industry_name": "Pharmaceuticals",
       "industry_id": 46,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/amanta-healthcare-ltd",
       "search_id": "amanta-healthcare-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 33.69,
-        "industry_pe": 45.29762059479049,
+        "company_pe": 34.65,
+        "industry_pe": 45.25631416127515,
         "industry_name": "Pharmaceuticals",
         "industry_id": 46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "sws_statement": {
@@ -130,8 +179,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.25,
-        "sample_count": 150,
+        "industry_pe": 29.1,
+        "sample_count": 151,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 132.27,
-        "fetched_at": "2026-05-25T21:35:04.227Z",
+        "value": 133.25,
+        "fetched_at": "2026-05-26T12:27:01.406Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-amanta/amanta-healthcare-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5010900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5152700000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 33.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.65,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.34,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 92,
           "high": 154.4
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.83,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 56.7120864,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 45.29762059479049,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 45.25631416127515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 7.4633,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.78504605899853,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 8.425481707126718,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.4018353726362625,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.06159621802002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 111.00000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 43.80981397182694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.5826,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.1046363249680986,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.6567418119948958,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/amanta-healthcare-ltd"
       }
     },
@@ -296,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 3.83,
     "most_recent_reported_date": null,
-    "pb": 2.28,
+    "pb": 2.34,
     "ps": 1.76,
     "book_value": 56.7120864,
     "face_value": 10,
-    "sector_pe": 45.29762059479049,
+    "sector_pe": 45.25631416127515,
     "roe_pct": 7.4633,
     "roa_pct": 2.78504605899853,
     "roic_pct": 8.425481707126718,
@@ -312,12 +361,12 @@
     "quick_ratio": 1.1046363249680986,
     "cash_ratio": 0.6567418119948958,
     "returns_pct": {
-      "1D": 1.675762933353837,
-      "7D": 5.126371006199347,
-      "1M": 0.1817768688934402,
-      "3M": 30.43092397199489,
-      "6M": 17.094546742209648,
-      "1Y": -6.68783068783068,
+      "1D": 0.7409087472593859,
+      "7D": 0.6724085826533592,
+      "1M": 0.9240324168749517,
+      "3M": 32.38946845504222,
+      "6M": 20.261732851985563,
+      "1Y": -5.996472663139329,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -516,7 +565,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/amanta-healthcare-ltd",
     "news": [
       {
@@ -581,7 +630,7 @@
         "ticker": "INNOVACAP",
         "name": "Innova Captab",
         "searchId": "innova-captab-ltd",
-        "market_cap_inr": 48538200000,
+        "market_cap_inr": 48672700000,
         "pe": 34.44,
         "pb": 4.45
       },
@@ -589,17 +638,17 @@
         "ticker": "GUJTHEM",
         "name": "Gujarat Themis Biosyn",
         "searchId": "gujarat-themis-biosyn-ltd",
-        "market_cap_inr": 40191800000,
-        "pe": 84.02,
-        "pb": 15.2
+        "market_cap_inr": 42196800000,
+        "pe": 88.21,
+        "pb": 15.96
       },
       {
-        "ticker": "ORCHPHARMA",
-        "name": "Orchid Pharma",
-        "searchId": "orchid-pharma-ltd",
-        "market_cap_inr": 35909100000,
-        "pe": 190.32,
-        "pb": 2.82
+        "ticker": "IOLCP",
+        "name": "IOL Chemicals & Pharmaceuticals",
+        "searchId": "iol-chemicals-pharmaceuticals-ltd",
+        "market_cap_inr": 36420900000,
+        "pe": 25.33,
+        "pb": 1.94
       }
     ],
     "details": {

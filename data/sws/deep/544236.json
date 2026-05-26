@@ -3,7 +3,7 @@
   "name": "Resourceful Automobile Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-544236/resourceful-automobile-shares",
-  "parsed_at": "2026-05-25T21:01:20.072Z",
+  "parsed_at": "2026-05-26T11:52:57.558Z",
   "company_id": "6B8DD070-609C-450E-ABCF-FED0675849C0",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 59.46,
-    "market_cap_inr": 157922488.20331928,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 56.49,
+    "market_cap_inr": 150034331.6280778,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -112,7 +161,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -125,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 59.46,
-        "fetched_at": "2026-05-25T21:01:20.072Z",
+        "value": 56.49,
+        "fetched_at": "2026-05-26T11:52:57.558Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-544236/resourceful-automobile-shares"
       }
     },
@@ -153,16 +202,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 5.108714866537035,
-      "7D": 37.575196668209166,
-      "1M": 68.44192634560909,
-      "3M": 52.46153846153846,
-      "6M": -0.8999999999999986,
-      "1Y": -17.416666666666668,
+      "1D": -4.994954591321895,
+      "7D": 32.88637967537051,
+      "1M": 60.02832861189804,
+      "3M": 53.089430894308954,
+      "6M": -5.849999999999997,
+      "1Y": -21.541666666666664,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -222,6 +271,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "0a7ce544-0a53-4ab6-ab38-5b48d114b5c4",
+      "type": "event",
+      "date": "2026-05-25T13:06:00.000Z",
+      "title": "Resourceful Automobile Limited to Report Q4, 2026 Results on May 30, 2026",
+      "body": "Resourceful Automobile Limited announced that they will report Q4, 2026 results at 3:30 PM, Indian Standard Time on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "a40b9c86-cd40-4da1-b4ec-b835d0b3371e",
       "type": "brief",

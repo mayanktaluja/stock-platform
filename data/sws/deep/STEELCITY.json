@@ -3,7 +3,7 @@
   "name": "Steel City Securities Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-steelcity/steel-city-securities-shares",
-  "parsed_at": "2026-05-25T23:12:11.824Z",
+  "parsed_at": "2026-05-26T14:00:49.859Z",
   "company_id": "FB45FC79-3C25-445B-AB08-01CCCACF7EBF",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 3
     },
     "snowflake_total": 9,
-    "current_price_inr": 78.05,
-    "market_cap_inr": 1179108826.1676311,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 78.27,
+    "market_cap_inr": 1182432387.2407494,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 38.678609,
+    "fair_value_inr": 38.669313,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -50.443806534272895,
+    "upside_pct": -50.594975086239934,
     "multiples": {
       "pe": 8.3,
       "ps": null,
@@ -54,7 +103,7 @@
       "Price-To-Earnings ratio (8.3x) is below the Indian market (23.4x)"
     ],
     "risks": [
-      "Dividend of 5.12% is not well covered by free cash flows",
+      "Dividend of 5.11% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]",
       "Does not have a meaningful market cap (₹1B)"
     ],
@@ -225,7 +274,7 @@
     },
     "dividend_yield_pct": 4.6963736857,
     "industry_benchmarks": {
-      "pe": 27.9
+      "pe": 27.3
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -240,16 +289,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 8.3,
-      "industry_pe": 27.9,
+      "industry_pe": 27.3,
       "industry_name": "Indian Capital Markets"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 8.3,
-        "industry_pe": 27.9,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "STEELCITY is good value based on its Price-To-Earnings Ratio (8.3x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "STEELCITY is good value based on its Price-To-Earnings Ratio (8.3x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -279,8 +328,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 78.05,
-        "fetched_at": "2026-05-25T23:12:11.824Z",
+        "value": 78.27,
+        "fetched_at": "2026-05-26T14:00:49.859Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-steelcity/steel-city-securities-shares"
       }
     },
@@ -307,12 +356,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.17905102954342061,
-      "7D": -0.4464285714285822,
-      "1M": -6.156065889142725,
-      "3M": -11.538025614870232,
-      "6M": -19.47797379552255,
-      "1Y": -22.46175243393602,
+      "1D": 0.2818705957719396,
+      "7D": -0.8487458829490775,
+      "1M": -5.8915474329686255,
+      "3M": -8.637796194700602,
+      "6M": -17.21840296139609,
+      "1Y": -22.243194913570434,
       "5Y": null
     },
     "next_earnings_date": null,

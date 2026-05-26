@@ -3,12 +3,12 @@
   "name": "Landmarc Leisure Corporation Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/bse-532275/landmarc-leisure-shares",
-  "parsed_at": "2026-05-25T23:00:21.665Z",
+  "parsed_at": "2026-05-26T13:53:54.972Z",
   "company_id": "A9E9F1C8-4FC2-4C50-B85D-AA2D61FC4CEC",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd",
     "search_id": "landmarc-leisure-corporation-ltd",
     "company_id": "GSTK532275",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 1.84,
-    "market_cap_inr": 1744400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.83,
+    "market_cap_inr": 1803200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -47,7 +96,7 @@
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 3.98,
+      "pb": 4.11,
       "ev_ebitda": 419.55,
       "peg": 0
     },
@@ -76,7 +125,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 26.742161909218538
+      "sector_pe": 26.742161909218535
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +146,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 26.742161909218538,
+        "industry_pe": 26.742161909218535,
         "industry_name": "Entertainment",
         "industry_id": 24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.6,
+        "industry_pe": 1.7,
         "industry_name": "Indian Entertainment",
-        "description": "532275 is expensive based on its Price-To-Book Ratio (4x) compared to the Indian Entertainment industry average (1.6x).",
+        "description": "532275 is expensive based on its Price-To-Book Ratio (4.1x) compared to the Indian Entertainment industry average (1.7x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,8 +173,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.8,
-        "sample_count": 34,
+        "industry_pe": 18,
+        "sample_count": 35,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
@@ -137,50 +186,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.84,
-        "fetched_at": "2026-05-25T23:00:21.665Z",
+        "value": 1.83,
+        "fetched_at": "2026-05-26T13:53:54.972Z",
         "url": "https://simplywall.st/stocks/in/media/bse-532275/landmarc-leisure-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1744400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1803200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 3.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4.11,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 419.55,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 26.742161909218538,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 26.742161909218535,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +238,85 @@
           "low": 1.63,
           "high": 3.73
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.4473469,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 26.742161909218538,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 26.742161909218535,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 6.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 6.111224281931146,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.9738,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.34942084942085,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.40540540540540543,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd"
       }
     },
@@ -278,11 +327,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 3.98,
+    "pb": 4.11,
     "ps": 0,
     "book_value": 0.4473469,
     "face_value": 1,
-    "sector_pe": 26.742161909218538,
+    "sector_pe": 26.742161909218535,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +343,12 @@
     "quick_ratio": 3.34942084942085,
     "cash_ratio": 0.40540540540540543,
     "returns_pct": {
-      "1D": 3.3707865168539355,
-      "7D": -6.122448979591831,
-      "1M": -12.380952380952381,
-      "3M": -10.243902439024378,
-      "6M": -28.125,
-      "1Y": -5.641025641025635,
+      "1D": -0.5434782608695656,
+      "7D": -4.188481675392662,
+      "1M": -12.85714285714286,
+      "3M": -14.883720930232553,
+      "6M": -29.88505747126436,
+      "1Y": -6.153846153846148,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -493,7 +542,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/landmarc-leisure-corporation-ltd",
     "news": [
       {
@@ -558,7 +607,7 @@
         "ticker": "542727",
         "name": "City Pulse Multiventures",
         "searchId": "city-pulse-multiplex-ltd",
-        "market_cap_inr": 34783900000,
+        "market_cap_inr": 34498500000,
         "pe": null,
         "pb": 14.12
       },
@@ -566,7 +615,7 @@
         "ticker": "539469",
         "name": "Panorama Studios International",
         "searchId": "apunka-invest-commercial-ltd",
-        "market_cap_inr": 10470900000,
+        "market_cap_inr": 11823100000,
         "pe": 30.92,
         "pb": 4.93
       },
@@ -574,7 +623,7 @@
         "ticker": "531910",
         "name": "JOJO",
         "searchId": "madhuveer-com-network-ltd",
-        "market_cap_inr": 8592600000,
+        "market_cap_inr": 8199500000,
         "pe": 152.88,
         "pb": 9.52
       }

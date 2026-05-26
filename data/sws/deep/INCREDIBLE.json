@@ -3,12 +3,12 @@
   "name": "Incredible Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-incredible/incredible-industries-shares",
-  "parsed_at": "2026-05-25T20:40:51.424Z",
+  "parsed_at": "2026-05-26T11:08:56.067Z",
   "company_id": "5E67AC09-4CEF-4945-B6D8-656F1371FED6",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/adhunik-industries-ltd",
     "search_id": "adhunik-industries-ltd",
     "company_id": "GSTK538365",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 14,
-    "current_price_inr": 36,
-    "market_cap_inr": 1651200000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 36.97,
+    "market_cap_inr": 1720900000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -37,17 +86,17 @@
       "low": 28.1,
       "high": 52.87
     },
-    "fair_value_inr": 77.440196,
+    "fair_value_inr": 77.65359,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 115.11165555555556,
+    "upside_pct": 110.04487422234244,
     "multiples": {
-      "pe": 12.89,
+      "pe": 13.43,
       "ps": 0.19,
-      "pb": 1.1,
+      "pb": 1.14,
       "ev_ebitda": 7.71,
       "peg": 0.12385611510791367
     },
@@ -55,14 +104,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/adhunik-industries-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 31.4% over the past year",
-      "Trading at 55.3% below our estimate of its fair value",
+      "Trading at 53.6% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -78,13 +127,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254,
-      "sector_pe": 24.858261272856254
+      "pe": 24.83232947584154,
+      "sector_pe": 24.83232947584154
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -93,28 +142,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 12.89,
-      "industry_pe": 24.858261272856254,
+      "company_pe": 13.43,
+      "industry_pe": 24.83232947584154,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/adhunik-industries-ltd",
       "search_id": "adhunik-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 12.89,
-        "industry_pe": 24.858261272856254,
+        "company_pe": 13.43,
+        "industry_pe": 24.83232947584154,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.9,
+        "company_pe": 13.4,
         "industry_pe": 22.5,
         "industry_name": "Indian Metals and Mining",
-        "description": "INCREDIBLE is good value based on its Price-To-Earnings Ratio (12.9x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "INCREDIBLE is good value based on its Price-To-Earnings Ratio (13.4x) compared to the Indian Metals and Mining industry average (22.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 36,
-        "fetched_at": "2026-05-25T20:40:51.424Z",
+        "value": 36.97,
+        "fetched_at": "2026-05-26T11:08:56.067Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-incredible/incredible-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1651200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1720900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 12.89,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 13.43,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.14,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.12385611510791367,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 28.1,
           "high": 52.87
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 2.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 32.1895592,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 9.3455,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.607317449698965,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 9.590364353343556,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.508653608901526,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.9526842049606974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 11.940000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 9.24715689806,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.8914,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.615285308546347,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4102762716240641,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/adhunik-industries-ltd"
       }
     },
@@ -297,11 +346,11 @@
     "latest_net_income": null,
     "latest_eps": 2.74,
     "most_recent_reported_date": null,
-    "pb": 1.1,
+    "pb": 1.14,
     "ps": 0.19,
     "book_value": 32.1895592,
     "face_value": 10,
-    "sector_pe": 24.858261272856254,
+    "sector_pe": 24.83232947584154,
     "roe_pct": 9.3455,
     "roa_pct": 6.607317449698965,
     "roic_pct": 9.590364353343556,
@@ -313,12 +362,12 @@
     "quick_ratio": 2.615285308546347,
     "cash_ratio": 0.4102762716240641,
     "returns_pct": {
-      "1D": 2.1566401816117993,
-      "7D": -0.027770063871141382,
-      "1M": 3.5077630822311643,
-      "3M": 1.781170483460567,
-      "6M": -10.802775024777006,
-      "1Y": -9.77443609022556,
+      "1D": 2.6944444444444415,
+      "7D": 5.088118249005114,
+      "1M": 6.2967222541690555,
+      "3M": 3.9066891512085458,
+      "6M": -8.670948616600786,
+      "1Y": -7.3433583959899735,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -482,12 +531,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/adhunik-industries-ltd",
     "news": [
       {
@@ -535,6 +594,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -542,7 +611,7 @@
         "ticker": "POCL",
         "name": "Pondy Oxides & Chemicals",
         "searchId": "pondy-oxides-chemicals-ltd",
-        "market_cap_inr": 45252800000,
+        "market_cap_inr": 45919500000,
         "pe": 40.79,
         "pb": 6.59
       },
@@ -550,7 +619,7 @@
         "ticker": "SINDHUTRAD",
         "name": "Sindhu Trade Links",
         "searchId": "sindhu-trade-links-ltd",
-        "market_cap_inr": 41755400000,
+        "market_cap_inr": 41262000000,
         "pe": null,
         "pb": 2.54
       },
@@ -558,7 +627,7 @@
         "ticker": "KSL",
         "name": "Kalyani Steels",
         "searchId": "kalyani-steels-ltd",
-        "market_cap_inr": 36094500000,
+        "market_cap_inr": 36083600000,
         "pe": 14,
         "pb": 1.71
       }

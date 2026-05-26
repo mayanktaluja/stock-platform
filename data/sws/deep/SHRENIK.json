@@ -3,7 +3,7 @@
   "name": "Shrenik Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-shrenik/shrenik-shares",
-  "parsed_at": "2026-05-25T22:56:34.835Z",
+  "parsed_at": "2026-05-26T13:46:25.700Z",
   "company_id": "575D8CD2-F1D6-40E2-A991-DC77D39F951C",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.38,
     "market_cap_inr": 232559985.82740462,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -107,7 +156,7 @@
     },
     "dividend_yield_pct": 0.9203887674,
     "industry_benchmarks": {
-      "pe": 22.1
+      "pe": 23.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -122,16 +171,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 141.6,
-      "industry_pe": 22.1,
+      "industry_pe": 23.9,
       "industry_name": "Indian Trade Distributors"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 141.6,
-        "industry_pe": 22.1,
+        "industry_pe": 23.9,
         "industry_name": "Indian Trade Distributors",
-        "description": "SHRENIK is expensive based on its Price-To-Earnings Ratio (141.6x) compared to the Indian Trade Distributors industry average (22.1x).",
+        "description": "SHRENIK is expensive based on its Price-To-Earnings Ratio (141.6x) compared to the Indian Trade Distributors industry average (23.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -149,7 +198,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -162,7 +211,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.38,
-        "fetched_at": "2026-05-25T22:56:34.835Z",
+        "fetched_at": "2026-05-26T13:46:25.700Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shrenik/shrenik-shares"
       }
     },
@@ -190,9 +239,9 @@
     "cash_ratio": null,
     "returns_pct": {
       "1D": 0,
-      "7D": 0,
+      "7D": 2.7027027027027053,
       "1M": -2.5641025641025665,
-      "3M": -2.5641025641025665,
+      "3M": -5.000000000000004,
       "6M": -25.49019607843137,
       "1Y": -40.625,
       "5Y": null

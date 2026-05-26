@@ -3,12 +3,12 @@
   "name": "Shah Metacorp Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-shah/shah-metacorp-shares",
-  "parsed_at": "2026-05-25T22:53:00.750Z",
+  "parsed_at": "2026-05-26T13:43:02.932Z",
   "company_id": "AFBA8EAC-10D1-4A7E-B962-623806473A66",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gyscoal-alloys-ltd",
     "search_id": "gyscoal-alloys-ltd",
     "company_id": "GSTK533275",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 5.25,
-    "market_cap_inr": 4505700000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.19,
+    "market_cap_inr": 4647400000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,14 +104,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gyscoal-alloys-ltd"
     },
     "rewards": [],
     "risks": [
       "Profit margins (4.1%) are lower than last year (16.7%)",
-      "Does not have a meaningful market cap (₹4B)",
+      "Does not have a meaningful market cap (₹5B)",
       "Shareholders have been substantially diluted in the past year"
     ],
     "dividend": {
@@ -75,13 +124,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 27.3031394312147,
-      "sector_pe": 27.3031394312147
+      "pe": 27.267343034228315,
+      "sector_pe": 27.267343034228315
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -91,27 +140,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 56.56,
-      "industry_pe": 27.3031394312147,
+      "industry_pe": 27.267343034228315,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/gyscoal-alloys-ltd",
       "search_id": "gyscoal-alloys-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 56.56,
-        "industry_pe": 27.3031394312147,
+        "industry_pe": 27.267343034228315,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "sws_statement": {
-        "company_pe": 58.2,
-        "industry_pe": 22.5,
+        "company_pe": 59.7,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "SHAH is expensive based on its Price-To-Earnings Ratio (58.2x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "SHAH is expensive based on its Price-To-Earnings Ratio (59.7x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.25,
-        "fetched_at": "2026-05-25T22:53:00.750Z",
+        "value": 5.19,
+        "fetched_at": "2026-05-26T13:43:02.932Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-shah/shah-metacorp-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4505700000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 4647400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 56.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.46,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.0116,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 3.01,
           "high": 5.88
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.09,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 3.4979822,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 27.3031394312147,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 27.267343034228315,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 3.2312,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.6114854966305305,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.494017110893162,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.113907143238768,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.651707004327617,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 20.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 13.54066384831108,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.7229,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.543737769080235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.00684931506849315,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/gyscoal-alloys-ltd"
       }
     },
@@ -298,7 +347,7 @@
     "ps": 2.39,
     "book_value": 3.4979822,
     "face_value": 1,
-    "sector_pe": 27.3031394312147,
+    "sector_pe": 27.267343034228315,
     "roe_pct": 3.2312,
     "roa_pct": 1.6114854966305305,
     "roic_pct": 2.494017110893162,
@@ -310,12 +359,12 @@
     "quick_ratio": 2.543737769080235,
     "cash_ratio": 0.00684931506849315,
     "returns_pct": {
-      "1D": 3.7549407114624587,
-      "7D": -2.957486136783736,
-      "1M": -0.943396226415091,
-      "3M": 10.062893081761016,
-      "6M": 34.61538461538462,
-      "1Y": 68.81028938906753,
+      "1D": -1.1428571428571355,
+      "7D": 0,
+      "1M": -2.075471698113197,
+      "3M": 7.900207900207917,
+      "6M": 31.725888324873107,
+      "1Y": 66.88102893890677,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -463,6 +512,26 @@
   "events": {
     "groww": [
       {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": "2026-05-21T18:30:00.000Z",
+        "ex_date": "2026-05-26T18:30:00.000Z",
+        "record_date": "2026-05-26T18:30:00.000Z",
+        "value": "36:311"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Announced",
+        "primary_date": "2026-05-21T18:30:00.000Z",
+        "announcement_date": "2026-05-21T18:30:00.000Z",
+        "ex_date": "2026-05-26T18:30:00.000Z",
+        "record_date": "2026-05-26T18:30:00.000Z",
+        "value": "36:311"
+      },
+      {
         "title": "Quarterly Result",
         "type": "RESULTS",
         "status": "Release date",
@@ -487,26 +556,6 @@
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2025-11-13T18:30:00.000Z",
-        "announcement_date": null,
-        "ex_date": null,
-        "record_date": null,
-        "value": null
-      },
-      {
-        "title": "Quarterly Result",
-        "type": "RESULTS",
-        "status": "Release date",
-        "primary_date": "2026-02-11T18:30:00.000Z",
-        "announcement_date": null,
-        "ex_date": null,
-        "record_date": null,
-        "value": null
-      },
-      {
-        "title": "Annual Result",
-        "type": "RESULTS",
-        "status": "Release date",
-        "primary_date": "2026-05-25T18:30:00.000Z",
         "announcement_date": null,
         "ex_date": null,
         "record_date": null,
@@ -516,25 +565,45 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/gyscoal-alloys-ltd",
     "news": [
       {
-        "id": "845680011345554816",
-        "title": "Shah Metacorp Ltd committed 26% stake in Shah Metacorp Holdings USA INC.\nInvestment includes cash equity, loan infusion up to $200K by FY26-28.",
-        "url": "https://sqst.in/shareMessage?msgId=845680011345554840",
-        "source": "ScoutQuest",
-        "published_at": "2026-05-22T15:10:26.000Z"
-      },
-      {
-        "id": "674871",
-        "title": "Shah Metacorp approves $200,000 unsecured loan for its USA unit's working capital.\nThe board sanctioned the loan to aid Shah Metacorp Holdings USA's operations.",
+        "id": "685086",
+        "title": "Shah Metacorp's Q4 net profit surged to ₹81M from ₹38M YoY.\nQ4 revenue rose significantly to ₹623M, up from ₹415M YoY.",
         "url": null,
         "source": "Livesquawk",
-        "published_at": "2026-05-22T14:59:45.000Z"
+        "published_at": "2026-05-26T14:28:45.000Z"
+      },
+      {
+        "id": "846750473236407936",
+        "title": "Shah Metacorp signed an MoU with Strike Eco Grid, acquiring 26% stake, potentially rising to 75%.\nPlans include ₹25 crore immediate and ₹36 crore phased funding for renewable energy and ESG projects.",
+        "url": "https://sqst.in/doCId",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-25T14:04:04.000Z"
       }
     ],
     "events": [
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": "2026-05-21T18:30:00.000Z",
+        "ex_date": "2026-05-26T18:30:00.000Z",
+        "record_date": "2026-05-26T18:30:00.000Z",
+        "value": "36:311"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Announced",
+        "primary_date": "2026-05-21T18:30:00.000Z",
+        "announcement_date": "2026-05-21T18:30:00.000Z",
+        "ex_date": "2026-05-26T18:30:00.000Z",
+        "record_date": "2026-05-26T18:30:00.000Z",
+        "value": "36:311"
+      },
       {
         "title": "Quarterly Result",
         "type": "RESULTS",
@@ -560,26 +629,6 @@
         "type": "RESULTS",
         "status": "Release date",
         "primary_date": "2025-11-13T18:30:00.000Z",
-        "announcement_date": null,
-        "ex_date": null,
-        "record_date": null,
-        "value": null
-      },
-      {
-        "title": "Quarterly Result",
-        "type": "RESULTS",
-        "status": "Release date",
-        "primary_date": "2026-02-11T18:30:00.000Z",
-        "announcement_date": null,
-        "ex_date": null,
-        "record_date": null,
-        "value": null
-      },
-      {
-        "title": "Annual Result",
-        "type": "RESULTS",
-        "status": "Release date",
-        "primary_date": "2026-05-25T18:30:00.000Z",
         "announcement_date": null,
         "ex_date": null,
         "record_date": null,
@@ -591,7 +640,7 @@
         "ticker": "POCL",
         "name": "Pondy Oxides & Chemicals",
         "searchId": "pondy-oxides-chemicals-ltd",
-        "market_cap_inr": 45252800000,
+        "market_cap_inr": 45919500000,
         "pe": 40.79,
         "pb": 6.59
       },
@@ -599,7 +648,7 @@
         "ticker": "KSL",
         "name": "Kalyani Steels",
         "searchId": "kalyani-steels-ltd",
-        "market_cap_inr": 36094500000,
+        "market_cap_inr": 36083600000,
         "pe": 14,
         "pb": 1.71
       },
@@ -607,7 +656,7 @@
         "ticker": "VSSL",
         "name": "Vardhman Special Steels",
         "searchId": "vardhman-special-steels-ltd",
-        "market_cap_inr": 26177600000,
+        "market_cap_inr": 26569200000,
         "pe": 28.12,
         "pb": 2.21
       }

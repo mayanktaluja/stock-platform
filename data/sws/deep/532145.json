@@ -3,12 +3,12 @@
   "name": "H S India Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-532145/h-s-india-shares",
-  "parsed_at": "2026-05-25T22:59:36.555Z",
+  "parsed_at": "2026-05-26T13:53:06.969Z",
   "company_id": "137216FD-A513-4A33-B180-7016F72E119C",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hs-india-ltd",
     "search_id": "hs-india-ltd",
     "company_id": "GSTK532145",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 11.95,
-    "market_cap_inr": 181400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 12.24,
+    "market_cap_inr": 194000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 8.35,
       "high": 15.3
     },
-    "fair_value_inr": 22.02863,
+    "fair_value_inr": 21.991825,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 84.34,
+    "upside_pct": 79.67177287581698,
     "multiples": {
-      "pe": 13.96,
+      "pe": 14.94,
       "ps": 0.69,
-      "pb": 0.56,
+      "pb": 0.6,
       "ev_ebitda": 7.02,
       "peg": 2.3205999999999976
     },
@@ -55,19 +104,19 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hs-india-ltd"
     },
     "rewards": [
-      "Trading at 48.3% below our estimate of its fair value",
+      "Trading at 44.3% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹261M)",
-      "Does not have a meaningful market cap (₹181M)"
+      "Does not have a meaningful market cap (₹194M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 40.21757118145562,
-      "sector_pe": 40.21757118145562
+      "pe": 40.23629672107296,
+      "sector_pe": 40.23629672107296
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Hotels & Restaurants",
       "pe_industry_id": 31,
@@ -94,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 13.96,
-      "industry_pe": 40.21757118145562,
+      "company_pe": 14.94,
+      "industry_pe": 40.23629672107296,
       "industry_name": "Hotels & Restaurants",
       "industry_id": 31,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/hs-india-ltd",
       "search_id": "hs-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 13.96,
-        "industry_pe": 40.21757118145562,
+        "company_pe": 14.94,
+        "industry_pe": 40.23629672107296,
         "industry_name": "Hotels & Restaurants",
         "industry_id": 31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.9,
-        "industry_pe": 26.1,
+        "company_pe": 15.3,
+        "industry_pe": 25.9,
         "industry_name": "Indian Hospitality",
-        "description": "532145 is good value based on its Price-To-Earnings Ratio (13.9x) compared to the Indian Hospitality industry average (26.1x).",
+        "description": "532145 is good value based on its Price-To-Earnings Ratio (15.3x) compared to the Indian Hospitality industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 11.95,
-        "fetched_at": "2026-05-25T22:59:36.555Z",
+        "value": 12.24,
+        "fetched_at": "2026-05-26T13:53:06.969Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-532145/h-s-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 181400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 194000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 13.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14.94,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.56,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.6,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.69,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 2.3205999999999976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 8.35,
           "high": 15.3
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 19.794561,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 40.21757118145562,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 40.23629672107296,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.3748,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.660663119115841,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.4264570473689595,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.97131931166348,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 15.06692160611855,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 44.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 29.512893982808023,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 15.4832,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.550561797752809,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7495987158908507,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hs-india-ltd"
       }
     },
@@ -298,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 0.8,
     "most_recent_reported_date": null,
-    "pb": 0.56,
+    "pb": 0.6,
     "ps": 0.69,
     "book_value": 19.794561,
     "face_value": 10,
-    "sector_pe": 40.21757118145562,
+    "sector_pe": 40.23629672107296,
     "roe_pct": 4.3748,
     "roa_pct": 2.660663119115841,
     "roic_pct": 5.4264570473689595,
@@ -314,12 +363,12 @@
     "quick_ratio": 5.550561797752809,
     "cash_ratio": 0.7495987158908507,
     "returns_pct": {
-      "1D": 6.982990152193369,
-      "7D": 6.222222222222216,
-      "1M": 6.316725978647679,
-      "3M": 3.913043478260864,
-      "6M": -3.629032258064525,
-      "1Y": -13.405797101449284,
+      "1D": 2.426778242677832,
+      "7D": 6.434782608695653,
+      "1M": 8.896797153024911,
+      "3M": 5.51724137931035,
+      "6M": -2.7799841143764863,
+      "1Y": -11.304347826086959,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -513,7 +562,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hs-india-ltd",
     "news": [
       {
@@ -578,7 +627,7 @@
         "ticker": "ITDC",
         "name": "India Tourism Development Corp",
         "searchId": "india-tourism-development-corporation-ltd",
-        "market_cap_inr": 47198900000,
+        "market_cap_inr": 47537700000,
         "pe": 57.32,
         "pb": 11.17
       },
@@ -586,7 +635,7 @@
         "ticker": "MHRIL",
         "name": "Mahindra Holidays & Resorts India",
         "searchId": "mahindra-holidays-resorts-india-ltd",
-        "market_cap_inr": 44277800000,
+        "market_cap_inr": 44964800000,
         "pe": 66.01,
         "pb": 0
       },
@@ -594,7 +643,7 @@
         "ticker": "JUNIPER",
         "name": "Juniper Hotels",
         "searchId": "juniper-hotels-ltd",
-        "market_cap_inr": 43888600000,
+        "market_cap_inr": 44022100000,
         "pe": 31.01,
         "pb": 1.53
       }

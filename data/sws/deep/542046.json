@@ -3,12 +3,12 @@
   "name": "Vivid Mercantile Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-542046/vivid-mercantile-shares",
-  "parsed_at": "2026-05-25T20:37:28.417Z",
+  "parsed_at": "2026-05-26T11:04:43.724Z",
   "company_id": "DDD44914-7A48-4472-A6A4-41617A6A6824",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/veeram-infra-engineering-ltd",
     "search_id": "veeram-infra-engineering-ltd",
     "company_id": "GSTK542046",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 7.17,
-    "market_cap_inr": 707800000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 6.81,
+    "market_cap_inr": 718800000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -84.89521617852162,
+    "upside_pct": -84.09672540381791,
     "multiples": {
-      "pe": 7.51,
+      "pe": 7.63,
       "ps": 1.99,
-      "pb": 1.54,
+      "pb": 1.56,
       "ev_ebitda": 44.15,
       "peg": -0.05592048401037165
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
     },
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -95,21 +144,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 7.51,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 7.63,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/veeram-infra-engineering-ltd",
       "search_id": "veeram-infra-engineering-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 7.51,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 7.63,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "sws_statement": {
@@ -133,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
-        "sample_count": 145,
+        "industry_pe": 23.85,
+        "sample_count": 144,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -146,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7.17,
-        "fetched_at": "2026-05-25T20:37:28.417Z",
+        "value": 6.81,
+        "fetched_at": "2026-05-26T11:04:43.724Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-542046/vivid-mercantile-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 707800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 718800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 7.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 7.63,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.56,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 44.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.05592048401037165,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 3.98,
           "high": 8.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 4.5906336,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.1026,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 14.44359171143515,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 15.340723834365827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 26.417742841100498,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 30.516563728242552,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 10.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 8.871834228702994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 26.8011,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 5.364190012180268,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.03532277710109622,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/veeram-infra-engineering-ltd"
       }
     },
@@ -299,11 +348,11 @@
     "latest_net_income": null,
     "latest_eps": 0.94,
     "most_recent_reported_date": null,
-    "pb": 1.54,
+    "pb": 1.56,
     "ps": 1.99,
     "book_value": 4.5906336,
     "face_value": 1,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 5.1026,
     "roa_pct": 14.44359171143515,
     "roic_pct": 15.340723834365827,
@@ -315,12 +364,12 @@
     "quick_ratio": 5.364190012180268,
     "cash_ratio": 0.03532277710109622,
     "returns_pct": {
-      "1D": 1.5580736543909395,
-      "7D": -0.5547850208044388,
-      "1M": -2.448979591836731,
-      "3M": -0.4166666666666701,
-      "6M": 41.699604743083015,
-      "1Y": -3.7583892617449695,
+      "1D": -5.020920502092055,
+      "7D": -5.547850208044388,
+      "1M": -7.346938775510205,
+      "3M": -3.404255319148939,
+      "6M": 36.199999999999996,
+      "1Y": -8.590604026845645,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -494,7 +543,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/veeram-infra-engineering-ltd",
     "news": [
       {
@@ -569,7 +618,7 @@
         "ticker": "MANINFRA",
         "name": "Man InfraConstruction",
         "searchId": "man-infraconstruction-ltd",
-        "market_cap_inr": 47955600000,
+        "market_cap_inr": 46462000000,
         "pe": 22.72,
         "pb": 2.12
       },
@@ -577,7 +626,7 @@
         "ticker": "SUNTECK",
         "name": "Sunteck Realty",
         "searchId": "sunteck-realty-ltd",
-        "market_cap_inr": 42393300000,
+        "market_cap_inr": 44537200000,
         "pe": 20.98,
         "pb": 1.17
       },
@@ -585,7 +634,7 @@
         "ticker": "ASHIANA",
         "name": "Ashiana Housing",
         "searchId": "ashiana-housing-ltd",
-        "market_cap_inr": 37470600000,
+        "market_cap_inr": 38043600000,
         "pe": 31.97,
         "pb": 4.74
       }

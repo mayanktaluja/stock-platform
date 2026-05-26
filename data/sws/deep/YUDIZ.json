@@ -3,7 +3,7 @@
   "name": "Yudiz Solutions Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-yudiz/yudiz-solutions-shares",
-  "parsed_at": "2026-05-26T00:01:50.232Z",
+  "parsed_at": "2026-05-26T16:09:19.197Z",
   "company_id": "87CCF051-D6B5-4153-B4BF-BC9E8512CF96",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 25.65,
-    "market_cap_inr": 264691990.04412264,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 26.7,
+    "market_cap_inr": 275527334.6658119,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -106,7 +156,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -119,8 +169,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 25.65,
-        "fetched_at": "2026-05-26T00:01:50.232Z",
+        "value": 26.7,
+        "fetched_at": "2026-05-26T16:09:19.197Z",
         "url": "https://simplywall.st/stocks/in/software/nse-yudiz/yudiz-solutions-shares"
       }
     },
@@ -147,12 +197,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -5.000000000000005,
-      "7D": -2.2857142857142914,
-      "1M": -7.899461400359076,
-      "3M": -24.66960352422907,
-      "6M": -17.25806451612904,
-      "1Y": -16.990291262135923,
+      "1D": 4.093567251461992,
+      "7D": 3.48837209302325,
+      "1M": -4.129263913824064,
+      "3M": -20.29850746268657,
+      "6M": -9.337860780984721,
+      "1Y": -13.592233009708737,
       "5Y": null
     },
     "next_earnings_date": null,

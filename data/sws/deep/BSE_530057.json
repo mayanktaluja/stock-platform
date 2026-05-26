@@ -3,7 +3,7 @@
   "name": "Vivanza Biosciences Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-530057/vivanza-biosciences-shares",
-  "parsed_at": "2026-05-25T22:22:56.974Z",
+  "parsed_at": "2026-05-26T13:16:40.594Z",
   "company_id": "4CE45FC4-8EAF-47AC-B6E2-6BD532F67759",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1.77,
     "market_cap_inr": 70800000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -50,7 +99,7 @@
     },
     "rewards": [
       "Became profitable this year",
-      "Price-To-Earnings ratio (18x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (18x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -125,7 +174,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 1.77,
-        "fetched_at": "2026-05-25T22:22:56.974Z",
+        "fetched_at": "2026-05-26T13:16:40.594Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-530057/vivanza-biosciences-shares"
       }
     },
@@ -153,10 +202,10 @@
     "cash_ratio": null,
     "returns_pct": {
       "1D": 0,
-      "7D": -3.2786885245901667,
+      "7D": -3.8043478260869596,
       "1M": -15.714285714285717,
       "3M": -13.23529411764706,
-      "6M": -26.249999999999996,
+      "6M": -22.36842105263157,
       "1Y": -25.31645569620253,
       "5Y": null
     },

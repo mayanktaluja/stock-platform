@@ -8,7 +8,7 @@
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kama-holdings-ltd",
     "search_id": "kama-holdings-ltd",
     "company_id": "GSTK532468",
@@ -28,8 +28,56 @@
       "dividend": 5
     },
     "snowflake_total": 19,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 2556.95,
-    "market_cap_inr": 82373300000,
+    "market_cap_inr": 83472400000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/kama-holdings-ltd"
     },
@@ -235,13 +283,13 @@
     },
     "dividend_yield_pct": 1.31,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -251,20 +299,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 4.61,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/kama-holdings-ltd",
       "search_id": "kama-holdings-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 4.61,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "sws_statement": {
@@ -288,8 +336,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -307,50 +355,50 @@
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 82373300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 83472400000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 4.61,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.36,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.6998459194039961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 1.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "fifty_two_week": {
@@ -359,91 +407,91 @@
           "low": 2461,
           "high": 2737.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 557.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 2378.1097643,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 10.7518,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.180079912597743,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 17.40733484187194,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.230548539196094,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.737371513139617,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 60.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 19.744698833262333,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.9429,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.0178165418017817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.08116386948993456,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kama-holdings-ltd"
       }
     },
@@ -458,7 +506,7 @@
     "ps": 0.53,
     "book_value": 2378.1097643,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 10.7518,
     "roa_pct": 4.180079912597743,
     "roic_pct": 17.40733484187194,
@@ -479,7 +527,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -770,18 +818,18 @@
       },
       "quarterly": {
         "revenue": {
-          "Dec '24": 3547.39,
           "Mar '25": 4365.530000000001,
           "Jun '25": 3867.6,
           "Sep '25": 3683.83,
-          "Dec '25": 3758.96
+          "Dec '25": 3758.96,
+          "Mar '26": 4662.410000000001
         },
         "profit": {
-          "Dec '24": 272.23,
           "Mar '25": 527.08,
           "Jun '25": 436.3,
           "Sep '25": 390.28,
-          "Dec '25": 433.82
+          "Dec '25": 433.82,
+          "Mar '26": 584.02
         }
       }
     }
@@ -858,22 +906,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/kama-holdings-ltd",
     "news": [
       {
-        "id": "821266771594229376",
-        "title": "Kama Holdings board announces Rs. 23.2/share interim dividend.\nRecord date is March 20, 2026; payment begins April 9, 2026.",
-        "url": "https://sqst.in/TKunw",
-        "source": "ScoutQuest",
-        "published_at": "2026-03-16T06:20:56.000Z"
+        "id": "681344",
+        "title": "Kama Holdings reports Q4 net profit of Rs 2.94B, up from Rs 2.6B YoY.\nQ4 revenue rises to Rs 46.5B from Rs 43B YoY.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-25T15:47:18.000Z"
       },
       {
-        "id": "521148",
-        "title": "Kama Holdings schedules board meeting on 16th March 2026 to consider 2nd interim dividend for FY 2025-26.\nTrading window for designated persons remains closed till 18th March 2026 as per SEBI regulations.",
-        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=327b8d05-d4d8-48c3-8c24-6985c3ce0979.pdf",
+        "id": "679886",
+        "title": "Kama Holdings' Board approved audited financial results for FY ending March 31, 2026, with no final dividend declared.\nAuditors issued unmodified opinions on standalone and consolidated financial results; results available on company's website.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=2ad35985-de01-4e44-98b4-4ee65c97e2fb.pdf",
         "source": "BSE",
-        "published_at": "2026-03-09T11:53:25.000Z"
+        "published_at": "2026-05-25T11:47:37.000Z"
       }
     ],
     "events": [
@@ -933,23 +981,23 @@
         "ticker": "MAHSCOOTER",
         "name": "Maharashtra Scooters",
         "searchId": "maharashtra-scooters-ltd",
-        "market_cap_inr": 133292000000,
-        "pe": 42.92,
-        "pb": 0.48
+        "market_cap_inr": 142724000000,
+        "pe": 45.96,
+        "pb": 0.52
       },
       {
         "ticker": "501945",
         "name": "Dhenu Buildcon Infra",
         "searchId": "dhenu-buildcon-infra-ltd",
-        "market_cap_inr": 54116200000,
+        "market_cap_inr": 55124900000,
         "pe": null,
-        "pb": 6.42
+        "pb": 6.54
       },
       {
         "ticker": "PILANIINVS",
         "name": "Pilani Investment & Industries Corporation",
         "searchId": "pilani-investment-industries-corporation-ltd",
-        "market_cap_inr": 51369700000,
+        "market_cap_inr": 50835500000,
         "pe": null,
         "pb": 0.3
       }

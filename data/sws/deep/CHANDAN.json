@@ -3,7 +3,7 @@
   "name": "Chandan Healthcare Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-chandan/chandan-healthcare-shares",
-  "parsed_at": "2026-05-25T22:49:05.562Z",
+  "parsed_at": "2026-05-26T13:42:50.534Z",
   "company_id": "4D883F3B-2188-4138-96D0-03B95A596F7D",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 233.95,
-    "market_cap_inr": 5720561610.965551,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 235,
+    "market_cap_inr": 5746236283.7226095,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -108,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.2,
+        "industry_pe": 35.8,
         "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
@@ -121,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 233.95,
-        "fetched_at": "2026-05-25T22:49:05.562Z",
+        "value": 235,
+        "fetched_at": "2026-05-26T13:42:50.534Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-chandan/chandan-healthcare-shares"
       }
     },
@@ -149,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": -2.520833333333338,
-      "1M": -5.741337630942788,
-      "3M": -13.013571295779885,
-      "6M": -27.926678989525577,
-      "1Y": 28.26206140350876,
+      "1D": 0.4488138491130632,
+      "7D": -2.083333333333333,
+      "1M": -5.318291700241736,
+      "3M": -13.220088626292469,
+      "6M": -30.555555555555554,
+      "1Y": 28.837719298245613,
       "5Y": null
     },
     "next_earnings_date": null,

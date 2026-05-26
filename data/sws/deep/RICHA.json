@@ -3,7 +3,7 @@
   "name": "Richa Info Systems Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/nse-richa/richa-info-systems-shares",
-  "parsed_at": "2026-05-25T22:29:38.462Z",
+  "parsed_at": "2026-05-26T13:20:35.283Z",
   "company_id": "BC78402C-195C-46AC-A956-3787CD7C50AB",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 86,
     "market_cap_inr": 888207874.7363621,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 8.5,
+      "pe": 8.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -52,7 +101,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 1087.6% over the past year",
-      "Price-To-Earnings ratio (8.5x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (8.6x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Latest financial reports are more than 6 months old",
@@ -70,7 +119,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 36.1
+      "pe": 32.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,17 +133,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 8.5,
-      "industry_pe": 36.1,
+      "company_pe": 8.6,
+      "industry_pe": 32.9,
       "industry_name": "Indian Electronic"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 8.5,
-        "industry_pe": 36.1,
+        "company_pe": 8.6,
+        "industry_pe": 32.9,
         "industry_name": "Indian Electronic",
-        "description": "RICHA is good value based on its Price-To-Earnings Ratio (8.5x) compared to the Indian Electronic industry average (36.1x).",
+        "description": "RICHA is good value based on its Price-To-Earnings Ratio (8.6x) compared to the Indian Electronic industry average (32.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -111,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.2,
+        "industry_pe": 31.5,
         "sample_count": 59,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -125,7 +174,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 86,
-        "fetched_at": "2026-05-25T22:29:38.462Z",
+        "fetched_at": "2026-05-26T13:20:35.283Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-richa/richa-info-systems-shares"
       }
     },

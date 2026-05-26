@@ -3,12 +3,12 @@
   "name": "Jai Mata Glass Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-523467/jai-mata-glass-shares",
-  "parsed_at": "2026-05-25T21:42:03.591Z",
+  "parsed_at": "2026-05-26T12:38:10.800Z",
   "company_id": "AA30B0BD-4E85-4BC7-A141-C71BA07159B3",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jai-mata-glass-ltd",
     "search_id": "jai-mata-glass-ltd",
     "company_id": "GSTK523467",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 1.71,
-    "market_cap_inr": 174000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.73,
+    "market_cap_inr": 171000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.37,
-      "high": 3.33
+      "high": 3.25
     },
-    "fair_value_inr": 22.097448,
+    "fair_value_inr": 22.095498,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 1192.2484210526316,
+    "upside_pct": 1177.1964161849712,
     "multiples": {
       "pe": null,
       "ps": 0,
-      "pb": 8.97,
+      "pb": 8.81,
       "ev_ebitda": 63.88,
       "peg": 0
     },
@@ -60,13 +109,12 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 92.1% below our estimate of its fair value"
+      "Trading at 92.2% below our estimate of its fair value"
     ],
     "risks": [
       "Earnings have declined by 63.8% per year over past 5 years",
-      "Makes less than USD$1m in revenue (₹1M)",
-      "Does not have a meaningful market cap (₹174M)",
-      "Highly volatile share price over past 3 months"
+      "Does not have a meaningful market cap (₹171M)",
+      "Makes less than USD$1m in revenue (₹1M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -78,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -99,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.7,
         "industry_name": "Indian Trade Distributors",
-        "description": "523467 is expensive based on its Price-To-Book Ratio (9x) compared to the Indian Trade Distributors industry average (1.7x).",
+        "description": "523467 is expensive based on its Price-To-Book Ratio (8.9x) compared to the Indian Trade Distributors industry average (1.7x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -127,7 +175,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -139,137 +187,137 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.71,
-        "fetched_at": "2026-05-25T21:42:03.591Z",
+        "value": 1.73,
+        "fetched_at": "2026-05-26T12:38:10.800Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-523467/jai-mata-glass-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 174000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 171000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 8.97,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.81,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 63.88,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
           "low": 1.37,
-          "high": 3.33
+          "high": 3.25
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 0.194,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 74.3106,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 65.33333333333333,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jai-mata-glass-ltd"
       }
     },
@@ -280,11 +328,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 8.97,
+    "pb": 8.81,
     "ps": 0,
     "book_value": 0.194,
     "face_value": 1,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -296,12 +344,12 @@
     "quick_ratio": 65.33333333333333,
     "cash_ratio": 59,
     "returns_pct": {
-      "1D": -1.7241379310344844,
-      "7D": -2.285714285714288,
-      "1M": -14.500000000000002,
-      "3M": -10.937499999999998,
-      "6M": -6.043956043956049,
-      "1Y": -42.80936454849499,
+      "1D": 1.1695906432748548,
+      "7D": -1.142857142857144,
+      "1M": -13.5,
+      "3M": -24.78260869565217,
+      "6M": -2.8089887640449462,
+      "1Y": -42.140468227424755,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -435,7 +483,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jai-mata-glass-ltd",
     "news": [
       {
@@ -500,7 +548,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -508,15 +556,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

@@ -3,12 +3,12 @@
   "name": "Vikas Ecotech Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-vikaseco/vikas-ecotech-shares",
-  "parsed_at": "2026-05-25T23:50:49.282Z",
+  "parsed_at": "2026-05-26T14:39:45.960Z",
   "company_id": "4EE36891-A305-4569-AF93-CB9B35024262",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vikas-ecotech-ltd",
     "search_id": "vikas-ecotech-ltd",
     "company_id": "GSTK530961",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 1.33,
-    "market_cap_inr": 2281600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 1.31,
+    "market_cap_inr": 2387800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 230.23421052631582,
+    "upside_pct": 235.2759541984733,
     "multiples": {
       "pe": 32.25,
       "ps": 0.67,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/vikas-ecotech-ltd"
     },
@@ -130,13 +179,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.871539040580295,
-      "sector_pe": 24.871539040580295
+      "pe": 24.83673056579842,
+      "sector_pe": 24.83673056579842
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Diversified",
       "pe_industry_id": 21,
@@ -146,27 +195,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 32.25,
-      "industry_pe": 24.871539040580295,
+      "industry_pe": 24.83673056579842,
       "industry_name": "Diversified",
       "industry_id": 21,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/vikas-ecotech-ltd",
       "search_id": "vikas-ecotech-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 32.25,
-        "industry_pe": 24.871539040580295,
+        "industry_pe": 24.83673056579842,
         "industry_name": "Diversified",
         "industry_id": 21,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "sws_statement": {
-        "company_pe": 26.4,
-        "industry_pe": 21.8,
+        "company_pe": 26.9,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "VIKASECO is expensive based on its Price-To-Earnings Ratio (26.4x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "VIKASECO is expensive based on its Price-To-Earnings Ratio (26.9x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -183,8 +232,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -196,56 +245,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.33,
-        "fetched_at": "2026-05-25T23:50:49.282Z",
+        "value": 1.31,
+        "fetched_at": "2026-05-26T14:39:45.960Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-vikaseco/vikas-ecotech-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2281600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2387800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 32.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.63,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.13271428571428573,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "fifty_two_week": {
@@ -254,91 +303,91 @@
           "low": 0.99,
           "high": 2.78
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 2.4613842,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.871539040580295,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83673056579842,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9817,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3919775965735937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.69843414650651,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9905185359677275,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.30134566119961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 9.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 7.746478873239438,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.844,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.377479579929988,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.033722287047841304,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/vikas-ecotech-ltd"
       }
     },
@@ -353,7 +402,7 @@
     "ps": 0.67,
     "book_value": 2.4613842,
     "face_value": 1,
-    "sector_pe": 24.871539040580295,
+    "sector_pe": 24.83673056579842,
     "roe_pct": 1.9817,
     "roa_pct": 1.3919775965735937,
     "roic_pct": 2.69843414650651,
@@ -365,12 +414,12 @@
     "quick_ratio": 2.377479579929988,
     "cash_ratio": 0.033722287047841304,
     "returns_pct": {
-      "1D": 3.9062500000000036,
-      "7D": 0.7575757575757582,
-      "1M": -2.2058823529411784,
-      "3M": -10.135135135135128,
-      "6M": -21.764705882352935,
-      "1Y": -42.672413793103445,
+      "1D": -1.5037593984962419,
+      "7D": 0.7692307692307698,
+      "1M": -3.676470588235297,
+      "3M": -10.884353741496595,
+      "6M": -20.121951219512187,
+      "1Y": -43.53448275862068,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -623,7 +672,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/vikas-ecotech-ltd",
     "news": [
       {
@@ -678,7 +727,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -686,7 +735,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -694,9 +743,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

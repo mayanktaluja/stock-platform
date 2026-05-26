@@ -3,12 +3,12 @@
   "name": "Link Pharma Chem Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-524748/link-pharma-chem-shares",
-  "parsed_at": "2026-05-25T21:53:46.214Z",
+  "parsed_at": "2026-05-26T12:50:38.348Z",
   "company_id": "4DCBFF95-4082-46DC-B929-70DA7525641D",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/link-pharma-chem-ltd",
     "search_id": "link-pharma-chem-ltd",
     "company_id": "GSTK524748",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 28,
-    "market_cap_inr": 129300000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_inr": 124300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 21,
       "high": 42.8
     },
-    "fair_value_inr": 12.548651,
+    "fair_value_inr": 12.546958,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -55.18338928571429,
+    "upside_pct": -55.189435714285715,
     "multiples": {
-      "pe": 171.35,
+      "pe": 164.71,
       "ps": 0.47,
-      "pb": 1.01,
+      "pb": 0.97,
       "ev_ebitda": 66.87,
       "peg": 0
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/link-pharma-chem-ltd"
     },
@@ -80,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 43.433484466337525,
-      "sector_pe": 43.433484466337525
+      "pe": 43.427221847196755,
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -95,21 +144,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 171.35,
-      "industry_pe": 43.433484466337525,
+      "company_pe": 164.71,
+      "industry_pe": 43.427221847196755,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/link-pharma-chem-ltd",
       "search_id": "link-pharma-chem-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 171.35,
-        "industry_pe": 43.433484466337525,
+        "company_pe": 164.71,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "sws_statement": {
@@ -133,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -147,55 +196,55 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 28,
-        "fetched_at": "2026-05-25T21:53:46.214Z",
+        "fetched_at": "2026-05-26T12:50:38.348Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-524748/link-pharma-chem-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 129300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 124300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 171.35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 164.71,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.97,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 66.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +253,91 @@
           "low": 21,
           "high": 42.8
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 28.8063063,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0.6013,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.3205128205128208,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5882422662083684,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.29175784099197694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.017505470459518,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 57.11000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 29.286858974358974,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.4479,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.5622775800711743,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.05604982206405694,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/link-pharma-chem-ltd"
       }
     },
@@ -299,11 +348,11 @@
     "latest_net_income": null,
     "latest_eps": 0.17,
     "most_recent_reported_date": null,
-    "pb": 1.01,
+    "pb": 0.97,
     "ps": 0.47,
     "book_value": 28.8063063,
     "face_value": 10,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 0.6013,
     "roa_pct": 0.3205128205128208,
     "roic_pct": 1.5882422662083684,
@@ -315,11 +364,11 @@
     "quick_ratio": 0.5622775800711743,
     "cash_ratio": 0.05604982206405694,
     "returns_pct": {
-      "1D": -3.879162375557841,
-      "7D": -3.080650744202148,
+      "1D": 0,
+      "7D": 1.2658227848101318,
       "1M": -1.9950997549877503,
-      "3M": 0.35842293906810546,
-      "6M": -17.525773195876297,
+      "3M": 2.7522935779816518,
+      "6M": -10.57170233152347,
       "1Y": -21.568627450980397,
       "5Y": null
     },
@@ -454,7 +503,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/link-pharma-chem-ltd",
     "news": [
       {
@@ -519,7 +568,7 @@
         "ticker": "NEOGEN",
         "name": "Neogen Chemicals",
         "searchId": "neogen-chemicals-ltd",
-        "market_cap_inr": 46234000000,
+        "market_cap_inr": 48072600000,
         "pe": 160.81,
         "pb": 4.73
       },
@@ -527,7 +576,7 @@
         "ticker": "LXCHEM",
         "name": "Laxmi Organic Industries",
         "searchId": "laxmi-organic-industries-ltd",
-        "market_cap_inr": 42053000000,
+        "market_cap_inr": 42801500000,
         "pe": 53.04,
         "pb": 2.12
       },
@@ -535,9 +584,9 @@
         "ticker": "506854",
         "name": "Tanfac Industries",
         "searchId": "tanfac-industries-ltd",
-        "market_cap_inr": 41994800000,
-        "pe": 59.87,
-        "pb": 11.25
+        "market_cap_inr": 40645100000,
+        "pe": 57.95,
+        "pb": 10.89
       }
     ],
     "details": {

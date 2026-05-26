@@ -3,12 +3,12 @@
   "name": "Heads UP Ventures Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-headsup/heads-up-ventures-shares",
-  "parsed_at": "2026-05-25T23:52:30.571Z",
+  "parsed_at": "2026-05-26T14:43:39.417Z",
   "company_id": "362D9F9B-4E85-48E1-A213-31EB533CFB75",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd",
     "search_id": "the-mandhana-retail-ventures-ltd",
     "company_id": "GSTK540210",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 7.19,
-    "market_cap_inr": 156800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 7.23,
+    "market_cap_inr": 160800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -91.99105702364395,
+    "upside_pct": -92.03536652835407,
     "multiples": {
-      "pe": 3.74,
+      "pe": 3.83,
       "ps": 0.99,
-      "pb": 0.82,
+      "pb": 0.84,
       "ev_ebitda": 12.76,
       "peg": -0.12350270270270271
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
     },
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 76.39971853206873,
-      "sector_pe": 76.39971853206873
+      "pe": 76.39971853206875,
+      "sector_pe": 76.39971853206875
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Retail",
       "pe_industry_id": 54,
@@ -94,21 +143,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 3.74,
-      "industry_pe": 76.39971853206873,
+      "company_pe": 3.83,
+      "industry_pe": 76.39971853206875,
       "industry_name": "Retail",
       "industry_id": 54,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd",
       "search_id": "the-mandhana-retail-ventures-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 3.74,
-        "industry_pe": 76.39971853206873,
+        "company_pe": 3.83,
+        "industry_pe": 76.39971853206875,
         "industry_name": "Retail",
         "industry_id": 54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "sws_statement": {
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7.19,
-        "fetched_at": "2026-05-25T23:52:30.571Z",
+        "value": 7.23,
+        "fetched_at": "2026-05-26T14:43:39.417Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-headsup/heads-up-ventures-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 156800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 160800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 3.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 3.83,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.84,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.12350270270270271,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 5.69,
           "high": 12.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.6310947,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 76.39971853206873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 76.39971853206875,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 26.5225,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 15.255474452554743,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 23.220074868800488,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 26.573426573426573,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 29.56134774316592,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.2749,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.2739018087855296,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.13565891472868216,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd"
       }
     },
@@ -298,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 1.9,
     "most_recent_reported_date": null,
-    "pb": 0.82,
+    "pb": 0.84,
     "ps": 0.99,
     "book_value": 8.6310947,
     "face_value": 10,
-    "sector_pe": 76.39971853206873,
+    "sector_pe": 76.39971853206875,
     "roe_pct": 26.5225,
     "roa_pct": 15.255474452554743,
     "roic_pct": 23.220074868800488,
@@ -314,12 +363,12 @@
     "quick_ratio": 3.2739018087855296,
     "cash_ratio": 0.13565891472868216,
     "returns_pct": {
-      "1D": 1.5536723163841852,
-      "7D": -0.8275862068965464,
-      "1M": -1.3717421124828484,
-      "3M": -9.102402022756003,
-      "6M": -29.50980392156862,
-      "1Y": -31.393129770992367,
+      "1D": 0.5563282336578587,
+      "7D": 0.27739251040222557,
+      "1M": -0.8230452674897066,
+      "3M": -8.015267175572518,
+      "6M": -22.67379679144384,
+      "1Y": -31.01145038167939,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -491,12 +540,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/the-mandhana-retail-ventures-ltd",
     "news": [
       {
@@ -537,6 +596,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -544,7 +613,7 @@
         "ticker": "LUXIND",
         "name": "Lux Industries",
         "searchId": "lux-industries-ltd",
-        "market_cap_inr": 39533700000,
+        "market_cap_inr": 40963600000,
         "pe": 37.27,
         "pb": 2.16
       },
@@ -552,7 +621,7 @@
         "ticker": "KKCL",
         "name": "Kewal Kiran Clothing",
         "searchId": "kewal-kiran-clothing-ltd",
-        "market_cap_inr": 26874700000,
+        "market_cap_inr": 27469400000,
         "pe": 17.65,
         "pb": 2.86
       },
@@ -560,9 +629,9 @@
         "ticker": "CANTABIL",
         "name": "Cantabil Retail India",
         "searchId": "cantabil-retail-india-ltd",
-        "market_cap_inr": 18300000000,
-        "pe": 19.11,
-        "pb": 3.83
+        "market_cap_inr": 18170400000,
+        "pe": 18.97,
+        "pb": 3.8
       }
     ],
     "details": {

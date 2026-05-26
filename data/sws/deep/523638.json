@@ -3,12 +3,12 @@
   "name": "IP Rings Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/bse-523638/ip-rings-shares",
-  "parsed_at": "2026-05-25T21:42:51.547Z",
+  "parsed_at": "2026-05-26T12:39:02.879Z",
   "company_id": "8A10BA96-13BE-46E6-A0C2-BD7D714C2020",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ip-rings-ltd",
     "search_id": "ip-rings-ltd",
     "company_id": "GSTK523638",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 123.5,
-    "market_cap_inr": 1510300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 123.1,
+    "market_cap_inr": 1565500000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -45.661523076923075,
+    "upside_pct": -45.48495613322502,
     "multiples": {
       "pe": 163.22,
       "ps": 0.45,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ip-rings-ltd"
     },
@@ -132,13 +181,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 34.470020385874214,
-      "sector_pe": 34.470020385874214
+      "pe": 34.4375940983943,
+      "sector_pe": 34.4375940983943
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Auto Ancillaries",
       "pe_industry_id": 4,
@@ -148,20 +197,20 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 163.22,
-      "industry_pe": 34.470020385874214,
+      "industry_pe": 34.4375940983943,
       "industry_name": "Auto Ancillaries",
       "industry_id": 4,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ip-rings-ltd",
       "search_id": "ip-rings-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 163.22,
-        "industry_pe": 34.470020385874214,
+        "industry_pe": 34.4375940983943,
         "industry_name": "Auto Ancillaries",
         "industry_id": 4,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "sws_statement": {
@@ -185,8 +234,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.299999999999997,
-        "sample_count": 122,
+        "industry_pe": 26.3,
+        "sample_count": 123,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
       },
@@ -198,56 +247,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 123.5,
-        "fetched_at": "2026-05-25T21:42:51.547Z",
+        "value": 123.1,
+        "fetched_at": "2026-05-26T12:39:02.879Z",
         "url": "https://simplywall.st/stocks/in/automobiles/bse-523638/ip-rings-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1510300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1565500000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 163.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 11.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.470020385874214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.4375940983943,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "fifty_two_week": {
@@ -256,91 +305,91 @@
           "low": 93,
           "high": 185
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 80.2487759,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 34.470020385874214,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 34.4375940983943,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2958109354623239,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.142126642517603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2780601566704539,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.872630508879986,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 109.41000000000001,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 35.39870861032475,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4985,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.509262268443289,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.01416964575885603,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ip-rings-ltd"
       }
     },
@@ -355,7 +404,7 @@
     "ps": 0.45,
     "book_value": 80.2487759,
     "face_value": 10,
-    "sector_pe": 34.470020385874214,
+    "sector_pe": 34.4375940983943,
     "roe_pct": 0,
     "roa_pct": 0.2958109354623239,
     "roic_pct": 3.142126642517603,
@@ -367,12 +416,12 @@
     "quick_ratio": 0.509262268443289,
     "cash_ratio": 0.01416964575885603,
     "returns_pct": {
-      "1D": 3.6508602601762434,
-      "7D": 7.391304347826087,
-      "1M": 6.227421297092719,
-      "3M": 7.298001737619467,
-      "6M": 2.7881814398668285,
-      "1Y": -16.863009087849214,
+      "1D": -0.32388663967611797,
+      "7D": 2.7117229870671675,
+      "1M": 5.883364871838972,
+      "3M": 3.57593605384939,
+      "6M": 3.92570704938792,
+      "1Y": -17.13227869404242,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -608,7 +657,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ip-rings-ltd",
     "news": [
       {
@@ -666,7 +715,7 @@
         "ticker": "LGBBROSLTD",
         "name": "LG Balakrishnan & Bros",
         "searchId": "lg-balakrishnan-brothers-ltd",
-        "market_cap_inr": 49233900000,
+        "market_cap_inr": 49241900000,
         "pe": 15.45,
         "pb": 2.29
       },
@@ -674,7 +723,7 @@
         "ticker": "SUBROS",
         "name": "Subros",
         "searchId": "subros-ltd",
-        "market_cap_inr": 47403600000,
+        "market_cap_inr": 47860200000,
         "pe": 28.62,
         "pb": 3.81
       },
@@ -682,7 +731,7 @@
         "ticker": "JAMNAAUTO",
         "name": "Jamna Auto Industries",
         "searchId": "jamna-auto-industries-ltd",
-        "market_cap_inr": 45915500000,
+        "market_cap_inr": 46994900000,
         "pe": 23.68,
         "pb": 4.43
       }

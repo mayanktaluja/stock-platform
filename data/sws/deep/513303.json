@@ -3,12 +3,12 @@
   "name": "Modern Steels Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-513303/modern-steels-shares",
-  "parsed_at": "2026-05-25T21:15:12.987Z",
+  "parsed_at": "2026-05-26T12:12:12.893Z",
   "company_id": "EEAB35F3-C5E4-4232-984F-168008127A4F",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/modern-steels-ltd",
     "search_id": "modern-steels-ltd",
     "company_id": "GSTK513303",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 13.8,
-    "market_cap_inr": 186500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 13.26,
+    "market_cap_inr": 189900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 10.35,
       "high": 21.7
     },
-    "fair_value_inr": 0.036756,
+    "fair_value_inr": 0.036635,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.73365217391304,
+    "upside_pct": -99.72371794871795,
     "multiples": {
-      "pe": 3.77,
+      "pe": 17.92,
       "ps": 0,
-      "pb": 1.07,
+      "pb": 1.04,
       "ev_ebitda": 4.71,
       "peg": 0.007035
     },
@@ -55,18 +105,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/modern-steels-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (17.6x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (17.2x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹186M)",
+      "Does not have a meaningful market cap (₹190M)",
       "Earnings have declined by 54.6% per year over past 5 years",
       "Makes less than USD$1m in revenue (₹20M)"
     ],
@@ -80,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254,
-      "sector_pe": 24.858261272856254
+      "pe": 24.83232947584154,
+      "sector_pe": 24.83232947584154
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -95,28 +145,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 3.77,
-      "industry_pe": 24.858261272856254,
+      "company_pe": 17.92,
+      "industry_pe": 24.83232947584154,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/modern-steels-ltd",
       "search_id": "modern-steels-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 3.77,
-        "industry_pe": 24.858261272856254,
+        "company_pe": 17.92,
+        "industry_pe": 24.83232947584154,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.6,
-        "industry_pe": 22.5,
+        "company_pe": 17.2,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "513303 is good value based on its Price-To-Earnings Ratio (17.6x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "513303 is good value based on its Price-To-Earnings Ratio (17.2x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -133,7 +183,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -146,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.8,
-        "fetched_at": "2026-05-25T21:15:12.987Z",
+        "value": 13.26,
+        "fetched_at": "2026-05-26T12:12:12.893Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-513303/modern-steels-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 186500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 189900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 3.77,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 17.92,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.07,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.04,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 4.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.007035,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "fifty_two_week": {
@@ -204,91 +254,91 @@
           "low": 10.35,
           "high": 21.7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
-        "value": 3.59,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.77,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
-        "value": 12.7175574,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 13.2625221,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.6114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.385002516356316,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.619747899159663,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 1.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0568696527428283,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.4545,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 6.642857142857142,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.061224489795918366,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/modern-steels-ltd"
       }
     },
@@ -297,13 +347,13 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": 3.59,
+    "latest_eps": 0.77,
     "most_recent_reported_date": null,
-    "pb": 1.07,
+    "pb": 1.04,
     "ps": 0,
-    "book_value": 12.7175574,
+    "book_value": 13.2625221,
     "face_value": 10,
-    "sector_pe": 24.858261272856254,
+    "sector_pe": 24.83232947584154,
     "roe_pct": 5.6114,
     "roa_pct": 5.385002516356316,
     "roic_pct": 5.619747899159663,
@@ -315,12 +365,12 @@
     "quick_ratio": 6.642857142857142,
     "cash_ratio": 0.061224489795918366,
     "returns_pct": {
-      "1D": 1.8450184501845017,
-      "7D": 6.399383191981496,
-      "1M": 6.976744186046514,
-      "3M": 2.2222222222222276,
-      "6M": -15.853658536585355,
-      "1Y": -13.642052565707132,
+      "1D": -3.9130434782608763,
+      "7D": -1.265822784810126,
+      "1M": 2.7906976744186003,
+      "3M": -0.5251312828207073,
+      "6M": -16.28787878787879,
+      "1Y": -17.021276595744684,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -484,7 +534,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/modern-steels-ltd",
     "news": [
       {
@@ -542,7 +592,7 @@
         "ticker": "POCL",
         "name": "Pondy Oxides & Chemicals",
         "searchId": "pondy-oxides-chemicals-ltd",
-        "market_cap_inr": 45252800000,
+        "market_cap_inr": 45919500000,
         "pe": 40.79,
         "pb": 6.59
       },
@@ -550,7 +600,7 @@
         "ticker": "SINDHUTRAD",
         "name": "Sindhu Trade Links",
         "searchId": "sindhu-trade-links-ltd",
-        "market_cap_inr": 41755400000,
+        "market_cap_inr": 41262000000,
         "pe": null,
         "pb": 2.54
       },
@@ -558,7 +608,7 @@
         "ticker": "KSL",
         "name": "Kalyani Steels",
         "searchId": "kalyani-steels-ltd",
-        "market_cap_inr": 36094500000,
+        "market_cap_inr": 36083600000,
         "pe": 14,
         "pb": 1.71
       }

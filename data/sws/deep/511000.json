@@ -3,12 +3,12 @@
   "name": "MSL Global Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-511000/msl-global-shares",
-  "parsed_at": "2026-05-25T21:02:03.804Z",
+  "parsed_at": "2026-05-26T11:55:46.485Z",
   "company_id": "B48CE770-9D6A-4DCF-85A9-4FB6FB23FB26",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/madhusudan-securities-ltd",
     "search_id": "madhusudan-securities-ltd",
     "company_id": "GSTK511000",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 19.53,
-    "market_cap_inr": 406300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 18.72,
+    "market_cap_inr": 418300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/madhusudan-securities-ltd"
     },
@@ -63,10 +112,10 @@
       "Became profitable this year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (13.3x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (13.1x) is below the Indian market (23.4x)"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹406M)",
+      "Does not have a meaningful market cap (₹418M)",
       "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹52M)",
       "Shareholders have been substantially diluted in the past year"
@@ -81,13 +130,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -97,27 +146,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 14.37,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/madhusudan-securities-ltd",
       "search_id": "madhusudan-securities-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 14.37,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.3,
-        "industry_pe": 27.8,
+        "company_pe": 13.1,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "511000 is good value based on its Price-To-Earnings Ratio (13.3x) compared to the Indian Capital Markets industry average (27.8x).",
+        "description": "511000 is good value based on its Price-To-Earnings Ratio (13.1x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -147,56 +196,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 19.53,
-        "fetched_at": "2026-05-25T21:02:03.804Z",
+        "value": 18.72,
+        "fetched_at": "2026-05-26T11:55:46.485Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511000/msl-global-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 406300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 418300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 14.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.39,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "fifty_two_week": {
@@ -205,91 +254,91 @@
           "low": 17.6,
           "high": 29.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 48.9053516,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.176090804956784,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 3.4497689614758027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5718,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5718232044198897,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.4889502762430937,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/madhusudan-securities-ltd"
       }
     },
@@ -304,7 +353,7 @@
     "ps": 0,
     "book_value": 48.9053516,
     "face_value": 10,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 0,
     "roa_pct": 3.176090804956784,
     "roic_pct": 3.4497689614758027,
@@ -316,12 +365,12 @@
     "quick_ratio": 1.5718232044198897,
     "cash_ratio": 1.4889502762430937,
     "returns_pct": {
-      "1D": 2.952029520295215,
-      "7D": 5.567567567567574,
-      "1M": 2.2513089005235587,
-      "3M": -4.02948402948403,
-      "6M": -24.88461538461538,
-      "1Y": -16.323907455012847,
+      "1D": -4.147465437788029,
+      "7D": -3.7532133676092565,
+      "1M": -1.9895287958115317,
+      "3M": -7.096774193548386,
+      "6M": -25.743752479174937,
+      "1Y": -19.794344473007715,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -548,7 +597,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/madhusudan-securities-ltd",
     "news": [
       {
@@ -613,7 +662,7 @@
         "ticker": "ARSSBL",
         "name": "Anand Rathi Share & Stock Brokers",
         "searchId": "anand-rathi-share-stock-brokers-ltd",
-        "market_cap_inr": 33236900000,
+        "market_cap_inr": 33845100000,
         "pe": 25.71,
         "pb": 2.47
       },
@@ -621,7 +670,7 @@
         "ticker": "SHAREINDIA",
         "name": "Share India Securities",
         "searchId": "share-india-securities-ltd",
-        "market_cap_inr": 31007600000,
+        "market_cap_inr": 30657500000,
         "pe": 9.55,
         "pb": 1.18
       },
@@ -629,7 +678,7 @@
         "ticker": "INDOTHAI",
         "name": "Indo Thai Securities",
         "searchId": "indo-thai-securities-ltd",
-        "market_cap_inr": 27796700000,
+        "market_cap_inr": 26257900000,
         "pe": 42.02,
         "pb": 9.86
       }

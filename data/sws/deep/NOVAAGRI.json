@@ -3,12 +3,12 @@
   "name": "Nova Agritech Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-novaagri/nova-agritech-shares",
-  "parsed_at": "2026-05-25T21:51:39.970Z",
+  "parsed_at": "2026-05-26T12:42:12.509Z",
   "company_id": "86BEB59C-C54E-4B3F-965C-BF3DB9678CC4",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nova-agritech-ltd",
     "search_id": "nova-agritech-ltd",
     "company_id": "GSTK544100",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 28.66,
-    "market_cap_inr": 2618300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 28.95,
+    "market_cap_inr": 2657200000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,12 +104,12 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/nova-agritech-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (13.8x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (14.1x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 23.97219586426517,
-      "sector_pe": 23.97219586426517
+      "pe": 23.972195864265167,
+      "sector_pe": 23.972195864265167
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Fertilizers",
       "pe_industry_id": 25,
@@ -95,27 +144,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 14.22,
-      "industry_pe": 23.97219586426517,
+      "industry_pe": 23.972195864265167,
       "industry_name": "Fertilizers",
       "industry_id": 25,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/nova-agritech-ltd",
       "search_id": "nova-agritech-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 14.22,
-        "industry_pe": 23.97219586426517,
+        "industry_pe": 23.972195864265167,
         "industry_name": "Fertilizers",
         "industry_id": 25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.8,
-        "industry_pe": 21.8,
+        "company_pe": 14.1,
+        "industry_pe": 21.9,
         "industry_name": "Indian Chemicals",
-        "description": "NOVAAGRI is good value based on its Price-To-Earnings Ratio (13.8x) compared to the Indian Chemicals industry average (21.8x).",
+        "description": "NOVAAGRI is good value based on its Price-To-Earnings Ratio (14.1x) compared to the Indian Chemicals industry average (21.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -132,8 +181,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 28.66,
-        "fetched_at": "2026-05-25T21:51:39.970Z",
+        "value": 28.95,
+        "fetched_at": "2026-05-26T12:42:12.509Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-novaagri/nova-agritech-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2618300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2657200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 14.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -4.415579999999996,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 23.97219586426517,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 23.972195864265167,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 18.12,
           "high": 62.84
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 24.8366328,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 23.97219586426517,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 23.972195864265167,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 11.4783,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 5.00570373187028,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 7.841885580636523,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.420931609936242,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.096296554367138,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 23.31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 14.547232332011518,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.6551,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.5724940334128876,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.015662291169451073,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/nova-agritech-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 0.91,
     "book_value": 24.8366328,
     "face_value": 2,
-    "sector_pe": 23.97219586426517,
+    "sector_pe": 23.972195864265167,
     "roe_pct": 11.4783,
     "roa_pct": 5.00570373187028,
     "roic_pct": 7.841885580636523,
@@ -314,12 +363,12 @@
     "quick_ratio": 1.5724940334128876,
     "cash_ratio": 0.015662291169451073,
     "returns_pct": {
-      "1D": 1.5951790145338505,
-      "7D": 4.256093124772651,
-      "1M": 1.7033356990773612,
-      "3M": -4.910418049104182,
-      "6M": -34.446477584629456,
-      "1Y": -41.807106598984774,
+      "1D": 1.0118632240055798,
+      "7D": 0.5208333333333284,
+      "1M": 2.7324343506032633,
+      "3M": -2.3608768971332186,
+      "6M": -33.048103607770585,
+      "1Y": -41.21827411167513,
       "5Y": null
     },
     "next_earnings_date": "2026-05-30",
@@ -485,7 +534,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/nova-agritech-ltd",
     "news": [
       {
@@ -550,24 +599,24 @@
         "ticker": "RALLIS",
         "name": "Rallis India",
         "searchId": "rallis-india-ltd",
-        "market_cap_inr": 49220100000,
-        "pe": 26.75,
+        "market_cap_inr": 49200600000,
+        "pe": 26.74,
         "pb": 2.41
       },
       {
         "ticker": "MBAPL",
         "name": "Madhya Bharat Agro Products",
         "searchId": "madhya-bharat-agro-products-ltd",
-        "market_cap_inr": 46534300000,
-        "pe": 30.98,
-        "pb": 8.47
+        "market_cap_inr": 47712900000,
+        "pe": 31.77,
+        "pb": 8.68
       },
       {
         "ticker": "KRISHANA",
         "name": "Krishana Phoschem",
         "searchId": "krishana-phoschem-ltd",
-        "market_cap_inr": 40370400000,
-        "pe": 22.41,
+        "market_cap_inr": 40379500000,
+        "pe": 22.42,
         "pb": 7.22
       }
     ],

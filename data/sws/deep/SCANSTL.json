@@ -3,12 +3,12 @@
   "name": "Scan Steels Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-scanstl/scan-steels-shares",
-  "parsed_at": "2026-05-25T22:47:09.824Z",
+  "parsed_at": "2026-05-26T13:37:15.930Z",
   "company_id": "94D77327-C6BA-452F-B9D3-C70877FA32A5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/scan-steels-ltd",
     "search_id": "scan-steels-ltd",
     "company_id": "GSTK511672",
@@ -28,24 +28,73 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 38.42,
-    "market_cap_inr": 2367300000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 38.08,
+    "market_cap_inr": 2333300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 32,
       "high": 41.65
     },
-    "fair_value_inr": 7.184902,
+    "fair_value_inr": 7.139697,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -81.29905778240499,
+    "upside_pct": -81.25079569327731,
     "multiples": {
-      "pe": 11.95,
+      "pe": 11.78,
       "ps": 0.28,
       "pb": 0.53,
       "ev_ebitda": 5,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/scan-steels-ltd"
     },
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254,
-      "sector_pe": 24.858261272856254
+      "pe": 24.83232947584154,
+      "sector_pe": 24.83232947584154
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -94,21 +143,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 11.95,
-      "industry_pe": 24.858261272856254,
+      "company_pe": 11.78,
+      "industry_pe": 24.83232947584154,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/scan-steels-ltd",
       "search_id": "scan-steels-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 11.95,
-        "industry_pe": 24.858261272856254,
+        "company_pe": 11.78,
+        "industry_pe": 24.83232947584154,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "sws_statement": {
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 38.42,
-        "fetched_at": "2026-05-25T22:47:09.824Z",
+        "value": 38.08,
+        "fetched_at": "2026-05-26T13:37:15.930Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-scanstl/scan-steels-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 2367300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2333300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 11.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11.78,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.53,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -8.619074999999992,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 32,
           "high": 41.65
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 3.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 72.9747863,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 4.4894,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 3.2920442264527385,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 5.138664259764771,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.3620356452651916,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.050628683224775,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 16.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 11.91952780779782,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.1655,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4785939968404424,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.035624012638230645,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       }
     },
@@ -302,7 +351,7 @@
     "ps": 0.28,
     "book_value": 72.9747863,
     "face_value": 10,
-    "sector_pe": 24.858261272856254,
+    "sector_pe": 24.83232947584154,
     "roe_pct": 4.4894,
     "roa_pct": 3.2920442264527385,
     "roic_pct": 5.138664259764771,
@@ -314,12 +363,12 @@
     "quick_ratio": 0.4785939968404424,
     "cash_ratio": 0.035624012638230645,
     "returns_pct": {
-      "1D": -1.1577051710830866,
-      "7D": -2.3882113821138153,
-      "1M": 4.544217687074834,
-      "3M": 14.005934718100885,
-      "6M": 14.005934718100885,
-      "1Y": 14.005934718100885,
+      "1D": -0.8849557522123982,
+      "7D": -5.108397707450795,
+      "1M": 3.619047619047614,
+      "3M": 12.997032640949541,
+      "6M": 12.997032640949541,
+      "1Y": 12.997032640949541,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -526,7 +575,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/scan-steels-ltd",
     "news": [
       {
@@ -591,7 +640,7 @@
         "ticker": "POCL",
         "name": "Pondy Oxides & Chemicals",
         "searchId": "pondy-oxides-chemicals-ltd",
-        "market_cap_inr": 45252800000,
+        "market_cap_inr": 45919500000,
         "pe": 40.79,
         "pb": 6.59
       },
@@ -599,7 +648,7 @@
         "ticker": "KSL",
         "name": "Kalyani Steels",
         "searchId": "kalyani-steels-ltd",
-        "market_cap_inr": 36094500000,
+        "market_cap_inr": 36083600000,
         "pe": 14,
         "pb": 1.71
       },
@@ -607,7 +656,7 @@
         "ticker": "VSSL",
         "name": "Vardhman Special Steels",
         "searchId": "vardhman-special-steels-ltd",
-        "market_cap_inr": 26177600000,
+        "market_cap_inr": 26569200000,
         "pe": 28.12,
         "pb": 2.21
       }

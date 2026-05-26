@@ -3,7 +3,7 @@
   "name": "Rukmani Devi Garg Agro Impex Limited",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/bse-544552/rukmani-devi-garg-agro-impex-shares",
-  "parsed_at": "2026-05-25T21:13:56.025Z",
+  "parsed_at": "2026-05-26T12:05:47.338Z",
   "company_id": "6F2679F2-E2D5-4BF2-83B4-2F591FE3BD37",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 107,
     "market_cap_inr": 949732041.4632702,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -109,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
@@ -123,7 +172,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 107,
-        "fetched_at": "2026-05-25T21:13:56.025Z",
+        "fetched_at": "2026-05-26T12:05:47.338Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-544552/rukmani-devi-garg-agro-impex-shares"
       }
     },

@@ -3,12 +3,12 @@
   "name": "Neil Industries Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-539016/neil-industries-shares",
-  "parsed_at": "2026-05-25T23:30:43.406Z",
+  "parsed_at": "2026-05-26T14:20:00.570Z",
   "company_id": "937C40C3-9D7D-43DA-9639-823B06940958",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/neil-industries-ltd",
     "search_id": "neil-industries-ltd",
     "company_id": "GSTK539016",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 6.49,
-    "market_cap_inr": 121400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 6.63,
+    "market_cap_inr": 126900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,9 +95,9 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 9.27,
+      "pe": 9.69,
       "ps": 3.12,
-      "pb": 0.2,
+      "pb": 0.21,
       "ev_ebitda": 8.45,
       "peg": -0.24874029850746268
     },
@@ -55,18 +105,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/neil-industries-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.3x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (9.9x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Profit margins (39.2%) are lower than last year (67.7%)",
-      "Does not have a meaningful market cap (₹121M)",
+      "Does not have a meaningful market cap (₹127M)",
       "Makes less than USD$1m in revenue (₹33M)"
     ],
     "dividend": {
@@ -79,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654,
-      "sector_pe": 22.74789650623654
+      "pe": 22.74609154058634,
+      "sector_pe": 22.74609154058634
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -94,28 +144,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 9.27,
-      "industry_pe": 22.74789650623654,
+      "company_pe": 9.69,
+      "industry_pe": 22.74609154058634,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/neil-industries-ltd",
       "search_id": "neil-industries-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 9.27,
-        "industry_pe": 22.74789650623654,
+        "company_pe": 9.69,
+        "industry_pe": 22.74609154058634,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.3,
+        "company_pe": 9.9,
         "industry_pe": 19.5,
         "industry_name": "Indian Consumer Finance",
-        "description": "539016 is good value based on its Price-To-Earnings Ratio (9.3x) compared to the Indian Consumer Finance industry average (19.5x).",
+        "description": "539016 is good value based on its Price-To-Earnings Ratio (9.9x) compared to the Indian Consumer Finance industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -145,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6.49,
-        "fetched_at": "2026-05-25T23:30:43.406Z",
+        "value": 6.63,
+        "fetched_at": "2026-05-26T14:20:00.570Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-539016/neil-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 121400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 126900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 9.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9.69,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.21,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 3.12,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 8.45,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.24874029850746268,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +253,91 @@
           "low": 5.55,
           "high": 12.76
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.67,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 30.3795287,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 22.74789650623654,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 22.74609154058634,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 2.2873,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9969512195121955,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.3062446007651487,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 34.114583333333336,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 77.08333333333334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 9.73,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 8.810975609756099,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.1777,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.166666666666667,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.14285714285714285,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/neil-industries-ltd"
       }
     },
@@ -298,11 +348,11 @@
     "latest_net_income": null,
     "latest_eps": 0.67,
     "most_recent_reported_date": null,
-    "pb": 0.2,
+    "pb": 0.21,
     "ps": 3.12,
     "book_value": 30.3795287,
     "face_value": 10,
-    "sector_pe": 22.74789650623654,
+    "sector_pe": 22.74609154058634,
     "roe_pct": 2.2873,
     "roa_pct": 1.9969512195121955,
     "roic_pct": 2.3062446007651487,
@@ -314,12 +364,12 @@
     "quick_ratio": 4.166666666666667,
     "cash_ratio": 0.14285714285714285,
     "returns_pct": {
-      "1D": 4.50885668276973,
-      "7D": 0.15432098765431768,
-      "1M": -0.612557427258806,
-      "3M": -2.5525525525525516,
-      "6M": -11.217510259917914,
-      "1Y": -27.888888888888886,
+      "1D": 2.1571648690292706,
+      "7D": 4.5741324921135655,
+      "1M": 1.5313935681470083,
+      "3M": -1.7777777777777795,
+      "6M": -13.446475195822458,
+      "1Y": -26.333333333333336,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -518,22 +568,22 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/neil-industries-ltd",
     "news": [
+      {
+        "id": "26052611398399",
+        "title": "Neil Industries posted Q4 FY26 profit of ₹0.32 cr, up 128.6% YoY but down 8.6% QoQ.\nShares rose 3.9% to ₹6.74 post-results but are down 25.1% YoY, 47.2% below 52-week high.",
+        "url": "https://www.marketsmojo.com/news/result-analysis/neil-industries-q4-fy26-micro-cap-nbfc-struggles-with-weak-returns-despite-marginal-profit-growth-4013989",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-26T06:30:50.000Z"
+      },
       {
         "id": "658570",
         "title": "Neil Industries Ltd to hold a board meeting on May 25, 2026, to approve audited financial results for Q4 and FY26.\nTrading window remains closed for insiders until 48 hours post-results announcement, per SEBI regulations.",
         "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=4e6bc5ba-52c2-46d1-999c-fb38ef840851.pdf",
         "source": "BSE",
         "published_at": "2026-05-18T12:04:42.000Z"
-      },
-      {
-        "id": "260212152071600",
-        "title": "Neil Industries posted a Q2 FY26 profit of 0.49 cr, up 48.5% QoQ.\nStock fell 41.4% YTD; concerns over weak returns, momentum, and low participation.",
-        "url": "https://www.marketsmojo.com/news/result-analysis/neil-industries-q2-fy26-profit-surge-masks-underlying-operational-concerns-3833707",
-        "source": "Marketsmojo",
-        "published_at": "2026-02-11T14:30:43.000Z"
       }
     ],
     "events": [
@@ -583,7 +633,7 @@
         "ticker": "KIRLOSIND",
         "name": "Kirloskar Industries",
         "searchId": "kirloskar-industries-ltd",
-        "market_cap_inr": 32612700000,
+        "market_cap_inr": 32642100000,
         "pe": 9.22,
         "pb": 0.53
       },
@@ -591,7 +641,7 @@
         "ticker": "BLIL",
         "name": "Balmer Lawrie Investments",
         "searchId": "balmer-lawrie-investments-ltd",
-        "market_cap_inr": 16033100000,
+        "market_cap_inr": 16128500000,
         "pe": 5.77,
         "pb": 1.11
       },
@@ -599,7 +649,7 @@
         "ticker": "507912",
         "name": "Gyftr",
         "searchId": "lkp-finance-ltd",
-        "market_cap_inr": 14171100000,
+        "market_cap_inr": 14555200000,
         "pe": null,
         "pb": 3
       }

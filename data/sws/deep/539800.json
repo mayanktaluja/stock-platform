@@ -3,12 +3,12 @@
   "name": "Chd Chemicals Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-539800/chd-chemicals-shares",
-  "parsed_at": "2026-05-25T23:43:23.888Z",
+  "parsed_at": "2026-05-26T14:32:12.969Z",
   "company_id": "A80BA771-8CCF-4A8E-965D-D862DF9F8590",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/chd-chemicals-ltd",
     "search_id": "chd-chemicals-ltd",
     "company_id": "GSTK539800",
@@ -28,26 +28,76 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 5.8,
-    "market_cap_inr": 60800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 6.15,
+    "market_cap_inr": 58600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 4.11,
       "high": 7.24
     },
-    "fair_value_inr": 13.20908,
+    "fair_value_inr": 13.207902,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 127.74275862068967,
+    "upside_pct": 114.76263414634147,
     "multiples": {
       "pe": null,
       "ps": 1.18,
-      "pb": 0.47,
+      "pb": 0.45,
       "ev_ebitda": 14.62,
       "peg": 0.07268999999999999
     },
@@ -60,13 +110,13 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 55% below our estimate of its fair value",
+      "Trading at 53.4% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
       "Earnings have declined by 23.7% per year over past 5 years",
-      "Does not have a meaningful market cap (₹61M)",
+      "Does not have a meaningful market cap (₹59M)",
       "Highly volatile share price over past 3 months",
       "Debt is not well covered by [[operating cash flow]]",
       "Makes less than USD$1m in revenue (₹52M)"
@@ -108,7 +158,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 74.71695232760163
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -129,10 +179,10 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 74.71695232760163,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "sws_statement": {
@@ -144,10 +194,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.4180202,
+        "industry_pe": 23.883560531,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 118,
+        "count": 120,
         "source": {
           "type": "country",
           "country": "IN",
@@ -157,7 +207,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -169,50 +219,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.8,
-        "fetched_at": "2026-05-25T23:43:23.888Z",
+        "value": 6.15,
+        "fetched_at": "2026-05-26T14:32:12.969Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539800/chd-chemicals-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 60800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 58600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.45,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 14.62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.07268999999999999,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "fifty_two_week": {
@@ -221,85 +271,85 @@
           "low": 4.11,
           "high": 7.24
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.7742386,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0.2295933780436229,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.6821705426356584,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 46.22,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 29.82017982017982,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 16.9403,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 7.128318584070797,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.2168141592920354,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/chd-chemicals-ltd"
       }
     },
@@ -310,11 +360,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.47,
+    "pb": 0.45,
     "ps": 1.18,
     "book_value": 12.7742386,
     "face_value": 10,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0.2295933780436229,
@@ -326,12 +376,12 @@
     "quick_ratio": 7.128318584070797,
     "cash_ratio": 0.2168141592920354,
     "returns_pct": {
-      "1D": -3.494176372712146,
-      "7D": -1.6949152542372972,
-      "1M": 14.173228346456687,
-      "3M": 11.32437619961612,
-      "6M": 0.8695652173913012,
-      "1Y": -8.661417322834643,
+      "1D": 6.034482758620699,
+      "7D": 9.43060498220641,
+      "1M": 21.062992125984255,
+      "3M": 22.266401590457257,
+      "6M": 7.329842931937171,
+      "1Y": -3.1496062992125875,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -472,12 +522,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/chd-chemicals-ltd",
     "news": [
       {
@@ -525,6 +585,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -532,25 +602,25 @@
         "ticker": "VINYLINDIA",
         "name": "Vinyl Chemicals India",
         "searchId": "vinyl-chemicals-india-ltd",
-        "market_cap_inr": 5074800000,
-        "pe": 30.78,
-        "pb": 3.9
+        "market_cap_inr": 4939100000,
+        "pe": 29.96,
+        "pb": 3.79
       },
       {
         "ticker": "544272",
         "name": "Shiv Texchem",
         "searchId": "shiv-texchem-ltd",
-        "market_cap_inr": 3241800000,
-        "pe": 6.74,
-        "pb": 0.97
+        "market_cap_inr": 3402800000,
+        "pe": 7.07,
+        "pb": 1.02
       },
       {
         "ticker": "524444",
         "name": "Evexia Lifecare",
         "searchId": "kavit-industries-ltd",
-        "market_cap_inr": 2928600000,
-        "pe": 156,
-        "pb": 0.72
+        "market_cap_inr": 3060000000,
+        "pe": 163,
+        "pb": 0.75
       }
     ],
     "details": {

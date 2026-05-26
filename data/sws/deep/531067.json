@@ -3,12 +3,12 @@
   "name": "Contil India Limited",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/bse-531067/contil-india-shares",
-  "parsed_at": "2026-05-25T22:26:59.330Z",
+  "parsed_at": "2026-05-26T13:21:02.982Z",
   "company_id": "B669C055-8588-45C6-A138-1FBE79595A5B",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/contil-india-ltd",
     "search_id": "contil-india-ltd",
     "company_id": "GSTK531067",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 23.89,
-    "market_cap_inr": 365100000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 23.82,
+    "market_cap_inr": 369600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 19.21,
       "high": 42
     },
-    "fair_value_inr": 12.849113,
+    "fair_value_inr": 12.85088,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -46.21551695269988,
+    "upside_pct": -46.050041981528125,
     "multiples": {
-      "pe": 16.05,
+      "pe": 16.25,
       "ps": 1.16,
-      "pb": 2.85,
+      "pb": 2.88,
       "ev_ebitda": 12.82,
       "peg": 0.04167741935483871
     },
@@ -55,17 +104,17 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/contil-india-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (15.8x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (16x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "Does not have meaningful revenue (₹326M)",
-      "Does not have a meaningful market cap (₹365M)"
+      "Does not have a meaningful market cap (₹370M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -77,13 +126,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 74.71695232760163,
-      "sector_pe": 74.71695232760163
+      "pe": 74.70203663474909,
+      "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Trading",
       "pe_industry_id": 64,
@@ -92,28 +141,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 16.05,
-      "industry_pe": 74.71695232760163,
+      "company_pe": 16.25,
+      "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/contil-india-ltd",
       "search_id": "contil-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 16.05,
-        "industry_pe": 74.71695232760163,
+        "company_pe": 16.25,
+        "industry_pe": 74.70203663474909,
         "industry_name": "Trading",
         "industry_id": 64,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.8,
-        "industry_pe": 21.4,
+        "company_pe": 16,
+        "industry_pe": 20.3,
         "industry_name": "Indian Consumer Retailing",
-        "description": "531067 is good value based on its Price-To-Earnings Ratio (15.8x) compared to the Indian Consumer Retailing industry average (21.4x).",
+        "description": "531067 is good value based on its Price-To-Earnings Ratio (16x) compared to the Indian Consumer Retailing industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -130,7 +179,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.45,
+        "industry_pe": 19.15,
         "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
@@ -143,56 +192,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 23.89,
-        "fetched_at": "2026-05-25T22:26:59.330Z",
+        "value": 23.82,
+        "fetched_at": "2026-05-26T13:21:02.982Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-531067/contil-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 365100000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 369600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 16.05,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 16.25,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.85,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.88,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 12.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.04167741935483871,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "fifty_two_week": {
@@ -201,91 +250,91 @@
           "low": 19.21,
           "high": 42
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 1.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 8.2950175,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 74.71695232760163,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 16.8238,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 13.877054169202676,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 18.90547263681592,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.22204624643649,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 9.72442191954387,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.1659,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.828080229226361,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.22063037249283668,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/contil-india-ltd"
       }
     },
@@ -296,11 +345,11 @@
     "latest_net_income": null,
     "latest_eps": 1.47,
     "most_recent_reported_date": null,
-    "pb": 2.85,
+    "pb": 2.88,
     "ps": 1.16,
     "book_value": 8.2950175,
     "face_value": 2,
-    "sector_pe": 74.71695232760163,
+    "sector_pe": 74.70203663474909,
     "roe_pct": 16.8238,
     "roa_pct": 13.877054169202676,
     "roic_pct": 18.90547263681592,
@@ -312,12 +361,12 @@
     "quick_ratio": 3.828080229226361,
     "cash_ratio": 0.22063037249283668,
     "returns_pct": {
-      "1D": 1.2288135593220302,
-      "7D": 2.1376656690893543,
-      "1M": -14.188218390804593,
-      "3M": -6.055839559575301,
-      "6M": -11.845018450184504,
-      "1Y": -29.71462194763166,
+      "1D": -0.2930096274591891,
+      "7D": 3.340563991323209,
+      "1M": -14.439655172413794,
+      "3M": -5.998421468034726,
+      "6M": -11.449814126394047,
+      "1Y": -29.92056487202119,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -461,7 +510,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/contil-india-ltd",
     "news": [
       {
@@ -529,7 +578,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -537,15 +586,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

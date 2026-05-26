@@ -3,12 +3,12 @@
   "name": "One Global Service Provider Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-514330/one-global-service-provider-shares",
-  "parsed_at": "2026-05-25T21:21:43.096Z",
+  "parsed_at": "2026-05-26T12:17:36.798Z",
   "company_id": "0399EFB6-FB3E-451A-9DA7-BE23EDED3ED6",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/overseas-synthetics-ltd",
     "search_id": "overseas-synthetics-ltd",
     "company_id": "GSTK514330",
@@ -28,13 +28,62 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 451.7,
-    "market_cap_inr": 9200800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 435.9,
+    "market_cap_inr": 8827600000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
-      "low": 207.05,
+      "low": 217,
       "high": 790
     },
     "fair_value_inr": 123.898134,
@@ -43,11 +92,11 @@
       "max": 123.898134,
       "count": 2
     },
-    "upside_pct": -72.57070312154084,
+    "upside_pct": -71.5764776324845,
     "multiples": {
-      "pe": 14.78,
+      "pe": 14.18,
       "ps": 2.19,
-      "pb": 9.08,
+      "pb": 8.71,
       "ev_ebitda": 9.08,
       "peg": -6.994487499999994
     },
@@ -55,14 +104,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/overseas-synthetics-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 443.1% over the past year",
-      "Price-To-Earnings ratio (14.8x) is below the Indian market (23.3x)"
+      "Price-To-Earnings ratio (13.7x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
@@ -93,13 +142,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 81.39899082003414,
-      "sector_pe": 81.39899082003414
+      "pe": 80.92470000412618,
+      "sector_pe": 80.92470000412618
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Healthcare",
       "pe_industry_id": 30,
@@ -108,28 +157,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 14.78,
-      "industry_pe": 81.39899082003414,
+      "company_pe": 14.18,
+      "industry_pe": 80.92470000412618,
       "industry_name": "Healthcare",
       "industry_id": 30,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/overseas-synthetics-ltd",
       "search_id": "overseas-synthetics-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 14.78,
-        "industry_pe": 81.39899082003414,
+        "company_pe": 14.18,
+        "industry_pe": 80.92470000412618,
         "industry_name": "Healthcare",
         "industry_id": 30,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "sws_statement": {
-        "company_pe": 14.8,
-        "industry_pe": 18.7,
+        "company_pe": 13.7,
+        "industry_pe": 19.1,
         "industry_name": "Indian Specialty Retail",
-        "description": "514330 is good value based on its Price-To-Earnings Ratio (14.8x) compared to the Indian Specialty Retail industry average (18.7x).",
+        "description": "514330 is good value based on its Price-To-Earnings Ratio (13.7x) compared to the Indian Specialty Retail industry average (19.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -146,7 +195,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.049999999999997,
+        "industry_pe": 17.2,
         "sample_count": 60,
         "industry_code": "4440000",
         "industry_name": "Retail"
@@ -159,149 +208,149 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 451.7,
-        "fetched_at": "2026-05-25T21:21:43.096Z",
+        "value": 435.9,
+        "fetched_at": "2026-05-26T12:17:36.798Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-514330/one-global-service-provider-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 9200800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8827600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 14.78,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 14.18,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 9.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8.71,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -6.994487499999994,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 81.39899082003414,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 80.92470000412618,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "fifty_two_week": {
         "provider": "groww_refinitiv",
         "value": {
-          "low": 207.05,
+          "low": 217,
           "high": 790
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 31.86,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 51.8511423,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 81.39899082003414,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 80.92470000412618,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 43.5053,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 27.489369241672573,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 68.94999999999997,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.792391667063928,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 19.955189016541926,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.013288447909284195,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6463,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.6462738162231692,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.09132566926601816,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/overseas-synthetics-ltd"
       }
     },
@@ -312,11 +361,11 @@
     "latest_net_income": null,
     "latest_eps": 31.86,
     "most_recent_reported_date": null,
-    "pb": 9.08,
+    "pb": 8.71,
     "ps": 2.19,
     "book_value": 51.8511423,
     "face_value": 10,
-    "sector_pe": 81.39899082003414,
+    "sector_pe": 80.92470000412618,
     "roe_pct": 43.5053,
     "roa_pct": 27.489369241672573,
     "roic_pct": 68.94999999999997,
@@ -328,12 +377,12 @@
     "quick_ratio": 1.6462738162231692,
     "cash_ratio": 0.09132566926601816,
     "returns_pct": {
-      "1D": -4.056924384027193,
-      "7D": 5.648462168167461,
-      "1M": -18.810101554776676,
-      "3M": -33.190356456145544,
-      "6M": -27.1040103284112,
-      "1Y": 80.2833765715426,
+      "1D": -3.4978968341819816,
+      "7D": -0.4567252797442339,
+      "1M": -21.650040442167708,
+      "3M": -37.83070669614205,
+      "6M": -28.146377647737573,
+      "1Y": 73.97725004989022,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -536,7 +585,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/overseas-synthetics-ltd",
     "news": [
       {
@@ -611,7 +660,7 @@
         "ticker": "FISCHER",
         "name": "Fischer Medical Ventures",
         "searchId": "fischer-chemic-ltd",
-        "market_cap_inr": 23968400000,
+        "market_cap_inr": 24740700000,
         "pe": 61.03,
         "pb": 6.41
       },
@@ -619,7 +668,7 @@
         "ticker": "ANONDITA",
         "name": "Anondita Medicare",
         "searchId": "anondita-medicare-ltd",
-        "market_cap_inr": 19950400000,
+        "market_cap_inr": 18858000000,
         "pe": 121.48,
         "pb": 18.58
       },
@@ -627,7 +676,7 @@
         "ticker": "LAXMIDENTL",
         "name": "Laxmi Dental",
         "searchId": "laxmi-dental-ltd",
-        "market_cap_inr": 13680100000,
+        "market_cap_inr": 13578400000,
         "pe": 47.32,
         "pb": 5.62
       }

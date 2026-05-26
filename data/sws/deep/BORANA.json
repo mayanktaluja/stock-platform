@@ -3,12 +3,12 @@
   "name": "Borana Weaves Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-borana/borana-weaves-shares",
-  "parsed_at": "2026-05-25T22:08:38.972Z",
+  "parsed_at": "2026-05-26T13:00:36.880Z",
   "company_id": "1A8DCFE4-EE69-4EAD-AAB1-25A82B2FD21A",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/borana-weaves-ltd",
     "search_id": "borana-weaves-ltd",
     "company_id": "GSTK544404",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 320.1,
-    "market_cap_inr": 8518500000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 327.45,
+    "market_cap_inr": 8523800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -45,7 +95,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 13.18,
+      "pe": 13.19,
       "ps": 2.2,
       "pb": 3.03,
       "ev_ebitda": 0,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/borana-weaves-ltd"
     },
@@ -79,13 +129,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "sector_pe": 53.672860099337726
+      "pe": 53.669972228315494,
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -94,21 +144,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 13.18,
-      "industry_pe": 53.672860099337726,
+      "company_pe": 13.19,
+      "industry_pe": 53.669972228315494,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/borana-weaves-ltd",
       "search_id": "borana-weaves-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 13.18,
-        "industry_pe": 53.672860099337726,
+        "company_pe": 13.19,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "sws_statement": {
@@ -132,7 +182,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -145,56 +195,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 320.1,
-        "fetched_at": "2026-05-25T22:08:38.972Z",
+        "value": 327.45,
+        "fetched_at": "2026-05-26T13:00:36.880Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-borana/borana-weaves-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8518500000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8523800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 13.18,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 13.19,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 3.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +253,91 @@
           "low": 211,
           "high": 420
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 24.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 105.6754279,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 22.9466,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 17.643365996124135,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 19.253375004873497,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 16.63449908644072,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 25.656861988213798,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 25.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 19.327455850642792,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 8.7326,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.650906505510132,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.059722715961606825,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/borana-weaves-ltd"
       }
     },
@@ -302,7 +352,7 @@
     "ps": 2.2,
     "book_value": 105.6754279,
     "face_value": 10,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 22.9466,
     "roa_pct": 17.643365996124135,
     "roic_pct": 19.253375004873497,
@@ -314,12 +364,12 @@
     "quick_ratio": 2.650906505510132,
     "cash_ratio": 0.059722715961606825,
     "returns_pct": {
-      "1D": -0.031230480949395973,
-      "7D": 0.18779342723005404,
-      "1M": -5.407801418439703,
-      "3M": -19.924953095684796,
-      "6M": 9.751080024686278,
-      "1Y": 25.455614344503243,
+      "1D": 2.296157450796615,
+      "7D": 1.9617001401214422,
+      "1M": -3.2358156028368765,
+      "3M": -21.172363986519017,
+      "6M": 15.506719813750037,
+      "1Y": 28.33627278071722,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -518,7 +568,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/borana-weaves-ltd",
     "news": [
       {
@@ -583,7 +633,7 @@
         "ticker": "PDSL",
         "name": "PDS Limited",
         "searchId": "pds-multinational-fashions-ltd",
-        "market_cap_inr": 40749500000,
+        "market_cap_inr": 42340700000,
         "pe": 22.94,
         "pb": 2.31
       },
@@ -591,7 +641,7 @@
         "ticker": "RAYMOND",
         "name": "Raymond",
         "searchId": "raymond-ltd",
-        "market_cap_inr": 36755400000,
+        "market_cap_inr": 37224700000,
         "pe": 0.69,
         "pb": 1.29
       },
@@ -599,7 +649,7 @@
         "ticker": "SIYSIL",
         "name": "Siyaram Silk Mills",
         "searchId": "siyaram-silk-mills-ltd",
-        "market_cap_inr": 27002000000,
+        "market_cap_inr": 27256100000,
         "pe": 11.69,
         "pb": 1.85
       }

@@ -3,12 +3,12 @@
   "name": "Superhouse Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-superhouse/superhouse-shares",
-  "parsed_at": "2026-05-25T23:18:02.970Z",
+  "parsed_at": "2026-05-26T14:06:29.005Z",
   "company_id": "6FBD6CF6-7258-4C64-81BC-9E4B1DA1FEF2",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/superhouse-ltd",
     "search_id": "superhouse-ltd",
     "company_id": "GSTK523283",
@@ -28,22 +28,70 @@
       "dividend": 3
     },
     "snowflake_total": 11,
-    "current_price_inr": 154.73,
-    "market_cap_inr": 1691800000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 152.31,
+    "market_cap_inr": 1697900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 128.55,
       "high": 201.95
     },
-    "fair_value_inr": 224.311494,
+    "fair_value_inr": 223.342432,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 44.96962062948363,
+    "upside_pct": 46.636748736130265,
     "multiples": {
       "pe": 28.74,
       "ps": 0.25,
@@ -55,13 +103,13 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/superhouse-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 31.2% below our estimate of its fair value"
+      "Trading at 31.8% below our estimate of its fair value"
     ],
     "risks": [
       "Profit margins (0.9%) are lower than last year (1.7%)",
@@ -216,7 +264,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Leather",
       "pe_industry_id": 35,
@@ -229,7 +277,7 @@
       "industry_pe": 45.319011508763424,
       "industry_name": "Leather",
       "industry_id": 35,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/superhouse-ltd",
       "search_id": "superhouse-ltd"
     },
@@ -239,14 +287,14 @@
         "industry_pe": 45.319011508763424,
         "industry_name": "Leather",
         "industry_id": 35,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "sws_statement": {
-        "company_pe": 26.1,
-        "industry_pe": 18.2,
+        "company_pe": 25.9,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "SUPERHOUSE is expensive based on its Price-To-Earnings Ratio (26.1x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "SUPERHOUSE is expensive based on its Price-To-Earnings Ratio (25.9x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -263,7 +311,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -276,56 +324,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 154.73,
-        "fetched_at": "2026-05-25T23:18:02.970Z",
+        "value": 152.31,
+        "fetched_at": "2026-05-26T14:06:29.005Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-superhouse/superhouse-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1691800000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1697900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 28.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.25,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.46633773087071234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 45.319011508763424,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "fifty_two_week": {
@@ -334,91 +382,91 @@
           "low": 128.55,
           "high": 201.95
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 5.34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 418.6355556,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 45.319011508763424,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.166,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.681737431160064,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.9595414442458232,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.9146296048025502,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.387049202305938,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 41.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 21.016166281755197,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.8257,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.8739814040952779,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.22719912244045132,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/superhouse-ltd"
       }
     },
@@ -445,12 +493,12 @@
     "quick_ratio": 0.8739814040952779,
     "cash_ratio": 0.22719912244045132,
     "returns_pct": {
-      "1D": 1.4622950819672065,
-      "7D": 2.1657312644437114,
-      "1M": 0.7225621663845757,
-      "3M": -1.814835966749168,
-      "6M": -2.0696202531645636,
-      "1Y": -7.860418031322585,
+      "1D": -1.5640147353454326,
+      "7D": 2.5173318974220966,
+      "1M": -0.8527535477151427,
+      "3M": -1.3472375153831104,
+      "6M": -3.4607339798440813,
+      "1Y": -9.301494670398384,
       "5Y": null
     },
     "next_earnings_date": "2026-05-30",
@@ -817,7 +865,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/superhouse-ltd",
     "news": [
       {
@@ -892,7 +940,7 @@
         "ticker": "RPTECH",
         "name": "Rashi Peripherals",
         "searchId": "rashi-peripherals-pvt-ltd",
-        "market_cap_inr": 35977900000,
+        "market_cap_inr": 36050400000,
         "pe": 12.74,
         "pb": 1.78
       },
@@ -900,15 +948,15 @@
         "ticker": "512065",
         "name": "Mrugesh Trading",
         "searchId": "mrugesh-trading-ltd",
-        "market_cap_inr": 24635500000,
+        "market_cap_inr": 25126800000,
         "pe": null,
-        "pb": 17.61
+        "pb": 17.96
       },
       {
         "ticker": "539682",
         "name": "Mobavenue Ai Tech",
         "searchId": "sylph-education-solutions-ltd",
-        "market_cap_inr": 18336600000,
+        "market_cap_inr": 18315700000,
         "pe": 62.49,
         "pb": 20.25
       }

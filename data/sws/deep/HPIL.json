@@ -3,12 +3,12 @@
   "name": "Hindprakash Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-hpil/hindprakash-industries-shares",
-  "parsed_at": "2026-05-25T20:36:00.534Z",
+  "parsed_at": "2026-05-26T11:03:00.777Z",
   "company_id": "18E52514-C0FA-47EB-995D-024B0C22C7AF",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234",
     "search_id": "hindprakash-industries-ltd-1569403388234",
     "company_id": "GSTK543645",
@@ -28,8 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 3,
-    "current_price_inr": 132.15,
-    "market_cap_inr": 1492000000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 133.58,
+    "market_cap_inr": 1496600000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,11 +92,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -96.6601551267499,
+    "upside_pct": -96.69590881868544,
     "multiples": {
-      "pe": 136.04,
+      "pe": 136.46,
       "ps": 1.23,
-      "pb": 2.87,
+      "pb": 2.88,
       "ev_ebitda": 31,
       "peg": 11.260020000000015
     },
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
     },
@@ -142,13 +191,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 43.433484466337525,
-      "sector_pe": 43.433484466337525
+      "pe": 43.427221847196755,
+      "sector_pe": 43.427221847196755
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Chemicals",
       "pe_industry_id": 14,
@@ -157,21 +206,21 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 136.04,
-      "industry_pe": 43.433484466337525,
+      "company_pe": 136.46,
+      "industry_pe": 43.427221847196755,
       "industry_name": "Chemicals",
       "industry_id": 14,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234",
       "search_id": "hindprakash-industries-ltd-1569403388234"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 136.04,
-        "industry_pe": 43.433484466337525,
+        "company_pe": 136.46,
+        "industry_pe": 43.427221847196755,
         "industry_name": "Chemicals",
         "industry_id": 14,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "sws_statement": {
@@ -195,8 +244,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.75,
-        "sample_count": 294,
+        "industry_pe": 21,
+        "sample_count": 295,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -208,56 +257,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 132.15,
-        "fetched_at": "2026-05-25T20:36:00.534Z",
+        "value": 133.58,
+        "fetched_at": "2026-05-26T11:03:00.777Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-hpil/hindprakash-industries-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 1492000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1496600000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 136.04,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 136.46,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 2.87,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 2.88,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.23,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 31,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 11.260020000000015,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "fifty_two_week": {
@@ -266,91 +315,91 @@
           "low": 107,
           "high": 175.88
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 45.426217,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 43.433484466337525,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 43.427221847196755,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.8479,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.021555763823805,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 4.230769230769231,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.8874053569974764,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.551005454693479,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 73.1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 35.5576382380506,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 4.1557,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.2238436804353203,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.00964630225080386,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234"
       }
     },
@@ -361,11 +410,11 @@
     "latest_net_income": null,
     "latest_eps": 0.96,
     "most_recent_reported_date": null,
-    "pb": 2.87,
+    "pb": 2.88,
     "ps": 1.23,
     "book_value": 45.426217,
     "face_value": 10,
-    "sector_pe": 43.433484466337525,
+    "sector_pe": 43.427221847196755,
     "roe_pct": 1.8479,
     "roa_pct": 1.021555763823805,
     "roic_pct": 4.230769230769231,
@@ -377,12 +426,12 @@
     "quick_ratio": 1.2238436804353203,
     "cash_ratio": 0.00964630225080386,
     "returns_pct": {
-      "1D": -0.19635979155652208,
-      "7D": 0.8316801464977899,
-      "1M": -4.398466324242194,
-      "3M": 4.055118110236225,
-      "6M": -3.2151750402812262,
-      "1Y": 3.3956654408888216,
+      "1D": 1.0821036700718931,
+      "7D": 1.1893038406181513,
+      "1M": -3.3639586196918017,
+      "3M": 6.041120901802027,
+      "6M": -4.346580737558177,
+      "1Y": 4.514513731319935,
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
@@ -618,12 +667,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/hindprakash-industries-ltd-1569403388234",
     "news": [
       {
@@ -661,6 +720,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -668,7 +737,7 @@
         "ticker": "KIRIINDUS",
         "name": "Kiri Industries",
         "searchId": "kiri-industries-ltd",
-        "market_cap_inr": 25972700000,
+        "market_cap_inr": 25822800000,
         "pe": 0.52,
         "pb": 0.75
       },
@@ -676,7 +745,7 @@
         "ticker": "504092",
         "name": "Indokem",
         "searchId": "indokem-ltd",
-        "market_cap_inr": 16589300000,
+        "market_cap_inr": 16727400000,
         "pe": null,
         "pb": 37.21
       },
@@ -684,7 +753,7 @@
         "ticker": "VIDHIING",
         "name": "Vidhi Specialty Food Ingredients",
         "searchId": "vidhi-specialty-food-ingredients-ltd",
-        "market_cap_inr": 14676300000,
+        "market_cap_inr": 15268200000,
         "pe": 29.98,
         "pb": 4.48
       }

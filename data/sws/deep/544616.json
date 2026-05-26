@@ -3,7 +3,7 @@
   "name": "Gallard Steel Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544616/gallard-steel-shares",
-  "parsed_at": "2026-05-25T21:15:25.274Z",
+  "parsed_at": "2026-05-26T12:07:22.644Z",
   "company_id": "99A41AB1-02DC-47D0-A7CF-8D495A26D1AF",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 161,
-    "market_cap_inr": 1529499838.433116,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 155,
+    "market_cap_inr": 1472499844.454242,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -123,8 +173,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 161,
-        "fetched_at": "2026-05-25T21:15:25.274Z",
+        "value": 155,
+        "fetched_at": "2026-05-26T12:07:22.644Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544616/gallard-steel-shares"
       }
     },
@@ -151,12 +201,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.8292682926829267,
-      "7D": -3.5639412997903497,
-      "1M": 9.78520286396181,
-      "3M": 4.4776119402985115,
-      "6M": -31.270010672358588,
-      "1Y": -31.270010672358588,
+      "1D": -3.7267080745341614,
+      "7D": -8.823529411764707,
+      "1M": 5.693828844186835,
+      "3M": 1.3071895424836601,
+      "6M": -36.97906078471234,
+      "1Y": -33.83137673425827,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -276,16 +326,6 @@
       "date": "2025-11-28T11:29:03.000Z",
       "title": "New major risk - Financial position",
       "body": "The company's debt is not well covered by operating cash flow. Operating cash flow to total debt ratio: 8.3% This is considered a major risk. If the company's operating cash flows are too small relative to the size of their debt, it increases their balance sheet risk. The company has less cash from operations to cover its expenses from servicing large debt and it increases the risk of liquidity issues. It also extends the time it would take for the company to pay back the debt in full, meaning it may not be able to easily pay it all off in a distress scenario. Currently, the following risks have been identified for the company: Major Risks Debt is not well covered by operating cash flow (8.3% operating cash flow to total debt). Shares are highly illiquid. High level of non-cash earnings (3",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "416c2a54-8e03-4c22-b67a-41b9db3ab25b",
-      "type": "brief",
-      "date": "2025-11-27T12:26:52.000Z",
-      "title": "Less than half of directors are independent",
-      "body": "No new directors have joined the board in the last 3 years. The company's board is composed of: No new directors. 4 experienced directors. 1 highly experienced director. 2 independent directors (3 non-independent directors). Non-Executive Director Zahabiya Kalabhai was the last director to join the board, commencing their role in 2018. The following issues are considered to be risks according to the Simply Wall St Risk Model: Minority of independent directors. Insufficient board refreshment.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

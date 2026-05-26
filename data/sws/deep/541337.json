@@ -3,7 +3,7 @@
   "name": "Milestone Furniture Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-541337/milestone-furniture-shares",
-  "parsed_at": "2026-05-25T23:57:17.220Z",
+  "parsed_at": "2026-05-26T16:05:28.710Z",
   "company_id": "BD8F34CC-4D1A-45AF-9FFA-E621CAFEE409",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 27.6,
     "market_cap_inr": 256597193.04143205,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -106,7 +155,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -120,7 +169,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 27.6,
-        "fetched_at": "2026-05-25T23:57:17.220Z",
+        "fetched_at": "2026-05-26T16:05:28.710Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541337/milestone-furniture-shares"
       }
     },
@@ -147,11 +196,11 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.072398190045256,
-      "7D": 8.023483365949122,
+      "1D": 0,
+      "7D": 5.022831050228311,
       "1M": -7.6305220883534055,
       "3M": -7.692307692307683,
-      "6M": 29.943502824858776,
+      "6M": 23.76681614349776,
       "1Y": 566.6666666666667,
       "5Y": null
     },

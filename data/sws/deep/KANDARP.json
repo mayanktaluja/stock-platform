@@ -3,7 +3,7 @@
   "name": "Kandarp Digi Smart BPO Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-kandarp/kandarp-digi-smart-bpo-shares",
-  "parsed_at": "2026-05-25T21:01:53.888Z",
+  "parsed_at": "2026-05-26T11:50:10.151Z",
   "company_id": "51C52703-C70C-4BF8-BC3F-9D9DDBA41F52",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 142.5,
     "market_cap_inr": 1278652530.9542418,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": -40.30984,
     "multiples": {
-      "pe": 82.7,
+      "pe": 80.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -66,7 +116,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 20.9
+      "pe": 21.1
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,22 +130,22 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 82.7,
-      "industry_pe": 20.9,
+      "company_pe": 80.2,
+      "industry_pe": 21.1,
       "industry_name": "Indian Professional Services"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 82.7,
-        "industry_pe": 20.9,
+        "company_pe": 80.2,
+        "industry_pe": 21.1,
         "industry_name": "Indian Professional Services",
-        "description": "KANDARP is expensive based on its Price-To-Earnings Ratio (82.7x) compared to the Indian Professional Services industry average (20.9x).",
+        "description": "KANDARP is expensive based on its Price-To-Earnings Ratio (80.2x) compared to the Indian Professional Services industry average (21.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.149725381,
+        "industry_pe": 21.15985065,
         "industry_code": "9612010",
         "type": "median_profitable",
         "count": 61,
@@ -107,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -121,7 +171,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 142.5,
-        "fetched_at": "2026-05-25T21:01:53.888Z",
+        "fetched_at": "2026-05-26T11:50:10.151Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-kandarp/kandarp-digi-smart-bpo-shares"
       }
     },

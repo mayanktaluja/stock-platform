@@ -3,7 +3,7 @@
   "name": "Timescan Logistics (India) Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-timescan/timescan-logistics-india-shares",
-  "parsed_at": "2026-05-25T23:31:58.418Z",
+  "parsed_at": "2026-05-26T14:20:17.374Z",
   "company_id": "36F39AFD-1044-45CE-95B0-5B89053F79D3",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 13,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 41.1,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -95,7 +144,7 @@
     },
     "dividend_yield_pct": 0.3378994802,
     "industry_benchmarks": {
-      "pe": 16.8
+      "pe": 15.7
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -110,16 +159,16 @@
       "provider": "sws_statement",
       "label": "SWS visible statement",
       "company_pe": 4.5,
-      "industry_pe": 16.8,
+      "industry_pe": 15.7,
       "industry_name": "Indian Transportation"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 4.5,
-        "industry_pe": 16.8,
+        "industry_pe": 15.7,
         "industry_name": "Indian Transportation",
-        "description": "TIMESCAN is good value based on its Price-To-Earnings Ratio (4.5x) compared to the Indian Transportation industry average (16.8x).",
+        "description": "TIMESCAN is good value based on its Price-To-Earnings Ratio (4.5x) compared to the Indian Transportation industry average (15.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -150,7 +199,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 41.1,
-        "fetched_at": "2026-05-25T23:31:58.418Z",
+        "fetched_at": "2026-05-26T14:20:17.374Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-timescan/timescan-logistics-india-shares"
       }
     },

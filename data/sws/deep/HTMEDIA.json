@@ -3,12 +3,12 @@
   "name": "HT Media Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-htmedia/ht-media-shares",
-  "parsed_at": "2026-05-25T20:36:24.311Z",
+  "parsed_at": "2026-05-26T11:03:27.216Z",
   "company_id": "D9523638-A6E9-4009-B1B1-44F71A5E2D90",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ht-media-ltd",
     "search_id": "ht-media-ltd",
     "company_id": "GSTK532662",
@@ -28,8 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 22.01,
-    "market_cap_inr": 4860300000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 22.32,
+    "market_cap_inr": 5027900000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,7 +93,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 91.68368468877782,
+    "upside_pct": 89.02141129032259,
     "multiples": {
       "pe": 40.94,
       "ps": 0.26,
@@ -55,7 +105,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ht-media-ltd"
     },
@@ -138,7 +188,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Media - Print/Television/Radio",
       "pe_industry_id": 37,
@@ -151,7 +201,7 @@
       "industry_pe": 16.063893176352344,
       "industry_name": "Media - Print/Television/Radio",
       "industry_id": 37,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ht-media-ltd",
       "search_id": "ht-media-ltd"
     },
@@ -161,7 +211,7 @@
         "industry_pe": 16.063893176352344,
         "industry_name": "Media - Print/Television/Radio",
         "industry_id": 37,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "sws_statement": {
@@ -185,8 +235,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 57,
+        "industry_pe": 15.5,
+        "sample_count": 56,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -198,56 +248,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 22.01,
-        "fetched_at": "2026-05-25T20:36:24.311Z",
+        "value": 22.32,
+        "fetched_at": "2026-05-26T11:03:27.216Z",
         "url": "https://simplywall.st/stocks/in/media/nse-htmedia/ht-media-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 4860300000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5027900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 40.94,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.29,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 5.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -1.7768936403508768,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 16.063893176352344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "fifty_two_week": {
@@ -256,91 +306,91 @@
           "low": 17.52,
           "high": 28.64
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.51,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 70.9856197,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 16.063893176352344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3636,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.1358390661765991,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 22.425092871143864,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 2.4292491848246645,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.410581536211929,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 48.480000000000004,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 19.983481426585918,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8109,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.056184465914143,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.02966721967405094,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ht-media-ltd"
       }
     },
@@ -367,12 +417,12 @@
     "quick_ratio": 1.056184465914143,
     "cash_ratio": 0.02966721967405094,
     "returns_pct": {
-      "1D": 6.072289156626513,
-      "7D": 3.576470588235302,
-      "1M": 0,
-      "3M": 0,
-      "6M": -10.016353229762876,
-      "1Y": 10.770005032712634,
+      "1D": 1.4084507042253462,
+      "7D": 5.23338048090523,
+      "1M": 1.4084507042253462,
+      "3M": 1.5006821282401177,
+      "6M": -8.674304418985274,
+      "1Y": 12.330145948666328,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -591,12 +641,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ht-media-ltd",
     "news": [
       {
@@ -644,6 +704,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -651,7 +721,7 @@
         "ticker": "DBCORP",
         "name": "DB Corp",
         "searchId": "db-corp-ltd",
-        "market_cap_inr": 36674100000,
+        "market_cap_inr": 36914700000,
         "pe": 11.04,
         "pb": 1.51
       },
@@ -659,7 +729,7 @@
         "ticker": "MPSLTD",
         "name": "MPS",
         "searchId": "mps-ltd",
-        "market_cap_inr": 30607400000,
+        "market_cap_inr": 30532200000,
         "pe": 17.67,
         "pb": 5.13
       },
@@ -667,7 +737,7 @@
         "ticker": "JAGRAN",
         "name": "Jagran Prakashan",
         "searchId": "jagran-prakashan-ltd",
-        "market_cap_inr": 14961600000,
+        "market_cap_inr": 15194400000,
         "pe": 11.75,
         "pb": 0.77
       }

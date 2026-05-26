@@ -3,7 +3,7 @@
   "name": "Gretex Industries Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-gretex/gretex-industries-shares",
-  "parsed_at": "2026-05-25T23:46:25.649Z",
+  "parsed_at": "2026-05-26T14:36:26.306Z",
   "company_id": "589E686A-DE92-471A-824D-2A2648580C45",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 259,
-    "market_cap_inr": 3836972056.0007,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 246.05,
+    "market_cap_inr": 3645123453.2006655,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 104.054626,
+    "fair_value_inr": 103.875757,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -59.824468725868726,
+    "upside_pct": -57.78266327982118,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -102,8 +151,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.35,
-        "sample_count": 64,
+        "industry_pe": 18.6,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -115,8 +164,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 259,
-        "fetched_at": "2026-05-25T23:46:25.649Z",
+        "value": 246.05,
+        "fetched_at": "2026-05-26T14:36:26.306Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-gretex/gretex-industries-shares"
       }
     },
@@ -143,12 +192,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.498688723017956,
-      "7D": -0.709219858156037,
-      "1M": -11.301369863013697,
-      "3M": 2.7777777777777777,
-      "6M": 32.684426229508205,
-      "1Y": 3.187250996015936,
+      "1D": -4.999999999999996,
+      "7D": -5.673758865248231,
+      "1M": -15.736301369863009,
+      "3M": -8.870370370370367,
+      "6M": 23.025000000000006,
+      "1Y": -1.9721115537848561,
       "5Y": null
     },
     "next_earnings_date": null,

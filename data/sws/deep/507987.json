@@ -3,7 +3,7 @@
   "name": "Jupiter Industries and Leasing Ltd.",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-507987/jupiter-industries-and-leasing-shares",
-  "parsed_at": "2026-05-25T20:56:41.634Z",
+  "parsed_at": "2026-05-26T11:50:34.052Z",
   "company_id": "B8EEBEC2-475B-41D6-8547-131C3C8C0F7B",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 3.99,
     "market_cap_inr": 3990000.0000000005,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -107,7 +156,7 @@
       },
       "internal_median": {
         "industry_pe": 21.7,
-        "sample_count": 122,
+        "sample_count": 123,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -120,7 +169,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3.99,
-        "fetched_at": "2026-05-25T20:56:41.634Z",
+        "fetched_at": "2026-05-26T11:50:34.052Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-507987/jupiter-industries-and-leasing-shares"
       }
     },

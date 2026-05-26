@@ -3,7 +3,7 @@
   "name": "Tipco Engineering India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544740/tipco-engineering-india-shares",
-  "parsed_at": "2026-05-25T21:19:41.052Z",
+  "parsed_at": "2026-05-26T12:11:29.854Z",
   "company_id": "A8E596CA-6876-4B5F-92F0-25B236885BF0",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,60 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 162.1,
-    "market_cap_inr": 3366425670.0226645,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 15,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 169.8,
+    "market_cap_inr": 3526336081.2452097,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,7 +161,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 26.35,
+        "industry_pe": 26,
         "sample_count": 220,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
@@ -123,8 +174,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 162.1,
-        "fetched_at": "2026-05-25T21:19:41.052Z",
+        "value": 169.8,
+        "fetched_at": "2026-05-26T12:11:29.854Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544740/tipco-engineering-india-shares"
       }
     },
@@ -151,16 +202,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.987046632124345,
-      "7D": 9.490037149611604,
-      "1M": 30.76798967408842,
-      "3M": 91.17820497700198,
-      "6M": 91.17820497700198,
-      "1Y": 91.17820497700198,
+      "1D": 4.750154225786562,
+      "7D": 16.38108293351611,
+      "1M": 36.979670861568266,
+      "3M": 100.25946455949995,
+      "6M": 100.25946455949995,
+      "1Y": 100.25946455949995,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -235,6 +286,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "fc2cd55f-677d-4096-992a-12b6c3c1f08f",
+      "type": "brief",
+      "date": "2026-05-26T11:37:10.000Z",
+      "title": "Investor sentiment improves as stock rises 16%",
+      "body": "After last week's 16% share price gain to ₹170, the stock trades at a trailing P/E ratio of 22.6x. Average trailing P/E is 26x in the Machinery industry in India.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "d9efee06-c140-44db-abe7-c9fe15c8e6b4",
       "type": "event",

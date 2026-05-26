@@ -3,12 +3,12 @@
   "name": "Palco Metals Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-539121/palco-metals-shares",
-  "parsed_at": "2026-05-25T23:32:08.400Z",
+  "parsed_at": "2026-05-26T14:21:31.070Z",
   "company_id": "66BB36E5-40F7-40F3-9A12-914F4B065E84",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/palco-metals-ltd",
     "search_id": "palco-metals-ltd",
     "company_id": "GSTK539121",
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 125.95,
-    "market_cap_inr": 558000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 129.8,
+    "market_cap_inr": 503800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 88.85,
       "high": 239.9
     },
-    "fair_value_inr": 1109.343098,
+    "fair_value_inr": 1113.444998,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 780.7805462485113,
+    "upside_pct": 757.8158690292757,
     "multiples": {
       "pe": 12.79,
       "ps": 0.2,
@@ -55,18 +104,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/palco-metals-ltd"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 87.4% below our estimate of its fair value"
+      "Trading at 88.3% below our estimate of its fair value"
     ],
     "risks": [
       "Profit margins (1.1%) are lower than last year (3.6%)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹558M)"
+      "Does not have a meaningful market cap (₹504M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -84,7 +133,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Castings, Forgings & Fastners",
       "pe_industry_id": 10,
@@ -97,7 +146,7 @@
       "industry_pe": 48.26216373690401,
       "industry_name": "Castings, Forgings & Fastners",
       "industry_id": 10,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/palco-metals-ltd",
       "search_id": "palco-metals-ltd"
     },
@@ -107,14 +156,14 @@
         "industry_pe": 48.26216373690401,
         "industry_name": "Castings, Forgings & Fastners",
         "industry_id": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "sws_statement": {
-        "company_pe": 18.3,
-        "industry_pe": 22.5,
+        "company_pe": 17.1,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "539121 is good value based on its Price-To-Earnings Ratio (18.3x) compared to the Indian Metals and Mining industry average (22.5x).",
+        "description": "539121 is good value based on its Price-To-Earnings Ratio (17.1x) compared to the Indian Metals and Mining industry average (22.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -131,7 +180,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -144,56 +193,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 125.95,
-        "fetched_at": "2026-05-25T23:32:08.400Z",
+        "value": 129.8,
+        "fetched_at": "2026-05-26T14:21:31.070Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-539121/palco-metals-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 558000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 503800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 12.79,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 7.49,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.5590237500000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 48.26216373690401,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "fifty_two_week": {
@@ -202,91 +251,91 @@
           "low": 88.85,
           "high": 239.9
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 10.91,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 18.6235,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 48.26216373690401,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 38.6863,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 13.072090936284775,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 1.5412831093711425,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 3.964307127993511,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0016,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0017474879860200961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.0017474879860200961,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/palco-metals-ltd"
       }
     },
@@ -313,12 +362,12 @@
     "quick_ratio": 0.0017474879860200961,
     "cash_ratio": 0.0017474879860200961,
     "returns_pct": {
-      "1D": -9.713261648745517,
-      "7D": -16.284479893652367,
-      "1M": -18.075972420970473,
-      "3M": 7.237122179650915,
-      "6M": 3.577302631578955,
-      "1Y": -38.19921491658489,
+      "1D": 3.0567685589519717,
+      "7D": -13.46666666666666,
+      "1M": -15.571744503707555,
+      "3M": 13.016978667827617,
+      "6M": 5.700325732899034,
+      "1Y": -36.31010794896958,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -504,12 +553,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/palco-metals-ltd",
     "news": [
       {
@@ -557,6 +616,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -564,7 +633,7 @@
         "ticker": "ARFIN",
         "name": "Arfin India",
         "searchId": "arfin-india-ltd",
-        "market_cap_inr": 15946000000,
+        "market_cap_inr": 16325600000,
         "pe": 102.73,
         "pb": 9.36
       },
@@ -572,15 +641,15 @@
         "ticker": "MAANALU",
         "name": "Maan Aluminium",
         "searchId": "maan-aluminium-ltd",
-        "market_cap_inr": 8619800000,
-        "pe": 56.35,
-        "pb": 3.19
+        "market_cap_inr": 8523800000,
+        "pe": 55.73,
+        "pb": 3.15
       },
       {
         "ticker": "MMP",
         "name": "MMP Industries",
         "searchId": "mmp-industries-ltd",
-        "market_cap_inr": 7298900000,
+        "market_cap_inr": 7352300000,
         "pe": 30.57,
         "pb": 2.28
       }

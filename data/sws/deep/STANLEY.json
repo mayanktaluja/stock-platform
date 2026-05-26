@@ -3,12 +3,12 @@
   "name": "Stanley Lifestyles Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-stanley/stanley-lifestyles-shares",
-  "parsed_at": "2026-05-25T23:11:33.326Z",
+  "parsed_at": "2026-05-26T14:00:11.889Z",
   "company_id": "D38CDC9F-5B34-427A-A5E0-0D325EC1D3F5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/stanley-lifestyles-ltd",
     "search_id": "stanley-lifestyles-ltd",
     "company_id": "GSTK544202",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 163.63,
-    "market_cap_inr": 9103000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 164.09,
+    "market_cap_inr": 9354300000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +92,7 @@
       "max": 71.512485,
       "count": 1
     },
-    "upside_pct": -56.29622624213164,
+    "upside_pct": -56.418742763117805,
     "multiples": {
       "pe": 37.32,
       "ps": 2.11,
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/stanley-lifestyles-ltd"
     },
@@ -81,7 +130,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -94,7 +143,7 @@
       "industry_pe": 50.063055479526334,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/stanley-lifestyles-ltd",
       "search_id": "stanley-lifestyles-ltd"
     },
@@ -104,14 +153,14 @@
         "industry_pe": 50.063055479526334,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "sws_statement": {
-        "company_pe": 38.8,
-        "industry_pe": 37.1,
+        "company_pe": 40.1,
+        "industry_pe": 36.7,
         "industry_name": "Indian Consumer Durables",
-        "description": "STANLEY is expensive based on its Price-To-Earnings Ratio (38.8x) compared to the Indian Consumer Durables industry average (37.1x).",
+        "description": "STANLEY is expensive based on its Price-To-Earnings Ratio (40.1x) compared to the Indian Consumer Durables industry average (36.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -128,7 +177,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -141,56 +190,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 163.63,
-        "fetched_at": "2026-05-25T23:11:33.326Z",
+        "value": 164.09,
+        "fetched_at": "2026-05-26T14:00:11.889Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-stanley/stanley-lifestyles-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 9103000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 9354300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 37.32,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.95,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 19.11,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -6.946301886792449,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.063055479526334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "fifty_two_week": {
@@ -199,91 +248,91 @@
           "low": 123,
           "high": 377.5
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 4.27,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 81.7189845,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 50.063055479526334,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 6.9837,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 2.6851644663235623,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 6.015916268569931,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 5.572324123519851,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 23.33410726723938,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 70.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 36.95457596777803,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.9234,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.9871559633027522,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3660550458715596,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/stanley-lifestyles-ltd"
       }
     },
@@ -310,12 +359,12 @@
     "quick_ratio": 0.9871559633027522,
     "cash_ratio": 0.3660550458715596,
     "returns_pct": {
-      "1D": 2.8925359994969466,
-      "7D": 5.005454662131799,
-      "1M": 18.400868306801744,
-      "3M": -2.450220579468233,
-      "6M": -27.243219208537134,
-      "1Y": -54.44599109131403,
+      "1D": 0.2811220436350351,
+      "7D": 2.6332249186890215,
+      "1M": 18.73371924746745,
+      "3M": 0.33630915983857856,
+      "6M": -26.95748942799911,
+      "1Y": -54.31792873051224,
       "5Y": null
     },
     "next_earnings_date": "2026-05-27",
@@ -516,7 +565,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/stanley-lifestyles-ltd",
     "news": [
       {
@@ -581,15 +630,15 @@
         "ticker": "WAKEFIT",
         "name": "Wakefit Innovations",
         "searchId": "wakefit-innovations-ltd",
-        "market_cap_inr": 44281500000,
-        "pe": 23.42,
-        "pb": 3.91
+        "market_cap_inr": 43605100000,
+        "pe": 23.06,
+        "pb": 3.85
       },
       {
         "ticker": "EUROPRATIK",
         "name": "Euro Pratik Sales",
         "searchId": "euro-pratik-sales-ltd",
-        "market_cap_inr": 26342100000,
+        "market_cap_inr": 25228100000,
         "pe": 34.14,
         "pb": 8.5
       },
@@ -597,7 +646,7 @@
         "ticker": "PARIN",
         "name": "Parin Enterprises",
         "searchId": "parin-furniture-ltd",
-        "market_cap_inr": 7442400000,
+        "market_cap_inr": 7491900000,
         "pe": 101.58,
         "pb": 9.91
       }

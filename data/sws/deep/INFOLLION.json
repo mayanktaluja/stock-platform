@@ -3,7 +3,7 @@
   "name": "Infollion Research Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-infollion/infollion-research-services-shares",
-  "parsed_at": "2026-05-25T20:43:31.575Z",
+  "parsed_at": "2026-05-26T11:11:31.476Z",
   "company_id": "43917203-A04D-4E1C-B851-4DAE40802008",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,7 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 192.95,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 190,
     "market_cap_inr": 1871030733.1602888,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
@@ -33,7 +82,7 @@
       "max": 133.718473,
       "count": 1
     },
-    "upside_pct": -30.69786317698886,
+    "upside_pct": -29.62185631578948,
     "multiples": {
       "pe": 14.9,
       "ps": null,
@@ -109,7 +158,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -122,8 +171,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 192.95,
-        "fetched_at": "2026-05-25T20:43:31.575Z",
+        "value": 190,
+        "fetched_at": "2026-05-26T11:11:31.476Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-infollion/infollion-research-services-shares"
       }
     },
@@ -150,12 +199,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.1526639344262295,
-      "7D": -0.7458847736625602,
-      "1M": -14.548272807794518,
-      "3M": -38.76547127895907,
-      "6M": -50.48120107789041,
-      "1Y": -60.78252032520326,
+      "1D": -1.528893495724275,
+      "7D": -2.6639344262295026,
+      "1M": -15.854738706820198,
+      "3M": -38.69979028875625,
+      "6M": -51.28205128205128,
+      "1Y": -61.382113821138205,
       "5Y": null
     },
     "next_earnings_date": null,

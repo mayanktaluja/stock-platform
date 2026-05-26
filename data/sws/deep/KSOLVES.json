@@ -3,12 +3,12 @@
   "name": "Ksolves India Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-ksolves/ksolves-india-shares",
-  "parsed_at": "2026-05-25T21:12:39.978Z",
+  "parsed_at": "2026-05-26T12:02:31.027Z",
   "company_id": "B23217AC-12C6-442A-BD43-31F8322EBB02",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ksolves-india-ltd",
     "search_id": "ksolves-india-ltd",
     "company_id": "GSTK543599",
@@ -28,22 +28,70 @@
       "dividend": 4
     },
     "snowflake_total": 12,
-    "current_price_inr": 286.5,
-    "market_cap_inr": 6698600000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 287.55,
+    "market_cap_inr": 6833800000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 245.75,
       "high": 402
     },
-    "fair_value_inr": 115.391891,
+    "fair_value_inr": 115.391857,
     "fair_value_range_inr": {
-      "min": 115.391891,
+      "min": 115.391857,
       "max": 350,
       "count": 5
     },
-    "upside_pct": -59.723598254799306,
+    "upside_pct": -59.870680925056504,
     "multiples": {
       "pe": 19.52,
       "ps": 4.13,
@@ -55,14 +103,14 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/ksolves-india-ltd"
     },
     "rewards": [
       "Earnings have grown 20.9% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (19.6x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (19.9x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Unstable dividend track record",
@@ -236,13 +284,13 @@
     },
     "dividend_yield_pct": 3.9,
     "industry_benchmarks": {
-      "pe": 19.240887337479148,
-      "sector_pe": 19.240887337479148
+      "pe": 19.24021769283627,
+      "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -252,27 +300,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 19.52,
-      "industry_pe": 19.240887337479148,
+      "industry_pe": 19.24021769283627,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/ksolves-india-ltd",
       "search_id": "ksolves-india-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 19.52,
-        "industry_pe": 19.240887337479148,
+        "industry_pe": 19.24021769283627,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.6,
-        "industry_pe": 20.3,
+        "company_pe": 19.9,
+        "industry_pe": 21.1,
         "industry_name": "Indian IT",
-        "description": "KSOLVES is good value based on its Price-To-Earnings Ratio (19.6x) compared to the Indian IT industry average (20.3x).",
+        "description": "KSOLVES is good value based on its Price-To-Earnings Ratio (19.9x) compared to the Indian IT industry average (21.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -289,7 +337,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -302,56 +350,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 286.5,
-        "fetched_at": "2026-05-25T21:12:39.978Z",
+        "value": 287.55,
+        "fetched_at": "2026-05-26T12:02:31.027Z",
         "url": "https://simplywall.st/stocks/in/software/nse-ksolves/ksolves-india-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 6698600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 6833800000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 19.52,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 22.8,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 4.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 10.74,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 30.97074999999987,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 3.9,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "fifty_two_week": {
@@ -360,91 +408,91 @@
           "low": 245.75,
           "high": 402
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 14.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 12.3860475,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 19.240887337479148,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 55.32634971796938,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 21.104075736152943,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 30.220692198930344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 19.400000000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 9.18614020950846,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.8754,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.4029583146571047,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.31734648139847604,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ksolves-india-ltd"
       }
     },
@@ -459,7 +507,7 @@
     "ps": 4.13,
     "book_value": 12.3860475,
     "face_value": 5,
-    "sector_pe": 19.240887337479148,
+    "sector_pe": 19.24021769283627,
     "roe_pct": 0,
     "roa_pct": 55.32634971796938,
     "roic_pct": 0,
@@ -471,12 +519,12 @@
     "quick_ratio": 2.4029583146571047,
     "cash_ratio": 0.31734648139847604,
     "returns_pct": {
-      "1D": 1.1831184884337005,
-      "7D": 1.8847795163584677,
-      "1M": -8.125962031811177,
-      "3M": -5.8804204993429625,
-      "6M": -5.429938933817458,
-      "1Y": -10.356695869837303,
+      "1D": 0.3664921465968626,
+      "7D": 1.8416858508942762,
+      "1M": -7.789250897896347,
+      "3M": -5.519960571710206,
+      "6M": -3.684474962317869,
+      "1Y": -10.028160200250316,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -799,7 +847,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/ksolves-india-ltd",
     "news": [
       {
@@ -882,17 +930,17 @@
         "ticker": "ROUTE",
         "name": "Route Mobile",
         "searchId": "route-mobile-ltd",
-        "market_cap_inr": 32222900000,
+        "market_cap_inr": 32566300000,
         "pe": 12.54,
         "pb": 1.16
       },
       {
-        "ticker": "PROTEAN",
-        "name": "Protean e-Gov Technologies",
-        "searchId": "protean-egov-technologies-ltd",
-        "market_cap_inr": 26301400000,
-        "pe": 26.14,
-        "pb": 2.44
+        "ticker": "JAYKAY",
+        "name": "Jaykay Enterprises",
+        "searchId": "jaykay-enterprises-ltd",
+        "market_cap_inr": 25738200000,
+        "pe": 72.22,
+        "pb": 4.75
       }
     ],
     "details": {

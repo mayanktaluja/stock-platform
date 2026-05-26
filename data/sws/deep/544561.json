@@ -3,7 +3,7 @@
   "name": "Chiraharit Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544561/chiraharit-shares",
-  "parsed_at": "2026-05-25T21:14:21.871Z",
+  "parsed_at": "2026-05-26T12:06:15.110Z",
   "company_id": "F0F9C488-32EC-4C93-8D54-2B78594D161A",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 11.25,
     "market_cap_inr": 616455010.770839,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -107,8 +157,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -121,7 +171,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 11.25,
-        "fetched_at": "2026-05-25T21:14:21.871Z",
+        "fetched_at": "2026-05-26T12:06:15.110Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544561/chiraharit-shares"
       }
     },
@@ -157,7 +207,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -217,6 +267,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "8555f62c-03f3-4a78-ac02-f366137db5ce",
+      "type": "event",
+      "date": "2026-05-25T12:59:00.000Z",
+      "title": "Chiraharit Limited to Report Fiscal Year 2026 Results on May 29, 2026",
+      "body": "Chiraharit Limited announced that they will report fiscal year 2026 results on May 29, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "b476681f-9678-4294-8ddd-902f2b8a8e60",
       "type": "brief",

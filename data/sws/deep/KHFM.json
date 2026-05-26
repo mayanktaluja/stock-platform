@@ -3,7 +3,7 @@
   "name": "KHFM Hospitality and Facility Management Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-khfm/khfm-hospitality-and-facility-management-services-shares",
-  "parsed_at": "2026-05-25T21:06:45.755Z",
+  "parsed_at": "2026-05-26T11:54:34.092Z",
   "company_id": "DD1ED677-3535-4738-9A38-F7850D5F55A6",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 6,
-    "current_price_inr": 57.65,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 60.65,
     "market_cap_inr": 1247121617.4085639,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +82,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -87.92339635732871,
+    "upside_pct": -88.52075515251443,
     "multiples": {
-      "pe": 37.1,
+      "pe": 41,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -120,22 +169,22 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 37.1,
+      "company_pe": 41,
       "industry_pe": 19.5,
       "industry_name": "Indian Commercial Services"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 37.1,
+        "company_pe": 41,
         "industry_pe": 19.5,
         "industry_name": "Indian Commercial Services",
-        "description": "KHFM is expensive based on its Price-To-Earnings Ratio (37.1x) compared to the Indian Commercial Services industry average (19.5x).",
+        "description": "KHFM is expensive based on its Price-To-Earnings Ratio (41x) compared to the Indian Commercial Services industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.46975598,
+        "industry_pe": 19.487466902,
         "industry_code": "3110000",
         "type": "median_profitable",
         "count": 56,
@@ -147,7 +196,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.4,
+        "industry_pe": 16.45,
         "sample_count": 56,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
@@ -160,8 +209,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 57.65,
-        "fetched_at": "2026-05-25T21:06:45.755Z",
+        "value": 60.65,
+        "fetched_at": "2026-05-26T11:54:34.092Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-khfm/khfm-hospitality-and-facility-management-services-shares"
       }
     },
@@ -188,12 +237,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 5.104831358249767,
-      "7D": 0.6108202443281002,
-      "1M": 9.289099526066348,
-      "3M": -14.529280948851007,
-      "6M": -19.0308988764045,
-      "1Y": -23.03070761014687,
+      "1D": 5.203816131830009,
+      "7D": 6.872246696035241,
+      "1M": 14.97630331753554,
+      "3M": -1.5422077922077968,
+      "6M": -15.588030619345854,
+      "1Y": -19.025367156208286,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "Pecos Hotels and Pubs Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-539273/pecos-hotels-and-pubs-shares",
-  "parsed_at": "2026-05-25T23:36:27.078Z",
+  "parsed_at": "2026-05-26T14:25:19.261Z",
   "company_id": "3569F544-B1BB-49FA-8D89-5296530C9C72",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,31 +11,79 @@
     "snowflake": {
       "valuation": 1,
       "future": 0,
-      "past": 1,
-      "financial_health": 6,
-      "dividends": 2,
+      "past": 4,
+      "financial_health": 5,
+      "dividends": 4,
       "future_growth": 0,
-      "past_performance": 1,
+      "past_performance": 4,
       "value": 1,
-      "health": 6,
-      "dividend": 2
+      "health": 5,
+      "dividend": 4
     },
-    "snowflake_total": 10,
+    "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 240,
     "market_cap_inr": 314369989.8504727,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 40.8849,
+    "fair_value_inr": 207.023665,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -82.964625,
+    "upside_pct": -13.740139583333336,
     "multiples": {
-      "pe": 23.6,
+      "pe": 19.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,15 +97,14 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Earnings have grown 50.8% per year over the past 5 years",
-      "Price-To-Earnings ratio (23.6x) is below the Hospitality industry average (26.1x)",
+      "Earnings grew by 14.7% over the past year",
+      "Price-To-Earnings ratio (19.2x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
+      "Unstable dividend track record",
       "Does not have a meaningful market cap (₹314M)",
-      "Does not have meaningful revenue (₹110M)",
-      "Dividend of 1.46% is not well covered by free cash flows",
-      "High level of [[non-cash earnings]]",
+      "Does not have meaningful revenue (₹123M)",
       "Shares are highly illiquid"
     ],
     "dividend": {
@@ -136,7 +183,7 @@
     },
     "dividend_yield_pct": 1.2566103211,
     "industry_benchmarks": {
-      "pe": 26.1
+      "pe": 25.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -150,17 +197,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 23.6,
-      "industry_pe": 26.1,
+      "company_pe": 19.2,
+      "industry_pe": 25.9,
       "industry_name": "Indian Hospitality"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 23.6,
-        "industry_pe": 26.1,
+        "company_pe": 19.2,
+        "industry_pe": 25.9,
         "industry_name": "Indian Hospitality",
-        "description": "539273 is good value based on its Price-To-Earnings Ratio (23.6x) compared to the Indian Hospitality industry average (26.1x).",
+        "description": "539273 is good value based on its Price-To-Earnings Ratio (19.2x) compared to the Indian Hospitality industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -177,7 +224,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.35,
+        "industry_pe": 24.950000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -191,7 +238,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 240,
-        "fetched_at": "2026-05-25T23:36:27.078Z",
+        "fetched_at": "2026-05-26T14:25:19.261Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-539273/pecos-hotels-and-pubs-shares"
       }
     },

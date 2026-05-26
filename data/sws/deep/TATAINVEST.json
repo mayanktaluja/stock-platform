@@ -3,12 +3,12 @@
   "name": "Tata Investment Corporation Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-tatainvest/tata-investment-shares",
-  "parsed_at": "2026-05-25T23:25:11.152Z",
+  "parsed_at": "2026-05-26T14:13:28.109Z",
   "company_id": "CEF07C2D-504E-4D09-A520-0AA71F551465",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tata-investment-corporation-ltd",
     "search_id": "tata-investment-corporation-ltd",
     "company_id": "GSTK501301",
@@ -28,9 +28,57 @@
       "dividend": 3
     },
     "snowflake_total": 14,
-    "current_price_inr": 678.7,
-    "market_cap_inr": 338356000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 694.6,
+    "market_cap_inr": 343112000000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/tata-investment-corporation-ltd"
     },
@@ -206,13 +254,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076,
-      "sector_pe": 18.400881901895076
+      "pe": 18.4012950315927,
+      "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -222,27 +270,27 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 78.03,
-      "industry_pe": 18.400881901895076,
+      "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/tata-investment-corporation-ltd",
       "search_id": "tata-investment-corporation-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 78.03,
-        "industry_pe": 18.400881901895076,
+        "industry_pe": 18.4012950315927,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "sws_statement": {
-        "company_pe": 78,
-        "industry_pe": 27.9,
+        "company_pe": 81,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "TATAINVEST is expensive based on its Price-To-Earnings Ratio (78x) compared to the Indian Capital Markets industry average (27.9x).",
+        "description": "TATAINVEST is expensive based on its Price-To-Earnings Ratio (81x) compared to the Indian Capital Markets industry average (27.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -272,56 +320,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 678.7,
-        "fetched_at": "2026-05-25T23:25:11.152Z",
+        "value": 694.6,
+        "fetched_at": "2026-05-26T14:13:28.109Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-tatainvest/tata-investment-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 338356000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 343112000000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 78.03,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.16,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 64.99,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 86.24,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -5.406033448993753,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "fifty_two_week": {
@@ -330,91 +378,91 @@
           "low": 538.85,
           "high": 1184.7
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 8.57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 577.546879,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 1,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 18.400881901895076,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.4841,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3281828781154552,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 1.3670016762233979,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 0.0015925454174046225,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.3976,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.39763837638376387,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.15512915129151292,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tata-investment-corporation-ltd"
       }
     },
@@ -429,7 +477,7 @@
     "ps": 64.99,
     "book_value": 577.546879,
     "face_value": 1,
-    "sector_pe": 18.400881901895076,
+    "sector_pe": 18.4012950315927,
     "roe_pct": 1.4841,
     "roa_pct": 1.3281828781154552,
     "roic_pct": 1.3670016762233979,
@@ -441,12 +489,12 @@
     "quick_ratio": 0.39763837638376387,
     "cash_ratio": 0.15512915129151292,
     "returns_pct": {
-      "1D": 1.4954389113204725,
-      "7D": 2.4143654745737138,
-      "1M": -3.6142867286799594,
-      "3M": 1.8763134193935753,
-      "6M": -11.46621445343073,
-      "1Y": 8.2197241489277,
+      "1D": 2.3427140120819177,
+      "7D": 4.679376083188918,
+      "1M": -1.356245118227644,
+      "3M": 5.410122164048862,
+      "6M": -8.430558302023588,
+      "1Y": 10.755002790401027,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -823,7 +871,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tata-investment-corporation-ltd",
     "news": [
       {
@@ -898,7 +946,7 @@
         "ticker": "BAJAJFINSV",
         "name": "Bajaj Finserv",
         "searchId": "bajaj-finserv-ltd",
-        "market_cap_inr": 2825450900000,
+        "market_cap_inr": 2892513900000,
         "pe": 14.36,
         "pb": 3.63
       },
@@ -906,7 +954,7 @@
         "ticker": "SHRIRAMFIN",
         "name": "Shriram Finance",
         "searchId": "shriram-transport-finance-company-ltd",
-        "market_cap_inr": 2214366500000,
+        "market_cap_inr": 2263070100000,
         "pe": 22.09,
         "pb": 2.1
       },
@@ -914,7 +962,7 @@
         "ticker": "JIOFIN",
         "name": "JIO Financial Services",
         "searchId": "jio-financial-services-ltd",
-        "market_cap_inr": 1572538200000,
+        "market_cap_inr": 1596639600000,
         "pe": 100.91,
         "pb": 1.11
       }

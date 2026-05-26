@@ -3,12 +3,12 @@
   "name": "IRM Energy Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-irmenergy/irm-energy-shares",
-  "parsed_at": "2026-05-25T20:49:19.870Z",
+  "parsed_at": "2026-05-26T11:16:10.912Z",
   "company_id": "4A88AC49-9FF4-42B2-832B-13A9DB0207F7",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/irm-energy-ltd",
     "search_id": "irm-energy-ltd",
     "company_id": "GSTK544004",
@@ -28,8 +28,56 @@
       "dividend": 2
     },
     "snowflake_total": 12,
-    "current_price_inr": 274.5,
-    "market_cap_inr": 11492600000,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 4,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Earnings vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 272.9,
+    "market_cap_inr": 11283200000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -43,7 +91,7 @@
       "max": 450,
       "count": 11
     },
-    "upside_pct": 63.934426229508205,
+    "upside_pct": 64.89556614144377,
     "multiples": {
       "pe": 21.6,
       "ps": 1.08,
@@ -55,7 +103,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/irm-energy-ltd"
     },
@@ -112,7 +160,7 @@
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Gas Distribution",
       "pe_industry_id": 28,
@@ -125,7 +173,7 @@
       "industry_pe": 17.421635513462714,
       "industry_name": "Gas Distribution",
       "industry_id": 28,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/irm-energy-ltd",
       "search_id": "irm-energy-ltd"
     },
@@ -135,7 +183,7 @@
         "industry_pe": 17.421635513462714,
         "industry_name": "Gas Distribution",
         "industry_id": 28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "sws_statement": {
@@ -172,56 +220,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 274.5,
-        "fetched_at": "2026-05-25T20:49:19.870Z",
+        "value": 272.9,
+        "fetched_at": "2026-05-26T11:16:10.912Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-irmenergy/irm-energy-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 11492600000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 11283200000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 21.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.15,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.08,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 7.19,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": -0.5205530499075786,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
         "value": 17.421635513462714,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.54,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "fifty_two_week": {
@@ -230,91 +278,91 @@
           "low": 165.4,
           "high": 393
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 12.96,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 242.9487395,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
         "value": 17.421635513462714,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 5.3344,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 4.105499456148606,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 8.83579383602011,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 4.588128798655114,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 11.870339238760291,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 7.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 5.6429403460592,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.0679,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.8104214641460934,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 1.298934290151556,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/irm-energy-ltd"
       }
     },
@@ -341,12 +389,12 @@
     "quick_ratio": 1.8104214641460934,
     "cash_ratio": 1.298934290151556,
     "returns_pct": {
-      "1D": -1.8591347872720734,
-      "7D": -2.0692115590438855,
-      "1M": -3.2462726023051642,
-      "3M": 17.70002572678158,
-      "6M": -6.298003072196617,
-      "1Y": -2.763018065887358,
+      "1D": -0.5828779599271485,
+      "7D": -2.291442892946664,
+      "1M": -3.8102287547143217,
+      "3M": 17.25026852846401,
+      "6M": -5.83160800552106,
+      "1Y": -3.3297910024796438,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -564,7 +612,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/irm-energy-ltd",
     "news": [
       {
@@ -639,7 +687,7 @@
         "ticker": "CONFIPET",
         "name": "Confidence Petroleum India",
         "searchId": "confidence-petroleum-india-ltd",
-        "market_cap_inr": 19083900000,
+        "market_cap_inr": 20363100000,
         "pe": 21.35,
         "pb": 1.4
       },
@@ -647,17 +695,17 @@
         "ticker": "POSITRON",
         "name": "Positron Energy",
         "searchId": "positron-energy-ltd",
-        "market_cap_inr": 1428900000,
-        "pe": 7.13,
-        "pb": 1.45
+        "market_cap_inr": 1500300000,
+        "pe": 7.49,
+        "pb": 1.52
       },
       {
         "ticker": "524675",
         "name": "Kabsons Industries",
         "searchId": "kabsons-industries-ltd",
-        "market_cap_inr": 343700000,
-        "pe": 24.6,
-        "pb": 2.33
+        "market_cap_inr": 341200000,
+        "pe": 24.43,
+        "pb": 2.31
       }
     ],
     "details": {

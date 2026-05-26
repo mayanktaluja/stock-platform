@@ -3,7 +3,7 @@
   "name": "Varyaa Creations Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-544168/varyaa-creations-shares",
-  "parsed_at": "2026-05-25T22:36:09.753Z",
+  "parsed_at": "2026-05-26T13:31:48.278Z",
   "company_id": "DA3A2A4D-ADED-495A-BFBC-D0D27A240247",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,59 @@
       "dividend": 0
     },
     "snowflake_total": 5,
-    "current_price_inr": 29.99,
-    "market_cap_inr": 143652117.72609627,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 32,
+    "market_cap_inr": 153280018.91414073,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +85,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 31.3,
+      "pe": 33.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -66,7 +116,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.2
+      "pe": 18.5
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -80,17 +130,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 31.3,
-      "industry_pe": 18.2,
+      "company_pe": 33.4,
+      "industry_pe": 18.5,
       "industry_name": "Indian Luxury"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 31.3,
-        "industry_pe": 18.2,
+        "company_pe": 33.4,
+        "industry_pe": 18.5,
         "industry_name": "Indian Luxury",
-        "description": "544168 is expensive based on its Price-To-Earnings Ratio (31.3x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "544168 is expensive based on its Price-To-Earnings Ratio (33.4x) compared to the Indian Luxury industry average (18.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -107,7 +157,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -120,8 +170,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 29.99,
-        "fetched_at": "2026-05-25T22:36:09.753Z",
+        "value": 32,
+        "fetched_at": "2026-05-26T13:31:48.278Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-544168/varyaa-creations-shares"
       }
     },
@@ -148,12 +198,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 5.41300527240773,
-      "1M": -0.033333333333338544,
-      "3M": -8.81726968683491,
-      "6M": -17.94801641586867,
-      "1Y": -48.44421523121885,
+      "1D": 6.702234078026015,
+      "7D": 12.4780316344464,
+      "1M": 6.666666666666667,
+      "3M": -2.7059896625114033,
+      "6M": -11.11111111111111,
+      "1Y": -44.988825855251854,
       "5Y": null
     },
     "next_earnings_date": null,

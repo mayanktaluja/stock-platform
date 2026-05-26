@@ -3,7 +3,7 @@
   "name": "Sanco Trans Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-523116/sanco-trans-shares",
-  "parsed_at": "2026-05-25T22:20:15.726Z",
+  "parsed_at": "2026-05-26T13:11:58.410Z",
   "company_id": "FA2E8211-46F9-474A-B8A8-94CFAF6F1698",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,67 @@
       "dividend": 3
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 715,
     "market_cap_inr": 1287000154.7796047,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 541.137678,
+    "fair_value_inr": 539.658936,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -24.316408671328666,
+    "upside_pct": -24.52322573426573,
     "multiples": {
       "pe": 15.9,
       "ps": null,
@@ -229,7 +277,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.6,
+        "industry_pe": 15.4,
         "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
@@ -243,7 +291,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 715,
-        "fetched_at": "2026-05-25T22:20:15.726Z",
+        "fetched_at": "2026-05-26T13:11:58.410Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-523116/sanco-trans-shares"
       }
     },

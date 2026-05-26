@@ -3,7 +3,7 @@
   "name": "Falcon Technoprojects India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-falcontech/falcon-technoprojects-india-shares",
-  "parsed_at": "2026-05-25T23:26:37.075Z",
+  "parsed_at": "2026-05-26T14:17:16.571Z",
   "company_id": "AC8FCBBF-F0D4-4860-8555-4561B4B62BCF",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 14.35,
-    "market_cap_inr": 76869978.24896747,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 14.2,
+    "market_cap_inr": 76066459.3125671,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -33,9 +82,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 3.4675331010452957,
+    "upside_pct": 4.560500000000002,
     "multiples": {
-      "pe": 10,
+      "pe": 10.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -49,16 +98,16 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Price-To-Earnings ratio (10x) is below the Indian market (23.3x)",
+      "Price-To-Earnings ratio (10.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Latest financial reports are more than 6 months old",
-      "Does not have a meaningful market cap (₹74M)",
       "Highly volatile share price over past 3 months",
       "High level of [[non-cash earnings]]",
       "Profit margins (2.7%) are lower than last year (7.4%)",
+      "Does not have a meaningful market cap (₹77M)",
       "Debt is not well covered by [[operating cash flow]]",
       "Does not have meaningful revenue (₹278M)"
     ],
@@ -86,17 +135,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 10,
+      "company_pe": 10.3,
       "industry_pe": 16.1,
       "industry_name": "Indian Construction"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 10,
+        "company_pe": 10.3,
         "industry_pe": 16.1,
         "industry_name": "Indian Construction",
-        "description": "FALCONTECH is good value based on its Price-To-Earnings Ratio (10x) compared to the Indian Construction industry average (16.1x).",
+        "description": "FALCONTECH is good value based on its Price-To-Earnings Ratio (10.3x) compared to the Indian Construction industry average (16.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -113,8 +162,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.8,
-        "sample_count": 189,
+        "industry_pe": 15.950000000000001,
+        "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -126,8 +175,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 14.35,
-        "fetched_at": "2026-05-25T23:26:37.075Z",
+        "value": 14.2,
+        "fetched_at": "2026-05-26T14:17:16.571Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-falcontech/falcon-technoprojects-india-shares"
       }
     },
@@ -154,12 +203,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 3.9855072463768035,
-      "7D": -2.7118644067796636,
-      "1M": 0,
-      "3M": -6.514657980456026,
-      "6M": -10.312500000000002,
-      "1Y": -53.709677419354826,
+      "1D": -1.0452961672473893,
+      "7D": -2.4054982817869512,
+      "1M": -1.0452961672473893,
+      "3M": -6.885245901639349,
+      "6M": -11.526479750778824,
+      "1Y": -54.19354838709678,
       "5Y": null
     },
     "next_earnings_date": null,

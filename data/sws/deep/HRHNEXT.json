@@ -3,7 +3,7 @@
   "name": "HRH Next Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-hrhnext/hrh-next-services-shares",
-  "parsed_at": "2026-05-25T20:36:14.242Z",
+  "parsed_at": "2026-05-26T11:03:17.273Z",
   "company_id": "DD56EA4D-9CFF-4F0E-B9A5-21AF062231A4",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 28,
     "market_cap_inr": 369724251.96345365,
     "market_cap_usd": 127196762990.178,
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.799999999999997,
+        "industry_pe": 20.85,
         "sample_count": 58,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
@@ -124,7 +173,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 28,
-        "fetched_at": "2026-05-25T20:36:14.242Z",
+        "fetched_at": "2026-05-26T11:03:17.273Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-hrhnext/hrh-next-services-shares"
       }
     },

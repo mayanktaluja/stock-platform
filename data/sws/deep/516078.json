@@ -3,12 +3,12 @@
   "name": "Jumbo Bag Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-516078/jumbo-bag-shares",
-  "parsed_at": "2026-05-25T21:24:24.042Z",
+  "parsed_at": "2026-05-26T12:20:20.950Z",
   "company_id": "7B7B7443-AB5C-4F7F-89D0-37A5CC1321FE",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jumbo-bag-ltd",
     "search_id": "jumbo-bag-ltd",
     "company_id": "GSTK516078",
@@ -28,26 +28,75 @@
       "dividend": 0
     },
     "snowflake_total": 14,
-    "current_price_inr": 59.25,
-    "market_cap_inr": 502200000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 60.39,
+    "market_cap_inr": 495900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 49.06,
       "high": 105
     },
-    "fair_value_inr": 77.374368,
+    "fair_value_inr": 77.371575,
     "fair_value_range_inr": {
-      "min": 77.374368,
-      "max": 77.374368,
+      "min": 77.371575,
+      "max": 77.371575,
       "count": 1
     },
-    "upside_pct": 30.589650632911397,
+    "upside_pct": 28.119846000993554,
     "multiples": {
-      "pe": 6.01,
+      "pe": 5.94,
       "ps": 0.43,
-      "pb": 1.44,
+      "pb": 1.42,
       "ev_ebitda": 9.02,
       "peg": 0.09859615384615386
     },
@@ -55,18 +104,18 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/jumbo-bag-ltd"
     },
     "rewards": [
-      "Trading at 22.7% below our estimate of its fair value",
+      "Trading at 21.9% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 158.1% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹502M)",
+      "Does not have a meaningful market cap (₹496M)",
       "Has a high level of debt"
     ],
     "dividend": {
@@ -79,13 +128,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 25.312457865495027,
-      "sector_pe": 25.312457865495027
+      "pe": 25.392793163881098,
+      "sector_pe": 25.392793163881098
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Packaging",
       "pe_industry_id": 42,
@@ -94,28 +143,28 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 6.01,
-      "industry_pe": 25.312457865495027,
+      "company_pe": 5.94,
+      "industry_pe": 25.392793163881098,
       "industry_name": "Packaging",
       "industry_id": 42,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/jumbo-bag-ltd",
       "search_id": "jumbo-bag-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
-        "company_pe": 6.01,
-        "industry_pe": 25.312457865495027,
+        "company_pe": 5.94,
+        "industry_pe": 25.392793163881098,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "sws_statement": {
-        "company_pe": 6,
-        "industry_pe": 17,
+        "company_pe": 6.1,
+        "industry_pe": 16.6,
         "industry_name": "Indian Packaging",
-        "description": "516078 is good value based on its Price-To-Earnings Ratio (6x) compared to the Indian Packaging industry average (17x).",
+        "description": "516078 is good value based on its Price-To-Earnings Ratio (6.1x) compared to the Indian Packaging industry average (16.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -132,7 +181,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16,
+        "industry_pe": 16.3,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -145,56 +194,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 59.25,
-        "fetched_at": "2026-05-25T21:24:24.042Z",
+        "value": 60.39,
+        "fetched_at": "2026-05-26T12:20:20.950Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-516078/jumbo-bag-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 502200000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 495900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
-        "value": 6.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5.94,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 1.44,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 1.42,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 0.43,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 9.02,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0.09859615384615386,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "fifty_two_week": {
@@ -203,91 +252,91 @@
           "low": 49.06,
           "high": 105
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 9.98,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 41.783632,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 25.312457865495027,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 25.392793163881098,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 15.2315,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 6.621361006520342,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 10.775844685879289,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 6.131995237285252,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 14.373192719850314,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 86.5,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 37.92818440628157,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 3.7564,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.822838847385272,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.06915688367129136,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/jumbo-bag-ltd"
       }
     },
@@ -298,11 +347,11 @@
     "latest_net_income": null,
     "latest_eps": 9.98,
     "most_recent_reported_date": null,
-    "pb": 1.44,
+    "pb": 1.42,
     "ps": 0.43,
     "book_value": 41.783632,
     "face_value": 10,
-    "sector_pe": 25.312457865495027,
+    "sector_pe": 25.392793163881098,
     "roe_pct": 15.2315,
     "roa_pct": 6.621361006520342,
     "roic_pct": 10.775844685879289,
@@ -314,12 +363,12 @@
     "quick_ratio": 0.822838847385272,
     "cash_ratio": 0.06915688367129136,
     "returns_pct": {
-      "1D": -1.25,
-      "7D": 0.7481720795782991,
-      "1M": -7.982605994719679,
-      "3M": 5.165069222577203,
-      "6M": -23.940949935815155,
-      "1Y": -2.4048756382803504,
+      "1D": 1.9240506329113936,
+      "7D": 0.7339449541284365,
+      "1M": -6.212144742972511,
+      "3M": 1.1219022103148053,
+      "6M": -26.110363391655454,
+      "1Y": -0.5270960303080222,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -518,7 +567,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/jumbo-bag-ltd",
     "news": [
       {
@@ -583,7 +632,7 @@
         "ticker": "AGI",
         "name": "AGI Greenpac",
         "searchId": "hsil-ltd",
-        "market_cap_inr": 37602100000,
+        "market_cap_inr": 38572600000,
         "pe": 10.69,
         "pb": 1.56
       },
@@ -591,17 +640,17 @@
         "ticker": "JINDALPOLY",
         "name": "Jindal Poly Films",
         "searchId": "jindal-poly-films-ltd",
-        "market_cap_inr": 30626400000,
-        "pe": 19.52,
-        "pb": 0.49
+        "market_cap_inr": 30814700000,
+        "pe": 19.64,
+        "pb": 0.5
       },
       {
-        "ticker": "POLYPLEX",
-        "name": "Polyplex Corporation",
-        "searchId": "polyplex-corporation-ltd",
-        "market_cap_inr": 30194800000,
-        "pe": null,
-        "pb": 0.75
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29570600000,
+        "pe": 10.35,
+        "pb": 0.39
       }
     ],
     "details": {

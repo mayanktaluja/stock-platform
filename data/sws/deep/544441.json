@@ -3,7 +3,7 @@
   "name": "Meta Infotech Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-544441/meta-infotech-shares",
-  "parsed_at": "2026-05-25T21:09:13.623Z",
+  "parsed_at": "2026-05-26T12:00:01.341Z",
   "company_id": "9B86A047-1E6C-4040-A88D-BEF6874C8C95",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 80.84,
-    "market_cap_inr": 1526372398.1963565,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 81.9,
+    "market_cap_inr": 1546386682.4874024,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.9,
+        "industry_pe": 19.6,
         "sample_count": 122,
         "industry_code": "8030000",
         "industry_name": "Software"
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 80.84,
-        "fetched_at": "2026-05-25T21:09:13.623Z",
+        "value": 81.9,
+        "fetched_at": "2026-05-26T12:00:01.341Z",
         "url": "https://simplywall.st/stocks/in/software/bse-544441/meta-infotech-shares"
       }
     },
@@ -151,12 +200,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.9808917197452276,
-      "7D": 11.6883116883117,
-      "1M": -4.263382283278061,
-      "3M": -11.456736035049282,
-      "6M": -38.029896512073584,
-      "1Y": -65.78201058201059,
+      "1D": 1.3112320633349854,
+      "7D": 8.967535923363505,
+      "1M": -3.0080530554239604,
+      "3M": -8.24557472552095,
+      "6M": -39.57949096274437,
+      "1Y": -65.33333333333333,
       "5Y": null
     },
     "next_earnings_date": null,

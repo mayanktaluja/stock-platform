@@ -3,12 +3,12 @@
   "name": "S.A.L. Steel Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-salsteel/sal-steel-shares",
-  "parsed_at": "2026-05-25T22:39:54.328Z",
+  "parsed_at": "2026-05-26T13:32:41.366Z",
   "company_id": "0E23A80B-8CF0-407F-BB46-BFC3B1BDC4D5",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sal-steel-ltd",
     "search_id": "sal-steel-ltd",
     "company_id": "GSTK532604",
@@ -28,9 +28,59 @@
       "dividend": 0
     },
     "snowflake_total": 2,
-    "current_price_inr": 56.21,
-    "market_cap_inr": 8395000000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 54.13,
+    "market_cap_inr": 8219900000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,11 +93,11 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -35.718706635829925,
+    "upside_pct": -33.24863292074636,
     "multiples": {
       "pe": null,
       "ps": 2.71,
-      "pb": 5.84,
+      "pb": 5.72,
       "ev_ebitda": 16.33,
       "peg": 0
     },
@@ -76,7 +126,7 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "sector_pe": 24.858261272856254
+      "sector_pe": 24.83232947584154
     },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
@@ -97,17 +147,17 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 24.858261272856254,
+        "industry_pe": 24.83232947584154,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "sws_statement": {
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Metals and Mining",
-        "description": "SALSTEEL is expensive based on its Price-To-Sales Ratio (2.7x) compared to the Indian Metals and Mining industry average (1.2x).",
+        "description": "SALSTEEL is expensive based on its Price-To-Sales Ratio (2.5x) compared to the Indian Metals and Mining industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -124,7 +174,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.2,
+        "industry_pe": 21.5,
         "sample_count": 195,
         "industry_code": "2050000",
         "industry_name": "Materials"
@@ -137,50 +187,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 56.21,
-        "fetched_at": "2026-05-25T22:39:54.328Z",
+        "value": 54.13,
+        "fetched_at": "2026-05-26T13:32:41.366Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-salsteel/sal-steel-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 8395000000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 8219900000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 5.84,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5.72,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.71,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 16.33,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "fifty_two_week": {
@@ -189,85 +239,85 @@
           "low": 14.37,
           "high": 63.49
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 9.9350679,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 24.858261272856254,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 24.83232947584154,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 7.5546719681908545,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 604.6,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 66.1170513973552,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.4995,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.4721337579617834,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.004060509554140127,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sal-steel-ltd"
       }
     },
@@ -278,11 +328,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 5.84,
+    "pb": 5.72,
     "ps": 2.71,
     "book_value": 9.9350679,
     "face_value": 10,
-    "sector_pe": 24.858261272856254,
+    "sector_pe": 24.83232947584154,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -294,12 +344,12 @@
     "quick_ratio": 0.4721337579617834,
     "cash_ratio": 0.004060509554140127,
     "returns_pct": {
-      "1D": -3.6014405762304946,
-      "7D": -8.03337696335078,
-      "1M": -1.0735656458993301,
-      "3M": 20.881720430107528,
-      "6M": 32.32109227871941,
-      "1Y": 208.33790455293473,
+      "1D": -3.7004091798612317,
+      "7D": -12.439340019411189,
+      "1M": -4.734248504047867,
+      "3M": 16.40860215053764,
+      "6M": 30.026423252462166,
+      "1Y": 196.92814042786617,
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
@@ -418,12 +468,22 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ]
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/sal-steel-ltd",
     "news": [
       {
@@ -471,6 +531,16 @@
         "ex_date": null,
         "record_date": null,
         "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-28T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
       }
     ],
     "peers": [
@@ -478,15 +548,15 @@
         "ticker": "PRAKASH",
         "name": "Prakash Industries",
         "searchId": "prakash-industries-ltd",
-        "market_cap_inr": 25689300000,
-        "pe": 7.77,
-        "pb": 0.75
+        "market_cap_inr": 25304300000,
+        "pe": 7.6,
+        "pb": 0.71
       },
       {
         "ticker": "532887",
         "name": "Neueon Corporation Ltd.",
         "searchId": "neueon-towers-ltd",
-        "market_cap_inr": 14526300000,
+        "market_cap_inr": 13802500000,
         "pe": null,
         "pb": 6.6
       },
@@ -494,7 +564,7 @@
         "ticker": "MWL",
         "name": "Mangalam Worldwide",
         "searchId": "mangalam-worldwide-ltd",
-        "market_cap_inr": 10972900000,
+        "market_cap_inr": 10993700000,
         "pe": 21.89,
         "pb": 3.66
       }

@@ -3,7 +3,7 @@
   "name": "Sungarner Energies Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-sel/sungarner-energies-shares",
-  "parsed_at": "2026-05-25T22:48:53.622Z",
+  "parsed_at": "2026-05-26T13:38:47.086Z",
   "company_id": "2FFE4D7E-8E97-4A21-8185-402167BB70BE",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,9 +21,58 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 200,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -35,7 +84,7 @@
     },
     "upside_pct": null,
     "multiples": {
-      "pe": 25.2,
+      "pe": 25.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -51,13 +100,13 @@
     "rewards": [
       "Earnings have grown 33.9% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (25.2x) is below the Electrical industry average (27.7x)"
+      "Price-To-Earnings ratio (25.9x) is below the Electrical industry average (27.9x)"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
       "Profit margins (3.8%) are lower than last year (7.8%)",
       "Does not have meaningful revenue (₹470M)",
-      "Does not have a meaningful market cap (₹452M)",
+      "Does not have a meaningful market cap (₹464M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -70,7 +119,7 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.7
+      "pe": 27.9
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_statement",
@@ -84,17 +133,17 @@
     "pe_benchmark_source": {
       "provider": "sws_statement",
       "label": "SWS visible statement",
-      "company_pe": 25.2,
-      "industry_pe": 27.7,
+      "company_pe": 25.9,
+      "industry_pe": 27.9,
       "industry_name": "Indian Electrical"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 25.2,
-        "industry_pe": 27.7,
+        "company_pe": 25.9,
+        "industry_pe": 27.9,
         "industry_name": "Indian Electrical",
-        "description": "SEL is good value based on its Price-To-Earnings Ratio (25.2x) compared to the Indian Electrical industry average (27.7x).",
+        "description": "SEL is good value based on its Price-To-Earnings Ratio (25.9x) compared to the Indian Electrical industry average (27.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
@@ -111,7 +160,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.3,
+        "industry_pe": 27.4,
         "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
@@ -125,7 +174,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 200,
-        "fetched_at": "2026-05-25T22:48:53.622Z",
+        "fetched_at": "2026-05-26T13:38:47.086Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-sel/sungarner-energies-shares"
       }
     },
@@ -152,10 +201,10 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.564102564102564,
-      "7D": 0.2506265664160401,
+      "1D": 0,
+      "7D": 2.275632830478133,
       "1M": 16.61807580174927,
-      "3M": 5.263157894736842,
+      "3M": 9.89010989010989,
       "6M": -13.043478260869565,
       "1Y": -34.31855500821018,
       "5Y": null

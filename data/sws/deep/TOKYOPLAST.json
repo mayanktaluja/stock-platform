@@ -3,12 +3,12 @@
   "name": "Tokyo Plast International Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-tokyoplast/tokyo-plast-international-shares",
-  "parsed_at": "2026-05-25T23:33:44.460Z",
+  "parsed_at": "2026-05-26T14:21:40.889Z",
   "company_id": "45C4A3ED-9B13-4730-84E3-7315AD03D4F2",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tokyo-plast-international-ltd",
     "search_id": "tokyo-plast-international-ltd",
     "company_id": "GSTK500418",
@@ -28,9 +28,58 @@
       "dividend": 0
     },
     "snowflake_total": 4,
-    "current_price_inr": 87.93,
-    "market_cap_inr": 800400000,
-    "market_cap_usd": 127196762990.178,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 85.5,
+    "market_cap_inr": 794100000,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -55,7 +104,7 @@
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/tokyo-plast-international-ltd"
     },
@@ -64,7 +113,7 @@
       "Interest payments are not well covered by earnings",
       "Highly volatile share price over past 3 months",
       "Profit margins (0.8%) are lower than last year (1.8%)",
-      "Does not have a meaningful market cap (₹800M)"
+      "Does not have a meaningful market cap (₹835M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -90,13 +139,13 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 39.75406581907038,
-      "sector_pe": 39.75406581907038
+      "pe": 39.72706494962617,
+      "sector_pe": 39.72706494962617
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Plastic products",
       "pe_industry_id": 48,
@@ -106,32 +155,32 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 127.65,
-      "industry_pe": 39.75406581907038,
+      "industry_pe": 39.72706494962617,
       "industry_name": "Plastic products",
       "industry_id": 48,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "fetched_at": "2026-05-26T16:13:44.842Z",
       "url": "https://groww.in/stocks/tokyo-plast-international-ltd",
       "search_id": "tokyo-plast-international-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": 127.65,
-        "industry_pe": 39.75406581907038,
+        "industry_pe": 39.72706494962617,
         "industry_name": "Plastic products",
         "industry_id": 48,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "sws_statement": {
-        "company_pe": 127,
-        "industry_pe": 37.1,
+        "company_pe": 128.9,
+        "industry_pe": 36.7,
         "industry_name": "Indian Consumer Durables",
-        "description": "TOKYOPLAST is expensive based on its Price-To-Earnings Ratio (127x) compared to the Indian Consumer Durables industry average (37.1x).",
+        "description": "TOKYOPLAST is expensive based on its Price-To-Earnings Ratio (128.9x) compared to the Indian Consumer Durables industry average (36.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 36.682918907,
+        "industry_pe": 36.69858386,
         "industry_code": "4110000",
         "type": "median_profitable",
         "count": 55,
@@ -143,7 +192,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36,
+        "industry_pe": 36.1,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -156,56 +205,56 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 87.93,
-        "fetched_at": "2026-05-25T23:33:44.460Z",
+        "value": 85.5,
+        "fetched_at": "2026-05-26T14:21:40.889Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-tokyoplast/tokyo-plast-international-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 800400000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 794100000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
         "value": 127.65,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 1.28,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 1.01,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 21.47,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 3.032925000000002,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 39.75406581907038,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 39.72706494962617,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "fifty_two_week": {
@@ -214,91 +263,91 @@
           "low": 53.86,
           "high": 161
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "latest_eps": {
         "provider": "groww_refinitiv",
         "value": 0.66,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 65.9894737,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 10,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 39.75406581907038,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 39.72706494962617,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 1.0055,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0.4639175257731959,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 2.1586522827208845,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0.7942511346444782,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 8.799798285426123,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 77.17,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 35.62592047128129,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.855,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.7302390507764788,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.09265398708776827,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/tokyo-plast-international-ltd"
       }
     },
@@ -313,7 +362,7 @@
     "ps": 1.01,
     "book_value": 65.9894737,
     "face_value": 10,
-    "sector_pe": 39.75406581907038,
+    "sector_pe": 39.72706494962617,
     "roe_pct": 1.0055,
     "roa_pct": 0.4639175257731959,
     "roic_pct": 2.1586522827208845,
@@ -325,12 +374,12 @@
     "quick_ratio": 0.7302390507764788,
     "cash_ratio": 0.09265398708776827,
     "returns_pct": {
-      "1D": 4.367952522255201,
-      "7D": 2.8541349865481487,
-      "1M": -7.305502846299802,
-      "3M": 0.04551143474798754,
-      "6M": -26.77991506370222,
-      "1Y": -36.05555959566576,
+      "1D": -2.76356192425794,
+      "7D": 0.5882352941176471,
+      "1M": -9.867172675521822,
+      "3M": 1.9070321811680502,
+      "6M": -29.831760361099708,
+      "1Y": -37.82270380335975,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -525,7 +574,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/tokyo-plast-international-ltd",
     "news": [
       {
@@ -590,7 +639,7 @@
         "ticker": "VIPIND",
         "name": "VIP Industries",
         "searchId": "vip-industries-ltd",
-        "market_cap_inr": 43034600000,
+        "market_cap_inr": 43567300000,
         "pe": null,
         "pb": 14.87
       },
@@ -598,7 +647,7 @@
         "ticker": "BCONCEPTS",
         "name": "Brand Concepts",
         "searchId": "brand-concepts-ltd",
-        "market_cap_inr": 2629300000,
+        "market_cap_inr": 2621800000,
         "pe": 242.13,
         "pb": 3.18
       },
@@ -606,9 +655,9 @@
         "ticker": "544641",
         "name": "KV Toys India",
         "searchId": "k-v-toys-india-ltd",
-        "market_cap_inr": 1420900000,
+        "market_cap_inr": 1656700000,
         "pe": null,
-        "pb": 2.89
+        "pb": 3.37
       }
     ],
     "details": {

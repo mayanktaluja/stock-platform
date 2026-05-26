@@ -3,7 +3,7 @@
   "name": "Canarys Automations Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-canarys/canarys-automations-shares",
-  "parsed_at": "2026-05-25T22:44:02.038Z",
+  "parsed_at": "2026-05-26T13:37:22.728Z",
   "company_id": "E8E0EDC0-B40A-4AC9-89FA-DB707D236C1B",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,19 +21,68 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 19.9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 20.4,
     "market_cap_inr": null,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 127136193103.04,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 29.715837,
+    "fair_value_inr": 29.716462,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 49.32581407035177,
+    "upside_pct": 45.66893137254903,
     "multiples": {
       "pe": 10.5,
       "ps": null,
@@ -110,7 +159,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24,
+        "industry_pe": 23.6,
         "sample_count": 57,
         "industry_code": "8040000",
         "industry_name": "Software"
@@ -123,8 +172,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 19.9,
-        "fetched_at": "2026-05-25T22:44:02.038Z",
+        "value": 20.4,
+        "fetched_at": "2026-05-26T13:37:22.728Z",
         "url": "https://simplywall.st/stocks/in/software/nse-canarys/canarys-automations-shares"
       }
     },
@@ -151,16 +200,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.5000000000000071,
-      "7D": 5.851063829787222,
-      "1M": -0.7481296758104844,
-      "3M": -23.461538461538467,
-      "6M": -39.87915407854985,
-      "1Y": -37.322834645669296,
+      "1D": 2.512562814070352,
+      "7D": 8.51063829787233,
+      "1M": 1.7456359102244283,
+      "3M": -19.04761904761905,
+      "6M": -36.84210526315789,
+      "1Y": -35.748031496063,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -194,6 +243,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "b70a43a7-e3b6-4ad8-9d01-4343cb05427b",
+      "type": "event",
+      "date": "2026-05-25T00:00:00.000Z",
+      "title": "Canarys Automations Limited to Report Second Half, 2026 Results on May 29, 2026",
+      "body": "Canarys Automations Limited announced that they will report second half, 2026 results on May 29, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "f714bbd5-d41f-442b-b335-1e03b8490a3a",
       "type": "brief",
