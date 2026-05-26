@@ -12720,10 +12720,21 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
         const peerLabel = `${providerLabel}${industryName ? ` ${industryName}` : ""}`.trim();
         const bucket = v4bd.fv_pe_bucket ? ` ${String(v4bd.fv_pe_bucket).replace(/_/g, " ")}` : "";
         const peContribution = Number.isFinite(Number(v4bd.pts_fv_pe_effective)) ? n1(v4bd.pts_fv_pe_effective) : "—";
-        fvHintParts.push(`P/E ${pe} vs ${peerLabel} ${peerPe}${bucket ? ` (${bucket.trim()})` : ""} -> ${peContribution} pts`);
+        const peSuffix = v4bd.fv_industry_imputed
+          ? "held out because analyst FV is missing"
+          : `${peContribution} pts`;
+        fvHintParts.push(`P/E ${pe} vs ${peerLabel} ${peerPe}${bucket ? ` (${bucket.trim()})` : ""} -> ${peSuffix}`);
       }
       if (v4bd.fv_max_inflation_haircut) fvHintParts.push("Analyst max-inflation haircut applied");
-      if (v4bd.fv_imputed) fvHintParts.push("No FV sub-signal; neutral 6/12 imputed");
+      if (v4bd.fv_industry_imputed) {
+        const avgLabel = v4bd.fv_industry_average_label || "industry";
+        const avgCount = Number.isFinite(Number(v4bd.fv_industry_average_count))
+          ? ` from ${Number(v4bd.fv_industry_average_count)} covered peers`
+          : "";
+        fvHintParts.push(`Missing analyst FV; using ${avgLabel} industry average ${n1(v4bd.fv_industry_average_pts)}/12${avgCount}`);
+      } else if (v4bd.fv_imputed) {
+        fvHintParts.push("No FV sub-signal; neutral 6/12 imputed");
+      }
       fvHintParts.push(`Total ${n1(v4bd.pts_fv_total)}/12`);
       const fvHint = fvHintParts.join(" · ");
       items = [
@@ -13135,7 +13146,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       <h4>Score breakdown — ${v4bd ? "v4 quality-value blend" : "v2 fundamentals composite"} (out of 100)</h4>
       ${barsHtml}
       ${v4bd ? `
-        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v4 = 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) − safety overlay (max −15). Only inputs with ≥50% universe coverage are scored; stocks lacking a fair value get a neutral 6/12 on the FV composite (flagged fv_imputed in the breakdown).</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v4 = 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) − safety overlay (max −15). Stocks lacking analyst FV use an industry-average FV composite when covered peers exist; otherwise they get a neutral 6/12 (flagged fv_imputed in the breakdown).</div>
         <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v4</strong> ${card_.v4_score_100?.toFixed(1) || "—"} (quality-value reweight + momentum).</div>
       ` : `
         <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100.</div>

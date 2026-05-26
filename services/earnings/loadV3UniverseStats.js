@@ -37,7 +37,7 @@ const STALE_AFTER_DAYS = 7;
 /**
  * @param {object} [opts]
  * @param {string} [opts.filePath]  override (tests)
- * @returns {{r1m:number[], r3m:number[], r1y:number[]}|null}
+ * @returns {{r1m:number[], r3m:number[], r1y:number[], fvBenchmark?:object, fvCompositeIndustryAverages?:object}|null}
  *          null when the file is missing or unparseable — callers pass
  *          this straight to computeV3Score, which treats null as
  *          "impute momentum".
@@ -75,5 +75,14 @@ export function loadV3UniverseStats(opts = {}) {
     }
   }
 
-  return { r1m: parsed.r1m, r3m: parsed.r3m, r1y: parsed.r1y };
+  const out = {
+    r1m: parsed.r1m,
+    r3m: parsed.r3m,
+    r1y: parsed.r1y,
+  };
+  const fvBenchmark = parsed.fv_benchmark || parsed.fvBenchmark || null;
+  const fvCompositeIndustryAverages = parsed.fv_composite_industry_averages || parsed.fvCompositeIndustryAverages || null;
+  if (fvBenchmark) out.fvBenchmark = fvBenchmark;
+  if (fvCompositeIndustryAverages) out.fvCompositeIndustryAverages = fvCompositeIndustryAverages;
+  return out;
 }

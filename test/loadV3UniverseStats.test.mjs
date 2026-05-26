@@ -10,7 +10,7 @@
 //
 // Coverage:
 //   • happy path — opts.filePath override loads a valid file and returns
-//     {r1m, r3m, r1y} unchanged
+//     {r1m, r3m, r1y} unchanged, plus FV benchmark payloads when present
 //   • missing file → null + warn
 //   • unparseable JSON → null + warn
 //   • valid JSON but missing/malformed arrays → null + warn
@@ -105,6 +105,27 @@ it("returns ONLY r1m/r3m/r1y — strips any extra payload keys like generated_at
     const fp = writeFixture(dir, goodPayload({ generated_at: new Date().toISOString(), extra_key: "ignored" }));
     const { result } = captureWarn(() => loadV3UniverseStats({ filePath: fp }));
     assert.deepEqual(Object.keys(result).sort(), ["r1m", "r1y", "r3m"]);
+  } finally { cleanup(dir); }
+});
+
+it("preserves optional FV benchmark and industry-average fallback payloads", () => {
+  const dir = freshTempDir();
+  try {
+    const fv_benchmark = { median_slog: 1, robust_sigma: 2, degenerate: false };
+    const fv_composite_industry_averages = {
+      min_count: 5,
+      by_key: { "sector:Finance": { pts: 4.8, count: 20, label: "Finance", scope: "sector" } },
+    };
+    const payload = goodPayload({ fv_benchmark, fv_composite_industry_averages });
+    const fp = writeFixture(dir, payload);
+    const { result } = captureWarn(() => loadV3UniverseStats({ filePath: fp }));
+    assert.deepEqual(result, {
+      r1m: payload.r1m,
+      r3m: payload.r3m,
+      r1y: payload.r1y,
+      fvBenchmark: fv_benchmark,
+      fvCompositeIndustryAverages: fv_composite_industry_averages,
+    });
   } finally { cleanup(dir); }
 });
 

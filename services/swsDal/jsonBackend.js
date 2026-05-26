@@ -211,6 +211,7 @@ export function getV3UniverseStats() {
     r3m: raw.r3m || [],
     r1y: raw.r1y || [],
     fvBenchmark: raw.fv_benchmark || raw.fvBenchmark || null,
+    fvCompositeIndustryAverages: raw.fv_composite_industry_averages || raw.fvCompositeIndustryAverages || null,
   };
 }
 

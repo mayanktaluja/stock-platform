@@ -4,8 +4,8 @@
  * Covers:
  *   • V4_SCORING_VERSION stamp
  *   • pillar scaling H22/F20/V18/P16 + dividend dropped (zero weight)
- *   • _fvCompositeV4 — renormalised over present subs, drop-not-impute,
- *     MAX-inflation guard, both-absent neutral
+ *   • _fvCompositeV4 — renormalised over present subs, industry fallback for
+ *     missing analyst FV, MAX-inflation guard, both-absent neutral
  *   • momentum 7/3/2 + imputation
  *   • V4-only value-trap brake + falling-knife precedence
  *   • surveillance overlay parity with the old V3 overlay
@@ -21,6 +21,7 @@
 import {
   computeV4Score,
   _fvCompositeV4,
+  buildFvCompositeIndustryAverages,
   verdictV4FromScore,
   V4_SCORING_VERSION,
 } from "../services/swsScoringV4.js";
@@ -75,6 +76,19 @@ check("no value signal at all → neutral 6, fv_imputed", () => {
 console.log("\n_fvCompositeV4 — relative P/E sub + blend\n");
 check("cheap-vs-industry P/E alone → 12", () =>
   assert.equal(_fvCompositeV4({ multiples: { pe: 10 }, industry_benchmarks: { pe: 20 } }).pts_fv_total, 12));
+check("missing analyst FV can use industry-average fallback instead of P/E-only max", () => {
+  const fv = _fvCompositeV4(
+    { fair_value_inr: null, upside_pct: null, multiples: { pe: 10 }, industry_benchmarks: { pe: 20 } },
+    null,
+    { industryFallback: { pts: 4.8, count: 154, key: "industry_code:7110000", label: "Diversified Financials" } },
+  );
+  assert.equal(fv.pts_fv_total, 4.8);
+  assert.equal(fv.fv_imputed, true);
+  assert.equal(fv.fv_industry_imputed, true);
+  assert.equal(fv.fv_industry_average_count, 154);
+  assert.equal(fv.fv_subsignals_present, 1);
+  assert.equal(fv.pts_fv_pe_effective, null);
+});
 check("expensive P/E drags a +20% upside down to 6", () =>
   assert.equal(_fvCompositeV4({ upside_pct: 20, multiples: { pe: 30 }, industry_benchmarks: { pe: 20 } }).pts_fv_total, 6));
 check("in-line P/E + +20% upside → 8", () => {
@@ -91,6 +105,44 @@ check("zero and negative P/E are displayable inputs but do not earn relative-P/E
     assert.equal(fv.pts_fv_total, 6);
     assert.equal(fv.fv_imputed, true);
   }
+});
+check("computeV4Score resolves exact industry-code fallback before broad sector fallback", () => {
+  const stock = {
+    ticker: "UYFINCORP",
+    sector: "Diversified Financials",
+    overview: {
+      fair_value_inr: null,
+      upside_pct: null,
+      multiples: { pe: 8.88 },
+      industry_benchmarks: { pe: 22.75 },
+      pe_benchmark_audit: {
+        sws_industry_api: { industry_code: "7110000" },
+        internal_median: { industry_code: "7110000", industry_name: "Diversified Financials" },
+      },
+    },
+  };
+  const universe = {
+    fvCompositeIndustryAverages: {
+      by_key: {
+        "industry_code:7110000": { pts: 4.8, count: 154, label: "Diversified Financials", scope: "industry_code" },
+        "sector:Diversified Financials": { pts: 5.1, count: 486, label: "Diversified Financials", scope: "sector" },
+      },
+    },
+  };
+  const b = computeV4Score(stock, { universe, surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_fv_total, 4.8);
+  assert.equal(b.fv_industry_imputed, true);
+  assert.equal(b.fv_industry_average_key, "industry_code:7110000");
+  assert.equal(b.fv_industry_average_count, 154);
+});
+check("industry averages are built only from analyst-covered peers", () => {
+  const averages = buildFvCompositeIndustryAverages([
+    { ticker: "A", sector: "Finance", overview: { upside_pct: 30, multiples: { pe: 10 }, industry_benchmarks: { pe: 20 } } },
+    { ticker: "B", sector: "Finance", overview: { upside_pct: -20, multiples: { pe: 30 }, industry_benchmarks: { pe: 20 } } },
+    { ticker: "C", sector: "Finance", overview: { upside_pct: null, multiples: { pe: 10 }, industry_benchmarks: { pe: 20 } } },
+  ], null, { minCount: 2 });
+  assert.equal(averages.by_key["sector:Finance"].count, 2);
+  assert.equal(averages.by_key["sector:Finance"].pts, 6);
 });
 
 console.log("\n_fvCompositeV4 — MAX-inflation guard\n");

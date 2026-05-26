@@ -47,14 +47,81 @@ try {
 
 export const V4_SCORING_VERSION = "sws-v4-100pt-2026-05";
 
+const r1 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 10) / 10;
+const r3 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 1000) / 1000;
+
+function normaliseKeyPart(value) {
+  return value == null ? null : String(value).trim();
+}
+
+function industryKeyCandidates(stock) {
+  const ov = stock?.overview || stock || {};
+  const audit = ov.pe_benchmark_audit || {};
+  const keys = [];
+  const push = (key, label, scope) => {
+    const clean = normaliseKeyPart(key);
+    if (!clean) return;
+    const id = `${scope}:${clean}`;
+    if (!keys.some((k) => k.key === id)) keys.push({ key: id, label: label || clean, scope });
+  };
+  push(audit.sws_industry_api?.industry_code, audit.internal_median?.industry_name || audit.sws_industry_api?.source?.name, "industry_code");
+  push(audit.internal_median?.industry_code, audit.internal_median?.industry_name, "industry_code");
+  push(stock?.sector || ov.primary_industry?.name || audit.internal_median?.industry_name, stock?.sector || ov.primary_industry?.name || audit.internal_median?.industry_name, "sector");
+  return keys;
+}
+
+export function buildFvCompositeIndustryAverages(stocks, fvBenchmark = null, opts = {}) {
+  const minCount = opts.minCount ?? 5;
+  const buckets = new Map();
+  for (const stock of stocks || []) {
+    const ov = stock?.overview || {};
+    if (!Number.isFinite(ov.upside_pct)) continue;
+    const fv = _fvCompositeV4(ov, fvBenchmark);
+    if (!Number.isFinite(fv.pts_fv_total)) continue;
+    for (const candidate of industryKeyCandidates(stock)) {
+      if (!buckets.has(candidate.key)) buckets.set(candidate.key, { ...candidate, values: [] });
+      buckets.get(candidate.key).values.push(fv.pts_fv_total);
+    }
+  }
+
+  const by_key = {};
+  for (const [key, bucket] of buckets.entries()) {
+    if (bucket.values.length < minCount) continue;
+    const avg = bucket.values.reduce((sum, value) => sum + value, 0) / bucket.values.length;
+    by_key[key] = {
+      pts: r1(avg),
+      count: bucket.values.length,
+      label: bucket.label,
+      scope: bucket.scope,
+    };
+  }
+  return { min_count: minCount, by_key };
+}
+
+function findFvCompositeIndustryFallback(stock, averages) {
+  const buckets = averages?.by_key || averages || {};
+  for (const candidate of industryKeyCandidates(stock)) {
+    const fallback = buckets[candidate.key];
+    if (!fallback || !Number.isFinite(fallback.pts)) continue;
+    return {
+      ...fallback,
+      key: candidate.key,
+      label: fallback.label || candidate.label,
+      scope: fallback.scope || candidate.scope,
+    };
+  }
+  return null;
+}
+
 // FV composite (max 12). Renormalised weighted average of the value sub-signals
 // that are actually present — an absent sub is DROPPED (excluded from both the
 // numerator and the weight denominator), never imputed to neutral. This fixes
 // two failure modes at once: a sub with thin coverage (relative-P/E, ~9% of the
-// universe) can't compress the block to a constant for everyone, and a small-cap
-// missing analyst upside isn't docked for data it simply lacks. Both subs
-// absent -> neutral 6/12.
-export function _fvCompositeV4(ov, fvBenchmark = null) {
+// universe) can't compress the block to a constant for everyone. When analyst
+// upside is missing, the batch scorer can pass an industry-average fallback
+// built from analyst-covered peers; without one, both subs absent -> neutral
+// 6/12.
+export function _fvCompositeV4(ov, fvBenchmark = null, opts = {}) {
   ov = ov || {};
   const subs = []; // { key, weight, fraction in [0,1] }
   let fv_max_inflation_haircut = false;
@@ -123,10 +190,15 @@ export function _fvCompositeV4(ov, fvBenchmark = null) {
     subs.push({ key: "pe", weight: 4, fraction: frac });
   }
 
-  let pts_fv_total, fv_imputed;
+  const industryFallback = opts.industryFallback || null;
+  let pts_fv_total, fv_imputed, fv_industry_imputed = false;
   let pts_fv_upside_effective = null;
   let pts_fv_pe_effective = null;
-  if (subs.length === 0) {
+  if (upside == null && industryFallback && Number.isFinite(industryFallback.pts)) {
+    pts_fv_total = clamp(industryFallback.pts, 0, 12);
+    fv_imputed = true;
+    fv_industry_imputed = true;
+  } else if (subs.length === 0) {
     pts_fv_total = 6; // no value signal at all -> neutral
     fv_imputed = true;
   } else {
@@ -140,12 +212,14 @@ export function _fvCompositeV4(ov, fvBenchmark = null) {
     fv_imputed = false;
   }
 
-  const r1 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 10) / 10;
-  const r3 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 1000) / 1000;
-
   return {
     pts_fv_total: r1(pts_fv_total),
     fv_imputed,
+    fv_industry_imputed,
+    fv_industry_average_pts: fv_industry_imputed ? r1(industryFallback.pts) : null,
+    fv_industry_average_count: fv_industry_imputed ? industryFallback.count ?? null : null,
+    fv_industry_average_key: fv_industry_imputed ? industryFallback.key ?? null : null,
+    fv_industry_average_label: fv_industry_imputed ? industryFallback.label ?? null : null,
     fv_max_inflation_haircut,
     fv_subsignals_present: subs.length,
     fv_benchmark_used,
@@ -182,7 +256,11 @@ export function computeV4Score(stock, opts = {}) {
   const pts_past = (v_past / 6) * 16;
 
   const fvBenchmark = opts.fvBenchmark || universe?.fvBenchmark || null;
-  const fv = _fvCompositeV4(ov, fvBenchmark);
+  const industryFallback = findFvCompositeIndustryFallback(
+    stock,
+    opts.fvCompositeIndustryAverages || universe?.fvCompositeIndustryAverages || universe?.fv_composite_industry_averages,
+  );
+  const fv = _fvCompositeV4(ov, fvBenchmark, { industryFallback });
   const pts_fv_total = fv.pts_fv_total;
 
   const r = ov.returns_pct || {};
@@ -242,6 +320,11 @@ export function computeV4Score(stock, opts = {}) {
       pts_past: Math.round(pts_past * 10) / 10,
       pts_fv_total,
       fv_imputed: fv.fv_imputed,
+      fv_industry_imputed: fv.fv_industry_imputed,
+      fv_industry_average_pts: fv.fv_industry_average_pts,
+      fv_industry_average_count: fv.fv_industry_average_count,
+      fv_industry_average_key: fv.fv_industry_average_key,
+      fv_industry_average_label: fv.fv_industry_average_label,
       fv_max_inflation_haircut: fv.fv_max_inflation_haircut,
       fv_subsignals_present: fv.fv_subsignals_present,
       fv_benchmark_used: fv.fv_benchmark_used,

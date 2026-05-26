@@ -7,7 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PATHS } from "./sws-config.mjs";
-import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.mjs";
+import { computeV4Score, verdictV4FromScore, buildFvCompositeIndustryAverages } from "./swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
@@ -885,6 +885,7 @@ export function runFullScoring() {
     loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
     { microCapFloorInr: 5e9 },
   );
+  universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);
 
   const scored = [];
   for (const stock of loaded) {
@@ -971,6 +972,7 @@ export function runFullScoring() {
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
     fv_benchmark: universe.fvBenchmark,
+    fv_composite_industry_averages: universe.fvCompositeIndustryAverages,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:
@@ -1011,6 +1013,7 @@ export function rebuildUniverseStatsOnly() {
     loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
     { microCapFloorInr: 5e9 },
   );
+  universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);
   const coverage = buildMomentumCoverageReport(loaded);
   const excludedForMomentum = collectExcludedForMomentum(loaded);
   // universe_size === r1m.length === r3m.length === r1y.length by construction.
@@ -1020,6 +1023,7 @@ export function rebuildUniverseStatsOnly() {
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
     fv_benchmark: universe.fvBenchmark,
+    fv_composite_industry_averages: universe.fvCompositeIndustryAverages,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:
