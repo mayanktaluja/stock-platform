@@ -71,6 +71,7 @@ import {
   summarisePlaybooks,
 } from "../services/earnings/reactionPlaybook.js";
 import { archivePredictions } from "../services/earnings/earningsHistoryArchive.js";
+import { applyPredictionFreezes, loadFrozenPredictionRecords } from "../services/earnings/predictionFreeze.js";
 import { buildRecentResults } from "../services/earnings/recentResultsBuilder.js";
 
 const ROOT = process.cwd();
@@ -377,8 +378,13 @@ async function main() {
   // prediction, which reads signals.
   console.log(`[earnings-watch] scoring predictions + price bands + rationale...`);
   const tPredStart = Date.now();
+  const freezeRecords = loadFrozenPredictionRecords();
   const predictedEvents = predictCalendar(enrichedEvents);
-  const bandedEvents = buildBandsForCalendar(predictedEvents);
+  const frozenPredictedEvents = applyPredictionFreezes(predictedEvents, {
+    todayIso: calendar.today_iso,
+    records: freezeRecords,
+  });
+  const bandedEvents = buildBandsForCalendar(frozenPredictedEvents);
   const narratedEvents = narrateCalendar(bandedEvents);
   console.log(
     `[earnings-watch] prediction layer done in ${((Date.now() - tPredStart) / 1000).toFixed(1)}s`,
@@ -389,7 +395,11 @@ async function main() {
   // playbooks that may have been written by a future T+1 ingester
   // (Milestone F will populate them).
   console.log(`[earnings-watch] attaching reaction playbooks...`);
-  const fullEvents = attachPlaybooksToCalendar(narratedEvents);
+  const fullEvents = applyPredictionFreezes(attachPlaybooksToCalendar(narratedEvents), {
+    todayIso: calendar.today_iso,
+    records: freezeRecords,
+    includeDisplay: true,
+  });
 
   // Recent/status tracker rows. Built from the history archive — the
   // current calendar's `events` array is upcoming-only by construction,

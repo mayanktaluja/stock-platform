@@ -133,8 +133,8 @@ const day = (today_iso, predictions) => ({ filename: `${today_iso}.json`, today_
 /* ─────────────────── HISTORY_SCHEMA_VERSION ───────────────────────── */
 
 console.log("[1] HISTORY_SCHEMA_VERSION");
-it("export is the current v4 tag", () => {
-  assert.equal(HISTORY_SCHEMA_VERSION, "earnings-history-v4");
+it("export is the current v5 tag", () => {
+  assert.equal(HISTORY_SCHEMA_VERSION, "earnings-history-v5");
 });
 
 /* ─────────────────── archivePredictions writer (child proc) ────────── */
@@ -232,6 +232,45 @@ it("actual_* fields from prior file carry forward on re-archive", () => {
     assert.equal(tcs.resolved_at_iso, "2026-04-26T22:54:28.000Z");
     assert.equal(tcs.backfilled, true);
     assert.equal(tcs.actual_history.length, 1);
+  } finally { cleanup(dir); }
+});
+
+it("same-day re-archive preserves frozen prediction display snapshot", () => {
+  const dir = freshTempDir();
+  try {
+    const first = JSON.stringify([
+      makeEvent({
+        symbol: "MARKSANS",
+        event_iso_date: "2026-05-26",
+        days_until: 0,
+        predicted_verdict: "BEAT",
+        confidence_pct: 54,
+        score_100: 59.5,
+      }),
+    ]);
+    const second = JSON.stringify([
+      makeEvent({
+        symbol: "MARKSANS",
+        event_iso_date: "2026-05-26",
+        days_until: 0,
+        predicted_verdict: "INLINE",
+        confidence_pct: 55,
+        score_100: 47.3,
+      }),
+    ]);
+    const result = runInTempCwd(dir, `
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      archivePredictions(${first}, { todayIso: "2026-05-26" });
+      archivePredictions(${second}, { todayIso: "2026-05-26" });
+      const fp = path.join(process.cwd(), "data", "catalysts", "earnings-history", "2026-05-26.json");
+      return JSON.parse(fs.readFileSync(fp, "utf8")).predictions[0];
+    `);
+    assert.equal(result.predicted_verdict, "BEAT");
+    assert.equal(result.confidence_pct, 54);
+    assert.equal(result.score_100, 59.5);
+    assert.equal(result.display_snapshot.prediction.verdict, "BEAT");
+    assert.equal(result.display_snapshot.prediction.confidence_pct, 54);
   } finally { cleanup(dir); }
 });
 

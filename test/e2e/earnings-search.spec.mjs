@@ -107,7 +107,7 @@ test.describe("Earnings Watch — symbol/company search", () => {
       renderSearchEmptyState({ query: "REL", hasUpcomingMatches: true, hasRecentMatches: false });
       reads.push({ when: "has-upcoming", hidden: el.hidden, hasText: el.textContent.trim().length > 0 });
       renderSearchEmptyState({ query: "GOOGL", hasUpcomingMatches: false, hasRecentMatches: false });
-      reads.push({ when: "no-matches", hidden: el.hidden, includesQuery: el.textContent.includes("GOOGL"), includesNotFound: el.textContent.includes("no earnings in the next 60 days or status tracker today + past 14 days") });
+      reads.push({ when: "no-matches", hidden: el.hidden, includesQuery: el.textContent.includes("GOOGL"), includesNotFound: el.textContent.includes("no earnings in the next 60 days or status tracker past 14 days") });
       return reads;
     });
     expect(emptyState).toEqual([
@@ -162,7 +162,7 @@ test.describe("Earnings Watch — symbol/company search", () => {
     await expect(dropdown).toBeHidden();
     await expect(emptyState).toBeVisible();
     await expect(emptyState).toContainText("ZZZUNKNOWN");
-    await expect(emptyState).toContainText("no earnings in the next 60 days or status tracker today + past 14 days");
+    await expect(emptyState).toContainText("no earnings in the next 60 days or status tracker past 14 days");
 
     // 3. Lowercase company-name query — matches TWO TATA rows (upcoming
     //    TMCV "Tata Motors" + recent TATAPOWER "Tata Power"). Click the

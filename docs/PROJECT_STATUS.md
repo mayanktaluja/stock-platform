@@ -35,6 +35,19 @@ portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Earnings Watch freeze/de-dupe (May 2026)
+- **This PR** — Earnings Watch now has strict bucket ownership: `events[]`
+  serves today/future rows only and `recent_results[]` serves past rows only,
+  so same-day cards no longer duplicate between the today section and the
+  recent/status tracker. Due-event predictions freeze to the latest pre-event
+  history archive row, with same-day fallback only when no pre-event snapshot
+  exists. Read-time normalization repairs already-committed snapshots on
+  `/api/earnings/upcoming`, `/api/earnings/upcoming/stats`, and
+  `/api/earnings/:symbol`, while refresh-time freezing prevents future
+  same-day recomputes from changing the displayed call. History archive v5 adds
+  a compact `display_snapshot` for near-term rows so future frozen cards can
+  preserve the exact prediction-time display without storing full event blobs.
+
 ### Portfolio Analyzer construction layer (May 2026)
 - **This PR** — Portfolio Analyzer now separates SWS research opinions from
   executable portfolio construction. Raw SWS actions still drive action mix,
