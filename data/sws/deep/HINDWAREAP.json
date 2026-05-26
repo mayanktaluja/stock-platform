@@ -100,8 +100,8 @@
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -192,25 +192,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.6391097265,
+      "pe": 75.63467041299452,
       "net_income_margin_1y": 0.07753917233,
+      "future_revenue_growth_3y": 0.6391097265,
       "sector_pe": 75.63467041299452
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Retail",
+      "pe_industry_id": 54,
+      "pe_source_url": "https://groww.in/stocks/somany-home-innovation-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 75.63467041299452,
+      "industry_name": "Retail",
+      "industry_id": 54,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/somany-home-innovation-ltd",
+      "search_id": "somany-home-innovation-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -292,6 +299,24 @@
         "value": 0,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/somany-home-innovation-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 75.63467041299452,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/somany-home-innovation-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.07753917233,
+        "fetched_at": "2026-05-25T23:54:54.501Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-hindwareap/hindware-home-innovation-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.6391097265,
+        "fetched_at": "2026-05-25T23:54:54.501Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-hindwareap/hindware-home-innovation-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

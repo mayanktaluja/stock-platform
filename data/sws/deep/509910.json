@@ -83,18 +83,18 @@
     },
     "upside_pct": 6449.18568,
     "multiples": {
-      "pe": null,
+      "pe": 0,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T21:01:49.000Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/materials/bse-509910/southern-gas-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
@@ -248,27 +248,36 @@
       "payment_count": 10
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 21.844871599,
+      "net_income_margin_1y": 0.104653149,
+      "future_revenue_growth_3y": 0.483798988
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Materials",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
-      "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
+      "company_pe": 0,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 21.844871599,
+      "industry_name": "Materials",
+      "industry_code": "2020000",
+      "sample_count": 303,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": null,
+        "company_pe": 0,
         "industry_pe": 24.6,
         "industry_name": "Indian Chemicals",
         "description": "509910 is good value based on its Price-To-Earnings Ratio (0x) compared to the Indian Chemicals industry average (24.6x).",
@@ -303,6 +312,30 @@
         "provider": "sws_price",
         "value": 25,
         "fetched_at": "2026-05-26T11:55:24.369Z",
+        "url": "https://simplywall.st/stocks/in/materials/bse-509910/southern-gas-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 0,
+        "fetched_at": "2026-05-25T21:01:49.000Z",
+        "url": "https://simplywall.st/stocks/in/materials/bse-509910/southern-gas-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 21.844871599,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.104653149,
+        "fetched_at": "2026-05-25T21:01:49.000Z",
+        "url": "https://simplywall.st/stocks/in/materials/bse-509910/southern-gas-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.483798988,
+        "fetched_at": "2026-05-25T21:01:49.000Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-509910/southern-gas-shares"
       }
     },

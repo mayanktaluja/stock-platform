@@ -90,8 +90,8 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -113,22 +113,31 @@
       "payment_count": 0
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 15.844273427,
+      "net_income_margin_1y": 0.07004204401,
+      "future_revenue_growth_3y": 0.4594725794
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Capital Goods",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 15.844273427,
+      "industry_name": "Capital Goods",
+      "industry_code": "3040000",
+      "sample_count": 189,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -167,6 +176,24 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 27.3,
+        "fetched_at": "2026-05-21T20:40:09.329Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-il-fsengg/ilfs-engineering-and-construction-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 15.844273427,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.07004204401,
+        "fetched_at": "2026-05-21T20:40:09.329Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-il-fsengg/ilfs-engineering-and-construction-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4594725794,
         "fetched_at": "2026-05-21T20:40:09.329Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-il-fsengg/ilfs-engineering-and-construction-shares"
       }

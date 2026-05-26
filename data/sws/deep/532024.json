@@ -92,8 +92,8 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -114,22 +114,31 @@
       "payment_count": 0
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 25.349891726,
+      "net_income_margin_1y": 0.16452845,
+      "future_revenue_growth_3y": 1.244034556
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Consumer Services",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 25.349891726,
+      "industry_name": "Consumer Services",
+      "industry_code": "4210000",
+      "sample_count": 78,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -162,6 +171,24 @@
         "provider": "sws_price",
         "value": 14.37,
         "fetched_at": "2026-05-26T13:48:42.276Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/bse-532024/aarcon-facilities-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 25.349891726,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.16452845,
+        "fetched_at": "2026-05-25T22:55:00.711Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/bse-532024/aarcon-facilities-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.244034556,
+        "fetched_at": "2026-05-25T22:55:00.711Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-532024/aarcon-facilities-shares"
       }
     },
