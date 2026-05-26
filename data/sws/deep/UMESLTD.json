@@ -3,7 +3,7 @@
   "name": "Usha Martin Education & Solutions Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-umesltd/usha-martin-education-solutions-shares",
-  "parsed_at": "2026-05-25T15:02:13.197Z",
+  "parsed_at": "2026-05-25T23:41:27.352Z",
   "company_id": "14AADA0B-8567-4806-AD51-64A783E3460C",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,71 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 4.82,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 5.06,
     "market_cap_inr": 131800000,
-    "market_cap_usd": 123377158243.857,
+    "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3.88,
       "high": 7.14
     },
-    "fair_value_inr": 9.794648,
+    "fair_value_inr": 9.784177,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 103.20846473029046,
+    "upside_pct": 93.36318181818183,
     "multiples": {
       "pe": 41.58,
       "ps": 18.9,
@@ -144,10 +193,10 @@
     },
     "source_map": {
       "current_price_inr": {
-        "provider": "groww_refinitiv",
-        "value": 4.82,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
-        "url": "https://groww.in/stocks/usha-martin-education-solutions-ltd"
+        "provider": "sws_price",
+        "value": 5.06,
+        "fetched_at": "2026-05-25T23:41:27.352Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-umesltd/usha-martin-education-solutions-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
@@ -314,7 +363,7 @@
     "quick_ratio": 0.27927927927927926,
     "cash_ratio": 0.036036036036036036,
     "returns_pct": {
-      "1D": 0,
+      "1D": 4.979253112033181,
       "7D": 5.636743215031307,
       "1M": -13.945578231292522,
       "3M": 14.999999999999982,
