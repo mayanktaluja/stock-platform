@@ -55,7 +55,7 @@ const HISTORY_DIR = path.join(ROOT, "data", "catalysts", "earnings-history");
 
 const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
 
-export const HISTORY_SCHEMA_VERSION = "earnings-history-v4";
+export const HISTORY_SCHEMA_VERSION = "earnings-history-v5";
 
 function isoToday() {
   return new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
@@ -66,6 +66,60 @@ function writeJsonAtomic(p, obj) {
   const tmp = p + ".tmp." + process.pid;
   fs.writeFileSync(tmp, JSON.stringify(obj, null, 2));
   fs.renameSync(tmp, p);
+}
+
+function shouldArchiveDisplaySnapshot(event) {
+  return typeof event?.days_until === "number" && event.days_until >= 0 && event.days_until <= 7;
+}
+
+function compactSignals(signals) {
+  if (!signals || typeof signals !== "object") return null;
+  const out = {};
+  for (const key of [
+    "data_quality",
+    "sector",
+    "momentum",
+    "snowflake_total",
+    "upside_pct",
+    "v3",
+    "llm_signal",
+    "market_cap_inr",
+  ]) {
+    if (signals[key] !== undefined) out[key] = signals[key];
+  }
+  if (signals.sws_upcoming_earnings) {
+    const upc = signals.sws_upcoming_earnings;
+    out.sws_upcoming_earnings = {
+      composite_verdict: upc.composite_verdict || null,
+      one_line: upc.one_line || null,
+      counter_thesis: upc.counter_thesis || null,
+      current_price_inr: num(upc.current_price_inr),
+    };
+  }
+  if (signals.announcements) {
+    out.announcements = {
+      top3: Array.isArray(signals.announcements.top3)
+        ? signals.announcements.top3.slice(0, 3)
+        : [],
+    };
+  }
+  if (signals.deals_7d) {
+    out.deals_7d = {
+      net_notional_inr: num(signals.deals_7d.net_notional_inr),
+    };
+  }
+  return out;
+}
+
+function buildDisplaySnapshot(event) {
+  if (!shouldArchiveDisplaySnapshot(event) || !event.prediction) return null;
+  return {
+    prediction: event.prediction || null,
+    price_band: event.price_band || null,
+    rationale: event.rationale || null,
+    playbook: event.playbook || null,
+    signals: compactSignals(event.signals),
+  };
 }
 
 /**
@@ -101,17 +155,23 @@ export function archivePredictions(events, opts = {}) {
     const key = `${e.symbol}|${e.event_iso_date}`;
     const prior = existingByKey.get(key);
 
+    const freezeSameDayFromPrior = prior && e.event_iso_date && e.event_iso_date <= todayIso;
+    const displaySnapshot =
+      freezeSameDayFromPrior && prior?.display_snapshot
+        ? prior.display_snapshot
+        : buildDisplaySnapshot(e) || prior?.display_snapshot || null;
+
     const row = {
       symbol: e.symbol,
       fiscal_quarter: e.fiscal_quarter || null,
       event_iso_date: e.event_iso_date,
       days_until: num(e.days_until),
       data_quality: e.signals?.data_quality || null,
-      predictor_version: e.prediction?.predictor_version || null,
+      predictor_version: freezeSameDayFromPrior ? prior.predictor_version ?? e.prediction?.predictor_version ?? null : e.prediction?.predictor_version || null,
       playbook_version: e.playbook?.version || null,
-      predicted_verdict: e.prediction?.verdict || null,
-      confidence_pct: num(e.prediction?.confidence_pct),
-      score_100: num(e.prediction?.score_100),
+      predicted_verdict: freezeSameDayFromPrior ? prior.predicted_verdict ?? e.prediction?.verdict ?? null : e.prediction?.verdict || null,
+      confidence_pct: freezeSameDayFromPrior ? num(prior.confidence_pct) ?? num(e.prediction?.confidence_pct) : num(e.prediction?.confidence_pct),
+      score_100: freezeSameDayFromPrior ? num(prior.score_100) ?? num(e.prediction?.score_100) : num(e.prediction?.score_100),
       price_at_snapshot_inr: num(e.signals?.sws_upcoming_earnings?.current_price_inr),
       runup_signal: e.signals?.momentum?.pre_runup_signal || null,
       sector: e.signals?.sector || null,
@@ -141,7 +201,11 @@ export function archivePredictions(events, opts = {}) {
       // v4 — per-component points. The weight tuner (scripts/tune-
       // earnings-weights.mjs) re-scores resolved rows under candidate
       // weight multipliers off this block, so it must be archived.
-      score_breakdown: e.prediction?.score_breakdown || null,
+      score_breakdown: freezeSameDayFromPrior ? prior.score_breakdown ?? e.prediction?.score_breakdown ?? null : e.prediction?.score_breakdown || null,
+      // v5 — compact UI display snapshot for near-term events. This lets
+      // due cards render the exact prediction-time view after the result
+      // date without archiving the full 10MB watch snapshot repeatedly.
+      display_snapshot: displaySnapshot,
     };
     if (prior?.actual_verdict) preservedActuals += 1;
     predictions.push(row);

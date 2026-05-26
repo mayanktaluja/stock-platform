@@ -1,7 +1,7 @@
 // services/earnings/recentResultsBuilder.js — unit tests.
 //
-// The recent-results builder powers the "Recent / status tracker · today
-// + past 14 days" section in the Earnings Watch tab. It reads the per-refresh
+// The recent-results builder powers the "Recent / status tracker · past
+// 14 days" section in the Earnings Watch tab. It reads the per-refresh
 // history archive (loadAllHistory keys files by REFRESH date — the
 // same event lives in every snapshot until it passes) and emits a
 // slim projection per (symbol, event_iso_date).
@@ -154,7 +154,7 @@ it("includes events inside the past N days, excludes ones older", () => {
   } finally { cleanup(dir); }
 });
 
-it("default 14-day tracker includes today and excludes older-than-14d rows", () => {
+it("default 14-day tracker excludes today and older-than-14d rows", () => {
   const dir = freshTempDir();
   try {
     seedHistoryFile(dir, "2026-05-17", [
@@ -164,9 +164,8 @@ it("default 14-day tracker includes today and excludes older-than-14d rows", () 
     ]);
     const result = runBuilder(dir, { todayIso: "2026-05-17" });
     const bySymbol = Object.fromEntries(result.map((r) => [r.symbol, r]));
-    assert.deepEqual(result.map((r) => r.symbol).sort(), ["BOUNDARY", "TODAY"]);
-    assert.equal(bySymbol.TODAY.actual_status, "PENDING");
-    assert.equal(bySymbol.TODAY.prediction_accuracy, "pending");
+    assert.deepEqual(result.map((r) => r.symbol).sort(), ["BOUNDARY"]);
+    assert.equal(bySymbol.TODAY, undefined);
     assert.equal(bySymbol.BOUNDARY.actual_status, "RESOLVED");
   } finally { cleanup(dir); }
 });

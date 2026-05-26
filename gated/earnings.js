@@ -478,7 +478,7 @@
     el.innerHTML = `
       <div style="padding:18px 22px; border:1px dashed #2a3349; border-radius:10px; background:rgba(15,20,34,0.5); display:flex; flex-direction:column; gap:6px;">
         <div style="font-size:13px; color:#e2e8f0; font-weight:500;">
-          <span style="color:#fbbf24; font-weight:600;">${escHtml(query)}</span> — no earnings in the next ${escHtml(_earningsSnapshot?.window_days ?? 60)} days or status tracker today + past ${escHtml(_earningsSnapshot?.past_window_days ?? 14)} days.
+          <span style="color:#fbbf24; font-weight:600;">${escHtml(query)}</span> — no earnings in the next ${escHtml(_earningsSnapshot?.window_days ?? 60)} days or status tracker past ${escHtml(_earningsSnapshot?.past_window_days ?? 14)} days.
         </div>
         <div style="font-size:12px; color:var(--text-muted);">
           Try a different ticker, or use the search bar at the top of the page to look up the full NSE / BSE stock universe.
@@ -1449,7 +1449,7 @@
     }
   }
 
-  // ────────── Recent / status tracker (today + past N days) ──────────
+  // ────────── Recent / status tracker (past N days) ──────────
   //
   // Renders due archived events above the upcoming card grid. Each card
   // shows the original prediction next to either a resolved actual verdict
@@ -1590,7 +1590,7 @@
       <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; flex-wrap:wrap; cursor:pointer; user-select:none;">
         <span class="earnings-date-caret" style="font-size:11px; color:var(--text-muted); width:10px; display:inline-block;">${isCollapsed ? "▸" : "▾"}</span>
         <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">Recent / status tracker</span>
-        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">today + past ${pastWindow}d · ${resolved} resolved · ${pending} pending</span>
+        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">past ${pastWindow}d · ${resolved} resolved · ${pending} pending</span>
         ${accuracyChip}
         ${llmPill}
       </div>
@@ -1666,8 +1666,8 @@
         const resolved = recentRows.filter((r) => (r.actual_status || (r.actual_verdict ? "RESOLVED" : "PENDING")) === "RESOLVED").length;
         const pending = Math.max(0, recentRows.length - resolved);
         const recentLabel = recentRows.length > 0
-          ? ` · status tracker today + past ${pastN}d: ${resolved} resolved / ${pending} pending`
-          : ` · status tracker today + past ${pastN}d`;
+          ? ` · status tracker past ${pastN}d: ${resolved} resolved / ${pending} pending`
+          : ` · status tracker past ${pastN}d`;
         meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 60}d${recentLabel} · built ${built} · NSE feed fetched ${upstream}`;
       }
     } catch (err) {

@@ -3,7 +3,7 @@
  *
  * Builds the `recent_results` field carried alongside `events` in
  * data/catalysts/earnings-watch-latest.json. The Earnings Watch tab
- * renders this as a "Recent / status tracker · today + past N days" section
+ * renders this as a "Recent / status tracker · past N days" section
  * above the upcoming card grid, showing original prediction plus either
  * resolved actual verdict + accuracy, or a PENDING status until actuals land.
  *
@@ -18,9 +18,9 @@
  *     snapshot lean (~150KB saved vs merging into events[]) and avoids
  *     verdict-filter ambiguity on the UI (the upcoming "Verdict: BEAT"
  *     filter only ever applies to upcoming).
- *   - Rows without actual_verdict stay visible as PENDING through the
- *     pastWindowDays cutoff so a tomorrow event becomes trackable the
- *     next day even before actuals resolve.
+ *   - Rows without actual_verdict stay visible as PENDING after the
+ *     event date through the pastWindowDays cutoff, even before actuals
+ *     resolve. Same-day rows remain in events[] to avoid duplicate cards.
  *
  * Pure module — no FS side effects beyond what loadAllHistory does.
  */
@@ -72,7 +72,7 @@ export function buildRecentResults(opts = {}) {
   for (const r of deduped) {
     if (!r || !r.symbol || !r.event_iso_date) continue;
     if (r.event_iso_date < earliestIso) continue;
-    if (r.event_iso_date > todayIso) continue;
+    if (r.event_iso_date >= todayIso) continue;
 
     const actualStatus = r.actual_verdict ? "RESOLVED" : "PENDING";
     const accuracy =

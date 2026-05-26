@@ -135,6 +135,8 @@ import {
   loadEarningsStats,
   filterEvents,
   findEventBySymbol,
+  normalizeEarningsStats,
+  normalizeEarningsSnapshot,
   recomputeDaysUntil,
 } from "./services/earnings/earningsWatchService.js";
 import {
@@ -2928,7 +2930,7 @@ app.get("/api/earnings/upcoming", async (req, res) => {
     // midnight IST inside a single cache window — which would otherwise
     // show "today" cards yesterday.
     const cached = loadCachedEarningsSnapshot();
-    const snap = recomputeDaysUntil(cached);
+    const snap = normalizeEarningsSnapshot(recomputeDaysUntil(cached));
     let events = filterEvents(snap.events, {
       days: req.query.days,
       symbol: req.query.symbol,
@@ -3066,6 +3068,8 @@ app.get("/api/earnings/upcoming/stats", async (req, res) => {
       stats = loadEarningsStats();
       earningsCache.set(cacheKey, stats);
     }
+    const snap = normalizeEarningsSnapshot(recomputeDaysUntil(loadCachedEarningsSnapshot()));
+    const normalizedStats = normalizeEarningsStats(stats, snap);
     // PR A3 — attach hit_rate_summary (strict + lenient + catastrophic
     // with CIs) on-demand. Computed from earnings-history files, cached
     // by file mtime inside the loader. Catastrophic alert (rolling-30
@@ -3076,7 +3080,7 @@ app.get("/api/earnings/upcoming/stats", async (req, res) => {
     } catch (err) {
       console.warn("[/api/earnings/upcoming/stats] hit-rate summary failed:", err.message);
     }
-    res.json({ ...stats, hit_rate_summary });
+    res.json({ ...normalizedStats, hit_rate_summary });
   } catch (err) {
     console.error("[/api/earnings/upcoming/stats] failed:", err);
     res.status(500).json({ error: err.message });
@@ -3107,7 +3111,7 @@ app.get("/api/cron/refresh-earnings", (req, res) => {
 
 app.get("/api/earnings/:symbol", async (req, res) => {
   try {
-    const snap = loadCachedEarningsSnapshot();
+    const snap = normalizeEarningsSnapshot(recomputeDaysUntil(loadCachedEarningsSnapshot()));
     const event = findEventBySymbol(snap, req.params.symbol);
     if (!event) {
       return res.status(404).json({

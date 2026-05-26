@@ -19,6 +19,17 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { buildBandsForCalendar } from "./priceBandBuilder.js";
+import { narrateCalendar } from "./earningsRationaleNarrator.js";
+import { summarisePredictions } from "./earningsPredictor.js";
+import { summariseSignals } from "./signalAggregator.js";
+import { attachPlaybooksToCalendar, summarisePlaybooks } from "./reactionPlaybook.js";
+import {
+  applyPredictionFreezes,
+  filterPastRecentResults,
+  loadFrozenPredictionRecords,
+} from "./predictionFreeze.js";
+
 const ROOT = process.cwd();
 const SNAPSHOT_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.json");
 const STATS_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-stats.json");
@@ -178,5 +189,66 @@ export function recomputeDaysUntil(snapshot, nowMs = Date.now()) {
     today_iso: today,
     events,
     recent_results: recent,
+  };
+}
+
+/**
+ * Enforce Earnings Watch bucket ownership and freeze due predictions.
+ *
+ * This runs at read-time so a code deploy can repair already-committed
+ * snapshots: today/future rows stay in events[], past rows stay in
+ * recent_results[], and due-event predictions are overlaid from the
+ * pre-event archive before dependent display fields are rebuilt.
+ */
+export function normalizeEarningsSnapshot(snapshot) {
+  if (!snapshot || typeof snapshot !== "object") return snapshot;
+  const todayIso = snapshot.today_iso || istTodayIso();
+  const records = loadFrozenPredictionRecords();
+  const baseEvents = Array.isArray(snapshot.events)
+    ? snapshot.events.filter((e) => typeof e?.days_until !== "number" || e.days_until >= 0)
+    : [];
+  const frozen = applyPredictionFreezes(baseEvents, { todayIso, records });
+  const derived = attachPlaybooksToCalendar(narrateCalendar(buildBandsForCalendar(frozen)));
+  const events = applyPredictionFreezes(derived, { todayIso, records, includeDisplay: true });
+  const recent_results = filterPastRecentResults(snapshot.recent_results);
+  return {
+    ...snapshot,
+    today_iso: todayIso,
+    event_count: events.length,
+    events,
+    recent_results,
+  };
+}
+
+function bucketEventsByDays(events) {
+  const byDays = { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0, d15to30: 0, d31to60: 0 };
+  for (const e of events || []) {
+    const d = e?.days_until;
+    if (d === 0) byDays.d0 += 1;
+    else if (d >= 1 && d <= 3) byDays.d1to3 += 1;
+    else if (d >= 4 && d <= 7) byDays.d4to7 += 1;
+    else if (d >= 8 && d <= 14) byDays.d8to14 += 1;
+    else if (d >= 15 && d <= 30) byDays.d15to30 += 1;
+    else if (d >= 31 && d <= 60) byDays.d31to60 += 1;
+  }
+  return byDays;
+}
+
+export function normalizeEarningsStats(stats, snapshot) {
+  if (!stats || typeof stats !== "object" || !snapshot || typeof snapshot !== "object") return stats;
+  const events = Array.isArray(snapshot.events) ? snapshot.events : [];
+  return {
+    ...stats,
+    today_iso: snapshot.today_iso ?? stats.today_iso ?? null,
+    window_days: snapshot.window_days ?? stats.window_days ?? null,
+    upstream_event_count: snapshot.upstream_event_count ?? stats.upstream_event_count ?? null,
+    upstream_fetched_at: snapshot.upstream_fetched_at ?? stats.upstream_fetched_at ?? null,
+    event_count: events.length,
+    recent_results_count: Array.isArray(snapshot.recent_results) ? snapshot.recent_results.length : 0,
+    past_window_days: snapshot.past_window_days ?? stats.past_window_days ?? null,
+    bucket_by_days: bucketEventsByDays(events),
+    signals: summariseSignals(events),
+    predictions: summarisePredictions(events),
+    playbooks: summarisePlaybooks(events),
   };
 }

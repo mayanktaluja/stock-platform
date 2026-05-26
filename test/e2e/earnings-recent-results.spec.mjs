@@ -6,7 +6,7 @@
 //     data/catalysts/earnings-watch-latest.json.
 //   • GET /api/earnings/upcoming returns it alongside the upcoming
 //     events array + a recomputed today_iso that matches IST-now.
-//   • The gated SPA renders a "Recent / status tracker · today + past N days" section
+//   • The gated SPA renders a "Recent / status tracker · past N days" section
 //     above the upcoming card grid, with predicted/actual chip pairs
 //     and a HIT/MISS/PENDING badge per card.
 //
@@ -18,7 +18,7 @@
 
 import { test, expect } from "@playwright/test";
 
-test.describe("Earnings Watch — recent/status tracker (today + past 14 days)", () => {
+test.describe("Earnings Watch — recent/status tracker (past 14 days)", () => {
   test("pending status rows render a neutral PENDING chip", async ({ page }) => {
     await page.goto("/");
     await page.waitForFunction(() => window.__earnings && typeof window.__earnings.renderRecentResultCard === "function", { timeout: 15000 });
@@ -73,18 +73,24 @@ test.describe("Earnings Watch — recent/status tracker (today + past 14 days)",
     expect(typeof body.today_iso).toBe("string");
     expect(body.today_iso).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
-    // events[] must be upcoming-only — no past leakage.
+    // events[] must be today/future only — no past leakage.
     for (const e of body.events) {
       expect(typeof e.days_until).toBe("number");
       expect(e.days_until).toBeGreaterThanOrEqual(0);
     }
 
     // recent_results[] must be due-only and slim — no signals /
-    // playbook / rationale leak. Today is allowed because it becomes
-    // trackable before actuals resolve.
+    // playbook / rationale leak. Today remains in events[] so the same
+    // event cannot render twice.
+    const todayKeys = new Set(
+      body.events
+        .filter((e) => e.days_until === 0)
+        .map((e) => `${e.symbol}|${e.event_iso_date}`),
+    );
     for (const r of body.recent_results) {
       expect(typeof r.days_until).toBe("number");
-      expect(r.days_until).toBeLessThanOrEqual(0);
+      expect(r.days_until).toBeLessThan(0);
+      expect(todayKeys.has(`${r.symbol}|${r.event_iso_date}`)).toBe(false);
       expect(r).toHaveProperty("predicted_verdict");
       expect(r).toHaveProperty("actual_verdict");
       expect(r).toHaveProperty("actual_status");
