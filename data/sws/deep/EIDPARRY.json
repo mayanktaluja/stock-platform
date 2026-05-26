@@ -28,6 +28,48 @@
       "dividend": 0
     },
     "snowflake_total": 19,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 2,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 789.85,
     "market_cap_inr": 138960200000,
     "market_cap_usd": 127196762990.178,
@@ -196,9 +238,9 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 32.828246624,
-      "net_income_margin_1y": 0.09549132974,
       "pe": 17.925088083765974,
+      "net_income_margin_1y": 0.09549132974,
+      "future_revenue_growth_3y": 32.828246624,
       "sector_pe": 17.925088083765974
     },
     "industry_benchmarks_meta": {
@@ -214,6 +256,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 6.3,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 17.925088083765974,
       "industry_name": "Sugar",
       "industry_id": 59,
@@ -307,6 +351,24 @@
         "value": 1.6927184579439247,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/eid-parry-india-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 17.925088083765974,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/eid-parry-india-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.09549132974,
+        "fetched_at": "2026-05-25T23:17:39.576Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 32.828246624,
+        "fetched_at": "2026-05-25T23:17:39.576Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

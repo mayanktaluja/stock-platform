@@ -35,6 +35,17 @@ portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### India Market modal source fidelity (May 2026)
+- **This PR** — India stock modals now keep raw scraped own P/E separate from
+  peer-benchmark eligibility. Groww/Refinitiv `peRatio` is displayed whenever
+  it is finite, including `0` and negative values; missing/null P/E remains
+  unavailable and is not synthesized from negative EPS. V4 relative-P/E scoring
+  still only scores when own P/E and peer P/E are both positive. Peer P/E can
+  now come from Groww `industryPe` even when own P/E is missing, and SWS REST
+  industry rows fill peer net margin and future revenue growth when
+  `primaryIndustry.industryAverages` is absent. The India deep brief tarball was
+  rebuilt so production modal data reflects the new source contract.
+
 ### Earnings Watch freeze/de-dupe (May 2026)
 - **This PR** — Earnings Watch now has strict bucket ownership: `events[]`
   serves today/future rows only and `recent_results[]` serves past rows only,

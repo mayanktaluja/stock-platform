@@ -28,6 +28,43 @@
       "dividend": 2
     },
     "snowflake_total": 15,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Dividends",
+          "title": "Earnings Coverage",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 218.1,
     "market_cap_inr": 89707800000,
     "market_cap_usd": 127196762990.178,
@@ -133,6 +170,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 32.991094760617976,
+      "net_income_margin_1y": 0.06950938018,
+      "future_revenue_growth_3y": 0.08826938659,
       "sector_pe": 32.991094760617976
     },
     "industry_benchmarks_meta": {
@@ -148,6 +187,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 24.47,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 32.991094760617976,
       "industry_name": "Cement",
       "industry_id": 11,
@@ -237,6 +278,24 @@
         "value": -1.2035641025641024,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/star-cement-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 32.991094760617976,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/star-cement-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06950938018,
+        "fetched_at": "2026-05-25T23:11:44.028Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-starcement/star-cement-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.08826938659,
+        "fetched_at": "2026-05-25T23:11:44.028Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-starcement/star-cement-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

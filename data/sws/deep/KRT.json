@@ -21,6 +21,43 @@
       "dividend": 3
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Reducing Debt",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 116.14,
     "market_cap_inr": 515011066614.4762,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +81,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T21:12:08.721Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
     },
     "rewards": [
       "Trading at 32.5% below our estimate of its fair value",
@@ -158,23 +195,30 @@
     },
     "dividend_yield_pct": 5.3167658422,
     "industry_benchmarks": {
-      "pe": 14.5
+      "pe": 14.524308953,
+      "net_income_margin_1y": 0.4303677756,
+      "future_revenue_growth_3y": 0.2059689303
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Asian Office REITs",
+      "pe_industry_name": "Real Estate",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 97.3,
-      "industry_pe": 14.5,
-      "industry_name": "Asian Office REITs"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 14.524308953,
+      "industry_name": "Real Estate",
+      "industry_code": "9622296",
+      "sample_count": 43,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -213,6 +257,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 116.14,
+        "fetched_at": "2026-05-25T21:12:08.721Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 97.3,
+        "fetched_at": "2026-05-25T21:12:08.721Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 14.524308953,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.4303677756,
+        "fetched_at": "2026-05-25T21:12:08.721Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.2059689303,
         "fetched_at": "2026-05-25T21:12:08.721Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
       }

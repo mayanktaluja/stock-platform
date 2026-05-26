@@ -82,6 +82,16 @@ check("in-line P/E + +20% upside → 8", () => {
   assert.equal(_fvCompositeV4({ upside_pct: 20, multiples: { pe: 21 }, industry_benchmarks: { pe: 20 } }).pts_fv_total, 8);
   assert.equal(_fvCompositeV4({ upside_pct: 20, multiples: { pe: 21 }, industry_benchmarks: { pe: 20 } }).fv_subsignals_present, 2);
 });
+check("zero and negative P/E are displayable inputs but do not earn relative-P/E points", () => {
+  for (const pe of [0, -12.3]) {
+    const fv = _fvCompositeV4({ multiples: { pe }, industry_benchmarks: { pe: 20 } });
+    assert.equal(fv.fv_subsignals_present, 0);
+    assert.equal(fv.pts_fv_pe_effective, null);
+    assert.equal(fv.fv_pe_bucket, null);
+    assert.equal(fv.pts_fv_total, 6);
+    assert.equal(fv.fv_imputed, true);
+  }
+});
 
 console.log("\n_fvCompositeV4 — MAX-inflation guard\n");
 check("FV≈range.max with count≤5 haircuts one bucket (+30% → 9)", () => {

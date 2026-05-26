@@ -21,6 +21,54 @@
       "dividend": 3
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 125.97,
     "market_cap_inr": 2638628024.89998,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +92,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T21:21:53.303Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-aaron/aaron-industries-shares"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio"
@@ -133,23 +181,30 @@
     },
     "dividend_yield_pct": 0.3503400085,
     "industry_benchmarks": {
-      "pe": 26.4
+      "pe": 26.36236382,
+      "net_income_margin_1y": 0.1061182964,
+      "future_revenue_growth_3y": 0.5701956747
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Machinery",
+      "pe_industry_name": "Capital Goods",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 36.7,
-      "industry_pe": 26.4,
-      "industry_name": "Indian Machinery"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 26.36236382,
+      "industry_name": "Capital Goods",
+      "industry_code": "3070000",
+      "sample_count": 216,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -188,6 +243,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 125.97,
+        "fetched_at": "2026-05-25T21:21:53.303Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-aaron/aaron-industries-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 36.7,
+        "fetched_at": "2026-05-25T21:21:53.303Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-aaron/aaron-industries-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 26.36236382,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1061182964,
+        "fetched_at": "2026-05-25T21:21:53.303Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-aaron/aaron-industries-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.5701956747,
         "fetched_at": "2026-05-25T21:21:53.303Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-aaron/aaron-industries-shares"
       }

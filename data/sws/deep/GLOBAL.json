@@ -21,6 +21,54 @@
       "dividend": 3
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 101.68,
     "market_cap_inr": 5175665193.040191,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +92,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T23:37:43.431Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/consumer-services/nse-global/global-education-shares"
     },
     "rewards": [
       "Price-To-Earnings ratio (23x) is below the Indian market (23.4x)",
@@ -225,23 +273,30 @@
     },
     "dividend_yield_pct": 1.1969330563,
     "industry_benchmarks": {
-      "pe": 23.7
+      "pe": 23.724939537,
+      "net_income_margin_1y": 0.1270219021,
+      "future_revenue_growth_3y": 0.3787921875
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Consumer Services",
+      "pe_industry_name": "Consumer Services",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 23,
-      "industry_pe": 23.7,
-      "industry_name": "Indian Consumer Services"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 23.724939537,
+      "industry_name": "Consumer Services",
+      "industry_code": "9551701",
+      "sample_count": 27,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -280,6 +335,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 101.68,
+        "fetched_at": "2026-05-25T23:37:43.431Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-global/global-education-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 23,
+        "fetched_at": "2026-05-25T23:37:43.431Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-global/global-education-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 23.724939537,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1270219021,
+        "fetched_at": "2026-05-25T23:37:43.431Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-global/global-education-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.3787921875,
         "fetched_at": "2026-05-25T23:37:43.431Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-global/global-education-shares"
       }

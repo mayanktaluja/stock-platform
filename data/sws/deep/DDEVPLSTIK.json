@@ -28,6 +28,43 @@
       "dividend": 3
     },
     "snowflake_total": 21,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Reducing Debt",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 237.1,
     "market_cap_inr": 24544700000,
     "market_cap_usd": 127196762990.178,
@@ -132,6 +169,8 @@
     "dividend_yield_pct": 0.74,
     "industry_benchmarks": {
       "pe": 43.433484466337525,
+      "net_income_margin_1y": 0.104653149,
+      "future_revenue_growth_3y": 0.483798988,
       "sector_pe": 43.433484466337525
     },
     "industry_benchmarks_meta": {
@@ -147,6 +186,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12.33,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 43.433484466337525,
       "industry_name": "Chemicals",
       "industry_id": 14,
@@ -236,6 +277,24 @@
         "value": 6.753481081081063,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/ddev-plastiks-industries-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 43.433484466337525,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/ddev-plastiks-industries-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.104653149,
+        "fetched_at": "2026-05-25T23:05:15.860Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.483798988,
+        "fetched_at": "2026-05-25T23:05:15.860Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

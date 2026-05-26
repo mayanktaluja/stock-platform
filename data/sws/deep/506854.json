@@ -28,6 +28,54 @@
       "dividend": 1
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 2037.35,
     "market_cap_inr": 41994800000,
     "market_cap_usd": 127196762990.178,
@@ -141,6 +189,8 @@
     "dividend_yield_pct": 0.11,
     "industry_benchmarks": {
       "pe": 43.433484466337525,
+      "net_income_margin_1y": 0.104653149,
+      "future_revenue_growth_3y": 0.483798988,
       "sector_pe": 43.433484466337525
     },
     "industry_benchmarks_meta": {
@@ -156,6 +206,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 59.87,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 43.433484466337525,
       "industry_name": "Chemicals",
       "industry_id": 14,
@@ -245,6 +297,24 @@
         "value": 0.482552572706935,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/tanfac-industries-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 43.433484466337525,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tanfac-industries-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.104653149,
+        "fetched_at": "2026-05-25T20:52:43.798Z",
+        "url": "https://simplywall.st/stocks/in/materials/bse-506854/tanfac-industries-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.483798988,
+        "fetched_at": "2026-05-25T20:52:43.798Z",
+        "url": "https://simplywall.st/stocks/in/materials/bse-506854/tanfac-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

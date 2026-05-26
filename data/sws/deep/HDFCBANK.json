@@ -28,6 +28,43 @@
       "dividend": 5
     },
     "snowflake_total": 15,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Allowance for Bad Loans",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 786.85,
     "market_cap_inr": 11799749000000,
     "market_cap_usd": 127196762990.178,
@@ -223,9 +260,9 @@
     },
     "dividend_yield_pct": 2.02,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.2732363123,
-      "net_income_margin_1y": 0.317409376,
       "pe": 12.451171201703186,
+      "net_income_margin_1y": 0.317409376,
+      "future_revenue_growth_3y": 0.2732363123,
       "sector_pe": 12.451171201703186
     },
     "industry_benchmarks_meta": {
@@ -241,6 +278,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 14.9,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 12.451171201703186,
       "industry_name": "Banks",
       "industry_id": 6,
@@ -334,6 +373,24 @@
         "value": 1.7344047861507141,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/hdfc-bank-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 12.451171201703186,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hdfc-bank-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.317409376,
+        "fetched_at": "2026-05-25T23:52:17.907Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.2732363123,
+        "fetched_at": "2026-05-25T23:52:17.907Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

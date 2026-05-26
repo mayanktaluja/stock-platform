@@ -28,6 +28,43 @@
       "dividend": 0
     },
     "snowflake_total": 16,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Reducing Debt",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1079,
     "market_cap_inr": 86807100000,
     "market_cap_usd": 127196762990.178,
@@ -94,6 +131,8 @@
     "dividend_yield_pct": 0.09,
     "industry_benchmarks": {
       "pe": 48.15532676426625,
+      "net_income_margin_1y": 0.11408802,
+      "future_revenue_growth_3y": 0.8424484321,
       "sector_pe": 48.15532676426625
     },
     "industry_benchmarks_meta": {
@@ -109,6 +148,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 46.78,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 48.15532676426625,
       "industry_name": "Capital Goods - Electrical Equipment",
       "industry_id": 8,
@@ -198,6 +239,24 @@
         "value": 0.5465183206106872,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/quality-power-electrical-equipments-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 48.15532676426625,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/quality-power-electrical-equipments-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.11408802,
+        "fetched_at": "2026-05-25T22:19:09.674Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-qpower/quality-power-electrical-equipments-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.8424484321,
+        "fetched_at": "2026-05-25T22:19:09.674Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-qpower/quality-power-electrical-equipments-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -28,6 +28,54 @@
       "dividend": 2
     },
     "snowflake_total": 9,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1692.15,
     "market_cap_inr": 3534600000,
     "market_cap_usd": 127196762990.178,
@@ -234,6 +282,8 @@
     "dividend_yield_pct": 0.71,
     "industry_benchmarks": {
       "pe": 44.85265749196877,
+      "net_income_margin_1y": 0.1061182964,
+      "future_revenue_growth_3y": 0.5701956747,
       "sector_pe": 44.85265749196877
     },
     "industry_benchmarks_meta": {
@@ -249,6 +299,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 59.09,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 44.85265749196877,
       "industry_name": "Capital Goods-Non Electrical Equipment",
       "industry_id": 9,
@@ -338,6 +390,24 @@
         "value": -1.3232904925938682,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/stovec-industries-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 44.85265749196877,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/stovec-industries-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1061182964,
+        "fetched_at": "2026-05-25T20:47:06.372Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-504959/stovec-industries-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.5701956747,
+        "fetched_at": "2026-05-25T20:47:06.372Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-504959/stovec-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

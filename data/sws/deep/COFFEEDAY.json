@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 25.25,
     "market_cap_inr": 5165100000,
     "market_cap_usd": 127196762990.178,
@@ -55,9 +104,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T22:54:41.331Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/consumer-services/nse-coffeeday/coffee-day-enterprises-shares"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
@@ -79,24 +128,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 26.1,
+      "pe": 54.04007586882036,
+      "net_income_margin_1y": 0.16452845,
+      "future_revenue_growth_3y": 1.244034556,
       "sector_pe": 54.04007586882036
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Hospitality",
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Quick Service Restaurant",
+      "pe_industry_id": 84,
+      "pe_source_url": "https://groww.in/stocks/coffee-day-enterprises-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": 13.6,
-      "industry_pe": 26.1,
-      "industry_name": "Indian Hospitality"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 54.04007586882036,
+      "industry_name": "Quick Service Restaurant",
+      "industry_id": 84,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/coffee-day-enterprises-ltd",
+      "search_id": "coffee-day-enterprises-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -151,6 +208,12 @@
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/coffee-day-enterprises-ltd"
       },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 13.6,
+        "fetched_at": "2026-05-25T22:54:41.331Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-coffeeday/coffee-day-enterprises-shares"
+      },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.2,
@@ -174,6 +237,24 @@
         "value": 0,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/coffee-day-enterprises-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 54.04007586882036,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/coffee-day-enterprises-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.16452845,
+        "fetched_at": "2026-05-25T22:54:41.331Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-coffeeday/coffee-day-enterprises-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.244034556,
+        "fetched_at": "2026-05-25T22:54:41.331Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-coffeeday/coffee-day-enterprises-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

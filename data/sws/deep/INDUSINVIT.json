@@ -21,6 +21,56 @@
       "dividend": 3
     },
     "snowflake_total": 15,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 123.68,
     "market_cap_inr": 54782649000.121445,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +94,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T20:43:12.951Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/diversified-financials/nse-indusinvit/indus-infra-trust-shares"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
@@ -224,23 +274,30 @@
     },
     "dividend_yield_pct": 7.3334198759,
     "industry_benchmarks": {
-      "pe": 27.8
+      "pe": 27.92506745,
+      "net_income_margin_1y": 0.3861928045,
+      "future_revenue_growth_3y": 0.6194643467
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Capital Markets",
+      "pe_industry_name": "Diversified Financials",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 11.4,
-      "industry_pe": 27.8,
-      "industry_name": "Indian Capital Markets"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 27.92506745,
+      "industry_name": "Diversified Financials",
+      "industry_code": "7130000",
+      "sample_count": 216,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -279,6 +336,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 123.68,
+        "fetched_at": "2026-05-25T20:43:12.951Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-indusinvit/indus-infra-trust-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 11.4,
+        "fetched_at": "2026-05-25T20:43:12.951Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-indusinvit/indus-infra-trust-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 27.92506745,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.3861928045,
+        "fetched_at": "2026-05-25T20:43:12.951Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-indusinvit/indus-infra-trust-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.6194643467,
         "fetched_at": "2026-05-25T20:43:12.951Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-indusinvit/indus-infra-trust-shares"
       }

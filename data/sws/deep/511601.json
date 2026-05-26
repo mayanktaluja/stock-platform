@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 9.9,
     "market_cap_inr": 166600000,
     "market_cap_usd": 127196762990.178,
@@ -79,6 +128,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 56.05914496503882,
+      "net_income_margin_1y": 0.3861928045,
+      "future_revenue_growth_3y": 0.6194643467,
       "sector_pe": 56.05914496503882
     },
     "industry_benchmarks_meta": {
@@ -94,6 +145,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 98,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 56.05914496503882,
       "industry_name": "Trading",
       "industry_id": 64,
@@ -183,6 +236,24 @@
         "value": 0,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/yash-management-satellite-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 56.05914496503882,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/yash-management-satellite-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.3861928045,
+        "fetched_at": "2026-05-25T21:05:59.825Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511601/yash-management-satellite-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.6194643467,
+        "fetched_at": "2026-05-25T21:05:59.825Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511601/yash-management-satellite-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

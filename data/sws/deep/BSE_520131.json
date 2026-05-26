@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 33.14,
     "market_cap_inr": 137417150.1497612,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +93,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T22:18:20.342Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/transportation/bse-520131/coastal-roadways-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
@@ -68,23 +117,30 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 17.5
+      "pe": 16.75784043,
+      "net_income_margin_1y": 0.07578363918,
+      "future_revenue_growth_3y": 0.1338588966
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Transportation",
+      "pe_industry_name": "Transportation",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 8.8,
-      "industry_pe": 17.5,
-      "industry_name": "Indian Transportation"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 16.75784043,
+      "industry_name": "Transportation",
+      "industry_code": "3240000",
+      "sample_count": 30,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -123,6 +179,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 33.14,
+        "fetched_at": "2026-05-25T22:18:20.342Z",
+        "url": "https://simplywall.st/stocks/in/transportation/bse-520131/coastal-roadways-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 8.8,
+        "fetched_at": "2026-05-25T22:18:20.342Z",
+        "url": "https://simplywall.st/stocks/in/transportation/bse-520131/coastal-roadways-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 16.75784043,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.07578363918,
+        "fetched_at": "2026-05-25T22:18:20.342Z",
+        "url": "https://simplywall.st/stocks/in/transportation/bse-520131/coastal-roadways-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.1338588966,
         "fetched_at": "2026-05-25T22:18:20.342Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-520131/coastal-roadways-shares"
       }

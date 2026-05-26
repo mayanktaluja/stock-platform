@@ -28,6 +28,54 @@
       "dividend": 4
     },
     "snowflake_total": 19,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 227.79,
     "market_cap_inr": 4686500000,
     "market_cap_usd": 127196762990.178,
@@ -134,6 +182,8 @@
     "dividend_yield_pct": 1.14,
     "industry_benchmarks": {
       "pe": 40.97012585216259,
+      "net_income_margin_1y": 0.06791655765,
+      "future_revenue_growth_3y": 2.045770022,
       "sector_pe": 40.97012585216259
     },
     "industry_benchmarks_meta": {
@@ -149,6 +199,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 12.65,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 40.97012585216259,
       "industry_name": "Auto Ancillaries",
       "industry_id": 4,
@@ -238,6 +290,24 @@
         "value": 0.10027056277056277,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/omax-autos-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 40.97012585216259,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/omax-autos-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06791655765,
+        "fetched_at": "2026-05-25T21:56:40.104Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-omaxauto/omax-autos-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 2.045770022,
+        "fetched_at": "2026-05-25T21:56:40.104Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-omaxauto/omax-autos-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -377,7 +447,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -757,16 +827,6 @@
     "NSEI"
   ],
   "news": [
-    {
-      "id": "44d1a423-9d33-4677-a113-db6d97f975b8",
-      "type": "article",
-      "date": "2026-05-26T01:14:21.000Z",
-      "title": "We Ran A Stock Scan For Earnings Growth And Omax Autos (NSE:OMAXAUTO) Passed With Ease",
-      "body": "The excitement of investing in a company that can reverse its fortunes is a big draw for some speculators, so even...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/automobiles/nse-omaxauto/omax-autos-shares/news/we-ran-a-stock-scan-for-earnings-growth-and-omax-autos-nseom",
-      "raw_subtype": "article"
-    },
     {
       "id": "58e72140-313a-44d1-9db9-d286edd01eb9",
       "type": "brief",

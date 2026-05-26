@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 163.87,
     "market_cap_inr": 22157400000,
     "market_cap_usd": 127196762990.178,
@@ -78,6 +127,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 10.110975638921392,
+      "net_income_margin_1y": 0.07622308649,
+      "future_revenue_growth_3y": 0.2215698236,
       "sector_pe": 10.110975638921392
     },
     "industry_benchmarks_meta": {
@@ -93,6 +144,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 20.87,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 10.110975638921392,
       "industry_name": "Crude Oil & Natural Gas",
       "industry_id": 19,
@@ -182,6 +235,24 @@
         "value": -0.4392894824707846,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/hindustan-oil-exploration-company-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 10.110975638921392,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hindustan-oil-exploration-company-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.07622308649,
+        "fetched_at": "2026-05-25T23:54:40.366Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-hindoilexp/hindustan-oil-exploration-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.2215698236,
+        "fetched_at": "2026-05-25T23:54:40.366Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-hindoilexp/hindustan-oil-exploration-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 9,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 27,
     "market_cap_inr": 1313300000,
     "market_cap_usd": 127196762990.178,
@@ -55,9 +104,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T23:18:57.238Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/semiconductors/nse-suranasol/surana-solar-shares"
     },
     "rewards": [
       "Became profitable this year"
@@ -79,24 +128,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 51.9,
+      "pe": 48.15532676426625,
+      "net_income_margin_1y": 0.1330617831,
+      "future_revenue_growth_3y": 1.311293049,
       "sector_pe": 48.15532676426625
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Asian Semiconductor",
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Capital Goods - Electrical Equipment",
+      "pe_industry_id": 8,
+      "pe_source_url": "https://groww.in/stocks/surana-solar-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": 105.9,
-      "industry_pe": 51.9,
-      "industry_name": "Asian Semiconductor"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 48.15532676426625,
+      "industry_name": "Capital Goods - Electrical Equipment",
+      "industry_id": 8,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/surana-solar-ltd",
+      "search_id": "surana-solar-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -151,6 +208,12 @@
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/surana-solar-ltd"
       },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 105.9,
+        "fetched_at": "2026-05-25T23:18:57.238Z",
+        "url": "https://simplywall.st/stocks/in/semiconductors/nse-suranasol/surana-solar-shares"
+      },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.34,
@@ -174,6 +237,24 @@
         "value": 0,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/surana-solar-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 48.15532676426625,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/surana-solar-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1330617831,
+        "fetched_at": "2026-05-25T23:18:57.238Z",
+        "url": "https://simplywall.st/stocks/in/semiconductors/nse-suranasol/surana-solar-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.311293049,
+        "fetched_at": "2026-05-25T23:18:57.238Z",
+        "url": "https://simplywall.st/stocks/in/semiconductors/nse-suranasol/surana-solar-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

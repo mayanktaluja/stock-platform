@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 70.72,
     "market_cap_inr": 135800000,
     "market_cap_usd": 127196762990.178,
@@ -55,9 +104,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T20:42:14.722Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/diversified-financials/bse-502893/united-interactive-shares"
     },
     "rewards": [
       "Price-To-Earnings ratio (14.7x) is below the Indian market (23.4x)",
@@ -80,24 +129,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 27.9,
+      "pe": 21.41038809716583,
+      "net_income_margin_1y": 0.3861928045,
+      "future_revenue_growth_3y": 0.6194643467,
       "sector_pe": 21.41038809716583
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Capital Markets",
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "IT - Software",
+      "pe_industry_id": 34,
+      "pe_source_url": "https://groww.in/stocks/united-interactive-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": 14.7,
-      "industry_pe": 27.9,
-      "industry_name": "Indian Capital Markets"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 21.41038809716583,
+      "industry_name": "IT - Software",
+      "industry_id": 34,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/united-interactive-ltd",
+      "search_id": "united-interactive-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -152,6 +209,12 @@
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/united-interactive-ltd"
       },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 14.7,
+        "fetched_at": "2026-05-25T20:42:14.722Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-502893/united-interactive-shares"
+      },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 15.97,
@@ -175,6 +238,24 @@
         "value": 0,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/united-interactive-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 21.41038809716583,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/united-interactive-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.3861928045,
+        "fetched_at": "2026-05-25T20:42:14.722Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-502893/united-interactive-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.6194643467,
+        "fetched_at": "2026-05-25T20:42:14.722Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-502893/united-interactive-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

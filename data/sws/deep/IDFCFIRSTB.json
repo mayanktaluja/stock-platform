@@ -131,6 +131,8 @@
     "dividend_yield_pct": 0.36,
     "industry_benchmarks": {
       "pe": 12.451171201703186,
+      "net_income_margin_1y": 0.278147746,
+      "future_revenue_growth_3y": 0.1191824303,
       "sector_pe": 12.451171201703186
     },
     "industry_benchmarks_meta": {
@@ -146,6 +148,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 36.84,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 12.451171201703186,
       "industry_name": "Banks",
       "industry_id": 6,
@@ -235,6 +239,24 @@
         "value": -0.5286339622641509,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/idfc-bank-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 12.451171201703186,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/idfc-bank-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.278147746,
+        "fetched_at": "2026-05-25T20:37:58.719Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-idfcfirstb/idfc-first-bank-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.1191824303,
+        "fetched_at": "2026-05-25T20:37:58.719Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-idfcfirstb/idfc-first-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -374,7 +396,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 20.74,
     "market_cap_inr": 2484900000,
     "market_cap_usd": 121304781320.862,
@@ -76,6 +125,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 31.6218471625948,
+      "net_income_margin_1y": 0.06705882353,
+      "future_revenue_growth_3y": 0.5970501479,
       "sector_pe": 31.6218471625948
     },
     "industry_benchmarks_meta": {
@@ -91,6 +142,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 32.03,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 31.6218471625948,
       "industry_name": "Realty",
       "industry_id": 51,
@@ -180,6 +233,24 @@
         "value": 1.8125999999999984,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 31.6218471625948,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06705882353,
+        "fetched_at": "2026-05-21T22:54:06.952Z",
+        "url": "https://simplywall.st/stocks/in/retail/bse-531307/rril-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.5970501479,
+        "fetched_at": "2026-05-21T22:54:06.952Z",
+        "url": "https://simplywall.st/stocks/in/retail/bse-531307/rril-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -21,6 +21,55 @@
       "dividend": 4
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 67,
     "market_cap_inr": 367695980.52173537,
     "market_cap_usd": 127196762990.178,
@@ -41,8 +90,8 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -172,22 +221,31 @@
       "payment_count": 8
     },
     "dividend_yield_pct": 1.3248879917,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 19.46975598,
+      "net_income_margin_1y": 0.1050399578,
+      "future_revenue_growth_3y": 0.3207933263
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Commercial Services",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 19.46975598,
+      "industry_name": "Commercial Services",
+      "industry_code": "3110000",
+      "sample_count": 56,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -226,6 +284,24 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 67,
+        "fetched_at": "2026-05-25T20:39:15.356Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/bse-542668/evans-electric-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 19.46975598,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1050399578,
+        "fetched_at": "2026-05-25T20:39:15.356Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/bse-542668/evans-electric-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.3207933263,
         "fetched_at": "2026-05-25T20:39:15.356Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-542668/evans-electric-shares"
       }

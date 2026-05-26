@@ -28,6 +28,54 @@
       "dividend": 5
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 317.65,
     "market_cap_inr": 2585800000,
     "market_cap_usd": 127196762990.178,
@@ -173,6 +221,8 @@
     "dividend_yield_pct": 1.7,
     "industry_benchmarks": {
       "pe": 40.19415527479973,
+      "net_income_margin_1y": 0.16452845,
+      "future_revenue_growth_3y": 1.244034556,
       "sector_pe": 40.19415527479973
     },
     "industry_benchmarks_meta": {
@@ -188,6 +238,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 13.99,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 40.19415527479973,
       "industry_name": "Miscellaneous",
       "industry_id": 39,
@@ -277,6 +329,24 @@
         "value": 0.612904475043029,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/international-travel-house-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 40.19415527479973,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/international-travel-house-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.16452845,
+        "fetched_at": "2026-05-25T20:37:20.168Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/bse-500213/international-travel-house-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.244034556,
+        "fetched_at": "2026-05-25T20:37:20.168Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/bse-500213/international-travel-house-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

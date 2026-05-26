@@ -28,6 +28,54 @@
       "dividend": 5
     },
     "snowflake_total": 16,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 139.68,
     "market_cap_inr": 5541300000,
     "market_cap_usd": 127196762990.178,
@@ -199,6 +247,8 @@
     "dividend_yield_pct": 3.25,
     "industry_benchmarks": {
       "pe": 40.97012585216259,
+      "net_income_margin_1y": 0.06791655765,
+      "future_revenue_growth_3y": 2.045603875,
       "sector_pe": 40.97012585216259
     },
     "industry_benchmarks_meta": {
@@ -214,6 +264,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 17.97,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 40.97012585216259,
       "industry_name": "Auto Ancillaries",
       "industry_id": 4,
@@ -303,6 +355,24 @@
         "value": -2.4755255319148906,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/munjal-showa-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 40.97012585216259,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/munjal-showa-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06791655765,
+        "fetched_at": "2026-05-25T21:41:14.714Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-munjalshow/munjal-showa-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 2.045603875,
+        "fetched_at": "2026-05-25T21:41:14.714Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-munjalshow/munjal-showa-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -442,7 +512,7 @@
       "5Y": null
     },
     "next_earnings_date": "2026-05-29",
-    "recent_news_count": 1,
+    "recent_news_count": 0,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -805,16 +875,6 @@
     "NSEI"
   ],
   "news": [
-    {
-      "id": "b74c0c2d-b7c9-4f0f-a92d-897e623985af",
-      "type": "event",
-      "date": "2026-05-25T17:01:00.000Z",
-      "title": "Munjal Showa Limited to Report Q4, 2026 Results on May 29, 2026",
-      "body": "Munjal Showa Limited announced that they will report Q4, 2026 results on May 29, 2026",
-      "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
     {
       "id": "bc4ccfda-d207-4b2c-9456-cd3a44ede8d9",
       "type": "article",

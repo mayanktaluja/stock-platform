@@ -21,6 +21,54 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 6,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 256.08,
     "market_cap_inr": 24918296150,
     "market_cap_usd": 121304781320.862,
@@ -41,8 +89,8 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -67,24 +115,30 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.3307529448,
-      "net_income_margin_1y": 0.254770311
+      "pe": 19.923857572,
+      "net_income_margin_1y": 0.254770311,
+      "future_revenue_growth_3y": 0.3307529448
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Diversified Financials",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 19.923857572,
+      "industry_name": "Diversified Financials",
+      "industry_code": "7120000",
+      "sample_count": 78,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -127,6 +181,24 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 256.08,
+        "fetched_at": "2026-05-21T23:12:34.742Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-spandana/spandana-sphoorty-financial-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 19.923857572,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.254770311,
+        "fetched_at": "2026-05-21T23:12:34.742Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-spandana/spandana-sphoorty-financial-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.3307529448,
         "fetched_at": "2026-05-21T23:12:34.742Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-spandana/spandana-sphoorty-financial-shares"
       }

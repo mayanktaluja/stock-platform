@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 22.38,
     "market_cap_inr": 54642100000,
     "market_cap_usd": 127196762990.178,
@@ -78,6 +127,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 22.73287436584585,
+      "net_income_margin_1y": 0.06882117621,
+      "future_revenue_growth_3y": 0.448884466,
       "sector_pe": 22.73287436584585
     },
     "industry_benchmarks_meta": {
@@ -93,6 +144,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 33.11,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 22.73287436584585,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
@@ -182,6 +235,24 @@
         "value": -0.5189118110236222,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.73287436584585,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hindustan-construction-company-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06882117621,
+        "fetched_at": "2026-05-25T23:51:52.342Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-hcc/hindustan-construction-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.448884466,
+        "fetched_at": "2026-05-25T23:51:52.342Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-hcc/hindustan-construction-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

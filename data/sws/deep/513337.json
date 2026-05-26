@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 11,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.58,
     "market_cap_inr": 807600000,
     "market_cap_usd": 127196762990.178,
@@ -93,6 +142,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 56.05914496503882,
+      "net_income_margin_1y": 0.1326471542,
+      "future_revenue_growth_3y": 1.284041204,
       "sector_pe": 56.05914496503882
     },
     "industry_benchmarks_meta": {
@@ -108,6 +159,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 4.46,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 56.05914496503882,
       "industry_name": "Trading",
       "industry_id": 64,
@@ -197,6 +250,24 @@
         "value": -0.03789420970266041,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/gujarat-toolroom-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 56.05914496503882,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-toolroom-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1326471542,
+        "fetched_at": "2026-05-25T21:15:25.034Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-513337/gujarat-toolroom-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.284041204,
+        "fetched_at": "2026-05-25T21:15:25.034Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/bse-513337/gujarat-toolroom-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

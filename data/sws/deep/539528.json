@@ -28,6 +28,54 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 31.87,
     "market_cap_inr": 1553600000,
     "market_cap_usd": 127196762990.178,
@@ -107,6 +155,8 @@
     "dividend_yield_pct": 0.03,
     "industry_benchmarks": {
       "pe": 56.05914496503882,
+      "net_income_margin_1y": 0.1624278461,
+      "future_revenue_growth_3y": 0.2750170195,
       "sector_pe": 56.05914496503882
     },
     "industry_benchmarks_meta": {
@@ -122,6 +172,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 34.32,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 56.05914496503882,
       "industry_name": "Trading",
       "industry_id": 64,
@@ -211,6 +263,24 @@
         "value": -1.337271028037383,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/aayush-food-herbs-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 56.05914496503882,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aayush-food-herbs-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1624278461,
+        "fetched_at": "2026-05-25T23:40:32.363Z",
+        "url": "https://simplywall.st/stocks/in/household/bse-539528/aayush-wellness-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.2750170195,
+        "fetched_at": "2026-05-25T23:40:32.363Z",
+        "url": "https://simplywall.st/stocks/in/household/bse-539528/aayush-wellness-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

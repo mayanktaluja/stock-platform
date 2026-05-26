@@ -206,9 +206,9 @@
     },
     "dividend_yield_pct": 0.03,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.4240153518,
-      "net_income_margin_1y": 0.06359862586,
       "pe": 34.470020385874214,
+      "net_income_margin_1y": 0.06359862586,
+      "future_revenue_growth_3y": 0.4240153518,
       "sector_pe": 34.470020385874214
     },
     "industry_benchmarks_meta": {
@@ -224,6 +224,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 54.3,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 34.470020385874214,
       "industry_name": "Auto Ancillaries",
       "industry_id": 4,
@@ -317,6 +319,24 @@
         "value": 4.004834800838575,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/wabco-india-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 34.470020385874214,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/wabco-india-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.06359862586,
+        "fetched_at": "2026-05-26T00:04:58.181Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-zfcvindia/zf-commercial-vehicle-control-systems-india-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.4240153518,
+        "fetched_at": "2026-05-26T00:04:58.181Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-zfcvindia/zf-commercial-vehicle-control-systems-india-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -456,7 +476,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

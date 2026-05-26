@@ -21,6 +21,56 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 0.42,
     "market_cap_inr": 151321449.15799254,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +94,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T22:21:36.162Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/transportation/bse-526622/mfl-india-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
@@ -69,23 +119,30 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 16.1
+      "pe": 16.050949474,
+      "net_income_margin_1y": 0.0494256474,
+      "future_revenue_growth_3y": 0.5056008099
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Logistics",
+      "pe_industry_name": "Transportation",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 9.8,
-      "industry_pe": 16.1,
-      "industry_name": "Indian Logistics"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 16.050949474,
+      "industry_name": "Transportation",
+      "industry_code": "3210000",
+      "sample_count": 40,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -124,6 +181,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 0.42,
+        "fetched_at": "2026-05-25T22:21:36.162Z",
+        "url": "https://simplywall.st/stocks/in/transportation/bse-526622/mfl-india-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 9.8,
+        "fetched_at": "2026-05-25T22:21:36.162Z",
+        "url": "https://simplywall.st/stocks/in/transportation/bse-526622/mfl-india-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 16.050949474,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.0494256474,
+        "fetched_at": "2026-05-25T22:21:36.162Z",
+        "url": "https://simplywall.st/stocks/in/transportation/bse-526622/mfl-india-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.5056008099,
         "fetched_at": "2026-05-25T22:21:36.162Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-526622/mfl-india-shares"
       }
