@@ -48,10 +48,15 @@ portfolio analyzer.
   top-up/basket surfaces as eligible but unfunded add candidates.
 
 ### Track Record credibility spotlight (May 2026)
+- **This PR** — Track Record now excludes SWS Upcoming Earnings and Avoid from
+  public metrics, filters, CSV export, calibration, section scorecards, and the
+  India Market best-alpha spotlight. Those rows remain in storage for explicit
+  audit-only lookups, but future SWS snapshots no longer write those
+  context-only buckets into the public track-record pipeline.
 - **This PR** — India Market's Track Record Spotlight now auto-selects a
   single best 7d/30d proof point from `bestOverall` instead of showing manual
   timeframe chips. The banner still names the selected window/cohort (for
-  example, `30d · Upcoming Earnings top 3 +5.0%`) while the Track Record tab
+  example, `30d · Best to Buy Now top 3 +5.0%`) while the Track Record tab
   keeps the full 7d/30d and cohort audit controls.
 - **This PR** — India Market section track record now stores daily SWS cohorts
   for official Top 3 / Top 5 / Top 10 / Top 20 samples per section, keeps a

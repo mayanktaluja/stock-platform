@@ -4407,7 +4407,7 @@
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Track Record</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
-            Forward returns on every SWS pick — measured against the Nifty 50 benchmark. Snapshots taken when each pipeline run publishes <code style="font-size:11px;">picks-latest.json</code>; positions are closed when a section drops them.
+            Forward returns on public SWS recommendation picks — measured against the Nifty 50 benchmark. Snapshots taken when each pipeline run publishes <code style="font-size:11px;">picks-latest.json</code>; positions are closed when a section drops them.
             <span id="trackOldestSnapshot" style="color:var(--yellow);"></span>
           </p>
         </div>
@@ -4424,8 +4424,6 @@
               <option value="sws_dividend_aristocrats">Dividend Aristocrats</option>
               <option value="sws_smallcap_gems">Small-Cap Gems</option>
               <option value="sws_insider_buying">Insider Buying</option>
-              <option value="sws_upcoming_earnings">Upcoming Earnings</option>
-              <option value="sws_avoid">Avoid (sell signal)</option>
             </optgroup>
           </select>
           <button class="refresh-btn" onclick="loadTrackRecord(true)">
@@ -4438,9 +4436,9 @@
       <!-- About this tab -->
       <div style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.22); border-radius:8px; padding:10px 14px; margin-bottom:24px; font-size:12px; color:var(--text-secondary); line-height:1.6;">
         <strong style="color:var(--info-text);">ⓘ How this works:</strong>
-        Every SWS pipeline run (which writes <code style="font-size:11px;">data/sws/picks-latest.json</code>) snapshots all 11 sections — Top 30, Best Buy Now, Deep Value, Quality Growth, Best Fundamentals, Mid-term, Dividend Aristocrats, Small-Cap Gems, Insider Buying, Upcoming Earnings, and Avoid — into the trade log, with the file's own <code style="font-size:11px;">scanned_at</code> as the recommendation timestamp.
+        Every SWS pipeline run (which writes <code style="font-size:11px;">data/sws/picks-latest.json</code>) snapshots the public recommendation sections — Top 30, Best Buy Now, Deep Value, Quality Growth, Best Fundamentals, Mid-term, Dividend Aristocrats, Small-Cap Gems, and Insider Buying — into the trade log, with the file's own <code style="font-size:11px;">scanned_at</code> as the recommendation timestamp.
         Forward return is the % change from snapshot price to current price (or to the close price, when a section drops the ticker), compared against how the Nifty 50 moved over the same window.
-        <strong style="color:var(--positive-text-soft);">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. The <strong style="color:var(--negative-text-soft);">Avoid</strong> list inverts: a "win" is the pick <em>under-performing</em> Nifty, as we predicted. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
+        <strong style="color:var(--positive-text-soft);">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
       </div>
 
       <!-- Aggregate metric cards -->
@@ -4623,7 +4621,7 @@
           </div>
         </div>
         <div id="trackSectionPerformanceSummary" style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;"></div>
-        <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Methodology: each daily SWS snapshot stores official top 3, 5, 10, and 20 cohorts per section. The India Market spotlight may surface the strongest eligible cohort, labelled explicitly to avoid hidden cherry-picking.</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Methodology: each daily SWS snapshot stores official top 3, 5, 10, and 20 cohorts per public recommendation section. The India Market spotlight may surface the strongest eligible cohort, labelled explicitly to avoid hidden cherry-picking.</div>
         <div id="trackSectionPerformanceGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px;">
           <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading 7d/30d section alpha…</div></div>
         </div>
@@ -4641,7 +4639,7 @@
             <div class="section-icon buynow"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 13l3-3 4 4 5-5"/></svg></div>
             <div>
               <div class="section-name">Section Scorecard <span style="font-size:10px; color:var(--yellow); margin-left:8px;">SEBI RA-style</span></div>
-              <div class="section-desc">Forward returns per section, vs the right cap-band benchmark. LONG sections "win" when alpha &gt; 0; SHORT sections (Avoid / Sell / MISS) win when underlying lags.</div>
+              <div class="section-desc">Forward returns per section, vs the right cap-band benchmark. LONG sections "win" when alpha &gt; 0; SHORT sections (Sell / MISS) win when underlying lags.</div>
             </div>
           </div>
           <div style="display:flex; align-items:center; gap:10px;">

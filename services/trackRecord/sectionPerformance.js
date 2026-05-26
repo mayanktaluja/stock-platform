@@ -8,6 +8,7 @@
 
 import { fetchSchemeHistory } from "../../mfNavIngestion.js";
 import { PROXY_REGISTRY } from "../../benchmarkIndices.js";
+import { PUBLIC_TRACK_EXCLUDED_TYPES } from "../../paperTrades.js";
 import {
   getSectionPerformanceStorage,
   readAllSectionPerformanceRows,
@@ -75,19 +76,8 @@ export const SWS_SECTION_PERFORMANCE_REGISTRY = {
     label: "SWS - Insider Buying",
     side: "LONG",
   },
-  upcoming_earnings: {
-    sectionKey: "upcoming_earnings",
-    type: "sws_upcoming_earnings",
-    label: "SWS - Upcoming Earnings",
-    side: "LONG",
-  },
-  avoid: {
-    sectionKey: "avoid",
-    type: "sws_avoid",
-    label: "SWS - Avoid",
-    side: "SHORT",
-  },
 };
+const PUBLIC_SECTION_PERFORMANCE_EXCLUDED_KEYS = new Set(["upcoming_earnings", "avoid"]);
 
 const RETURN_KEY_BY_TIMEFRAME = {
   "7d": "7D",
@@ -234,6 +224,13 @@ function dedupeRowsByCohort(rows) {
     }
   }
   return [...byKey.values()];
+}
+
+function filterPublicSectionRows(rows) {
+  return (Array.isArray(rows) ? rows : []).filter((row) =>
+    !PUBLIC_TRACK_EXCLUDED_TYPES.has(row?.type) &&
+    !PUBLIC_SECTION_PERFORMANCE_EXCLUDED_KEYS.has(row?.sectionKey)
+  );
 }
 
 export function getSectionRegistryByType() {
@@ -481,17 +478,18 @@ export function selectBestOverall(sections, timeframes = SECTION_PERFORMANCE_TIM
 export function buildSectionPerformancePayload(rows, opts = {}) {
   const timeframes = opts.timeframes || SECTION_PERFORMANCE_TIMEFRAMES;
   const benchmarkReturnsByTimeframe = opts.benchmarkReturnsByTimeframe || opts.benchmarkReturns || {};
-  const sections = dedupeRowsByCohort(rows)
+  const sourceRows = filterPublicSectionRows(rows);
+  const sections = dedupeRowsByCohort(sourceRows)
     .map((row) => computeSectionPerformance(row, benchmarkReturnsByTimeframe, timeframes));
   return {
     schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
     mode: opts.mode || "latest_cohort",
-    dateKey: opts.dateKey || rows?.[0]?.dateKey || null,
-    snapshotAt: opts.snapshotAt || rows?.[0]?.snapshotAt || null,
+    dateKey: opts.dateKey || sourceRows?.[0]?.dateKey || null,
+    snapshotAt: opts.snapshotAt || sourceRows?.[0]?.snapshotAt || null,
     timeframes,
     cohorts: [...new Set(sections.map((s) => s.requested_cohort_size).filter(Boolean))].sort((a, b) => a - b),
     benchmark: {
-      proxy: opts.benchmarkProxy || rows?.[0]?.benchmark_proxy || DEFAULT_SECTION_BENCHMARK_PROXY,
+      proxy: opts.benchmarkProxy || sourceRows?.[0]?.benchmark_proxy || DEFAULT_SECTION_BENCHMARK_PROXY,
       returns_pct: Object.fromEntries(
         timeframes.map((tf) => [tf, round2(num(benchmarkReturnsByTimeframe?.[tf]))])
       ),
@@ -621,7 +619,7 @@ export function buildSectionPerformanceApiPayload(rows, opts = {}) {
   const sampleStatus = opts.sampleStatus || opts.mode || "latest_available";
   const benchmarkReturnsByTimeframe = opts.benchmarkReturnsByTimeframe || {};
   const cohortSet = new Set(cohorts);
-  const filteredRows = dedupeRowsByCohort(rows).filter((row) => cohortSet.has(row.requested_cohort_size));
+  const filteredRows = dedupeRowsByCohort(filterPublicSectionRows(rows)).filter((row) => cohortSet.has(row.requested_cohort_size));
   const base = buildSectionPerformancePayload(filteredRows, {
     timeframes: windows,
     benchmarkReturnsByTimeframe,
@@ -780,7 +778,7 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
   const windows = normalizeSectionPerformanceWindows(opts.windows || opts.timeframes);
   const cohorts = normalizeSectionPerformanceCohorts(opts.cohorts ?? opts.cohortSizes);
   const cohortSet = new Set(cohorts);
-  const allRows = dedupeRowsByCohort(rows)
+  const allRows = dedupeRowsByCohort(filterPublicSectionRows(rows))
     .filter((r) => r?.dateKey && Array.isArray(r.constituents) && cohortSet.has(r.requested_cohort_size));
   const dates = [...new Set(allRows.map((r) => r.dateKey))].sort();
   const priceMaps = buildPriceMapsByDate(allRows);
@@ -845,7 +843,7 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
 export async function getSectionPerformancePayload(opts = {}) {
   const windows = normalizeSectionPerformanceWindows(opts.windows || opts.timeframes);
   const cohorts = normalizeSectionPerformanceCohorts(opts.cohorts ?? opts.cohortSizes);
-  const rows = await readAllSectionPerformanceRows();
+  const rows = filterPublicSectionRows(await readAllSectionPerformanceRows());
   const resolved = await buildStoredResolvedSectionPerformancePayload(rows, {
     windows,
     cohorts,

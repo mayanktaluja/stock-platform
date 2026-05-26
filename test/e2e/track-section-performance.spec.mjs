@@ -113,11 +113,11 @@ test.describe("India Market credibility banner and section alpha", () => {
           schema_version: "sws-section-performance-v1",
           mode: "latest_available",
           generatedAt: "2026-05-25T00:00:00.000Z",
-          bestOverall: {
-            window: "30d",
-            sampleStatus: "latest_available",
-            label: "SWS - Upcoming Earnings",
-            cohortLabel: "top 3",
+	          bestOverall: {
+	            window: "30d",
+	            sampleStatus: "latest_available",
+	            label: "SWS - Quality Growth",
+	            cohortLabel: "top 3",
             requestedCohortSize: 3,
             actualCohortSize: 3,
             eligibleForBanner: true,
@@ -148,9 +148,9 @@ test.describe("India Market credibility banner and section alpha", () => {
               window: "30d",
               sampleStatus: "latest_available",
               benchmarkReturnPct: 3.1,
-              bestSection: {
-                label: "SWS - Upcoming Earnings",
-                cohortLabel: "top 3",
+	              bestSection: {
+	                label: "SWS - Quality Growth",
+	                cohortLabel: "top 3",
                 requestedCohortSize: 3,
                 actualCohortSize: 3,
                 eligibleForBanner: true,
@@ -169,11 +169,11 @@ test.describe("India Market credibility banner and section alpha", () => {
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
-    const banner = page.locator("#picksCredibilityBanner");
-    await expect(banner).toBeVisible({ timeout: 20_000 });
-    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/Latest Upcoming Earnings top 3 sample shows \+5\.0% alpha vs Nifty 500/i);
-    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText("+5.0%");
-    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).toHaveText(/30d · Upcoming Earnings top 3 \+5\.0%/);
+	    const banner = page.locator("#picksCredibilityBanner");
+	    await expect(banner).toBeVisible({ timeout: 20_000 });
+	    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/Latest Quality Growth top 3 sample shows \+5\.0% alpha vs Nifty 500/i);
+	    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText("+5.0%");
+	    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).toHaveText(/30d · Quality Growth top 3 \+5\.0%/);
     await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);
     await expect(banner.getByRole("button", { name: /^30d\b/i })).toHaveCount(0);
     expect(await page.evaluate(() => typeof window.__picksCredibilitySelect)).toBe("undefined");
@@ -243,7 +243,7 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toHaveCount(0);
   });
 
-  test("Track Record shows 7d/30d section alpha leaderboard with Best Fundamentals", async ({ page, request }) => {
+	  test("Track Record shows 7d/30d section alpha leaderboard with Best Fundamentals", async ({ page, request }) => {
     const probe = await probeSectionPerformance(request);
     test.skip(!probe.ok || !probe.data?.windows?.some((w) => Array.isArray(w.sections) && w.sections.length > 0), "no section-performance rows available");
 
@@ -267,7 +267,50 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(panel.locator("#trackSectionPerformanceSummary")).toContainText(/30d|Latest available track sample/i);
     await panel.locator('button[data-cohort="3"]').click();
     await expect(panel.locator("#trackSectionPerformanceSummary")).toContainText(/top 3 cohorts/i);
-    await panel.locator('button[data-cohort="20"]').click();
-    await expect(panel.locator("#trackSectionPerformanceSummary")).toContainText(/top 20 cohorts/i);
+	    await panel.locator('button[data-cohort="20"]').click();
+	    await expect(panel.locator("#trackSectionPerformanceSummary")).toContainText(/top 20 cohorts/i);
+	  });
+
+  test("public Track Record APIs and UI exclude non-buy SWS buckets", async ({ page, request }) => {
+    const retiredTypes = ["sws_upcoming_earnings", "sws_avoid"];
+    const retiredLabels = /Upcoming Earnings|SWS - Avoid|SWS — Avoid|Avoid \(sell signal\)/;
+
+    const sectionPerf = await probeSectionPerformance(request);
+    expect(sectionPerf.ok, `section-performance status ${sectionPerf.status}`).toBe(true);
+    for (const w of sectionPerf.data?.windows || []) {
+      expect((w.sections || []).map((s) => s.type)).not.toEqual(expect.arrayContaining(retiredTypes));
+      expect(w.bestSection?.type || "").not.toMatch(/sws_(upcoming_earnings|avoid)/);
+    }
+    expect(sectionPerf.data?.bestOverall?.type || "").not.toMatch(/sws_(upcoming_earnings|avoid)/);
+
+    const sectionsRes = await request.get("/api/track/sections?bust=1");
+    expect(sectionsRes.ok()).toBe(true);
+    const sections = await sectionsRes.json();
+    expect((sections.sections || []).map((s) => s.type)).not.toEqual(expect.arrayContaining(retiredTypes));
+    expect(JSON.stringify(sections)).not.toMatch(retiredLabels);
+
+    const statsRes = await request.get("/api/track/stats?bust=1");
+    expect(statsRes.ok()).toBe(true);
+    const stats = await statsRes.json();
+    expect(Object.keys(stats.byType || {})).not.toEqual(expect.arrayContaining(retiredTypes));
+
+    const historyRes = await request.get("/api/track/history?bust=1");
+    expect(historyRes.ok()).toBe(true);
+    const history = await historyRes.json();
+    expect((history.trades || []).map((t) => t.type)).not.toEqual(expect.arrayContaining(retiredTypes));
+    expect(Object.keys(history.byType || {})).not.toEqual(expect.arrayContaining(retiredTypes));
+
+    const csvRes = await request.get("/api/track/export.csv");
+    expect(csvRes.ok()).toBe(true);
+    const csv = await csvRes.text();
+    expect(csv).not.toContain("sws_upcoming_earnings");
+    expect(csv).not.toContain("sws_avoid");
+
+    await gotoApp(page);
+    await switchTab(page, "track");
+    await expect(page.locator("#trackFilter")).not.toContainText(/Upcoming Earnings|Avoid \(sell signal\)/i);
+    await expect(page.locator("#trackSectionPerformancePanel")).not.toContainText(retiredLabels);
+    await expect(page.locator("#trackSectionGrid")).not.toContainText(retiredLabels);
+    await expect(page.locator("#trackHistoryTable")).not.toContainText(/SWS · Upcoming Earnings|SWS · Avoid/i);
   });
 });

@@ -55,6 +55,25 @@ export const ALL_SECTION_TYPES = {
   earnings_miss_top10: "SHORT",
 };
 
+// SWS buckets that are useful context/filter surfaces, but are not public
+// buy-recommendation track-record sections.
+export const PUBLIC_TRACK_EXCLUDED_TYPES = new Set([
+  "sws_upcoming_earnings",
+  "sws_avoid",
+]);
+
+export const PUBLIC_TRACK_TYPES = new Set(
+  Object.keys(ALL_SECTION_TYPES).filter((type) => !PUBLIC_TRACK_EXCLUDED_TYPES.has(type))
+);
+
+export function isPublicTrackType(type) {
+  return PUBLIC_TRACK_TYPES.has(type);
+}
+
+export function filterPublicTrackTrades(trades) {
+  return Array.isArray(trades) ? trades.filter((t) => isPublicTrackType(t?.type)) : [];
+}
+
 /**
  * Side ('LONG' | 'SHORT') for a given trade type. Falls back to LONG for
  * legacy types not in the registry — matches the historical default.
@@ -116,7 +135,7 @@ export function getISTDateKey(date = new Date()) {
  * write anything. Caller decides whether to persist.
  *
  * @param {object} pick - the scanner stock object
- * @param {string} type - "sws_top30_v3" | "sws_best_buynow" | "sws_deep_value" | etc (see server.js ACTIVE_TRACK_TYPES)
+ * @param {string} type - "sws_top30_v3" | "sws_best_buynow" | "sws_deep_value" | etc (see PUBLIC_TRACK_TYPES)
  * @param {object} context - { regime, niftyPrice, snapshotAt, rationale,
  *   section_rank, market_cap_inr, target_horizons }
  */
@@ -348,8 +367,8 @@ export function groupAndAggregate(tradesWithReturns, attribute) {
 
 /**
  * Map a picks-latest.json section key to the trade-log type used by the
- * Track Record tab. Order of this map is also the display order in the UI
- * filter dropdown — flagship sections first.
+ * public Track Record tab. Context-only buckets such as Upcoming Earnings and
+ * Avoid are intentionally omitted so future SWS runs do not append them.
  */
 export const SWS_SECTION_TO_TYPE = {
   top_ranked_30_v3: "sws_top30_v3",
@@ -361,8 +380,6 @@ export const SWS_SECTION_TO_TYPE = {
   dividend_aristocrats: "sws_dividend_aristocrats",
   smallcap_gems: "sws_smallcap_gems",
   insider_buying: "sws_insider_buying",
-  upcoming_earnings: "sws_upcoming_earnings",
-  avoid: "sws_avoid",
 };
 
 /**

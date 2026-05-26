@@ -54,6 +54,16 @@ function pricedPicks(prefix, prices) {
   return prices.map((price, idx) => pick(`${prefix}${idx + 1}`, 0, 0, { price }));
 }
 
+function storedConstituents(prefix, count, r7) {
+  return Array.from({ length: count }, (_, idx) => ({
+    ticker: `${prefix}${idx + 1}`,
+    symbol: `${prefix}${idx + 1}.NS`,
+    rank: idx + 1,
+    price_inr: 100,
+    returns_pct: { "7d": r7 },
+  }));
+}
+
 console.log("trackRecord/sectionPerformance.js regression\n");
 
 // ──── 1. Registry includes Best Fundamentals for this new service ────
@@ -65,6 +75,8 @@ console.log("trackRecord/sectionPerformance.js regression\n");
       byType.sws_best_fundamentals?.sectionKey === "best_fundamentals",
     byType.sws_best_fundamentals,
   );
+  assert("upcoming_earnings is not a Section Alpha source", !SWS_SECTION_PERFORMANCE_REGISTRY.upcoming_earnings && !byType.sws_upcoming_earnings, byType.sws_upcoming_earnings);
+  assert("avoid is not a Section Alpha source", !SWS_SECTION_PERFORMANCE_REGISTRY.avoid && !byType.sws_avoid, byType.sws_avoid);
 }
 
 // ──── 2. Daily cohort rows create official 3/5/10/20 cohorts ────
@@ -87,6 +99,23 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   assert("partial top-20 label is honest", top20.cohort_label === "top 12 available", top20.cohort_label);
   assert("row id includes cohort size", top10.id.endsWith("|top10") && top20.id.endsWith("|top20"), { top10: top10.id, top20: top20.id });
   assert("service API helpers default omitted cohorts to legacy top-10", JSON.stringify(normalizeSectionPerformanceCohorts()) === JSON.stringify([10]), normalizeSectionPerformanceCohorts());
+}
+
+// ──── 2b. Context-only SWS buckets never produce new Section Alpha rows ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    scoring_version: "test-v1",
+    sections: {
+      upcoming_earnings: numberedPicks("UE", 10, 40, 50),
+      avoid: numberedPicks("AV", 10, -40, -50),
+      best_to_buy_now: numberedPicks("BUY", 10, 4, 8),
+    },
+  });
+  const types = new Set(rows.map((r) => r.type));
+  assert("daily rows exclude SWS Upcoming Earnings", !types.has("sws_upcoming_earnings"), [...types]);
+  assert("daily rows exclude SWS Avoid", !types.has("sws_avoid"), [...types]);
+  assert("daily rows still include public recommendation sections", types.has("sws_best_buynow"), [...types]);
 }
 
 // ──── 3. Equal-weight calculation uses only available returns ────
@@ -204,6 +233,52 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   assert("API exposes requested cohort sizes", JSON.stringify(payload.cohorts) === JSON.stringify([3, 5, 10, 20]), payload.cohorts);
   assert("bestOverall includes cohort metadata", payload.bestOverall.requestedCohortSize === 20 && payload.bestOverall.cohortLabel === "top 20", payload.bestOverall);
   assert("bestOverall winner is banner eligible", payload.bestOverall.eligibleForBanner === true && payload.bestOverall.outperformed === true, payload.bestOverall);
+}
+
+// ──── 8b. Retired stored rows cannot win bestOverall ────
+{
+  const rows = [
+    {
+      dateKey: "2026-05-25",
+      snapshotAt: "2026-05-25T10:00:00.000Z",
+      sectionKey: "upcoming_earnings",
+      type: "sws_upcoming_earnings",
+      label: "SWS - Upcoming Earnings",
+      side: "LONG",
+      top_n: 10,
+      constituents: storedConstituents("UE", 10, 80),
+    },
+    {
+      dateKey: "2026-05-25",
+      snapshotAt: "2026-05-25T10:00:00.000Z",
+      sectionKey: "avoid",
+      type: "sws_avoid",
+      label: "SWS - Avoid",
+      side: "SHORT",
+      top_n: 10,
+      constituents: storedConstituents("AV", 10, -60),
+    },
+    {
+      dateKey: "2026-05-25",
+      snapshotAt: "2026-05-25T10:00:00.000Z",
+      sectionKey: "best_to_buy_now",
+      type: "sws_best_buynow",
+      label: "SWS - Best to Buy Now",
+      side: "LONG",
+      top_n: 10,
+      constituents: storedConstituents("BUY", 10, 5),
+    },
+  ];
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["7d"],
+    cohorts: [10],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "7d": 1 },
+  });
+  const types = new Set(payload.windows[0].sections.map((s) => s.type));
+  assert("API payload filters stored Upcoming Earnings rows", !types.has("sws_upcoming_earnings"), [...types]);
+  assert("API payload filters stored Avoid rows", !types.has("sws_avoid"), [...types]);
+  assert("bestOverall ignores retired high-alpha rows", payload.bestOverall.type === "sws_best_buynow" && payload.bestOverall.alphaPct === 4, payload.bestOverall);
 }
 
 // ──── 9. Ineligible positive cohorts do not create a brag claim ────
