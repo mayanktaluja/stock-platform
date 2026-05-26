@@ -12605,6 +12605,37 @@ function normaliseModalReturns(data, ov, card) {
 // byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
 // watchlist suffix, section-nav handler). Single source of truth so every market's
 // modal renders the same sections from the same code.
+function renderSnowflakeDataQualityBanner(dataQuality) {
+  if (dataQuality?.insufficient !== true) return "";
+  const affected = Array.isArray(dataQuality.affected_pillars)
+    ? dataQuality.affected_pillars.map((p) => String(p || "").trim()).filter(Boolean)
+    : [];
+  const affectedText = affected.length ? affected.join(", ") : "Snowflake";
+  const insufficientCount = Number(dataQuality.insufficient_count);
+  const checkedCount = Number(dataQuality.checked_count);
+  const countText = Number.isFinite(insufficientCount)
+    ? `${insufficientCount}${Number.isFinite(checkedCount) && checkedCount > 0 ? ` of ${checkedCount}` : ""} SWS check${insufficientCount === 1 ? "" : "s"}`
+    : "Some SWS checks";
+  const samples = Array.isArray(dataQuality.samples)
+    ? dataQuality.samples
+        .map((s) => {
+          const title = s?.title ? escapeHtml(String(s.title)) : null;
+          const pillar = s?.pillar ? escapeHtml(String(s.pillar)) : null;
+          if (!title) return null;
+          return pillar ? `${pillar}: ${title}` : title;
+        })
+        .filter(Boolean)
+        .slice(0, 3)
+    : [];
+  const sampleText = samples.length ? `Examples: ${samples.join(" · ")}` : "";
+  return `
+    <div class="sws-modal-data-warning" data-testid="sws-snowflake-data-warning" role="note" aria-label="SWS Snowflake data warning">
+      <strong>SWS data warning:</strong>
+      ${escapeHtml(countText)} show insufficient source data across ${escapeHtml(affectedText)}. Treat the Snowflake score as source-limited and verify manually.
+      ${sampleText ? `<span class="warning-meta">${sampleText}</span>` : ""}
+    </div>`;
+}
+
 function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const { ticker, deep, card, surveillance, file_mtime, fundamentals_fallback } = data;
   // US/region endpoints return `in_sections`; India returns `section_memberships`.
@@ -12656,6 +12687,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const mcapVal = ov.market_cap_inr ?? card_.market_cap_inr;
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
+  const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality);
 
   // Score breakdown bars — show v4 when available (pillars/FV/momentum/safety
   // split), v2 otherwise (thin coverage).
@@ -13099,6 +13131,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     </div>
 
     ${sectionsBannerHtml}
+    ${dataQualityBannerHtml}
 
     ${barsHtml ? `
     <div class="sws-modal-section">
