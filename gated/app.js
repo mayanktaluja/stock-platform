@@ -3986,14 +3986,12 @@ const TRACK_TYPE_LABELS = {
   sws_dividend_aristocrats: "SWS · Dividend Aristocrats",
   sws_smallcap_gems: "SWS · Small-Cap Gems",
   sws_insider_buying: "SWS · Insider Buying",
-  sws_upcoming_earnings: "SWS · Upcoming Earnings",
-  sws_avoid: "SWS · Avoid (sell signal)",
 };
 
 // SEBI 10/10 uplift — Legacy scanner labels held separately so historical
 // trades surfaced via ?symbol= audit lookups still render readably (with
 // a small grey "LEGACY" pill next to them). These scanners no longer
-// generate new picks; see ACTIVE_TRACK_TYPES allowlist in server.js.
+// generate new picks; see PUBLIC_TRACK_TYPES visibility in paperTrades.js.
 const LEGACY_TRACK_TYPE_LABELS = {
   buynow_nifty100: "Buy Now (Nifty 100)",
   smallcap_buynow: "Small-Cap Buy Now",
@@ -4016,7 +4014,7 @@ function _trackTypeLabel(type) {
 
 // Types whose semantics invert "beats Nifty" — a win means the pick
 // under-performed the index, as we predicted.
-const TRACK_SHORT_TYPES = new Set(["sws_avoid", "scanner_sell_top10", "earnings_miss_top10"]);
+const TRACK_SHORT_TYPES = new Set(["scanner_sell_top10", "earnings_miss_top10"]);
 
 // PR T5 — Track Record hero state. Misses-shown defaults ON per locked
 // decision (hiding losers destroys trust); we still persist user toggles

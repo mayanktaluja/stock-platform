@@ -3,13 +3,9 @@
  *
  * Run with: node test/trackDiscontinuedFilter.test.mjs
  *
- * The Track Record tab used to surface 3 discontinued scanners
- * (Small-Cap Buy Now, Fundamental Deep Value, Buy Now (Nifty 100)).
- * Stream A introduced an `ACTIVE_TRACK_TYPES` allowlist in server.js
- * that inverts the byType breakdown: anything NOT in the allowlist is
- * dropped from `byType` before the response leaves the server, while
- * the raw `trades[]` array still contains them for back-compat with
- * `?type=` lookups (audit-only, surfaced via X-Audit-Only header).
+ * The Track Record tab hides discontinued scanners and retired SWS context
+ * buckets from public/default metrics. Explicit `?type=` lookups remain
+ * audit-only, surfaced via X-Audit-Only.
  *
  * This test pins the allowlist behaviour as a pure-data invariant so a
  * future drift in server.js (typo'd type name, accidental delete of a
@@ -34,8 +30,7 @@ function assert(name, cond, got) {
 
 console.log("track-history discontinued-type filter\n");
 
-// Mirror of server.js:4268-4289. If server.js changes, this MUST move too.
-const ACTIVE_TRACK_TYPES = new Set([
+const PUBLIC_TRACK_TYPES = new Set([
   "sws_top30_v3",
   "sws_best_buynow",
   "sws_deep_value",
@@ -45,8 +40,6 @@ const ACTIVE_TRACK_TYPES = new Set([
   "sws_dividend_aristocrats",
   "sws_smallcap_gems",
   "sws_insider_buying",
-  "sws_upcoming_earnings",
-  "sws_avoid",
   "scanner_buynow_top10",
   "scanner_midterm_top10",
   "scanner_sell_top10",
@@ -59,12 +52,24 @@ const DISCONTINUED_TRACK_TYPES = new Set([
   "smallcap_buynow",
   "fundamental_deep_value",
 ]);
+const PUBLIC_TRACK_EXCLUDED_TYPES = new Set([
+  "sws_upcoming_earnings",
+  "sws_avoid",
+]);
+const AUDIT_ONLY_TRACK_TYPES = new Set([
+  ...DISCONTINUED_TRACK_TYPES,
+  ...PUBLIC_TRACK_EXCLUDED_TYPES,
+]);
 
-// Replicate the server-side filter: `for (const k of Object.keys(byType)) if (!ACTIVE_TRACK_TYPES.has(k)) delete byType[k]`
+function filterPublicTrades(trades) {
+  return trades.filter((t) => PUBLIC_TRACK_TYPES.has(t.type));
+}
+
+// Replicate the server-side filter: `for (const k of Object.keys(byType)) if (!PUBLIC_TRACK_TYPES.has(k)) delete byType[k]`
 function applyByTypeFilter(byType) {
   const out = { ...byType };
   for (const k of Object.keys(out)) {
-    if (!ACTIVE_TRACK_TYPES.has(k)) delete out[k];
+    if (!PUBLIC_TRACK_TYPES.has(k)) delete out[k];
   }
   return out;
 }
@@ -78,6 +83,9 @@ function applyByTypeFilter(byType) {
     sws_deep_value: { count: 5, avgReturn: 5.6 },
     sws_quality_growth: { count: 7, avgReturn: 2.9 },
     sws_best_fundamentals: { count: 6, avgReturn: 3.6 },
+    // 2 retired SWS context buckets
+    sws_upcoming_earnings: { count: 10, avgReturn: 22.4 },
+    sws_avoid: { count: 10, avgReturn: -8.2 },
     // 3 discontinued types (all 3 from the spec)
     buynow_nifty100: { count: 30, avgReturn: 50.4 },
     smallcap_buynow: { count: 22, avgReturn: 48.7 },
@@ -107,13 +115,18 @@ function applyByTypeFilter(byType) {
     keys,
   );
   assert(
+    "retired SWS context buckets absent from filtered byType",
+    !("sws_upcoming_earnings" in filtered) && !("sws_avoid" in filtered),
+    keys,
+  );
+  assert(
     "orphan unknown type absent (allowlist invert handles it)",
     !("legacy_unknown_scanner_xyz" in filtered),
     keys,
   );
 }
 
-// ──── trades[] still contains all types — back-door for ?type=audit lookups ────
+// ──── default trades[] hides retired/audit types; explicit ?type remains available ────
 {
   const trades = [
     { id: 1, type: "sws_top30_v3", symbol: "RELIANCE" },
@@ -121,10 +134,15 @@ function applyByTypeFilter(byType) {
     { id: 3, type: "smallcap_buynow", symbol: "DCMSHRIRAM" },
     { id: 4, type: "fundamental_deep_value", symbol: "ITC" },
     { id: 5, type: "sws_avoid", symbol: "ZEEL" },
+    { id: 6, type: "sws_upcoming_earnings", symbol: "INFY" },
   ];
-  // The server filters byType but NOT trades[] (storage-level filter only
-  // applies when ?type= is passed and the value matches the row's type).
-  // Verify a direct `?type=buynow_nifty100` lookup still surfaces 1 historical row.
+  const publicTrades = filterPublicTrades(trades);
+  assert(
+    "default public trades contain only visible public types",
+    publicTrades.length === 1 && publicTrades[0].type === "sws_top30_v3",
+    publicTrades,
+  );
+
   const buynowAudit = trades.filter((t) => t.type === "buynow_nifty100");
   assert(
     "?type=buynow_nifty100 still returns 1 historical trade",
@@ -145,31 +163,43 @@ function applyByTypeFilter(byType) {
     fdvAudit.length === 1 && fdvAudit[0].symbol === "ITC",
     fdvAudit,
   );
+
+  const avoidAudit = trades.filter((t) => t.type === "sws_avoid");
+  assert(
+    "?type=sws_avoid still returns 1 historical trade",
+    avoidAudit.length === 1 && avoidAudit[0].symbol === "ZEEL",
+    avoidAudit,
+  );
 }
 
-// ──── ACTIVE set + DISCONTINUED set are disjoint (sanity-check the sets themselves) ────
+// ──── PUBLIC set + audit-only sets are disjoint ────
 {
   let overlap = null;
-  for (const t of DISCONTINUED_TRACK_TYPES) {
-    if (ACTIVE_TRACK_TYPES.has(t)) {
+  for (const t of AUDIT_ONLY_TRACK_TYPES) {
+    if (PUBLIC_TRACK_TYPES.has(t)) {
       overlap = t;
       break;
     }
   }
   assert(
-    "ACTIVE_TRACK_TYPES and DISCONTINUED_TRACK_TYPES are disjoint",
+    "PUBLIC_TRACK_TYPES and AUDIT_ONLY_TRACK_TYPES are disjoint",
     overlap === null,
     overlap,
   );
   assert(
-    "ACTIVE_TRACK_TYPES has exactly 16 entries (pin against accidental drift)",
-    ACTIVE_TRACK_TYPES.size === 16,
-    ACTIVE_TRACK_TYPES.size,
+    "PUBLIC_TRACK_TYPES has exactly 14 entries (pin against accidental drift)",
+    PUBLIC_TRACK_TYPES.size === 14,
+    PUBLIC_TRACK_TYPES.size,
   );
   assert(
     "DISCONTINUED_TRACK_TYPES has exactly 3 entries (pin against accidental drift)",
     DISCONTINUED_TRACK_TYPES.size === 3,
     DISCONTINUED_TRACK_TYPES.size,
+  );
+  assert(
+    "PUBLIC_TRACK_EXCLUDED_TYPES has exactly 2 entries",
+    PUBLIC_TRACK_EXCLUDED_TYPES.size === 2,
+    PUBLIC_TRACK_EXCLUDED_TYPES.size,
   );
 }
 

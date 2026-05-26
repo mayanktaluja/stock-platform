@@ -191,6 +191,9 @@ import {
   snapshotAndCloseSwsPicks,
   SWS_SECTION_TO_TYPE,
   ALL_SECTION_TYPES,
+  PUBLIC_TRACK_TYPES,
+  PUBLIC_TRACK_EXCLUDED_TYPES,
+  filterPublicTrackTrades,
 } from "./paperTrades.js";
 import { snapshotTrackRecordSections } from "./services/trackRecord/sectionSnapshotter.js";
 import { resolveOpenHorizons } from "./services/trackRecord/forwardReturnsResolver.js";
@@ -4542,33 +4545,35 @@ app.get("/api/sector-outlook/healthz", (req, res) => {
 
 // ==================== PAPER-TRADE TRACKER ====================
 
-// SEBI 10/10 uplift — Active scanner allowlist. The byType breakdown in
-// /api/track/history is filtered to this set; orphans / discontinued types
-// surface only when the caller asks for them explicitly via ?type=, with
-// an X-Audit-Only response header so the back-door is discoverable.
-const ACTIVE_TRACK_TYPES = new Set([
-  "sws_top30_v3",
-  "sws_best_buynow",
-  "sws_deep_value",
-  "sws_quality_growth",
-  "sws_best_fundamentals",
-  "sws_midterm",
-  "sws_dividend_aristocrats",
-  "sws_smallcap_gems",
-  "sws_insider_buying",
-  "sws_upcoming_earnings",
-  "sws_avoid",
-  "scanner_buynow_top10",
-  "scanner_midterm_top10",
-  "scanner_sell_top10",
-  "earnings_beat_top10",
-  "earnings_miss_top10",
-]);
+// Public Track Record visibility is centralized in paperTrades.js. Anything
+// outside PUBLIC_TRACK_TYPES is hidden from default public metrics; legacy and
+// retired types remain available via explicit audit-only ?type= lookups.
 const DISCONTINUED_TRACK_TYPES = new Set([
   "buynow_nifty100",
   "smallcap_buynow",
   "fundamental_deep_value",
 ]);
+const AUDIT_ONLY_TRACK_TYPES = new Set([
+  ...DISCONTINUED_TRACK_TYPES,
+  ...PUBLIC_TRACK_EXCLUDED_TYPES,
+]);
+
+function isAuditOnlyTrackType(type) {
+  return !!type && (AUDIT_ONLY_TRACK_TYPES.has(type) || !PUBLIC_TRACK_TYPES.has(type));
+}
+
+function trackStatsForVisibleTrades(storageStats, trades) {
+  const visible = filterPublicTrackTrades(trades);
+  const sorted = [...visible].sort((a, b) => String(a.snapshotAt || "").localeCompare(String(b.snapshotAt || "")));
+  return {
+    ...storageStats,
+    lineCount: visible.length,
+    publicLineCount: visible.length,
+    auditLineCount: Array.isArray(trades) ? Math.max(0, trades.length - visible.length) : 0,
+    oldest: sorted[0]?.snapshotAt || null,
+    newest: sorted[sorted.length - 1]?.snapshotAt || null,
+  };
+}
 
 /**
  * 5-minute cache for the track history endpoint. Forward returns don't change
@@ -4743,7 +4748,7 @@ async function resolveSectionPerformanceSafe(context = {}) {
  * Nifty benchmark. Sorted newest-first.
  *
  * Query params:
- *   ?type=sws_top30_v3|sws_best_buynow|sws_deep_value|… (see ACTIVE_TRACK_TYPES)  — filter
+ *   ?type=sws_top30_v3|sws_best_buynow|sws_deep_value|… (see PUBLIC_TRACK_TYPES)  — filter
  *   ?days=30                                                      — last N days
  *   ?symbol=HDFCBANK                                              — single-symbol filter (PR T6)
  *   ?bust=1                                                       — skip cache
@@ -4771,7 +4776,7 @@ app.get("/api/track/history", async (req, res) => {
       const cached = trackCache.get(cacheKey);
       if (cached) {
         res.set("X-Cache", "HIT");
-        if (filterType && DISCONTINUED_TRACK_TYPES.has(filterType)) {
+        if (filterType && isAuditOnlyTrackType(filterType)) {
           res.set("X-Audit-Only", "true");
         }
         return res.json(cached);
@@ -4780,10 +4785,11 @@ app.get("/api/track/history", async (req, res) => {
 
     let trades = await readAllTrades();
 
-    if (filterType && DISCONTINUED_TRACK_TYPES.has(filterType)) {
+    if (filterType && isAuditOnlyTrackType(filterType)) {
       res.set("X-Audit-Only", "true");
     }
     if (filterType) trades = trades.filter((t) => t.type === filterType);
+    else trades = filterPublicTrackTrades(trades);
     if (symbolFilter) {
       trades = trades.filter((t) => _normaliseTrackSymbol(t.symbol) === symbolFilter);
     }
@@ -4856,10 +4862,10 @@ app.get("/api/track/history", async (req, res) => {
     // Aggregate metrics overall + by type + by regime + by sector
     const performance = aggregatePerformance(tradesWithReturns);
     const byType = groupAndAggregate(tradesWithReturns, "type");
-    // Allowlist invert — drop anything not in the active set. Keeps the
+    // Allowlist invert — drop anything not in the public set. Keeps the
     // "Performance by Pick Type" grid honest even if orphan types appear.
     for (const k of Object.keys(byType)) {
-      if (!ACTIVE_TRACK_TYPES.has(k)) delete byType[k];
+      if (!PUBLIC_TRACK_TYPES.has(k)) delete byType[k];
     }
     const byRegime = groupAndAggregate(tradesWithReturns, "regimeAtSnapshot");
     const bySector = groupAndAggregate(tradesWithReturns, "sector");
@@ -4898,13 +4904,12 @@ app.get("/api/track/history", async (req, res) => {
 /**
  * GET /api/track/export.csv  — SEBI 10/10 audit export.
  *
- * Streams the full paper-trade ledger as RFC-4180 CSV. No filters
- * (auditors want EVERYTHING). Discontinued types are INCLUDED in the
- * export — the goal here is inspection-readiness, not UI cleanliness.
+ * Streams the public paper-trade ledger as RFC-4180 CSV. Retired/context-only
+ * SWS buckets stay in storage but are excluded from the user-facing download.
  */
 app.get("/api/track/export.csv", async (req, res) => {
   try {
-    const trades = await readAllTrades();
+    const trades = filterPublicTrackTrades(await readAllTrades());
     // Attach computed returns for resolved trades so the alpha column populates.
     // Reuse the same enrichment logic as /api/track/history but skip the cache.
     const uniqueSymbols = [...new Set(trades.map((t) => t.symbol))];
@@ -4943,7 +4948,7 @@ app.get("/api/track/export.csv", async (req, res) => {
  */
 app.get("/api/track/calibration", async (req, res) => {
   try {
-    const trades = await readAllTrades();
+    const trades = filterPublicTrackTrades(await readAllTrades());
     const payload = buildTrackCalibration(trades);
     res.json({
       ...payload,
@@ -4975,13 +4980,14 @@ app.get("/api/track/stats", async (req, res) => {
         return res.json({ ...cached, todayKey: getISTDateKey() });
       }
     }
-    const [trades, stats] = await Promise.all([readAllTrades(), getStorageStats()]);
+    const [allTrades, stats] = await Promise.all([readAllTrades(), getStorageStats()]);
+    const trades = filterPublicTrackTrades(allTrades);
     const byType = {};
     for (const t of trades) {
       byType[t.type] = (byType[t.type] || 0) + 1;
     }
     const payload = {
-      ...stats,
+      ...trackStatsForVisibleTrades(stats, allTrades),
       byType,
     };
     trackCache.set(cacheKey, payload);
@@ -5190,9 +5196,9 @@ app.get("/api/track/sections", async (req, res) => {
       const cached = trackCache.get(cacheKey);
       if (cached) { res.set("X-Cache", "HIT"); return res.json(cached); }
     }
-    const trades = await readAllTrades();
+    const trades = filterPublicTrackTrades(await readAllTrades());
     const scorecards = buildAllSectionScorecards(trades);
-    const sections = Object.keys(ALL_SECTION_TYPES).map((type) => {
+    const sections = Object.keys(ALL_SECTION_TYPES).filter((type) => PUBLIC_TRACK_TYPES.has(type)).map((type) => {
       const card = scorecards[type] || { side: ALL_SECTION_TYPES[type], n_total: 0, horizons: {} };
       const top = latestTopForType(trades, type, 10);
       // SEBI 10/10 — per-section risk-adjusted metrics (Sharpe, Sortino,
@@ -7553,9 +7559,8 @@ app.get("/api/sws-picks", async (req, res) => {
   // section from the payload so it stops shipping on every load. Shallow-clone
   // `raw` + its sections so we never mutate the mtime-cached object that
   // getPicksLatest() shares with other in-process consumers (earnings,
-  // portfolio aggregate). The SWS pipeline still computes + snapshots `avoid`
-  // for the Track Record short-side tracker, which reads picks-latest.json
-  // directly — not this route — so that tracker is unaffected.
+  // portfolio aggregate). The Track Record no longer snapshots `avoid`;
+  // historical rows remain audit-only in the paper-trade store.
   const data = {
     ...raw,
     sections: raw.sections

@@ -152,8 +152,6 @@ export const SECTION_LABELS = {
   sws_smallcap_gems: "SWS — Small-Cap Gems",
   sws_insider_buying: "SWS — Insider Buying",
   sws_midterm: "SWS — Mid-Term",
-  sws_upcoming_earnings: "SWS — Upcoming Earnings",
-  sws_avoid: "SWS — Avoid (SHORT)",
   scanner_buynow_top10: "Scanner — Buy Now (top 10)",
   scanner_midterm_top10: "Scanner — Mid-Term (top 10)",
   scanner_sell_top10: "Scanner — Sell Now (top 10, SHORT)",
