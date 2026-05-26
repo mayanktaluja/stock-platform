@@ -1023,6 +1023,28 @@ Inspect data/sws/picks-latest.json and data/sws/last-refresh.json. If false alar
   exit 7
 fi
 
+# The inner sws-refresh-api.sh normally packs data/sws/deep.tar.gz inside its
+# own auto-PR block. Nightly suppresses that block with SWS_AUTO_PR=0 because
+# this outer script owns the branch/PR, so pack here after the sanity gate and
+# after the non-fatal news enrichment has mutated deep/*.json. Prod cannot ship
+# loose deep files (see .vercelignore); a stale tarball means stale modals even
+# when picks-latest.json is fresh.
+echo "[nightly] packing India deep tarball for Vercel..."
+if ! bash scripts/sws-pack-deep.sh 2>&1 | sed 's/^/[pack-deep] /'; then
+  echo "[nightly] data/sws/deep.tar.gz pack failed — refusing to ship stale modal data"
+  send_mail "🚨 SWS nightly — deep tarball pack failed" \
+"SWS scrape and sanity gate passed at $(ts), but scripts/sws-pack-deep.sh failed.
+
+Prod serves India stock-detail modals from data/sws/deep.tar.gz, not loose
+data/sws/deep/*.json. Shipping without a fresh tarball would deploy fresh
+leaderboard cards with stale modal prices/returns.
+
+Inspect data/sws/sws-nightly.log and run:
+
+  bash scripts/sws-pack-deep.sh"
+  exit 8
+fi
+
 # ---- 4b. Coverage drift check ----
 #
 # Re-derives the NSE+BSE active equity ground truth and reports any drift
@@ -1055,6 +1077,7 @@ echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
 # the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
 CHANGED_FILES=$(git status --short \
   data/sws/deep/ \
+  data/sws/deep.tar.gz \
   data/sws/picks-latest.json \
   data/sws/last-refresh.json \
   data/sws/sws-scored-universe.json \
@@ -1107,6 +1130,7 @@ fi
 # data/macroRegime.json deliberately excluded — single-writer rule per
 # the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
 git add data/sws/deep/ \
+        data/sws/deep.tar.gz \
         data/sws/picks-latest.json \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \

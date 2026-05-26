@@ -86,6 +86,20 @@ for (const f of ["surveillance.json", "governance.json"]) {
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
 }
 
+// India modals in prod read data/sws/deep.tar.gz, not loose data/sws/deep/*,
+// because .vercelignore excludes the thousands of loose deep files. The inner
+// refresh script packs the tarball only inside its own auto-PR block; nightly
+// runs it with SWS_AUTO_PR=0, so this outer script must pack + stage it.
+const packIdx = nightly.indexOf("bash scripts/sws-pack-deep.sh");
+const coverageIdx = nightly.indexOf("running coverage-gap-analysis");
+assert(
+  "nightly packs India deep.tar.gz after sanity passes and before commit staging",
+  packIdx > -1 && coverageIdx > -1 && packIdx < coverageIdx,
+  { packIdx, coverageIdx },
+);
+assert("data/sws/deep.tar.gz is staged in the git add list", gitAddBlock.includes("data/sws/deep.tar.gz"), null);
+assert("data/sws/deep.tar.gz is in the CHANGED_FILES check", changedFilesBlock.includes("data/sws/deep.tar.gz"), null);
+
 // Ordering constraint: the fundamentalsHistory refresh MUST run BEFORE
 // refresh-earnings.mjs. Earnings reads fundamentalsHistory.json for the
 // YoY-EPS-trajectory predictor component — running earnings first leaves
