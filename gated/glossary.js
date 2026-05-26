@@ -727,14 +727,14 @@ window.GLOSSARY = {
     term: "Flag · Imputation Inflation",
     category: "fundamental",
     short: "Composite score relies on imputed (filled-in) values, not real measurements.",
-    full: "When SWS doesn't have an analyst Fair Value or sufficient price history, the composite score backfills with neutral assumptions (typically +6 of ~12 points). The score isn't 'wrong' — it's just less anchored to real data. Stocks heavily reliant on imputed components may be coasting on optimistic defaults rather than measured upside.",
+    full: "When SWS doesn't have an analyst Fair Value or sufficient price history, the composite score backfills from peer data where possible, or neutral assumptions otherwise. The score isn't 'wrong' — it's just less anchored to stock-specific data. Stocks heavily reliant on imputed components may be coasting on defaults rather than measured upside.",
   },
 
   flag_fv_imputed: {
     term: "Flag · Fair Value Imputed",
     category: "fundamental",
-    short: "No SWS analyst Fair Value available — upside component was imputed at neutral.",
-    full: "Specific case of imputation_inflation. The fair-value upside portion of the score was filled in at a neutral default because no analyst FV was published for this name. Common for thinly-covered stocks. Means: the upside number is an assumption, not an estimate.",
+    short: "No SWS analyst Fair Value available — upside component was imputed.",
+    full: "Specific case of imputation_inflation. The fair-value upside portion of the score was filled from an industry-average FV composite when covered peers existed, or a neutral default otherwise, because no analyst FV was published for this name. Common for thinly-covered stocks. Means: the upside number is an assumption, not an estimate.",
   },
 
   flag_momentum_imputed: {

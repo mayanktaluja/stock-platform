@@ -33,7 +33,7 @@ import {
   PICKS_SCHEMA_VERSION,
   PICKS_SCORING_VERSION,
 } from "./sws-scoring.mjs";
-import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.mjs";
+import { computeV4Score, verdictV4FromScore, buildFvCompositeIndustryAverages } from "./swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
@@ -236,6 +236,7 @@ export function runFullScoringRegion(code) {
     loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
     { microCapFloorInr: region.mcapFloorNative },
   );
+  universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);
 
   const scored = [];
   for (const stock of loaded) {
@@ -288,6 +289,7 @@ export function runFullScoringRegion(code) {
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
     fv_benchmark: universe.fvBenchmark,
+    fv_composite_industry_averages: universe.fvCompositeIndustryAverages,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     r1m: universe.r1m,

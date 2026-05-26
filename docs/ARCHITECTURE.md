@@ -371,15 +371,16 @@ Snowflake/30 total and the `dividend_aristocrats` category, but contributes **0*
 | **Risk overlay** | **−15 → 0** | penalties only (never positive) |
 | **Final** | **0–100** | `clamp(round(pillars + fv + momentum + overlay, 1), 0, 100)` = `v4_score_100` |
 
-**FV composite detail (`_fvCompositeV4`):** missing sub-signals are *excluded from both numerator
-and denominator* (never imputed to zero):
+**FV composite detail (`_fvCompositeV4`):** present sub-signals are coverage-renormalised; missing
+sub-signals are not imputed to zero:
 - *Analyst upside* (weight 8): from `overview.upside_pct`, bucketed (≥30%→1.0, ≥15%→0.75, ≥0%→0.5,
   ≥−10%→0.25, else 0). **MAX-inflation haircut:** if `fair_value_inr ≈ fair_value_range.max` with
   ≤5 analysts, dock 0.25 buckets (guards against the analyst-range-max-as-consensus trap).
 - *Relative P/E* (weight 4): `multiples.pe / industry_benchmarks.pe` (≤0.8→1.0, ≤1.2→0.5, else 0).
   Only ~9% universe coverage.
-- Both absent → neutral **6/12** with `fv_imputed=true` (avoids structurally crushing
-  no-coverage small-caps, a V3 failure mode).
+- Missing analyst FV/upside → use the industry-average FV composite from analyst-covered peers
+  when that peer bucket has enough coverage; otherwise fall back to neutral **6/12**. Both paths
+  set `fv_imputed=true`; industry-average fills also set `fv_industry_imputed=true`.
 
 **Momentum detail:** percentile ranks against sorted universe distributions in
 `data/sws/v3-universe-stats.json` (loaded via `loadV3Universe()` / `dal.getV3UniverseStats()`).
