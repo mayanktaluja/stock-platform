@@ -6269,7 +6269,7 @@ function renderAnalyzerHeroTrio(snap) {
 
 // PR A10 — Action-mix as a 100 %-width stacked bar.
 // The chip row sums to a count but the bar makes the distribution visible
-// at a glance ("most are HOLD; 2 to top up; 1 to trim"). Each segment is
+// at a glance ("most are HOLD; 2 add candidates; 1 to trim"). Each segment is
 // click-through to the same openActionListModal that the chips used.
 function renderAnalyzerActionMixBar(snap) {
   const mix = snap && snap.actionMix ? snap.actionMix : {};
@@ -6470,11 +6470,11 @@ function swsHoldingRow(h) {
   const cv = h.currentValue;
   const pos = h.positionWeight != null ? h.positionWeight + "%" : "—";
   const pnlPct = h.pnlPercent;
-  // Inline ₹ pill — shows the rupee size of the chosen rung next to the
-  // action badge so the user sees "Reduction-33% · ₹12,400" at a glance.
-  // Pulls from V3-emitted trimRupees / topUpRupees on the holding object.
+  // Inline ₹ pill is sell-side only. Buy-side topUpRupees is a raw SWS
+  // research size and must not look like executable capital; funded buys are
+  // rendered only in the construction plan.
   const rupeesInline = (() => {
-    const r = h.trimRupees ?? h.topUpRupees ?? null;
+    const r = h.trimRupees ?? null;
     if (!Number.isFinite(r) || r <= 0) return "";
     return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${inr(r)}</div>`;
   })();
@@ -6692,7 +6692,7 @@ function renderSWSTierA(tier) {
   return `<div style="margin-bottom:22px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; gap:12px; flex-wrap:wrap;">
       <div style="font-size:14px; font-weight:700;">Tier A · Reductions <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${tier.rows.length})</span></div>
-      <div style="font-size:12px; color:var(--text-muted);">Frees up <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong> for Tier B deployment</div>
+      <div style="font-size:12px; color:var(--text-muted);">Potential gross freed capital <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong>; redeploy only after execution is confirmed</div>
     </div>
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
@@ -6998,7 +6998,7 @@ function swsBasketRow(r) {
     : r.gapType === "underweight"
     ? `<span title="Underweight sector — room to add" style="font-size:9px; padding:1px 6px; background:rgba(167,139,250,0.14); color:#a78bfa; border-radius:3px; letter-spacing:0.3px;">UNDER</span>`
     : "";
-  const suggested = r.suggested_inr ? `<div style="font-size:10px; color:var(--text-muted);">Suggested ${inr(r.suggested_inr)}</div>` : "";
+  const suggested = `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Candidate only · not funded in today's plan unless shown above</div>`;
   const whyFit = r.whyFit ? `<div style="margin-top:3px; font-size:11px; color:#a5b4fc; font-style:italic; line-height:1.35;">${swsEscapeAttr(r.whyFit)}</div>` : "";
   return `<div style="padding:10px 14px; border-bottom:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${r.ticker}','mf-overlap')">
     <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px;">
@@ -7079,14 +7079,14 @@ function renderSWSTierB(baskets) {
   const tw = baskets.tailwindSummary || [];
   if (def.length === 0 && grw.length === 0 && core.length === 0 && gaps.length === 0) {
     return `<div style="margin-bottom:22px;">
-      <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Tier B · Top-ups</div>
-      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No qualifying top-ups in current snapshot. Picks-latest may need refresh.</div>
+      <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Eligible but unfunded add candidates</div>
+      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No qualifying add candidates in current snapshot. Picks-latest may need refresh.</div>
     </div>`;
   }
   const perfectFitFloorCopy = "v3 ≥45 · Snowflake ≥16 · Upside ≥8% · sector-fit gated";
   return `<div style="margin-bottom:24px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:10px;">
-      <div style="font-size:14px; font-weight:700;">Tier B · Top-ups <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(Perfect-fit, sector-aware)</span></div>
+      <div style="font-size:14px; font-weight:700;">Eligible but unfunded add candidates <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(research candidates, not an order list)</span></div>
       <div style="font-size:11px; color:var(--text-muted);">${perfectFitFloorCopy}</div>
     </div>
     ${renderSWSSectorGapSpotlight(gaps, tw)}
@@ -7198,8 +7198,8 @@ function renderSWSMfSection(mfPositions) {
   return "";
 }
 
-// PR-4: outside-portfolio fresh picks block. Two columns (defensive +
-// growth) with the per-pick suggested ₹ and concentration-aware alloc%.
+// PR-4: outside-portfolio fresh picks block. Candidate-only; funded rupees
+// are rendered exclusively by the construction plan above the research lists.
 function renderSWSOutsidePicks(picks) {
   if (!picks || !picks.available) return "";
   const total = (picks.growth?.length || 0) + (picks.defensive?.length || 0);
@@ -7217,7 +7217,7 @@ function renderSWSOutsidePicks(picks) {
         <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
           <span>${swsEscapeAttr(r.sector || "—")}</span>
           ${r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? '#86efac' : '#f87171'};">FV ${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : ""}
-          ${r.suggested_inr > 0 ? `<span style="color:#fde047;">${inr(r.suggested_inr)}</span>` : ""}
+          <span style="color:var(--text-muted);">candidate only</span>
         </div>
       </div>`).join("")
     }
@@ -7227,7 +7227,7 @@ function renderSWSOutsidePicks(picks) {
     <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
       <div>
         <div style="font-size:14px; font-weight:700;">Outside-portfolio fresh picks <span style="font-size:12px; font-weight:500; color:var(--text-muted);">(${total})</span></div>
-        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(triggerLine)} · ${picks.allocPct}% of fresh capital allocated${picks.allocInr > 0 ? ` (${inr(picks.allocInr)})` : ""}</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(triggerLine)} · candidate-only surface; funded buys appear in Today's funded plan</div>
       </div>
       <div title="${swsEscapeAttr(picks.methodology)}" style="font-size:11px; color:var(--text-muted); font-style:italic; cursor:help;">methodology ⓘ</div>
     </div>
@@ -7402,58 +7402,94 @@ function swsRenderMemoryHeader(report) {
 function swsRenderFreedCapitalBanner(report) {
   const fc = report?.freedCapital;
   if (!fc || !fc.significant) return "";
-  const picks = report?.freedCapitalPicks;
   const total = inr(fc.totalRupeesFreed || 0);
   const count = fc.count || 0;
-  const picksAvailable = picks && picks.available !== false && Array.isArray(picks.picks);
-  const picksList = picksAvailable ? picks.picks.slice(0, 6) : [];
-
-  const pickCards = picksList.map((p) => {
-    const ticker = swsEscapeAttr(p.ticker || p.symbol || "—");
-    const name = swsEscapeAttr(p.name || p.companyName || "");
-    const score = Number.isFinite(p.v4_score_100) ? p.v4_score_100
-                : Number.isFinite(p.score) ? p.score : null;
-    const allocation = Number.isFinite(p.suggestedAllocationInr) ? inr(p.suggestedAllocationInr) : null;
-    const reason = swsEscapeAttr(p.reason || p.section || "");
-    return `
-      <div style="background:var(--bg); border:1px solid #2a3349; border-radius:8px; padding:10px 12px; min-width:190px; flex:1 1 190px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
-          <div style="font-size:13px; font-weight:700; color:var(--text);">${ticker}</div>
-          ${score != null ? `<div style="font-size:11px; color:#86efac;">${score}/100</div>` : ""}
-        </div>
-        ${name ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>` : ""}
-        ${reason ? `<div style="font-size:10px; color:var(--text-muted); margin-top:6px; text-transform:uppercase; letter-spacing:0.4px;">${reason}</div>` : ""}
-        ${allocation ? `<div style="font-size:11px; color:#bbf7d0; margin-top:6px;">Sized: ${allocation}</div>` : ""}
-      </div>
-    `;
-  }).join("");
-
-  const picksSection = picksAvailable && picksList.length > 0 ? `
-    <div style="margin-top:14px;">
-      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">
-        Top deployment candidates ${notAdviceChip("inline")}
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:10px;">
-        ${pickCards}
-      </div>
-    </div>
-  ` : (picks && picks.reason ? `
-    <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">${swsEscapeAttr(picks.reason)}</div>
-  ` : "");
 
   return `
     <div style="background:linear-gradient(135deg, rgba(34,197,94,0.10), rgba(96,165,250,0.04)); border:1px solid rgba(34,197,94,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-        <div style="font-size:22px;">💸</div>
         <div style="flex:1; min-width:200px;">
           <div style="font-size:14px; font-weight:700; color:#86efac;">${total} freed since your last review</div>
           <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">
-            From ${count} executed action${count === 1 ? "" : "s"}. Educational picks below — sizing and ordering are personal decisions.
+            From ${count} executed action${count === 1 ? "" : "s"}. This is confirmed freed capital; if deployed today it appears inside Today's funded plan, not in raw candidate lists.
           </div>
         </div>
       </div>
-      ${picksSection}
     </div>
+  `;
+}
+
+function renderSWSConstructionPlan(plan) {
+  if (!plan || !plan.capitalLedger) return "";
+  const ledger = plan.capitalLedger || {};
+  const fundedBuys = Array.isArray(plan.fundedTrades) ? plan.fundedTrades : [];
+  const fundedSells = Array.isArray(plan.fundedSells) ? plan.fundedSells : [];
+  const candidates = Array.isArray(plan.eligibleAddCandidates)
+    ? plan.eligibleAddCandidates.filter((c) => c.status !== "funded").slice(0, 8)
+    : [];
+  const reasons = Array.isArray(plan.zeroStateReasons) ? plan.zeroStateReasons : [];
+
+  const buyRows = fundedBuys.length === 0
+    ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">${reasons.length ? reasons.map(swsEscapeAttr).join(" · ") : "No funded buys today."}</div>`
+    : fundedBuys.map((t) => `
+      <div data-funded-buy-row style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:9px 0; border-top:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(t.ticker)}','construction-plan')">
+        <div>
+          <div style="font-size:13px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:var(--text-muted); font-weight:500;">${swsEscapeAttr(t.source || "")}</span></div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(t.reason || "")}</div>
+        </div>
+        <div class="tx-num" data-funded-trade-rupees="${Number(t.tradeRupees) || 0}" style="font-size:13px; font-weight:800; color:#86efac; text-align:right;">${inr(t.tradeRupees || 0)}</div>
+      </div>
+    `).join("");
+
+  const sellRows = fundedSells.length === 0
+    ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">No funded sell/exit orders in this pass.</div>`
+    : fundedSells.slice(0, 6).map((t) => `
+      <div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:8px 0; border-top:1px solid #1a2238;">
+        <div>
+          <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")}</div>
+          <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(t.rawAction || "")} · proceeds not reused until confirmed</div>
+        </div>
+        <div class="tx-num" style="font-size:12px; color:#fca5a5; font-weight:700;">${inr(t.tradeRupees || 0)}</div>
+      </div>
+    `).join("");
+
+  const candidateRows = candidates.length === 0
+    ? `<div style="padding:8px 0; font-size:11px; color:var(--text-muted);">No unfunded add candidates cleared the construction gates.</div>`
+    : candidates.map((c) => `
+      <div style="display:flex; justify-content:space-between; gap:10px; padding:7px 0; border-top:1px solid #1a2238; font-size:11px;">
+        <span><strong>${swsEscapeAttr(c.ticker || "—")}</strong> · ${swsEscapeAttr(c.valuation_band || "—")} · v4 ${c.v4_score ?? "—"}</span>
+        <span style="color:var(--text-muted); text-align:right;">${swsEscapeAttr((c.unfundedReasons || ["budget/cap gated"])[0])}</span>
+      </div>
+    `).join("");
+
+  return `
+    <section class="analyzer-funded-plan" data-funded-plan style="background:var(--panel); border:1px solid rgba(96,165,250,0.32); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start;">
+        <div>
+          <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Today's funded plan ${notAdviceChip("inline")}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Only this panel contains executable buy rupees. Raw SWS top-ups below are research candidates.</div>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:11px;">
+          <span>Available <strong data-funded-available-capital style="color:#e5e7eb;">${inr(ledger.availableBuyCapital || 0)}</strong></span>
+          <span>Buys <strong data-funded-buy-total style="color:#86efac;">${inr(ledger.deployedBuyCapital || 0)}</strong></span>
+          <span>Left cash <strong style="color:#fde047;">${inr(ledger.leftoverCash || 0)}</strong></span>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-top:14px;">
+        <div>
+          <div style="font-size:11px; color:#86efac; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded buys (${fundedBuys.length})</div>
+          ${buyRows}
+        </div>
+        <div>
+          <div style="font-size:11px; color:#fca5a5; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded sells/exits (${fundedSells.length})</div>
+          ${sellRows}
+        </div>
+      </div>
+      <details style="margin-top:12px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Eligible but unfunded add candidates (${candidates.length})</summary>
+        <div style="margin-top:8px;">${candidateRows}</div>
+      </details>
+    </section>
   `;
 }
 
@@ -7520,6 +7556,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
+    ${renderSWSConstructionPlan(report.constructionPlan)}
 
     ${/* PR A10 — Tier 1 hero trio above the Health ring. */ ""}
     ${renderAnalyzerHeroTrio(snap)}
@@ -7541,12 +7578,12 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
 
     ${/* PR A10 — Tier 2 disclosures. Tier A auto-opens when freed > 0. */ ""}
     <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
-      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} freed)</span>` : ""}</summary>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; potential freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} gross)</span>` : ""}</summary>
       <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
     </details>
 
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
-      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Top-up candidates</summary>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Eligible but unfunded add candidates</summary>
       <div style="padding-top: var(--space-200);">
         ${renderSWSTierB(baskets)}
         ${renderSWSOutsidePicks(outsidePicks)}
@@ -7618,7 +7655,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   const holdCount = mix.HOLD || 0;
   const actionParts = [];
   if (holdCount > 0) actionParts.push(`<strong>${holdCount}</strong> to hold`);
-  if (topUpCount > 0) actionParts.push(`<strong>${topUpCount}</strong> to top up`);
+  if (topUpCount > 0) actionParts.push(`<strong>${topUpCount}</strong> add candidates`);
   if (trimCount > 0) actionParts.push(`<strong>${trimCount}</strong> to trim`);
   if (exitCount > 0) actionParts.push(`<strong>${exitCount}</strong> to exit`);
   if (actionParts.length > 0) {
@@ -7649,7 +7686,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     breakdownParts.push(`Trim: ${trimByRung.map(([, l, n]) => `<strong>${n}</strong> by ${l}`).join(", ")}`);
   }
   if (topUpByRung.length > 0) {
-    breakdownParts.push(`Top-up: ${topUpByRung.map(([, l, n]) => `<strong>${n}</strong> by ${l}`).join(", ")}`);
+    breakdownParts.push(`Add candidates: ${topUpByRung.map(([, l, n]) => `<strong>${n}</strong> by ${l}`).join(", ")}`);
   }
   if (exitByRung.length > 0) {
     breakdownParts.push(`Exit: ${exitByRung.map(([, l, n]) => `<strong>${n}</strong> ${l}`).join(", ")}`);
@@ -7679,6 +7716,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
+    ${renderSWSConstructionPlan(report.constructionPlan)}
 
     ${/* PR A10 — Tier 1 hero. Invested / Today / Net P&L read first,
         Net P&L dominant + signed-coloured. Hoists ABOVE the engine hero
@@ -7709,12 +7747,12 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
         reductions are the highest-attention rows; everything else opens
         only when explicitly expanded. */ ""}
     <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
-      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} freed)</span>` : ""}</summary>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; potential freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} gross)</span>` : ""}</summary>
       <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
     </details>
 
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
-      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Top-up candidates</summary>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Eligible but unfunded add candidates</summary>
       <div style="padding-top: var(--space-200);">
         ${renderSWSTierB(baskets)}
         ${renderSWSOutsidePicks(outsidePicks)}

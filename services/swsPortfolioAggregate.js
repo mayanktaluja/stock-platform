@@ -4,7 +4,8 @@
 // Inputs:
 //   - scoredHoldings[]: each carries { sws, action, reasons, timing, ... }
 //                       from services/swsHoldingEngine.scoreHolding()
-//   - opts.freshCapitalInr (optional): for ₹ allocation in Tier B
+//   - opts.freshCapitalInr (optional): candidate-surface trigger only; funded
+//                            rupee sizing lives in portfolioConstructionPlan
 //   - opts.freshPickLimit (default 8): cap on fresh-pick rows per basket
 //
 // Output: { tiers: { A, B, C, D }, baskets: { defensive, growth, core },
@@ -244,6 +245,13 @@ function classifyBasket(rec) {
   return { defensive: passesDefensive, growth: passesGrowth };
 }
 
+function hoursSinceIso(iso) {
+  if (!iso) return null;
+  const ms = Date.parse(iso);
+  if (!Number.isFinite(ms)) return null;
+  return Math.round((Date.now() - ms) / 3_600_000);
+}
+
 function holdingToBasketRow(h) {
   const snow = h.sws.snowflake;
   const ov = h.sws;
@@ -260,6 +268,17 @@ function holdingToBasketRow(h) {
     current_price_inr: ov.current_price_inr,
     fair_value_inr: ov.fair_value_inr,
     upside_pct: ov.upside_pct,
+    valuation_confidence: ov.valuation_confidence ?? null,
+    valuation_source: ov.valuation_source ?? null,
+    valuation_band: ov.valuation_band ?? null,
+    data_age_hours: ov.data_age_hours ?? null,
+    staleData: h.staleData ?? false,
+    priceSource: h.priceSource ?? null,
+    currentValue: h.currentValue ?? null,
+    positionWeight: h.positionWeight ?? null,
+    sectorWeight: h.sectorWeight ?? null,
+    rawAction: h.action,
+    topUpRupeesResearch: Number.isFinite(h.topUpRupees) ? Number(h.topUpRupees) : null,
     beta: ov.beta ?? null,
     market_cap_inr: ov.market_cap_inr,
     multiples: ov.multiples,
@@ -305,6 +324,10 @@ function pickToBasketRow(pick) {
     current_price_inr: ov.current_price_inr ?? pick.current_price_inr,
     fair_value_inr: reconciled.fair_value_inr,
     upside_pct: reconciled.upside_pct,
+    valuation_confidence: reconciled.confidence,
+    valuation_source: reconciled.source,
+    valuation_band: reconciled.valuation_band,
+    data_age_hours: hoursSinceIso(deep?.parsed_at ?? pick.parsed_at ?? pick.scanned_at),
     beta: ov.beta ?? null,
     market_cap_inr: ov.market_cap_inr ?? pick.market_cap_inr,
     multiples: ov.multiples ?? null,
@@ -327,9 +350,8 @@ function pickToBasketRow(pick) {
 // growth (top_ranked_30_v3 + smallcap_gems).
 //
 // Trigger: fires when fresh capital > 0 OR top-5 holdings > 50% of book
-// (concentration risk). Allocates 15-35% of fresh capital depending on
-// concentration severity — heavier concentration → larger fresh-picks
-// allocation to dilute single-name risk.
+// (concentration risk). This surface is candidate-only; executable rupee
+// sizing is produced exclusively by portfolioConstructionPlan.
 //
 // Gated by OUTSIDE_PICKS=1 env flag per PR-4 plan.
 export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 12, forceEnabled = false }) {
@@ -400,32 +422,17 @@ export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 1
     .filter((p) => !growthTickers.has(p.ticker))
     .slice(0, Math.floor(limit / 2));
 
-  // Allocation pct of fresh capital — scales 15-35% by concentration:
-  //   ≥ 70% concentrated → 35% to fresh picks (heaviest dilution)
-  //   60-70% → 25%
-  //   50-60% → 20%
-  //   < 50% (only fires when freshCapital > 0) → 15% (gentle outward push)
-  let allocPct;
-  if (concentrationPct >= 70) allocPct = 35;
-  else if (concentrationPct >= 60) allocPct = 25;
-  else if (concentrationPct >= 50) allocPct = 20;
-  else allocPct = 15;
-
-  const allocInr = hasFreshCapital ? Math.round(freshCapitalInr * (allocPct / 100)) : 0;
   const totalPicks = growth.length + defensive.length;
-  const perPickInr = totalPicks > 0 && allocInr > 0
-    ? Math.round(allocInr / totalPicks)
-    : 0;
 
-  // Annotate each row with source + suggested ₹ + the basket-row shape
-  // the UI already renders.
+  // Annotate each row with source + candidate-only metadata. No rupee
+  // allocation is attached here; funded trades come from constructionPlan.
   const annotateBucket = (rows, basketLabel) => rows.map((p) => {
     const baseRow = pickToBasketRow(p);
     return {
       ...baseRow,
       source: "fresh",
       basket: basketLabel,
-      suggested_inr: perPickInr,
+      candidate_only: true,
     };
   });
 
@@ -436,9 +443,6 @@ export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 1
       hasFreshCapital ? `Fresh capital ₹${freshCapitalInr.toLocaleString("en-IN")} available` : null,
       isOverConcentrated ? `Top-5 holdings = ${concentrationPct}% of book (≥50% trigger)` : null,
     ].filter(Boolean),
-    allocPct,
-    allocInr,
-    perPickInr,
     growth: annotateBucket(growth, "growth"),
     defensive: annotateBucket(defensive, "defensive"),
     counts: {
@@ -448,12 +452,13 @@ export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 1
     },
     methodology:
       `Picks: top_ranked_30_v3 + smallcap_gems (growth) and quality_growth + deep_value (defensive), ` +
-      `set-diffed against your ${heldTickers.size} held ticker(s). Allocation ${allocPct}% scales with ` +
-      `concentration: ≥70% → 35%, 60-70% → 25%, 50-60% → 20%, else 15%. Always opt-in via OUTSIDE_PICKS=1.`,
+      `set-diffed against your ${heldTickers.size} held ticker(s). Candidate-only surface; funded rupees ` +
+      `come from the construction plan after budget, valuation confidence, freshness, and post-trade caps. ` +
+      `Always opt-in via OUTSIDE_PICKS=1.`,
   };
 }
 
-function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit, sectorOverlay, macroRegime }) {
+function buildBaskets({ scoredHoldings, freshPickLimit, sectorOverlay, macroRegime }) {
   const heldTickers = new Set(scoredHoldings.filter((h) => h.swsCovered).map((h) => h.sws.ticker));
 
   // Source 1: in-portfolio top-up candidates
@@ -612,19 +617,6 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit, sectorO
   // capped at 1/sector for diversity.
   const sectorGaps = selectSectorGapPicks(combined, sectorCtx, { limit: 5 });
 
-  // ₹ allocation per basket (65% in-portfolio top-ups, 35% fresh picks)
-  const basketBudget = freshCapitalInr ? Math.round(freshCapitalInr / 2) : null;
-  const allocBasket = (rows) => {
-    if (!basketBudget) return rows;
-    const holdingRows = rows.filter((r) => r.source === "holding");
-    const freshRowsB = rows.filter((r) => r.source === "fresh");
-    const holdingPool = Math.round(basketBudget * 0.65);
-    const freshPool = Math.round(basketBudget * 0.35);
-    const perHolding = holdingRows.length ? Math.round(holdingPool / holdingRows.length) : 0;
-    const perFresh = freshRowsB.length ? Math.round(freshPool / freshRowsB.length) : 0;
-    return rows.map((r) => ({ ...r, suggested_inr: r.source === "holding" ? perHolding : perFresh }));
-  };
-
   // Surface the tailwind set so the UI's spotlight subtitle can name
   // 1-2 sectors the user is missing — even when sectorGaps itself is
   // empty (e.g. user holds all 6 structural sectors at non-zero weight).
@@ -649,10 +641,10 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit, sectorO
   });
 
   return {
-    defensive: allocBasket(defensive),
-    growth: allocBasket(growth),
-    core: allocBasket(core),
-    sectorGaps: allocBasket(sectorGaps),
+    defensive,
+    growth,
+    core,
+    sectorGaps,
     tailwindSummary,
     counts: {
       topup_in_portfolio: topupHoldings.length,
@@ -826,7 +818,6 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const sectorOverlay = buildSectorOverlay(scoredHoldings);
   const baskets = buildBaskets({
     scoredHoldings,
-    freshCapitalInr,
     freshPickLimit,
     sectorOverlay,
     macroRegime,
@@ -912,11 +903,14 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     outsidePicks,
     tiers: {
       A: { label: "Reductions", rows: tiers.tierA, freedRupees: tiers.freedRupees, sector_wipeouts: sectorWipeouts },
-      B: { label: "Top-ups (Perfect-fit, sector-aware)", baskets },
+      B: { label: "Eligible but unfunded add candidates", baskets },
       C: { label: "Hold as-is", rows: tiers.tierC },
       D: { label: "Watch (catalyst-driven)", rows: tiers.tierD },
     },
     holdingsByAction,
     sectorOverlay,
+    capitalContext: {
+      freshCapitalInr: Number.isFinite(Number(freshCapitalInr)) ? Number(freshCapitalInr) : 0,
+    },
   };
 }

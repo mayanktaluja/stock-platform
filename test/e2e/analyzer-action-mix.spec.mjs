@@ -111,4 +111,58 @@ test.describe("Analyzer action-mix chip", () => {
 
     test.skip(exercised === 0, "no non-zero bar segments to validate");
   });
+
+  test("funded plan renders before unfunded candidates and buy total stays within budget", async ({ page }) => {
+    await gotoApp(page, { tab: "analyzer" });
+    await page.evaluate(() => {
+      const input = document.getElementById("analyzerFreshCapital");
+      if (input) {
+        input.value = "100000";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+    await page.locator("#analyzerFileInput").setInputFiles(FIXTURE);
+
+    const reportReady = await page
+      .waitForFunction(
+        () => {
+          const r = document.getElementById("analyzerReport");
+          return r && r.style.display !== "none";
+        },
+        null,
+        { timeout: 45_000 }
+      )
+      .then(() => true)
+      .catch(() => false);
+    test.skip(!reportReady, "analyzer report did not render in time");
+
+    const fundedPlan = page.locator("[data-funded-plan]");
+    await expect(fundedPlan).toBeVisible({ timeout: 5_000 });
+    await expect(fundedPlan).toContainText("Today's funded plan");
+    await expect(page.locator("summary", { hasText: "Eligible but unfunded add candidates" }).first()).toBeVisible();
+
+    const order = await page.evaluate(() => {
+      const funded = document.querySelector("[data-funded-plan]");
+      const unfunded = [...document.querySelectorAll("summary")]
+        .find((el) => el.textContent && el.textContent.includes("Eligible but unfunded add candidates"));
+      return funded && unfunded
+        ? funded.compareDocumentPosition(unfunded) & Node.DOCUMENT_POSITION_FOLLOWING
+        : 0;
+    });
+    expect(order).toBeTruthy();
+
+    const totals = await page.evaluate(() => {
+      const asNumber = (selector) => {
+        const el = document.querySelector(selector);
+        if (!el) return 0;
+        return Number(String(el.textContent || "").replace(/[^0-9.-]/g, "")) || 0;
+      };
+      return {
+        available: asNumber("[data-funded-available-capital]"),
+        buys: asNumber("[data-funded-buy-total]"),
+      };
+    });
+    expect(totals.buys).toBeLessThanOrEqual(totals.available);
+  });
 });

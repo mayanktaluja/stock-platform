@@ -35,6 +35,18 @@ portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Portfolio Analyzer construction layer (May 2026)
+- **This PR** — Portfolio Analyzer now separates SWS research opinions from
+  executable portfolio construction. Raw SWS actions still drive action mix,
+  stance pills, audit evidence, and candidate lists, but only
+  `constructionPlan.fundedTrades[]` carries executable buy rupees. Buy capital
+  is `freshCapitalInr + confirmedFreedCapitalInr`; today's suggested trims are
+  shown as potential future freed capital and are not reused until execution is
+  confirmed. Funded adds require HIGH-confidence discounted FV, fresh/verified
+  price data, post-trade single-name and sector room, min ₹25k size, and max 5
+  buys. The analyzer UI now leads with "Today's funded plan" and relabels old
+  top-up/basket surfaces as eligible but unfunded add candidates.
+
 ### Track Record credibility spotlight (May 2026)
 - **This PR** — India Market's Track Record Spotlight now auto-selects a
   single best 7d/30d proof point from `bestOverall` instead of showing manual
