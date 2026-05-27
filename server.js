@@ -4831,7 +4831,8 @@ app.get("/api/track/history", async (req, res) => {
     // Compute returns for each trade
     const tradesWithReturns = trades.map((t) => {
       const currentPrice = priceBySymbol[t.symbol];
-      const returns = currentPrice
+      const canComputeClosed = t.closedAt && t.closingPrice != null;
+      const returns = currentPrice || canComputeClosed
         ? computeReturns(t, currentPrice, currentNifty)
         : { error: "no_current_price" };
       return { ...t, returns };
@@ -4929,7 +4930,8 @@ app.get("/api/track/export.csv", async (req, res) => {
     });
     const enriched = trades.map((t) => {
       const currentPrice = priceBySymbol[t.symbol];
-      const returns = currentPrice ? computeReturns(t, currentPrice, currentNifty) : {};
+      const canComputeClosed = t.closedAt && t.closingPrice != null;
+      const returns = currentPrice || canComputeClosed ? computeReturns(t, currentPrice, currentNifty) : {};
       return { ...t, returns };
     });
     const csv = tradesToCsv(enriched);

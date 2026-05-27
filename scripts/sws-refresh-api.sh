@@ -334,6 +334,16 @@ else
   echo "[refresh-api] stamp smoke check: ${STAMPED_COUNT} stocks have section_status"
 fi
 
+# ---------- 8.6. Track Record snapshot ----------
+#
+# This is intentionally outside sws-narrate-picks.mjs so Track Record history is
+# captured even when ANTHROPIC_API_KEY is absent and narration is skipped.
+
+echo "[refresh-api] snapshotting SWS Track Record..."
+if ! node scripts/sws-snapshot-track-record.mjs 2>&1 | tail -8 | sed 's/^/[track] /'; then
+  echo "[track] non-zero exit — continuing (Track Record snapshot is non-fatal)"
+fi
+
 # ---------- 8.7. Inline sanity gate (pass 1) ----------
 #
 # Runs the SAME sanity gate that sws-nightly.sh runs at the end of the
