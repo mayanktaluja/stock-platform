@@ -195,11 +195,6 @@ const auth = {
 document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
-  loadMacroRegime(); // global: shown on every tab
-  // Hourly poll — server cache TTL is 24h, so polling more aggressively
-  // wouldn't yield fresher data. Users can force a refresh via the banner's
-  // refresh button.
-  setInterval(loadMacroRegime, 60 * 60 * 1000);
   // Ticker lives in the persistent header above the tabs, so it must load
   // independently of whichever tab the user lands on. Server caches /api/market
   // for 30s; a 60s refresh keeps the indices fresh without hammering upstreams.
@@ -310,10 +305,10 @@ function hydrateMissesShownToggle() {
 
 // ==================== SNAPSHOT HEALTH BANNER ====================
 //
-// Reads /api/health/snapshots and renders a thin warning bar above the
-// macro-regime banner when any data source is stale. The actual data
-// (fundamentals, surveillance, etc.) still renders — the banner just makes
-// the user aware that what they're looking at may be a few days behind.
+// Reads /api/health/snapshots and renders a thin warning bar above the tab bar
+// when any data source is stale. The actual data (fundamentals, surveillance,
+// etc.) still renders — the banner just makes the user aware that what they're
+// looking at may be a few days behind.
 //
 // Why this matters: the cron at /api/cron/refresh-{surveillance,governance}
 // originates NSE traffic that Vercel's datacenter IPs can't reach, so the
@@ -369,9 +364,9 @@ async function loadSnapshotHealth() {
     `);
   }
 
-  // Macro classifier degradation is intentionally not shown as an end-user
-  // warning here. The macro card already exposes regime, confidence, and
-  // fallback sources without making the dashboard look broken.
+  // Macro-regime classifier degradation is intentionally not surfaced in the
+  // shell. Showing "LLM keys not configured" as a top-level amber warning made
+  // a usable heuristic regime look like a site error to end users.
 
   banner.innerHTML = chips.join("");
   banner.hidden = chips.length === 0;
@@ -385,9 +380,8 @@ async function loadSnapshotHealth() {
 // (±10 pts in the composite) is a deterministic keyword classifier
 // wearing an LLM badge — friends would have no way to know.
 //
-// Separate from loadSnapshotHealth() (which covers MACRO regime LLM
-// status); they share the #snapshotHealthBanner element via chip
-// appending so we don't add a second always-on UI surface.
+// Separate from loadSnapshotHealth(); they share the #snapshotHealthBanner
+// element via chip appending so we don't add a second always-on UI surface.
 async function loadLlmSignalBanner() {
   let health;
   try {
@@ -659,20 +653,6 @@ function portfolioActionIdFromLabel(action) {
   return map[String(action).toUpperCase().trim()] || null;
 }
 
-/** Map a macro regime ID to its glossary entry. */
-function regimeIdFromLabel(regime) {
-  if (!regime) return null;
-  const map = {
-    OIL_SHOCK: "oil_shock",
-    WAR_ESCALATION: "war_escalation",
-    RATE_HIKE: "rate_hike",
-    RATE_CUT: "rate_cut",
-    POLICY_STIMULUS: "policy_stimulus",
-    CALM: "calm",
-  };
-  return map[String(regime).toUpperCase().trim()] || "macro_regime";
-}
-
 let _activeTooltipTermId = null;
 
 // UI/UX overhaul 2026-05-19 — Phase 3 "alive" interactivity.
@@ -932,45 +912,6 @@ function hideTooltip() {
   tooltip.setAttribute("aria-hidden", "true");
   _activeTooltipTermId = null;
 }
-
-// Fetch + render the macro regime banner independently of any specific tab.
-// Sourced from /api/macro/regime so the banner is available even before the
-// first scanner/portfolio call completes.
-//
-// When force=true, hits ?refresh=1 to bypass the server cache and trigger a
-// fresh classification. Used by the manual refresh button.
-async function loadMacroRegime({ force = false } = {}) {
-  try {
-    const url = force ? "/api/macro/regime?refresh=1" : "/api/macro/regime";
-    const res = await fetch(url);
-    if (!res.ok) return;
-    const regime = await res.json();
-    renderMacroBanner(regime);
-  } catch (err) {
-    // Silent — the banner is additive, failure means no banner.
-  }
-}
-
-// Manual refresh handler invoked by the banner's refresh button.
-// Shows a loading state while the server re-classifies, then re-renders.
-window.macroRefreshClick = async function macroRefreshClick(btn) {
-  if (!btn || btn.dataset.loading === "1") return;
-  btn.dataset.loading = "1";
-  const originalHTML = btn.innerHTML;
-  btn.innerHTML = '<span class="macro-refresh-spinner" aria-hidden="true"></span> Refreshing&hellip;';
-  btn.disabled = true;
-  try {
-    await loadMacroRegime({ force: true });
-  } finally {
-    // renderMacroBanner replaces innerHTML, so the button is gone — only
-    // restore on the off-chance the banner re-renders into the same DOM node.
-    if (document.body.contains(btn)) {
-      btn.innerHTML = originalHTML;
-      btn.disabled = false;
-      delete btn.dataset.loading;
-    }
-  }
-};
 
 function updateClock() {
   const now = new Date();
@@ -2396,159 +2337,6 @@ function renderMethodologyFooter(methodology) {
 
 
 
-// ──────────────────── Macro Regime Banner ────────────────────
-
-/**
- * Render the macro regime banner above the Buy Now section.
- * Hides itself when regime === "CALM" and severity === 1 (no actionable signal).
- */
-function renderMacroBanner(regime) {
-  const banner = document.getElementById("macroRegimeBanner");
-  if (!banner) return;
-
-  // Degraded-classifier check runs FIRST. When the OpenAI quota is exceeded
-  // (or the news fetch is broken), the regime API returns a synthetic CALM
-  // with confidence=0 / headlineCount=0 plus an error string in `reasoning`.
-  // The old early-return below would treat that as a no-op and silently
-  // serve picks with macroBoost=0 — i.e., the user couldn't tell the macro
-  // tilt was off. Surface a yellow degraded banner instead.
-  const reasoning = String(regime?.reasoning || "");
-  const degraded = !regime
-    || regime.confidence === 0
-    || regime.headlineCount === 0
-    || /classifier error|quota|429|fetch failed|unavailable/i.test(reasoning);
-  if (degraded) {
-    const headlines = regime?.headlineCount ?? 0;
-    const stalenessMs = regime?.staleness ?? null;
-    const staleHours = stalenessMs != null ? Math.round(stalenessMs / 3600000) : null;
-    const quotaUntil = regime?.quotaLimitedUntil ?? null;
-
-    let bannerTitle = "&#9888; Macro classifier degraded";
-    let bannerReasoning = `${escapeHtml(reasoning || "Macro feed unavailable.")} Market views below are running without macro tilt &mdash; treat sector recommendations as best-effort until the classifier recovers.`;
-
-    if (quotaUntil && quotaUntil > Date.now()) {
-      const resumeStr = new Date(quotaUntil).toLocaleString("en-IN", {
-        timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: false,
-      });
-      bannerTitle = "&#9203; Macro classifier paused (Groq quota)";
-      bannerReasoning = `Daily token quota reached &mdash; ${staleHours != null ? `last classification ${staleHours}h ago` : "showing last known classification"}. Resumes automatically at ${resumeStr} IST.`;
-    }
-
-    banner.className = "macro-banner severity-degraded";
-    banner.innerHTML = `
-      <div class="macro-banner-header">
-        <div class="macro-banner-title">${bannerTitle}</div>
-        <div class="macro-banner-meta">
-          <span>Headlines: ${headlines} &middot; Confidence: 0%${staleHours != null ? ` &middot; Last update ${staleHours}h ago` : ""}</span>
-          <button type="button" class="macro-refresh-btn" onclick="macroRefreshClick(this)" title="Force a fresh classification (uses Groq quota).">&#8635; Refresh</button>
-        </div>
-      </div>
-      <div class="macro-banner-reasoning">${bannerReasoning}</div>
-    `;
-    banner.style.display = "block";
-    return;
-  }
-
-  if (regime.regime === "CALM" && regime.severity <= 1) {
-    banner.style.display = "none";
-    return;
-  }
-
-  // Severity tint: risk-off regimes red, stimulus green, everything else neutral amber
-  const RISK_OFF = ["WAR_ESCALATION", "OIL_SHOCK", "RATE_HIKE", "REGULATORY_SHOCK", "GLOBAL_RISK_OFF", "CURRENCY_WEAKNESS"];
-  const STIMULUS = ["POLICY_STIMULUS", "RATE_CUT", "WAR_DE_ESCALATION"];
-  let severityClass = "severity-neutral";
-  if (RISK_OFF.includes(regime.regime)) severityClass = "severity-risk-off";
-  else if (STIMULUS.includes(regime.regime)) severityClass = "severity-stimulus";
-
-  const staleMinutes = regime.generatedAt
-    ? Math.round((Date.now() - new Date(regime.generatedAt).getTime()) / 60000)
-    : null;
-
-  const sectorChips = (regime.sectorImpacts || [])
-    .sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact))
-    .map((s) => {
-      const cls = s.impact > 0 ? "pos" : "neg";
-      const sign = s.impact > 0 ? "+" : "";
-      const reasonAttr = escapeHtml(s.reason || "");
-      return `<span class="macro-sector-chip ${cls}" title="${reasonAttr}">${escapeHtml(s.sector)} ${sign}${s.impact}</span>`;
-    })
-    .join("");
-
-  const confidencePct = Math.round((regime.confidence || 0) * 100);
-  const regimeName = regime.regimeLabel || regime.regime || "UNKNOWN";
-  const sourcesList = (regime.sources || []).map((s) => s.name).join(", ");
-
-  banner.className = `macro-banner ${severityClass}`;
-  banner.innerHTML = `
-    <div class="macro-banner-header">
-      <div class="macro-banner-title">
-        <span>Market Regime${infoIcon('macro_regime')}:</span>
-        <span class="macro-banner-regime-name">${escapeHtml(regimeName)}${infoIcon(regimeIdFromLabel(regime.regime))}</span>
-      </div>
-      <div class="macro-banner-meta">
-        <span>Severity ${regime.severity}/5 &middot; Confidence ${confidencePct}%</span>
-        <button type="button" class="macro-refresh-btn" onclick="macroRefreshClick(this)" title="Force a fresh classification (uses Groq quota).">&#8635; Refresh</button>
-      </div>
-    </div>
-    ${regime.reasoning ? `<div class="macro-banner-reasoning">${escapeHtml(regime.reasoning)}</div>` : ""}
-    ${sectorChips ? `<div class="macro-sector-chips">${sectorChips}</div>` : ""}
-    ${renderTransitionAlert(regime.transition)}
-    <div class="macro-banner-footer">
-      Applied across all scanners + portfolio actions &middot;
-      ${staleMinutes != null ? `Updated ${staleMinutes === 0 ? "just now" : staleMinutes + " min ago"}` : "Generated recently"}
-      ${sourcesList ? ` &middot; Sources: ${escapeHtml(sourcesList)}` : ""}
-      ${regime.fallbacksUsed && regime.fallbacksUsed.length > 0 ? ` &middot; <span class="macro-fallback-indicator" title="Primary sources were unavailable; these fallbacks took over.">Fallbacks: ${escapeHtml(regime.fallbacksUsed.join(", "))}</span>` : ""}
-    </div>
-  `;
-  banner.style.display = "block";
-}
-
-/**
- * Render the regime transition alert — shown when the macro regime recently
- * changed (e.g., OIL_SHOCK → WAR_DE_ESCALATION). This is a buy/sell timing
- * signal based on the transition direction.
- */
-function renderTransitionAlert(transition) {
-  if (!transition || !transition.signal) return "";
-
-  const sig = transition.signal;
-  const isBuy = sig.action.includes("BUY");
-  const isSell = sig.action.includes("SELL") || sig.action.includes("TRIM");
-  const alertColor = isBuy ? "rgba(52,211,153,0.12)" : isSell ? "rgba(248,113,113,0.12)" : "rgba(251,191,36,0.12)";
-  const borderColor = isBuy ? "rgba(52,211,153,0.3)" : isSell ? "rgba(248,113,113,0.3)" : "rgba(251,191,36,0.3)";
-  const textColor = isBuy ? "#34d399" : isSell ? "#f87171" : "#fbbf24";
-  const actionIcon = isBuy ? "&#9650;" : isSell ? "&#9660;" : "&#9679;";
-
-  const sectorChips = (sig.sectors || []).map((s) => {
-    return `<span style="display:inline-block;padding:2px 8px;border-radius:6px;background:${alertColor};color:${textColor};font-size:10px;font-weight:700;border:1px solid ${borderColor};">${escapeHtml(s)}</span>`;
-  }).join(" ");
-
-  const fromLabel = (transition.from || "").replace(/_/g, " ");
-  const toLabel = (transition.to || "").replace(/_/g, " ");
-
-  // How long ago was the transition detected?
-  const agoMs = transition.detectedAt ? Date.now() - new Date(transition.detectedAt).getTime() : 0;
-  const agoHours = Math.floor(agoMs / 3600000);
-  const agoText = agoHours < 1 ? "just now" : agoHours < 24 ? `${agoHours}h ago` : `${Math.floor(agoHours / 24)}d ago`;
-
-  return `
-    <div style="margin-top:12px;padding:12px 16px;background:${alertColor};border:1px solid ${borderColor};border-radius:10px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="font-size:16px;color:${textColor};">${actionIcon}</span>
-        <span style="font-size:13px;font-weight:800;color:${textColor};">REGIME SHIFT: ${sig.action}</span>
-        <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(251,191,36,0.15);color:var(--gold);font-weight:700;">BETA</span>
-        <span style="font-size:10px;color:var(--text-muted);margin-left:auto;">${escapeHtml(fromLabel)} → ${escapeHtml(toLabel)} · ${agoText}</span>
-      </div>
-      <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:8px;">
-        ${escapeHtml(sig.summary)}
-      </div>
-      ${sectorChips ? `<div style="display:flex;flex-wrap:wrap;gap:4px;">${sectorChips}</div>` : ""}
-    </div>`;
-}
-
-
-
 // ==================== TABS ====================
 
 // PR #5: switchTab refactored from a 35-line if/else cascade into a
@@ -2693,11 +2481,6 @@ async function switchTab(tab) {
     if (el) el.style.display = "none";
   }
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
-
-  // Refresh the global macro banner on every tab switch. Cheap (cached
-  // server-side) but keeps the banner in sync across background refresh
-  // cycles without per-tab loaders stomping on its state.
-  loadMacroRegime();
 
   // Activate the matching bar button by EXACT tab id. A substring match would
   // let switchTab('earnings') also light the 'earningsEdge' button.
