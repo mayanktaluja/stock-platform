@@ -68,6 +68,40 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     await expect.poll(() => page.title()).toContain("US Market");
   });
 
+  test("desktop tab order ends with Track Record and every visible tab activates", async ({ page }) => {
+    await gotoApp(page);
+
+    const visibleTabs = await page.locator('#mainTabs [role="tab"]:visible').evaluateAll((tabs) =>
+      tabs.map((tab) => ({
+        id: tab.id,
+        label: tab.textContent.trim().replace(/\s+/g, " "),
+        panel: tab.getAttribute("aria-controls"),
+      })),
+    );
+
+    expect(visibleTabs.length).toBeGreaterThan(4);
+    expect(visibleTabs.at(-1)).toMatchObject({
+      id: "trackTabBtn",
+      label: "Track Record",
+      panel: "trackTab",
+    });
+
+    for (const { id, panel } of visibleTabs) {
+      expect(panel, `${id} must declare aria-controls`).toBeTruthy();
+      await page.locator(`#${id}`).click();
+      await expect(page.locator(`#${panel}`), `${id} should reveal #${panel}`).toBeVisible({
+        timeout: 10_000,
+      });
+      await expect(page.locator(`#${id}`)).toHaveAttribute("aria-selected", "true");
+      await expect(page.locator(`#${id}`)).toHaveClass(/active/);
+    }
+
+    await page.locator("#picksTabBtn").focus();
+    await page.keyboard.press("End");
+    await expect(page.locator("#trackTab")).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator("#trackTabBtn")).toBeFocused();
+  });
+
   test("header search has accessible label", async ({ page }) => {
     await gotoApp(page);
     const search = page.locator("#searchInput");
