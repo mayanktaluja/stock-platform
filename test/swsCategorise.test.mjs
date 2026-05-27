@@ -53,7 +53,9 @@ function makeStock(overrides = {}) {
   return {
     ticker: overrides.ticker || "TEST",
     v3_verdict: overrides.v3_verdict || "WATCH",
+    v4_verdict: overrides.v4_verdict || overrides.v3_verdict || "WATCH",
     v3_score_100: overrides.v3_score_100 ?? 30,
+    v4_score_100: overrides.v4_score_100 ?? overrides.v3_score_100 ?? 30,
     overview: ov,
     insider_activity: overrides.insider_activity || [],
   };
@@ -158,6 +160,38 @@ console.log("\ncategoriseStock — dividend value gate (PR 2.6)\n");
   });
   const cats = categoriseStock(s);
   assert("dividend strong + upside +5% + valSnow=2 → passes", cats.includes("dividend_aristocrats"), cats);
+}
+
+console.log("\nscoreStock — FV-dependent gates use reconciled upside\n");
+
+{
+  const s = scoreStock(makeStock({
+    ticker: "FVJUNK",
+    overview: {
+      current_price_inr: 100,
+      fair_value_inr: 1100,
+      upside_pct: 1000,
+      snowflake: { valuation: 5, future_growth: 4, past_performance: 4, financial_health: 5, dividends: 3 },
+      snowflake_total: 22,
+      market_cap_inr: 1e12,
+    },
+  }), { surveillanceFlag: null });
+  assert("FV ratio >10x → not deep_value despite raw +1000% upside", !s.categories.includes("deep_value"), s.categories);
+}
+
+{
+  const s = scoreStock(makeStock({
+    ticker: "FVOK",
+    overview: {
+      current_price_inr: 100,
+      fair_value_inr: 800,
+      upside_pct: 700,
+      snowflake: { valuation: 5, future_growth: 4, past_performance: 4, financial_health: 5, dividends: 3 },
+      snowflake_total: 22,
+      market_cap_inr: 1e12,
+    },
+  }), { surveillanceFlag: null });
+  assert("FV ratio 8x → deep_value remains eligible", s.categories.includes("deep_value"), s.categories);
 }
 
 console.log("\nbuildLeaderboard — BSE-numeric ticker filter (PR 2.7)\n");

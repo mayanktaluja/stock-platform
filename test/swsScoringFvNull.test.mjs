@@ -7,9 +7,9 @@
  * have fair_value_inr: null" as a bug. Investigation showed:
  *
  *   - 42 of 144 nulls (29%): source SWS deep file genuinely has no FV
- *   - 87 of 144 (60%):       FV/price ratio < 0.2 — scraper artefacts
+ *   - 87 of 144 (60%):       FV/price ratio < 0.1 — scraper artefacts
  *                            (e.g. SHREEPUSHK price ₹390 vs FV ₹32.55)
- *   - 13 of 144 (9%):        FV/price ratio > 5 — most scraper artefacts
+ *   - 13 of 144 (9%):        FV/price ratio > 10 — most scraper artefacts
  *                            (e.g. ADVENTHTL price ₹150 vs FV ₹5133)
  *   -  2 of 144 (1%):        source price missing
  *
@@ -116,29 +116,36 @@ it("price=100, fv=80, ratio=0.8 → ok, -20% upside (overvalued, but in band)", 
   assert.equal(r.fv_reconcile_reason, "ok");
 });
 
-it("price=100, fv=500, ratio=5.0 → ok (boundary inclusive)", () => {
-  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 500 });
-  assert.equal(r.fair_value_inr, 500);
-  assert.equal(r.upside_pct, 400);
+it("price=100, fv=1000, ratio=10.0 → ok (boundary inclusive)", () => {
+  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 1000 });
+  assert.equal(r.fair_value_inr, 1000);
+  assert.equal(r.upside_pct, 900);
   assert.equal(r.fv_reconcile_reason, "ok");
 });
 
-it("price=100, fv=501, ratio=5.01 → junk_ratio_high, FV nulled", () => {
-  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 501 });
+it("price=100, fv=1001, ratio=10.01 → junk_ratio_high, FV nulled", () => {
+  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 1001 });
   assert.equal(r.fair_value_inr, null);
   assert.equal(r.upside_pct, null);
   assert.equal(r.fv_reconcile_reason, "junk_ratio_high");
 });
 
-it("price=100, fv=20, ratio=0.2 → ok (boundary inclusive)", () => {
-  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 20 });
-  assert.equal(r.fair_value_inr, 20);
-  assert.equal(r.upside_pct, -80);
+it("ALEMBICLTD-like price=87.91, fv=724.17623, ratio=8.24 → ok", () => {
+  const r = _reconcilePickFV({ current_price_inr: 87.91, fair_value_inr: 724.17623, upside_pct: 723.7700261631214 });
+  assert.equal(r.fair_value_inr, 724.17623);
+  assert.equal(r.upside_pct, 723.8);
   assert.equal(r.fv_reconcile_reason, "ok");
 });
 
-it("price=100, fv=19.99, ratio=0.1999 → junk_ratio_low, FV nulled", () => {
-  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 19.99 });
+it("price=100, fv=10, ratio=0.1 → ok (boundary inclusive)", () => {
+  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 10 });
+  assert.equal(r.fair_value_inr, 10);
+  assert.equal(r.upside_pct, -90);
+  assert.equal(r.fv_reconcile_reason, "ok");
+});
+
+it("price=100, fv=9.99, ratio=0.0999 → junk_ratio_low, FV nulled", () => {
+  const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 9.99 });
   assert.equal(r.fair_value_inr, null);
   assert.equal(r.upside_pct, null);
   assert.equal(r.fv_reconcile_reason, "junk_ratio_low");
@@ -245,9 +252,9 @@ it("every reason value is from the documented enum", () => {
     { current_price_inr: 100, fair_value_inr: 120, upside_pct: 20 },
     { current_price_inr: 100, fair_value_inr: null },
     { current_price_inr: null, fair_value_inr: 100 },
-    { current_price_inr: 100, fair_value_inr: 500 },
-    { current_price_inr: 100, fair_value_inr: 501 },
-    { current_price_inr: 100, fair_value_inr: 19.99 },
+    { current_price_inr: 100, fair_value_inr: 1000 },
+    { current_price_inr: 100, fair_value_inr: 1001 },
+    { current_price_inr: 100, fair_value_inr: 9.99 },
     {},
   ];
   for (const ov of cases) {

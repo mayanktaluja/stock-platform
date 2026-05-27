@@ -28,7 +28,7 @@ import {
 import { computeV4Score as computeV4ScoreViaScript } from "../scripts/swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 import { buildUniverseStats } from "../services/swsScoring.js";
-import { scoreStock as scoreStockIndia } from "../scripts/sws-scoring.mjs";
+import { pickCardFields, scoreStock as scoreStockIndia } from "../scripts/sws-scoring.mjs";
 
 import assert from "node:assert/strict";
 
@@ -330,6 +330,34 @@ check("scoreStock sets v4_score_100 + absolute v4_verdict and drops all v3 field
   // Verdict is absolute now (no bands threaded) — a real label, never null for a finite score.
   assert.equal(scored.v4_verdict, verdictV4FromScore(scored.v4_score_100));
   assert.ok(scored.v4_verdict !== null);
+});
+
+check("scoreStock suppresses implausible FV before V4 FV scoring", () => {
+  const fixture = () => mk(
+    { financial_health: 5, future: 4, valuation: 5, past: 3 },
+    { current_price_inr: 100, fair_value_inr: 1100, upside_pct: 1000 },
+  );
+  const scored = scoreStockIndia(fixture(), { surveillanceFlag: null });
+  const card = pickCardFields(scored);
+  assert.equal(card.fair_value_inr, null);
+  assert.equal(card.upside_pct, null);
+  assert.equal(card.fv_reconcile_reason, "junk_ratio_high");
+  assert.equal(scored.v4_breakdown.fv_imputed, true);
+  assert.equal(scored.v4_breakdown.pts_fv_total, 6);
+});
+
+check("scoreStock keeps Alembic-like FV before V4 FV scoring", () => {
+  const fixture = () => mk(
+    { financial_health: 5, future: 5, valuation: 5, past: 2 },
+    { current_price_inr: 87.91, fair_value_inr: 724.17623, upside_pct: 723.7700261631214 },
+  );
+  const scored = scoreStockIndia(fixture(), { surveillanceFlag: null });
+  const card = pickCardFields(scored);
+  assert.equal(card.fair_value_inr, 724.17623);
+  assert.equal(card.upside_pct, 723.8);
+  assert.equal(card.fv_reconcile_reason, "ok");
+  assert.equal(scored.v4_breakdown.fv_imputed, false);
+  assert.equal(scored.v4_breakdown.pts_fv_total, 12);
 });
 
 console.log(`\n${pass} passed, ${fail} failed\n`);

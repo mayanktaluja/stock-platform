@@ -12454,9 +12454,11 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   // US/KR/TW deep brief is lazily extracted from a per-region tarball on prod and
   // can be absent; fall back to the picks-card fields so the header + snowflake
   // never render all-blank. India's deep is always present, so these no-op there.
-  const priceVal = ov.current_price_inr ?? card_.current_price_inr;
-  const fvVal = ov.fair_value_inr ?? card_.fair_value_inr;
-  const upsideVal = ov.upside_pct ?? card_.upside_pct;
+  const hasCardFv = Object.prototype.hasOwnProperty.call(card_, "fair_value_inr");
+  const hasCardUpside = Object.prototype.hasOwnProperty.call(card_, "upside_pct");
+  const priceVal = card_.current_price_inr ?? ov.current_price_inr;
+  const fvVal = hasCardFv ? card_.fair_value_inr : ov.fair_value_inr;
+  const upsideVal = hasCardUpside ? card_.upside_pct : ov.upside_pct;
   const mcapVal = ov.market_cap_inr ?? card_.market_cap_inr;
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
