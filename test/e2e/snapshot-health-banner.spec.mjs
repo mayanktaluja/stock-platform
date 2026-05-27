@@ -90,4 +90,42 @@ test.describe("snapshot-health banner (PR D)", () => {
     await gotoApp(page);
     await expect(page.locator("#snapshotHealthBanner")).toBeHidden({ timeout: 10_000 });
   });
+
+  test("macro classifier degradation is not shown as an end-user warning", async ({ page }) => {
+    await page.route("**/api/health/snapshots", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          anyStale: false,
+          staleKeys: [],
+          anyDegraded: true,
+          degradedKeys: ["macro_regime"],
+          snapshots: {
+            macro_regime: {
+              generatedAt: new Date().toISOString(),
+              age_hours: 1,
+              max_age_hours: 4,
+              stale: false,
+              degraded: true,
+              llmProviderHealth: { gemini: "not_configured", groq: "not_configured" },
+            },
+          },
+          checkedAt: new Date().toISOString(),
+        }),
+      }),
+    );
+    await page.route("**/api/health", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true, llm_offline: false }),
+      }),
+    );
+    await gotoApp(page);
+    const banner = page.locator("#snapshotHealthBanner");
+    await expect(banner).toBeHidden({ timeout: 10_000 });
+    await expect(page.getByText("LLM keys not configured")).toHaveCount(0);
+    await expect(page.getByText("keyword fallback")).toHaveCount(0);
+  });
 });
