@@ -1318,19 +1318,7 @@
       /* ─── Main content padding ─── */
       .main-content { padding: 0 12px; }
 
-      /* ─── Macro regime banner ─── */
-      .macro-banner {
-        margin-left: -12px;
-        margin-right: -12px;
-        border-radius: 0;
-        padding: 12px 14px;
-      }
-      .macro-banner-header { flex-direction: column; gap: 6px; }
-      .macro-banner-title { font-size: 14px; }
-      .macro-banner-meta { font-size: 11px; }
-      .macro-sector-chips { gap: 4px; }
       .macro-sector-chip { font-size: 10px; padding: 3px 7px; }
-      .macro-banner-footer { font-size: 10px; line-height: 1.5; }
 
       /* ─── Scanner cards: single column, full width ─── */
       .stock-cards {
@@ -1409,7 +1397,6 @@
       .stock-cards { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
       .portfolio-cards { grid-template-columns: 1fr; }
       .main-content { padding: 0 16px; }
-      .macro-banner-header { flex-direction: column; gap: 6px; }
       #starbhaiTooltip { max-width: calc(100vw - 32px) !important; }
     }
 
@@ -1786,77 +1773,7 @@
        sections stay visible but are sliced to top-3 client-side. */
     body[data-concentration="concentrated"] #midtermSection { display: none; }
 
-    /* ========== Macro Regime Banner ========== */
-    .macro-banner {
-      border: 1px solid var(--bg-graphite);
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-bottom: 24px;
-      background: linear-gradient(90deg, rgba(30,41,59,0.6), rgba(15,23,42,0.3));
-      position: relative;
-      overflow: hidden;
-    }
-    .macro-banner.severity-risk-off {
-      background: linear-gradient(90deg, rgba(239,68,68,0.10), rgba(15,23,42,0.3));
-      border-color: rgba(239,68,68,0.35);
-    }
-    .macro-banner.severity-stimulus {
-      background: linear-gradient(90deg, rgba(34,197,94,0.10), rgba(15,23,42,0.3));
-      border-color: rgba(34,197,94,0.35);
-    }
-    .macro-banner.severity-neutral {
-      background: linear-gradient(90deg, rgba(245,158,11,0.08), rgba(15,23,42,0.3));
-      border-color: rgba(245,158,11,0.30);
-    }
-    .macro-banner.severity-degraded {
-      background: linear-gradient(90deg, rgba(234,179,8,0.12), rgba(15,23,42,0.3));
-      border-color: rgba(234,179,8,0.45);
-      color: #fcd34d;
-    }
-    .macro-banner.severity-degraded .macro-banner-title { color: #fcd34d; }
-    .macro-banner-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-    .macro-banner-title {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: -0.1px;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .macro-banner-regime-name {
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-    }
-    .macro-banner-meta {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .macro-banner-reasoning {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      margin-bottom: 12px;
-    }
-    .macro-sector-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
+    /* Portfolio macro impact chip */
     .macro-sector-chip {
       font-size: 11px;
       font-weight: 600;
@@ -1875,45 +1792,6 @@
       color: var(--negative-text);
       border: 1px solid rgba(239,68,68,0.3);
     }
-    .macro-banner-footer {
-      font-size: 10px;
-      color: var(--text-muted);
-      letter-spacing: 0.2px;
-    }
-    .macro-refresh-btn {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--text-secondary);
-      cursor: pointer;
-      letter-spacing: 0.2px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
-    }
-    .macro-refresh-btn:hover:not(:disabled) {
-      background: rgba(255,255,255,0.10);
-      color: var(--text-primary);
-      border-color: rgba(255,255,255,0.22);
-    }
-    .macro-refresh-btn:disabled {
-      cursor: progress;
-      opacity: 0.7;
-    }
-    .macro-refresh-spinner {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border: 1.5px solid currentColor;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: macro-spin 0.7s linear infinite;
-    }
-    @keyframes macro-spin { to { transform: rotate(360deg); } }
 
     /* Buy Now card macro badge */
     .macro-boost-badge {
@@ -1955,13 +1833,6 @@
       border-radius: 6px;
       margin: 8px 0;
       line-height: 1.4;
-    }
-
-    /* Banner fallback-source indicator */
-    .macro-fallback-indicator {
-      color: var(--warn-text);
-      font-weight: 700;
-      cursor: help;
     }
 
     /* ──────────────────── Glossary tooltip system ──────────────────── */
@@ -4304,9 +4175,6 @@
       font-size: 13px;
       line-height: 1.5;
     "></div>
-
-    <!-- Global macro regime banner — visible on every tab. Populated by renderMacroBanner(). Hidden when CALM. -->
-    <div id="macroRegimeBanner" class="macro-banner" style="display:none; margin-bottom: 16px;"></div>
 
     <!-- Tab Bar. UI/UX overhaul 2026-05-19: full WAI-ARIA tab pattern —
          every [role=tab] now has an id + aria-controls pointing to its
