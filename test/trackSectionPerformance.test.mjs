@@ -151,6 +151,48 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   );
 }
 
+// ──── 4b. Nifty 50 is the primary Section Alpha benchmark ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: numberedPicks("BUY", 10, 4, 8),
+      quality_growth: numberedPicks("QG", 10, 2, 20),
+    },
+  });
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["7d"],
+    cohorts: [10],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "7d": 20 },
+  });
+  const win = payload.windows[0];
+  const buy = win.sections.find((s) => s.type === "sws_best_buynow");
+  assert("window uses Nifty 50 as primary benchmarkReturnPct", win.benchmarkReturnPct === 20, win);
+  assert("window does not expose benchmarkComparisons", !("benchmarkComparisons" in win), win);
+  assert("section alpha is calculated directly vs Nifty 50", buy.benchmarkReturnPct === 20 && buy.alphaPct === -11.5 && buy.outperformed === false, buy);
+  assert("section does not expose benchmarkComparisons", !("benchmarkComparisons" in buy), buy);
+  assert("bestOverall selects from Nifty 50 primary alpha", payload.bestOverall.type === "sws_best_buynow" && payload.bestOverall.alphaPct === -11.5 && payload.bestOverall.outperformed === false, payload.bestOverall);
+}
+
+// ──── 4c. Missing Nifty 50 benchmark data prevents a positive-alpha claim ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: numberedPicks("BUY", 10, 10, 5),
+    },
+  });
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["7d"],
+    cohorts: [10],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "7d": null },
+  });
+  assert("window is not eligible without Nifty 50 benchmark data", payload.windows[0].outperformed === false && payload.bestOverall === null, payload);
+  assert("row records missing Nifty 50 benchmark as a quality flag", payload.windows[0].sections[0].qualityFlags.includes("missing_benchmark_7d"), payload.windows[0].sections[0]);
+}
+
 // ──── 5. LONG and SHORT alpha signs match platform-call semantics ────
 {
   const longPerf = computeSectionPerformanceForTimeframe({
@@ -344,17 +386,24 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   const payload = await buildStoredResolvedSectionPerformancePayload([...startRows, ...exitRows], {
     windows: ["7d"],
     cohorts: [3],
-    benchmarkSeries: [
-      { date: "2026-05-01", nav: 100 },
-      { date: "2026-05-08", nav: 101 },
-    ],
+    benchmarkSeriesByProxy: {
+      nifty500_tri: [
+        { date: "2026-05-01", nav: 100 },
+        { date: "2026-05-08", nav: 101 },
+      ],
+      nifty50_tri: [
+        { date: "2026-05-01", nav: 100 },
+        { date: "2026-05-08", nav: 102 },
+      ],
+    },
   });
   const win = payload.windows[0];
   const benchmarks = new Set(win.sections.map((s) => s.benchmarkReturnPct));
   assert("stored matured window is marked resolved", win.sampleStatus === "resolved", win);
   assert("stored matured window uses the original date and exit date", win.fromDate === "2026-05-01" && win.toDate === "2026-05-08", win);
-  assert("resolved sections share one benchmark return", benchmarks.size === 1 && benchmarks.has(1), win.sections);
-  assert("bestOverall comes from resolved forward returns", payload.bestOverall.type === "sws_quality_growth" && payload.bestOverall.alphaPct === 9, payload.bestOverall);
+  assert("resolved sections share one Nifty 50 benchmark return", benchmarks.size === 1 && benchmarks.has(2), win.sections);
+  assert("resolved window does not expose benchmarkComparisons", !("benchmarkComparisons" in win), win);
+  assert("resolved bestOverall alpha is directly vs Nifty 50", payload.bestOverall.type === "sws_quality_growth" && payload.bestOverall.alphaPct === 8, payload.bestOverall);
 }
 
 // ──── 12. Legacy top-10 row dedupes against official top-10 row ────

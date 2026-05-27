@@ -5007,6 +5007,16 @@ function _spotlightLabel(windowPayload) {
   return "Track Record Spotlight";
 }
 
+function _sectionBenchmarkLine(cohortText, sectionReturn, benchmark, opts = {}) {
+  return opts.compact
+    ? `${cohortText} ${_fmtSignedPct(sectionReturn)} · Nifty 50 ${_fmtSignedPct(benchmark)}`
+    : `Equal-weight ${cohortText}: ${_fmtSignedPct(sectionReturn)} vs Nifty 50 ${_fmtSignedPct(benchmark)}`;
+}
+
+function _windowBenchmarkSummary(windowPayload) {
+  return `shared benchmark: <strong style="color:var(--text-primary);">Nifty 50 ${_fmtSignedPct(windowPayload.benchmarkReturnPct)}</strong>`;
+}
+
 function _credibilityBannerCopy(best, windowPayload, label) {
   const alpha = Number(best?.alphaPct);
   const hasPositiveAlpha = Number.isFinite(alpha) && alpha > 0 && best?.outperformed !== false;
@@ -5017,7 +5027,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (!best || !Number.isFinite(alpha)) {
     return {
       tone: "neutral",
-      headline: "Track Record is building 7d/30d evidence vs Nifty 500",
+      headline: "Track Record is building 7d/30d evidence vs Nifty 50",
       evidence: "Section alpha will appear here once enough daily cohorts and benchmark data are available.",
       showAlpha: false,
     };
@@ -5026,7 +5036,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (!hasPositiveAlpha) {
     return {
       tone: "neutral",
-      headline: "No eligible section cohort is currently ahead of Nifty 500",
+      headline: "No eligible section cohort is currently ahead of Nifty 50",
       evidence: `${label} ${_cohortLabel(best)} is the strongest relative cohort in the current track sample, but it is not eligible for a positive-alpha claim.`,
       showAlpha: false,
     };
@@ -5035,7 +5045,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (isResolved) {
     return {
       tone: "positive",
-      headline: `${label} ${_cohortLabel(best)} beat Nifty 500 by ${_fmtSignedPct(alpha)} over ${windowText}`,
+      headline: `${label} ${_cohortLabel(best)} beat Nifty 50 by ${_fmtSignedPct(alpha)} over ${windowText}`,
       evidenceSuffix: "",
       showAlpha: true,
     };
@@ -5044,7 +5054,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (isLatestSample) {
     return {
       tone: "positive",
-      headline: `Latest ${label} ${_cohortLabel(best)} sample shows ${_fmtSignedPct(alpha)} alpha vs Nifty 500`,
+      headline: `Latest ${label} ${_cohortLabel(best)} sample shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
       evidenceSuffix: " Closed-window cohorts will replace this as history matures.",
       showAlpha: true,
     };
@@ -5072,7 +5082,7 @@ function renderPicksCredibilityBanner(payload) {
   const alphaColor = copy.tone === "positive" ? "var(--green)" : "var(--gold)";
   const statusText = _spotlightLabel(windowPayload);
   const cohortText = _cohortLabel(best);
-  const evidence = copy.evidence || `Equal-weight ${cohortText}: ${_fmtSignedPct(sectionReturn)} vs Nifty 500 ${_fmtSignedPct(benchmark)}.${copy.evidenceSuffix || ""}`;
+  const evidence = copy.evidence || `${_sectionBenchmarkLine(cohortText, sectionReturn, benchmark)}.${copy.evidenceSuffix || ""}`;
   const selectedWindow = best?.window || windowPayload?.window || null;
   const selectedWindowText = selectedWindow && Number.isFinite(alpha)
     ? `${selectedWindow} · ${label} ${cohortText} ${_fmtSignedPct(alpha)}`
@@ -5172,7 +5182,7 @@ function renderTrackSectionPerformance() {
   const sampleLabel = _sampleCopy(windowPayload);
   if (summary) {
     const viewLabel = _trackSectionPerformanceCohort === "best" ? "best observed cohort per section (eligible rows prioritized)" : `top ${_trackSectionPerformanceCohort} cohorts`;
-    summary.innerHTML = `${escapeHtml(sampleLabel)} · ${escapeHtml(viewLabel)} · shared benchmark: <strong style="color:var(--text-primary);">Nifty 500 ${_fmtSignedPct(windowPayload.benchmarkReturnPct)}</strong>`;
+    summary.innerHTML = `${escapeHtml(sampleLabel)} · ${escapeHtml(viewLabel)} · ${_windowBenchmarkSummary(windowPayload)}`;
   }
   if (rowsForView.length === 0) {
     grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(_trackSectionPerformanceCohort)} cohort rows for ${escapeHtml(_trackSectionPerformanceWindow)}.</div></div>`;
@@ -5193,7 +5203,7 @@ function renderTrackSectionPerformance() {
       <div data-testid="track-section-cohort-label" style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-top:7px;">${escapeHtml(cohort)}</div>
       <div style="font-size:24px;font-weight:900;color:${colors.color};margin-top:8px;line-height:1;" data-testid="track-section-alpha">${_fmtSignedPct(alpha)}</div>
       <div style="font-size:11px;color:var(--text-muted);margin-top:7px;line-height:1.45;">
-        ${escapeHtml(cohort)} ${_fmtSignedPct(s.sectionReturnPct)} · Nifty 500 ${_fmtSignedPct(s.benchmarkReturnPct)}
+        ${escapeHtml(_sectionBenchmarkLine(cohort, s.sectionReturnPct, s.benchmarkReturnPct, { compact: true }))}
       </div>
       <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(s.status || windowPayload.sampleStatus || "—")} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
     </div>`;
