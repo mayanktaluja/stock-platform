@@ -204,9 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // openSwsModal renders, so the modal star paints with the correct
   // aria-pressed even when the user hasn't visited the Watchlist tab.
   hydrateWatchlistSet();
-  // PR T5 — sync the misses-shown checkbox + label with the persisted
-  // localStorage state before loadTrackRecord runs. Sticky-ON default.
-  hydrateMissesShownToggle();
   // PR #7: honor deep-link hash on boot if present, otherwise fall through
   // to the default picks tab. The router IIFE at the bottom of this file
   // ALSO listens for popstate, but boot needs explicit handling because
@@ -293,14 +290,6 @@ async function hydrateWatchlistSet() {
       watchlist = new Set(data.stocks.map((s) => s.symbol));
     }
   } catch { /* silent — non-critical */ }
-}
-
-function hydrateMissesShownToggle() {
-  const cb = document.getElementById("trackMissesShownToggle");
-  const lbl = document.getElementById("trackMissesShownLabel");
-  const on = getMissesShown();
-  if (cb) cb.checked = on;
-  if (lbl) lbl.textContent = on ? "Shown" : "Hidden";
 }
 
 // ==================== SNAPSHOT HEALTH BANNER ====================
@@ -3781,39 +3770,9 @@ function _trackTypeLabel(type) {
 // under-performed the index, as we predicted.
 const TRACK_SHORT_TYPES = new Set(["scanner_sell_top10", "earnings_miss_top10"]);
 
-// PR T5 — Track Record hero state. Misses-shown defaults ON per locked
-// decision (hiding losers destroys trust); we still persist user toggles
-// across reloads via localStorage, but the absence of a stored value or a
-// parse failure reverts to ON. Sticky-ON contract.
-const TRACK_MISSES_KEY = "starbhai_missesShown";
-function getMissesShown() {
-  try {
-    const raw = localStorage.getItem(TRACK_MISSES_KEY);
-    if (raw == null) return true; // default ON
-    return raw !== "off";
-  } catch {
-    return true; // localStorage disabled (private browsing) → in-memory ON
-  }
-}
-function setMissesShown(on) {
-  try { localStorage.setItem(TRACK_MISSES_KEY, on ? "on" : "off"); } catch {}
-}
-// Latest trades array captured by loadTrackRecord so the toggle can
-// re-render the history table without re-fetching.
-let _trackLastTrades = null;
 // PR B8 will populate this when the backtest endpoint ships; for now the
 // hero shows "—" with a backfilling sub-line.
 let _trackLastBrier = null;
-
-window.onTrackMissesShownToggle = function onTrackMissesShownToggle(on) {
-  setMissesShown(!!on);
-  const lbl = document.getElementById("trackMissesShownLabel");
-  if (lbl) lbl.textContent = on ? "Shown" : "Hidden";
-  const tableEl = document.getElementById("trackHistoryTable");
-  if (tableEl && Array.isArray(_trackLastTrades)) {
-    tableEl.innerHTML = renderTrackHistoryTable(_trackLastTrades);
-  }
-};
 
 // SEBI 10/10 — Wilson score 95% CI half-width for a proportion. Returns
 // null when n < 5 (too thin to be meaningful). Wilson is preferred over
@@ -4176,13 +4135,11 @@ async function loadTrackRecord(forceBust = false) {
       document.getElementById("trackByRegimeSection").innerHTML = "";
     }
 
-    // Trade history table — cache trades so the misses-shown toggle can
-    // re-render without re-fetching, then render once for the initial state.
-    _trackLastTrades = data.trades;
+    // Trade history table.
     tableEl.innerHTML = renderTrackHistoryTable(data.trades);
 
     // Phase 8D: Portfolio vs Nifty line chart (uses full trade set
-    // regardless of misses toggle — chart is the integrity record).
+    // chart is the integrity record).
     renderTrackChart(data.trades);
 
     if (updatedEl && data.lastComputedAt) {
@@ -4425,28 +4382,7 @@ function renderTrackHistoryTable(trades) {
     return `<div class="empty-state"><div class="empty-icon">&#128202;</div><div class="empty-text">No picks recorded yet for this filter.</div></div>`;
   }
 
-  // PR T5 — misses-shown toggle. Default ON (sticky-ON) per locked decision.
-  // When OFF, hide negative-return trades; the integrity-graded chart at
-  // renderTrackChart still uses the full set so visual hiding here can't
-  // mask the actual track record. A small inline note tells the reader.
-  const showMisses = (typeof getMissesShown === "function") ? getMissesShown() : true;
-  const totalCount = trades.length;
-  const visible = showMisses
-    ? trades
-    : trades.filter((t) => {
-        const r = t.returns || {};
-        return !(r.returnPct != null && r.returnPct < 0);
-      });
-  const hiddenCount = totalCount - visible.length;
-  const hiddenBanner = (!showMisses && hiddenCount > 0)
-    ? `<div class="tx-meta" style="padding: 10px 14px; margin-bottom: 10px; background: rgba(224,176,96,0.08); border: 1px solid rgba(224,176,96,0.25); border-radius: var(--radius-200);">
-        ${hiddenCount} losing pick${hiddenCount === 1 ? "" : "s"} hidden via the Misses toggle. <a href="#" onclick="event.preventDefault(); document.getElementById('trackMissesShownToggle').click();" style="color: var(--gold);">Show them</a> for the full record.
-      </div>`
-    : "";
-
-  if (visible.length === 0) {
-    return hiddenBanner + `<div class="empty-state"><div class="empty-icon">&#128202;</div><div class="empty-text">No picks visible under the current filters.</div></div>`;
-  }
+  const visible = trades;
 
   const rows = visible.map((t) => {
     const r = t.returns || {};
@@ -4489,7 +4425,7 @@ function renderTrackHistoryTable(trades) {
       </div>`;
   }).join("");
 
-  return hiddenBanner + `
+  return `
     <div style="display:grid;grid-template-columns:1fr 100px 90px 90px 90px 90px 70px;gap:12px;padding:8px 14px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">
       <div>Stock</div>
       <div>Type / Regime</div>

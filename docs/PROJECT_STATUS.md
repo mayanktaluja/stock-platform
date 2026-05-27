@@ -72,6 +72,11 @@ portfolio analyzer.
   top-up/basket surfaces as eligible but unfunded add candidates.
 
 ### Track Record credibility spotlight (May 2026)
+- **This PR** — Track Record headline history now has a deployed canonical seed
+  ledger under `data/track-record/` with the existing file/KV store layered on
+  top. Production no longer depends on mutable KV as the only historical copy,
+  `/api/track/stats` exposes seed/overlay diagnostics, and the SWS refresh
+  pipeline snapshots Track Record rows even when narration is skipped.
 - **This PR** — Track Record now excludes SWS Upcoming Earnings and Avoid from
   public metrics, filters, CSV export, calibration, section scorecards, and the
   India Market best-alpha spotlight. Those rows remain in storage for explicit
