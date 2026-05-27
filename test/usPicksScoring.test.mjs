@@ -168,9 +168,20 @@ check("(b) negative upside −45% → pts_fv_total 0, card upside negative", () 
   assert.ok(cardOf(s).upside_pct < 0);
 });
 
-check("(c) price 8× FV → junk suppressed (upside + FV null)", () => {
+check("(c) price to FV ratio 8× → valid under shared 10× reconcile policy", () => {
   const s = scoreStockUS(
     stock({ ticker: "JNK", overview: { current_price_inr: 100, fair_value_inr: 800, upside_pct: 700 } }),
+    { universe },
+  );
+  const card = cardOf(s);
+  assert.equal(card.upside_pct, 700);
+  assert.equal(card.fair_value_inr, 800);
+  assert.equal(card.fv_reconcile_reason, "ok");
+});
+
+check("(c2) price to FV ratio >10× → junk suppressed (upside + FV null)", () => {
+  const s = scoreStockUS(
+    stock({ ticker: "JNK2", overview: { current_price_inr: 100, fair_value_inr: 1100, upside_pct: 1000 } }),
     { universe },
   );
   const card = cardOf(s);

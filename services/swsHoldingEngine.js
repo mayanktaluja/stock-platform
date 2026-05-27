@@ -18,6 +18,7 @@
 // pulled from the `fiscal` and `overview.snowflake` blocks.
 
 import { scoreStock, num } from "./swsScoring.js";
+import { reconcileFairValue } from "./fvReconciliation.js";
 import * as dal from "./swsDal/index.js";
 import { crosscheckHolding } from "./swsLayerCrosscheck.js";
 import { extractCatalystSignals } from "./swsCatalystLayer.js";
@@ -114,52 +115,14 @@ function reconciledFvResult({ upside_pct, fair_value_inr, confidence, source }) 
 // raw quoted upside from placeholder FV can still inform research, but it is
 // not fundable capital.
 export function _reconcileFVUpside(ov) {
-  const price = num(ov?.current_price_inr, null);
-  const rawFv = num(ov?.fair_value_inr, null);
-  const rawUp = num(ov?.upside_pct, null);
-  const inSaneRange = (v) => v != null && Number.isFinite(v) && v >= -95 && v <= 500;
-
-  // Case A: both price + FV present.
-  if (price != null && price > 0 && rawFv != null && rawFv > 0) {
-    const ratio = rawFv / price;
-    // Plausible-ratio guard: a real DCF FV shouldn't be < 1/10 of the price
-    // or > 10× the price — anything outside that window is a scraper artefact.
-    if (ratio >= 0.1 && ratio <= 10) {
-      const computed = ((rawFv - price) / price) * 100;
-      // FV ≈ price (placeholder) → trust the SWS-quoted upside if sane.
-      if (Math.abs(computed) <= 1 && inSaneRange(rawUp)) {
-        return reconciledFvResult({
-          upside_pct: rawUp,
-          fair_value_inr: rawFv,
-          confidence: "MEDIUM_QUOTED",
-          source: "quoted_upside_placeholder_fv",
-        });
-      }
-      // Otherwise prefer the math.
-      return reconciledFvResult({
-        upside_pct: computed,
-        fair_value_inr: rawFv,
-        confidence: "HIGH",
-        source: "computed_fv_price",
-      });
-    }
-    // Implausible ratio → FV is junk; both fields nulled so the UI doesn't
-    // surface "(₹2 vs ₹548)" garbage.
-    return reconciledFvResult({
-      upside_pct: null,
-      fair_value_inr: null,
-      confidence: "LOW",
-      source: "implausible_fv",
-    });
-  }
-
-  // Case B: only one (or neither) present. Trust the SWS-quoted upside iff sane.
-  return reconciledFvResult({
-    upside_pct: inSaneRange(rawUp) ? rawUp : null,
-    fair_value_inr: rawFv,
-    confidence: inSaneRange(rawUp) ? "MEDIUM_QUOTED" : "NONE",
-    source: inSaneRange(rawUp) ? "quoted_upside_no_fv" : "missing",
-  });
+  const r = reconcileFairValue(ov);
+  return {
+    upside_pct: r.upside_pct,
+    fair_value_inr: r.fair_value_inr,
+    confidence: r.fair_value_confidence,
+    source: r.fair_value_source,
+    valuation_band: r.valuation_band || "UNKNOWN",
+  };
 }
 
 const NARRATIVE_RED = /declin|structurally\s*weak|promoter\s*(exit|pledge|stake)|governance|tax-loss|fraud|sebi/i;

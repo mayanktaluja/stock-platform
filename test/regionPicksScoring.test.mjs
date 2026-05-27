@@ -175,8 +175,15 @@ for (const code of ["kr", "tw"]) {
     assert.ok(cardOf(region, s).upside_pct < 0);
   });
 
-  check(`[${code}] (c) price 8× FV → junk suppressed (upside + FV null)`, () => {
+  check(`[${code}] (c) price to FV ratio 8× → valid under shared 10× reconcile policy`, () => {
     const s = scoreStockRegion(stock(region, { ticker: "JNK" + dot, overview: { current_price_inr: 100, fair_value_inr: 800, upside_pct: 700 } }), region, { universe });
+    const card = cardOf(region, s);
+    assert.equal(card.upside_pct, 700);
+    assert.equal(card.fair_value_inr, 800);
+  });
+
+  check(`[${code}] (c2) price to FV ratio >10× → junk suppressed (upside + FV null)`, () => {
+    const s = scoreStockRegion(stock(region, { ticker: "JNK2" + dot, overview: { current_price_inr: 100, fair_value_inr: 1100, upside_pct: 1000 } }), region, { universe });
     const card = cardOf(region, s);
     assert.equal(card.upside_pct, null);
     assert.equal(card.fair_value_inr, null);

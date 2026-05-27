@@ -12,6 +12,11 @@ try {
 } catch {}
 
 import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.js";
+import {
+  reconcileFairValue,
+  valuationBandFromUpside as canonicalValuationBandFromUpside,
+  withReconciledFairValue,
+} from "./fvReconciliation.js";
 
 export const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
@@ -311,12 +316,7 @@ export function _percentileRank(value, sorted) {
 // (HEROMOTOCO showing `verdict=OVERVALUED` and `v4_verdict=TOP_PICK` under a
 // single "Verdict" UI label).
 export function valuationBandFromUpside(upside) {
-  if (upside == null || !Number.isFinite(upside)) return null;
-  if (upside >= 25) return "DEEP_DISCOUNT";
-  if (upside >= 10) return "DISCOUNT";
-  if (upside >= -5) return "FAIR";
-  if (upside >= -20) return "PREMIUM";
-  return "EXPENSIVE";
+  return canonicalValuationBandFromUpside(upside);
 }
 
 // v3-aware categorisation — mirror of scripts/sws-scoring.mjs::categoriseStock.
@@ -381,32 +381,38 @@ export function categoriseStock(stock) {
 }
 
 export function scoreStock(stock, opts = {}) {
-  const sc = computeCompositeScore(stock);
+  const scoringStock = withReconciledFairValue(stock);
+  const sc = computeCompositeScore(scoringStock);
   stock.composite_score_100 = sc.composite_score_100;
   stock.score_breakdown = sc.breakdown;
   stock.forward_growth_used_pct = sc.forward_growth_used_pct;
   stock.verdict = verdictFromScore(sc.composite_score_100);
-  const v2 = computeV2Score(stock);
+  scoringStock.composite_score_100 = sc.composite_score_100;
+  const v2 = computeV2Score(scoringStock);
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
   // v4 — the platform's sole composite score. opts.universe must be provided
   // (loaded via swsHoldingEngine.loadV3Universe) for calibrated momentum
   // percentiles; without it momentum neutral-imputes. Verdict is absolute.
-  const v4 = computeV4Score(stock, opts);
+  const v4 = computeV4Score(scoringStock, opts);
   stock.v4_score_100 = v4.v4_score_100;
   stock.v4_breakdown = v4.v4_breakdown;
   stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
   // Categorise AFTER v4 — categories key off v4_verdict.
-  stock.categories = categoriseStock(stock);
+  scoringStock.v4_score_100 = v4.v4_score_100;
+  scoringStock.v4_breakdown = v4.v4_breakdown;
+  scoringStock.v4_verdict = stock.v4_verdict;
+  stock.categories = categoriseStock(scoringStock);
   return stock;
 }
 
 function shortReason(stock) {
   const ov = stock.overview || {};
+  const reconciled = reconcileFairValue(ov);
   const bits = [];
   const pe = ov.multiples && ov.multiples.pe;
   if (pe != null) bits.push(`P/E ${pe.toFixed(1)}x`);
-  if (ov.upside_pct != null) bits.push(`${ov.upside_pct > 0 ? "+" : ""}${ov.upside_pct.toFixed(1)}% to fair value`);
+  if (reconciled.upside_pct != null) bits.push(`${reconciled.upside_pct > 0 ? "+" : ""}${reconciled.upside_pct.toFixed(1)}% to fair value`);
   const dY = ov.dividend && ov.dividend.yield_pct;
   if (dY != null && dY >= 1.5) bits.push(`${dY.toFixed(1)}% div`);
   const sn = ov.snowflake_total;
@@ -416,6 +422,7 @@ function shortReason(stock) {
 
 export function pickCardFields(stock) {
   const ov = stock.overview || {};
+  const reconciled = reconcileFairValue(ov);
   return {
     ticker: stock.ticker,
     name: stock.name || stock.ticker,
@@ -435,12 +442,15 @@ export function pickCardFields(stock) {
     //   composite_verdict: multi-factor quality (TOP_PICK / STRONG / …)
     //   valuation_band:    price vs AnalystConsensus FV (DISCOUNT / FAIR / …)
     composite_verdict: stock.v4_verdict,
-    valuation_band: valuationBandFromUpside(ov.upside_pct),
+    valuation_band: reconciled.valuation_band,
     snowflake_total: ov.snowflake_total,
     snowflake: ov.snowflake,
     current_price_inr: ov.current_price_inr,
-    fair_value_inr: ov.fair_value_inr,
-    upside_pct: ov.upside_pct,
+    fair_value_inr: reconciled.fair_value_inr,
+    upside_pct: reconciled.upside_pct,
+    fv_reconcile_reason: reconciled.fv_reconcile_reason,
+    fair_value_confidence: reconciled.fair_value_confidence,
+    fair_value_source: reconciled.fair_value_source,
     market_cap_inr: ov.market_cap_inr,
     returns_pct: compactReturnsPct(ov.returns_pct),
     next_earnings_date: ov.next_earnings_date,

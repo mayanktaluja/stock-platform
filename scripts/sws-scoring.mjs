@@ -9,6 +9,11 @@ import path from "node:path";
 import { PATHS } from "./sws-config.mjs";
 import { computeV4Score, verdictV4FromScore, buildFvCompositeIndustryAverages } from "./swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
+import {
+  reconcileFairValue,
+  valuationBandFromUpside as canonicalValuationBandFromUpside,
+  withReconciledFairValue,
+} from "../services/fvReconciliation.js";
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
 // Loaded once at module init; the underlying snapshot is cached in surveillance.js.
@@ -243,12 +248,7 @@ export function verdictFromScore(score) {
 // the two implementations in lockstep so the picks JSON written by the
 // offline pipeline matches what the live API emits.
 export function valuationBandFromUpside(upside) {
-  if (upside == null || !Number.isFinite(upside)) return null;
-  if (upside >= 25) return "DEEP_DISCOUNT";
-  if (upside >= 10) return "DISCOUNT";
-  if (upside >= -5) return "FAIR";
-  if (upside >= -20) return "PREMIUM";
-  return "EXPENSIVE";
+  return canonicalValuationBandFromUpside(upside);
 }
 
 // ---------- v2 score: multi-factor with risk overlay ----------
@@ -581,23 +581,28 @@ export function categoriseStock(stock) {
 // v3 momentum falls back to neutral and the breakdown flags it.
 
 export function scoreStock(stock, opts = {}) {
-  const sc = computeCompositeScore(stock);
+  const scoringStock = withReconciledFairValue(stock);
+  const sc = computeCompositeScore(scoringStock);
   stock.composite_score_100 = sc.composite_score_100;
   stock.score_breakdown = sc.breakdown;
   stock.forward_growth_used_pct = sc.forward_growth_used_pct;
   stock.verdict = verdictFromScore(sc.composite_score_100);
   // v2 layered on top — needs v1 score in place first.
-  const v2 = computeV2Score(stock);
+  scoringStock.composite_score_100 = sc.composite_score_100;
+  const v2 = computeV2Score(scoringStock);
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
   // v4 — the platform's sole composite score. Verdict is ABSOLUTE (no bands),
   // resolved directly here so every call site gets it.
-  const v4 = computeV4Score(stock, opts);
+  const v4 = computeV4Score(scoringStock, opts);
   stock.v4_score_100 = v4.v4_score_100;
   stock.v4_breakdown = v4.v4_breakdown;
   stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
   // Categorise AFTER v4 — categories key off v4_verdict.
-  stock.categories = categoriseStock(stock);
+  scoringStock.v4_score_100 = v4.v4_score_100;
+  scoringStock.v4_breakdown = v4.v4_breakdown;
+  scoringStock.v4_verdict = stock.v4_verdict;
+  stock.categories = categoriseStock(scoringStock);
   return stock;
 }
 
@@ -619,21 +624,19 @@ function shortReason(stock, reconciled = null) {
   return bits.slice(0, 4).join(" · ");
 }
 
-// Sanitize fair-value / upside_pct on the leaderboard card. Mirrors the
-// holding-engine logic in services/swsHoldingEngine.js::_reconcileFVUpside —
-// raw SWS data sometimes ships an FV that's >10× or <0.1× the current price
-// (scraper artefact / placeholder), or an upside_pct in junk territory like
-// -3671% / +1316%. Without this guard the Avoid list would surface "FV ₹442
-// vs ₹31, +1316% upside" rows that are visually loud and informationally
-// useless.
+// Sanitize fair-value / upside_pct on the leaderboard card via the shared
+// services/fvReconciliation.js policy. Raw SWS data sometimes ships an FV
+// outside 0.1×–10× price (scraper artefact / placeholder), or an upside_pct in
+// junk territory like -3671% / +1316%. Without this guard the cards, categories
+// and V4 FV block can disagree with the stock-detail modal.
 // Returns { upside_pct, fair_value_inr, fv_reconcile_reason }. The reason
 // is one of:
 //   - "ok"                       FV passed all sanity gates, kept as-is
 //   - "ok_using_provided_upside" raw upside agrees with computed; kept raw
 //   - "source_fv_missing"        deep file had no fair_value_inr / non-positive
 //   - "source_price_missing"     deep file had no current_price_inr / non-positive
-//   - "junk_ratio_low"           FV/price < 0.2 → scraper artefact, suppressed
-//   - "junk_ratio_high"          FV/price > 5   → scraper artefact, suppressed
+//   - "junk_ratio_low"           FV/price < 0.1 → scraper artefact, suppressed
+//   - "junk_ratio_high"          FV/price > 10  → scraper artefact, suppressed
 //
 // PR-A2 (2026-05-18): the `fv_reconcile_reason` field was added in response
 // to audit finding #4 — "28% of upcoming_earnings rows have null FV". The
@@ -642,56 +645,7 @@ function shortReason(stock, reconciled = null) {
 // future audit instantly tell "source genuinely missing" apart from "scraper
 // junk suppressed", without re-walking the deep/ JSON tree.
 export function _reconcilePickFV(ov) {
-  const price = num(ov?.current_price_inr, null);
-  const rawFv = num(ov?.fair_value_inr, null);
-  const rawUp = num(ov?.upside_pct, null);
-  // Leaderboard inSaneRange is tighter than the holding engine's: deep-value
-  // calls cluster in the +30–100% band, so anything above +400% is almost
-  // certainly a scraper artefact bleeding into a public-facing card.
-  const inSaneRange = (v) => v != null && Number.isFinite(v) && v >= -90 && v <= 400;
-
-  const priceOk = price != null && price > 0;
-  const fvOk = rawFv != null && rawFv > 0;
-
-  if (priceOk && fvOk) {
-    const ratio = rawFv / price;
-    // 0.2 / 5 → upside band [-80%, +400%]. A stock fairly valued at 5× the
-    // current price is exceptionally rare; in SWS scrapes it's almost always
-    // a placeholder/junk value. Holding engine keeps a wider 0.1 / 10 gate
-    // because portfolio context is different (user already owns the stock).
-    if (ratio >= 0.2 && ratio <= 5) {
-      const computed = ((rawFv - price) / price) * 100;
-      if (Math.abs(computed) <= 1 && inSaneRange(rawUp)) {
-        return {
-          upside_pct: Math.round(rawUp * 10) / 10,
-          fair_value_inr: rawFv,
-          fv_reconcile_reason: "ok_using_provided_upside",
-        };
-      }
-      return {
-        upside_pct: Math.round(computed * 10) / 10,
-        fair_value_inr: rawFv,
-        fv_reconcile_reason: "ok",
-      };
-    }
-    return {
-      upside_pct: null,
-      fair_value_inr: null,
-      fv_reconcile_reason: ratio < 0.2 ? "junk_ratio_low" : "junk_ratio_high",
-    };
-  }
-
-  // Source-side problems. We still preserve a sane upside_pct if SWS gave one,
-  // but the FV itself can only fall through when present (it must be > 0).
-  return {
-    upside_pct: inSaneRange(rawUp) ? Math.round(rawUp * 10) / 10 : null,
-    fair_value_inr: fvOk ? rawFv : null,
-    fv_reconcile_reason: !priceOk
-      ? "source_price_missing"
-      : !fvOk
-        ? "source_fv_missing"
-        : "ok",
-  };
+  return reconcileFairValue(ov);
 }
 
 export function pickCardFields(stock) {
@@ -722,6 +676,8 @@ export function pickCardFields(stock) {
     fair_value_inr: reconciled.fair_value_inr,
     upside_pct: reconciled.upside_pct,
     fv_reconcile_reason: reconciled.fv_reconcile_reason,
+    fair_value_confidence: reconciled.fair_value_confidence,
+    fair_value_source: reconciled.fair_value_source,
     market_cap_inr: ov.market_cap_inr,
     returns_pct: compactReturnsPct(ov.returns_pct),
     next_earnings_date: ov.next_earnings_date,
@@ -764,6 +720,9 @@ function slimUniverseEntry(stock, inSections) {
     current_price_inr: card.current_price_inr,
     fair_value_inr: card.fair_value_inr,
     upside_pct: card.upside_pct,
+    fv_reconcile_reason: card.fv_reconcile_reason,
+    fair_value_confidence: card.fair_value_confidence,
+    fair_value_source: card.fair_value_source,
     market_cap_inr: card.market_cap_inr,
     one_line: card.one_line,
     data_freshness_at: card.data_freshness_at,
@@ -882,7 +841,10 @@ export function runFullScoring() {
   // over the universe, micro-caps (< ₹500cr) excluded. computeV4Score reads
   // universe.fvBenchmark for the magnitude-aware analyst-upside leg.
   universe.fvBenchmark = buildFvUpsideBenchmark(
-    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    loaded.map((s) => ({
+      upside_pct: reconcileFairValue(s?.overview).upside_pct,
+      market_cap_inr: s?.overview?.market_cap_inr,
+    })),
     { microCapFloorInr: 5e9 },
   );
   universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);
@@ -1010,7 +972,10 @@ export function rebuildUniverseStatsOnly() {
   }
   const universe = buildUniverseStats(loaded);
   universe.fvBenchmark = buildFvUpsideBenchmark(
-    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    loaded.map((s) => ({
+      upside_pct: reconcileFairValue(s?.overview).upside_pct,
+      market_cap_inr: s?.overview?.market_cap_inr,
+    })),
     { microCapFloorInr: 5e9 },
   );
   universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);

@@ -30,6 +30,7 @@ import {
 } from "./sws-scoring.mjs";
 import { computeV4Score, verdictV4FromScore, buildFvCompositeIndustryAverages } from "./swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
+import { reconcileFairValue, withReconciledFairValue } from "../services/fvReconciliation.js";
 
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 
@@ -90,23 +91,28 @@ export function categoriseStockUS(stock) {
 // avoids a freak ticker-string collision). Score MATH is the imported India
 // implementation, so US/India scores stay aligned.
 export function scoreStockUS(stock, opts = {}) {
-  const sc = computeCompositeScore(stock);
+  const scoringStock = withReconciledFairValue(stock);
+  const sc = computeCompositeScore(scoringStock);
   stock.composite_score_100 = sc.composite_score_100;
   stock.score_breakdown = sc.breakdown;
   stock.forward_growth_used_pct = sc.forward_growth_used_pct;
   stock.verdict = verdictFromScore(sc.composite_score_100);
 
-  const v2 = computeV2Score(stock, { surveillanceFlag: false });
+  scoringStock.composite_score_100 = sc.composite_score_100;
+  const v2 = computeV2Score(scoringStock, { surveillanceFlag: false });
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
 
   // v4 — the platform's sole composite score (surveillance off for US).
-  const v4 = computeV4Score(stock, { ...opts, surveillanceFlag: false });
+  const v4 = computeV4Score(scoringStock, { ...opts, surveillanceFlag: false });
   stock.v4_score_100 = v4.v4_score_100;
   stock.v4_breakdown = v4.v4_breakdown;
   stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
 
-  stock.categories = categoriseStockUS(stock);
+  scoringStock.v4_score_100 = v4.v4_score_100;
+  scoringStock.v4_breakdown = v4.v4_breakdown;
+  scoringStock.v4_verdict = stock.v4_verdict;
+  stock.categories = categoriseStockUS(scoringStock);
   return stock;
 }
 
@@ -140,6 +146,9 @@ function slimUniverseEntryUS(stock, inSections) {
     current_price_inr: card.current_price_inr,
     fair_value_inr: card.fair_value_inr,
     upside_pct: card.upside_pct,
+    fv_reconcile_reason: card.fv_reconcile_reason,
+    fair_value_confidence: card.fair_value_confidence,
+    fair_value_source: card.fair_value_source,
     market_cap_inr: card.market_cap_inr,
     one_line: card.one_line,
     data_freshness_at: card.data_freshness_at,
@@ -225,7 +234,10 @@ export function runFullScoringUS() {
   // Relative FV-upside benchmark (PR #426/#431) — the US $50M floor excludes
   // shells/dead SPACs. Currency-neutral: floor + market_cap_inr both native USD.
   universe.fvBenchmark = buildFvUpsideBenchmark(
-    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    loaded.map((s) => ({
+      upside_pct: reconcileFairValue(s?.overview).upside_pct,
+      market_cap_inr: s?.overview?.market_cap_inr,
+    })),
     { microCapFloorInr: MIN_MCAP_USD },
   );
   universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);

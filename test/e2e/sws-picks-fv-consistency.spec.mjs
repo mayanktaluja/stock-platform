@@ -127,6 +127,27 @@ test.describe("/api/sws-picks Fair-Value consistency vs /api/sws-stock/:t", () =
     ).toEqual([]);
   });
 
+  test("ALEMBICLTD-like high but plausible FV is corrected from deep snapshot", async ({ request }) => {
+    const picksRes = await request.get("/api/sws-picks");
+    if (picksRes.status() === 404) return;
+    expect(picksRes.status()).toBe(200);
+    const picks = await picksRes.json();
+    const rows = Object.values(picks.sections || {}).flatMap((items) => Array.isArray(items) ? items : []);
+    const alembic = rows.find((it) => it?.ticker === "ALEMBICLTD");
+    test.skip(!alembic, "ALEMBICLTD is not present in today's picks sections");
+
+    expect(alembic.fair_value_inr).toBeGreaterThan(700);
+    expect(alembic.upside_pct).toBeGreaterThan(700);
+    expect(alembic.fv_reconcile_reason).toBe("ok");
+
+    const stockRes = await request.get("/api/sws-stock/ALEMBICLTD");
+    expect(stockRes.status()).toBe(200);
+    const stock = await stockRes.json();
+    expect(stock.card.fair_value_inr).toBe(alembic.fair_value_inr);
+    expect(stock.card.upside_pct).toBe(alembic.upside_pct);
+    expect(stock.card.fv_reconcile_reason).toBe("ok");
+  });
+
   test("when _fv_drift is set on a row, the row's fair_value_inr was overwritten to snap value", async ({ request }) => {
     const r = await request.get("/api/sws-picks");
     if (r.status() === 404) return;
