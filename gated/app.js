@@ -2380,9 +2380,6 @@ function renderSebiDisclosure(stock, type) {
         ` : ""}
         <div><strong style="color:var(--text-secondary);">Methodology weights:</strong> ${weightsLine}</div>
         <div><strong style="color:var(--text-secondary);">Data as of:</strong> ${dataAsOfPretty}</div>
-        <div style="margin-top:8px;font-style:italic;font-size:10px;">
-          Educational content only.
-        </div>
       </div>
     </details>
   `;
@@ -2408,7 +2405,6 @@ function renderMethodologyFooter(methodology) {
     <div class="methodology-footer" style="margin-top:18px;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;line-height:1.55;">
       <div><strong style="color:var(--text-secondary);">Combined Score</strong> · Tech ${wp.tech || 0}% · Fund ${wp.fund || 0}% · SWS ${wp.sws || 0}% · v=${methodology.version || "—"}</div>
       <div>Sources: ${sources} · SWS last refresh: ${refresh} (${methodology.swsScoredCount || 0} stocks)</div>
-      <div style="margin-top:4px;font-style:italic;">Educational content only.</div>
     </div>`;
 }
 
@@ -3715,7 +3711,7 @@ function renderNewsPage(digest, verdict, heatmap) {
         <div style="display:flex;flex-direction:column;gap:6px;">
           ${signalRows}
         </div>
-        <div style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">5-signal composite · Score: ${verdict.score} · Educational content only</div>
+        <div style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">5-signal composite · Score: ${verdict.score}</div>
       </div>
     `;
   }
@@ -3782,7 +3778,7 @@ function renderNewsPage(digest, verdict, heatmap) {
           </div>
         ` : ""}
 
-        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII · Educational content only</div>
+        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII</div>
       </div>
     `;
   }
@@ -4775,7 +4771,7 @@ function renderStockVerdictCard(sv) {
         <div style="display:flex;flex-direction:column;gap:4px;">
           ${signalRows}
         </div>
-        <div style="margin-top:10px;font-size:9px;color:var(--text-muted);text-align:right;">Stock + market composite · Educational content only</div>
+        <div style="margin-top:10px;font-size:9px;color:var(--text-muted);text-align:right;">Stock + market composite</div>
       </div>
     </div>`;
 }
@@ -6872,7 +6868,7 @@ function renderSWSEarningsCalendar(report) {
 // portfolioDividendService.js. Rows are SWS-news-sourced; format is templated
 // so DPS + ex_date + record_date are parsed structurally from the body.
 // Section header is factual ("Dividends to capture") — the site-wide
-// #sebiSiteFooter ("Educational content only") is the canonical disclaimer.
+// #sebiSiteFooter is the canonical site-wide disclosure.
 function renderSWSDividendCalendar(report) {
   const all = Object.values(report?.holdingsByAction || {}).flat();
   const seen = new Set();
@@ -7795,7 +7791,7 @@ function notAdviceChip(mode = "default") {
   const style = mode === "inline"
     ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(250,204,21,0.10); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.25); text-transform:uppercase; vertical-align:middle;"
     : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(250,204,21,0.08); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.2); text-transform:uppercase;";
-  return `<span style="${style}" title="Educational content only.">${text}</span>`;
+  return `<span style="${style}">${text}</span>`;
 }
 
 // Data-freshness badge. `ageSec` is how old the quote cache might be;
