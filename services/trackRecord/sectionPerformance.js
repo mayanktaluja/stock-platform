@@ -3,7 +3,7 @@
  *
  * This module is intentionally pure: it turns a picks-latest snapshot into
  * one row per SWS section, then computes short-window section alpha with a
- * single shared Nifty 500 benchmark return per timeframe.
+ * single shared Nifty 50 benchmark return per timeframe.
  */
 
 import { fetchSchemeHistory } from "../../mfNavIngestion.js";
@@ -19,7 +19,7 @@ export const SECTION_PERFORMANCE_SCHEMA_VERSION = "sws-section-performance-v1";
 export const SECTION_PERFORMANCE_TOP_N = 10;
 export const SECTION_PERFORMANCE_COHORT_SIZES = [3, 5, 10, 20];
 export const SECTION_PERFORMANCE_TIMEFRAMES = ["7d", "30d"];
-export const DEFAULT_SECTION_BENCHMARK_PROXY = "nifty500_tri";
+export const DEFAULT_SECTION_BENCHMARK_PROXY = "nifty50_tri";
 
 export const SWS_SECTION_PERFORMANCE_REGISTRY = {
   top_ranked_30_v3: {
@@ -132,8 +132,8 @@ function latestNav(series) {
   return null;
 }
 
-async function fetchBenchmarkSeries() {
-  const proxy = PROXY_REGISTRY[DEFAULT_SECTION_BENCHMARK_PROXY];
+async function fetchBenchmarkSeries(proxyKey = DEFAULT_SECTION_BENCHMARK_PROXY) {
+  const proxy = PROXY_REGISTRY[proxyKey];
   if (!proxy?.schemeCode) return null;
   return fetchSchemeHistory(proxy.schemeCode);
 }
@@ -505,8 +505,8 @@ export function normalizeSectionPerformanceWindows(windows) {
   return out.length ? [...new Set(out)] : [...SECTION_PERFORMANCE_TIMEFRAMES];
 }
 
-export async function getLatestBenchmarkReturns(windows = SECTION_PERFORMANCE_TIMEFRAMES, series = null) {
-  const resolvedSeries = series || await fetchBenchmarkSeries().catch(() => null);
+export async function getLatestBenchmarkReturns(windows = SECTION_PERFORMANCE_TIMEFRAMES, series = null, proxyKey = DEFAULT_SECTION_BENCHMARK_PROXY) {
+  const resolvedSeries = series || await fetchBenchmarkSeries(proxyKey).catch(() => null);
   const latest = latestNav(resolvedSeries);
   if (!latest) return {};
   const out = {};
@@ -530,6 +530,7 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
   const actualCohortSize = section.actual_cohort_size || perf.actual_cohort_size || perf.n_constituents || 0;
   const label = section.cohort_label || perf.cohort_label || cohortLabel(requestedCohortSize, actualCohortSize);
   const coveragePct = perf.coverage_pct;
+  const side = section.side || perf.side || "LONG";
   const eligibleForBanner =
     perf.beat_benchmark === true &&
     Number.isFinite(perf.alpha_pct) &&
@@ -541,7 +542,7 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
     type: section.type,
     sectionKey: section.sectionKey,
     label: section.label,
-    side: section.side,
+    side,
     requestedCohortSize,
     actualCohortSize,
     cohortLabel: label,
@@ -782,7 +783,7 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
     .filter((r) => r?.dateKey && Array.isArray(r.constituents) && cohortSet.has(r.requested_cohort_size));
   const dates = [...new Set(allRows.map((r) => r.dateKey))].sort();
   const priceMaps = buildPriceMapsByDate(allRows);
-  const benchmarkSeries = opts.benchmarkSeries || await fetchBenchmarkSeries().catch(() => null);
+  const benchmarkSeries = opts.benchmarkSeries || opts.benchmarkSeriesByProxy?.[DEFAULT_SECTION_BENCHMARK_PROXY] || await fetchBenchmarkSeries(DEFAULT_SECTION_BENCHMARK_PROXY).catch(() => null);
   const rowsByDate = new Map();
   for (const row of allRows) {
     if (!rowsByDate.has(row.dateKey)) rowsByDate.set(row.dateKey, []);
@@ -848,6 +849,7 @@ export async function getSectionPerformancePayload(opts = {}) {
     windows,
     cohorts,
     benchmarkSeries: opts.benchmarkSeries,
+    benchmarkSeriesByProxy: opts.benchmarkSeriesByProxy,
   });
   if (resolved.bestOverall) return resolved;
   if (opts.picksData) {
