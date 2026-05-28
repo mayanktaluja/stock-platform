@@ -3,7 +3,7 @@
   "name": "Laxmi Cotspin Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-laxmicot/laxmi-cotspin-shares",
-  "parsed_at": "2026-05-26T12:05:40.063Z",
+  "parsed_at": "2026-05-28T16:23:29.788Z",
   "company_id": "D29064E5-5CAE-458F-BE73-33C12E58EA3F",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,9 +70,9 @@
         }
       ]
     },
-    "current_price_inr": 14.5,
-    "market_cap_inr": 248641245.18022263,
-    "market_cap_usd": 127136193103.04,
+    "current_price_inr": 13.93,
+    "market_cap_inr": 238867072.09382766,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -82,7 +82,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.91846896551723,
+    "upside_pct": -99.91513280689159,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -90,8 +90,8 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -103,7 +103,7 @@
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹248M)"
+      "Does not have a meaningful market cap (₹239M)"
     ],
     "dividend": {
       "yield_pct": 3.8236172814,
@@ -141,22 +141,31 @@
       "payment_count": 2
     },
     "dividend_yield_pct": 3.8236172814,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 17.782305335,
+      "net_income_margin_1y": 0.057595675,
+      "future_revenue_growth_3y": 0.4120891572
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Consumer Durables",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 17.782305335,
+      "industry_name": "Consumer Durables",
+      "industry_code": "4130000",
+      "sample_count": 297,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -169,10 +178,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.488832552,
+        "industry_pe": 17.782305335,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 295,
+        "count": 297,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,7 +191,7 @@
       },
       "internal_median": {
         "industry_pe": 17,
-        "sample_count": 295,
+        "sample_count": 297,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -194,8 +203,26 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 14.5,
-        "fetched_at": "2026-05-26T12:05:40.063Z",
+        "value": 13.93,
+        "fetched_at": "2026-05-28T16:23:29.788Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-laxmicot/laxmi-cotspin-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 17.782305335,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.057595675,
+        "fetched_at": "2026-05-28T16:23:29.788Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-laxmicot/laxmi-cotspin-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4120891572,
+        "fetched_at": "2026-05-28T16:23:29.788Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-laxmicot/laxmi-cotspin-shares"
       }
     },
@@ -222,12 +249,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.27662517289072713,
-      "7D": 5.5312954876273634,
-      "1M": -3.9735099337748316,
-      "3M": -14.655679811653908,
-      "6M": -30.086788813886205,
-      "1Y": -47.00292397660819,
+      "1D": -3.9310344827586228,
+      "7D": -3.061934585942933,
+      "1M": -7.687210072895959,
+      "3M": -13.746130030959748,
+      "6M": -31.311637080867854,
+      "1Y": -47.314674735249625,
       "5Y": null
     },
     "next_earnings_date": null,

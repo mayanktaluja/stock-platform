@@ -3,7 +3,7 @@
   "name": "Achyut Healthcare Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-543499/achyut-healthcare-shares",
-  "parsed_at": "2026-05-26T13:30:23.069Z",
+  "parsed_at": "2026-05-28T17:50:09.084Z",
   "company_id": "B06C1076-D5F8-4122-9A95-EA11305EAB85",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,9 +70,9 @@
         }
       ]
     },
-    "current_price_inr": 5.78,
-    "market_cap_inr": 1395043432.9695065,
-    "market_cap_usd": 127136193103.04,
+    "current_price_inr": 5.7,
+    "market_cap_inr": 1375734873.3436308,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -90,8 +90,8 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -112,22 +112,31 @@
       "payment_count": 0
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 42.443243051,
+      "net_income_margin_1y": 0.1248450889,
+      "future_revenue_growth_3y": 0.8140386396
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Healthcare",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 42.443243051,
+      "industry_name": "Healthcare",
+      "industry_code": "6030000",
+      "sample_count": 79,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -135,12 +144,12 @@
         "company_pe": null,
         "industry_pe": 2.5,
         "industry_name": "Indian Healthcare",
-        "description": "543499 is expensive based on its Price-To-Sales Ratio (16.9x) compared to the Indian Healthcare industry average (2.5x).",
+        "description": "543499 is expensive based on its Price-To-Sales Ratio (17.2x) compared to the Indian Healthcare industry average (2.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 41.712688979,
+        "industry_pe": 42.443243051,
         "industry_code": "6030000",
         "type": "median_profitable",
         "count": 79,
@@ -152,8 +161,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.8,
-        "sample_count": 74,
+        "industry_pe": 36.6,
+        "sample_count": 73,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
@@ -165,8 +174,26 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5.78,
-        "fetched_at": "2026-05-26T13:30:23.069Z",
+        "value": 5.7,
+        "fetched_at": "2026-05-28T17:50:09.084Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/bse-543499/achyut-healthcare-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 42.443243051,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1248450889,
+        "fetched_at": "2026-05-28T17:50:09.084Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/bse-543499/achyut-healthcare-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.8140386396,
+        "fetched_at": "2026-05-28T17:50:09.084Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-543499/achyut-healthcare-shares"
       }
     },
@@ -193,12 +220,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.5217391304347869,
-      "7D": 14.455445544554465,
-      "1M": 6.642066420664213,
-      "3M": 8.239700374531843,
-      "6M": 0.5217391304347869,
-      "1Y": 72.53731343283583,
+      "1D": -1.3840830449827002,
+      "7D": 5.16605166051661,
+      "1M": 6.542056074766365,
+      "3M": 10.251450676982596,
+      "6M": -2.3972602739725972,
+      "1Y": 68.14159292035397,
       "5Y": null
     },
     "next_earnings_date": null,

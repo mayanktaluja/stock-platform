@@ -3,7 +3,7 @@
   "name": "Royal Sense Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares",
-  "parsed_at": "2026-05-26T13:31:38.905Z",
+  "parsed_at": "2026-05-28T17:51:27.706Z",
   "company_id": "379A2234-FCCF-42CA-8E50-0D3091449B82",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,24 +11,23 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 4,
+      "past": 1,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 4,
+      "past_performance": 1,
       "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 13,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -46,7 +45,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
@@ -71,9 +70,9 @@
         }
       ]
     },
-    "current_price_inr": 130.35,
-    "market_cap_inr": 697391551.315591,
-    "market_cap_usd": 127136193103.04,
+    "current_price_inr": 133,
+    "market_cap_inr": 711569438.6265715,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -83,9 +82,9 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.66156425009589,
+    "upside_pct": -98.68823233082706,
     "multiples": {
-      "pe": 8.7,
+      "pe": 9.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -94,20 +93,21 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-28T17:51:27.706Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares"
     },
     "rewards": [
-      "Price-To-Earnings ratio (8.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (9.9x) is below the Indian market (23.5x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 184.9% over the past year",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Earnings have grown 43% per year over the past 5 years"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹758M)",
+      "Does not have a meaningful market cap (₹712M)",
       "High level of [[non-cash earnings]]",
-      "Highly volatile share price over past 3 months"
+      "Highly volatile share price over past 3 months",
+      "Profit margins (6.9%) are lower than last year (10.3%)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -119,36 +119,43 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 42.8
+      "pe": 42.443243051,
+      "net_income_margin_1y": 0.1248450889,
+      "future_revenue_growth_3y": 0.8140386396
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Healthcare",
+      "pe_industry_name": "Healthcare",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
-      "company_pe": 8.7,
-      "industry_pe": 42.8,
-      "industry_name": "Indian Healthcare"
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
+      "company_pe": 9.9,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 42.443243051,
+      "industry_name": "Healthcare",
+      "industry_code": "6030000",
+      "sample_count": 79,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 8.7,
-        "industry_pe": 42.8,
+        "company_pe": 9.9,
+        "industry_pe": 42.4,
         "industry_name": "Indian Healthcare",
-        "description": "544143 is good value based on its Price-To-Earnings Ratio (8.7x) compared to the Indian Healthcare industry average (42.8x).",
+        "description": "544143 is good value based on its Price-To-Earnings Ratio (9.9x) compared to the Indian Healthcare industry average (42.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 41.712688979,
+        "industry_pe": 42.443243051,
         "industry_code": "6030000",
         "type": "median_profitable",
         "count": 79,
@@ -160,8 +167,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.8,
-        "sample_count": 74,
+        "industry_pe": 36.6,
+        "sample_count": 73,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
@@ -173,8 +180,32 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 130.35,
-        "fetched_at": "2026-05-26T13:31:38.905Z",
+        "value": 133,
+        "fetched_at": "2026-05-28T17:51:27.706Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 9.9,
+        "fetched_at": "2026-05-28T17:51:27.706Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 42.443243051,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1248450889,
+        "fetched_at": "2026-05-28T17:51:27.706Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.8140386396,
+        "fetched_at": "2026-05-28T17:51:27.706Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-544143/royal-sense-shares"
       }
     },
@@ -201,16 +232,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -8.009880028228649,
-      "7D": -2.7238805970149294,
-      "1M": -12.92585170340681,
-      "3M": -24.237140366172632,
-      "6M": -36.87651331719128,
-      "1Y": -43.20261437908497,
+      "1D": 2.0329881089374804,
+      "7D": -0.7462686567164178,
+      "1M": -6.469760900140639,
+      "3M": -22.674418604651162,
+      "6M": -35.24829600778968,
+      "1Y": -45.49180327868852,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -285,6 +316,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "a31900d0-2a6d-4b1a-98ac-57bbfd744aeb",
+      "type": "brief",
+      "date": "2026-05-27T17:20:15.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹13.37 (vs ₹12.74 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹13.37 (up from ₹12.74 in FY 2025). Revenue: ₹1.03b (up 68% from FY 2025). Net income: ₹71.5m (up 13% from FY 2025). Profit margin: 6.9% (down from 10% in FY 2025). The decrease in margin was driven by higher expenses.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "a83d412f-4495-4398-ab53-2f3e90d002b8",
       "type": "event",

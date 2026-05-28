@@ -3,7 +3,7 @@
   "name": "Simandhar Impex Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-544662/simandhar-impex-shares",
-  "parsed_at": "2026-05-26T13:35:30.513Z",
+  "parsed_at": "2026-05-28T17:56:53.682Z",
   "company_id": "932CB2AF-19A5-4730-8C2D-88FEC6F3310F",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,9 +70,9 @@
         }
       ]
     },
-    "current_price_inr": 149.95,
-    "market_cap_inr": 458385913.1474656,
-    "market_cap_usd": 127136193103.04,
+    "current_price_inr": 150.1,
+    "market_cap_inr": 458844451.9068662,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -90,8 +90,8 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -113,38 +113,47 @@
       "payment_count": 0
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 18.115280027,
+      "net_income_margin_1y": 0.05885783889,
+      "future_revenue_growth_3y": 0.4122529887
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Consumer Durables",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 18.115280027,
+      "industry_name": "Consumer Durables",
+      "industry_code": "4130000",
+      "sample_count": 295,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.3,
+        "industry_pe": 1.4,
         "industry_name": "Indian Luxury",
-        "description": "544662 has negative equity and a Price-To-Book Ratio (-26927.9x) compared to the Indian Luxury industry average (1.3x).",
+        "description": "544662 has negative equity and a Price-To-Book Ratio (-26963.9x) compared to the Indian Luxury industry average (1.4x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.188196269,
+        "industry_pe": 18.115280027,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 296,
+        "count": 295,
         "source": {
           "type": "country",
           "country": "IN",
@@ -154,7 +163,7 @@
       },
       "internal_median": {
         "industry_pe": 17,
-        "sample_count": 295,
+        "sample_count": 297,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -166,8 +175,26 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 149.95,
-        "fetched_at": "2026-05-26T13:35:30.513Z",
+        "value": 150.1,
+        "fetched_at": "2026-05-28T17:56:53.682Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-544662/simandhar-impex-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 18.115280027,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05885783889,
+        "fetched_at": "2026-05-28T17:56:53.682Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-544662/simandhar-impex-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4122529887,
+        "fetched_at": "2026-05-28T17:56:53.682Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-544662/simandhar-impex-shares"
       }
     },
@@ -194,12 +221,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.9721183270996103,
-      "7D": 2.0415107179312693,
-      "1M": 13.298073290517564,
-      "3M": 19.386942675159233,
-      "6M": 564.9667405764967,
-      "1Y": 564.9667405764967,
+      "1D": 0.10003334444815318,
+      "7D": 0.16683350016683351,
+      "1M": 8.024469233537248,
+      "3M": 21.933387489845654,
+      "6M": 565.6319290465632,
+      "1Y": 565.6319290465632,
       "5Y": null
     },
     "next_earnings_date": null,

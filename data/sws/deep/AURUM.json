@@ -3,7 +3,7 @@
   "name": "Aurum PropTech Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-aurum/aurum-proptech-shares",
-  "parsed_at": "2026-05-26T12:42:39.142Z",
+  "parsed_at": "2026-05-28T17:01:37.096Z",
   "company_id": "68AA2219-7335-4AB4-A050-ED8B16953436",
   "classification_status": "Active",
   "groww_source": {
@@ -77,9 +77,9 @@
         }
       ]
     },
-    "current_price_inr": 180.53,
+    "current_price_inr": 180.12,
     "market_cap_inr": 12874200000,
-    "market_cap_usd": 127136193103.04,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": "nano1",
     "shares_outstanding": 76736569,
     "fifty_two_week": {
@@ -92,7 +92,7 @@
       "max": 310,
       "count": 7
     },
-    "upside_pct": 71.71661219741871,
+    "upside_pct": 72.10748389962247,
     "multiples": {
       "pe": null,
       "ps": 3.39,
@@ -101,8 +101,8 @@
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -177,25 +177,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 1.404945269,
-      "net_income_margin_1y": 0.1001318562,
+      "pe": 19.24021769283627,
+      "net_income_margin_1y": 0.09947274985,
+      "future_revenue_growth_3y": 1.403121745,
       "sector_pe": 19.24021769283627
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "IT - Software",
+      "pe_industry_id": 34,
+      "pe_source_url": "https://groww.in/stocks/majesco-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 19.24021769283627,
+      "industry_name": "IT - Software",
+      "industry_id": 34,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/majesco-ltd",
+      "search_id": "majesco-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -208,17 +215,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3.1,
+        "industry_pe": 3.2,
         "industry_name": "Indian Software",
-        "description": "AURUM is expensive based on its Price-To-Sales Ratio (3.6x) compared to the Indian Software industry average (3.1x).",
+        "description": "AURUM is expensive based on its Price-To-Sales Ratio (3.6x) compared to the Indian Software industry average (3.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.970878784,
+        "industry_pe": 24.895210292,
         "industry_code": "8040000",
         "type": "median_profitable",
-        "count": 57,
+        "count": 58,
         "source": {
           "type": "country",
           "country": "IN",
@@ -227,13 +234,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.6,
-        "sample_count": 57,
+        "industry_pe": 23.95,
+        "sample_count": 58,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.58378206,
+        "industry_pe": 20.599142457,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -244,8 +251,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 180.53,
-        "fetched_at": "2026-05-26T12:42:39.142Z",
+        "value": 180.12,
+        "fetched_at": "2026-05-28T17:01:37.096Z",
         "url": "https://simplywall.st/stocks/in/software/nse-aurum/aurum-proptech-shares"
       },
       "market_cap_inr": {
@@ -277,6 +284,24 @@
         "value": 0,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/majesco-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 19.24021769283627,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/majesco-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.09947274985,
+        "fetched_at": "2026-05-28T17:01:37.096Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-aurum/aurum-proptech-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 1.403121745,
+        "fetched_at": "2026-05-28T17:01:37.096Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-aurum/aurum-proptech-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -407,12 +432,12 @@
     "quick_ratio": 1.2140686992887015,
     "cash_ratio": 0.2895235371912643,
     "returns_pct": {
-      "1D": 1.2450227132522005,
-      "7D": 2.8719585161547623,
-      "1M": -0.005538938739332505,
-      "3M": 0.07206208425720369,
-      "6M": 7.978946109217061,
-      "1Y": -2.961728660503113,
+      "1D": -0.22710906774497125,
+      "7D": 2.358356538046261,
+      "1M": -2.055464926590539,
+      "3M": 0.9641255605381159,
+      "6M": 7.895052114532171,
+      "1Y": -9.117513497149197,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -455,6 +480,11 @@
       {
         "pct": 0.0434,
         "shares": 33301,
+        "is_insider": null
+      },
+      {
+        "pct": 0.01118,
+        "shares": 8579,
         "is_insider": null
       },
       {

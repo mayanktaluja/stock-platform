@@ -3,7 +3,7 @@
   "name": "Rama Petrochemicals Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-500358/rama-petrochemicals-shares",
-  "parsed_at": "2026-05-26T11:05:40.608Z",
+  "parsed_at": "2026-05-28T15:40:18.296Z",
   "company_id": "8BBB6038-3186-4E96-AAB3-EAACDA78C6D4",
   "classification_status": "Active",
   "groww_source": {
@@ -19,15 +19,15 @@
       "valuation": 0,
       "future": 0,
       "past": 0,
-      "financial_health": 2,
+      "financial_health": 1,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
       "value": 0,
-      "health": 2,
+      "health": 1,
       "dividend": 0
     },
-    "snowflake_total": 2,
+    "snowflake_total": 1,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -79,7 +79,7 @@
     },
     "current_price_inr": 16.12,
     "market_cap_inr": 248600000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -101,8 +101,8 @@
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -111,10 +111,11 @@
     "rewards": [],
     "risks": [
       "Shares are highly illiquid",
-      "Makes less than USD$1m in revenue (₹5M)",
+      "Makes less than USD$1m in revenue (₹6M)",
       "Negative shareholders equity",
       "Does not have a meaningful market cap (₹249M)",
-      "Earnings have declined by 46.2% per year over past 5 years",
+      "Has less than 1 year of [[cash runway]]",
+      "Earnings have declined by 52.2% per year over past 5 years",
       "Shareholders have been substantially diluted in the past year"
     ],
     "dividend": {
@@ -127,23 +128,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
+      "pe": 58.11463063215773,
+      "net_income_margin_1y": 0.05317460318,
+      "future_revenue_growth_3y": 0.161266108,
       "sector_pe": 58.11463063215773
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Trading",
+      "pe_industry_id": 64,
+      "pe_source_url": "https://groww.in/stocks/rama-petrochemicals-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 58.11463063215773,
+      "industry_name": "Trading",
+      "industry_id": 64,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/rama-petrochemicals-ltd",
+      "search_id": "rama-petrochemicals-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -156,17 +166,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.7,
+        "industry_pe": 1.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "500358 has negative equity and a Price-To-Book Ratio (-0.4x) compared to the Indian Trade Distributors industry average (1.7x).",
-        "title": "Price-To-Book vs Industry",
+        "description": "500358 is expensive based on its Price-To-Sales Ratio (42x) compared to the Indian Trade Distributors industry average (1.2x).",
+        "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.4180202,
+        "industry_pe": 23.284033542,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 118,
+        "count": 121,
         "source": {
           "type": "country",
           "country": "IN",
@@ -175,8 +185,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.7,
-        "sample_count": 123,
+        "industry_pe": 20.5,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -189,7 +199,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 16.12,
-        "fetched_at": "2026-05-26T11:05:40.608Z",
+        "fetched_at": "2026-05-28T15:40:18.296Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-500358/rama-petrochemicals-shares"
       },
       "market_cap_inr": {
@@ -221,6 +231,24 @@
         "value": 0,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/rama-petrochemicals-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 58.11463063215773,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/rama-petrochemicals-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05317460318,
+        "fetched_at": "2026-05-28T15:40:18.296Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-500358/rama-petrochemicals-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.161266108,
+        "fetched_at": "2026-05-28T15:40:18.296Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-500358/rama-petrochemicals-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -354,7 +382,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -686,6 +714,36 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "b20cd57d-47cc-4d38-864b-ba66ee9ce96a",
+      "type": "brief",
+      "date": "2026-05-27T20:31:33.000Z",
+      "title": "New major risk - Financial position",
+      "body": "The company has less than a year of cash runway based on its current free cash flow trend. Free cash flow: -₹12m This is considered a major risk. With less than a year's worth of cash, the company will need to raise capital or take on debt unless its cash flows improve. This would dilute existing shareholders or increase balance sheet risk. Currently, the following risks have been identified for the company: Major Risks Less than 1 year of cash runway based on free cash flow trend (-₹12m free cash flow). Shares are highly illiquid. Negative equity (-₹654m). Earnings have declined by 52% per year over the past 5 years. Shareholders have been substantially diluted in the past year (32% increase in shares outstanding). Revenue is less than US$1m (₹5.9m revenue, or US$62k). Market cap is less ",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "c68b95cf-1a0a-4465-a499-351de54caf23",
+      "type": "brief",
+      "date": "2026-05-27T20:31:32.000Z",
+      "title": "Full year 2026 earnings released: ₹6.07 loss per share (vs ₹6.51 loss in FY 2025)",
+      "body": "Full year 2026 results: ₹6.07 loss per share. Revenue: ₹5.92m (up ₹5.00m from FY 2025). Net loss: ₹73.0m (loss widened 6.9% from FY 2025).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "4bb7610d-1c72-47c1-9ab5-9ef3577440a9",
+      "type": "event",
+      "date": "2026-05-26T14:43:00.000Z",
+      "title": "Rama Petrochemicals Limited, Annual General Meeting, Aug 06, 2026",
+      "body": "Rama Petrochemicals Limited, Annual General Meeting, Aug 06, 2026.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "e1f0d5e8-a460-4f66-b6dd-c15ff7b543a5",
       "type": "event",

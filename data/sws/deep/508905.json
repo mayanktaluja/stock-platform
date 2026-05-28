@@ -3,7 +3,7 @@
   "name": "Nexome Capital Markets Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-508905/nexome-capital-markets-shares",
-  "parsed_at": "2026-05-26T11:51:15.793Z",
+  "parsed_at": "2026-05-28T16:05:07.374Z",
   "company_id": "2FE7B8C0-9731-4F09-B2B2-35C77251A0A8",
   "classification_status": "Active",
   "groww_source": {
@@ -20,22 +20,21 @@
       "future": 0,
       "past": 5,
       "financial_health": 5,
-      "dividends": 0,
+      "dividends": 4,
       "future_growth": 0,
       "past_performance": 5,
       "value": 2,
       "health": 5,
-      "dividend": 0
+      "dividend": 4
     },
-    "snowflake_total": 12,
+    "snowflake_total": 16,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 11,
+      "insufficient_count": 9,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
-        "Future",
-        "Dividends"
+        "Future"
       ],
       "by_pillar": {
         "Value": {
@@ -56,7 +55,7 @@
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 2
+          "insufficient": 0
         }
       },
       "samples": [
@@ -77,9 +76,9 @@
         }
       ]
     },
-    "current_price_inr": 108.01,
+    "current_price_inr": 113.41,
     "market_cap_inr": 1104400000,
-    "market_cap_usd": 127136193103.04,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -110,13 +109,14 @@
     },
     "rewards": [
       "Earnings grew by 818.4% over the past year",
-      "Price-To-Earnings ratio (10.8x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (11.4x) is below the Indian market (23.5x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Does not have a meaningful market cap (₹1B)",
+      "Unstable dividend track record",
       "Shareholders have been substantially diluted in the past year"
     ],
     "dividend": {
@@ -170,6 +170,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.4012950315927,
+      "net_income_margin_1y": 0.3861928045,
+      "future_revenue_growth_3y": 0.6210115328,
       "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
@@ -185,6 +187,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 70.56,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 18.4012950315927,
       "industry_name": "Finance",
       "industry_id": 26,
@@ -202,15 +206,15 @@
         "url": "https://groww.in/stocks/smifs-capital-markets-ltd"
       },
       "sws_statement": {
-        "company_pe": 10.8,
-        "industry_pe": 27.3,
+        "company_pe": 11.4,
+        "industry_pe": 27.2,
         "industry_name": "Indian Capital Markets",
-        "description": "508905 is good value based on its Price-To-Earnings Ratio (10.8x) compared to the Indian Capital Markets industry average (27.3x).",
+        "description": "508905 is good value based on its Price-To-Earnings Ratio (11.4x) compared to the Indian Capital Markets industry average (27.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.92506745,
+        "industry_pe": 27.1640807,
         "industry_code": "7130000",
         "type": "median_profitable",
         "count": 216,
@@ -222,8 +226,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.4,
-        "sample_count": 211,
+        "industry_pe": 22.15,
+        "sample_count": 212,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -235,8 +239,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 108.01,
-        "fetched_at": "2026-05-26T11:51:15.793Z",
+        "value": 113.41,
+        "fetched_at": "2026-05-28T16:05:07.374Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-508905/nexome-capital-markets-shares"
       },
       "market_cap_inr": {
@@ -274,6 +278,24 @@
         "value": -0.6931145922746782,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/smifs-capital-markets-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/smifs-capital-markets-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.3861928045,
+        "fetched_at": "2026-05-28T16:05:07.374Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-508905/nexome-capital-markets-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.6210115328,
+        "fetched_at": "2026-05-28T16:05:07.374Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-508905/nexome-capital-markets-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -404,16 +426,16 @@
     "quick_ratio": 2.74290780141844,
     "cash_ratio": 0.21099290780141844,
     "returns_pct": {
-      "1D": 4.996597647516283,
-      "7D": 13.694736842105268,
-      "1M": -2.684926569961249,
-      "3M": 24.93927125506073,
-      "6M": 6.993561168895495,
-      "1Y": 27.115452512651533,
+      "1D": 4.9995370799000005,
+      "7D": 19.291048700957194,
+      "1M": 5.8818037531509635,
+      "3M": 23.365604264113987,
+      "6M": 12.06521739130434,
+      "1Y": 38.49065820002442,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -806,6 +828,16 @@
   ],
   "news": [
     {
+      "id": "c74f577e-be9b-45f1-b8f7-ad7522c9a486",
+      "type": "brief",
+      "date": "2026-05-27T16:44:08.000Z",
+      "title": "New minor risk - Dividend sustainability",
+      "body": "The company has an unstable dividend paying track record. The dividend has had an annual drop of over 20% in the past. Dividend yield: 1.3% This is considered a minor risk. If the company has cut or reduced its dividend in the past, it may be a sign that the underlying business is too cyclical to consistently maintain or grow the dividend over the long-term. It may also indicate the company prioritizes other outcomes instead of maintaining the dividend. For dividend paying companies, any reduction in the dividend can significantly impact the share price. Currently, the following risks have been identified for the company: Major Risks Share price has been highly volatile over the past 3 months (11% average weekly change). Shareholders have been substantially diluted in the past year (83% in",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "745c0e63-2002-4bf9-9eb1-8f1c48e8aa6e",
       "type": "brief",
       "date": "2026-05-26T11:24:58.000Z",
@@ -822,6 +854,16 @@
       "title": "Nexome Capital Markets Limited, Annual General Meeting, Aug 11, 2026",
       "body": "Nexome Capital Markets Limited, Annual General Meeting, Aug 11, 2026, at 11:00 Indian Standard Time.",
       "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "88f0ab95-7342-4482-8c28-eea121bd5df6",
+      "type": "event",
+      "date": "2026-05-25T00:00:00.000Z",
+      "title": "Nexome Capital Markets Limited announces Annual dividend, payable on September 10, 2026",
+      "body": "Nexome Capital Markets Limited announced Annual dividend of INR 1.5000 per share payable on September 10, 2026, ex-date on July 31, 2026 and record date on July 31, 2026.",
+      "keyDevTypeId": "45",
       "source_url": null,
       "raw_subtype": "EventActivity"
     },

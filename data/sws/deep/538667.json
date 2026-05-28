@@ -3,7 +3,7 @@
   "name": "Sirohia & Sons Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-538667/sirohia-sons-shares",
-  "parsed_at": "2026-05-26T14:12:21.392Z",
+  "parsed_at": "2026-05-28T18:36:25.206Z",
   "company_id": "83570F42-2BD1-401D-A6F9-74E661AEFE51",
   "classification_status": "Active",
   "groww_source": {
@@ -18,19 +18,19 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 4,
+      "past": 2,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 4,
+      "past_performance": 2,
       "value": 0,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 11,
+      "insufficient_count": 13,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -41,7 +41,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -67,33 +67,33 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
     "current_price_inr": 8.01,
     "market_cap_inr": 82100000,
-    "market_cap_usd": 127136193103.04,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 4.82,
       "high": 11.19
     },
-    "fair_value_inr": 0.690404,
+    "fair_value_inr": 0.688589,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -91.38072409488139,
+    "upside_pct": -91.40338327091135,
     "multiples": {
       "pe": 200.25,
       "ps": 0,
@@ -109,13 +109,11 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sirohia-sons-ltd"
     },
-    "rewards": [
-      "Earnings grew by 515.1% over the past year"
-    ],
+    "rewards": [],
     "risks": [
       "Shares are highly illiquid",
       "Does not have a meaningful market cap (₹82M)",
-      "Makes less than USD$1m in revenue (₹0)"
+      "Makes less than USD$1m in revenue (₹3M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -128,6 +126,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 74.70203663474909,
+      "net_income_margin_1y": 0.05317460318,
+      "future_revenue_growth_3y": 0.161266108,
       "sector_pe": 74.70203663474909
     },
     "industry_benchmarks_meta": {
@@ -143,6 +143,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 200.25,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 74.70203663474909,
       "industry_name": "Trading",
       "industry_id": 64,
@@ -160,18 +162,18 @@
         "url": "https://groww.in/stocks/sirohia-sons-ltd"
       },
       "sws_statement": {
-        "company_pe": 35.2,
-        "industry_pe": 23.9,
+        "company_pe": null,
+        "industry_pe": 1.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "538667 is expensive based on its Price-To-Earnings Ratio (35.2x) compared to the Indian Trade Distributors industry average (23.9x).",
-        "title": "Price-To-Earnings vs Industry",
+        "description": "538667 is expensive based on its Price-To-Sales Ratio (26.4x) compared to the Indian Trade Distributors industry average (1.2x).",
+        "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.4180202,
+        "industry_pe": 23.284033542,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 118,
+        "count": 121,
         "source": {
           "type": "country",
           "country": "IN",
@@ -180,8 +182,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.7,
-        "sample_count": 123,
+        "industry_pe": 20.5,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -194,7 +196,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 8.01,
-        "fetched_at": "2026-05-26T14:12:21.392Z",
+        "fetched_at": "2026-05-28T18:36:25.206Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-538667/sirohia-sons-shares"
       },
       "market_cap_inr": {
@@ -232,6 +234,24 @@
         "value": -14.712499999999997,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/sirohia-sons-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 74.70203663474909,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/sirohia-sons-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05317460318,
+        "fetched_at": "2026-05-28T18:36:25.206Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-538667/sirohia-sons-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.161266108,
+        "fetched_at": "2026-05-28T18:36:25.206Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-538667/sirohia-sons-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
