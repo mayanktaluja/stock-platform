@@ -3,7 +3,7 @@
   "name": "ideaForge Technology Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares",
-  "parsed_at": "2026-05-26T11:05:03.979Z",
+  "parsed_at": "2026-05-28T15:39:49.033Z",
   "company_id": "26FA42FA-2B88-4339-AE1D-1155A601DD6E",
   "classification_status": "Active",
   "groww_source": {
@@ -77,9 +77,9 @@
         }
       ]
     },
-    "current_price_inr": 855.4,
+    "current_price_inr": 845.3,
     "market_cap_inr": 35308900000,
-    "market_cap_usd": 127196762990.178,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": "small3",
     "shares_outstanding": 43387641,
     "fifty_two_week": {
@@ -92,7 +92,7 @@
       "max": 1187,
       "count": 16
     },
-    "upside_pct": -68.90343698854338,
+    "upside_pct": -68.53188217200994,
     "multiples": {
       "pe": null,
       "ps": 14.89,
@@ -101,8 +101,8 @@
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -125,25 +125,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.6377821511,
-      "net_income_margin_1y": 0.07763624547,
+      "pe": 47.55405477187015,
+      "net_income_margin_1y": 0.07723323436,
+      "future_revenue_growth_3y": 0.6447154958,
       "sector_pe": 47.55405477187015
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Aerospace & Defence",
+      "pe_industry_id": 85,
+      "pe_source_url": "https://groww.in/stocks/ideaforge-technology-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 47.55405477187015,
+      "industry_name": "Aerospace & Defence",
+      "industry_id": 85,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/ideaforge-technology-ltd",
+      "search_id": "ideaforge-technology-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -156,14 +163,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 11,
+        "industry_pe": 11.2,
         "industry_name": "Indian Aerospace & Defense",
-        "description": "IDEAFORGE is expensive based on its Price-To-Sales Ratio (14.9x) compared to the Indian Aerospace & Defense industry average (11x).",
+        "description": "IDEAFORGE is expensive based on its Price-To-Sales Ratio (16.4x) compared to the Indian Aerospace & Defense industry average (11.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 53.135411447,
+        "industry_pe": 53.478652185,
         "industry_code": "3020000",
         "type": "median_profitable",
         "count": 23,
@@ -175,13 +182,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 50.85,
+        "industry_pe": 51.85,
         "sample_count": 20,
         "industry_code": "3020000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.841672065,
+        "industry_pe": 21.429765159,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -192,8 +199,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 855.4,
-        "fetched_at": "2026-05-26T11:05:03.979Z",
+        "value": 845.3,
+        "fetched_at": "2026-05-28T15:39:49.033Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares"
       },
       "market_cap_inr": {
@@ -225,6 +232,24 @@
         "value": 0,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/ideaforge-technology-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 47.55405477187015,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/ideaforge-technology-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.07723323436,
+        "fetched_at": "2026-05-28T15:39:49.033Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.6447154958,
+        "fetched_at": "2026-05-28T15:39:49.033Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -349,12 +374,12 @@
     "quick_ratio": 1.8454318576388888,
     "cash_ratio": 0.2133246527777778,
     "returns_pct": {
-      "1D": 4.995703940100642,
-      "7D": 10.11134710690609,
-      "1M": 66.00038812342326,
-      "3M": 108.68504513295927,
-      "6M": 83.71993127147765,
-      "1Y": 66.89103502097358,
+      "1D": -1.1807341594575664,
+      "7D": 12.205482179597787,
+      "1M": 53.718857974177126,
+      "3M": 99.08148845972678,
+      "6M": 82.43228660839537,
+      "1Y": 65.32368472521024,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -450,6 +475,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.149,
+        "shares": 64646,
+        "is_insider": null
+      },
+      {
         "pct": 0.13771,
         "shares": 59747,
         "is_insider": null
@@ -457,11 +487,6 @@
       {
         "pct": 0.13661,
         "shares": 59274,
-        "is_insider": null
-      },
-      {
-        "pct": 0.11266,
-        "shares": 48882,
         "is_insider": null
       }
     ],

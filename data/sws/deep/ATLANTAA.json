@@ -3,7 +3,7 @@
   "name": "Atlantaa Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-atlantaa/atlantaa-shares",
-  "parsed_at": "2026-05-26T12:41:47.465Z",
+  "parsed_at": "2026-05-28T17:00:37.364Z",
   "company_id": "8D0D2219-16E1-444A-89C6-E05FF3E15634",
   "classification_status": "Active",
   "groww_source": {
@@ -77,9 +77,9 @@
         }
       ]
     },
-    "current_price_inr": 42.55,
+    "current_price_inr": 42.2,
     "market_cap_inr": 3506900000,
-    "market_cap_usd": 127136193103.04,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -92,7 +92,7 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -43.886542890716804,
+    "upside_pct": -43.42114691943128,
     "multiples": {
       "pe": null,
       "ps": 4.73,
@@ -101,8 +101,8 @@
       "peg": -0.058741023184518106
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -137,23 +137,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
+      "pe": 24.2328398851662,
+      "net_income_margin_1y": 0.06664972592,
+      "future_revenue_growth_3y": 0.4575766052,
       "sector_pe": 24.2328398851662
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Infrastructure Developers & Operators",
+      "pe_industry_id": 32,
+      "pe_source_url": "https://groww.in/stocks/atlanta-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 24.2328398851662,
+      "industry_name": "Infrastructure Developers & Operators",
+      "industry_id": 32,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/atlanta-ltd",
+      "search_id": "atlanta-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -173,7 +182,7 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 16.066009054,
+        "industry_pe": 16.300895893,
         "industry_code": "3040000",
         "type": "median_profitable",
         "count": 189,
@@ -185,7 +194,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.950000000000001,
+        "industry_pe": 15.9,
         "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
@@ -198,8 +207,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 42.55,
-        "fetched_at": "2026-05-26T12:41:47.465Z",
+        "value": 42.2,
+        "fetched_at": "2026-05-28T17:00:37.364Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-atlantaa/atlantaa-shares"
       },
       "market_cap_inr": {
@@ -231,6 +240,24 @@
         "value": -0.058741023184518106,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/atlanta-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 24.2328398851662,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/atlanta-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06664972592,
+        "fetched_at": "2026-05-28T17:00:37.364Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-atlantaa/atlantaa-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4575766052,
+        "fetched_at": "2026-05-28T17:00:37.364Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-atlantaa/atlantaa-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -355,12 +382,12 @@
     "quick_ratio": 1.0376513730172268,
     "cash_ratio": 0.625703564727955,
     "returns_pct": {
-      "1D": -0.7695895522388185,
-      "7D": -6.091370558375646,
-      "1M": 6.374999999999993,
-      "3M": 6.454841130848132,
-      "6M": -4.596412556053821,
-      "1Y": 16.256830601092883,
+      "1D": -0.8225616921268962,
+      "7D": 2.526724975704583,
+      "1M": 0.7640878701050627,
+      "3M": 4.922923918448543,
+      "6M": -2.133580705009264,
+      "1Y": 15.426695842450766,
       "5Y": null
     },
     "next_earnings_date": null,

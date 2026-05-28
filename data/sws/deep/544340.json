@@ -3,7 +3,7 @@
   "name": "Rikhav Securities Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-544340/rikhav-securities-shares",
-  "parsed_at": "2026-05-26T11:55:13.396Z",
+  "parsed_at": "2026-05-28T16:09:49.046Z",
   "company_id": "1796F971-DDB2-4E12-A669-3B2C2ADDB2E9",
   "classification_status": "Active",
   "groww_source": null,
@@ -71,9 +71,9 @@
         }
       ]
     },
-    "current_price_inr": 48.11,
-    "market_cap_inr": 1838015688.279301,
-    "market_cap_usd": 127136193103.04,
+    "current_price_inr": 48.91,
+    "market_cap_inr": 1872861402.3695958,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -83,27 +83,29 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 25.45832882976512,
+    "upside_pct": 23.406260478429775,
     "multiples": {
-      "pe": null,
+      "pe": 9.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-28T16:09:49.046Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/diversified-financials/bse-544340/rikhav-securities-shares"
     },
     "rewards": [
-      "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at good value vs. peer average Price-To-Sales ratio"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (9.7x) is below the Indian market (23.4x)"
     ],
     "risks": [
-      "Earnings have declined by 27.4% per year over past 5 years",
+      "Profit margins (1%) are lower than last year (7.3%)",
+      "Earnings have declined by 25.8% per year over past 5 years",
       "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
@@ -115,35 +117,44 @@
       "payment_count": 0
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 27.1640807,
+      "net_income_margin_1y": 0.3861928045,
+      "future_revenue_growth_3y": 0.6210115328
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Diversified Financials",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
-      "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
+      "company_pe": 9.7,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 27.1640807,
+      "industry_name": "Diversified Financials",
+      "industry_code": "7130000",
+      "sample_count": 216,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 7.1,
+        "company_pe": 9.7,
+        "industry_pe": 27.3,
         "industry_name": "Indian Capital Markets",
-        "description": "544340 is good value based on its Price-To-Sales Ratio (0.3x) compared to the Indian Capital Markets industry average (7.1x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "544340 is good value based on its Price-To-Earnings Ratio (9.7x) compared to the Indian Capital Markets industry average (27.3x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.92506745,
+        "industry_pe": 27.1640807,
         "industry_code": "7130000",
         "type": "median_profitable",
         "count": 216,
@@ -155,8 +166,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.4,
-        "sample_count": 211,
+        "industry_pe": 22.15,
+        "sample_count": 212,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -168,8 +179,32 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 48.11,
-        "fetched_at": "2026-05-26T11:55:13.396Z",
+        "value": 48.91,
+        "fetched_at": "2026-05-28T16:09:49.046Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-544340/rikhav-securities-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 9.7,
+        "fetched_at": "2026-05-28T16:09:49.046Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-544340/rikhav-securities-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 27.1640807,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.3861928045,
+        "fetched_at": "2026-05-28T16:09:49.046Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-544340/rikhav-securities-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.6210115328,
+        "fetched_at": "2026-05-28T16:09:49.046Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-544340/rikhav-securities-shares"
       }
     },
@@ -196,12 +231,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.2291666666666655,
-      "7D": -1.6959542296689791,
-      "1M": -4.258706467661693,
-      "3M": 7.316529109971004,
-      "6M": -21.517128874388252,
-      "1Y": -21.75963571312409,
+      "1D": 1.6628559551028834,
+      "7D": 3.251002744352964,
+      "1M": -4.621684867394705,
+      "3M": 13.48027842227377,
+      "6M": -18.888888888888893,
+      "1Y": -18.982938545635253,
       "5Y": null
     },
     "next_earnings_date": null,

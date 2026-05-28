@@ -3,7 +3,7 @@
   "name": "Shoppers Stop Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-shoperstop/shoppers-stop-shares",
-  "parsed_at": "2026-05-26T13:45:42.524Z",
+  "parsed_at": "2026-05-28T18:07:36.186Z",
   "company_id": "C417CCB8-A72C-4258-861D-0E7E49C6FC29",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,22 @@
         }
       ]
     },
-    "current_price_inr": 333.65,
+    "current_price_inr": 353.5,
     "market_cap_inr": 37095500000,
-    "market_cap_usd": 127136193103.04,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": "small3",
     "shares_outstanding": 110124746,
     "fifty_two_week": {
       "low": 275.95,
       "high": 588.75
     },
-    "fair_value_inr": 510,
+    "fair_value_inr": 582.98452,
     "fair_value_range_inr": {
       "min": 410.33333,
-      "max": 510,
+      "max": 582.98452,
       "count": 2
     },
-    "upside_pct": 52.854787951446134,
+    "upside_pct": 64.91782743988685,
     "multiples": {
       "pe": null,
       "ps": 0.72,
@@ -100,8 +100,8 @@
       "peg": -6.439666225165562
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -166,25 +166,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.412985382,
-      "net_income_margin_1y": 0.04545091336,
+      "pe": 75.63467041299452,
+      "net_income_margin_1y": 0.04554703345,
+      "future_revenue_growth_3y": 0.4108752624,
       "sector_pe": 75.63467041299452
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Retail",
+      "pe_industry_id": 54,
+      "pe_source_url": "https://groww.in/stocks/shoppers-stop-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 75.63467041299452,
+      "industry_name": "Retail",
+      "industry_id": 54,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/shoppers-stop-ltd",
+      "search_id": "shoppers-stop-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -199,12 +206,12 @@
         "company_pe": null,
         "industry_pe": 1,
         "industry_name": "Asian Multiline Retail",
-        "description": "SHOPERSTOP is good value based on its Price-To-Sales Ratio (0.7x) compared to the Asian Multiline Retail industry average (1x).",
+        "description": "SHOPERSTOP is good value based on its Price-To-Sales Ratio (0.8x) compared to the Asian Multiline Retail industry average (1x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 51.911968444,
+        "industry_pe": 52.838794964,
         "industry_code": "4430000",
         "type": "median_profitable",
         "count": 6,
@@ -216,13 +223,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 52.1,
+        "industry_pe": 53.1,
         "sample_count": 6,
         "industry_code": "4430000",
         "industry_name": "Retail"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.249685386,
+        "industry_pe": 15.056111078,
         "industry_name": "Retail",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -233,8 +240,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 333.65,
-        "fetched_at": "2026-05-26T13:45:42.524Z",
+        "value": 353.5,
+        "fetched_at": "2026-05-28T18:07:36.186Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-shoperstop/shoppers-stop-shares"
       },
       "market_cap_inr": {
@@ -266,6 +273,24 @@
         "value": -6.439666225165562,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/shoppers-stop-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 75.63467041299452,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/shoppers-stop-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.04554703345,
+        "fetched_at": "2026-05-28T18:07:36.186Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-shoperstop/shoppers-stop-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.4108752624,
+        "fetched_at": "2026-05-28T18:07:36.186Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-shoperstop/shoppers-stop-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -367,13 +392,13 @@
         "url": "https://groww.in/stocks/shoppers-stop-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -99.99999908172636,
+    "earnings_growth_yoy_pct": -99.9999994404029,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 5.832130416367738,
-    "latest_revenue": 48975300000,
+    "revenue_growth_pct": 6.863357919739968,
+    "latest_revenue": 50433200000,
     "latest_net_income": 1,
     "latest_eps": null,
-    "most_recent_reported_date": "2026-04-30",
+    "most_recent_reported_date": "2026-05-27",
     "pb": 12.53,
     "ps": 0.72,
     "book_value": 26.4257021,
@@ -390,16 +415,16 @@
     "quick_ratio": 0.19144763635224457,
     "cash_ratio": 0.003981704833808465,
     "returns_pct": {
-      "1D": -1.0821227394011366,
-      "7D": -1.3890941332939397,
-      "1M": 12.567476383265857,
-      "3M": 4.216773387474622,
-      "6M": -22.29855612482534,
-      "1Y": -35.07491729908543,
+      "1D": 5.949348119286685,
+      "7D": 5.585424133811228,
+      "1M": 19.00353475845817,
+      "3M": 12.02662018697512,
+      "6M": -16.979802724283704,
+      "1Y": -31.259115216334465,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -565,44 +590,44 @@
     "payment_count": 3
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-30",
+    "most_recent_reported_date": "2026-05-27",
     "latest_year": 2026,
-    "latest_revenue": 48975300000,
+    "latest_revenue": 50433200000,
     "latest_net_income": 1,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 5.832130416367738,
-    "earnings_growth_pct": -99.99999908172636,
-    "net_margin_pct": 2.041845583385911e-9,
+    "revenue_growth_pct": 6.863357919739968,
+    "earnings_growth_pct": -99.9999994404029,
+    "net_margin_pct": 1.9828208402401595e-9,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 48975300000,
+        "revenue": 50433200000,
         "netIncome": 1,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 46276400000,
-        "netIncome": 108900000,
+        "revenue": 47194100000,
+        "netIncome": 178700000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 43165900000,
-        "netIncome": 772500000,
+        "revenue": 43922900000,
+        "netIncome": 400400000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 40221300000,
-        "netIncome": 1160100000,
+        "revenue": 40673000000,
+        "netIncome": 1076700000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 25187500000,
-        "netIncome": -470000000,
+        "revenue": 32619600000,
+        "netIncome": 807200000,
         "eps": null
       }
     ]

@@ -3,31 +3,32 @@
   "name": "VISA Chrome Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-visachrome/visa-chrome-shares",
-  "parsed_at": "2026-05-26T14:43:48.055Z",
+  "parsed_at": "2026-05-28T19:05:49.670Z",
   "company_id": "57B7BC2B-845D-4F11-A98D-B72B7DB7F43D",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
       "past": 2,
       "financial_health": 0,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 2,
-      "value": 1,
+      "value": 2,
       "health": 0,
       "dividend": 0
     },
-    "snowflake_total": 3,
+    "snowflake_total": 4,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 10,
+      "insufficient_count": 11,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
+        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -45,7 +46,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 0
+          "insufficient": 1
         },
         "Dividends": {
           "checked": 6,
@@ -70,39 +71,44 @@
         }
       ]
     },
-    "current_price_inr": 52.57,
-    "market_cap_inr": 7664153975.026881,
-    "market_cap_usd": 127136193103.04,
+    "current_price_inr": 50.34,
+    "market_cap_inr": 7339043391.722527,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 38.96585,
+    "fair_value_inr": 38.848371,
     "fair_value_range_inr": {
-      "min": 38.96585,
-      "max": 38.96585,
+      "min": 38.848371,
+      "max": 38.848371,
       "count": 2
     },
-    "upside_pct": -25.878162450066572,
+    "upside_pct": -22.82802741358761,
     "multiples": {
-      "pe": null,
+      "pe": 0.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-28T19:05:49.670Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/materials/nse-visachrome/visa-chrome-shares"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Sales ratio"
+      "Became profitable this year",
+      "Price-To-Earnings ratio (0.7x) is below the Indian market (23.4x)",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Negative shareholders equity",
-      "Does not have a meaningful market cap (₹7B)",
+      "Debt is not well covered by [[operating cash flow]]",
+      "Large [[one-off items]] impacting financial results",
+      "Does not have a meaningful market cap (₹8B)",
       "Shareholders have been diluted in the past year"
     ],
     "dividend": {
@@ -114,38 +120,47 @@
       "payment_count": 0
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 22.492140434,
+      "net_income_margin_1y": 0.07144101492,
+      "future_revenue_growth_3y": 0.4516471051
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Materials",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
-      "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
+      "company_pe": 0.7,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 22.492140434,
+      "industry_name": "Materials",
+      "industry_code": "2050000",
+      "sample_count": 189,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 1.2,
+        "company_pe": 0.7,
+        "industry_pe": 22.4,
         "industry_name": "Indian Metals and Mining",
-        "description": "VISACHROME is expensive based on its Price-To-Sales Ratio (1.3x) compared to the Indian Metals and Mining industry average (1.2x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "VISACHROME is good value based on its Price-To-Earnings Ratio (0.7x) compared to the Indian Metals and Mining industry average (22.4x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.503170331,
+        "industry_pe": 22.492140434,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 190,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -154,8 +169,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.5,
-        "sample_count": 195,
+        "industry_pe": 21.3,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -167,8 +182,32 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 52.57,
-        "fetched_at": "2026-05-26T14:43:48.055Z",
+        "value": 50.34,
+        "fetched_at": "2026-05-28T19:05:49.670Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-visachrome/visa-chrome-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 0.7,
+        "fetched_at": "2026-05-28T19:05:49.670Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-visachrome/visa-chrome-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 22.492140434,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.07144101492,
+        "fetched_at": "2026-05-28T19:05:49.670Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-visachrome/visa-chrome-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4516471051,
+        "fetched_at": "2026-05-28T19:05:49.670Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-visachrome/visa-chrome-shares"
       }
     },
@@ -195,12 +234,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 2.038043478260864,
-      "7D": 9.703672787979963,
-      "1M": 27.318963429401794,
-      "3M": 37.2584856396867,
-      "6M": -4.487645348837208,
-      "1Y": 59.35131858138829,
+      "1D": -4.2419630968232775,
+      "7D": 0.05963029218843398,
+      "1M": 20.401817746950492,
+      "3M": 28.287461773700308,
+      "6M": -4.296577946768057,
+      "1Y": 58.152686145146106,
       "5Y": null
     },
     "next_earnings_date": null,

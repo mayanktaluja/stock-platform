@@ -3,7 +3,7 @@
   "name": "Kaiser Corporation Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-531780/kaiser-shares",
-  "parsed_at": "2026-05-26T13:43:02.938Z",
+  "parsed_at": "2026-05-28T18:06:46.257Z",
   "company_id": "FCFCA3B2-29C4-45B2-AD6E-751E98E23DBA",
   "classification_status": "Active",
   "groww_source": {
@@ -30,12 +30,11 @@
     "snowflake_total": 2,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 13,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -53,7 +52,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
@@ -78,9 +77,9 @@
         }
       ]
     },
-    "current_price_inr": 6.68,
+    "current_price_inr": 6.69,
     "market_cap_inr": 347800000,
-    "market_cap_usd": 127136193103.04,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -102,8 +101,8 @@
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -111,10 +110,10 @@
     },
     "rewards": [],
     "risks": [
-      "Debt is not well covered by [[operating cash flow]]",
-      "Does not have meaningful revenue (₹136M)",
-      "Does not have a meaningful market cap (₹348M)",
-      "Earnings have declined by 24.9% per year over past 5 years",
+      "Does not have meaningful revenue (₹153M)",
+      "Does not have a meaningful market cap (₹352M)",
+      "Has less than 1 year of [[cash runway]]",
+      "Earnings have declined by 28.7% per year over past 5 years",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -127,23 +126,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
+      "pe": 33.801295374353515,
+      "net_income_margin_1y": 0.06405545837,
+      "future_revenue_growth_3y": 0.4625071227,
       "sector_pe": 33.801295374353515
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Printing & Stationery",
+      "pe_industry_id": 74,
+      "pe_source_url": "https://groww.in/stocks/kaiser-corporation-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 33.801295374353515,
+      "industry_name": "Printing & Stationery",
+      "industry_id": 74,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/kaiser-corporation-ltd",
+      "search_id": "kaiser-corporation-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -158,12 +166,12 @@
         "company_pe": null,
         "industry_pe": 1.2,
         "industry_name": "Indian Construction",
-        "description": "531780 is expensive based on its Price-To-Sales Ratio (2.6x) compared to the Indian Construction industry average (1.2x).",
+        "description": "531780 is expensive based on its Price-To-Sales Ratio (2.3x) compared to the Indian Construction industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 16.065169002,
+        "industry_pe": 16.11300287,
         "industry_code": "3040000",
         "type": "median_profitable",
         "count": 189,
@@ -175,7 +183,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.950000000000001,
+        "industry_pe": 15.9,
         "sample_count": 188,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
@@ -188,8 +196,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6.68,
-        "fetched_at": "2026-05-26T13:43:02.938Z",
+        "value": 6.69,
+        "fetched_at": "2026-05-28T18:06:46.257Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531780/kaiser-shares"
       },
       "market_cap_inr": {
@@ -221,6 +229,24 @@
         "value": 0,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/kaiser-corporation-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 33.801295374353515,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/kaiser-corporation-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06405545837,
+        "fetched_at": "2026-05-28T18:06:46.257Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-531780/kaiser-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4625071227,
+        "fetched_at": "2026-05-28T18:06:46.257Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-531780/kaiser-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -345,16 +371,16 @@
     "quick_ratio": 0.8069338422391856,
     "cash_ratio": 0.0015903307888040714,
     "returns_pct": {
-      "1D": 1.059001512859295,
-      "7D": -1.6200294550810062,
-      "1M": 27.724665391969396,
-      "3M": 49.10714285714284,
-      "6M": 43.34763948497853,
-      "1Y": 6.200317965023842,
+      "1D": 0.14970059880240533,
+      "7D": -0.8888888888888832,
+      "1M": 27.428571428571434,
+      "3M": 48.00884955752215,
+      "6M": 41.139240506329116,
+      "1Y": -3.4632034632034534,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -646,6 +672,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "57e59d7c-d8a4-406b-92d8-45d6f1752540",
+      "type": "brief",
+      "date": "2026-05-27T16:36:09.000Z",
+      "title": "Full year 2026 earnings released: ₹0.21 loss per share (vs ₹0.20 loss in FY 2025)",
+      "body": "Full year 2026 results: ₹0.21 loss per share (further deteriorated from ₹0.20 loss in FY 2025). Revenue: ₹152.6m (down 23% from FY 2025). Net loss: ₹10.8m (loss widened 1.2% from FY 2025). Over the last 3 years on average, the company's share price growth rate has exceeded its earnings growth rate by 65 percentage points per year, which is a significant difference in performance.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "d0f050aa-78b3-479f-9a9c-981c01c1d061",
       "type": "event",

@@ -3,7 +3,7 @@
   "name": "Gyftr Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-507912/gyftr-shares",
-  "parsed_at": "2026-05-26T11:49:38.895Z",
+  "parsed_at": "2026-05-28T16:03:27.973Z",
   "company_id": "C3E27C1E-2794-43EB-80E8-393D32E89BB5",
   "classification_status": "Active",
   "groww_source": {
@@ -78,22 +78,22 @@
         }
       ]
     },
-    "current_price_inr": 189.35,
+    "current_price_inr": 189,
     "market_cap_inr": 14555200000,
-    "market_cap_usd": 127136193103.04,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 86.32,
       "high": 235.96
     },
-    "fair_value_inr": 31.860134,
+    "fair_value_inr": 31.837317,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -83.17394560337999,
+    "upside_pct": -83.15485873015874,
     "multiples": {
       "pe": null,
       "ps": 85.37,
@@ -102,8 +102,8 @@
       "peg": -2.798901417666303
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -229,23 +229,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
+      "pe": 18.4012950315927,
+      "net_income_margin_1y": 0.3861928045,
+      "future_revenue_growth_3y": 0.6210115328,
       "sector_pe": 18.4012950315927
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-26T16:13:44.842Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Finance",
+      "pe_industry_id": 26,
+      "pe_source_url": "https://groww.in/stocks/lkp-finance-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 18.4012950315927,
+      "industry_name": "Finance",
+      "industry_id": 26,
+      "fetched_at": "2026-05-26T16:13:44.842Z",
+      "url": "https://groww.in/stocks/lkp-finance-ltd",
+      "search_id": "lkp-finance-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -258,14 +267,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 7,
+        "industry_pe": 6.9,
         "industry_name": "Indian Capital Markets",
-        "description": "507912 is expensive based on its Price-To-Sales Ratio (19x) compared to the Indian Capital Markets industry average (7x).",
+        "description": "507912 is expensive based on its Price-To-Sales Ratio (19x) compared to the Indian Capital Markets industry average (6.9x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.92506745,
+        "industry_pe": 27.1640807,
         "industry_code": "7130000",
         "type": "median_profitable",
         "count": 216,
@@ -277,8 +286,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.4,
-        "sample_count": 211,
+        "industry_pe": 22.15,
+        "sample_count": 212,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -290,8 +299,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 189.35,
-        "fetched_at": "2026-05-26T11:49:38.895Z",
+        "value": 189,
+        "fetched_at": "2026-05-28T16:03:27.973Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-507912/gyftr-shares"
       },
       "market_cap_inr": {
@@ -323,6 +332,24 @@
         "value": -2.798901417666303,
         "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lkp-finance-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 18.4012950315927,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
+        "url": "https://groww.in/stocks/lkp-finance-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.3861928045,
+        "fetched_at": "2026-05-28T16:03:27.973Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-507912/gyftr-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.6210115328,
+        "fetched_at": "2026-05-28T16:03:27.973Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-507912/gyftr-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -453,12 +480,12 @@
     "quick_ratio": 20.419689119170982,
     "cash_ratio": 19.409326424870468,
     "returns_pct": {
-      "1D": -0.079155672823222,
-      "7D": 4.411359250068927,
-      "1M": -7.20411663807891,
-      "3M": -3.4322725418196747,
-      "6M": 4.049895592922302,
-      "1Y": 104.04094827586208,
+      "1D": -0.18484288354898037,
+      "7D": 4.651162790697678,
+      "1M": -6.689706245371518,
+      "3M": -3.512354502756788,
+      "6M": 5,
+      "1Y": 107.6923076923077,
       "5Y": null
     },
     "next_earnings_date": null,

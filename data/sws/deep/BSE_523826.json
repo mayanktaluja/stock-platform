@@ -3,24 +3,24 @@
   "name": "Sovereign Diamonds Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-523826/sovereign-diamonds-shares",
-  "parsed_at": "2026-05-26T13:12:28.020Z",
+  "parsed_at": "2026-05-28T17:34:09.487Z",
   "company_id": "76A5EAB8-EC5D-4A53-A4CB-087DA9E04DC1",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 2,
       "future": 0,
       "past": 0,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
-      "value": 3,
+      "value": 2,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -70,19 +70,19 @@
         }
       ]
     },
-    "current_price_inr": 22.26,
-    "market_cap_inr": 128840918.63439272,
-    "market_cap_usd": 127136193103.04,
+    "current_price_inr": 22.25,
+    "market_cap_inr": 128783038.61703674,
+    "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": 291.412965,
+    "fair_value_inr": 291.759727,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 1209.1328167115903,
+    "upside_pct": 1211.2796719101123,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -90,19 +90,20 @@
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 92.3% below our estimate of its fair value"
+      "Trading at good value vs. industry average Price-To-Sales ratio",
+      "Trading at 92.4% below our estimate of its fair value"
     ],
     "risks": [
       "Does not have meaningful revenue (₹159M)",
-      "Does not have a meaningful market cap (₹130M)",
+      "Does not have a meaningful market cap (₹129M)",
       "Earnings have declined by 33% per year over past 5 years"
     ],
     "dividend": {
@@ -114,22 +115,31 @@
       "payment_count": 0
     },
     "dividend_yield_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 18.115280027,
+      "net_income_margin_1y": 0.05885783889,
+      "future_revenue_growth_3y": 0.4122529887
+    },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
+      "pe_industry_name": "Consumer Durables",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 18.115280027,
+      "industry_name": "Consumer Durables",
+      "industry_code": "4130000",
+      "sample_count": 295,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -137,15 +147,15 @@
         "company_pe": null,
         "industry_pe": 0.8,
         "industry_name": "Indian Luxury",
-        "description": "523826 is expensive based on its Price-To-Sales Ratio (0.8x) compared to the Indian Luxury industry average (0.8x).",
+        "description": "523826 is good value based on its Price-To-Sales Ratio (0.8x) compared to the Indian Luxury industry average (0.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.188196269,
+        "industry_pe": 18.115280027,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 296,
+        "count": 295,
         "source": {
           "type": "country",
           "country": "IN",
@@ -155,7 +165,7 @@
       },
       "internal_median": {
         "industry_pe": 17,
-        "sample_count": 295,
+        "sample_count": 297,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -167,8 +177,26 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 22.26,
-        "fetched_at": "2026-05-26T13:12:28.020Z",
+        "value": 22.25,
+        "fetched_at": "2026-05-28T17:34:09.487Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-523826/sovereign-diamonds-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 18.115280027,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05885783889,
+        "fetched_at": "2026-05-28T17:34:09.487Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-523826/sovereign-diamonds-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4122529887,
+        "fetched_at": "2026-05-28T17:34:09.487Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-523826/sovereign-diamonds-shares"
       }
     },
@@ -195,12 +223,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.04490345756622367,
-      "7D": -3.0065359477124085,
-      "1M": -3.217391304347819,
-      "3M": -3.217391304347819,
-      "6M": -12.362204724409438,
-      "1Y": -39.80530016224986,
+      "1D": -0.04492362982929722,
+      "7D": -2.880838061981668,
+      "1M": -7.253022092538551,
+      "3M": -1.2866015971605997,
+      "6M": -10.534780860474472,
+      "1Y": -39.99460625674217,
       "5Y": null
     },
     "next_earnings_date": null,
