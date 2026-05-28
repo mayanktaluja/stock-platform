@@ -32,6 +32,6 @@ fi
 echo "── SWS launchd jobs resumed ──"
 launchctl list | grep starbhai
 echo
-echo "Next nightly fire:        02:00 IST (or 16:30 IST, whichever is sooner)"
+echo "Next nightly fire:        16:30 IST daily"
 echo "Phase 5 reminder:         09:00 IST daily check (fires email on 2026-05-18)"
 echo "fundamentalsHistory job:  04:00 IST daily"

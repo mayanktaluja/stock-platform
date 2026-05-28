@@ -69,21 +69,20 @@ const MIN_REWARDS_POPULATED        = 1000;   // BLOCK — collapse detector (bug
 const MIN_REWARDS_POPULATED_STRONG = 4500;   // WARN — flip to BLOCK after ~1 wk calibration
 const MIN_RISKS_POPULATED          = 500;    // WARN — risks are legitimately sparse; only trips on a total collapse
 const MAX_RUN_DURATION_SEC      = 6 * 3600;
-// Nightly cadence is 14.5h between starts (02:00 + 16:30 IST). Each run
-// takes ~4.5h. The sanity gate runs at the END of the pipeline (after the
-// 4.5h finishes) and SHOULD see fresh data because sws-scoring.mjs:994
-// wrote picks-latest.json earlier in this same run. picks_recent here is
-// the second-line defence: "has the pipeline run AT ALL in the last 20h?"
-// — catches launchd-unloaded, machine-asleep, scrape-fully-broken.
+// Nightly cadence is once daily at 16:30 IST. The sanity gate runs at the END
+// of the pipeline and SHOULD see fresh data because sws-scoring.mjs wrote
+// picks-latest.json earlier in this same run. picks_recent here is the
+// second-line defence: "did this run actually advance picks-latest?" A 20h
+// ceiling is intentionally below the daily cadence so yesterday's output cannot
+// pass if the current run silently reuses stale picks.
 //
 // The PRIMARY check for "is picks-latest.json from THIS run?" is
 // picks_matches_last_refresh below — it diffs picks.scanned_at against
 // lr.started_at/finished_at to catch the 2026-05-18 22:37 IST failure
 // mode where picks-latest.json was silently reverted post-write.
 //
-// 20h covers worst-case under healthy ops:
-//   14.5h cadence + 4.5h run + ~1h slack for launchd catch-up = 20h.
-// Don't widen further — that hides real "pipeline-not-running" failures.
+// Don't widen further without also strengthening picks_matches_last_refresh —
+// that hides real "pipeline did not write fresh picks" failures.
 export const PICKS_MAX_AGE_HOURS = 20;
 
 // Slack window for the picks_matches_last_refresh consistency check.

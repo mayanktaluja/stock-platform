@@ -9,7 +9,7 @@
       Dedicated job for fundamentalsHistory.json (Yahoo historical financials
       feeding the Earnings Watch trajectory predictor). SEPARATE from
       com.starbhai.sws-nightly by design — it's a ~30-min budget-capped Yahoo
-      job that must not run inside the twice-daily SWS scrape.
+      job that must not run inside the daily SWS scrape.
 
       caffeinate -dimsu keeps the machine awake for the duration, same as the
       sws-nightly job.
@@ -27,7 +27,7 @@
 
     <!--
       Fire once daily at 04:00 IST (Mac local time is IST) — offset from the
-      sws-nightly fires (02:00 + 16:30 IST) so the two jobs don't contend for
+      sws-nightly fire (16:30 IST) so the two jobs don't contend for
       CPU/network. The refresh is budget-capped per run, so a daily cadence
       progressively catches the universe up without blowing Yahoo's
       ~2000/day soft ceiling.

@@ -81,10 +81,10 @@ The client is invisible to Cloudflare for these reasons:
 
 ## Daily refresh
 
-Scheduled task `sws-api-refresh-daily` runs at 02:00 IST every day:
+Scheduled task `sws-api-refresh-daily` runs at 16:30 IST every day:
 
 ```
-cron: 0 2 * * * (local time)
+cron: 30 16 * * * (local time)
 prompt: cd .../stock-platform && bash scripts/sws-refresh-api.sh
 ```
 

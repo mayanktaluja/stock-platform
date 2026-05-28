@@ -241,9 +241,10 @@ if ! node scripts/sws-fetch-nse-calendar.mjs 2>&1 | tail -5 | sed 's/^/[nse-cal]
 fi
 
 # Groww/Refinitiv is canonical for fast-moving India fundamentals. The full
-# network pass is intentionally restricted to the 16:30 IST launchd window; the
-# 02:00 run validates and reuses the last good cache. The script writes both
-# groww-stock-latest.json and the legacy groww-pe-latest.json alias.
+# network pass is intentionally restricted to the 16:30 IST launchd window;
+# manual runs outside that window validate and reuse the last good cache. The
+# script writes both groww-stock-latest.json and the legacy groww-pe-latest.json
+# alias.
 GROWW_STEP_IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
 if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ] || { [ "${RUN_STARTED_IST_HHMM}" -ge 1600 ] && [ "${RUN_STARTED_IST_HHMM}" -lt 1800 ]; }; then
   echo "[refresh-api] refreshing Groww/Refinitiv stock cache (16:30 IST full pass; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."

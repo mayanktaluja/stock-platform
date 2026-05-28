@@ -21,18 +21,10 @@
     </array>
 
     <!--
-      Fire twice daily (Mac local time is IST):
-        02:00 IST — pre-market refresh (overnight global news + post-close US/EU data)
-        16:30 IST — post-close refresh (60 min after NSE close at 15:30)
+      Fire once daily at 16:30 IST (Mac local time), 60 min after NSE close.
     -->
     <key>StartCalendarInterval</key>
     <array>
-        <dict>
-            <key>Hour</key>
-            <integer>2</integer>
-            <key>Minute</key>
-            <integer>0</integer>
-        </dict>
         <dict>
             <key>Hour</key>
             <integer>16</integer>
@@ -72,9 +64,9 @@
     <false/>
 
     <!--
-      If a scheduled fire is missed (e.g., Mac was off at 02:00), run on next
-      wake. We do want this for robustness — scrape running at 06:00 still
-      gets us fresh data before market open at 09:15.
+      If the scheduled fire is missed (e.g., Mac was off at 16:30), run on
+      next wake. We do want this for robustness — a late post-close scrape is
+      still better than carrying yesterday's data.
     -->
     <key>StartCalendarIntervalCatchUp</key>
     <true/>

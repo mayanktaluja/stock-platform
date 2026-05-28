@@ -18,7 +18,7 @@
  *   node scripts/refresh-fundamentals.mjs --supplement # curated + smallcap/microcap
  *   node scripts/refresh-fundamentals.mjs --full       # curated + full NSE supplement (~2181)
  *
- * Cadence: twice-daily via scripts/sws-nightly.sh step 3c (8h freshness gate).
+ * Cadence: daily via scripts/sws-nightly.sh step 3c (8h freshness gate).
  */
 
 import { readFileSync, writeFileSync, existsSync, renameSync } from "fs";
