@@ -24,8 +24,8 @@
  *     re-fetch can never clobber a hand-correction.
  *
  * Runs LOCALLY on its own nightly schedule — NOT chained into
- * refresh-earnings.mjs (a ~30-min Yahoo job has no business inside the
- * twice-daily earnings refresh, and never on a Vercel cron).
+ * refresh-earnings.mjs (a ~30-min Yahoo job has no business inside a
+ * Vercel cron).
  *
  * Usage:
  *   node scripts/refresh-fundamentals-history.mjs

@@ -735,7 +735,7 @@ function renderMarkdown({
   lines.push("2. Run `node scripts/sws-probe-availability.mjs` to filter the candidates against SWS's Asia sitemap (which stocks SWS actually has a page for).");
   lines.push("3. Run `node scripts/sws-build-delta.mjs` to build the merge-ready `data/coverage/sws_universe_delta.json`.");
   lines.push("4. Run `node scripts/sws-build-universe.mjs --merge --from-stdin < data/coverage/sws_universe_delta.json` to add them.");
-  lines.push("5. The next 02:00 / 16:30 IST nightly fire (launchd) will deep-scrape the new entries automatically.");
+  lines.push("5. The next 16:30 IST nightly fire (launchd) will deep-scrape the new entries automatically.");
   return lines.join("\n");
 }
 

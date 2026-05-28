@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Fully-autonomous SWS refresh. Designed to run from a launchd agent at
-# 02:00 IST (pre-market) and 16:30 IST (post-close) every day. No Claude
+# 16:30 IST (post-close) every day. No Claude
 # Code dependency.
 #
 # Pipeline:
@@ -170,7 +170,7 @@ fi
 if [ "${SWS_NIGHTLY_SKIP_BATTERY:-1}" != "1" ]; then
   if pmset -g batt | head -2 | grep -q "Battery Power"; then
     echo "[nightly] running on battery — skipping run to avoid mid-job sleep"
-    send_mail "⚠️ SWS nightly skipped — laptop on battery" "Mac was on battery at $(ts). Plug in before next 02:00 IST run.
+    send_mail "⚠️ SWS nightly skipped — laptop on battery" "Mac was on battery at $(ts). Plug in before next 16:30 IST run.
 
 $(pmset -g batt 2>&1 | head -3)"
     exit 4
@@ -413,7 +413,7 @@ fi
 #   2. refresh-nse-corporate.mjs  → nse-announcements-rolling + bulk-block
 #   3. refresh-fo-oi.sh           → data/nse-fo/oi-deltas-latest.json
 #   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; 8h freshness gate
-#                                    so BOTH daily fires refresh — keeps it
+#                                    so the daily fire refreshes — keeps it
 #                                    well under the 48h staleness banner).
 #                                    Used by stock detail modals — not the
 #                                    earnings tab, which reads
@@ -627,14 +627,12 @@ else
   aux_status "macroRegime.json" "OK-${MACRO_AGE_HOURS}h"
 fi
 
-# Fundamentals refresh: self-paced via an 8h freshness check. Two launchd
-# fires per day (02:00 IST pre-market + 16:30 IST post-close, ~14.5h and
-# ~9.5h apart); an 8h gate lets BOTH fires refresh, so the file never
-# drifts past the 48h staleness banner even if a fire is missed. The
-# earlier 20h gate let both fires coast — the file only refreshed once it
-# had ALREADY drifted >20h, which is how it reached the user-visible "2d
-# old" banner. Skips entirely (age=9999) if the file is missing or
-# unparseable, which forces a fresh pull.
+# Fundamentals refresh: self-paced via an 8h freshness check. The daily 16:30
+# fire refreshes the file, while same-day manual reruns can coast. This keeps
+# fundamentals.json well below the 48h staleness banner. The earlier 20h gate
+# let the file refresh only once it had ALREADY drifted >20h, which is how it
+# reached the user-visible "2d old" banner. Skips entirely (age=9999) if the
+# file is missing or unparseable, which forces a fresh pull.
 FUND_AGE_HOURS=$(node --input-type=module -e '
 import {readFileSync, existsSync} from "fs";
 if (!existsSync("fundamentals.json")) { console.log(9999); process.exit(0); }
@@ -720,15 +718,14 @@ fi
 #
 # ORDERING: runs BEFORE refresh-earnings.mjs so the predictor's YoY-EPS
 # trajectory component (component 8 in earningsPredictor.js) sees a fresh
-# fundamentalsHistory.json instead of one that's up to 22 hours stale by
-# the time the 02:00 IST fire reads it. Before this move, the 02:00 fire
-# ran earnings → fundamentalsHistory; the 04:00 standalone job that was
-# meant to keep fundamentalsHistory fresh had been silently dead since
-# 2026-05-13. Earnings is the only consumer of fundamentalsHistory, so
-# this ordering is what makes the bundling sound.
+# fundamentalsHistory.json instead of a stale standalone-job snapshot. Before
+# this move, the scheduled SWS run executed earnings before the separate
+# fundamentalsHistory job could refresh; that 04:00 standalone job had also
+# been silently dead since 2026-05-13. Earnings is the only consumer of
+# fundamentalsHistory, so this ordering is what makes the bundling sound.
 #
-# 18h freshness gate mirrors the fundamentals.json pattern (lines 251-275):
-# two fires per day means the second fire coasts when the first succeeded.
+# 18h freshness gate mirrors the fundamentals.json pattern: the daily 16:30
+# fire refreshes, while same-day manual reruns can coast.
 # Yahoo fetch is ~30 min wall-clock for the 744-symbol enriched universe,
 # so the 2400s timeout leaves headroom for slow batches.
 FH_AGE_HOURS=$(node --input-type=module -e '
@@ -801,7 +798,7 @@ fi
 # by layering the experimental macro/quality overlay on top of the just-written
 # picks-latest.json + macroRegime.json. Read-only on production files; only
 # writes to data/risk-lab/. Non-fatal — the lab is opt-in via per-user toggle
-# and a stale lab file is recoverable on the next 02:00 / 16:30 fire.
+# and a stale lab file is recoverable on the next 16:30 fire.
 echo "[sws-nightly] refresh-risk-lab.mjs (timeout 60s)"
 with_timeout 60 node scripts/refresh-risk-lab.mjs 2>&1 | sed 's/^/[risk-lab] /' || \
   echo "[sws-nightly] refresh-risk-lab.mjs FAILED — continuing (non-fatal; lab tab will show stale data)"
@@ -866,8 +863,8 @@ with_timeout 60 node scripts/paper-trade-reconcile.mjs 2>&1 | sed 's/^/[paper-tr
 # Date/branch labels — computed here so both the PASS path (step 5) and
 # the sanity-gate FAIL path (data-only PR) can use them.
 DATE=$(date +%Y-%m-%d)
-RUN_TIME=$(date +%H%M)              # e.g. 0200 for the 02:00 fire, 1630 for the 16:30 fire
-RUN_LABEL="${DATE} ${RUN_TIME:0:2}:${RUN_TIME:2:2}"   # "2026-05-07 02:00"
+RUN_TIME=$(date +%H%M)              # e.g. 1630 for the scheduled 16:30 fire
+RUN_LABEL="${DATE} ${RUN_TIME:0:2}:${RUN_TIME:2:2}"   # "2026-05-07 16:30"
 
 # ---- 4. Sanity gate ----
 #
@@ -1249,7 +1246,7 @@ PR_BODY="Automated SWS refresh — fired at ${RUN_LABEL} IST.
 
 ${COMMIT_BODY}
 
-Auto-generated by \`scripts/sws-nightly.sh\` running from launchd. Two scheduled fires per day: 02:00 IST (pre-market) and 16:30 IST (post-close).
+Auto-generated by \`scripts/sws-nightly.sh\` running from launchd. Scheduled fire: 16:30 IST daily (post-close).
 
 🤖 No human in the loop — sanity gate enforces minimum data quality before push."
 

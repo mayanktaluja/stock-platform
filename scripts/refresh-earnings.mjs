@@ -79,7 +79,7 @@ const IN_PATH = path.join(ROOT, "data", "catalysts", "events-latest.json");
 const OUT_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.json");
 const STATS_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-stats.json");
 const FUNDAMENTALS_PATH = path.join(ROOT, "fundamentalsHistory.json");
-// Concurrency lock — sws-nightly launchd fires twice daily (02:00 + 16:30
+// Concurrency lock — sws-nightly launchd fires daily (16:30
 // IST per com.starbhai.sws-nightly.plist). Without a lock, an ad-hoc
 // manual refresh that overlaps a launchd run races on the cache write and
 // silently discards ~hundreds of LLM calls. `data/.locks/` is gitignored.
