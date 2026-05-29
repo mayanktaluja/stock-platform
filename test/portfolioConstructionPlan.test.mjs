@@ -39,7 +39,7 @@ function holding({
       fair_value_inr: 112,
       current_price_inr: 92,
       valuation_confidence: confidence,
-      valuation_source: "computed_fv_price",
+      valuation_source: "sws_raw_fv",
       valuation_band: band,
       data_age_hours: dataAge,
       surveillance: null,

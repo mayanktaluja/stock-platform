@@ -176,7 +176,7 @@ console.log("\nscoreStock — FV-dependent gates use reconciled upside\n");
       market_cap_inr: 1e12,
     },
   }), { surveillanceFlag: null });
-  assert("FV ratio >10x → not deep_value despite raw +1000% upside", !s.categories.includes("deep_value"), s.categories);
+  assert("FV ratio >10x → raw SWS upside remains deep_value eligible", s.categories.includes("deep_value"), s.categories);
 }
 
 {

@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-05-26**
+**Last updated: 2026-05-29**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -34,6 +34,18 @@ harness) shipped in #337 — a separate experimental surface from the main
 portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### SWS fair-value source fidelity (May 2026)
+- **This PR** — SWS fair value is now treated as source-of-truth across India,
+  US, Korea, and Taiwan picks. Finite SWS FV values are preserved even when the
+  FV/price ratio is unusually high or low; upside is computed from raw SWS FV
+  plus current price, and extreme-ratio telemetry now stamps `ok_sws_raw_fv`
+  instead of suppressing the value. Card/scored-universe/API rows carry
+  `fair_value_source` and `upside_source`, parser output records SWS FV/upside
+  source metadata, and 52w ranges fall back to SWS price history when Groww
+  52w data is absent. The shared modal renderer now falls back from null card
+  FV/upside to populated deep overview values, fixing the HIMS-style US modal
+  case where valid deep data rendered as unavailable.
 
 ### India Market modal source fidelity (May 2026)
 - **This PR** — India stock modals now keep raw scraped own P/E separate from

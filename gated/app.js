@@ -11249,7 +11249,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-stat"><span class="sws-pick-stat-label">Px</span> ${fmtInr(s.current_price_inr)}</div>
         <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV${infoIcon("analyst_fair_value")}</span> ${
           s.fair_value_inr == null
-            ? `<span class="sws-pick-fv-unavailable" title="Source fair value outside sanity bounds — likely an SWS scraper artefact. This card stays in the section based on its Snowflake quality pillars; no discount-to-FV claim is being made for this stock.">unavailable</span>`
+            ? `<span class="sws-pick-fv-unavailable" title="SWS did not publish a finite fair value for this stock. This card stays in the section based on its Snowflake quality pillars; no discount-to-FV claim is being made.">unavailable</span>`
             : fmtInr(s.fair_value_inr)
         }</div>
         <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
@@ -11544,7 +11544,7 @@ function renderUSPickCard(s, sectionKey, rank) {
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9.\-]/gi, "");
   const fvCell = s.fair_value_inr == null
-    ? `<span class="sws-pick-fv-unavailable" title="Fair value outside sanity bounds or not published by SWS — card stays on Snowflake quality; no discount claim made.">unavailable</span>`
+    ? `<span class="sws-pick-fv-unavailable" title="SWS did not publish a finite fair value for this stock. Card stays on Snowflake quality; no discount claim made.">unavailable</span>`
     : fmtMoney(s.fair_value_inr, cur);
   return `
     <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
@@ -11805,7 +11805,7 @@ function renderRegionPickCard(code, s, sectionKey, rank) {
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9.\-]/gi, "");
   const fvCell = s.fair_value_inr == null
-    ? `<span class="sws-pick-fv-unavailable" title="Fair value outside sanity bounds or not published by SWS — card stays on Snowflake quality; no discount claim made.">unavailable</span>`
+    ? `<span class="sws-pick-fv-unavailable" title="SWS did not publish a finite fair value for this stock. Card stays on Snowflake quality; no discount claim made.">unavailable</span>`
     : fmtMoney(s.fair_value_inr, cur);
   return `
     <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
@@ -12390,11 +12390,9 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   // US/KR/TW deep brief is lazily extracted from a per-region tarball on prod and
   // can be absent; fall back to the picks-card fields so the header + snowflake
   // never render all-blank. India's deep is always present, so these no-op there.
-  const hasCardFv = Object.prototype.hasOwnProperty.call(card_, "fair_value_inr");
-  const hasCardUpside = Object.prototype.hasOwnProperty.call(card_, "upside_pct");
   const priceVal = card_.current_price_inr ?? ov.current_price_inr;
-  const fvVal = hasCardFv ? card_.fair_value_inr : ov.fair_value_inr;
-  const upsideVal = hasCardUpside ? card_.upside_pct : ov.upside_pct;
+  const fvVal = card_.fair_value_inr ?? ov.fair_value_inr;
+  const upsideVal = card_.upside_pct ?? ov.upside_pct;
   const mcapVal = ov.market_cap_inr ?? card_.market_cap_inr;
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;

@@ -246,6 +246,22 @@ check("Groww stock cache enriches fundamentals but SWS remains canonical for pri
   assert.ok(parsed.overview.recent_news_count >= 1);
 });
 
+check("SWS price history derives 52w range when Groww is absent", () => {
+  const parsed = parseStock(baseApi({
+    priceData: [
+      { date: "2026-05-24", close: 25 },
+      { date: "2026-05-23", close: 40 },
+      { date: "2026-05-22", close: 12.5 },
+      { date: "2026-05-21", close: 31 },
+    ],
+  }), {
+    growwPeMap: new Map(),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.deepEqual(parsed.overview.fifty_two_week, { low: 12.5, high: 40 });
+  assert.equal(parsed.overview.source_map.fifty_two_week.provider, "sws_price_history");
+});
+
 check("SWS return horizons use the previous trading bar for 1D across weekends", () => {
   const parsed = parseStock(baseApi({
     includeFiscal: true,

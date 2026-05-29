@@ -332,18 +332,18 @@ check("scoreStock sets v4_score_100 + absolute v4_verdict and drops all v3 field
   assert.ok(scored.v4_verdict !== null);
 });
 
-check("scoreStock suppresses implausible FV before V4 FV scoring", () => {
+check("scoreStock preserves extreme raw SWS FV before V4 FV scoring", () => {
   const fixture = () => mk(
     { financial_health: 5, future: 4, valuation: 5, past: 3 },
     { current_price_inr: 100, fair_value_inr: 1100, upside_pct: 1000 },
   );
   const scored = scoreStockIndia(fixture(), { surveillanceFlag: null });
   const card = pickCardFields(scored);
-  assert.equal(card.fair_value_inr, null);
-  assert.equal(card.upside_pct, null);
-  assert.equal(card.fv_reconcile_reason, "junk_ratio_high");
-  assert.equal(scored.v4_breakdown.fv_imputed, true);
-  assert.equal(scored.v4_breakdown.pts_fv_total, 6);
+  assert.equal(card.fair_value_inr, 1100);
+  assert.equal(card.upside_pct, 1000);
+  assert.equal(card.fv_reconcile_reason, "ok_sws_raw_fv");
+  assert.equal(scored.v4_breakdown.fv_imputed, false);
+  assert.equal(scored.v4_breakdown.pts_fv_total, 12);
 });
 
 check("scoreStock keeps Alembic-like FV before V4 FV scoring", () => {
