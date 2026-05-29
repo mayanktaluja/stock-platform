@@ -507,8 +507,8 @@ run_market_news_refresh() {
     echo "[nightly] regional news ${market}: continuing without extraction"
   fi
 
-  echo "[nightly] running ${label} news refresh (sws-news-scrape.mjs --market ${market})..."
-  if ! node scripts/sws-news-scrape.mjs --market "${market}" 2>&1 | sed "s/^/[news-${label}] /"; then
+  echo "[nightly] running ${label} news refresh (sws-news-sharded.sh ${market})..."
+  if ! bash scripts/sws-news-sharded.sh "${market}" 2>&1 | sed "s/^/[news-${label}] /"; then
     echo "[nightly] ${label} news refresh failed — non-fatal, continuing"
   fi
 

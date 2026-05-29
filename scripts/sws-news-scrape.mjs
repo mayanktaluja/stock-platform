@@ -26,6 +26,8 @@
  *   node scripts/sws-news-scrape.mjs --market us        # US displayed cards
  *   node scripts/sws-news-scrape.mjs --market kr        # Korea displayed cards
  *   node scripts/sws-news-scrape.mjs --market tw        # Taiwan displayed cards
+ *   node scripts/sws-news-scrape.mjs --market us --shard-id 1 --shard-count 3
+ *   node scripts/sws-news-scrape.mjs --market us --merge-shards --shard-count 3
  *   node scripts/sws-news-scrape.mjs --limit 5          # test small batch
  *   node scripts/sws-news-scrape.mjs --tickers RELIANCE,TCS,HDFCBANK
  */
@@ -53,6 +55,7 @@ const INTER_STOCK_MAX_MS = 2000;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const randInt = (min, max) => min + Math.floor(Math.random() * (max - min));
+const replaceJsonSuffix = (fp, suffix) => fp.replace(/\.json$/i, `${suffix}.json`);
 
 function logEvent(obj) {
   console.log(JSON.stringify(obj));
@@ -260,6 +263,102 @@ export function buildCoverageList(opts = {}, config = makeNewsMarketConfig(opts.
   return list;
 }
 
+export function normaliseShardArgs(args = {}) {
+  const shardCount = Number.parseInt(args.shardCount ?? 1, 10);
+  const shardId = Number.parseInt(args.shardId ?? 1, 10);
+  if (!Number.isFinite(shardCount) || shardCount < 1) {
+    throw new Error(`invalid --shard-count '${args.shardCount}'`);
+  }
+  if (!Number.isFinite(shardId) || shardId < 1 || shardId > shardCount) {
+    throw new Error(`invalid --shard-id '${args.shardId}' for shard-count ${shardCount}`);
+  }
+  return { shardId, shardCount };
+}
+
+export function shardCoverageList(list, args = {}) {
+  const { shardId, shardCount } = normaliseShardArgs(args);
+  if (shardCount <= 1) return list;
+  return list.filter((_, idx) => idx % shardCount === shardId - 1);
+}
+
+export function progressPathForRun(config, args = {}) {
+  const { shardId, shardCount } = normaliseShardArgs(args);
+  return shardCount > 1 ? replaceJsonSuffix(config.progressPath, `-${shardId}`) : config.progressPath;
+}
+
+export function newsLatestPathForRun(config, args = {}) {
+  const { shardId, shardCount } = normaliseShardArgs(args);
+  return shardCount > 1 ? replaceJsonSuffix(config.newsLatestPath, `-${shardId}`) : config.newsLatestPath;
+}
+
+export function mergeShardAggregates(config, shardCount) {
+  const count = Number.parseInt(shardCount, 10);
+  if (!Number.isFinite(count) || count < 1) {
+    throw new Error(`invalid shard count '${shardCount}'`);
+  }
+  const items = [];
+  const shards = [];
+  let coverageCount = 0;
+  for (let shardId = 1; shardId <= count; shardId++) {
+    const newsPath = newsLatestPathForRun(config, { shardId, shardCount: count });
+    const progressPath = progressPathForRun(config, { shardId, shardCount: count });
+    const aggregate = readJsonSafe(newsPath, null);
+    const progress = readJsonSafe(progressPath, null);
+    const shardItems = Array.isArray(aggregate?.items) ? aggregate.items : [];
+    items.push(...shardItems);
+    coverageCount += Number.isFinite(aggregate?.coverage_count) ? aggregate.coverage_count : 0;
+    shards.push({
+      shard_id: shardId,
+      news_path: newsPath,
+      progress_path: progressPath,
+      coverage_count: aggregate?.coverage_count ?? 0,
+      items_count: shardItems.length,
+      done_count: progress?.done_count ?? 0,
+      failed_count: Array.isArray(progress?.failed) ? progress.failed.length : 0,
+      aborted: Boolean(progress?.aborted),
+      finished_at: progress?.finished_at || null,
+    });
+  }
+
+  const seen = new Set();
+  const deduped = [];
+  for (const item of items.sort((a, b) => Date.parse(b.date || 0) - Date.parse(a.date || 0))) {
+    const key = `${item.ticker || ""}|${item.date || ""}|${item.title || ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push(item);
+  }
+  const out = {
+    generated_at: new Date().toISOString(),
+    window_days: 30,
+    shard_count: count,
+    coverage_count: coverageCount,
+    items_count: deduped.length,
+    shards,
+    items: deduped,
+  };
+  fs.mkdirSync(path.dirname(config.newsLatestPath), { recursive: true });
+  const tmp = `${config.newsLatestPath}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(out, null, 2));
+  fs.renameSync(tmp, config.newsLatestPath);
+
+  const progressOut = {
+    generated_at: out.generated_at,
+    market: config.market,
+    shard_count: count,
+    done_count: shards.reduce((sum, s) => sum + s.done_count, 0),
+    failed_count: shards.reduce((sum, s) => sum + s.failed_count, 0),
+    shards,
+  };
+  fs.mkdirSync(path.dirname(config.progressPath), { recursive: true });
+  const progressTmp = `${config.progressPath}.tmp`;
+  fs.writeFileSync(progressTmp, JSON.stringify(progressOut, null, 2));
+  fs.renameSync(progressTmp, config.progressPath);
+
+  console.log(`[news:${config.market}] merged ${count} shard aggregate(s): ${deduped.length} items → ${config.newsLatestPath}`);
+  return out;
+}
+
 // ────────── Per-stock fetch + merge ──────────
 
 export function mergeParsedNewsIntoDeep(config, ticker, news, recentCount) {
@@ -301,7 +400,7 @@ async function refreshOneStock(client, stock, config) {
 
 // ────────── Aggregate writer ──────────
 
-function writeAggregate(perStock, config) {
+function writeAggregate(perStock, config, args = {}) {
   const items = [];
   for (const r of perStock) {
     if (!r || !Array.isArray(r.news)) continue;
@@ -336,22 +435,32 @@ function writeAggregate(perStock, config) {
     items_count: windowed.length,
     items: windowed,
   };
-  fs.mkdirSync(path.dirname(config.newsLatestPath), { recursive: true });
-  const tmp = `${config.newsLatestPath}.tmp`;
+  const outPath = newsLatestPathForRun(config, args);
+  fs.mkdirSync(path.dirname(outPath), { recursive: true });
+  const tmp = `${outPath}.tmp`;
   fs.writeFileSync(tmp, JSON.stringify(out, null, 2));
-  fs.renameSync(tmp, config.newsLatestPath);
-  console.log(`[news:${config.market}] aggregate written: ${windowed.length} items across ${perStock.length} stocks → ${config.newsLatestPath}`);
+  fs.renameSync(tmp, outPath);
+  console.log(`[news:${config.market}] aggregate written: ${windowed.length} items across ${perStock.length} stocks → ${outPath}`);
 }
 
-function saveProgress(config, state) {
-  fs.mkdirSync(path.dirname(config.progressPath), { recursive: true });
-  fs.writeFileSync(config.progressPath, JSON.stringify(state, null, 2));
+function saveProgress(config, state, args = {}) {
+  const outPath = progressPathForRun(config, args);
+  fs.mkdirSync(path.dirname(outPath), { recursive: true });
+  fs.writeFileSync(outPath, JSON.stringify(state, null, 2));
 }
 
 // ────────── Main ──────────
 
 export function parseArgs(argv) {
-  const out = { market: "in", limit: null, tickers: null };
+  const envShardCount = Number.parseInt(process.env.SWS_NEWS_SHARD_COUNT || process.env.SWS_NEWS_SHARDS || "1", 10);
+  const out = {
+    market: "in",
+    limit: null,
+    tickers: null,
+    shardId: 1,
+    shardCount: Number.isFinite(envShardCount) && envShardCount > 0 ? envShardCount : 1,
+    mergeShards: false,
+  };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--limit") {
@@ -363,40 +472,61 @@ export function parseArgs(argv) {
       out.market = argv[++i] || "in";
     } else if (a.startsWith("--market=")) {
       out.market = a.slice("--market=".length) || "in";
+    } else if (a === "--shard-id") {
+      out.shardId = Number.parseInt(argv[++i], 10);
+    } else if (a.startsWith("--shard-id=")) {
+      out.shardId = Number.parseInt(a.slice("--shard-id=".length), 10);
+    } else if (a === "--shard-count") {
+      out.shardCount = Number.parseInt(argv[++i], 10);
+    } else if (a.startsWith("--shard-count=")) {
+      out.shardCount = Number.parseInt(a.slice("--shard-count=".length), 10);
+    } else if (a === "--merge-shards") {
+      out.mergeShards = true;
     }
   }
+  normaliseShardArgs(out);
   return out;
 }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = makeNewsMarketConfig(args.market);
+  const shardLabel = args.shardCount > 1 ? ` shard ${args.shardId}/${args.shardCount}` : "";
+
+  if (args.mergeShards) {
+    mergeShardAggregates(config, args.shardCount);
+    return;
+  }
 
   if (checkPanic(config)) {
     console.error(`[news:${config.market}] panic-stop.flag is set — refusing to run. Inspect ${config.panicFlag} and remove it manually after review.`);
     process.exit(3);
   }
 
-  const coverage = buildCoverageList(args, config);
+  const allCoverage = buildCoverageList(args, config);
+  const coverage = shardCoverageList(allCoverage, args);
   if (!coverage.length) {
-    console.error(`[news:${config.market}] empty coverage list — nothing to fetch`);
+    console.error(`[news:${config.market}] empty coverage list${shardLabel} — nothing to fetch`);
     process.exit(1);
   }
-  console.log(`[news:${config.market}] target: ${coverage.length} stocks (${config.label})`);
-  fs.mkdirSync(path.dirname(config.newsLatestPath), { recursive: true });
+  console.log(`[news:${config.market}] target: ${coverage.length}/${allCoverage.length} stocks (${config.label}${shardLabel})`);
+  fs.mkdirSync(path.dirname(newsLatestPathForRun(config, args)), { recursive: true });
 
   const startedAt = new Date().toISOString();
   saveProgress(config, {
     started_at: startedAt,
     market: config.market,
+    shard_id: args.shardId,
+    shard_count: args.shardCount,
+    full_target_count: allCoverage.length,
     target_count: coverage.length,
     done_count: 0,
     failed: [],
     finished_at: null,
-  });
+  }, args);
 
-  console.log(`[news:${config.market}] launching browser…`);
-  const client = await createClient({ shardId: 1, headless: true });
+  console.log(`[news:${config.market}] launching browser${shardLabel}…`);
+  const client = await createClient({ shardId: args.shardId, headless: true });
 
   const perStock = [];
   const failed = [];
@@ -417,6 +547,8 @@ async function main() {
         logEvent({
           ev: "news.stock.ok",
           market: config.market,
+          shard_id: args.shardId,
+          shard_count: args.shardCount,
           ticker: stock.ticker,
           news_count: r.news.length,
           ms: Date.now() - t0,
@@ -427,6 +559,8 @@ async function main() {
         logEvent({
           ev: "news.stock.err",
           market: config.market,
+          shard_id: args.shardId,
+          shard_count: args.shardCount,
           ticker: stock.ticker,
           error: String(e),
           kind: e?.kind || null,
@@ -447,11 +581,14 @@ async function main() {
         saveProgress(config, {
           started_at: startedAt,
           market: config.market,
+          shard_id: args.shardId,
+          shard_count: args.shardCount,
+          full_target_count: allCoverage.length,
           target_count: coverage.length,
           done_count: perStock.length,
           failed,
           finished_at: null,
-        });
+        }, args);
       }
       // Inter-stock pacing
       if (i < coverage.length - 1) {
@@ -464,20 +601,23 @@ async function main() {
 
   // Always write aggregate even on partial run — gives the dashboard
   // something to show.
-  writeAggregate(perStock, config);
+  writeAggregate(perStock, config, args);
   saveProgress(config, {
     started_at: startedAt,
     market: config.market,
+    shard_id: args.shardId,
+    shard_count: args.shardCount,
+    full_target_count: allCoverage.length,
     target_count: coverage.length,
     done_count: perStock.length,
     failed,
     aborted,
     finished_at: new Date().toISOString(),
-  });
+  }, args);
 
   console.log(
-    `[news:${config.market}] done. ok=${perStock.length} failed=${failed.length} aborted=${aborted} ` +
-    `aggregate_items=${(readJsonSafe(config.newsLatestPath, { items: [] }).items || []).length}`,
+    `[news:${config.market}] done${shardLabel}. ok=${perStock.length} failed=${failed.length} aborted=${aborted} ` +
+    `aggregate_items=${(readJsonSafe(newsLatestPathForRun(config, args), { items: [] }).items || []).length}`,
   );
 
   if (aborted) process.exit(2);

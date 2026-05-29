@@ -11,7 +11,7 @@ const read = (p) => readFileSync(resolve(ROOT, p), "utf8");
 
 test("US manual refresh enriches news before packing the prod tarball", () => {
   const script = read("scripts/sws-refresh-us.sh");
-  const newsIdx = script.indexOf("sws-news-scrape.mjs --market us");
+  const newsIdx = script.indexOf("sws-news-sharded.sh us");
   const packIdx = script.indexOf("packing deep-us.tar.gz");
   assert.ok(newsIdx > -1, "US news enrichment command is missing");
   assert.ok(packIdx > -1, "US tarball pack step is missing");
@@ -21,7 +21,7 @@ test("US manual refresh enriches news before packing the prod tarball", () => {
 
 test("KR/TW manual refresh enriches news before packing region tarballs", () => {
   const script = read("scripts/sws-refresh-region.sh");
-  const newsIdx = script.indexOf('sws-news-scrape.mjs --market "${CODE}"');
+  const newsIdx = script.indexOf('sws-news-sharded.sh "${CODE}"');
   const packIdx = script.indexOf('packing deep-${CODE}.tar.gz');
   assert.ok(newsIdx > -1, "region news enrichment command is missing");
   assert.ok(packIdx > -1, "region tarball pack step is missing");
@@ -38,6 +38,7 @@ test("nightly launchd path runs India, US, KR, and TW news non-fatally", () => {
   assert.ok(inIdx > -1 && usIdx > inIdx && krIdx > usIdx && twIdx > krIdx);
   assert.match(nightly, /extract_regional_deep_from_tarball/);
   assert.match(nightly, /pack_regional_deep_tarball/);
+  assert.match(nightly, /sws-news-sharded\.sh/);
   assert.match(nightly, /\$\{label\} news refresh failed — non-fatal/);
 
   for (const fp of [
@@ -49,3 +50,11 @@ test("nightly launchd path runs India, US, KR, and TW news non-fatally", () => {
   }
 });
 
+test("shared news shard wrapper runs shard workers and merges aggregates", () => {
+  const script = read("scripts/sws-news-sharded.sh");
+  assert.match(script, /SWS_NEWS_SHARD_COUNT/);
+  assert.match(script, /--shard-id/);
+  assert.match(script, /--shard-count/);
+  assert.match(script, /--merge-shards/);
+  assert.match(script, /news-shard-\$\{shard\}\.log/);
+});
