@@ -89,6 +89,8 @@ test.describe("US Picks tab", () => {
     // their presence proves the US tab now renders via the shared renderSwsModalCore.
     expect(txt).toMatch(/Score breakdown/i);
     expect(txt).toMatch(/Total returns/i);
+    expect(txt).toMatch(/Recent news/i);
+    await expect(page.locator("#usModalBody details").filter({ hasText: /Recent news/i })).toContainText(/fixture SWS news headline/i);
     await expectTotalReturnsHasPercentValues(page.locator("#usModalBody"));
     expect(txt).toMatch(/Snowflake/i);
     expect(txt).toMatch(/Quick stats/i);

@@ -16,6 +16,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { PATHS } from "../../../scripts/sws-config-us.mjs";
 import { runFullScoringUS } from "../../../scripts/sws-scoring-us.mjs";
 import {
@@ -24,9 +25,23 @@ import {
 } from "../../../services/swsMarketFundamentals.js";
 
 const DEFAULT_RETURNS = { "1D": 0.8, "7D": 2.1, "1M": 3, "3M": 8, "1Y": 20, "5Y": 90 };
+const DEFAULT_NEWS_DATE = "2026-05-28T14:30:00.000Z";
 
 function fixtureReturns(returnsPct) {
   return { ...DEFAULT_RETURNS, ...(returnsPct || {}) };
+}
+
+function fixtureNews(ticker) {
+  return [{
+    id: `fixture-news-${ticker}`,
+    type: "brief",
+    date: DEFAULT_NEWS_DATE,
+    title: `${ticker} fixture SWS news headline`,
+    body: "Synthetic SWS BriefActivity item used to verify regional modal recent-news rendering.",
+    keyDevTypeId: null,
+    source_url: null,
+    raw_subtype: "BriefActivity",
+  }];
 }
 
 function withIsolatedDeepDir(fn) {
@@ -40,6 +55,14 @@ function withIsolatedDeepDir(fn) {
     fs.rmSync(PATHS.deepDir, { recursive: true, force: true });
     if (fs.existsSync(backupDir)) fs.renameSync(backupDir, PATHS.deepDir);
   }
+}
+
+function packSyntheticDeepTarball() {
+  const tarballPath = path.join(PATHS.dataDir, "deep-us.tar.gz");
+  execFileSync("tar", ["-czf", tarballPath, "-C", PATHS.dataDir, "deep"], {
+    stdio: ["ignore", "ignore", "pipe"],
+  });
+  return tarballPath;
 }
 
 // Build a parser-shaped deep stock. snowflake_total is derived; upside is
@@ -64,6 +87,7 @@ function makeDeep(o) {
   const price = o.price ?? 100;
   const fv = o.fv === undefined ? null : o.fv;
   const upside = o.upside !== undefined ? o.upside : fv != null && price > 0 ? ((fv - price) / price) * 100 : null;
+  const news = o.news || fixtureNews(o.ticker);
   return {
     ticker: o.ticker,
     name: o.name,
@@ -85,12 +109,12 @@ function makeDeep(o) {
       rewards: o.rewards || [],
       risks: o.risks || [],
       next_earnings_date: null,
-      recent_news_count: o.news ? o.news.length : 0,
+      recent_news_count: news.length,
       last_quarter_result: null,
     },
     ownership: { top_holders: [], insider_ownership_pct: null, insider_activity: null },
     dividend: o.dividend || { yield_pct: 0.6, payout_pct: 20, listing_currency: "USD" },
-    news: o.news || [],
+    news,
     _api_raw_path: `data/sws-us/deep-api/${o.ticker}.json`,
   };
 }
@@ -196,7 +220,9 @@ function main() {
       fs.writeFileSync(path.join(PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
     }
     writeFallbackFundamentals(STOCKS);
-    return runFullScoringUS();
+    const scored = runFullScoringUS();
+    packSyntheticDeepTarball();
+    return scored;
   });
   console.log(`[us-fixture] wrote ${STOCKS.length} synthetic deep stocks → scored ${out.scored_count}`);
   console.log(`[us-fixture] wrote ${MARKET_FUNDAMENTALS_FILE} fallback metrics`);

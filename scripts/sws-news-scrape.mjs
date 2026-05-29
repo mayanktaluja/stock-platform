@@ -1,23 +1,19 @@
 #!/usr/bin/env node
 /**
- * SWS news refresh — targeted scrape of picks + portfolio + watchlist.
+ * SWS news refresh — targeted scrape of displayed picks.
  *
- * Coverage scope is intentionally narrow (~300 stocks vs the full 5,517-stock
- * universe scrape) because per-stock news activity falls off a cliff outside
- * the user's actual buy-list. Runs in ~3 min wall-clock with sequential pacing.
+ * India keeps its historical coverage union (picks + portfolio + watchlist).
+ * US/KR/TW use every ticker displayed in their picks-latest.json sections so
+ * any card the modal can open receives SWS Brief/Event activity.
  *
  * Pipeline:
- *   1. Build coverage union: picks-latest.json sections ∪ portfolio holdings
- *      ∪ watchlist symbols, intersected against universe.json.
+ *   1. Build coverage union, intersected against the market universe.json.
  *   2. For each ticker, fetch CompanySummary (companyId) + getCompanyUpdates
- *      via the existing API client. ~600ms × 300 ≈ 3 min.
- *   3. Parse each response with the existing parseStock() pipeline.
- *   4. For each stock, merge `news` + `overview.recent_news_count` into the
- *      existing data/sws/deep/<TICKER>.json file (atomic read-mutate-write).
- *      The dashboard endpoint /api/sws-stock/:ticker already serves this file,
- *      so the new news field flows to the modal automatically.
- *   5. Write data/sws/news-latest.json — cross-portfolio aggregate sorted
- *      DESC by date, used by the daily PDF and any future "what's new" UI.
+ *      via the existing API client.
+ *   3. Parse each response with the market parser (India / US / KR/TW).
+ *   4. Merge only `news` + `overview.recent_news_count` into the existing
+ *      deep/<TICKER>.json file (atomic read-mutate-write).
+ *   5. Write data/sws[-market]/news-latest.json aggregate sorted DESC by date.
  *
  * Safety hooks (reuses existing infra):
  *   - panic-stop.flag: aborts if set (never auto-creates one — failures are
@@ -27,6 +23,9 @@
  *
  * Usage:
  *   node scripts/sws-news-scrape.mjs                    # full coverage set
+ *   node scripts/sws-news-scrape.mjs --market us        # US displayed cards
+ *   node scripts/sws-news-scrape.mjs --market kr        # Korea displayed cards
+ *   node scripts/sws-news-scrape.mjs --market tw        # Taiwan displayed cards
  *   node scripts/sws-news-scrape.mjs --limit 5          # test small batch
  *   node scripts/sws-news-scrape.mjs --tickers RELIANCE,TCS,HDFCBANK
  */
@@ -36,16 +35,15 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient, fetchStockData, TransportError } from "./sws-api-client.mjs";
 import { parseStock } from "./sws-api-parser.mjs";
+import { parseStockUS } from "./sws-api-parser-us.mjs";
+import { PATHS as US_PATHS } from "./sws-config-us.mjs";
+import { parseStockRegion } from "./sws-api-parser-region.mjs";
+import { makeRegionConfig } from "./sws-config-region.mjs";
+import { getRegion } from "./sws-regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE || path.resolve(__dirname, "..");
 
-const UNIVERSE_PATH = path.join(REPO_ROOT, "data/sws/universe.json");
-const PICKS_PATH = path.join(REPO_ROOT, "data/sws/picks-latest.json");
-const DEEP_DIR = path.join(REPO_ROOT, "data/sws/deep");
-const PROGRESS_PATH = path.join(REPO_ROOT, "data/sws/news-progress.json");
-const NEWS_LATEST_PATH = path.join(REPO_ROOT, "data/sws/news-latest.json");
-const PANIC_FLAG = path.join(REPO_ROOT, "data/sws/panic-stop.flag");
 const PORTFOLIOS_PATH = path.join(REPO_ROOT, "portfolios.json");
 const WATCHLIST_PATH = path.join(REPO_ROOT, ".watchlist.json");
 
@@ -60,11 +58,68 @@ function logEvent(obj) {
   console.log(JSON.stringify(obj));
 }
 
-function checkPanic() {
-  return fs.existsSync(PANIC_FLAG);
+export function makeNewsMarketConfig(market = "in") {
+  const m = String(market || "in").toLowerCase();
+  if (m === "in" || m === "india") {
+    const dataDir = path.join(REPO_ROOT, "data", "sws");
+    return {
+      market: "in",
+      label: "India",
+      dataDir,
+      universePath: path.join(dataDir, "universe.json"),
+      picksPath: path.join(dataDir, "picks-latest.json"),
+      deepDir: path.join(dataDir, "deep"),
+      progressPath: path.join(dataDir, "news-progress.json"),
+      newsLatestPath: path.join(dataDir, "news-latest.json"),
+      panicFlag: path.join(dataDir, "panic-stop.flag"),
+      parseApi: (api) => parseStock(api),
+      fixedCoverageSections: COVERAGE_SECTIONS,
+      includePortfolioWatchlist: true,
+    };
+  }
+  if (m === "us") {
+    const dataDir = US_PATHS.dataDir;
+    return {
+      market: "us",
+      label: "US",
+      dataDir,
+      universePath: US_PATHS.universe,
+      picksPath: US_PATHS.picksLatest,
+      deepDir: US_PATHS.deepDir,
+      progressPath: path.join(dataDir, "news-progress.json"),
+      newsLatestPath: path.join(dataDir, "news-latest.json"),
+      panicFlag: US_PATHS.panicStop,
+      parseApi: (api) => parseStockUS(api),
+      fixedCoverageSections: null,
+      includePortfolioWatchlist: false,
+    };
+  }
+  if (m === "kr" || m === "tw") {
+    const region = getRegion(m);
+    const cfg = makeRegionConfig(m);
+    return {
+      market: m,
+      label: region.label,
+      dataDir: cfg.PATHS.dataDir,
+      universePath: cfg.PATHS.universe,
+      picksPath: cfg.PATHS.picksLatest,
+      deepDir: cfg.PATHS.deepDir,
+      progressPath: path.join(cfg.PATHS.dataDir, "news-progress.json"),
+      newsLatestPath: path.join(cfg.PATHS.dataDir, "news-latest.json"),
+      panicFlag: cfg.PATHS.panicStop,
+      parseApi: (api) => parseStockRegion(api, region),
+      fixedCoverageSections: null,
+      includePortfolioWatchlist: false,
+    };
+  }
+  throw new Error(`unsupported market '${market}' (expected in|us|kr|tw)`);
 }
 
-function readJsonSafe(p, fallback) {
+function checkPanic(config) {
+  return fs.existsSync(config.panicFlag);
+}
+
+export function readJsonSafe(p, fallback) {
   try {
     if (!fs.existsSync(p)) return fallback;
     return JSON.parse(fs.readFileSync(p, "utf8"));
@@ -93,14 +148,17 @@ const COVERAGE_SECTIONS = [
   "avoid",
 ];
 
-function tickersFromPicks() {
-  const picks = readJsonSafe(PICKS_PATH, null);
+export function tickersFromPicks(config = makeNewsMarketConfig()) {
+  const picks = readJsonSafe(config.picksPath, null);
   if (!picks || !picks.sections) {
-    console.warn(`[news] picks-latest.json missing or empty — skipping picks set`);
+    console.warn(`[news:${config.market}] picks-latest.json missing or empty — skipping picks set`);
     return new Set();
   }
   const out = new Set();
-  for (const key of COVERAGE_SECTIONS) {
+  const sectionKeys = Array.isArray(config.fixedCoverageSections)
+    ? config.fixedCoverageSections
+    : Object.keys(picks.sections);
+  for (const key of sectionKeys) {
     const arr = picks.sections[key];
     if (!Array.isArray(arr)) continue;
     for (const p of arr) {
@@ -141,17 +199,17 @@ function tickersFromPortfolio() {
   return out;
 }
 
-function loadUniverse() {
-  const raw = readJsonSafe(UNIVERSE_PATH, null);
+function loadUniverse(config) {
+  const raw = readJsonSafe(config.universePath, null);
   if (!raw) {
-    throw new Error(`universe.json not found at ${UNIVERSE_PATH}`);
+    throw new Error(`universe.json not found at ${config.universePath}`);
   }
   return Array.isArray(raw) ? raw : raw.stocks || raw.universe || [];
 }
 
-function buildCoverageList(opts = {}) {
+export function buildCoverageList(opts = {}, config = makeNewsMarketConfig(opts.market)) {
   // Returns: [{ ticker, canonicalUrl, name, sector }]
-  const universe = loadUniverse();
+  const universe = loadUniverse(config);
   const indexByTicker = new Map();
   for (const u of universe) {
     if (u?.ticker) indexByTicker.set(String(u.ticker).toUpperCase(), u);
@@ -161,14 +219,19 @@ function buildCoverageList(opts = {}) {
   if (opts.tickers) {
     union = new Set(opts.tickers.map((t) => String(t).toUpperCase()));
   } else {
-    const picksSet = tickersFromPicks();
-    const watchSet = tickersFromWatchlist();
-    const portSet = tickersFromPortfolio();
-    union = new Set([...picksSet, ...watchSet, ...portSet]);
-    console.log(
-      `[news] coverage union: picks=${picksSet.size} watchlist=${watchSet.size} ` +
-      `portfolio=${portSet.size} union=${union.size}`,
-    );
+    const picksSet = tickersFromPicks(config);
+    if (config.includePortfolioWatchlist) {
+      const watchSet = tickersFromWatchlist();
+      const portSet = tickersFromPortfolio();
+      union = new Set([...picksSet, ...watchSet, ...portSet]);
+      console.log(
+        `[news:${config.market}] coverage union: picks=${picksSet.size} watchlist=${watchSet.size} ` +
+        `portfolio=${portSet.size} union=${union.size}`,
+      );
+    } else {
+      union = picksSet;
+      console.log(`[news:${config.market}] coverage union: displayed_sections=${picksSet.size}`);
+    }
   }
 
   const list = [];
@@ -179,7 +242,7 @@ function buildCoverageList(opts = {}) {
       missing.push(t);
       continue;
     }
-    const canonicalUrl = (stock.sws_url || "").replace(/^https?:\/\/simplywall\.st/, "");
+    const canonicalUrl = (stock.sws_url || stock.canonicalUrl || stock.canonical_url || "").replace(/^https?:\/\/simplywall\.st/, "");
     if (!canonicalUrl) continue;
     list.push({
       ticker: t,
@@ -189,7 +252,7 @@ function buildCoverageList(opts = {}) {
     });
   }
   if (missing.length) {
-    console.log(`[news] ${missing.length} ticker(s) not in universe (skipped): ${missing.slice(0, 10).join(", ")}${missing.length > 10 ? "…" : ""}`);
+    console.log(`[news:${config.market}] ${missing.length} ticker(s) not in universe (skipped): ${missing.slice(0, 10).join(", ")}${missing.length > 10 ? "…" : ""}`);
   }
   // Stable order so progress + retries are deterministic.
   list.sort((a, b) => a.ticker.localeCompare(b.ticker));
@@ -199,44 +262,46 @@ function buildCoverageList(opts = {}) {
 
 // ────────── Per-stock fetch + merge ──────────
 
-async function refreshOneStock(client, stock) {
+export function mergeParsedNewsIntoDeep(config, ticker, news, recentCount) {
+  const deepPath = path.join(config.deepDir, `${ticker}.json`);
+  if (!fs.existsSync(deepPath)) return false;
+  const existing = JSON.parse(fs.readFileSync(deepPath, "utf8"));
+  existing.news = Array.isArray(news) ? news : [];
+  if (existing.overview && typeof existing.overview === "object") {
+    existing.overview.recent_news_count = recentCount ?? 0;
+  }
+  const tmp = `${deepPath}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(existing, null, 2));
+  fs.renameSync(tmp, deepPath);
+  return true;
+}
+
+async function refreshOneStock(client, stock, config) {
   const api = await fetchStockData(client, {
     ticker: stock.ticker,
     canonicalUrl: stock.canonicalUrl,
   });
   // The parser already extracts `news` from whatever GraphQL ops are present.
-  // We pass through full parseStock() so news + recent_news_count + the parser's
-  // best-effort enrichment all land cleanly. Sector map / NSE calendar are
-  // optional; news doesn't depend on them.
-  const parsed = parseStock(api);
+  // Use the market wrapper so currency / NSE-calendar behavior stays aligned
+  // with the market's normal full parse path.
+  const parsed = config.parseApi(api);
   const news = Array.isArray(parsed.news) ? parsed.news : [];
   const recentCount = parsed.overview?.recent_news_count ?? 0;
 
   // Atomic read-mutate-write of the existing deep file. If the deep file
   // doesn't exist yet (rare — picks set should always have one), we skip
   // the merge and rely on the next full scrape to create the file.
-  const deepPath = path.join(DEEP_DIR, `${stock.ticker}.json`);
-  if (fs.existsSync(deepPath)) {
-    try {
-      const existing = JSON.parse(fs.readFileSync(deepPath, "utf8"));
-      existing.news = news;
-      if (existing.overview && typeof existing.overview === "object") {
-        existing.overview.recent_news_count = recentCount;
-      }
-      // Atomic write via tmp + rename so a partial write can never corrupt.
-      const tmp = `${deepPath}.tmp`;
-      fs.writeFileSync(tmp, JSON.stringify(existing, null, 2));
-      fs.renameSync(tmp, deepPath);
-    } catch (e) {
-      console.warn(`[news] merge failed for ${stock.ticker}: ${e.message}`);
-    }
+  try {
+    mergeParsedNewsIntoDeep(config, stock.ticker, news, recentCount);
+  } catch (e) {
+    console.warn(`[news:${config.market}] merge failed for ${stock.ticker}: ${e.message}`);
   }
   return { ticker: stock.ticker, name: stock.name, sector: stock.sector, news };
 }
 
 // ────────── Aggregate writer ──────────
 
-function writeAggregate(perStock) {
+function writeAggregate(perStock, config) {
   const items = [];
   for (const r of perStock) {
     if (!r || !Array.isArray(r.news)) continue;
@@ -271,20 +336,22 @@ function writeAggregate(perStock) {
     items_count: windowed.length,
     items: windowed,
   };
-  const tmp = `${NEWS_LATEST_PATH}.tmp`;
+  fs.mkdirSync(path.dirname(config.newsLatestPath), { recursive: true });
+  const tmp = `${config.newsLatestPath}.tmp`;
   fs.writeFileSync(tmp, JSON.stringify(out, null, 2));
-  fs.renameSync(tmp, NEWS_LATEST_PATH);
-  console.log(`[news] aggregate written: ${windowed.length} items across ${perStock.length} stocks → ${NEWS_LATEST_PATH}`);
+  fs.renameSync(tmp, config.newsLatestPath);
+  console.log(`[news:${config.market}] aggregate written: ${windowed.length} items across ${perStock.length} stocks → ${config.newsLatestPath}`);
 }
 
-function saveProgress(state) {
-  fs.writeFileSync(PROGRESS_PATH, JSON.stringify(state, null, 2));
+function saveProgress(config, state) {
+  fs.mkdirSync(path.dirname(config.progressPath), { recursive: true });
+  fs.writeFileSync(config.progressPath, JSON.stringify(state, null, 2));
 }
 
 // ────────── Main ──────────
 
-function parseArgs(argv) {
-  const out = { limit: null, tickers: null };
+export function parseArgs(argv) {
+  const out = { market: "in", limit: null, tickers: null };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--limit") {
@@ -292,36 +359,43 @@ function parseArgs(argv) {
       if (Number.isFinite(v) && v > 0) out.limit = v;
     } else if (a === "--tickers") {
       out.tickers = (argv[++i] || "").split(",").map((s) => s.trim()).filter(Boolean);
+    } else if (a === "--market") {
+      out.market = argv[++i] || "in";
+    } else if (a.startsWith("--market=")) {
+      out.market = a.slice("--market=".length) || "in";
     }
   }
   return out;
 }
 
 async function main() {
-  if (checkPanic()) {
-    console.error(`[news] panic-stop.flag is set — refusing to run. Inspect ${PANIC_FLAG} and remove it manually after review.`);
+  const args = parseArgs(process.argv.slice(2));
+  const config = makeNewsMarketConfig(args.market);
+
+  if (checkPanic(config)) {
+    console.error(`[news:${config.market}] panic-stop.flag is set — refusing to run. Inspect ${config.panicFlag} and remove it manually after review.`);
     process.exit(3);
   }
 
-  const args = parseArgs(process.argv.slice(2));
-  const coverage = buildCoverageList(args);
+  const coverage = buildCoverageList(args, config);
   if (!coverage.length) {
-    console.error(`[news] empty coverage list — nothing to fetch`);
+    console.error(`[news:${config.market}] empty coverage list — nothing to fetch`);
     process.exit(1);
   }
-  console.log(`[news] target: ${coverage.length} stocks`);
-  fs.mkdirSync(path.dirname(NEWS_LATEST_PATH), { recursive: true });
+  console.log(`[news:${config.market}] target: ${coverage.length} stocks (${config.label})`);
+  fs.mkdirSync(path.dirname(config.newsLatestPath), { recursive: true });
 
   const startedAt = new Date().toISOString();
-  saveProgress({
+  saveProgress(config, {
     started_at: startedAt,
+    market: config.market,
     target_count: coverage.length,
     done_count: 0,
     failed: [],
     finished_at: null,
   });
 
-  console.log(`[news] launching browser…`);
+  console.log(`[news:${config.market}] launching browser…`);
   const client = await createClient({ shardId: 1, headless: true });
 
   const perStock = [];
@@ -331,17 +405,18 @@ async function main() {
   try {
     for (let i = 0; i < coverage.length; i++) {
       const stock = coverage[i];
-      if (checkPanic()) {
-        console.error(`[news] panic-stop detected mid-run — aborting`);
+      if (checkPanic(config)) {
+        console.error(`[news:${config.market}] panic-stop detected mid-run — aborting`);
         aborted = true;
         break;
       }
       const t0 = Date.now();
       try {
-        const r = await refreshOneStock(client, stock);
+        const r = await refreshOneStock(client, stock, config);
         perStock.push(r);
         logEvent({
           ev: "news.stock.ok",
+          market: config.market,
           ticker: stock.ticker,
           news_count: r.news.length,
           ms: Date.now() - t0,
@@ -351,6 +426,7 @@ async function main() {
         failed.push({ ticker: stock.ticker, error: String(e), kind: e?.kind || null });
         logEvent({
           ev: "news.stock.err",
+          market: config.market,
           ticker: stock.ticker,
           error: String(e),
           kind: e?.kind || null,
@@ -360,7 +436,7 @@ async function main() {
         // will also fail and may push us deeper into rate-limit jail.
         if (e instanceof TransportError) {
           if (e.kind === "auth_expired" || e.kind === "rate_limited" || e.kind === "blocked") {
-            console.error(`[news] aborting on transport ${e.kind}`);
+            console.error(`[news:${config.market}] aborting on transport ${e.kind}`);
             aborted = true;
             break;
           }
@@ -368,8 +444,9 @@ async function main() {
       }
       // Persist progress every 10 stocks so a Ctrl-C leaves an inspectable trail.
       if ((i + 1) % 10 === 0) {
-        saveProgress({
+        saveProgress(config, {
           started_at: startedAt,
+          market: config.market,
           target_count: coverage.length,
           done_count: perStock.length,
           failed,
@@ -387,9 +464,10 @@ async function main() {
 
   // Always write aggregate even on partial run — gives the dashboard
   // something to show.
-  writeAggregate(perStock);
-  saveProgress({
+  writeAggregate(perStock, config);
+  saveProgress(config, {
     started_at: startedAt,
+    market: config.market,
     target_count: coverage.length,
     done_count: perStock.length,
     failed,
@@ -398,8 +476,8 @@ async function main() {
   });
 
   console.log(
-    `[news] done. ok=${perStock.length} failed=${failed.length} aborted=${aborted} ` +
-    `aggregate_items=${(readJsonSafe(NEWS_LATEST_PATH, { items: [] }).items || []).length}`,
+    `[news:${config.market}] done. ok=${perStock.length} failed=${failed.length} aborted=${aborted} ` +
+    `aggregate_items=${(readJsonSafe(config.newsLatestPath, { items: [] }).items || []).length}`,
   );
 
   if (aborted) process.exit(2);
