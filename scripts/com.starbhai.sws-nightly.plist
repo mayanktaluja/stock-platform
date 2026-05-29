@@ -17,7 +17,7 @@
         <string>/usr/bin/caffeinate</string>
         <string>-dimsu</string>
         <string>/bin/bash</string>
-        <string>/Users/mayanktaluja/code/stock-platform/scripts/sws-nightly.sh</string>
+        <string>/Users/mayanktaluja/code/stock-platform/scripts/sws-nightly-isolated.sh</string>
     </array>
 
     <!--
@@ -57,6 +57,13 @@
         <!-- Proceed even on battery — the ship-to-prod run must not silently no-op when unplugged. -->
         <key>SWS_NIGHTLY_SKIP_BATTERY</key>
         <string>1</string>
+        <!-- Run git mutation/publish from an owned clean worktree, not the dev checkout. -->
+        <key>SWS_NIGHTLY_PRIMARY_REPO</key>
+        <string>/Users/mayanktaluja/code/stock-platform</string>
+        <key>SWS_NIGHTLY_WORKTREE_DIR</key>
+        <string>/Users/mayanktaluja/.Codex/worktrees/stock-platform-sws-nightly</string>
+        <key>SWS_NIGHTLY_BASE_BRANCH</key>
+        <string>sws-nightly-isolated-base</string>
     </dict>
 
     <!-- Don't run on launchctl load; only at scheduled time. -->

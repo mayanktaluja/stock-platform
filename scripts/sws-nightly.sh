@@ -50,7 +50,8 @@ fi
 
 set -uo pipefail
 
-REPO_DIR="/Users/mayanktaluja/code/stock-platform"
+REPO_DIR="${SWS_NIGHTLY_REPO_DIR:-/Users/mayanktaluja/code/stock-platform}"
+BASE_BRANCH="${SWS_NIGHTLY_BASE_BRANCH:-sws-nightly-base}"
 cd "${REPO_DIR}" || { echo "[nightly] cannot cd to ${REPO_DIR}"; exit 5; }
 
 # ---- Load .env into the environment ----
@@ -297,23 +298,20 @@ fi
 # A worktree under .claude/worktrees/ may hold the `main` branch ref, which
 # makes `git checkout main` fail with
 #   fatal: 'main' is already used by worktree at ...
-# `git checkout -B sws-nightly-base origin/main` sidesteps that: a worktree
+# `git checkout -B ${BASE_BRANCH} origin/main` sidesteps that: a worktree
 # reserves the branch NAME `main`, not the commit it points at and not other
-# branch names. -B force-resets sws-nightly-base to origin/main every run,
+# branch names. -B force-resets ${BASE_BRANCH} to origin/main every run,
 # so the branch is reused, never drifts, and needs no cleanup. The commit/
 # push stage later does its own `git checkout -b chore/sws-auto-refresh-*`,
 # so the literal `main` branch never needs to be checked out here.
-echo "[nightly] checking out sws-nightly-base at origin/main..."
-if ! git checkout -B sws-nightly-base origin/main 2>&1 | sed 's/^/[git] /'; then
-  echo "[nightly] could not check out sws-nightly-base at origin/main"
-  if [ "${STASHED}" -eq 1 ]; then
-    git stash pop 2>&1 | sed 's/^/[git] /' || true
-  fi
+echo "[nightly] checking out ${BASE_BRANCH} at origin/main..."
+if ! git checkout -B "${BASE_BRANCH}" origin/main 2>&1 | sed 's/^/[git] /'; then
+  echo "[nightly] could not check out ${BASE_BRANCH} at origin/main"
   send_mail "🚨 SWS nightly aborted — git checkout failed" \
-"git checkout -B sws-nightly-base origin/main failed at $(ts).
+"git checkout -B ${BASE_BRANCH} origin/main failed at $(ts).
 
 This is NOT the worktree-holds-main case (we deliberately avoid 'git checkout main').
-Likely a dirty file that survived autostash, or a branch named 'sws-nightly-base'
+Likely a dirty file that survived autostash, or a branch named '${BASE_BRANCH}'
 held by a worktree. Inspect manually:
 
 $(git status 2>&1 | head -30)
@@ -322,28 +320,23 @@ $(git worktree list 2>&1)"
   exit 5
 fi
 
-# Re-apply the autostashed working-tree changes onto sws-nightly-base.
+# Keep any autostash quarantined until after the run. Re-applying it here can
+# reintroduce user/agent dirt or unmerged paths into the publish index, which is
+# exactly how previous runs shipped fresh SWS picks without matching aux data.
 if [ "${STASHED}" -eq 1 ]; then
-  if ! git stash pop 2>&1 | sed 's/^/[git] /'; then
-    echo "[nightly] stash pop conflicted — stash ${STASH_TAG} left on list"
-    send_mail "⚠️ SWS nightly — autostash pop conflicted" \
-"Autostash ${STASH_TAG} could not be popped cleanly at $(ts). Pipeline continued. Recover with:
-
-  git stash list
-  git stash apply stash@{0}   # or specific stash"
-  fi
+  echo "[nightly] autostash ${STASH_TAG} left on stash list; not re-applying before publish"
 fi
 
-# Self-heal: if a pop still conflicts on any macro-cron-owned path despite the
+# Self-heal: if any macro-cron-owned path is still unmerged despite the
 # pre-stash discard above, auto-resolve it to origin/main's version so we never
 # leave UU entries behind (which would make `git commit` refuse below and lock out
-# the next run via the unmerged-paths guard). sws-nightly-base points at origin/main.
+# the next run via the unmerged-paths guard). ${BASE_BRANCH} points at origin/main.
 # The `git add` after the checkout clears the unmerged state; because the restored
 # content equals HEAD (origin/main), it contributes nothing to the eventual commit.
 for macro_path in "${MACRO_CRON_PATHS[@]}"; do
   if git ls-files -u -- "${macro_path}" | grep -q .; then
     echo "[nightly] ${macro_path} unmerged after pop — auto-resolving to origin/main"
-    git checkout sws-nightly-base -- "${macro_path}"
+    git checkout "${BASE_BRANCH}" -- "${macro_path}"
     git add "${macro_path}"
   fi
 done
@@ -453,6 +446,36 @@ AUX_STATUS_FILE="data/sws/_aux-refresh-status.tmp"
 aux_status() {
   # aux_status <file> <OK|SKIPPED-fresh|FAILED|...> [age-hours]
   printf 'STEP3C: %s %s %s\n' "$1" "$2" "${3:-}" >> "${AUX_STATUS_FILE}"
+}
+
+HEALTH_CRITICAL_FILES=(
+  fundamentals.json
+  fundamentalsHistory.json
+  data/nse-fo/oi-deltas-latest.json
+  data/catalysts/earnings-watch-latest.json
+)
+
+assert_health_critical_staged() {
+  local unstaged
+  unstaged=$(git diff --name-only -- "${HEALTH_CRITICAL_FILES[@]}" 2>/dev/null || true)
+  if [ -n "${unstaged}" ]; then
+    echo "[nightly] health-critical data changed but is not fully staged:"
+    echo "${unstaged}" | sed 's/^/[nightly]   /'
+    send_mail "🚨 SWS nightly — health-critical data not staged" \
+"The nightly generated changes to health-critical files, but at least one
+changed file was not staged for the publish commit at $(ts).
+
+This would leave production with stale snapshot-health inputs, so the run
+stopped before push/PR.
+
+Unstaged health-critical files:
+${unstaged}
+
+Inspect:
+  cd ${REPO_DIR}
+  git status --short -- ${HEALTH_CRITICAL_FILES[*]}"
+    exit 8
+  fi
 }
 
 run_sws_primary_branch() {
@@ -860,6 +883,27 @@ echo "[sws-nightly] paper-trade-reconcile.mjs (timeout 60s)"
 with_timeout 60 node scripts/paper-trade-reconcile.mjs 2>&1 | sed 's/^/[paper-trade] /' || \
   echo "[sws-nightly] paper-trade-reconcile.mjs FAILED — continuing (non-fatal)"
 
+echo "[nightly] checking health-critical snapshot freshness..."
+HEALTH_GATE_OUT=$(node scripts/check-snapshot-health.mjs --strict --critical-only 2>&1)
+HEALTH_GATE_RC=$?
+echo "${HEALTH_GATE_OUT}" | sed 's/^/[health-gate] /'
+if [ "${HEALTH_GATE_RC}" -ne 0 ]; then
+  send_mail "🚨 SWS nightly — snapshot health gate failed" \
+"The nightly refresh completed its auxiliary chain, but health-critical
+snapshot inputs are still stale or missing at $(ts). The run stopped before
+sanity, commit, push, PR, and auto-merge so production does not get fresh
+SWS picks with stale fundamentals/F&O/earnings inputs.
+
+Health gate output:
+${HEALTH_GATE_OUT}
+
+Inspect:
+  cd ${REPO_DIR}
+  node scripts/check-snapshot-health.mjs --strict --critical-only
+  git status --short -- ${HEALTH_CRITICAL_FILES[*]}"
+  exit 8
+fi
+
 # Date/branch labels — computed here so both the PASS path (step 5) and
 # the sanity-gate FAIL path (data-only PR) can use them.
 DATE=$(date +%Y-%m-%d)
@@ -943,6 +987,7 @@ if [ ${GATE_RC} -ne 0 ]; then
 "git checkout -b ${DATA_BRANCH} failed at $(ts). The non-SWS data refresh could not be
 shipped as a separate PR cleanly. SWS sanity gate had already failed this run."; }
     git add "${DATA_FILES[@]}"
+    assert_health_critical_staged
 
     if git commit -m "chore(data): non-SWS refresh ${RUN_LABEL} — sanity blocked SWS scrape
 
@@ -983,11 +1028,11 @@ Auto-generated by \`scripts/sws-nightly.sh\` when the SWS scrape is blocked by t
     fi
 
     # Return the working copy to a clean base. Do NOT `git checkout main` —
-    # a worktree may hold the main ref. -B sws-nightly-base mirrors the
+    # a worktree may hold the main ref. -B ${BASE_BRANCH} mirrors the
     # git-sync stage and is worktree-safe. Uncommitted SWS scrape files are
     # left on disk for inspection; the next run's autostash tidies them.
-    git checkout -B sws-nightly-base origin/main 2>&1 | sed 's/^/[git] /' \
-      || echo "[nightly] couldn't return to sws-nightly-base — next run's git-sync will recover"
+    git checkout -B "${BASE_BRANCH}" origin/main 2>&1 | sed 's/^/[git] /' \
+      || echo "[nightly] couldn't return to ${BASE_BRANCH} — next run's git-sync will recover"
   fi
 
   # Augment email body with timestamps and the tripwire diagnosis (Layer E
@@ -1113,7 +1158,7 @@ if ! git checkout -b "${BRANCH}" 2>&1 | sed 's/^/[git] /'; then
   echo "[nightly] could not create branch ${BRANCH}"
   send_mail "🚨 SWS nightly — git checkout -b failed" \
 "git checkout -b ${BRANCH} failed at $(ts). SWS scrape output is uncommitted on disk
-(branch sws-nightly-base). The next run's autostash will tidy it. Inspect manually:
+(branch ${BASE_BRANCH}). The next run's autostash will tidy it. Inspect manually:
 
 $(git status 2>&1 | head -30)
 
@@ -1121,7 +1166,7 @@ $(git worktree list 2>&1)"
   exit 8
 fi
 # NOTE: the working copy is intentionally left on ${BRANCH} at end of run.
-# The next run's git-sync (git checkout -B sws-nightly-base origin/main) does
+# The next run's git-sync (git checkout -B ${BASE_BRANCH} origin/main) does
 # not care what branch it starts on, so no restore step is needed here.
 
 # data/macroRegime.json deliberately excluded — single-writer rule per
@@ -1146,6 +1191,7 @@ git add data/sws/deep/ \
         surveillance.json \
         governance.json \
         fundamentalsHistory.json
+assert_health_critical_staged
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR
 # (previously the inner script's auto-PR added it; now we own that step).
