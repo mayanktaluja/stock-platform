@@ -133,7 +133,7 @@ node scripts/sws-scoring-us.mjs 2>&1 | tail -14 | sed 's/^/[scoring-us] /'
 # Non-fatal: news is modal enrichment, not the core leaderboard contract. It
 # must run before packing so deep-us.tar.gz carries the refreshed `news[]`.
 echo "[refresh-us] running SWS news enrichment..."
-if ! node scripts/sws-news-scrape.mjs --market us 2>&1 | sed 's/^/[news-us] /'; then
+if ! bash scripts/sws-news-sharded.sh us 2>&1 | sed 's/^/[news-us] /'; then
   echo "[refresh-us] news enrichment failed — non-fatal, packing existing deep briefs"
 fi
 
