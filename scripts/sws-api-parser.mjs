@@ -168,6 +168,17 @@ function extractReturnsPct(api) {
   };
 }
 
+function extractFiftyTwoWeekFromSwsPrice(api) {
+  const closes = priceSeries(api)
+    .map((p) => finiteNumber(p?.close))
+    .filter((v) => v != null && v > 0);
+  if (!closes.length) return null;
+  return {
+    low: Math.min(...closes),
+    high: Math.max(...closes),
+  };
+}
+
 function extractMarketCap(api) {
   // Per-stock market cap lives at .narratives.edges[0].node.company.data
   // .marketCap.listing — the listing-level aggregate (shares × latest price).
@@ -1243,6 +1254,12 @@ export function parseStock(api, opts = {}) {
   const marketCap = growwMarketCap ?? swsMarketCap;
   if (growwMarketCap != null) setSource(sourceMap, "market_cap_inr", "groww_refinitiv", marketCap, growwMeta);
   const upsidePct = price && fv && price > 0 ? ((fv - price) / price) * 100 : null;
+  const swsMeta = {
+    fetched_at: api.fetchedAt || null,
+    url: api.canonicalUrl ? `https://simplywall.st${api.canonicalUrl}` : null,
+  };
+  if (fv != null) setSource(sourceMap, "fair_value_inr", "sws_analyst_fair_value", fv, swsMeta);
+  if (upsidePct != null) setSource(sourceMap, "upside_pct", "computed_from_sws_fv_price", upsidePct, swsMeta);
   const peResolution = resolvePeBenchmark({
     ticker: tickerKey,
     api,
@@ -1305,13 +1322,19 @@ export function parseStock(api, opts = {}) {
     dividendInfo.yield_pct = growwDividendYield;
     setSource(sourceMap, "dividend.yield_pct", "groww_refinitiv", growwDividendYield, growwMeta);
   }
-  const fiftyTwoWeek = growwStockEntry?.fiftyTwoWeek?.low != null || growwStockEntry?.fiftyTwoWeek?.high != null
+  const growwFiftyTwoWeek = growwStockEntry?.fiftyTwoWeek?.low != null || growwStockEntry?.fiftyTwoWeek?.high != null
     ? {
         low: growwFinite(growwStockEntry.fiftyTwoWeek, "low", { min: 0, inclusiveMin: false }),
         high: growwFinite(growwStockEntry.fiftyTwoWeek, "high", { min: 0, inclusiveMin: false }),
       }
     : null;
-  if (fiftyTwoWeek) setSource(sourceMap, "fifty_two_week", "groww_refinitiv", fiftyTwoWeek, growwMeta);
+  const swsFiftyTwoWeek = growwFiftyTwoWeek ? null : extractFiftyTwoWeekFromSwsPrice(api);
+  const fiftyTwoWeek = growwFiftyTwoWeek || swsFiftyTwoWeek;
+  if (growwFiftyTwoWeek) {
+    setSource(sourceMap, "fifty_two_week", "groww_refinitiv", growwFiftyTwoWeek, growwMeta);
+  } else if (swsFiftyTwoWeek) {
+    setSource(sourceMap, "fifty_two_week", "sws_price_history", swsFiftyTwoWeek, swsMeta);
+  }
   for (const [field, value] of [
     ["latest_eps", growwFinite(growwStockEntry, "epsTtm", { min: 0.01, max: 1e6 })],
     ["book_value", growwFinite(growwStockEntry, "bookValue", { min: -1e9, max: 1e9 })],

@@ -624,26 +624,20 @@ function shortReason(stock, reconciled = null) {
   return bits.slice(0, 4).join(" · ");
 }
 
-// Sanitize fair-value / upside_pct on the leaderboard card via the shared
-// services/fvReconciliation.js policy. Raw SWS data sometimes ships an FV
-// outside 0.1×–10× price (scraper artefact / placeholder), or an upside_pct in
-// junk territory like -3671% / +1316%. Without this guard the cards, categories
-// and V4 FV block can disagree with the stock-detail modal.
+// Reconcile fair-value / upside_pct on the leaderboard card via the shared
+// services/fvReconciliation.js policy. SWS is the primary FV source: finite raw
+// SWS FV is preserved even when the FV/price ratio is unusually high or low,
+// and display upside is computed from FV + current price when both are present.
 // Returns { upside_pct, fair_value_inr, fv_reconcile_reason }. The reason
 // is one of:
-//   - "ok"                       FV passed all sanity gates, kept as-is
-//   - "ok_using_provided_upside" raw upside agrees with computed; kept raw
-//   - "source_fv_missing"        deep file had no fair_value_inr / non-positive
+//   - "ok"                       FV present and within normal ratio telemetry
+//   - "ok_sws_raw_fv"            FV present with unusual ratio; raw SWS FV kept
+//   - "source_fv_missing"        deep file had no finite fair_value_inr
 //   - "source_price_missing"     deep file had no current_price_inr / non-positive
-//   - "junk_ratio_low"           FV/price < 0.1 → scraper artefact, suppressed
-//   - "junk_ratio_high"          FV/price > 10  → scraper artefact, suppressed
 //
 // PR-A2 (2026-05-18): the `fv_reconcile_reason` field was added in response
-// to audit finding #4 — "28% of upcoming_earnings rows have null FV". The
-// raw count was correct; the *interpretation* was wrong (this guard is doing
-// its job, not leaking). Surfacing the reason in the card output lets any
-// future audit instantly tell "source genuinely missing" apart from "scraper
-// junk suppressed", without re-walking the deep/ JSON tree.
+// to audit finding #4. It now distinguishes "source genuinely missing" from
+// "SWS supplied an extreme FV that we preserved", without re-walking deep JSON.
 export function _reconcilePickFV(ov) {
   return reconcileFairValue(ov);
 }
@@ -678,6 +672,7 @@ export function pickCardFields(stock) {
     fv_reconcile_reason: reconciled.fv_reconcile_reason,
     fair_value_confidence: reconciled.fair_value_confidence,
     fair_value_source: reconciled.fair_value_source,
+    upside_source: reconciled.upside_source,
     market_cap_inr: ov.market_cap_inr,
     returns_pct: compactReturnsPct(ov.returns_pct),
     next_earnings_date: ov.next_earnings_date,
@@ -723,6 +718,7 @@ function slimUniverseEntry(stock, inSections) {
     fv_reconcile_reason: card.fv_reconcile_reason,
     fair_value_confidence: card.fair_value_confidence,
     fair_value_source: card.fair_value_source,
+    upside_source: card.upside_source,
     market_cap_inr: card.market_cap_inr,
     one_line: card.one_line,
     data_freshness_at: card.data_freshness_at,

@@ -7473,6 +7473,7 @@ function applyReconciledFvToCard(card, overview, { markDrift = false } = {}) {
   card.fv_reconcile_reason = fv.fv_reconcile_reason;
   card.fair_value_confidence = fv.fair_value_confidence;
   card.fair_value_source = fv.fair_value_source;
+  card.upside_source = fv.upside_source;
   return fvChanged;
 }
 
@@ -7778,6 +7779,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
         fv_reconcile_reason: fv.fv_reconcile_reason,
         fair_value_confidence: fv.fair_value_confidence,
         fair_value_source: fv.fair_value_source,
+        upside_source: fv.upside_source,
         market_cap_inr: ov.market_cap_inr,
         sws_url: deep.sws_url || null,
         computed_on_demand: true,

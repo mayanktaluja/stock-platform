@@ -1,25 +1,10 @@
 /**
  * scripts/sws-scoring.mjs — _reconcilePickFV + pickCardFields
- *   fair_value_inr null-leak diagnostics (closes audit finding #4 from
- *   ~/.claude/plans/prod-fixes-2026-05-18.md).
+ *   fair_value_inr preservation diagnostics.
  *
- * Background: the 2026-05-18 audit flagged "28% of upcoming_earnings rows
- * have fair_value_inr: null" as a bug. Investigation showed:
- *
- *   - 42 of 144 nulls (29%): source SWS deep file genuinely has no FV
- *   - 87 of 144 (60%):       FV/price ratio < 0.1 — scraper artefacts
- *                            (e.g. SHREEPUSHK price ₹390 vs FV ₹32.55)
- *   - 13 of 144 (9%):        FV/price ratio > 10 — most scraper artefacts
- *                            (e.g. ADVENTHTL price ₹150 vs FV ₹5133)
- *   -  2 of 144 (1%):        source price missing
- *
- * The reconciler is doing its job — there is NO leak. The fix is two-fold:
- *   (a) Document the intentional v3 semantics inline, including the avoid
- *       section comment block (which has the same null rate for the same
- *       reasons — there is no special "avoid omits FV" branch).
- *   (b) Add `fv_reconcile_reason` telemetry to every card so audits can
- *       distinguish "source missing" from "scraper junk suppressed"
- *       without walking the deep/ JSON tree.
+ * SWS is the primary FV source. Finite SWS fair values are preserved even when
+ * the FV/price ratio is unusually high or low; `fv_reconcile_reason` is
+ * telemetry, not a suppression gate.
  *
  * Run with: node test/swsScoringFvNull.test.mjs
  */
@@ -86,13 +71,11 @@ it("price=100, fv=120, ratio=1.2 → ok, +20% upside", () => {
   assert.equal(r.fv_reconcile_reason, "ok");
 });
 
-it("price=100, fv=100.5, upside=0.5 → 'ok_using_provided_upside' (tiny computed, sane raw)", () => {
-  // computed = 0.5%, Math.abs(0.5) <= 1 = true; rawUp=0.5 is in sane range
-  // → use the provided upside_pct verbatim.
+it("price=100, fv=100.5, upside=0.5 → compute from FV", () => {
   const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 100.5, upside_pct: 0.5 });
   assert.equal(r.fair_value_inr, 100.5);
   assert.equal(r.upside_pct, 0.5);
-  assert.equal(r.fv_reconcile_reason, "ok_using_provided_upside");
+  assert.equal(r.fv_reconcile_reason, "ok");
 });
 
 it("price=100, fv=120, no upside_pct → compute from FV", () => {
@@ -123,11 +106,11 @@ it("price=100, fv=1000, ratio=10.0 → ok (boundary inclusive)", () => {
   assert.equal(r.fv_reconcile_reason, "ok");
 });
 
-it("price=100, fv=1001, ratio=10.01 → junk_ratio_high, FV nulled", () => {
+it("price=100, fv=1001, ratio=10.01 → raw SWS FV kept", () => {
   const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 1001 });
-  assert.equal(r.fair_value_inr, null);
-  assert.equal(r.upside_pct, null);
-  assert.equal(r.fv_reconcile_reason, "junk_ratio_high");
+  assert.equal(r.fair_value_inr, 1001);
+  assert.equal(r.upside_pct, 901);
+  assert.equal(r.fv_reconcile_reason, "ok_sws_raw_fv");
 });
 
 it("ALEMBICLTD-like price=87.91, fv=724.17623, ratio=8.24 → ok", () => {
@@ -144,23 +127,23 @@ it("price=100, fv=10, ratio=0.1 → ok (boundary inclusive)", () => {
   assert.equal(r.fv_reconcile_reason, "ok");
 });
 
-it("price=100, fv=9.99, ratio=0.0999 → junk_ratio_low, FV nulled", () => {
+it("price=100, fv=9.99, ratio=0.0999 → raw SWS FV kept", () => {
   const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 9.99 });
-  assert.equal(r.fair_value_inr, null);
-  assert.equal(r.upside_pct, null);
-  assert.equal(r.fv_reconcile_reason, "junk_ratio_low");
+  assert.equal(r.fair_value_inr, 9.99);
+  assert.equal(r.upside_pct, -90);
+  assert.equal(r.fv_reconcile_reason, "ok_sws_raw_fv");
 });
 
-it("ADVENTHTL real case: price=150.35, fv=5133.8 → junk_ratio_high", () => {
+it("ADVENTHTL real case: price=150.35, fv=5133.8 → raw SWS FV kept", () => {
   const r = _reconcilePickFV({ current_price_inr: 150.35, fair_value_inr: 5133.805663 });
-  assert.equal(r.fair_value_inr, null);
-  assert.equal(r.fv_reconcile_reason, "junk_ratio_high");
+  assert.equal(r.fair_value_inr, 5133.805663);
+  assert.equal(r.fv_reconcile_reason, "ok_sws_raw_fv");
 });
 
-it("SHREEPUSHK real case: price=390.7, fv=32.55 → junk_ratio_low", () => {
+it("SHREEPUSHK real case: price=390.7, fv=32.55 → raw SWS FV kept", () => {
   const r = _reconcilePickFV({ current_price_inr: 390.7, fair_value_inr: 32.548995 });
-  assert.equal(r.fair_value_inr, null);
-  assert.equal(r.fv_reconcile_reason, "junk_ratio_low");
+  assert.equal(r.fair_value_inr, 32.548995);
+  assert.equal(r.fv_reconcile_reason, "ok_sws_raw_fv");
 });
 
 it("source FV missing → source_fv_missing, FV stays null", () => {
@@ -169,16 +152,18 @@ it("source FV missing → source_fv_missing, FV stays null", () => {
   assert.equal(r.fv_reconcile_reason, "source_fv_missing");
 });
 
-it("source FV zero → source_fv_missing (non-positive treated as absent)", () => {
+it("source FV zero → raw SWS FV kept", () => {
   const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: 0 });
-  assert.equal(r.fair_value_inr, null);
-  assert.equal(r.fv_reconcile_reason, "source_fv_missing");
+  assert.equal(r.fair_value_inr, 0);
+  assert.equal(r.upside_pct, -100);
+  assert.equal(r.fv_reconcile_reason, "ok_sws_raw_fv");
 });
 
-it("source FV negative → source_fv_missing", () => {
+it("source FV negative → raw SWS FV kept", () => {
   const r = _reconcilePickFV({ current_price_inr: 100, fair_value_inr: -50 });
-  assert.equal(r.fair_value_inr, null);
-  assert.equal(r.fv_reconcile_reason, "source_fv_missing");
+  assert.equal(r.fair_value_inr, -50);
+  assert.equal(r.upside_pct, -150);
+  assert.equal(r.fv_reconcile_reason, "ok_sws_raw_fv");
 });
 
 it("source price missing but FV present → source_price_missing, FV stays null", () => {
@@ -217,19 +202,21 @@ it("upcoming_earnings row WITHOUT source FV → output null + reason='source_fv_
   assert.equal(card.fv_reconcile_reason, "source_fv_missing");
 });
 
-it("avoid-section row with junk FV ratio → null + reason='junk_ratio_high'", () => {
+it("avoid-section row with high FV ratio → raw SWS FV kept", () => {
   // No special avoid branch — same pickCardFields path. Verify the reason
-  // surfaces so audits can categorise the null without re-reading deep/.
+  // surfaces so audits can categorise the unusual SWS FV without re-reading deep/.
   const card = pickCardFields(stock({ ticker: "ADVENTHTL", price: 150, fv: 5000 }));
-  assert.equal(card.fair_value_inr, null);
-  assert.equal(card.upside_pct, null);
-  assert.equal(card.fv_reconcile_reason, "junk_ratio_high");
+  assert.equal(card.fair_value_inr, 5000);
+  assert.equal(card.upside_pct, 3233.3);
+  assert.equal(card.fv_reconcile_reason, "ok_sws_raw_fv");
+  assert.equal(card.fair_value_source, "sws_raw_fv");
+  assert.equal(card.upside_source, "computed_from_sws_fv_price");
 });
 
-it("avoid row with junk LOW ratio → null + reason='junk_ratio_low'", () => {
+it("avoid row with low FV ratio → raw SWS FV kept", () => {
   const card = pickCardFields(stock({ ticker: "SHREEPUSHK", price: 390, fv: 32 }));
-  assert.equal(card.fair_value_inr, null);
-  assert.equal(card.fv_reconcile_reason, "junk_ratio_low");
+  assert.equal(card.fair_value_inr, 32);
+  assert.equal(card.fv_reconcile_reason, "ok_sws_raw_fv");
 });
 
 it("avoid row with source FV genuinely missing → null + 'source_fv_missing'", () => {
@@ -241,11 +228,9 @@ it("avoid row with source FV genuinely missing → null + 'source_fv_missing'", 
 it("every reason value is from the documented enum", () => {
   const validReasons = new Set([
     "ok",
-    "ok_using_provided_upside",
+    "ok_sws_raw_fv",
     "source_fv_missing",
     "source_price_missing",
-    "junk_ratio_low",
-    "junk_ratio_high",
   ]);
   const cases = [
     { current_price_inr: 100, fair_value_inr: 120 },

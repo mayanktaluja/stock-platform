@@ -179,15 +179,17 @@ check("(c) price to FV ratio 8× → valid under shared 10× reconcile policy", 
   assert.equal(card.fv_reconcile_reason, "ok");
 });
 
-check("(c2) price to FV ratio >10× → junk suppressed (upside + FV null)", () => {
+check("(c2) price to FV ratio >10× → raw SWS FV preserved", () => {
   const s = scoreStockUS(
     stock({ ticker: "JNK2", overview: { current_price_inr: 100, fair_value_inr: 1100, upside_pct: 1000 } }),
     { universe },
   );
   const card = cardOf(s);
-  assert.equal(card.upside_pct, null);
-  assert.equal(card.fair_value_inr, null);
-  assert.equal(card.fv_reconcile_reason, "junk_ratio_high");
+  assert.equal(card.upside_pct, 1000);
+  assert.equal(card.fair_value_inr, 1100);
+  assert.equal(card.fv_reconcile_reason, "ok_sws_raw_fv");
+  assert.equal(card.fair_value_source, "sws_raw_fv");
+  assert.equal(card.upside_source, "computed_from_sws_fv_price");
 });
 
 check("(d) 2 missing Snowflake axes → num→0, no throw", () => {

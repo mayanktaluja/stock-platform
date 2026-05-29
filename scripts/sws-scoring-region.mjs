@@ -156,6 +156,7 @@ function slimUniverseEntryRegion(stock, region, inSections) {
     fv_reconcile_reason: card.fv_reconcile_reason,
     fair_value_confidence: card.fair_value_confidence,
     fair_value_source: card.fair_value_source,
+    upside_source: card.upside_source,
     market_cap_inr: card.market_cap_inr,
     one_line: card.one_line,
     data_freshness_at: card.data_freshness_at,

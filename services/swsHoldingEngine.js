@@ -72,42 +72,9 @@ export function isSWSPriceStale(deep, thresholdHours = 24) {
   return ageMs > thresholdHours * 3600 * 1000;
 }
 
-// Reconcile the SWS-scraped FV / upside_pct trio. Empirically the deep JSONs
-// in data/sws/deep ship with several failure modes:
-//
-//   1. price present, FV null, upside_pct = a junk number (WIPRO: -3671.4)
-//   2. price present, FV is a placeholder ratio not a price (BALUFORGE: 1.66)
-//   3. price ≈ FV (scraper re-used current price as FV) but upside_pct still
-//      carries the analyst-consensus number (LODHA, HAL, JWL: 32.1 / 15.6 / 16)
-//   4. price + FV both present, upside_pct null (ITC: should be +26.7%)
-//
-// We trust this hierarchy:
-//   • If FV/price ratio is plausible and FV != price → recompute upside.
-//   • If FV ≈ price → the recompute is ~0; prefer the SWS-quoted upside if
-//     it lies in a sane range (the analyst consensus is the live SWS view).
-//   • If FV is missing or implausibly off price → the FV is junk, fall back
-//     to the SWS-quoted upside only if it's in [-95%, +500%] — otherwise null.
-//
-function valuationBandFromUpside(upside) {
-  if (!Number.isFinite(upside)) return "UNKNOWN";
-  if (upside >= 25) return "DEEP_DISCOUNT";
-  if (upside >= 12) return "DISCOUNT";
-  if (upside >= -5) return "FAIR";
-  if (upside >= -20) return "PREMIUM";
-  return "OVERVALUED";
-}
-
-function reconciledFvResult({ upside_pct, fair_value_inr, confidence, source }) {
-  const roundedUpside = Number.isFinite(upside_pct) ? Math.round(upside_pct * 10) / 10 : null;
-  return {
-    upside_pct: roundedUpside,
-    fair_value_inr: Number.isFinite(fair_value_inr) ? fair_value_inr : null,
-    confidence,
-    source,
-    valuation_band: valuationBandFromUpside(roundedUpside),
-  };
-}
-
+// Reconcile the SWS-scraped FV / upside_pct trio through the canonical shared
+// policy. SWS is the primary FV source, so finite raw SWS FV is preserved and
+// upside is computed from FV + current price whenever both are present.
 // Returns { upside_pct, fair_value_inr, confidence, source, valuation_band }.
 // The caller should overwrite `sws.upside_pct` and `sws.fair_value_inr` with
 // these so the rest of the report sees the same reconciled view. The extra

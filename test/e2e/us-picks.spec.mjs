@@ -190,6 +190,76 @@ test.describe("US Picks tab", () => {
     await expect(modal).not.toHaveClass(/open/);
   });
 
+  test("modal falls back to deep overview when card FV fields are null", async ({ page }) => {
+    await openUSPicks(page);
+    await page.route("**/api/us-stock/**", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ticker: "HIMS",
+          card: {
+            ticker: "HIMS",
+            name: "Hims & Hers Health, Inc.",
+            sector: "Healthcare",
+            currency: "USD",
+            current_price_inr: 23.85,
+            fair_value_inr: null,
+            upside_pct: null,
+            market_cap_inr: 5_497_120_256,
+            v4_score_100: 47.8,
+            v4_verdict: "STRONG",
+            composite_verdict: "STRONG",
+            v4_breakdown: {
+              pts_health: 22,
+              pts_future: 20,
+              pts_valuation: 18,
+              pts_past: 16,
+              pts_fv_total: 7.3,
+              pts_mom_1y: 0.7,
+              pts_mom_3m: 2,
+              pts_mom_1m: 1.2,
+              pts_overlay: 0,
+            },
+            snowflake: { valuation: 3, future_growth: 5, past_performance: 0, financial_health: 3, dividends: 0 },
+            snowflake_total: 11,
+            returns_pct: { "1D": 0.4, "7D": 6.3, "1M": -22, "3M": 50.8, "1Y": -55.3 },
+          },
+          deep: {
+            overview: {
+              ticker: "HIMS",
+              name: "Hims & Hers Health, Inc.",
+              sector: "Healthcare",
+              currency: "USD",
+              current_price_inr: 23.85,
+              fair_value_inr: 173.02,
+              upside_pct: 625.45,
+              market_cap_inr: 5_497_120_256,
+              fifty_two_week: { low: 14.52, high: 66.18 },
+              source_map: {
+                fair_value_inr: { provider: "sws_analyst_fair_value" },
+                upside_pct: { provider: "computed_from_sws_fv_price" },
+                fifty_two_week: { provider: "sws_price_history" },
+              },
+            },
+          },
+          fundamentals_fallback: null,
+          in_sections: ["midterm_quality_momentum"],
+          currency: "USD",
+        }),
+      }),
+    );
+    await page.evaluate(() => window.openUSModal("HIMS"));
+    const modal = page.locator("#usModalBackdrop");
+    await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
+    const hero = await page.locator("#usModalBody .sws-modal-hero").innerText();
+    expect(hero).toMatch(/Fair value\s+\$173\.02/);
+    expect(hero).toMatch(/Upside\s+\+625\.5%/);
+    expect(hero).toMatch(/52w\s+\$14\.52[\s\S]*\$66\.18/);
+    expect(hero).not.toMatch(/Fair value\s*—/);
+    expect(hero).not.toMatch(/Upside\s*—/);
+  });
+
   test("collapsible sections: chip-nav + Expand/Collapse-all toggle the accordion", async ({ page }) => {
     await openUSPicks(page);
     await expect(page.locator("#usPicksContainer .sws-pick-chipnav")).toBeVisible();
