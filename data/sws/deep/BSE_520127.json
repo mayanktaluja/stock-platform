@@ -3,32 +3,31 @@
   "name": "Balurghat Technologies Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/bse-520127/balurghat-technologies-shares",
-  "parsed_at": "2026-05-28T17:31:25.189Z",
+  "parsed_at": "2026-05-29T16:59:56.470Z",
   "company_id": "E16E62F0-5505-4D88-B690-0BE376E3E910",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 0,
       "future": 0,
-      "past": 0,
-      "financial_health": 3,
+      "past": 1,
+      "financial_health": 2,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 0,
-      "value": 1,
-      "health": 3,
+      "past_performance": 1,
+      "value": 0,
+      "health": 2,
       "dividend": 0
     },
-    "snowflake_total": 4,
+    "snowflake_total": 3,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 13,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -46,7 +45,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
@@ -71,8 +70,8 @@
         }
       ]
     },
-    "current_price_inr": 12.3,
-    "market_cap_inr": 214120652.4171467,
+    "current_price_inr": 12.91,
+    "market_cap_inr": 224739644.1223873,
     "market_cap_usd": 121949035232.813,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -83,29 +82,28 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -88.69664227642278,
+    "upside_pct": -89.2307281177382,
     "multiples": {
-      "pe": null,
+      "pe": 41,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": null,
-      "pe_source_label": null,
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-29T16:59:56.470Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/transportation/bse-520127/balurghat-technologies-shares"
     },
-    "rewards": [
-      "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at good value vs. peer average Price-To-Sales ratio"
-    ],
+    "rewards": [],
     "risks": [
       "Highly volatile share price over past 3 months",
-      "Debt is not well covered by [[operating cash flow]]",
-      "Does not have a meaningful market cap (₹216M)"
+      "Does not have a meaningful market cap (₹225M)",
+      "Interest payments are not well covered by earnings",
+      "High level of [[non-cash earnings]]",
+      "Profit margins (0.5%) are lower than last year (2.4%)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -117,9 +115,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 15.358883063,
-      "net_income_margin_1y": 0.07552647922,
-      "future_revenue_growth_3y": 0.1321780408
+      "pe": 15.025070087,
+      "net_income_margin_1y": 0.07521553136,
+      "future_revenue_growth_3y": 0.1325359351
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -133,10 +131,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": null,
-      "company_pe_source": null,
-      "company_pe_source_label": null,
-      "industry_pe": 15.358883063,
+      "company_pe": 41,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 15.025070087,
       "industry_name": "Transportation",
       "industry_code": "3240000",
       "sample_count": 29,
@@ -145,15 +143,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 0.6,
+        "company_pe": 41,
+        "industry_pe": 15,
         "industry_name": "Indian Transportation",
-        "description": "520127 is good value based on its Price-To-Sales Ratio (0.2x) compared to the Indian Transportation industry average (0.6x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "520127 is expensive based on its Price-To-Earnings Ratio (41x) compared to the Indian Transportation industry average (15x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.358883063,
+        "industry_pe": 15.025070087,
         "industry_code": "3240000",
         "type": "median_profitable",
         "count": 29,
@@ -165,8 +163,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.649999999999999,
-        "sample_count": 28,
+        "industry_pe": 14.3,
+        "sample_count": 29,
         "industry_code": "3240000",
         "industry_name": "Transportation"
       },
@@ -178,26 +176,32 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 12.3,
-        "fetched_at": "2026-05-28T17:31:25.189Z",
+        "value": 12.91,
+        "fetched_at": "2026-05-29T16:59:56.470Z",
+        "url": "https://simplywall.st/stocks/in/transportation/bse-520127/balurghat-technologies-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 41,
+        "fetched_at": "2026-05-29T16:59:56.470Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-520127/balurghat-technologies-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 15.358883063,
+        "value": 15.025070087,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.07552647922,
-        "fetched_at": "2026-05-28T17:31:25.189Z",
+        "value": 0.07521553136,
+        "fetched_at": "2026-05-29T16:59:56.470Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-520127/balurghat-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1321780408,
-        "fetched_at": "2026-05-28T17:31:25.189Z",
+        "value": 0.1325359351,
+        "fetched_at": "2026-05-29T16:59:56.470Z",
         "url": "https://simplywall.st/stocks/in/transportation/bse-520127/balurghat-technologies-shares"
       }
     },
@@ -224,16 +228,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.8863819500402855,
-      "7D": -9.492273730684321,
-      "1M": -17.89052069425901,
-      "3M": -10.415149308084484,
-      "6M": -22.884012539184944,
-      "1Y": -39.882697947214076,
+      "1D": 4.95934959349593,
+      "7D": -6.04075691411936,
+      "1M": -13.355704697986578,
+      "3M": -4.4411547002220555,
+      "6M": -19.059561128526642,
+      "1Y": -35.48225887056472,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -368,6 +372,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "b7868283-b1ae-40d5-846b-44de14b6dc8b",
+      "type": "brief",
+      "date": "2026-05-29T11:57:38.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.36 (vs ₹1.21 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.36 (down from ₹1.21 in FY 2025). Revenue: ₹1.20b (up 39% from FY 2025). Net income: ₹5.49m (down 74% from FY 2025). Profit margin: 0.5% (down from 2.4% in FY 2025). The decrease in margin was driven by higher expenses. Over the last 3 years on average, earnings per share has fallen by 48% per year but the company’s share price has increased by 3% per year, which means it is well ahead of earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "c228db67-2c04-4111-b184-8697c2bdc4e4",
       "type": "event",
