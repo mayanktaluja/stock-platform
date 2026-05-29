@@ -119,6 +119,8 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       expect(txt).toMatch(/Snowflake/i);
       expect(txt).toMatch(/Score breakdown/i);
       expect(txt).toMatch(/Total returns/i);
+      expect(txt).toMatch(/Recent news/i);
+      await expect(page.locator(`#${code}ModalBody details`).filter({ hasText: /Recent news/i })).toContainText(/fixture SWS news headline/i);
       const quick = await quickStatsText(page.locator(`#${code}ModalBody`));
       if (/SWS \+ Yahoo|Yahoo fallback/i.test(quick)) {
         for (const value of cfg.quick) expect(quick.toLowerCase()).toContain(value.toLowerCase());

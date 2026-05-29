@@ -4,7 +4,8 @@
 # runs this by hand (via /sws-refresh-us) and commits the result themselves.
 #
 # Chain:  co-run guard → spawn 3 US shards (retry) → parse → score →
-#         (optional narrate) → (optional PDF) → write last-refresh.json
+#         news enrichment → pack tarball → (optional narrate) →
+#         (optional PDF) → write last-refresh.json
 #
 # Env:
 #   SWS_SCRAPE_LIMIT=N   cap each shard to N stocks (use for the seed validate)
@@ -127,6 +128,14 @@ node scripts/sws-api-parser-us.mjs --dest deep 2>&1 | tail -5 | sed 's/^/[parser
 # ---------- 6. Score → picks-latest.json ----------
 echo "[refresh-us] running scoring..."
 node scripts/sws-scoring-us.mjs 2>&1 | tail -14 | sed 's/^/[scoring-us] /'
+
+# ---------- 6a. SWS news enrichment ----------
+# Non-fatal: news is modal enrichment, not the core leaderboard contract. It
+# must run before packing so deep-us.tar.gz carries the refreshed `news[]`.
+echo "[refresh-us] running SWS news enrichment..."
+if ! node scripts/sws-news-scrape.mjs --market us 2>&1 | sed 's/^/[news-us] /'; then
+  echo "[refresh-us] news enrichment failed — non-fatal, packing existing deep briefs"
+fi
 
 # ---------- 6b. Pack deep briefs for prod serving ----------
 # data/sws-us/deep/ is gitignored (~5.4k files). Prod (Vercel) serves the

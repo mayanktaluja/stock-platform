@@ -375,10 +375,13 @@ fi
 # tripping our scanned_recent sanity check below. Nightly handles its own
 # branch + commit + PR + auto-merge after the gate.
 #
-# News refresh (~3 min, lightweight, NON-FATAL):
+# News refresh (lightweight, NON-FATAL):
 # Captures SWS Brief + Event activity for picks ∪ portfolio ∪ watchlist
 # (~300 stocks). Augments data/sws/deep/<TICKER>.json with a `news[]` array
 # and writes data/sws/news-latest.json for the PDF + dashboard.
+# US/KR/TW then run the same enrichment path over every displayed leaderboard
+# card and repack their regional deep tarballs so production modals receive the
+# updated news without a full regional scrape.
 #
 # Failure here MUST NOT block the nightly: news is enrichment, not core.
 # A SWS rate-limit during the news pass shouldn't trash a successful main
@@ -448,6 +451,72 @@ aux_status() {
   printf 'STEP3C: %s %s %s\n' "$1" "$2" "${3:-}" >> "${AUX_STATUS_FILE}"
 }
 
+extract_regional_deep_from_tarball() {
+  # extract_regional_deep_from_tarball <us|kr|tw>
+  local market="$1"
+  local data_dir="data/sws-${market}"
+  local deep_dir="${data_dir}/deep"
+  local tarball="${data_dir}/deep-${market}.tar.gz"
+
+  if [ -d "${deep_dir}" ] && [ -n "$(ls -A "${deep_dir}" 2>/dev/null)" ]; then
+    return 0
+  fi
+  if [ ! -f "${tarball}" ]; then
+    echo "[nightly] regional news ${market}: no ${tarball}; skipping tarball extraction"
+    return 1
+  fi
+
+  echo "[nightly] regional news ${market}: extracting ${tarball} before enrichment"
+  mkdir -p "${data_dir}"
+  if tar -xzf "${tarball}" -C "${data_dir}"; then
+    return 0
+  fi
+  echo "[nightly] regional news ${market}: extraction failed — enrichment may skip deep merges"
+  return 1
+}
+
+pack_regional_deep_tarball() {
+  # pack_regional_deep_tarball <us|kr|tw>
+  local market="$1"
+  local data_dir="data/sws-${market}"
+  local deep_dir="${data_dir}/deep"
+  local tarball="${data_dir}/deep-${market}.tar.gz"
+
+  if [ ! -d "${deep_dir}" ] || [ -z "$(ls -A "${deep_dir}" 2>/dev/null)" ]; then
+    echo "[nightly] regional news ${market}: no loose deep files to pack"
+    return 1
+  fi
+
+  echo "[nightly] regional news ${market}: packing ${tarball}"
+  if tar -czf "${tarball}" -C "${data_dir}" deep; then
+    echo "[nightly] regional news ${market}: packed $(ls "${deep_dir}" | wc -l | tr -d ' ') deep files"
+    return 0
+  fi
+  echo "[nightly] regional news ${market}: tarball pack failed — non-fatal"
+  return 1
+}
+
+run_market_news_refresh() {
+  # run_market_news_refresh <in|us|kr|tw>
+  local market="$1"
+  local label="${market}"
+
+  if [ "${market}" = "in" ]; then
+    label="india"
+  elif ! extract_regional_deep_from_tarball "${market}"; then
+    echo "[nightly] regional news ${market}: continuing without extraction"
+  fi
+
+  echo "[nightly] running ${label} news refresh (sws-news-scrape.mjs --market ${market})..."
+  if ! node scripts/sws-news-scrape.mjs --market "${market}" 2>&1 | sed "s/^/[news-${label}] /"; then
+    echo "[nightly] ${label} news refresh failed — non-fatal, continuing"
+  fi
+
+  if [ "${market}" != "in" ]; then
+    pack_regional_deep_tarball "${market}" || true
+  fi
+}
+
 HEALTH_CRITICAL_FILES=(
   fundamentals.json
   fundamentalsHistory.json
@@ -487,10 +556,10 @@ run_sws_primary_branch() {
     return "${sws_rc}"
   fi
 
-  echo "[nightly] running news refresh (sws-news-scrape.mjs)..."
-  if ! node scripts/sws-news-scrape.mjs 2>&1 | sed 's/^/[news] /'; then
-    echo "[nightly] news refresh failed — non-fatal, continuing to sanity gate"
-  fi
+  run_market_news_refresh in
+  run_market_news_refresh us
+  run_market_news_refresh kr
+  run_market_news_refresh tw
 
   return 0
 }
@@ -1129,6 +1198,9 @@ CHANGED_FILES=$(git status --short \
   data/sws/groww-pe-latest.json \
   data/sws/groww-pe-failed.json \
   data/sws/nse-event-calendar.json \
+  data/sws-us/deep-us.tar.gz \
+  data/sws-kr/deep-kr.tar.gz \
+  data/sws-tw/deep-tw.tar.gz \
   data/nse-index-constituents.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
@@ -1184,6 +1256,9 @@ git add data/sws/deep/ \
         data/sws/universe.json \
         data/sws/universe-meta.json \
         data/sws/nse-event-calendar.json \
+        data/sws-us/deep-us.tar.gz \
+        data/sws-kr/deep-kr.tar.gz \
+        data/sws-tw/deep-tw.tar.gz \
         data/nse-index-constituents.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \

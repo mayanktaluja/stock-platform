@@ -17,6 +17,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { makeRegionConfig } from "../../../scripts/sws-config-region.mjs";
 import { getRegion } from "../../../scripts/sws-regions.mjs";
 import { runFullScoringRegion } from "../../../scripts/sws-scoring-region.mjs";
@@ -27,9 +28,23 @@ import {
 
 const TOKEN_BY_SUFFIX = { ".KS": "kose", ".KQ": "kosdaq", ".TW": "twse", ".TWO": "tpex" };
 const DEFAULT_RETURNS = { "1D": 0.8, "7D": 2.1, "1M": 3, "3M": 8, "1Y": 20, "5Y": 90 };
+const DEFAULT_NEWS_DATE = "2026-05-28T14:30:00.000Z";
 
 function fixtureReturns(returnsPct) {
   return { ...DEFAULT_RETURNS, ...(returnsPct || {}) };
+}
+
+function fixtureNews(ticker, region) {
+  return [{
+    id: `fixture-news-${region.code}-${ticker}`,
+    type: "brief",
+    date: DEFAULT_NEWS_DATE,
+    title: `${ticker} fixture SWS news headline`,
+    body: `Synthetic ${region.label} SWS BriefActivity item used to verify regional modal recent-news rendering.`,
+    keyDevTypeId: null,
+    source_url: null,
+    raw_subtype: "BriefActivity",
+  }];
 }
 
 function withIsolatedDeepDir(deepDir, fn) {
@@ -43,6 +58,14 @@ function withIsolatedDeepDir(deepDir, fn) {
     fs.rmSync(deepDir, { recursive: true, force: true });
     if (fs.existsSync(backupDir)) fs.renameSync(backupDir, deepDir);
   }
+}
+
+function packSyntheticDeepTarball(code, dataDir) {
+  const tarballPath = path.join(dataDir, `deep-${code}.tar.gz`);
+  execFileSync("tar", ["-czf", tarballPath, "-C", dataDir, "deep"], {
+    stdio: ["ignore", "ignore", "pipe"],
+  });
+  return tarballPath;
 }
 
 function makeDeep(o, region) {
@@ -67,6 +90,7 @@ function makeDeep(o, region) {
   const suffix = (o.ticker.match(/\.[A-Z]+$/) || ["."])[0];
   const token = TOKEN_BY_SUFFIX[suffix] || "kose";
   const slug = o.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const news = o.news || fixtureNews(o.ticker, region);
   return {
     ticker: o.ticker,
     name: o.name,
@@ -88,13 +112,13 @@ function makeDeep(o, region) {
       rewards: o.rewards || [],
       risks: o.risks || [],
       next_earnings_date: null,
-      recent_news_count: 0,
+      recent_news_count: news.length,
       last_quarter_result: null,
       currency: region.currencyIso,
     },
     ownership: { top_holders: [], insider_ownership_pct: null, insider_activity: null },
     dividend: o.dividend || { yield_pct: 0.6, payout_pct: 20, listing_currency: region.currencyIso },
-    news: [],
+    news,
     _api_raw_path: `data/sws-${region.code}/deep-api/${o.ticker}.json`,
   };
 }
@@ -232,7 +256,9 @@ function main() {
       fs.writeFileSync(path.join(cfg.PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
     }
     writeFallbackFundamentals(stocks, region, cfg.PATHS.dataDir);
-    return runFullScoringRegion(code);
+    const scored = runFullScoringRegion(code);
+    packSyntheticDeepTarball(code, cfg.PATHS.dataDir);
+    return scored;
   });
   console.log(`[${code}-fixture] wrote ${stocks.length} synthetic deep stocks → scored ${out.scored_count}`);
   console.log(`[${code}-fixture] wrote ${MARKET_FUNDAMENTALS_FILE} fallback metrics`);

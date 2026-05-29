@@ -5,7 +5,8 @@
 # commit the result yourself.
 #
 # Chain:  co-run guard → spawn 3 shards (retry) → parse → score →
-#         (optional narrate) → (optional PDF) → pack tarball → last-refresh.json
+#         news enrichment → pack tarball → (optional narrate) →
+#         (optional PDF) → last-refresh.json
 #
 # Usage:
 #   bash scripts/sws-refresh-region.sh kr
@@ -133,6 +134,14 @@ node scripts/sws-api-parser-region.mjs --region "${CODE}" --dest deep 2>&1 | tai
 # ---------- 6. Score → picks-latest.json ----------
 echo "[refresh-${CODE}] running scoring..."
 node scripts/sws-scoring-region.mjs --region "${CODE}" 2>&1 | tail -14 | sed "s/^/[scoring-${CODE}] /"
+
+# ---------- 6a. SWS news enrichment ----------
+# Non-fatal: news is modal enrichment, not the core leaderboard contract. It
+# must run before packing so deep-${CODE}.tar.gz carries refreshed `news[]`.
+echo "[refresh-${CODE}] running SWS news enrichment..."
+if ! node scripts/sws-news-scrape.mjs --market "${CODE}" 2>&1 | sed "s/^/[news-${CODE}] /"; then
+  echo "[refresh-${CODE}] news enrichment failed — non-fatal, packing existing deep briefs"
+fi
 
 # ---------- 6b. Pack deep briefs for prod serving ----------
 if [ -d "${DATA_DIR}/deep" ] && [ -n "$(ls -A "${DATA_DIR}/deep" 2>/dev/null)" ]; then
