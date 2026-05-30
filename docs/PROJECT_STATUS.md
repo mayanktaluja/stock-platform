@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-05-29**
+**Last updated: 2026-05-30**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -172,6 +172,11 @@ portfolio analyzer.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
+- **This PR** — Manual US SWS refreshes now auto-ship successful full runs:
+  `scripts/sws-refresh-us.sh` stages only deployable `data/sws-us/` artifacts,
+  commits them on a fresh `chore/sws-us-auto-refresh-*` branch, opens a GitHub
+  PR, and enables squash auto-merge by default. Seed-capped validates,
+  failed-shard runs, and already-running scrape handoffs still skip shipping.
 - **This PR** — `sws-nightly.sh` now re-execs itself from a temporary stable
   copy before any branch checkout. This prevents Bash from reading a rewritten
   working-tree script mid-run, which caused the 2026-05-25 post-news step to
