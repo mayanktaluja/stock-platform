@@ -185,7 +185,19 @@ async function main() {
   const tmp = PATHS.universe + ".tmp." + process.pid;
   fs.writeFileSync(tmp, JSON.stringify(universe, null, 2));
   fs.renameSync(tmp, PATHS.universe);
+  const meta = {
+    generatedAt: new Date().toISOString(),
+    source: "sws-public-sitemap",
+    region: "us",
+    includeOtc,
+    count: universe.length,
+    exchanges: exCounts,
+  };
+  const metaTmp = PATHS.universeMeta + ".tmp." + process.pid;
+  fs.writeFileSync(metaTmp, JSON.stringify(meta, null, 2));
+  fs.renameSync(metaTmp, PATHS.universeMeta);
   console.error(`✓ ${PATHS.universe} → ${universe.length} entries.`);
+  console.error(`✓ ${PATHS.universeMeta} stamped.`);
 }
 
 main().catch((e) => {

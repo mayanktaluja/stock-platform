@@ -219,7 +219,20 @@ async function main() {
   const tmp = cfg.PATHS.universe + ".tmp." + process.pid;
   fs.writeFileSync(tmp, JSON.stringify(universe, null, 2));
   fs.renameSync(tmp, cfg.PATHS.universe);
+  const meta = {
+    generatedAt: new Date().toISOString(),
+    source: "sws-public-sitemap",
+    region: code,
+    promotedExchanges: promoted,
+    count: universe.length,
+    exchanges: exCounts,
+    excluded: excludedCounts,
+  };
+  const metaTmp = cfg.PATHS.universeMeta + ".tmp." + process.pid;
+  fs.writeFileSync(metaTmp, JSON.stringify(meta, null, 2));
+  fs.renameSync(metaTmp, cfg.PATHS.universeMeta);
   console.error(`✓ ${cfg.PATHS.universe} → ${universe.length} entries.`);
+  console.error(`✓ ${cfg.PATHS.universeMeta} stamped.`);
 }
 
 main().catch((e) => {

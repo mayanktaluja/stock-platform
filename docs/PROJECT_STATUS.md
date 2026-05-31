@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-05-30**
+**Last updated: 2026-06-01**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -172,17 +172,19 @@ portfolio analyzer.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
-- **This PR** — Manual US SWS refreshes now auto-ship successful full runs:
-  `scripts/sws-refresh-us.sh` stages only deployable `data/sws-us/` artifacts,
-  commits them on a fresh `chore/sws-us-auto-refresh-*` branch, opens a GitHub
-  PR, and enables squash auto-merge by default. Seed-capped validates,
-  failed-shard runs, and already-running scrape handoffs still skip shipping.
-- **This PR** — Manual KR/TW SWS refreshes now auto-ship successful full runs:
-  `scripts/sws-refresh-region.sh` copies only deployable region artifacts into
-  a temporary clean worktree, opens a `chore/sws-{kr,tw}-auto-refresh-*` PR, and
-  enables squash auto-merge by default. Seed-capped validates, failed-shard
-  runs, already-running scrape handoffs, missing `gh`, and explicit opt-outs
-  still skip shipping.
+- **This PR** — Permanent refresh shipping fix: successful full India/US/KR/TW
+  SWS refreshes now auto-open generated-data PRs and auto-merge to `main`, while
+  seed/capped runs and failed-shard runs are refused. US/KR/TW shortcuts ship
+  only their own `data/sws-<market>/` deployable artifacts, index/universe
+  metadata, and the global `data/macroCalendar.json`; they explicitly do not
+  run India fundamentals, F&O OI, or Earnings Watch refreshes. India nightly now
+  uses HTTPS preflight instead of ICMP-only ping, continues auxiliary refreshes
+  after early SWS scrape failure, and can data-only ship those auxiliary outputs
+  so stale banners do not persist while SWS is being debugged.
+- **This PR** — `data/macroCalendar.json` is now managed by
+  `scripts/refresh-macro-calendar.mjs`, which pulls public Fed/BLS/MoSPI/RBI
+  event sources where available and preserves the prior good calendar without
+  bumping `_updated` when future coverage is too thin.
 - **This PR** — `sws-nightly.sh` now re-execs itself from a temporary stable
   copy before any branch checkout. This prevents Bash from reading a rewritten
   working-tree script mid-run, which caused the 2026-05-25 post-news step to

@@ -85,6 +85,11 @@ for (const f of ["surveillance.json", "governance.json"]) {
   assert(`${f} is in the DATA_FILES array (data-only PR path)`, dataFilesBlock.includes(f), null);
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
 }
+for (const f of ["data/macroCalendar.json", "data/nse-index-constituents.json"]) {
+  assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
+  assert(`${f} is in the DATA_FILES array (data-only PR path)`, dataFilesBlock.includes(f), null);
+  assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+}
 
 // India modals in prod read data/sws/deep.tar.gz, not loose data/sws/deep/*,
 // because .vercelignore excludes the thousands of loose deep files. The inner
@@ -148,6 +153,27 @@ assert(
   "no bare `timeout` calls — all long-running steps must use with_timeout",
   bareTimeoutCalls.length === 0,
   { offenders: bareTimeoutCalls },
+);
+assert(
+  "network preflight uses HTTPS reachability instead of ICMP-only ping",
+  !/ping -c 1 -t 5 8\.8\.8\.8/.test(nightly) &&
+    /curl -fsSL --connect-timeout 8 --max-time 20/.test(nightly) &&
+    /https:\/\/simplywall\.st/.test(nightly),
+  null,
+);
+assert(
+  "macro calendar refresh is wired into the auxiliary chain",
+  /node scripts\/refresh-macro-calendar\.mjs/.test(nightly) &&
+    /aux_status "macroCalendar\.json" "OK"/.test(nightly),
+  null,
+);
+assert(
+  "early SWS scrape failure still runs auxiliary refreshes then data-only auto-ship",
+  /SWS_PRIMARY_FAILED=1/.test(nightly) &&
+    /continuing auxiliary refresh chain before data-only ship/.test(nightly) &&
+    /ship_nightly_data_only "SWS scrape pipeline failed before sanity gate"/.test(nightly) &&
+    /sws_auto_ship_market "\$\{nightly_data_only_paths\[@\]\}"/.test(nightly),
+  null,
 );
 
 // ---------------------------------------------------------------- tripwire
