@@ -177,6 +177,12 @@ portfolio analyzer.
   commits them on a fresh `chore/sws-us-auto-refresh-*` branch, opens a GitHub
   PR, and enables squash auto-merge by default. Seed-capped validates,
   failed-shard runs, and already-running scrape handoffs still skip shipping.
+- **This PR** — Manual KR/TW SWS refreshes now auto-ship successful full runs:
+  `scripts/sws-refresh-region.sh` copies only deployable region artifacts into
+  a temporary clean worktree, opens a `chore/sws-{kr,tw}-auto-refresh-*` PR, and
+  enables squash auto-merge by default. Seed-capped validates, failed-shard
+  runs, already-running scrape handoffs, missing `gh`, and explicit opt-outs
+  still skip shipping.
 - **This PR** — `sws-nightly.sh` now re-execs itself from a temporary stable
   copy before any branch checkout. This prevents Bash from reading a rewritten
   working-tree script mid-run, which caused the 2026-05-25 post-news step to
