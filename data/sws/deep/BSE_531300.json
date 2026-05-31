@@ -3,39 +3,38 @@
   "name": "Amit International Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares",
-  "parsed_at": "2026-05-29T17:08:10.419Z",
+  "parsed_at": "2026-05-31T21:57:59.748Z",
   "company_id": "27FD4982-E8E7-40A2-B653-BE46C85795BC",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 3,
       "future": 0,
-      "past": 4,
-      "financial_health": 3,
+      "past": 0,
+      "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 4,
-      "value": 0,
-      "health": 3,
+      "past_performance": 0,
+      "value": 3,
+      "health": 4,
       "dividend": 0
     },
     "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 14,
+      "insufficient_count": 11,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Past",
         "Health",
         "Dividends"
       ],
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -43,7 +42,7 @@
         },
         "Past": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Health": {
           "checked": 6,
@@ -61,50 +60,53 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
     "current_price_inr": 3.15,
     "market_cap_inr": 59685272.51013318,
-    "market_cap_usd": 121949035232.813,
+    "market_cap_usd": 120714180851.549,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
-    "fair_value_inr": null,
+    "fair_value_inr": 11.122874,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": null,
+    "upside_pct": 253.1071111111111,
     "multiples": {
-      "pe": 49,
+      "pe": null,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
-      "pe_as_of": "2026-05-29T17:08:10.419Z",
+      "pe_as_of": null,
       "pe_basis": "trailing_ttm",
-      "pe_source_url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares"
+      "pe_source_url": null
     },
     "rewards": [
-      "Earnings grew by 289.8% over the past year"
+      "Trading at good value vs. industry average Price-To-Book ratio",
+      "Trading at good value vs. peer average Price-To-Book ratio",
+      "Trading at 71.7% below our estimate of its fair value"
     ],
     "risks": [
       "Shares are highly illiquid",
-      "Makes less than USD$1m in revenue (₹0)",
+      "Earnings have declined by 11.7% per year over past 5 years",
+      "Makes less than USD$1m in revenue (₹826K)",
       "Does not have a meaningful market cap (₹60M)"
     ],
     "dividend": {
@@ -117,9 +119,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 17.806273806,
+      "pe": 18.199713239,
       "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4103617955
+      "future_revenue_growth_3y": 0.4160609582
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -133,30 +135,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 49,
-      "company_pe_source": "sws_statement",
-      "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 17.806273806,
+      "company_pe": null,
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 18.199713239,
       "industry_name": "Consumer Durables",
       "industry_code": "4130000",
-      "sample_count": 297,
+      "sample_count": 294,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 49,
-        "industry_pe": 18.1,
+        "company_pe": null,
+        "industry_pe": 1.3,
         "industry_name": "Indian Luxury",
-        "description": "531300 is expensive based on its Price-To-Earnings Ratio (49x) compared to the Indian Luxury industry average (18.1x).",
-        "title": "Price-To-Earnings vs Industry",
+        "description": "531300 is good value based on its Price-To-Book Ratio (0.3x) compared to the Indian Luxury industry average (1.3x).",
+        "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.806273806,
+        "industry_pe": 18.199713239,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 297,
+        "count": 294,
         "source": {
           "type": "country",
           "country": "IN",
@@ -165,8 +167,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.9,
-        "sample_count": 294,
+        "industry_pe": 17.1,
+        "sample_count": 290,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -179,31 +181,25 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3.15,
-        "fetched_at": "2026-05-29T17:08:10.419Z",
-        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares"
-      },
-      "multiples.pe": {
-        "provider": "sws_statement",
-        "value": 49,
-        "fetched_at": "2026-05-29T17:08:10.419Z",
+        "fetched_at": "2026-05-31T21:57:59.748Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 17.806273806,
+        "value": 18.199713239,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.05921870449,
-        "fetched_at": "2026-05-29T17:08:10.419Z",
+        "fetched_at": "2026-05-31T21:57:59.748Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4103617955,
-        "fetched_at": "2026-05-29T17:08:10.419Z",
+        "value": 0.4160609582,
+        "fetched_at": "2026-05-31T21:57:59.748Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-531300/amit-international-shares"
       }
     },
@@ -239,7 +235,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -374,6 +370,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "9f150893-d41b-4698-bcfa-ad1bff6c176f",
+      "type": "brief",
+      "date": "2026-05-31T02:53:23.000Z",
+      "title": "New major risk - Revenue and earnings growth",
+      "body": "Earnings have declined by 12% per year over the past 5 years. This is considered a major risk. Ultimately, shareholders want to see a good return on their investment and that generally comes from sharing in the company's profits. If profits are declining over an extended period, then in most cases the share price will decline over time unless the company can turn around its fortunes. A trend of falling earnings can be very difficult to turn around. If the company is well already established it may also be a sign the company has matured and is in decline. In addition, if the company pays dividends it will also likely need to reduce or cut them, striking a dual blow to total shareholder returns. Currently, the following risks have been identified for the company: Major Risks Shares are highl",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "9674ee5a-3c1e-4a2c-994c-f5bf4eb8a005",
       "type": "event",

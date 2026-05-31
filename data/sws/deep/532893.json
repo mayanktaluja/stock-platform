@@ -3,7 +3,7 @@
   "name": "VTM Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-532893/vtm-shares",
-  "parsed_at": "2026-05-29T17:50:03.851Z",
+  "parsed_at": "2026-05-31T22:23:25.341Z",
   "company_id": "BE048D20-5652-489B-A8B2-DB7AC2A6150C",
   "classification_status": "Active",
   "groww_source": {
@@ -30,16 +30,17 @@
     "snowflake_total": 6,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 7,
+      "insufficient_count": 11,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
-        "Future"
+        "Future",
+        "Dividends"
       ],
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -55,7 +56,7 @@
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 0
+          "insufficient": 2
         }
       },
       "samples": [
@@ -65,20 +66,20 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
     "current_price_inr": 63.5,
     "market_cap_inr": 6647600000,
-    "market_cap_usd": 120702718105.29,
+    "market_cap_usd": 120714180851.549,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -109,10 +110,9 @@
     },
     "rewards": [],
     "risks": [
-      "Does not have a meaningful market cap (₹7B)",
+      "Does not have a meaningful market cap (₹6B)",
       "Profit margins (3%) are lower than last year (13.2%)",
-      "Highly volatile share price over past 3 months",
-      "Dividend of 0.61% is not well covered by free cash flows"
+      "Highly volatile share price over past 3 months"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -257,7 +257,7 @@
     "industry_benchmarks": {
       "pe": 54.8035163823525,
       "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4103617955,
+      "future_revenue_growth_3y": 0.4160609582,
       "sector_pe": 54.8035163823525
     },
     "industry_benchmarks_meta": {
@@ -292,18 +292,18 @@
         "url": "https://groww.in/stocks/vtm-ltd"
       },
       "sws_statement": {
-        "company_pe": 59.4,
-        "industry_pe": 18.1,
+        "company_pe": 57,
+        "industry_pe": 18,
         "industry_name": "Indian Luxury",
-        "description": "532893 is expensive based on its Price-To-Earnings Ratio (59.4x) compared to the Indian Luxury industry average (18.1x).",
+        "description": "532893 is expensive based on its Price-To-Earnings Ratio (57x) compared to the Indian Luxury industry average (18x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.806273806,
+        "industry_pe": 18.199713239,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 297,
+        "count": 294,
         "source": {
           "type": "country",
           "country": "IN",
@@ -312,8 +312,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.9,
-        "sample_count": 294,
+        "industry_pe": 17.1,
+        "sample_count": 290,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -326,7 +326,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 63.5,
-        "fetched_at": "2026-05-29T17:50:03.851Z",
+        "fetched_at": "2026-05-31T22:23:25.341Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-532893/vtm-shares"
       },
       "market_cap_inr": {
@@ -374,13 +374,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.05921870449,
-        "fetched_at": "2026-05-29T17:50:03.851Z",
+        "fetched_at": "2026-05-31T22:23:25.341Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-532893/vtm-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4103617955,
-        "fetched_at": "2026-05-29T17:50:03.851Z",
+        "value": 0.4160609582,
+        "fetched_at": "2026-05-31T22:23:25.341Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-532893/vtm-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -517,7 +517,7 @@
       "1M": -17.979850167915266,
       "3M": -22.890103217972065,
       "6M": -18.296448790530107,
-      "1Y": -35.177623519803994,
+      "1Y": -32.518597236981925,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -1018,16 +1018,6 @@
       "date": "2026-01-09T11:57:59.000Z",
       "title": "Investor sentiment deteriorates as stock falls 20%",
       "body": "After last week's 20% share price decline to ₹56.32, the stock trades at a trailing P/E ratio of 15.2x. Average trailing P/E is 19x in the Luxury industry in India. Total returns to shareholders of 195% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "cbd295d9-fdea-4d76-b2e6-85d31a11571b",
-      "type": "brief",
-      "date": "2025-12-01T11:38:07.000Z",
-      "title": "Investor sentiment deteriorates as stock falls 15%",
-      "body": "After last week's 15% share price decline to ₹73.84, the stock trades at a trailing P/E ratio of 19.9x. Average trailing P/E is 21x in the Luxury industry in India. Total returns to shareholders of 268% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
