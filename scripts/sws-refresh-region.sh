@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Region (Korea / Taiwan) SWS refresh orchestrator — the generalization of
-# sws-refresh-us.sh. Deliberately lean: NO auto-PR / auto-merge, NO launchd cron,
-# NO Neon, NO mail. Run by hand (via /sws-refresh-kr or /sws-refresh-tw) and
-# commit the result yourself.
+# sws-refresh-us.sh. Successful full runs auto-ship data via PR + auto-merge
+# so prod does not stay pinned to the previous committed snapshot.
 #
 # Chain:  co-run guard → spawn 3 shards (retry) → parse → score →
 #         news enrichment → pack tarball → (optional narrate) →
@@ -16,6 +15,12 @@
 #   SWS_SCRAPE_LIMIT=N   cap each shard to N stocks (seed validate)
 #   SWS_RESUME=1         continue shards from saved next_local_index
 #   SHARD_MAX_RETRIES=N  per-shard crash retries (default 2)
+#   SWS_REGION_AUTO_PR=0 skip branch + commit + push + PR for KR/TW
+#   SWS_KR_AUTO_PR=0     skip auto-PR for Korea only
+#   SWS_TW_AUTO_PR=0     skip auto-PR for Taiwan only
+#   SWS_REGION_AUTO_MERGE=0 leave KR/TW PRs open instead of enabling auto-merge
+#   SWS_KR_AUTO_MERGE=0     leave Korea PRs open instead of enabling auto-merge
+#   SWS_TW_AUTO_MERGE=0     leave Taiwan PRs open instead of enabling auto-merge
 #
 # Exit codes: 0 ok · 2 bad args · 3 panic flag set · 4 panic mid-scrape ·
 #   5 another market's scrape is co-running (refused) · phase non-zero is logged.
@@ -54,6 +59,7 @@ fi
 LIVE_SHARDS="$(ps -A -o command= | grep -E "sws-api-scrape-region\.mjs.*--region[ ]+${CODE}.*--shard[ ]+[123]" | grep -v grep | sed -E 's/.*--shard[ ]+([123]).*/\1/' | sort -u | paste -sd, - || true)"
 PIDS=()
 FAIL=0
+SCRAPE_SKIPPED=false
 
 LIMIT_ARG=""
 if [ -n "${SWS_SCRAPE_LIMIT:-}" ]; then
@@ -63,6 +69,7 @@ fi
 
 if [ -n "${LIVE_SHARDS}" ]; then
   echo "[refresh-${CODE}] shards [${LIVE_SHARDS}] already running → skipping scrape, scoring/PDF only"
+  SCRAPE_SKIPPED=true
 else
   echo "[refresh-${CODE}] spawning 3 ${CODE} API shards in parallel"
   if [ "${SWS_RESUME:-0}" = "1" ]; then
@@ -189,4 +196,122 @@ writeFileSync(cfg.PATHS.lastRefresh, JSON.stringify({
 console.log(`[refresh] wrote ${cfg.PATHS.lastRefresh} (scored_count=${picks.scored_count ?? "?"})`);
 EOF
 
-echo "[refresh-${CODE}] done in $(( $(date +%s) - START_EPOCH ))s. Review ${DATA_DIR}/picks-latest.json, then commit + push manually."
+# ---------- 10. Auto-propagate to prod (regional data PR) ----------
+# Vercel serves committed JSON/tarball snapshots. Keep this isolated from the
+# operator's working tree by copying only deployable artifacts into a temporary
+# clean worktree before committing.
+case "${CODE}" in
+  kr)
+    AUTO_PR_ENABLED="${SWS_KR_AUTO_PR:-${SWS_REGION_AUTO_PR:-1}}"
+    AUTO_MERGE_ENABLED="${SWS_KR_AUTO_MERGE:-${SWS_REGION_AUTO_MERGE:-1}}"
+    REGION_LABEL="Korea"
+    ;;
+  tw)
+    AUTO_PR_ENABLED="${SWS_TW_AUTO_PR:-${SWS_REGION_AUTO_PR:-1}}"
+    AUTO_MERGE_ENABLED="${SWS_TW_AUTO_MERGE:-${SWS_REGION_AUTO_MERGE:-1}}"
+    REGION_LABEL="Taiwan"
+    ;;
+esac
+
+if [ "${AUTO_PR_ENABLED:-1}" != "0" ] \
+   && [ -z "${SWS_SCRAPE_LIMIT:-}" ] \
+   && command -v gh >/dev/null 2>&1 \
+   && [ "${FAIL}" -eq 0 ] \
+   && [ "${SCRAPE_SKIPPED}" != "true" ]; then
+  AUTO_DATE="$(date -u +%Y-%m-%d)"
+  AUTO_STAMP="$(date -u +%Y-%m-%d-%H%M%S)"
+  AUTO_BRANCH="chore/sws-${CODE}-auto-refresh-${AUTO_STAMP}"
+  git fetch origin main >/dev/null 2>&1 || true
+  BASE_REF="HEAD"
+  git rev-parse --verify origin/main >/dev/null 2>&1 && BASE_REF="origin/main"
+  ELAPSED=$(( $(date +%s) - START_EPOCH ))
+  AUTO_WT="$(mktemp -d "${TMPDIR:-/tmp}/sws-${CODE}-auto-ship.XXXXXX")"
+  echo "[refresh-${CODE}] auto-PR: branching ${AUTO_BRANCH} from ${BASE_REF} in ${AUTO_WT}"
+
+  if git worktree add -b "${AUTO_BRANCH}" "${AUTO_WT}" "${BASE_REF}" >/dev/null 2>&1; then
+    mkdir -p "${AUTO_WT}/${DATA_DIR}"
+    COPY_FAIL=0
+    for ARTIFACT in \
+      "deep-${CODE}.tar.gz" \
+      "last-refresh.json" \
+      "picks-latest.json" \
+      "sws-scored-universe.json" \
+      "v3-universe-stats.json"; do
+      if [ -f "${DATA_DIR}/${ARTIFACT}" ]; then
+        cp "${DATA_DIR}/${ARTIFACT}" "${AUTO_WT}/${DATA_DIR}/${ARTIFACT}" || COPY_FAIL=1
+      else
+        echo "[refresh-${CODE}] auto-PR: missing ${DATA_DIR}/${ARTIFACT}"
+        COPY_FAIL=1
+      fi
+    done
+
+    if [ "${COPY_FAIL}" -ne 0 ]; then
+      echo "[refresh-${CODE}] auto-PR: missing deployable artifacts — skipping"
+    else
+      git -C "${AUTO_WT}" add \
+        "${DATA_DIR}/deep-${CODE}.tar.gz" \
+        "${DATA_DIR}/last-refresh.json" \
+        "${DATA_DIR}/picks-latest.json" \
+        "${DATA_DIR}/sws-scored-universe.json" \
+        "${DATA_DIR}/v3-universe-stats.json"
+
+      if git -C "${AUTO_WT}" diff --cached --quiet; then
+        echo "[refresh-${CODE}] auto-PR: no ${CODE} data changes to commit — skipping"
+      else
+        SCORED_COUNT="$(node --input-type=module -e "import fs from 'fs'; const p=JSON.parse(fs.readFileSync('${DATA_DIR}/picks-latest.json','utf8')); process.stdout.write(String(p.scored_count ?? 'unknown'));" 2>/dev/null || echo unknown)"
+        COMMIT_MSG="chore(sws-${CODE}): auto-refresh ${AUTO_DATE} — full universe rescan
+
+Auto-generated by scripts/sws-refresh-region.sh.
+region: ${CODE}, duration: ${ELAPSED}s, shards_failed: ${FAIL}, scored_count: ${SCORED_COUNT}.
+
+Without this commit, prod's stateless Vercel functions would continue
+serving the previous deploy's ${REGION_LABEL} picks snapshot."
+
+        if git -C "${AUTO_WT}" commit -m "${COMMIT_MSG}" >/dev/null 2>&1; then
+          if git -C "${AUTO_WT}" push -u origin "${AUTO_BRANCH}" 2>&1 | sed "s/^/[refresh-${CODE}] /"; then
+            PR_OUTPUT="$(gh -R mayanktaluja/stock-platform pr create --base main \
+              --head "${AUTO_BRANCH}" \
+              --title "chore(sws-${CODE}): auto-refresh ${AUTO_DATE}" \
+              --body "Auto-generated by \`scripts/sws-refresh-region.sh ${CODE}\` — ships freshly-scraped ${REGION_LABEL} SWS data to prod.
+
+* duration: ${ELAPSED}s
+* shards_failed: ${FAIL}
+* scored_count: ${SCORED_COUNT}
+* see \`${DATA_DIR}/last-refresh.json\` for full pipeline summary
+
+Once merged, prod (\`starbhai-stock-platform.vercel.app\`) will redeploy with the new ${REGION_LABEL} picks." 2>&1)"
+            PR_URL="$(echo "${PR_OUTPUT}" | grep -oE 'https://github\.com/[^[:space:]]+/pull/[0-9]+' | tail -1)"
+
+            if [ -n "${PR_URL}" ]; then
+              echo "[refresh-${CODE}] auto-PR opened: ${PR_URL}"
+              if [ "${AUTO_MERGE_ENABLED:-1}" = "1" ]; then
+                gh -R mayanktaluja/stock-platform pr merge "${PR_URL}" --squash --auto 2>&1 | sed "s/^/[refresh-${CODE}] /" \
+                  || gh -R mayanktaluja/stock-platform pr merge "${PR_URL}" --squash 2>&1 | sed "s/^/[refresh-${CODE}] /" \
+                  || echo "[refresh-${CODE}] auto-merge failed — PR awaits manual review"
+              else
+                echo "[refresh-${CODE}] auto-merge disabled — PR awaits manual review."
+              fi
+            else
+              echo "[refresh-${CODE}] gh pr create failed: ${PR_OUTPUT}"
+            fi
+          fi
+        else
+          echo "[refresh-${CODE}] auto-PR: git commit failed — leaving changes in ${AUTO_WT}"
+          AUTO_WT=""
+        fi
+      fi
+    fi
+
+    if [ -n "${AUTO_WT}" ]; then
+      git worktree remove --force "${AUTO_WT}" >/dev/null 2>&1 || true
+      git branch -D "${AUTO_BRANCH}" >/dev/null 2>&1 || true
+    fi
+  else
+    echo "[refresh-${CODE}] auto-PR: worktree checkout failed — skipping"
+    rmdir "${AUTO_WT}" >/dev/null 2>&1 || true
+  fi
+else
+  echo "[refresh-${CODE}] auto-PR skipped (seed mode, failed shard, gh missing, scrape skipped, or auto-PR disabled)"
+fi
+
+echo "[refresh-${CODE}] done in $(( $(date +%s) - START_EPOCH ))s."
