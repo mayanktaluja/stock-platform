@@ -35,6 +35,18 @@ portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### US/KR/TW e2e fixture isolation (June 2026)
+- **This PR** — US/KR/TW Playwright market fixtures now write under the ignored
+  `.e2e/sws-root` tree via `SWS_REPO_ROOT_OVERRIDE`, and the runtime DALs honor
+  that same override so tests and web-server reads stay aligned. This prevents
+  synthetic fixture rows from leaking into committed `data/sws-*` production
+  artifacts. Known leaked fixture markers such as `GROWTH / Quality Growth Co`
+  and the dead `nasdaq-growth` Simply Wall Street URL are quarantined at the
+  market API layer, and market stock-detail routes now refuse orphan deep
+  briefs unless the ticker still exists in a non-fixture scored universe row.
+  New guard tests fail if known fixture markers are served by market APIs or if
+  fixture builders mutate tracked production outputs.
+
 ### SWS fair-value source fidelity (May 2026)
 - **This PR** — SWS fair value is now treated as source-of-truth across India,
   US, Korea, and Taiwan picks. Finite SWS FV values are preserved even when the

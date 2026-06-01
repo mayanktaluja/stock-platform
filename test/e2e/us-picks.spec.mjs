@@ -13,7 +13,10 @@ import { gotoApp } from "./helpers/app.mjs";
 test.setTimeout(60_000);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PICKS_PATH = path.join(__dirname, "..", "..", "data", "sws-us", "picks-latest.json");
+const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE
+  ? path.resolve(process.cwd(), process.env.SWS_REPO_ROOT_OVERRIDE)
+  : path.join(__dirname, "..", "..");
+const PICKS_PATH = path.join(REPO_ROOT, "data", "sws-us", "picks-latest.json");
 const HAS_FIXTURE = fs.existsSync(PICKS_PATH);
 
 // The harness runs with AUTH_ENABLED=false, so the global gate is open and the

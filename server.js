@@ -7978,6 +7978,36 @@ async function requireSignedInRead(req, res) {
 }
 
 const US_PICKS_MAX_LIMIT = 200;
+function isSyntheticMarketFixtureRow(row) {
+  if (!row || typeof row !== "object") return false;
+  const markerText = [
+    row.ticker,
+    row.name,
+    row.company_name,
+    row.sector,
+    row.sws_url,
+    row.url,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  return (
+    String(row.ticker || "").toUpperCase() === "GROWTH" ||
+    markerText.includes("quality growth co") ||
+    markerText.includes("nasdaq-growth") ||
+    markerText.includes("fixture-news-")
+  );
+}
+
+function filterSyntheticMarketFixtureRows(data) {
+  if (!data?.sections) return data;
+  for (const [key, items] of Object.entries(data.sections)) {
+    if (!Array.isArray(items)) continue;
+    data.sections[key] = items.filter((row) => !isSyntheticMarketFixtureRow(row));
+  }
+  return data;
+}
+
 app.get("/api/us-picks", async (req, res) => {
   if (!(await requireSignedInRead(req, res))) return;
   const raw = usPicksDal.getUsPicksLatest();
@@ -7989,6 +8019,7 @@ app.get("/api/us-picks", async (req, res) => {
   }
   // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
   const data = { ...raw, sections: { ...(raw.sections || {}) } };
+  filterSyntheticMarketFixtureRows(data);
   const limit =
     req.query.limit != null
       ? Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), US_PICKS_MAX_LIMIT)
@@ -8026,7 +8057,6 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
   if (!ticker || !/^[A-Z0-9.\-]+$/.test(ticker)) {
     return res.status(400).json({ error: "invalid_ticker" });
   }
-  const deep = usPicksDal.getUsStockByTicker(ticker);
   const picks = usPicksDal.getUsPicksLatest();
   let card = null;
   const sectionMemberships = [];
@@ -8046,7 +8076,10 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
     const idx = usPicksDal.getUsUniverseIndex();
     if (idx) card = idx.get(ticker) || null;
   }
-  if (!deep && !card) return res.status(404).json({ error: "no_us_data", ticker });
+  if (isSyntheticMarketFixtureRow(card)) return res.status(404).json({ error: "no_us_data", ticker });
+  if (!card) return res.status(404).json({ error: "no_us_data", ticker });
+  const deep = usPicksDal.getUsStockByTicker(ticker);
+  if (isSyntheticMarketFixtureRow(deep)) return res.status(404).json({ error: "no_us_data", ticker });
   const returnsPct = normaliseMarketReturns({ deep, card });
   const responseCard = enrichMarketCardReturns(card, returnsPct);
   res.json({
@@ -8112,6 +8145,7 @@ function registerRegionPicksRoutes(app, dal) {
     }
     // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
     const data = { ...raw, sections: { ...(raw.sections || {}) } };
+    filterSyntheticMarketFixtureRows(data);
     const limit =
       req.query.limit != null
         ? Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), REGION_PICKS_MAX_LIMIT)
@@ -8149,7 +8183,6 @@ function registerRegionPicksRoutes(app, dal) {
     if (!ticker || !/^[A-Z0-9.\-]+$/.test(ticker)) {
       return res.status(400).json({ error: "invalid_ticker" });
     }
-    const deep = dal.getStockByTicker(ticker);
     const picks = dal.getPicksLatest();
     let card = null;
     const sectionMemberships = [];
@@ -8168,7 +8201,10 @@ function registerRegionPicksRoutes(app, dal) {
       const idx = dal.getUniverseIndex();
       if (idx) card = idx.get(ticker) || null;
     }
-    if (!deep && !card) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
+    if (isSyntheticMarketFixtureRow(card)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
+    if (!card) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
+    const deep = dal.getStockByTicker(ticker);
+    if (isSyntheticMarketFixtureRow(deep)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
     const returnsPct = normaliseMarketReturns({ deep, card });
     const responseCard = enrichMarketCardReturns(card, returnsPct);
     res.json({

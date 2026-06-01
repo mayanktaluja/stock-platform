@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const PORT = process.env.E2E_PORT || 4011;
 const BASE_URL = `http://localhost:${PORT}`;
+const SWS_REPO_ROOT_OVERRIDE = process.env.SWS_REPO_ROOT_OVERRIDE || ".e2e/sws-root";
 
 export default defineConfig({
   testDir: "./test/e2e",
@@ -33,6 +34,7 @@ export default defineConfig({
       STARBHAI_SESSION_SECRET: "",
       GOOGLE_CLIENT_ID: "",
       GOOGLE_CLIENT_SECRET: "",
+      SWS_REPO_ROOT_OVERRIDE,
     },
   },
 });

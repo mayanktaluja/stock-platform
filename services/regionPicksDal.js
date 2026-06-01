@@ -24,7 +24,9 @@ import {
 import { getRegion } from "../scripts/sws-regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = path.resolve(__dirname, "..");
+const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE
+  ? path.resolve(process.cwd(), process.env.SWS_REPO_ROOT_OVERRIDE)
+  : path.resolve(__dirname, "..");
 
 export function makeRegionPicksDal(code) {
   const region = getRegion(code);

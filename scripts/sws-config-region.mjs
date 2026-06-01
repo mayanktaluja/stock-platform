@@ -18,7 +18,9 @@ import * as india from "./sws-config.mjs";
 import { getRegion } from "./sws-regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = process.env.SWS_REPO_ROOT_OVERRIDE || path.resolve(__dirname, "..");
+const repoRoot = process.env.SWS_REPO_ROOT_OVERRIDE
+  ? path.resolve(process.cwd(), process.env.SWS_REPO_ROOT_OVERRIDE)
+  : path.resolve(__dirname, "..");
 
 // Region-agnostic knobs — the same objects India + US use (single source of truth).
 const AGNOSTIC_KEYS = [

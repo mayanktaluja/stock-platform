@@ -21,7 +21,9 @@ import {
 } from "./swsMarketFundamentals.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = path.resolve(__dirname, "..");
+const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE
+  ? path.resolve(process.cwd(), process.env.SWS_REPO_ROOT_OVERRIDE)
+  : path.resolve(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data", "sws-us");
 const DEEP_DIR = path.join(DATA_DIR, "deep");
 const DEEP_TARBALL = path.join(DATA_DIR, "deep-us.tar.gz");
