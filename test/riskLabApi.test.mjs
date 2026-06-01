@@ -14,7 +14,8 @@ import { spawn } from "child_process";
 import { existsSync } from "fs";
 import path from "path";
 
-const PORT = 4111;
+const BASE_PORT = Number(process.env.RISK_LAB_API_TEST_PORT || 4111 + (process.pid % 1000));
+let nextPort = BASE_PORT;
 const PICKS_FILE = path.resolve("data/risk-lab/picks-adjusted-latest.json");
 
 let _failed = 0;
@@ -35,11 +36,12 @@ if (!existsSync(PICKS_FILE)) {
 // Boot server with NODE_ENV=test and AUTH_ENABLED=false so we don't need
 // fake credentials. Use the same env-shape the playwright harness uses.
 async function bootServer(extraEnv = {}) {
+  const port = nextPort++;
   const proc = spawn("node", ["server.js"], {
     env: {
       ...process.env,
       NODE_ENV: "test",
-      PORT: String(PORT),
+      PORT: String(port),
       AUTH_ENABLED: "false",
       ...extraEnv,
     },
@@ -50,9 +52,9 @@ async function bootServer(extraEnv = {}) {
   const deadline = Date.now() + 15000;
   while (Date.now() < deadline) {
     try {
-      const res = await fetch(`http://localhost:${PORT}/api/risk-lab/regime-context`);
+      const res = await fetch(`http://localhost:${port}/api/risk-lab/regime-context`);
       if (res.status === 200 || res.status === 404 || res.status === 503) {
-        return proc;
+        return { proc, port };
       }
     } catch {}
     await new Promise((r) => setTimeout(r, 200));
@@ -61,21 +63,21 @@ async function bootServer(extraEnv = {}) {
   throw new Error("server failed to boot within 15s");
 }
 
-async function safeKill(proc) {
-  if (!proc || proc.killed) return;
-  proc.kill();
+async function safeKill(server) {
+  if (!server?.proc || server.proc.killed) return;
+  server.proc.kill();
   // Give it a moment to release the port
   await new Promise((r) => setTimeout(r, 200));
 }
 
 console.log("riskLabApi: testing default-enabled state");
 {
-  let proc;
+  let server;
   try {
-    proc = await bootServer();
+    server = await bootServer();
 
     // /api/risk-lab/picks-adjusted
-    const picksRes = await fetch(`http://localhost:${PORT}/api/risk-lab/picks-adjusted`);
+    const picksRes = await fetch(`http://localhost:${server.port}/api/risk-lab/picks-adjusted`);
     assert("picks-adjusted: 200", picksRes.status === 200, picksRes.status);
     const picks = await picksRes.json();
     assert("picks-adjusted: schema_version v2", picks.schema_version === "risk-lab-picks-v2");
@@ -83,7 +85,7 @@ console.log("riskLabApi: testing default-enabled state");
     assert("picks-adjusted: has summary", picks.summary && typeof picks.summary.total_stocks === "number");
 
     // /api/risk-lab/regime-context — projects summary + regime
-    const ctxRes = await fetch(`http://localhost:${PORT}/api/risk-lab/regime-context`);
+    const ctxRes = await fetch(`http://localhost:${server.port}/api/risk-lab/regime-context`);
     assert("regime-context: 200", ctxRes.status === 200);
     const ctx = await ctxRes.json();
     assert("regime-context: has regime", ctx.regime !== undefined);
@@ -91,7 +93,7 @@ console.log("riskLabApi: testing default-enabled state");
     assert("regime-context: NO stocks (only context)", ctx.stocks === undefined);
 
     // /api/risk-lab/quality-flags — bulk
-    const flagsRes = await fetch(`http://localhost:${PORT}/api/risk-lab/quality-flags`);
+    const flagsRes = await fetch(`http://localhost:${server.port}/api/risk-lab/quality-flags`);
     assert("quality-flags bulk: 200", flagsRes.status === 200);
     const flags = await flagsRes.json();
     assert("quality-flags bulk: array of stocks", Array.isArray(flags.stocks));
@@ -99,37 +101,37 @@ console.log("riskLabApi: testing default-enabled state");
     // /api/risk-lab/quality-flags/:ticker — single ticker
     if (flags.stocks.length > 0) {
       const sampleTicker = flags.stocks[0].ticker;
-      const oneRes = await fetch(`http://localhost:${PORT}/api/risk-lab/quality-flags/${sampleTicker}`);
+      const oneRes = await fetch(`http://localhost:${server.port}/api/risk-lab/quality-flags/${sampleTicker}`);
       assert("quality-flags single: 200 for known ticker", oneRes.status === 200);
       const one = await oneRes.json();
       assert("quality-flags single: matches ticker", one.ticker === sampleTicker);
       assert("quality-flags single: has flags array", Array.isArray(one.flags));
 
       // Lowercase / unknown ticker → 404
-      const missRes = await fetch(`http://localhost:${PORT}/api/risk-lab/quality-flags/NOTATICKER`);
+      const missRes = await fetch(`http://localhost:${server.port}/api/risk-lab/quality-flags/NOTATICKER`);
       assert("quality-flags single: 404 for unknown ticker", missRes.status === 404);
     }
   } finally {
-    await safeKill(proc);
+    await safeKill(server);
   }
 }
 
 console.log("riskLabApi: testing RISK_LAB_ENABLED=false (kill switch)");
 {
-  let proc;
+  let server;
   try {
-    proc = await bootServer({ RISK_LAB_ENABLED: "false" });
+    server = await bootServer({ RISK_LAB_ENABLED: "false" });
 
-    const picksRes = await fetch(`http://localhost:${PORT}/api/risk-lab/picks-adjusted`);
+    const picksRes = await fetch(`http://localhost:${server.port}/api/risk-lab/picks-adjusted`);
     assert("kill-switch: picks-adjusted returns 404", picksRes.status === 404);
 
-    const ctxRes = await fetch(`http://localhost:${PORT}/api/risk-lab/regime-context`);
+    const ctxRes = await fetch(`http://localhost:${server.port}/api/risk-lab/regime-context`);
     assert("kill-switch: regime-context returns 404", ctxRes.status === 404);
 
-    const flagsRes = await fetch(`http://localhost:${PORT}/api/risk-lab/quality-flags`);
+    const flagsRes = await fetch(`http://localhost:${server.port}/api/risk-lab/quality-flags`);
     assert("kill-switch: quality-flags returns 404", flagsRes.status === 404);
   } finally {
-    await safeKill(proc);
+    await safeKill(server);
   }
 }
 
