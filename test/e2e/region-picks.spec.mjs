@@ -14,7 +14,10 @@ import { gotoApp } from "./helpers/app.mjs";
 test.setTimeout(60_000);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const picksPath = (code) => path.join(__dirname, "..", "..", "data", `sws-${code}`, "picks-latest.json");
+const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE
+  ? path.resolve(process.cwd(), process.env.SWS_REPO_ROOT_OVERRIDE)
+  : path.join(__dirname, "..", "..");
+const picksPath = (code) => path.join(REPO_ROOT, "data", `sws-${code}`, "picks-latest.json");
 
 // Per region: the symbol that MUST appear and the symbols that MUST NOT (a USD/INR
 // leak). KRW has no "$"; TWD is "NT$" so we forbid ₹ + ₩ (not a bare "$").
