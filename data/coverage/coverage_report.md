@@ -1,6 +1,6 @@
 # Stock Universe Coverage Gap — SWS vs Indian Equity Ground Truth
 
-Generated: 2026-05-26T20:26:17.827Z
+Generated: 2026-06-01T20:02:08.804Z
 
 ## Headline
 
@@ -185,4 +185,4 @@ Sample (first 15 BSE-only extras with names):
 2. Run `node scripts/sws-probe-availability.mjs` to filter the candidates against SWS's Asia sitemap (which stocks SWS actually has a page for).
 3. Run `node scripts/sws-build-delta.mjs` to build the merge-ready `data/coverage/sws_universe_delta.json`.
 4. Run `node scripts/sws-build-universe.mjs --merge --from-stdin < data/coverage/sws_universe_delta.json` to add them.
-5. The next 02:00 / 16:30 IST nightly fire (launchd) will deep-scrape the new entries automatically.
+5. The next 16:30 IST nightly fire (launchd) will deep-scrape the new entries automatically.
