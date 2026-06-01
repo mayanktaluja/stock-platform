@@ -3,7 +3,7 @@
   "name": "Regaal Resources Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-regaal/regaal-resources-shares",
-  "parsed_at": "2026-05-29T17:04:09.895Z",
+  "parsed_at": "2026-05-31T21:49:15.533Z",
   "company_id": "29ED001A-452A-418A-80EC-422316102FFA",
   "classification_status": "Active",
   "groww_source": {
@@ -30,18 +30,17 @@
     "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 13,
+      "insufficient_count": 8,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Health",
         "Dividends"
       ],
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -53,11 +52,11 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         }
       },
       "samples": [
@@ -67,33 +66,33 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
     "current_price_inr": 86.22,
     "market_cap_inr": 9290300000,
-    "market_cap_usd": 121949035232.813,
+    "market_cap_usd": 120714180851.549,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 57.27,
       "high": 145.7
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 4.413842,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": null,
+    "upside_pct": -94.88072141034563,
     "multiples": {
       "pe": 18.49,
       "ps": 0.81,
@@ -112,13 +111,14 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings grew by 21.3% over the past year",
-      "Price-To-Earnings ratio (18.6x) is below the Indian market (23.5x)"
+      "Price-To-Earnings ratio (15.9x) is below the Indian market (23.4x)",
+      "Earnings have grown 23.6% per year over the past 5 years"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹9B)"
+      "Does not have a meaningful market cap (₹9B)",
+      "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -132,7 +132,7 @@
     "industry_benchmarks": {
       "pe": 59.41951654741549,
       "net_income_margin_1y": 0.06501183937,
-      "future_revenue_growth_3y": 0.3781165008,
+      "future_revenue_growth_3y": 0.3785430898,
       "sector_pe": 59.41951654741549
     },
     "industry_benchmarks_meta": {
@@ -167,18 +167,18 @@
         "url": "https://groww.in/stocks/regaal-resources-ltd"
       },
       "sws_statement": {
-        "company_pe": 18.6,
-        "industry_pe": 19.7,
+        "company_pe": 15.9,
+        "industry_pe": 18.8,
         "industry_name": "Indian Food",
-        "description": "REGAAL is good value based on its Price-To-Earnings Ratio (18.6x) compared to the Indian Food industry average (19.7x).",
+        "description": "REGAAL is good value based on its Price-To-Earnings Ratio (15.9x) compared to the Indian Food industry average (18.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.749529046,
+        "industry_pe": 18.830078936,
         "industry_code": "5120000",
         "type": "median_profitable",
-        "count": 215,
+        "count": 217,
         "source": {
           "type": "country",
           "country": "IN",
@@ -187,8 +187,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.6,
-        "sample_count": 215,
+        "industry_pe": 17.9,
+        "sample_count": 218,
         "industry_code": "5120000",
         "industry_name": "Food, Beverage & Tobacco"
       },
@@ -201,7 +201,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 86.22,
-        "fetched_at": "2026-05-29T17:04:09.895Z",
+        "fetched_at": "2026-05-31T21:49:15.533Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-regaal/regaal-resources-shares"
       },
       "market_cap_inr": {
@@ -249,13 +249,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.06501183937,
-        "fetched_at": "2026-05-29T17:04:09.895Z",
+        "fetched_at": "2026-05-31T21:49:15.533Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-regaal/regaal-resources-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3781165008,
-        "fetched_at": "2026-05-29T17:04:09.895Z",
+        "value": 0.3785430898,
+        "fetched_at": "2026-05-31T21:49:15.533Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-regaal/regaal-resources-shares"
       },
       "industry_benchmarks.sector_pe": {
