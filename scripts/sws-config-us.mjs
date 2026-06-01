@@ -15,7 +15,9 @@ import path from "node:path";
 import * as india from "./sws-config.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = process.env.SWS_REPO_ROOT_OVERRIDE || path.resolve(__dirname, "..");
+const repoRoot = process.env.SWS_REPO_ROOT_OVERRIDE
+  ? path.resolve(process.cwd(), process.env.SWS_REPO_ROOT_OVERRIDE)
+  : path.resolve(__dirname, "..");
 
 // Region-agnostic knobs — reuse India's verbatim (single source of truth).
 export const {
