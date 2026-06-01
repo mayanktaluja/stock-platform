@@ -1,7 +1,7 @@
 {
   "schema_version": "compounder-latest-v1",
-  "generated_at": "2026-05-26T18:11:52.695Z",
-  "duration_ms": 2468,
+  "generated_at": "2026-06-01T17:04:16.234Z",
+  "duration_ms": 1968,
   "filter": {
     "min_snowflake_past": 5,
     "min_snowflake_health": 4,
@@ -21,23 +21,25 @@
     "basket_size": 20
   },
   "universe_size": 5561,
-  "pre_filtered_count": 1974,
-  "composed_count": 1974,
-  "passed_count": 71,
-  "rejected_count": 1903,
+  "pre_filtered_count": 1961,
+  "composed_count": 1961,
+  "passed_count": 0,
+  "rejected_count": 1961,
   "rejection_tally": {
-    "snowflake_past": 1545,
-    "snowflake_dividend": 1521,
-    "snowflake_health": 479,
-    "risk-keyword": 523,
-    "upside_pct-missing": 597
+    "snowflake_past": 1561,
+    "snowflake_dividend": 1497,
+    "fv_reconcile": 1961,
+    "snowflake_health": 469,
+    "risk-keyword": 511,
+    "upside_pct-missing": 171
   },
   "rejected_sample": [
     {
       "ticker": "20MICRONS",
       "reasons": [
         "snowflake_past<5 (got 3)",
-        "snowflake_dividend<4 (got 3)"
+        "snowflake_dividend<4 (got 3)",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -46,28 +48,31 @@
         "snowflake_past<5 (got 2)",
         "snowflake_health<4 (got 2)",
         "snowflake_dividend<4 (got 2)",
-        "risk-keyword:interest payments are not well covered by earnings"
+        "risk-keyword:interest payments are not well covered by earnings",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "3BBLACKBIO",
       "reasons": [
         "snowflake_past<5 (got 3)",
-        "snowflake_dividend<4 (got 3)"
+        "snowflake_dividend<4 (got 3)",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "3MINDIA",
       "reasons": [
         "snowflake_past<5 (got 4)",
-        "snowflake_dividend<4 (got 3)"
+        "snowflake_dividend<4 (got 3)",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "500068",
       "reasons": [
         "snowflake_past<5 (got 1)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -75,14 +80,15 @@
       "reasons": [
         "snowflake_past<5 (got 1)",
         "snowflake_dividend<4 (got 0)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "500147",
       "reasons": [
         "snowflake_past<5 (got 2)",
-        "snowflake_dividend<4 (got 0)"
+        "snowflake_dividend<4 (got 0)",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -90,41 +96,44 @@
       "reasons": [
         "snowflake_past<5 (got 1)",
         "snowflake_dividend<4 (got 0)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "500264",
       "reasons": [
-        "snowflake_past<5 (got 2)"
+        "snowflake_past<5 (got 2)",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "500307",
       "reasons": [
         "snowflake_health<4 (got 3)",
-        "risk-keyword:has a high level of debt"
+        "risk-keyword:has a high level of debt",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "500365",
       "reasons": [
         "snowflake_past<5 (got 3)",
-        "snowflake_dividend<4 (got 0)"
+        "snowflake_dividend<4 (got 0)",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "500414",
       "reasons": [
         "snowflake_dividend<4 (got 0)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "501298",
       "reasons": [
         "snowflake_past<5 (got 4)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -132,17 +141,17 @@
       "reasons": [
         "snowflake_past<5 (got 3)",
         "snowflake_dividend<4 (got 0)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "501945",
       "reasons": [
-        "snowflake_past<5 (got 3)",
-        "snowflake_health<4 (got 1)",
+        "snowflake_past<5 (got 0)",
         "snowflake_dividend<4 (got 0)",
         "upside_pct-missing",
-        "risk-keyword:debt is not well covered by [[operating cash flow]]"
+        "risk-keyword:debt is not well covered by [[operating cash flow]]",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -150,15 +159,16 @@
       "reasons": [
         "snowflake_past<5 (got 0)",
         "snowflake_dividend<4 (got 1)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
       "ticker": "503681",
       "reasons": [
-        "snowflake_past<5 (got 2)",
+        "snowflake_past<5 (got 3)",
         "snowflake_dividend<4 (got 0)",
-        "upside_pct-missing"
+        "upside_pct-missing",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -167,8 +177,8 @@
         "snowflake_past<5 (got 4)",
         "snowflake_health<4 (got 1)",
         "snowflake_dividend<4 (got 1)",
-        "upside_pct-missing",
-        "risk-keyword:interest payments are not well covered by earnings"
+        "risk-keyword:interest payments are not well covered by earnings",
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -177,7 +187,7 @@
         "snowflake_past<5 (got 2)",
         "snowflake_health<4 (got 3)",
         "snowflake_dividend<4 (got 0)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     },
     {
@@ -185,355 +195,9 @@
       "reasons": [
         "snowflake_past<5 (got 0)",
         "snowflake_dividend<4 (got 1)",
-        "upside_pct-missing"
+        "fv_reconcile:fv_imputed"
       ]
     }
   ],
-  "basket": [
-    {
-      "ticker": "505036",
-      "name": "Automobile Corporation of Goa Limited",
-      "sector": "Capital Goods",
-      "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-505036/automobile-corporation-of-goa-shares",
-      "snowflake_past": 6,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 11836000000,
-      "current_price_inr": 1960.05,
-      "fair_value_inr": 6202.900125,
-      "upside_pct": 216.5,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "TRANSPEK",
-      "name": "Transpek Industry Limited",
-      "sector": "Materials",
-      "sws_url": "https://simplywall.st/stocks/in/materials/nse-transpek/transpek-industry-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 6,
-      "snowflake_dividend": 5,
-      "risks": [
-        "Unstable dividend track record",
-        "Shares are highly illiquid",
-        "Does not have a meaningful market cap (₹7B)"
-      ],
-      "market_cap_inr": 7011600000,
-      "current_price_inr": 1194,
-      "fair_value_inr": 2664.752273,
-      "upside_pct": 123.2,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "IRCTC",
-      "name": "Indian Railway Catering & Tourism Corporation Limited",
-      "sector": "Commercial Services",
-      "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-irctc/indian-railway-catering-tourism-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 5,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 430240000000,
-      "current_price_inr": 537.2,
-      "fair_value_inr": 1157.74258,
-      "upside_pct": 115.5,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "IEX",
-      "name": "Indian Energy Exchange Limited",
-      "sector": "Diversified Financials",
-      "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-iex/indian-energy-exchange-shares",
-      "snowflake_past": 6,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 113735400000,
-      "current_price_inr": 127.47,
-      "fair_value_inr": 236.35178,
-      "upside_pct": 85.4,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "BPCL",
-      "name": "Bharat Petroleum Corporation Limited",
-      "sector": "Energy",
-      "sws_url": "https://simplywall.st/stocks/in/energy/nse-bpcl/bharat-petroleum-shares",
-      "snowflake_past": 6,
-      "snowflake_health": 5,
-      "snowflake_dividend": 5,
-      "risks": [
-        "Unstable dividend track record",
-        "Earnings are forecast to decline by an average of 22.7% per year for the next 3 years"
-      ],
-      "market_cap_inr": 1337344300000,
-      "current_price_inr": 304.6,
-      "fair_value_inr": 530,
-      "upside_pct": 74,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "SONATSOFTW",
-      "name": "Sonata Software Limited",
-      "sector": "Software",
-      "sws_url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 5,
-      "snowflake_dividend": 5,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 76794300000,
-      "current_price_inr": 270.1,
-      "fair_value_inr": 470,
-      "upside_pct": 74,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "532468",
-      "name": "KAMA Holdings Limited",
-      "sector": "Materials",
-      "sws_url": "https://simplywall.st/stocks/in/materials/bse-532468/kama-holdings-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 5,
-      "snowflake_dividend": 5,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 83472400000,
-      "current_price_inr": 2556.95,
-      "fair_value_inr": 4275.213578,
-      "upside_pct": 67.2,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "RSYSTEMS",
-      "name": "R Systems International Limited",
-      "sector": "Software",
-      "sws_url": "https://simplywall.st/stocks/in/software/nse-rsystems/r-systems-international-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 5,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record",
-        "Highly volatile share price over past 3 months"
-      ],
-      "market_cap_inr": 31630000000,
-      "current_price_inr": 265.9,
-      "fair_value_inr": 443.66667,
-      "upside_pct": 66.9,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "KAMAHOLD",
-      "name": "KAMA Holdings Limited",
-      "sector": "Materials",
-      "sws_url": "https://simplywall.st/stocks/in/materials/nse-kamahold/kama-holdings-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 5,
-      "snowflake_dividend": 5,
-      "risks": [
-        "Unstable dividend track record",
-        "Shares are highly illiquid"
-      ],
-      "market_cap_inr": 83472400000,
-      "current_price_inr": 2639.3,
-      "fair_value_inr": 4286.149663,
-      "upside_pct": 62.4,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "KRBL",
-      "name": "KRBL Limited",
-      "sector": "Food, Beverage & Tobacco",
-      "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-krbl/krbl-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 81908200000,
-      "current_price_inr": 364.8,
-      "fair_value_inr": 564.984963,
-      "upside_pct": 54.9,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "SAKSOFT",
-      "name": "Saksoft Limited",
-      "sector": "Software",
-      "sws_url": "https://simplywall.st/stocks/in/software/nse-saksoft/saksoft-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 6,
-      "snowflake_dividend": 5,
-      "risks": [],
-      "market_cap_inr": 19067500000,
-      "current_price_inr": 146.69,
-      "fair_value_inr": 223.856755,
-      "upside_pct": 52.6,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "EXPLEOSOL",
-      "name": "Expleo Solutions Limited",
-      "sector": "Software",
-      "sws_url": "https://simplywall.st/stocks/in/software/nse-expleosol/expleo-solutions-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Dividend of 5.54% is not well covered by earnings"
-      ],
-      "market_cap_inr": 13995700000,
-      "current_price_inr": 898.9,
-      "fair_value_inr": 1353,
-      "upside_pct": 50.5,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "ASHIANA",
-      "name": "Ashiana Housing Limited",
-      "sector": "Diversified Financials",
-      "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-ashiana/ashiana-housing-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 5,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 38043600000,
-      "current_price_inr": 377.15,
-      "fair_value_inr": 552.380845,
-      "upside_pct": 46.5,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "NBCC",
-      "name": "NBCC (India) Limited",
-      "sector": "Capital Goods",
-      "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-nbcc/nbcc-india-shares",
-      "snowflake_past": 6,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 261306000000,
-      "current_price_inr": 95.55,
-      "fair_value_inr": 139.174788,
-      "upside_pct": 45.7,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "SHARDACROP",
-      "name": "Sharda Cropchem Limited",
-      "sector": "Materials",
-      "sws_url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "High level of [[non-cash earnings]]",
-        "Highly volatile share price over past 3 months",
-        "Dividend of 1.86% is not well covered by free cash flows"
-      ],
-      "market_cap_inr": 85673400000,
-      "current_price_inr": 965.9,
-      "fair_value_inr": 1405,
-      "upside_pct": 45.5,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "VEEDOL",
-      "name": "Veedol Corporation Limited",
-      "sector": "Materials",
-      "sws_url": "https://simplywall.st/stocks/in/materials/nse-veedol/veedol-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 6,
-      "snowflake_dividend": 5,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 24884100000,
-      "current_price_inr": 1418.8,
-      "fair_value_inr": 1969.816355,
-      "upside_pct": 38.8,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "QUESS",
-      "name": "Quess Corp Limited",
-      "sector": "Commercial Services",
-      "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-quess/quess-shares",
-      "snowflake_past": 5,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 30814500000,
-      "current_price_inr": 204.64,
-      "fair_value_inr": 276.25,
-      "upside_pct": 35,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "HINDCOPPER",
-      "name": "Hindustan Copper Limited",
-      "sector": "Materials",
-      "sws_url": "https://simplywall.st/stocks/in/materials/nse-hindcopper/hindustan-copper-shares",
-      "snowflake_past": 6,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 527608300000,
-      "current_price_inr": 545.55,
-      "fair_value_inr": 714.934476,
-      "upside_pct": 31,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "FERMENTA",
-      "name": "Fermenta Biotech Limited",
-      "sector": "Pharmaceuticals & Biotech",
-      "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-fermenta/fermenta-biotech-shares",
-      "snowflake_past": 6,
-      "snowflake_health": 6,
-      "snowflake_dividend": 4,
-      "risks": [
-        "Shares are highly illiquid",
-        "Does not have a meaningful market cap (₹9B)",
-        "Unstable dividend track record"
-      ],
-      "market_cap_inr": 8888200000,
-      "current_price_inr": 287.65,
-      "fair_value_inr": 375.014153,
-      "upside_pct": 30.4,
-      "fv_reconcile_reason": null
-    },
-    {
-      "ticker": "THANGAMAYL",
-      "name": "Thangamayil Jewellery Limited",
-      "sector": "Retail",
-      "sws_url": "https://simplywall.st/stocks/in/retail/nse-thangamayl/thangamayil-jewellery-shares",
-      "snowflake_past": 6,
-      "snowflake_health": 6,
-      "snowflake_dividend": 5,
-      "risks": [],
-      "market_cap_inr": 119011500000,
-      "current_price_inr": 3805.2,
-      "fair_value_inr": 4925,
-      "upside_pct": 29.4,
-      "fv_reconcile_reason": null
-    }
-  ]
+  "basket": []
 }
