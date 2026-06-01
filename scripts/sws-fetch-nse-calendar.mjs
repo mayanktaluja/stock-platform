@@ -103,6 +103,7 @@ async function main() {
       to_date: toDate,
       window_days: WINDOW_DAYS,
     },
+    raw_event_count: events.length,
     event_count: kept,
     by_symbol: bySymbol,
   };

@@ -159,6 +159,24 @@ function buildFixture(ageHours, opts = {}) {
 
   writeFileSync(join(root, "universe.json"), "[]");
   writeFileSync(join(root, "sws-scored-universe.json"), "[]");
+  const nseCalOpt = opts.nseCalendar === undefined
+    ? { eventCount: 80, rawEventCount: 200, windowDays: 60 }
+    : opts.nseCalendar;
+  if (nseCalOpt) {
+    const eventCount = nseCalOpt.eventCount ?? 0;
+    const bySymbol = {};
+    for (let i = 0; i < eventCount; i++) {
+      bySymbol[`SYM${i}`] = { date: "2026-06-15", purpose: "Financial Results", description: null };
+    }
+    writeFileSync(join(root, "nse-event-calendar.json"), JSON.stringify({
+      fetched_at: new Date(nowMs).toISOString(),
+      source: "https://www.nseindia.com/api/event-calendar",
+      source_window: { from_date: "2026-06-01", to_date: "2026-07-31", window_days: nseCalOpt.windowDays ?? 60 },
+      raw_event_count: nseCalOpt.rawEventCount ?? eventCount,
+      event_count: eventCount,
+      by_symbol: bySymbol,
+    }));
+  }
   return root;
 }
 
@@ -177,6 +195,7 @@ function runGateAndGetFindings(ageHours, opts = {}) {
     return {
       picksRecent: l1.find((c) => c.name === "picks_recent"),
       consistency: l1.find((c) => c.name === "picks_matches_last_refresh"),
+      upcomingEarnings: l1.find((c) => c.name === "section_upcoming_earnings"),
       growwWarn: l2.find((c) => c.name === "groww_pe_coverage_warn"),
       growwBlock: l2.find((c) => c.name === "groww_pe_coverage_block_floor"),
       growwGrace: l2.find((c) => c.name === "groww_pe_cache_grace_age"),
@@ -449,6 +468,33 @@ assert(
   "Groww missing cache: BLOCK floor fails because no stale fallback exists",
   growwMissing.growwBlock && growwMissing.growwBlock.ok === false,
   growwMissing.growwBlock,
+);
+
+// ============================================================================
+// Upcoming earnings gate
+// ============================================================================
+
+console.log("\nupcoming earnings calendar-aware gate\n");
+
+const sparseCalendar = runGateAndGetFindings(1.0, {
+  nseCalendar: { eventCount: 6, rawEventCount: 22, windowDays: 60 },
+}).upcomingEarnings;
+assert(
+  "sparse but nonempty NSE calendar downgrades upcoming_earnings below 25 to WARN",
+  sparseCalendar && sparseCalendar.ok === false && sparseCalendar.severity === "WARN",
+  sparseCalendar,
+);
+assert(
+  "sparse calendar finding includes NSE event count",
+  sparseCalendar && sparseCalendar.detail?.nse_calendar_event_count === 6,
+  sparseCalendar?.detail,
+);
+
+const missingCalendar = runGateAndGetFindings(1.0, { nseCalendar: null }).upcomingEarnings;
+assert(
+  "missing NSE calendar keeps upcoming_earnings below 25 as BLOCK",
+  missingCalendar && missingCalendar.ok === false && missingCalendar.severity === "BLOCK",
+  missingCalendar,
 );
 
 // ============================================================================

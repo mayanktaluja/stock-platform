@@ -53,6 +53,7 @@ const DEEP_DIR = path.join(ROOT, "deep");
 const FAILED = path.join(ROOT, "failed.json");
 const GROWW_STOCK_CACHE = path.join(ROOT, "groww-stock-latest.json");
 const GROWW_PE_CACHE = path.join(ROOT, "groww-pe-latest.json");
+const NSE_CALENDAR = path.join(ROOT, "nse-event-calendar.json");
 const MACRO_REGIME = path.join("data", "macroRegime.json");
 
 // --------------------------- thresholds ---------------------------------
@@ -225,6 +226,35 @@ function growwStockCacheStats() {
   };
 }
 
+function nseCalendarStats() {
+  const cal = readJson(NSE_CALENDAR);
+  if (!cal) {
+    return {
+      present: false,
+      eventCount: null,
+      rawEventCount: null,
+      fetchedAt: null,
+      windowDays: null,
+    };
+  }
+  const bySymbolCount = cal.by_symbol && typeof cal.by_symbol === "object"
+    ? Object.keys(cal.by_symbol).length
+    : null;
+  const eventCount = Number.isFinite(Number(cal.event_count))
+    ? Number(cal.event_count)
+    : bySymbolCount;
+  const rawEventCount = Number.isFinite(Number(cal.raw_event_count))
+    ? Number(cal.raw_event_count)
+    : null;
+  return {
+    present: true,
+    eventCount,
+    rawEventCount,
+    fetchedAt: cal.fetched_at || null,
+    windowDays: Number(cal.source_window?.window_days ?? 0) || null,
+  };
+}
+
 function isInsane(value, range) {
   if (value === null || value === undefined) return false; // null is allowed
   if (typeof value !== "number" || !Number.isFinite(value)) return true;
@@ -357,9 +387,26 @@ function layer1(lr, picks) {
   record(layer, "section_best_to_buy_now", BLOCK,
     (sec.best_to_buy_now?.length ?? 0) >= MIN_BEST_TO_BUY_NOW,
     { count: sec.best_to_buy_now?.length, threshold: MIN_BEST_TO_BUY_NOW });
-  record(layer, "section_upcoming_earnings", BLOCK,
+  const nseCalendar = nseCalendarStats();
+  const calendarSparseButValid =
+    nseCalendar.present &&
+    nseCalendar.eventCount != null &&
+    nseCalendar.eventCount > 0 &&
+    nseCalendar.eventCount < MIN_UPCOMING_EARNINGS &&
+    (nseCalendar.rawEventCount == null || nseCalendar.rawEventCount > 0);
+  record(layer, "section_upcoming_earnings", calendarSparseButValid ? WARN : BLOCK,
     (sec.upcoming_earnings?.length ?? 0) >= MIN_UPCOMING_EARNINGS,
-    { count: sec.upcoming_earnings?.length, threshold: MIN_UPCOMING_EARNINGS });
+    {
+      count: sec.upcoming_earnings?.length,
+      threshold: MIN_UPCOMING_EARNINGS,
+      nse_calendar_event_count: nseCalendar.eventCount,
+      nse_calendar_raw_event_count: nseCalendar.rawEventCount,
+      nse_calendar_fetched_at: nseCalendar.fetchedAt,
+      nse_calendar_window_days: nseCalendar.windowDays,
+      severity_reason: calendarSparseButValid
+        ? "NSE 60-day Financial Results calendar is itself below the fixed threshold"
+        : undefined,
+    });
   record(layer, "section_upcoming_earnings_strong", WARN,
     (sec.upcoming_earnings?.length ?? 0) >= MIN_UPCOMING_EARNINGS_STRONG,
     { count: sec.upcoming_earnings?.length, threshold: MIN_UPCOMING_EARNINGS_STRONG });

@@ -3,7 +3,7 @@
   "name": "Salasar Exteriors and Contour Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-secl/salasar-exteriors-and-contour-shares",
-  "parsed_at": "2026-05-29T17:26:48.601Z",
+  "parsed_at": "2026-05-31T22:09:34.425Z",
   "company_id": "BD7CA2F2-AB1C-4C4C-A8F0-FC9EEFC4E25E",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,30 +11,29 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 3,
+      "past": 0,
       "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
+      "past_performance": 0,
       "value": 0,
       "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 6,
+    "snowflake_total": 3,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 11,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Health",
         "Dividends"
       ],
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -46,7 +45,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
@@ -60,20 +59,20 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
     "current_price_inr": 3.15,
     "market_cap_inr": 324287301.2780192,
-    "market_cap_usd": 120702718105.29,
+    "market_cap_usd": 120714180851.549,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": null,
@@ -85,26 +84,23 @@
     },
     "upside_pct": -89.20073015873015,
     "multiples": {
-      "pe": 28.4,
+      "pe": null,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
-      "pe_as_of": "2026-05-29T17:26:48.601Z",
+      "pe_as_of": null,
       "pe_basis": "trailing_ttm",
-      "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-secl/salasar-exteriors-and-contour-shares"
+      "pe_source_url": null
     },
-    "rewards": [
-      "Earnings grew by 25.5% over the past year"
-    ],
+    "rewards": [],
     "risks": [
-      "Debt is not well covered by [[operating cash flow]]",
-      "Profit margins (16.8%) are lower than last year (85.9%)",
-      "Makes less than USD$1m in revenue (₹68M)",
+      "Makes less than USD$1m in revenue (₹30M)",
+      "Earnings have declined by 7.1% per year over past 5 years",
       "Does not have a meaningful market cap (₹324M)",
       "Shares are highly illiquid"
     ],
@@ -118,9 +114,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 15.394388754,
+      "pe": 15.073268522,
       "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4625071227
+      "future_revenue_growth_3y": 0.4628660854
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,10 +130,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 28.4,
-      "company_pe_source": "sws_statement",
-      "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 15.394388754,
+      "company_pe": null,
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 15.073268522,
       "industry_name": "Capital Goods",
       "industry_code": "3040000",
       "sample_count": 188,
@@ -146,15 +142,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 28.4,
-        "industry_pe": 16.3,
+        "company_pe": null,
+        "industry_pe": 1.2,
         "industry_name": "Indian Construction",
-        "description": "SECL is expensive based on its Price-To-Earnings Ratio (28.4x) compared to the Indian Construction industry average (16.3x).",
-        "title": "Price-To-Earnings vs Industry",
+        "description": "SECL is expensive based on its Price-To-Sales Ratio (10.6x) compared to the Indian Construction industry average (1.2x).",
+        "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.394388754,
+        "industry_pe": 15.073268522,
         "industry_code": "3040000",
         "type": "median_profitable",
         "count": 188,
@@ -166,8 +162,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.5,
-        "sample_count": 188,
+        "industry_pe": 15.1,
+        "sample_count": 184,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -180,31 +176,25 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3.15,
-        "fetched_at": "2026-05-29T17:26:48.601Z",
-        "url": "https://simplywall.st/stocks/in/capital-goods/nse-secl/salasar-exteriors-and-contour-shares"
-      },
-      "multiples.pe": {
-        "provider": "sws_statement",
-        "value": 28.4,
-        "fetched_at": "2026-05-29T17:26:48.601Z",
+        "fetched_at": "2026-05-31T22:09:34.425Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-secl/salasar-exteriors-and-contour-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 15.394388754,
+        "value": 15.073268522,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.06405545837,
-        "fetched_at": "2026-05-29T17:26:48.601Z",
+        "fetched_at": "2026-05-31T22:09:34.425Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-secl/salasar-exteriors-and-contour-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4625071227,
-        "fetched_at": "2026-05-29T17:26:48.601Z",
+        "value": 0.4628660854,
+        "fetched_at": "2026-05-31T22:09:34.425Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-secl/salasar-exteriors-and-contour-shares"
       }
     },
@@ -240,7 +230,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -290,6 +280,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "36f5efca-aca5-4a96-97da-ced841ca64e2",
+      "type": "brief",
+      "date": "2026-05-30T02:32:32.000Z",
+      "title": "New major risk - Revenue and earnings growth",
+      "body": "Earnings have declined by 7.1% per year over the past 5 years. This is considered a major risk. Ultimately, shareholders want to see a good return on their investment and that generally comes from sharing in the company's profits. If profits are declining over an extended period, then in most cases the share price will decline over time unless the company can turn around its fortunes. A trend of falling earnings can be very difficult to turn around. If the company is well already established it may also be a sign the company has matured and is in decline. In addition, if the company pays dividends it will also likely need to reduce or cut them, striking a dual blow to total shareholder returns. Currently, the following risks have been identified for the company: Major Risks Shares are high",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "e3ecaf48-9f65-48c8-a91d-a439674e95e8",
       "type": "event",
