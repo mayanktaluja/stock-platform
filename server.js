@@ -3179,6 +3179,22 @@ app.get("/api/earnings/:symbol", async (req, res) => {
  */
 const verdictCache = new NodeCache({ stdTTL: 120, checkperiod: 30 });
 
+async function readMacroRegimeForMarketVerdict() {
+  const cached = macroRegimeCache.get(MACRO_CACHE_KEY);
+  if (cached) return cached;
+
+  const stored = await macroStorage.read().catch(() => null);
+  if (stored) {
+    lastGoodMacroRegime = stored;
+    macroRegimeCache.set(MACRO_CACHE_KEY, stored);
+    return stored;
+  }
+
+  // Keep /api/market-verdict file-backed and fast. Live classification belongs
+  // to /api/macro/regime?refresh=1 or the local refresh pipeline.
+  return defaultCalmRegime();
+}
+
 app.get("/api/market-verdict", async (req, res) => {
   try {
     const cached = verdictCache.get("verdict");
@@ -3188,7 +3204,7 @@ app.get("/api/market-verdict", async (req, res) => {
     let score = 0; // -10 to +10 scale
 
     // Signal 1: Macro Regime
-    const regime = macroRegimeCache.get(MACRO_CACHE_KEY) || defaultCalmRegime();
+    const regime = await readMacroRegimeForMarketVerdict();
     const regimeId = regime.regime || "CALM";
     const severity = regime.severity || 1;
     let regimeSignal, regimeAction;
