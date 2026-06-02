@@ -12408,10 +12408,6 @@ async function openSwsModal(ticker) {
     if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker since
     body.innerHTML = renderSwsModal(data);
     refreshScrollRails(body);
-    // PR T6 — inject the per-stock "we said X N days ago" strip at the top
-    // of the modal body. Fire-and-forget: silent absent strip when there
-    // are no paper-trade snapshots for the symbol.
-    hydrateStockTrackStrip(ticker, body);
     const remembered = swsModalScrollMemory.get(ticker);
     if (typeof remembered === "number" && remembered > 0) {
       // The scrollable element is the backdrop (overflow:auto), NOT the body
@@ -12423,84 +12419,6 @@ async function openSwsModal(ticker) {
   } catch (e) {
     body.innerHTML = `<div style="padding:40px 20px;color:var(--red);">Network error: ${e.message}</div>`;
   }
-}
-
-// PR T6 — per-stock "we said X N days ago" track strip.
-//
-// Pulls the 3 most-recent paper-trade snapshots for the given ticker from
-// /api/track/history?symbol=X (PR T6.0 added the symbol param). Renders
-// inline at the top of the modal body when ≥ 1 snapshot exists; absent
-// otherwise. Each row uses signedColorFor for magnitude colouring + srLabel
-// for screen readers (closest analog to TipRanks' analyst-call accuracy
-// inline display — the strongest trust artifact on the platform).
-const _stockTrackStripCache = new Map(); // ticker → { ts, data }
-async function hydrateStockTrackStrip(ticker, body) {
-  if (!ticker || !body) return;
-  try {
-    const cached = _stockTrackStripCache.get(ticker);
-    let payload;
-    if (cached && (Date.now() - cached.ts) < 5 * 60 * 1000) {
-      payload = cached.data;
-    } else {
-      const url = `/api/track/history?symbol=${encodeURIComponent(ticker)}`;
-      const res = await fetch(url);
-      if (!res.ok) return;
-      payload = await res.json();
-      _stockTrackStripCache.set(ticker, { ts: Date.now(), data: payload });
-    }
-    if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker
-    const trades = Array.isArray(payload.trades) ? payload.trades : [];
-    if (trades.length === 0) return; // silent absence
-    const strip = renderStockTrackStrip(ticker, trades);
-    if (!strip) return;
-    // Insert at the very top of the modal body, above renderSwsModal output.
-    body.insertAdjacentHTML("afterbegin", strip);
-  } catch { /* silent — strip is a bonus, not load-bearing */ }
-}
-
-function renderStockTrackStrip(ticker, trades) {
-  if (!Array.isArray(trades) || trades.length === 0) return "";
-  // 3 most-recent snapshots by snapshotAt.
-  const sorted = [...trades].sort((a, b) => new Date(b.snapshotAt) - new Date(a.snapshotAt));
-  const top = sorted.slice(0, 3);
-  const rows = top.map((t) => {
-    const snapDate = t.snapshotAt ? new Date(t.snapshotAt) : null;
-    const daysAgo = snapDate ? Math.floor((Date.now() - snapDate.getTime()) / 86400000) : null;
-    const r = t.returns || {};
-    const ret = (r.returnPct != null && Number.isFinite(r.returnPct)) ? r.returnPct : null;
-    const niftyRet = (r.niftyReturnPct != null && Number.isFinite(r.niftyReturnPct)) ? r.niftyReturnPct : null;
-    const sectionLabel = t.type ? _trackTypeLabel(t.type) : "—";
-    const sc = signedColorFor(ret);
-    const niftyDelta = (ret != null && niftyRet != null) ? (ret - niftyRet) : null;
-    const niftyBit = niftyRet != null
-      ? `&nbsp;·&nbsp;<span style="color:var(--text-muted);">vs Nifty</span> <span style="color:${signedColorFor(niftyRet).color};">${niftyRet >= 0 ? "+" : ""}${niftyRet.toFixed(1)}%</span>`
-      : "";
-    const alphaBit = niftyDelta != null
-      ? `&nbsp;·&nbsp;<span style="color:var(--text-muted);">α</span> <span style="color:${signedColorFor(niftyDelta).color};">${niftyDelta >= 0 ? "+" : ""}${niftyDelta.toFixed(1)} pp</span>`
-      : "";
-    const retCell = (ret != null)
-      ? `<span class="tx-num" style="color:${sc.color}; font-weight:700;" aria-label="${sc.srLabel} since pick"><span aria-hidden="true">${sc.glyph}</span> ${ret >= 0 ? "+" : ""}${ret.toFixed(2)}%</span>`
-      : `<span style="color:var(--text-muted);">—</span>`;
-    const ago = (daysAgo != null) ? `${daysAgo} day${daysAgo === 1 ? "" : "s"} ago` : "earlier";
-    return `
-      <div class="stock-track-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; padding:6px 0; border-bottom:1px dashed var(--border-soft); font-size:13px;">
-        <span style="color:var(--text-muted); min-width:96px;">${ago}</span>
-        <span style="color:var(--text-secondary);">${sectionLabel}</span>
-        <span style="margin-left:auto;">→ ${retCell}${niftyBit}${alphaBit}</span>
-      </div>`;
-  }).join("");
-  return `
-    <div class="stock-track-strip" data-symbol="${escapeHtml(ticker)}"
-         style="margin: 0 0 18px; padding: 14px 16px; background: rgba(224,176,96,0.04); border:1px solid rgba(224,176,96,0.18); border-radius: var(--radius-200);">
-      <div class="tx-micro" style="display:flex; align-items:center; gap:8px; margin-bottom: 8px;">
-        <span style="color: var(--gold);">Track record for ${escapeHtml(ticker)}</span>
-        <span style="color: var(--text-muted); font-weight:500; text-transform:none; letter-spacing:0;">${trades.length} recorded pick${trades.length === 1 ? "" : "s"}</span>
-      </div>
-      ${rows}
-      <div class="tx-meta" style="margin-top:8px;">
-        Past performance does not guarantee future results — see <a href="#" onclick="event.preventDefault(); closeSwsModal(); switchTab('track'); return false;" style="color:var(--gold); text-decoration:underline;">full Track Record</a> for methodology.
-      </div>
-    </div>`;
 }
 
 function closeSwsModal() {

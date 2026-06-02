@@ -1,10 +1,8 @@
 // PR D11 regression: SEBI compliance disclaimers.
 //
-// Three surfaces must always carry the canonical text:
+// Two surfaces must always carry the canonical text:
 //   1. Sticky site-wide footer #sebiSiteFooter — visible on every tab.
 //   2. Track Record past-performance chip .sebi-past-performance-chip.
-//   3. Per-stock track strip footer (covered by stock-detail-track-strip
-//      spec — text already verified there).
 
 import { test, expect } from "@playwright/test";
 import { gotoApp, switchTab } from "./helpers/app.mjs";

@@ -4868,9 +4868,8 @@ async function resolveSectionPerformanceSafe(context = {}) {
  *   ?symbol=HDFCBANK                                              — single-symbol filter (PR T6)
  *   ?bust=1                                                       — skip cache
  *
- * PR T6 — symbol filter underwrites the per-stock "we said X N days ago"
- * strip on the stock-detail modal. The normaliser strips .NS / .BO / BSE:
- * / NSE: prefixes + uppercases so the caller doesn't have to canonicalise.
+ * The normaliser strips .NS / .BO / BSE: / NSE: prefixes + uppercases so the
+ * caller does not have to canonicalise symbols before filtering.
  */
 function _normaliseTrackSymbol(s) {
   if (!s) return "";

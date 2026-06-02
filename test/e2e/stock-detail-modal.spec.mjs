@@ -87,9 +87,6 @@ async function mockThinSwsStock(page, dataQuality, overrides = {}) {
       }),
     }),
   );
-  await page.route(`**/api/track/history?symbol=${ticker}`, (route) =>
-    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ trades: [] }) }),
-  );
 }
 
 test.describe("Stock detail modal (SWS)", () => {
