@@ -23,17 +23,15 @@ const PUBLIC_MAIN_TABS = [
   "krPicksTabBtn",
   "twPicksTabBtn",
   "riskLabTabBtn",
-  "compounderTabBtn",
-  "earningsEdgeTabBtn",
   "multibaggerLabTabBtn",
   "sectorOutlookTabBtn",
 ];
 
 const PUBLIC_DEEP_LINKS = [
-  ["compounder", "#compounderTab", "#compounderTabBtn"],
-  ["earningsEdge", "#earningsEdgeTab", "#earningsEdgeTabBtn"],
   ["multibaggerLab", "#multibaggerLabTab", "#multibaggerLabTabBtn"],
 ];
+
+const RETIRED_DEEP_LINKS = ["compounder", "earningsEdge"];
 
 async function mockAdmin(page) {
   await page.route("**/api/auth/me", (route) =>
@@ -52,6 +50,16 @@ test.describe("Main tab visibility", () => {
 
     await expect(page.locator("#labsMenu")).toBeHidden();
     await expect(page.locator("#usersTabBtn")).toBeHidden();
+    await expect(page.locator("#compounderTabBtn")).toHaveCount(0);
+    await expect(page.locator("#earningsEdgeTabBtn")).toHaveCount(0);
+    await expect(page.locator("#compounderTab")).toHaveCount(0);
+    await expect(page.locator("#earningsEdgeTab")).toHaveCount(0);
+    await expect
+      .poll(() => page.evaluate(() => ({
+        compounder: typeof window.loadCompounderLab,
+        earningsEdge: typeof window.loadEarningsEdge,
+      })))
+      .toEqual({ compounder: "undefined", earningsEdge: "undefined" });
     for (const id of PUBLIC_MAIN_TABS) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
@@ -85,6 +93,23 @@ test.describe("Main tab visibility", () => {
       await expect(page.locator(panel)).toBeVisible({ timeout: 10_000 });
       await expect(page.locator(button)).toHaveClass(/active/);
       await expect(page.locator("#usersTabBtn")).toBeHidden();
+    });
+  }
+
+  for (const tab of RETIRED_DEEP_LINKS) {
+    test(`normal user: retired #tab=${tab} deep link falls back to India Market`, async ({ page }) => {
+      const errors = [];
+      page.on("pageerror", (err) => errors.push(err.message));
+      await page.goto(`/index.html#tab=${tab}`, { waitUntil: "domcontentloaded" });
+
+      await expect(page.locator("#picksTab")).toBeVisible({ timeout: 10_000 });
+      await expect(page.locator("#picksTabBtn")).toHaveClass(/active/);
+      await expect(page.locator("#compounderTabBtn")).toHaveCount(0);
+      await expect(page.locator("#earningsEdgeTabBtn")).toHaveCount(0);
+      await expect
+        .poll(() => page.evaluate(() => window.location.hash))
+        .toBe("#tab=picks");
+      expect(errors).toEqual([]);
     });
   }
 

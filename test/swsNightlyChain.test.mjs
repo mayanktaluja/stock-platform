@@ -193,6 +193,15 @@ assert(
   null,
 );
 
+for (const retiredJob of [
+  "refresh-promoter-transactions.mjs",
+  "refresh-compounder.mjs",
+  "refresh-earnings-edge.mjs",
+  "paper-trade-reconcile.mjs",
+]) {
+  assert(`${retiredJob} is not invoked by nightly`, !nightly.includes(retiredJob), null);
+}
+
 // ---------------------------------------------------------------- tripwire
 // Mid-run revert tripwire (2026-05-19 RCA fix): the outer sanity gate's
 // FAIL email must differentiate "scoring-phase failure" from "data reverted

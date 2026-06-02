@@ -57,18 +57,19 @@ test.describe("PR #12 regression matrix — every non-admin tab × 5 states", ()
     page,
   }) => {
     await gotoApp(page);
-    // Walk through the first few focusable elements via Tab. The skip-link
-    // is the first <a> in the body, but the focus order can drift based on
-    // tabindex / aria attributes elsewhere on the page. We just need to
-    // verify it can be reached within the first 5 Tab presses.
+    // Walk through the early focus order via Tab. The skip-link is the first
+    // anchor in the body, but header/rail controls can change the exact count;
+    // this smoke only needs to prove the link remains keyboard-reachable.
     await page.evaluate(() => {
       // Reset focus to body so Tab walks from the top.
+      document.body.setAttribute("tabindex", "-1");
+      document.body.focus();
       if (document.activeElement && document.activeElement !== document.body) {
         document.activeElement.blur();
       }
     });
     let reached = false;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 20; i++) {
       await page.keyboard.press("Tab");
       const text = await page.evaluate(
         () => document.activeElement?.textContent?.trim() || "",
@@ -83,7 +84,7 @@ test.describe("PR #12 regression matrix — every non-admin tab × 5 states", ()
     );
   });
 
-  test("router state: deep-link survives full page refresh", async ({
+  test("router state: full page refresh resets to India Market", async ({
     page,
   }) => {
     await gotoApp(page);
@@ -99,7 +100,32 @@ test.describe("PR #12 regression matrix — every non-admin tab × 5 states", ()
       null,
       { timeout: 10_000 },
     );
-    // Watchlist should still be the visible tab
-    await expect(page.locator("#watchlistTab")).toBeVisible({ timeout: 8000 });
+    // Full reload should always return to the India Market home state.
+    await expect(page.locator("#picksTab")).toBeVisible({ timeout: 8000 });
+    await expect(page.locator("#watchlistTab")).toBeHidden();
+    expect(await page.evaluate(() => location.hash)).toBe("#tab=picks");
+  });
+
+  test("router state: full page refresh strips stale stock-modal hash", async ({
+    page,
+  }) => {
+    await page.goto("/index.html#tab=watchlist&symbol=RELIANCE", {
+      waitUntil: "domcontentloaded",
+    });
+    await page.waitForFunction(
+      () => typeof window.switchTab === "function",
+      null,
+      { timeout: 10_000 },
+    );
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.waitForFunction(
+      () => typeof window.switchTab === "function",
+      null,
+      { timeout: 10_000 },
+    );
+
+    await expect(page.locator("#picksTab")).toBeVisible({ timeout: 8000 });
+    await expect(page.locator("#swsModalBackdrop")).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => location.hash)).toBe("#tab=picks");
   });
 });

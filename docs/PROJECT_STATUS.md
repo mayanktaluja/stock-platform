@@ -20,8 +20,7 @@ The platform is **in production**, live at
 [starbhai-stock-platform.vercel.app](https://starbhai-stock-platform.vercel.app),
 serving a single-tenant Indian equity research workflow. Auth, the SWS picks
 pipeline, portfolio analyzer, earnings watch, risk lab, and macro thesis are
-all shipped — plus US / Korea / Taiwan picks tabs, Sector Outlook, a 5x Lab,
-and the Compounder + Earnings Edge paper-trade sleeves.
+all shipped — plus US / Korea / Taiwan picks tabs, Sector Outlook, and a 5x Lab.
 
 The headline scoring engine is now **V4** (`swsScoringV4.js`) — V3 was deleted
 in #437. The current investment is in **signal quality and back-testing
@@ -29,29 +28,17 @@ discipline**: V4 shipped with a deliberately *lower* historical backtest than
 V3 (cleaner FV model, fixed coverage traps), so the active work is recovering
 that gap through weight tuning rather than chasing new features.
 
-Two-sleeve trading book ("Compounder Lab" + "Earnings Edge" + paper-trade
-harness) shipped in #337 — a separate experimental surface from the main
-portfolio analyzer.
+Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
+experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
-### Portfolio Analyzer technical levels (June 2026)
-- **This PR** — Portfolio Analyzer now computes per-holding technical review
-  references through a shared exit-plan policy and aggregates them into a
-  collapsed-by-default "Technical levels & review triggers" section after
-  Today's funded plan. The UI keeps these levels as analytical references,
-  not trade instructions, and per-holding technical blocks are also collapsed
-  by default with explicit support, upside-band, profit-zone, trailing, reason,
-  and caveat detail when expanded.
-
-### Market Intelligence macro regime card (June 2026)
-- **This PR** — Market Intelligence now surfaces the current macro regime inside
-  the tab instead of resurrecting the removed global banner. The card reads the
-  existing file-backed `/api/macro/regime` source, shows severity, confidence,
-  freshness, classifier provider, reasoning, key event, sector tilts, and
-  transitions when present. `/api/market-verdict` now hydrates macro context
-  from the same file-backed storage before falling back to CALM, keeping the
-  verdict panel consistent without triggering live classification.
+### Lab surface decommission (June 2026)
+- **This PR** — Compounder Lab and Earnings Edge are fully retired: tabs,
+  renderer scripts, APIs, sleeve services, generated data, promoter-PIT feed,
+  and nightly refresh/reconcile jobs were removed. Retired deep links now
+  canonicalize to India Market (`#tab=picks`), while 5x Lab and Track Record
+  paper-trade infrastructure remain intact.
 
 ### US/KR/TW modal enrichment quality gate (June 2026)
 - **This PR** — US, Korea, and Taiwan refresh jobs now treat SWS Recent News
@@ -198,7 +185,7 @@ portfolio analyzer.
 - **#348 / #354** — 5x Lab (concentrated multibagger) + per-pick
   Strategy & Reasoning with a live pre-mortem. **#350** — prod gate/data fix.
 - **#337** — Compounder Lab + Earnings Edge two-sleeve paper-trade book + NSE PIT
-  promoter-transaction feed.
+  promoter-transaction feed. Retired in June 2026.
 
 ### Auth & navigation (May 2026)
 - **#458** — Flatten privileged navigation: US/KR/TW Markets, Risk Lab, and
@@ -285,11 +272,7 @@ portfolio analyzer.
   (`scripts/backtest-earnings-predictions.mjs`); the V1 cap-lift gate (≥30
   resolved + ≥55% bucket hit-rate + Brier <0.20) is still warming up. Weight
   tuning won't run until ≥80 resolved across ≥2 quarters, ≥5 sectors with ≥10
-  events. The KEC false-positive post-mortem (BEAT predicted, −11% actual) is now
-  baked into Earnings Edge's 5 on-disk gates rather than an LLM fix.
-- **Two-sleeve trading book.** Compounder Lab + Earnings Edge (#337) accrue
-  walk-forward paper-trade performance separate from the main picks while
-  remaining visible to signed-in users.
+  events.
 
 ## Known production gotchas (also in AGENTS.md / ARCHITECTURE.md, repeated for emphasis)
 
@@ -326,10 +309,9 @@ portfolio analyzer.
   of `fiscal.yearly_history` and no ROCE — any Marcellus-replica-style
   10y-quality filter blocks on this.
 - **NSE PIT (insider) 7(2) scraper.** SWS capture has no insider data
-  (`is_insider` + `insider_ownership_pct` are null universe-wide). **Partially
-  shipped:** `refresh-promoter-transactions.mjs` → `data/promoter-transactions/
-  rolling-30d.json` now feeds Earnings Edge's promoter-sell veto; broader
-  insider-signal surfacing still pending.
+  (`is_insider` + `insider_ownership_pct` are null universe-wide). The prior
+  promoter-transaction feed was retired with Earnings Edge; broader
+  insider-signal surfacing would need a new product surface and refresh path.
 
 ## Near-term cleanups (small, known)
 
