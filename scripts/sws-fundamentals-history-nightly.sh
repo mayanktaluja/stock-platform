@@ -8,7 +8,7 @@
 # is a ~30-min budget-capped Yahoo job (--max-fetches), so it has no business
 # inside the daily SWS scrape. CLAUDE.md documents the cadence;
 # scripts/com.starbhai.sws-fundamentals-history.plist is the schedule
-# (04:00 IST daily — offset from the 16:30 sws-nightly fire so the
+# (04:00 IST daily — offset from the 00:30 sws-nightly fire so the
 # two jobs don't contend).
 #
 # Pipeline:

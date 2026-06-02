@@ -21,13 +21,14 @@
     </array>
 
     <!--
-      Fire once daily at 16:30 IST (Mac local time), 60 min after NSE close.
+      Fire once daily at 00:30 IST (Mac local time), after SWS's rolling
+      India updates have settled.
     -->
     <key>StartCalendarInterval</key>
     <array>
         <dict>
             <key>Hour</key>
-            <integer>16</integer>
+            <integer>0</integer>
             <key>Minute</key>
             <integer>30</integer>
         </dict>
@@ -71,7 +72,7 @@
     <false/>
 
     <!--
-      If the scheduled fire is missed (e.g., Mac was off at 16:30), run on
+      If the scheduled fire is missed (e.g., Mac was off at 00:30), run on
       next wake. We do want this for robustness — a late post-close scrape is
       still better than carrying yesterday's data.
     -->

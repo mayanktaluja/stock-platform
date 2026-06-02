@@ -174,9 +174,10 @@ export const HUMANISATION = {
   // ("user finishes browsing, closes tab"). Range is dwell ms.
   closingDwellMsRange: [3000, 8000],
 
-  // Circadian schedule. Hours are local IST (Asia/Kolkata).
-  circadianWindow: { startHour: 8, startMinute: 30, endHour: 23, endMinute: 30 },
-  circadianStartJitterMinutes: 45, // ± offset re-rolled daily
+  // Circadian schedule. Hours are local IST (Asia/Kolkata). The India nightly
+  // starts at 00:30, after SWS's rolling market updates have settled.
+  circadianWindow: { startHour: 0, startMinute: 0, endHour: 4, endMinute: 30 },
+  circadianStartJitterMinutes: 0,
 
   // Weekly rest day. Each shard skips one ISO-week-day, derived from
   // crypto.randomInt seeded by ISO week + shard id (deterministic per week,
