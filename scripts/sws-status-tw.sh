@@ -93,14 +93,40 @@ done
 if [ "$UNIV" != "?" ] && [ "$UNIV" -gt 0 ] 2>/dev/null; then echo "  total done this run: $TOT / $UNIV ($((TOT*100/UNIV))%)"; else echo "  total done this run: $TOT"; fi
 
 echo ""
-echo "-- deep brief counts --"
-echo "  deep-api/: $(ls "$DATA_DIR/deep-api" 2>/dev/null | wc -l | tr -d ' ')    deep/: $(ls "$DATA_DIR/deep" 2>/dev/null | wc -l | tr -d ' ')"
-
-echo ""
 echo "-- last finished full run --"
 if [ -f "$DATA_DIR/last-refresh.json" ]; then
   node -e "const p=JSON.parse(require('fs').readFileSync('$DATA_DIR/last-refresh.json','utf8'));const fa=p.finished_at?new Date(p.finished_at):null;const age=fa?Math.round((Date.now()-fa.getTime())/60000):null;console.log('  finished:',p.finished_at||'?',(age!=null?'('+age+'m ago)':''));console.log('  pipeline:',p.pipeline||'?','| scored_count:',(p.scored_count??'?'),'| universe_size:',(p.universe_size??'?'))" 2>/dev/null
 else echo "  (no last-refresh.json -- no full run has finished yet)"; fi
+
+echo ""
+echo "-- stored quality counters (last-refresh.json) --"
+if [ -f "$DATA_DIR/last-refresh.json" ]; then
+  DATA_DIR="$DATA_DIR" node --input-type=module - <<'EOF' 2>/dev/null || echo "  (unreadable quality counters)"
+import { readFileSync } from "node:fs";
+const p = JSON.parse(readFileSync(`${process.env.DATA_DIR}/last-refresh.json`, "utf-8"));
+const value = (key) => p[key] ?? "?";
+const scored = Number(p.scored_count ?? 0);
+const deep = Number(p.deep_files_scanned);
+const news = Number(p.news_populated_count);
+const rewards = Number(p.rewards_populated_count);
+const risks = Number(p.risks_populated_count);
+const progressFailed = Number(p.news_progress_failed_count ?? 0);
+const hasCore = [deep, news, rewards].every(Number.isFinite) && scored > 0;
+let status = "UNKNOWN";
+if (hasCore) {
+  status = deep < scored * 0.95 || news / scored < 0.20 || rewards / scored < 0.20
+    ? "FAIL"
+    : (Number.isFinite(risks) && risks / scored < 0.10) || progressFailed > 0
+      ? "WARN"
+      : "PASS";
+}
+const pct = (n) => Number.isFinite(n) && scored > 0 ? `${Math.round((n / scored) * 100)}%` : "?";
+console.log(`  quality: ${status} | deep_files_scanned: ${value("deep_files_scanned")} (${pct(deep)}) | scored_count: ${value("scored_count")}`);
+console.log(`  populated: news=${value("news_populated_count")} (${pct(news)}) rewards=${value("rewards_populated_count")} (${pct(rewards)}) risks=${value("risks_populated_count")} (${pct(risks)})`);
+console.log(`  news items: ${value("news_items_total")} | aggregate: generated_at=${value("news_aggregate_generated_at")} coverage=${value("news_aggregate_coverage_count")} items=${value("news_aggregate_items_count")}`);
+console.log(`  news progress: done=${value("news_progress_done_count")} failed=${value("news_progress_failed_count")}`);
+EOF
+else echo "  (no last-refresh.json -- quality counters unknown)"; fi
 
 echo ""
 echo "-- picks-latest.json (what the Taiwan Picks tab serves) --"

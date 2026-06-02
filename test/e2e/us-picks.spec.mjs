@@ -75,23 +75,25 @@ test.describe("US Picks tab", () => {
 
   test("modal opens with the full rich detail (score breakdown + returns + snowflake), all in $", async ({ page }) => {
     await openUSPicks(page);
-    const firstTicker = await page
-      .locator("#usPicksContainer .sws-pick-card")
-      .first()
-      .getAttribute("data-ticker");
-    await page.evaluate((t) => window.openUSModal(t), firstTicker);
+    // Open a deterministic fixture canary whose deep brief includes SWS
+    // Rewards plus an empty Risks array; the top-ranked fixture stock can
+    // legitimately have neither, in which case the shared renderer hides the
+    // whole rewards/risks block.
+    await page.evaluate(() => window.openUSModal("AAPL"));
     const modal = page.locator("#usModalBackdrop");
     await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
     const txt = await page.locator("#usModalBody").innerText();
     expect(txt).toContain("$");
     expect(txt).not.toContain("₹");
-    // Section headers are uppercased by CSS text-transform. Rewards/Risks are
-    // data-dependent, so assert only on the always-present rich-modal anchors.
+    // Section headers are uppercased by CSS text-transform.
     expect(txt).toMatch(/Health/i);
     // PR2 parity: these sections were ABSENT from the old simplified US modal —
     // their presence proves the US tab now renders via the shared renderSwsModalCore.
     expect(txt).toMatch(/Score breakdown/i);
     expect(txt).toMatch(/Total returns/i);
+    expect(txt).toMatch(/Rewards\s*\(\d+\)/i);
+    expect(txt).toMatch(/Risks\s*\(\d+\)/i);
+    expect(txt).toMatch(/No SWS-flagged risks at last scan|Currently unprofitable|Significant insider selling|cash runway/i);
     expect(txt).toMatch(/Recent news/i);
     await expect(page.locator("#usModalBody details").filter({ hasText: /Recent news/i })).toContainText(/fixture SWS news headline/i);
     await expectTotalReturnsHasPercentValues(page.locator("#usModalBody"));

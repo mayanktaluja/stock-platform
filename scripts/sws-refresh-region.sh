@@ -4,8 +4,9 @@
 # so prod does not stay pinned to the previous committed snapshot.
 #
 # Chain:  co-run guard → spawn 3 shards (retry) → parse → score →
-#         news enrichment → pack tarball → (optional narrate) →
-#         (optional PDF) → last-refresh.json
+#         news enrichment → pack tarball → quality summary →
+#         (optional narrate) → (optional PDF) → last-refresh.json →
+#         quality gate → auto-ship
 #
 # Usage:
 #   bash scripts/sws-refresh-region.sh kr
@@ -38,7 +39,13 @@ esac
 START_EPOCH=$(date +%s)
 DATA_DIR="data/sws-${CODE}"
 PANIC_FLAG="${DATA_DIR}/panic-stop.flag"
+QUALITY_SUMMARY_TMP="$(mktemp "${TMPDIR:-/tmp}/sws-${CODE}-quality-summary.XXXXXX.json")"
+QUALITY_GATE_FAILED=0
 mkdir -p "${DATA_DIR}"
+cleanup_quality_summary_tmp() {
+  rm -f "${QUALITY_SUMMARY_TMP}" >/dev/null 2>&1 || true
+}
+trap cleanup_quality_summary_tmp EXIT
 
 # ---------- 1. Co-run guard (shared SWS account: India / US / sibling region) ----------
 # shellcheck source=scripts/sws-corun-guard.sh
@@ -162,7 +169,25 @@ if [ -d "${DATA_DIR}/deep" ] && [ -n "$(ls -A "${DATA_DIR}/deep" 2>/dev/null)" ]
   fi
 fi
 
-# ---------- 7. Narrate (optional — script + key must exist; absent in v1) ----------
+# ---------- 7. Quality summary from deployable artifacts ----------
+# The summary script is owned separately. When it is absent or fails, keep the
+# generated data inspectable locally but fail closed for auto-ship.
+rm -f "${QUALITY_SUMMARY_TMP}"
+if [ -f scripts/sws-market-quality-summary.mjs ]; then
+  echo "[refresh-${CODE}] computing market quality summary..."
+  if node scripts/sws-market-quality-summary.mjs --market "${CODE}" > "${QUALITY_SUMMARY_TMP}"; then
+    echo "[refresh-${CODE}] wrote quality summary counters → ${QUALITY_SUMMARY_TMP}"
+  else
+    echo "[refresh-${CODE}] quality summary failed — auto-ship will be skipped"
+    QUALITY_GATE_FAILED=1
+    rm -f "${QUALITY_SUMMARY_TMP}"
+  fi
+else
+  echo "[refresh-${CODE}] scripts/sws-market-quality-summary.mjs missing — auto-ship will be skipped"
+  QUALITY_GATE_FAILED=1
+fi
+
+# ---------- 8. Narrate (optional — script + key must exist; absent in v1) ----------
 HAVE_KEY=0
 [ -n "${ANTHROPIC_API_KEY:-}" ] && HAVE_KEY=1
 { [ "${HAVE_KEY}" -eq 0 ] && [ -f .env ] && grep -q '^ANTHROPIC_API_KEY=' .env; } && HAVE_KEY=1
@@ -173,7 +198,7 @@ else
   echo "[refresh-${CODE}] skipping narrate (no script or no ANTHROPIC_API_KEY — deterministic one-liners stand)"
 fi
 
-# ---------- 8. PDF (optional — generator must exist; absent in v1) ----------
+# ---------- 9. PDF (optional — generator must exist; absent in v1) ----------
 if [ -f scripts/generate-region-picks-pdf.py ]; then
   echo "[refresh-${CODE}] generating PDF..."
   python3 scripts/generate-region-picks-pdf.py --region "${CODE}" 2>&1 | tail -5 | sed "s/^/[pdf-${CODE}] /" || echo "[pdf-${CODE}] non-zero exit — continuing"
@@ -181,24 +206,40 @@ else
   echo "[refresh-${CODE}] skipping PDF (generator not present)"
 fi
 
-# ---------- 9. Write last-refresh.json ----------
-SWS_REGION_CODE="${CODE}" node --input-type=module - <<'EOF'
-import { readFileSync, writeFileSync } from "fs";
+# ---------- 10. Write last-refresh.json ----------
+SWS_REGION_CODE="${CODE}" SWS_QUALITY_SUMMARY_PATH="${QUALITY_SUMMARY_TMP}" node --input-type=module - <<'EOF'
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { makeRegionConfig } from "./scripts/sws-config-region.mjs";
 const cfg = makeRegionConfig(process.env.SWS_REGION_CODE);
 let picks = {};
 try { picks = JSON.parse(readFileSync(cfg.PATHS.picksLatest, "utf-8")); } catch {}
+let quality = {};
+const qualityPath = process.env.SWS_QUALITY_SUMMARY_PATH;
+if (qualityPath && existsSync(qualityPath)) {
+  try {
+    const summary = JSON.parse(readFileSync(qualityPath, "utf-8"));
+    quality = {
+      ...summary,
+      news_aggregate_generated_at: summary.news_aggregate?.generated_at ?? null,
+      news_aggregate_coverage_count: summary.news_aggregate?.coverage_count ?? null,
+      news_aggregate_items_count: summary.news_aggregate?.items_count ?? null,
+      news_progress_done_count: summary.news_progress?.done_count ?? null,
+      news_progress_failed_count: summary.news_progress?.failed_count ?? null,
+    };
+  } catch {}
+}
 writeFileSync(cfg.PATHS.lastRefresh, JSON.stringify({
   pipeline: `api-${process.env.SWS_REGION_CODE}`,
   finished_at: new Date().toISOString(),
   scored_count: picks.scored_count ?? null,
   universe_size: picks.universe_size ?? null,
   scanned_at: picks.scanned_at ?? null,
+  ...quality,
 }, null, 2) + "\n");
 console.log(`[refresh] wrote ${cfg.PATHS.lastRefresh} (scored_count=${picks.scored_count ?? "?"})`);
 EOF
 
-# ---------- 10. Market metadata + global macro calendar ----------
+# ---------- 11. Market metadata + global macro calendar ----------
 echo "[refresh-${CODE}] refreshing macro calendar (non-fatal)..."
 node scripts/refresh-macro-calendar.mjs 2>&1 | tail -12 | sed 's/^/[macro-calendar] /' || \
   echo "[macro-calendar] non-zero exit — continuing with prior calendar"
@@ -233,12 +274,24 @@ case "${CODE}" in
   tw) MIN_SCORED=1800 ;;
 esac
 
-# ---------- 11. Auto-ship generated data ----------
+# ---------- 12. Quality gate before auto-ship ----------
+if [ -f scripts/sws-market-quality-gate.mjs ]; then
+  echo "[refresh-${CODE}] running market quality gate..."
+  if ! node scripts/sws-market-quality-gate.mjs --market "${CODE}" --summary "${QUALITY_SUMMARY_TMP}"; then
+    echo "[refresh-${CODE}] market quality gate failed — auto-ship will be skipped"
+    QUALITY_GATE_FAILED=1
+  fi
+else
+  echo "[refresh-${CODE}] scripts/sws-market-quality-gate.mjs missing — auto-ship will be skipped"
+  QUALITY_GATE_FAILED=1
+fi
+
+# ---------- 13. Auto-ship generated data ----------
 SWS_SHIP_MARKET="${CODE}" \
 SWS_SHIP_MIN_SCORED="${MIN_SCORED}" \
 SWS_SHIP_PICKS_PATH="${DATA_DIR}/picks-latest.json" \
 SWS_SHIP_LAST_REFRESH_PATH="${DATA_DIR}/last-refresh.json" \
-SWS_SHIP_FAILED_SHARDS="${FAIL}" \
+SWS_SHIP_FAILED_SHARDS="$((FAIL + QUALITY_GATE_FAILED))" \
 SWS_SHIP_SCRAPE_SKIPPED="${SCRAPE_SKIPPED}" \
 SWS_SHIP_COMMIT_BODY="${CODE} SWS full refresh generated data. Seed/capped runs and shard failures are intentionally refused by scripts/sws-auto-ship.sh." \
 sws_auto_ship_market \
