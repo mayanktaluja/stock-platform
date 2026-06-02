@@ -38,11 +38,12 @@ users.json
 .vscode/
 *.swp
 
-# Claude Code local state (worktrees + scheduled-task locks). These appear
+# Claude/Codex local state (worktrees + scheduled-task locks). These appear
 # untracked in main and would otherwise collide with incoming commits and
 # block the nightly's `git pull --ff-only`.
 .claude/scheduled_tasks.lock
 .claude/worktrees/
+.Codex/worktrees/
 .macro-regime-cache.json
 
 # Per-worktree mutable launch config. Tracking this file is the root cause

@@ -76,7 +76,7 @@ assert(
 
 // Both files must be staged for commit, checked for changes, AND included in
 // the sanity-fail data-only PR — otherwise a successful refresh never ships.
-const gitAddBlock = (nightly.match(/git add data\/sws\/deep\/[\s\S]*?fundamentalsHistory\.json/) || [""])[0];
+const gitAddBlock = (nightly.match(/git add data\/sws\/deep\.tar\.gz[\s\S]*?fundamentalsHistory\.json/) || [""])[0];
 const dataFilesBlock = (nightly.match(/DATA_FILES=\([\s\S]*?\)/) || [""])[0];
 const changedFilesBlock =
   (nightly.match(/CHANGED_FILES=\$\(git status --short[\s\S]*?wc -l/) || [""])[0];
@@ -105,6 +105,22 @@ assert(
 );
 assert("data/sws/deep.tar.gz is staged in the git add list", gitAddBlock.includes("data/sws/deep.tar.gz"), null);
 assert("data/sws/deep.tar.gz is in the CHANGED_FILES check", changedFilesBlock.includes("data/sws/deep.tar.gz"), null);
+assert(
+  "nightly auto-PR does not stage loose data/sws/deep files",
+  !changedFilesBlock.includes("data/sws/deep/") && !gitAddBlock.includes("data/sws/deep/"),
+  null,
+);
+assert(
+  "nightly auto-PR does not stage oversized Groww stock cache",
+  !changedFilesBlock.includes("data/sws/groww-stock-latest.json") &&
+    !gitAddBlock.includes("data/sws/groww-stock-latest.json"),
+  null,
+);
+assert(
+  "macOS timeout fallback enforces a real watchdog",
+  /sleep "\$\{seconds\}"[\s\S]*?command exceeded[\s\S]*?kill -TERM "\$\{child_pid\}"/.test(nightly),
+  null,
+);
 
 // Ordering constraint: the fundamentalsHistory refresh MUST run BEFORE
 // refresh-earnings.mjs. Earnings reads fundamentalsHistory.json for the
@@ -255,6 +271,17 @@ assert(
   "sws-refresh-api.sh summary includes Groww stock cache and endpoint timing telemetry",
   /groww_stock_cache: growwStockCache/.test(refreshApi) &&
     /endpoint_timing: endpointTiming/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh auto-PR stages deep.tar.gz but not loose deep files",
+  /git add data\/sws\/deep\.tar\.gz/.test(refreshApi) &&
+    !/git add data\/sws\/deep\/(?:\s|2>)/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh auto-PR does not stage oversized Groww stock cache",
+  !/git add .*data\/sws\/groww-stock-latest\.json/.test(refreshApi),
   null,
 );
 
