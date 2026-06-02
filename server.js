@@ -895,6 +895,18 @@ const AUTH_EXEMPT_PATHS = new Set([
   // route handler is registered AFTER the auth middleware. Adding the path
   // to the exempt set is the surgical fix.
   "/healthz",
+  // Shared, non-user market ticker data. Kept public so Vercel can cache it
+  // and anonymous uptime/header probes do not burn signed-in session CPU.
+  "/api/market",
+  // Safe login/PWA assets only. The protected SPA shell and gated JS stay
+  // behind auth; these image/manifest files contain no user data.
+  "/favicon-32.png",
+  "/favicon-180.png",
+  "/icon-192.png",
+  "/icon-512.png",
+  "/icon-maskable-512.png",
+  "/manifest.webmanifest",
+  "/og-image.jpg",
 ]);
 app.use((req, res, next) => {
   if (!AUTH_ENABLED) return next();
@@ -937,11 +949,34 @@ app.use("/api/", apiLimiter);
 // this gate middleware. Files in gated/ are bundled into the serverless
 // function via the `includeFiles` config in vercel.json and only reach the
 // client through Express, so the login gate above always runs first.
-app.use(express.static(path.join(__dirname, "gated")));
+const SHORT_GATED_ASSET_CACHE = "private, max-age=300, must-revalidate";
+function setGatedStaticHeaders(res, filePath) {
+  const name = path.basename(filePath);
+  if (name.endsWith(".html")) {
+    res.setHeader("Cache-Control", "no-cache");
+  } else if (/\.(?:js|css)$/i.test(name)) {
+    res.setHeader("Cache-Control", SHORT_GATED_ASSET_CACHE);
+  }
+}
+
+app.use(express.static(path.join(__dirname, "gated"), {
+  setHeaders: setGatedStaticHeaders,
+}));
 // public/ now contains only login.html (intentionally CDN-served so the
 // login page is reachable without a session). express.static for public/
 // is kept for local dev parity and as a defensive fallback.
-app.use(express.static(path.join(__dirname, "public")));
+function setPublicStaticHeaders(res, filePath) {
+  const name = path.basename(filePath);
+  if (name === "login.html") {
+    res.setHeader("Cache-Control", "no-cache");
+  } else if (/\.(?:png|jpg|jpeg|webp|ico|svg|webmanifest)$/i.test(name)) {
+    res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+  }
+}
+
+app.use(express.static(path.join(__dirname, "public"), {
+  setHeaders: setPublicStaticHeaders,
+}));
 app.use(express.json());
 
 // ==================== Yahoo Finance Direct API ====================
@@ -3581,116 +3616,176 @@ app.get("/api/fundamentals/:symbol", async (req, res) => {
   }
 });
 
-// 30s cache for the market indices ticker. The Nifty/Sensex/Bank Nifty values
-// genuinely change at most once per second, but every page load + the auto-
-// refresh ticker hits this endpoint. Without a cache, every visitor pays the
-// 12s NSE-cold-session penalty, and concurrent users hammer the upstream APIs
-// for data they all share.
-//
-// 30s strikes the balance: fresh enough that the user never sees data older
-// than half a minute, but cached enough that the heavy NSE call only fires
-// twice per minute even under load.
-const marketCache = new NodeCache({ stdTTL: 30, checkperiod: 10 });
+// Shared market ticker data. It is non-user-specific, so keep the response
+// public/cacheable and collapse concurrent cold misses into one upstream fetch.
+const MARKET_CACHE_OPEN_SEC = 300;
+const MARKET_CACHE_CLOSED_SEC = 1800;
+const MARKET_STALE_OPEN_MS = 15 * 60 * 1000;
+const MARKET_STALE_CLOSED_MS = 12 * 60 * 60 * 1000;
+const marketCache = new NodeCache({ stdTTL: MARKET_CACHE_OPEN_SEC, checkperiod: 60 });
+let marketInFlight = null;
+let lastGoodMarket = null;
+
+function marketCacheTtlSeconds(payload) {
+  return payload?.marketStatus === "OPEN" ? MARKET_CACHE_OPEN_SEC : MARKET_CACHE_CLOSED_SEC;
+}
+
+function marketStaleMaxAgeMs(payload) {
+  const status = payload?.marketStatus;
+  return status === "OPEN" || (status !== "CLOSED" && isMarketOpen())
+    ? MARKET_STALE_OPEN_MS
+    : MARKET_STALE_CLOSED_MS;
+}
+
+function setMarketCacheHeaders(res, payload) {
+  if (payload?.marketStatus === "OPEN") {
+    res.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
+  } else {
+    res.set("Cache-Control", "public, s-maxage=1800, stale-while-revalidate=3600");
+  }
+}
+
+async function buildMarketPayload() {
+  if (typeof app.locals.__marketDataProvider === "function") {
+    return app.locals.__marketDataProvider();
+  }
+
+  // Try NSE India first (official source), Yahoo as fallback.
+  // GIFT Nifty runs in parallel since it has its own upstream (NSE IX)
+  // and shouldn't delay the core indices if it's slow.
+  let indices = [];
+  let source = "yahoo";
+
+  const giftPromise = fetchGiftNifty().catch((e) => {
+    console.error("GIFT Nifty fetch error:", e.message);
+    return null;
+  });
+
+  try {
+    const nseIndices = await fetchNseIndices();
+    if (nseIndices && nseIndices.length > 0) {
+      indices = nseIndices;
+      source = "nse";
+    }
+  } catch (e) {
+    console.error("NSE indices failed, falling back to Yahoo:", e.message);
+  }
+
+  // Fallback: Yahoo Finance for SENSEX (NSE doesn't serve BSE index)
+  // and if NSE failed entirely
+  if (indices.length === 0) {
+    const yahooSymbols = ["^NSEI", "^BSESN", "^NSEBANK"];
+    const quotes = await Promise.all(yahooSymbols.map((i) => fetchQuote(i)));
+    indices = quotes.filter(Boolean).map((q) => ({
+      symbol: q.symbol,
+      name: q.shortName || q.longName,
+      price: q.regularMarketPrice,
+      change: q.regularMarketChange,
+      changePercent: q.regularMarketChangePercent,
+      dayHigh: q.regularMarketDayHigh,
+      dayLow: q.regularMarketDayLow,
+      previousClose: q.regularMarketPreviousClose,
+      source: "yahoo",
+    }));
+  } else {
+    // Also add SENSEX from Yahoo since NSE doesn't serve BSE indices
+    try {
+      const sensex = await fetchQuote("^BSESN");
+      if (sensex) {
+        indices.splice(1, 0, {
+          symbol: "^BSESN",
+          name: "SENSEX",
+          price: sensex.regularMarketPrice,
+          change: sensex.regularMarketChange,
+          changePercent: sensex.regularMarketChangePercent,
+          source: "yahoo",
+        });
+      }
+    } catch (e) { /* sensex optional */ }
+  }
+
+  // GIFT Nifty — slot in right after NIFTY 50 so its premium/discount
+  // sits visually adjacent to the NIFTY 50 reference price it's
+  // computed against. When unavailable (outside session, NSE IX down)
+  // we just omit it; the rest of the page renders normally.
+  const gift = await giftPromise;
+  if (gift) {
+    // Show Gift Nifty's premium/discount over the current NIFTY 50
+    // level — "how much higher/lower is Gift Nifty vs NIFTY 50 right
+    // now." Falls back to NIFTY 50's previous close when the live
+    // price isn't available (market closed, data gap).
+    const nifty50 = indices.find((i) => i.symbol === "^NSEI");
+    const ref = nifty50?.price ?? nifty50?.previousClose;
+    if (ref && Number.isFinite(ref) && ref > 0 && Number.isFinite(gift.price)) {
+      gift.change = gift.price - ref;
+      gift.changePercent = ((gift.price - ref) / ref) * 100;
+      gift.referencePrice = ref;
+      gift.referenceSymbol = "^NSEI";
+    }
+    indices.splice(1, 0, gift);
+  }
+
+  return {
+    indices,
+    source,
+    lastUpdated: new Date().toISOString(),
+    marketStatus: isMarketOpen() ? "OPEN" : "CLOSED",
+    // Top-level reference for the UI. NSE IX publishes IST strings like
+    // "21-Apr-2026 02:18:17" — we surface it as-is so the frontend can
+    // show "Last traded 02:18 IST" next to the GIFT Nifty pill. Null
+    // when GIFT Nifty isn't in this response.
+    giftNiftyLastTradedAt: gift?.lastTradedAt ?? null,
+  };
+}
+
+app.locals.__clearMarketCache = (opts = {}) => {
+  marketCache.del("market");
+  marketInFlight = null;
+  if (!opts.keepLastGood) lastGoodMarket = null;
+};
 
 app.get("/api/market", async (req, res) => {
   try {
     const cached = marketCache.get("market");
     if (cached) {
       res.set("X-Cache", "HIT");
+      setMarketCacheHeaders(res, cached);
       return res.json(cached);
     }
 
-    // Try NSE India first (official source), Yahoo as fallback.
-    // GIFT Nifty runs in parallel since it has its own upstream (NSE IX)
-    // and shouldn't delay the core indices if it's slow.
-    let indices = [];
-    let source = "yahoo";
-
-    const giftPromise = fetchGiftNifty().catch((e) => {
-      console.error("GIFT Nifty fetch error:", e.message);
-      return null;
-    });
-
-    try {
-      const nseIndices = await fetchNseIndices();
-      if (nseIndices && nseIndices.length > 0) {
-        indices = nseIndices;
-        source = "nse";
-      }
-    } catch (e) {
-      console.error("NSE indices failed, falling back to Yahoo:", e.message);
+    if (!marketInFlight) {
+      marketInFlight = buildMarketPayload()
+        .then((payload) => {
+          const response = { ...payload, stale: false, stale_age_sec: 0 };
+          marketCache.set("market", response, marketCacheTtlSeconds(response));
+          lastGoodMarket = { payload: response, storedAt: Date.now() };
+          return response;
+        })
+        .finally(() => {
+          marketInFlight = null;
+        });
     }
 
-    // Fallback: Yahoo Finance for SENSEX (NSE doesn't serve BSE index)
-    // and if NSE failed entirely
-    if (indices.length === 0) {
-      const yahooSymbols = ["^NSEI", "^BSESN", "^NSEBANK"];
-      const quotes = await Promise.all(yahooSymbols.map((i) => fetchQuote(i)));
-      indices = quotes.filter(Boolean).map((q) => ({
-        symbol: q.symbol,
-        name: q.shortName || q.longName,
-        price: q.regularMarketPrice,
-        change: q.regularMarketChange,
-        changePercent: q.regularMarketChangePercent,
-        dayHigh: q.regularMarketDayHigh,
-        dayLow: q.regularMarketDayLow,
-        previousClose: q.regularMarketPreviousClose,
-        source: "yahoo",
-      }));
-    } else {
-      // Also add SENSEX from Yahoo since NSE doesn't serve BSE indices
-      try {
-        const sensex = await fetchQuote("^BSESN");
-        if (sensex) {
-          indices.splice(1, 0, {
-            symbol: "^BSESN",
-            name: "SENSEX",
-            price: sensex.regularMarketPrice,
-            change: sensex.regularMarketChange,
-            changePercent: sensex.regularMarketChangePercent,
-            source: "yahoo",
-          });
-        }
-      } catch (e) { /* sensex optional */ }
-    }
-
-    // GIFT Nifty — slot in right after NIFTY 50 so its premium/discount
-    // sits visually adjacent to the NIFTY 50 reference price it's
-    // computed against. When unavailable (outside session, NSE IX down)
-    // we just omit it; the rest of the page renders normally.
-    const gift = await giftPromise;
-    if (gift) {
-      // Show Gift Nifty's premium/discount over the current NIFTY 50
-      // level — "how much higher/lower is Gift Nifty vs NIFTY 50 right
-      // now." Falls back to NIFTY 50's previous close when the live
-      // price isn't available (market closed, data gap).
-      const nifty50 = indices.find((i) => i.symbol === "^NSEI");
-      const ref = nifty50?.price ?? nifty50?.previousClose;
-      if (ref && Number.isFinite(ref) && ref > 0 && Number.isFinite(gift.price)) {
-        gift.change = gift.price - ref;
-        gift.changePercent = ((gift.price - ref) / ref) * 100;
-        gift.referencePrice = ref;
-        gift.referenceSymbol = "^NSEI";
-      }
-      indices.splice(1, 0, gift);
-    }
-
-    const response = {
-      indices,
-      source,
-      lastUpdated: new Date().toISOString(),
-      marketStatus: isMarketOpen() ? "OPEN" : "CLOSED",
-      // Top-level reference for the UI. NSE IX publishes IST strings like
-      // "21-Apr-2026 02:18:17" — we surface it as-is so the frontend can
-      // show "Last traded 02:18 IST" next to the GIFT Nifty pill. Null
-      // when GIFT Nifty isn't in this response.
-      giftNiftyLastTradedAt: gift?.lastTradedAt ?? null,
-    };
-    marketCache.set("market", response);
+    const response = await marketInFlight;
     res.set("X-Cache", "MISS");
+    setMarketCacheHeaders(res, response);
     res.json(response);
   } catch (err) {
     console.error("Market error:", err.message);
+    if (lastGoodMarket?.payload) {
+      const ageMs = Date.now() - lastGoodMarket.storedAt;
+      const maxAgeMs = marketStaleMaxAgeMs(lastGoodMarket.payload);
+      if (ageMs <= maxAgeMs) {
+        const staleResponse = {
+          ...lastGoodMarket.payload,
+          stale: true,
+          stale_age_sec: Math.max(0, Math.round(ageMs / 1000)),
+        };
+        res.set("X-Cache", "STALE");
+        setMarketCacheHeaders(res, staleResponse);
+        return res.json(staleResponse);
+      }
+    }
     res.status(500).json({ error: "Market data failed" });
   }
 });
@@ -7312,30 +7407,29 @@ if (!process.env.VERCEL) {
   });
 }
 
-// On Vercel (serverless) the app.listen block above never runs — each cold
-// start imports this module and handles a single request through the
-// exported `app`. We still need the surveillance/governance caches primed
-// from KV on that path, so do it here at the module top level. Top-level
-// await is supported because package.json has "type": "module". Each prime
-// is timeout-raced so a KV outage doesn't block cold starts indefinitely.
+// On Vercel (serverless) the app.listen block above never runs. Prime the
+// surveillance/governance caches in the background; both have bundled disk
+// fallback, so a KV miss must not hold the first request open.
 //
 // Fundamentals do NOT prime from KV — they're loaded lazily from the
 // `fundamentals.json` shipped in the deploy by `scripts/refresh-fundamentals.mjs`.
 if (process.env.VERCEL) {
-  // Surveillance prime — KV outage mustn't block cold start.
-  await Promise.race([
-    primeSurveillanceFromKV().catch((e) =>
-      console.warn("[SURVEILLANCE] KV prime failed on cold start:", e.message)
-    ),
+  const coldStartPrime = Promise.allSettled([
+    primeSurveillanceFromKV(),
+    primeGovernanceFromKV(),
+  ]).then((results) => {
+    const [surveillance, governance] = results;
+    if (surveillance.status === "rejected") {
+      console.warn("[SURVEILLANCE] KV prime failed on cold start:", surveillance.reason?.message || surveillance.reason);
+    }
+    if (governance.status === "rejected") {
+      console.warn("[GOVERNANCE] KV prime failed on cold start:", governance.reason?.message || governance.reason);
+    }
+  });
+  Promise.race([
+    coldStartPrime,
     new Promise((resolve) => setTimeout(resolve, 1500)),
-  ]);
-  // Same guard for governance.
-  await Promise.race([
-    primeGovernanceFromKV().catch((e) =>
-      console.warn("[GOVERNANCE] KV prime failed on cold start:", e.message)
-    ),
-    new Promise((resolve) => setTimeout(resolve, 1500)),
-  ]);
+  ]).then(() => {}, () => {});
 }
 
 // ----------------------------------------------------------------------------
@@ -7890,6 +7984,7 @@ app.get("/api/sws-scan/status", (req, res) => {
   const panic = readJsonSafe(SWS_PATHS.panicStop);
   const totalDone = shards.reduce((a, s) => a + (s.done_count || 0), 0);
   const inProgress = shards.some((s) => s.last_run_at && (now - new Date(s.last_run_at).getTime()) < RECENT_MS);
+  res.set("Cache-Control", "private, no-store");
   res.json({
     in_progress: inProgress,
     total_done: totalDone,
@@ -8114,6 +8209,7 @@ app.get("/api/us-scan/status", async (req, res) => {
   const totalDone = shards.reduce((a, s) => a + (s.done_count || 0), 0);
   const inProgress = shards.some((s) => s.last_run_at && now - new Date(s.last_run_at).getTime() < RECENT_MS);
   const lr = usPicksDal.getUsLastRefresh();
+  res.set("Cache-Control", "private, no-store");
   res.json({
     in_progress: inProgress,
     total_done: totalDone,
@@ -8239,6 +8335,7 @@ function registerRegionPicksRoutes(app, dal) {
     const totalDone = shards.reduce((a, s) => a + (s.done_count || 0), 0);
     const inProgress = shards.some((s) => s.last_run_at && now - new Date(s.last_run_at).getTime() < RECENT_MS);
     const lr = dal.getLastRefresh();
+    res.set("Cache-Control", "private, no-store");
     res.json({
       in_progress: inProgress,
       total_done: totalDone,
