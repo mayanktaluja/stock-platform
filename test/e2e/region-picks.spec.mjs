@@ -106,22 +106,26 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
 
     test(`modal opens with the full rich detail (score breakdown + returns) in ${cfg.symbol}`, async ({ page }) => {
       await openRegionTab(page);
-      const firstTicker = await page.locator(`#${dom}Container .sws-pick-card`).first().getAttribute("data-ticker");
-      await page.evaluate(({ c, t }) => window.openRegionModal(c, t), { c: code, t: firstTicker });
+      // Open deterministic fixture canaries whose deep briefs include SWS
+      // Rewards plus empty Risks arrays; the current top-ranked fixture stock
+      // can legitimately have neither, so the shared renderer hides that block.
+      const ticker = code === "kr" ? "005930.KS" : "2330.TW";
+      await page.evaluate(({ c, t }) => window.openRegionModal(c, t), { c: code, t: ticker });
       const modal = page.locator(`#${code}ModalBackdrop`);
       await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
       const txt = await page.locator(`#${code}ModalBody`).innerText();
       expect(txt).toContain(cfg.symbol);
       for (const bad of cfg.forbidden) expect(txt).not.toContain(bad);
       // Headers are uppercased by CSS text-transform → match case-insensitively.
-      // (Rewards/Risks are data-dependent — the top-scored fixture name may have
-      // none — so the rich-modal proof rests on the always-present sections below.)
       expect(txt).toMatch(/Health/i);
       // PR2 parity: rich sections absent from the old simplified region modal —
       // proves KR/TW now render via the shared renderSwsModalCore.
       expect(txt).toMatch(/Snowflake/i);
       expect(txt).toMatch(/Score breakdown/i);
       expect(txt).toMatch(/Total returns/i);
+      expect(txt).toMatch(/Rewards\s*\(\d+\)/i);
+      expect(txt).toMatch(/Risks\s*\(\d+\)/i);
+      expect(txt).toMatch(/No SWS-flagged risks at last scan|Currently unprofitable|cash runway/i);
       expect(txt).toMatch(/Recent news/i);
       await expect(page.locator(`#${code}ModalBody details`).filter({ hasText: /Recent news/i })).toContainText(/fixture SWS news headline/i);
       const quick = await quickStatsText(page.locator(`#${code}ModalBody`));

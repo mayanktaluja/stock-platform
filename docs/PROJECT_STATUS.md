@@ -35,6 +35,17 @@ portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### US/KR/TW modal enrichment quality gate (June 2026)
+- **This PR** — US, Korea, and Taiwan refresh jobs now treat SWS Recent News
+  and Rewards/Risks as a shipping contract for stock-detail modals. The
+  existing shared India modal renderer remains the single UI path; the refresh
+  scripts run `sws-news-sharded.sh <market>` after parse/score and before
+  packing `deep-<market>.tar.gz`, then compute a tarball-backed quality summary
+  and run a fail-closed auto-ship gate. Local generated data remains inspectable
+  on quality failure, but PR/auto-merge is skipped if deployable tarballs lose
+  canary news/reward coverage. `/sws-status-us`, `/sws-status-kr`, and
+  `/sws-status-tw` now print stored quality counters from `last-refresh.json`.
+
 ### US/KR/TW e2e fixture isolation (June 2026)
 - **This PR** — US/KR/TW Playwright market fixtures now write under the ignored
   `.e2e/sws-root` tree via `SWS_REPO_ROOT_OVERRIDE`, and the runtime DALs honor
@@ -275,7 +286,9 @@ portfolio analyzer.
   user-scoped *writes* (watchlist, portfolio, track) via `userStorage.js`.
 - **Regional deep briefs are packed as `deep-{us,kr,tw}.tar.gz`** (#393), but the
   catch-all Vercel lambda must stay on compact `picks-latest.json` fallback data
-  for regional modals to avoid bundle-size/file-count risk.
+  for regional modals to avoid bundle-size/file-count risk. Regional refresh
+  jobs must run SWS news enrichment before packing these tarballs; the quality
+  gate skips auto-ship when canary Rewards/Risks or Recent news disappear.
 - **9× backtest scripts are forks**, not a shared library — propagate fixes by hand.
 - **Auto-refresh PRs flood the repo** — `chore(macro|sws): auto-refresh ...` open every
   few hours. They commit data files, not code.

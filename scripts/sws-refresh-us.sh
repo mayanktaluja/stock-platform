@@ -4,8 +4,9 @@
 # does not keep serving a stale Vercel snapshot.
 #
 # Chain:  co-run guard → spawn 3 US shards (retry) → parse → score →
-#         news enrichment → pack tarball → (optional narrate) →
-#         (optional PDF) → write last-refresh.json
+#         news enrichment → pack tarball → quality summary →
+#         (optional narrate) → (optional PDF) → write last-refresh.json →
+#         quality gate → auto-ship
 #
 # Env:
 #   SWS_SCRAPE_LIMIT=N   cap each shard to N stocks (use for the seed validate)
@@ -23,7 +24,13 @@ cd "$(dirname "$0")/.." || exit 1
 START_EPOCH=$(date +%s)
 DATA_DIR="data/sws-us"
 PANIC_FLAG="${DATA_DIR}/panic-stop.flag"
+QUALITY_SUMMARY_TMP="$(mktemp "${TMPDIR:-/tmp}/sws-us-quality-summary.XXXXXX.json")"
+QUALITY_GATE_FAILED=0
 mkdir -p "${DATA_DIR}"
+cleanup_quality_summary_tmp() {
+  rm -f "${QUALITY_SUMMARY_TMP}" >/dev/null 2>&1 || true
+}
+trap cleanup_quality_summary_tmp EXIT
 
 # ---------- 1. Co-run guard (shared SWS account: India / KR / TW) ----------
 # All four markets share ONE SWS account + cf_clearance cookie, so a concurrent
@@ -154,7 +161,25 @@ if [ -d "${DATA_DIR}/deep" ] && [ -n "$(ls -A "${DATA_DIR}/deep" 2>/dev/null)" ]
   fi
 fi
 
-# ---------- 7. Narrate (optional — only if the script + an API key exist) ----------
+# ---------- 7. Quality summary from deployable artifacts ----------
+# The summary script is owned separately. When it is absent or fails, keep the
+# generated data inspectable locally but fail closed for auto-ship.
+rm -f "${QUALITY_SUMMARY_TMP}"
+if [ -f scripts/sws-market-quality-summary.mjs ]; then
+  echo "[refresh-us] computing market quality summary..."
+  if node scripts/sws-market-quality-summary.mjs --market us > "${QUALITY_SUMMARY_TMP}"; then
+    echo "[refresh-us] wrote quality summary counters → ${QUALITY_SUMMARY_TMP}"
+  else
+    echo "[refresh-us] quality summary failed — auto-ship will be skipped"
+    QUALITY_GATE_FAILED=1
+    rm -f "${QUALITY_SUMMARY_TMP}"
+  fi
+else
+  echo "[refresh-us] scripts/sws-market-quality-summary.mjs missing — auto-ship will be skipped"
+  QUALITY_GATE_FAILED=1
+fi
+
+# ---------- 8. Narrate (optional — only if the script + an API key exist) ----------
 HAVE_KEY=0
 [ -n "${ANTHROPIC_API_KEY:-}" ] && HAVE_KEY=1
 { [ "${HAVE_KEY}" -eq 0 ] && [ -f .env ] && grep -q '^ANTHROPIC_API_KEY=' .env; } && HAVE_KEY=1
@@ -165,7 +190,7 @@ else
   echo "[refresh-us] skipping narrate (no script or no ANTHROPIC_API_KEY — deterministic one-liners stand)"
 fi
 
-# ---------- 8. PDF (optional — only if the generator exists) ----------
+# ---------- 9. PDF (optional — only if the generator exists) ----------
 if [ -f scripts/generate-us-picks-pdf.py ]; then
   echo "[refresh-us] generating PDF..."
   python3 scripts/generate-us-picks-pdf.py 2>&1 | tail -5 | sed 's/^/[pdf-us] /' || echo "[pdf-us] non-zero exit — continuing"
@@ -173,23 +198,39 @@ else
   echo "[refresh-us] skipping PDF (generator not present)"
 fi
 
-# ---------- 9. Write last-refresh.json ----------
-node --input-type=module - <<'EOF'
-import { readFileSync, writeFileSync } from "fs";
+# ---------- 10. Write last-refresh.json ----------
+SWS_QUALITY_SUMMARY_PATH="${QUALITY_SUMMARY_TMP}" node --input-type=module - <<'EOF'
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { PATHS } from "./scripts/sws-config-us.mjs";
 let picks = {};
 try { picks = JSON.parse(readFileSync(PATHS.picksLatest, "utf-8")); } catch {}
+let quality = {};
+const qualityPath = process.env.SWS_QUALITY_SUMMARY_PATH;
+if (qualityPath && existsSync(qualityPath)) {
+  try {
+    const summary = JSON.parse(readFileSync(qualityPath, "utf-8"));
+    quality = {
+      ...summary,
+      news_aggregate_generated_at: summary.news_aggregate?.generated_at ?? null,
+      news_aggregate_coverage_count: summary.news_aggregate?.coverage_count ?? null,
+      news_aggregate_items_count: summary.news_aggregate?.items_count ?? null,
+      news_progress_done_count: summary.news_progress?.done_count ?? null,
+      news_progress_failed_count: summary.news_progress?.failed_count ?? null,
+    };
+  } catch {}
+}
 writeFileSync(PATHS.lastRefresh, JSON.stringify({
   pipeline: "api-us",
   finished_at: new Date().toISOString(),
   scored_count: picks.scored_count ?? null,
   universe_size: picks.universe_size ?? null,
   scanned_at: picks.scanned_at ?? null,
+  ...quality,
 }, null, 2) + "\n");
 console.log(`[refresh-us] wrote ${PATHS.lastRefresh} (scored_count=${picks.scored_count ?? "?"})`);
 EOF
 
-# ---------- 10. Market metadata + global macro calendar ----------
+# ---------- 11. Market metadata + global macro calendar ----------
 echo "[refresh-us] refreshing macro calendar (non-fatal)..."
 node scripts/refresh-macro-calendar.mjs 2>&1 | tail -12 | sed 's/^/[macro-calendar] /' || \
   echo "[macro-calendar] non-zero exit — continuing with prior calendar"
@@ -217,12 +258,24 @@ else
     echo "[us-universe] non-zero exit — continuing with prior universe"
 fi
 
-# ---------- 11. Auto-ship generated data ----------
+# ---------- 12. Quality gate before auto-ship ----------
+if [ -f scripts/sws-market-quality-gate.mjs ]; then
+  echo "[refresh-us] running market quality gate..."
+  if ! node scripts/sws-market-quality-gate.mjs --market us --summary "${QUALITY_SUMMARY_TMP}"; then
+    echo "[refresh-us] market quality gate failed — auto-ship will be skipped"
+    QUALITY_GATE_FAILED=1
+  fi
+else
+  echo "[refresh-us] scripts/sws-market-quality-gate.mjs missing — auto-ship will be skipped"
+  QUALITY_GATE_FAILED=1
+fi
+
+# ---------- 13. Auto-ship generated data ----------
 SWS_SHIP_MARKET=us \
 SWS_SHIP_MIN_SCORED=5000 \
 SWS_SHIP_PICKS_PATH="${DATA_DIR}/picks-latest.json" \
 SWS_SHIP_LAST_REFRESH_PATH="${DATA_DIR}/last-refresh.json" \
-SWS_SHIP_FAILED_SHARDS="${FAIL}" \
+SWS_SHIP_FAILED_SHARDS="$((FAIL + QUALITY_GATE_FAILED))" \
 SWS_SHIP_SCRAPE_SKIPPED="${SCRAPE_SKIPPED}" \
 SWS_SHIP_COMMIT_BODY="US SWS full refresh generated data. Seed/capped runs and shard failures are intentionally refused by scripts/sws-auto-ship.sh." \
 sws_auto_ship_market \
