@@ -11844,6 +11844,29 @@ function renderUSPickCard(s, sectionKey, rank) {
     </div>`;
 }
 
+function isMarketPickCardActivationTarget(target) {
+  return !target.closest("a,button,input,select,textarea,label,[data-watchlist-symbol]");
+}
+
+function handleMarketPickCardActivation(event) {
+  if (event.type === "keydown" && event.key !== "Enter" && event.key !== " ") return;
+  const target = event.target;
+  if (!target || !target.closest) return;
+  const card = target.closest(".stock-card.sws-pick-card[data-ticker]");
+  if (!card || !isMarketPickCardActivationTarget(target)) return;
+  const container = card.closest("#usPicksContainer,#krPicksContainer,#twPicksContainer");
+  if (!container) return;
+  const ticker = card.getAttribute("data-ticker");
+  if (!ticker) return;
+  event.preventDefault();
+  event.stopPropagation();
+  if (container.id === "usPicksContainer") openUSModal(ticker);
+  else openRegionModal(container.id.slice(0, 2), ticker);
+}
+
+document.addEventListener("click", handleMarketPickCardActivation, true);
+document.addEventListener("keydown", handleMarketPickCardActivation, true);
+
 function onUSPicksSectorChange(v) { usPicksSectorFilter = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
 function onUSPicksUniverseChange(v) { usPicksUniverse = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
 function onUSPicksSearchInput(v) {
