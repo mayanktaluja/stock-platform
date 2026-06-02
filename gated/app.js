@@ -6587,6 +6587,40 @@ function swsPeerSubstitutes(peer) {
   </div>`;
 }
 
+function swsExitPlanDetails(plan) {
+  if (!plan || !plan.schema_version) return "";
+  const support = plan.supportLevel ?? plan.supportReference?.value ?? plan.stopLoss;
+  const upside = plan.upsideBand ?? plan.upsideReference?.value ?? plan.target;
+  const trigger = plan.trigger || {};
+  const state = trigger.state || "CLEAR";
+  const stateColor = state === "REVIEW" ? "#fca5a5" : state === "WATCH" ? "#fde047" : "#93c5fd";
+  const caveats = Array.isArray(plan.caveats) ? plan.caveats.slice(0, 3) : [];
+  const reasons = Array.isArray(trigger.reasons) ? trigger.reasons.slice(0, 3) : [];
+  const trailing = plan.trailingStop;
+  const supportMeta = plan.supportReference?.source ? `${plan.supportReference.source} / ${plan.supportReference.confidence || "low"}` : "";
+  const upsideMeta = plan.upsideReference?.source ? `${plan.upsideReference.source} / ${plan.upsideReference.confidence || "low"}` : "";
+  return `<details data-exit-plan-detail style="margin-top:10px; padding:9px 10px; background:rgba(147,197,253,0.05); border:1px solid rgba(147,197,253,0.16); border-radius:5px; font-size:11px;">
+    <summary style="cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+      <div style="font-weight:800; color:#bfdbfe; letter-spacing:0.3px;">Technical levels ▾</div>
+      <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+        <span style="border:1px solid rgba(147,197,253,0.28); border-radius:999px; padding:2px 7px; color:#bfdbfe;">${swsEscapeAttr(plan.intentLabel || "Holding")}</span>
+        <span style="border:1px solid ${stateColor}; border-radius:999px; padding:2px 7px; color:${stateColor}; font-weight:800;">${swsEscapeAttr(state)}</span>
+      </div>
+    </summary>
+    <div style="margin-top:8px;">
+      <div style="font-size:10px; color:var(--text-muted); margin-top:3px;">analytical reference, not trade instructions</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(145px, 1fr)); gap:8px; margin-top:9px;">
+        <div><span style="color:var(--text-muted);">Support:</span> <strong>${support != null ? inr(support) : "—"}</strong>${supportMeta ? `<div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(supportMeta)}</div>` : ""}</div>
+        <div><span style="color:var(--text-muted);">Upside band:</span> <strong>${upside != null ? inr(upside) : "—"}</strong>${upsideMeta ? `<div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(upsideMeta)}</div>` : ""}</div>
+        <div><span style="color:var(--text-muted);">Profit-zone:</span> <strong style="color:${plan.profitZone?.inZone ? '#86efac' : 'var(--text)'};">${plan.profitZone?.inZone ? "Review" : "Clear"}</strong></div>
+        <div><span style="color:var(--text-muted);">Trailing:</span> <strong>${trailing ? (trailing.activated ? `Active ${trailing.currentLevel ? inr(trailing.currentLevel) : ""}` : `Above ${trailing.activationLevel ? inr(trailing.activationLevel) : "reference"}`) : "Not available"}</strong></div>
+      </div>
+      ${reasons.length ? `<div style="margin-top:8px; color:var(--text-muted); line-height:1.45;">${reasons.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div>` : ""}
+      ${caveats.length ? `<div style="margin-top:8px; color:#fde047; line-height:1.45;">${caveats.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div>` : ""}
+    </div>
+  </details>`;
+}
+
 // Audit-trail nested details — decision path + citations + version refs
 // for SEBI-RA compliance reproducibility. Collapsed by default.
 function swsAuditTrailDetails(audit) {
@@ -6641,6 +6675,7 @@ function swsReasonRow(h) {
       ${swsCatalystCalendar(sws.catalyst)}
       ${swsTopPeerChip(h)}
       ${swsPeerSubstitutes(sws.peer_substitute)}
+      ${swsExitPlanDetails(h.exitPlan)}
     </div>
     ${swsAuditTrailDetails(h.audit)}
   </details>`;
@@ -7457,6 +7492,68 @@ function renderSWSConstructionPlan(plan) {
   `;
 }
 
+function renderAnalyzerExitPlanSummary(summary) {
+  if (!summary || !summary.totalWithPlan) return "";
+  const rows = Array.isArray(summary.rows) ? summary.rows.slice(0, 6) : [];
+  const active = Number(summary.activeReviewCount) || 0;
+  const watch = Number(summary.watchCount) || 0;
+  const profitZone = Number(summary.profitZoneCount) || 0;
+  const highVol = Number(summary.highVolatilityCount) || 0;
+  const stat = (label, value, color) => `
+    <div style="min-width:120px; flex:1; background:rgba(255,255,255,0.03); border:1px solid #1f2937; border-radius:8px; padding:10px 12px;">
+      <div style="font-size:20px; font-weight:800; color:${color}; line-height:1;">${value}</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:5px;">${label}</div>
+    </div>`;
+  const rowHtml = rows.length === 0
+    ? `<div style="font-size:12px; color:var(--text-muted); padding-top:8px;">No active review rows from available support and upside references.</div>`
+    : rows.map((r) => {
+        const stateColor = r.state === "REVIEW" ? "#fca5a5" : r.state === "WATCH" ? "#fde047" : "#93c5fd";
+        return `<div data-exit-plan-summary-row style="display:grid; grid-template-columns:minmax(96px, 1fr) 84px 92px 92px minmax(160px, 1.6fr); gap:10px; align-items:center; padding:8px 0; border-top:1px solid #1a2238; font-size:12px;">
+          <div><strong>${swsEscapeAttr(r.symbol || "—")}</strong><div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(r.intentLabel || "")}</div></div>
+          <div style="color:${stateColor}; font-weight:800;">${swsEscapeAttr(r.state || "CLEAR")}</div>
+          <div class="tx-num" style="color:var(--text-muted);">${r.supportLevel != null ? inr(r.supportLevel) : "—"}</div>
+          <div class="tx-num" style="color:var(--text-muted);">${r.upsideBand != null ? inr(r.upsideBand) : "—"}</div>
+          <div style="color:var(--text-muted); line-height:1.4;">${swsEscapeAttr(r.reason || "")}</div>
+        </div>`;
+      }).join("");
+  const compactCounts = `
+    <span style="color:#fca5a5;">Review ${active}</span>
+    <span style="color:#fde047;">Watch ${watch}</span>
+    <span style="color:#86efac;">Profit-zone ${profitZone}</span>
+    <span style="color:#bfdbfe;">High-vol ${highVol}</span>`;
+  return `
+    <details class="analyzer-tier-details" data-exit-plan-summary style="margin-top: var(--space-200); margin-bottom:18px;">
+      <summary class="tx-title" style="cursor:pointer; padding:10px 0; border-bottom:1px solid var(--border); list-style:none;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+          <div>
+            <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Technical levels &amp; review triggers ${notAdviceChip("inline")}</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"} · analytical reference, not trade instructions</div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:11px; font-weight:700; text-align:right;">${compactCounts}</div>
+        </div>
+      </summary>
+      <div style="padding-top:var(--space-200); background:var(--panel); border:1px solid rgba(147,197,253,0.30); border-top:0; border-radius:0 0 10px 10px; padding:14px 18px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${swsEscapeAttr(summary.copy || "Technical levels are analytical references, not trade instructions.")}</div>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted);">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"}</div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+        ${stat("Review", active, active ? "#fca5a5" : "#93c5fd")}
+        ${stat("Watch", watch, watch ? "#fde047" : "#93c5fd")}
+        ${stat("Profit-zone", profitZone, profitZone ? "#86efac" : "#93c5fd")}
+        ${stat("High-volatility", highVol, highVol ? "#fca5a5" : "#93c5fd")}
+      </div>
+      <details style="margin-top:12px;">
+        <summary style="cursor:pointer; list-style:none; font-size:11px; color:var(--text-muted);">Priority technical rows (${rows.length})</summary>
+        <div style="margin-top:8px; overflow-x:auto;">${rowHtml}</div>
+      </details>
+      </div>
+    </details>
+  `;
+}
+
 function renderSWSAnalyzerReport(report, elapsedMs) {
   // Publish the per-ticker action map to window so the stock-detail
   // modal's ANALYZER STANCE pill (gated/earnings.js) can resolve a
@@ -7521,6 +7618,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
     ${renderSWSConstructionPlan(report.constructionPlan)}
+    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* PR A10 — Tier 1 hero trio above the Health ring. */ ""}
     ${renderAnalyzerHeroTrio(snap)}
@@ -7681,6 +7779,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
     ${renderSWSConstructionPlan(report.constructionPlan)}
+    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* PR A10 — Tier 1 hero. Invested / Today / Net P&L read first,
         Net P&L dominant + signed-coloured. Hoists ABOVE the engine hero
@@ -9135,20 +9234,22 @@ function renderHoldingCard(h, defaultOpen) {
   // the level numbers visible (useful for the investor's own analysis) but
   // frames them as market-structure observations, not commands.
   const exitSection = (ep.supportLevel || ep.stopLoss || ep.target || ep.upsideBand || ep.trailingStop)
-    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap;">
-          <div style="font-size:12px; font-weight:700; color:#93c5fd;">Technical levels</div>
-          <div style="font-size:10px; color:var(--text-muted); font-style:italic;">analytical reference — not trade instructions</div>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:12px;">
+    ? `<details style="margin:14px 0;">
+        <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:#111827; border-radius:6px; font-size:13px; font-weight:700; color:#93c5fd; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span>Technical levels ▾</span>
+          <span style="font-size:10px; color:var(--text-muted); font-style:italic; font-weight:400;">analytical reference — not trade instructions</span>
+        </summary>
+        <div style="padding:12px 14px; background:#111827; border-top:1px solid #1a2233; border-radius:0 0 6px 6px; margin-top:-2px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:12px;">
           ${(ep.supportLevel ?? ep.stopLoss) != null ? `<div><span style="color:var(--text-muted);">Support:</span> <strong>₹${ep.supportLevel ?? ep.stopLoss}</strong></div>` : ""}
           ${(ep.upsideBand ?? ep.target) != null ? `<div><span style="color:var(--text-muted);">Upside band:</span> <strong>₹${ep.upsideBand ?? ep.target}</strong></div>` : ""}
           ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trailing support:</span> ${ep.trailingStop.activated ? `<strong style="color:#86efac;">active @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
           ${(h.longTermReference ?? h.longTermTarget) ? `<div><span style="color:var(--text-muted);">52W high reference:</span> <strong>₹${h.longTermReference ?? h.longTermTarget}</strong></div>` : ""}
+          </div>
+          ${ep.slConfirmationRule ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">${ep.slConfirmationRule}</div>` : ""}
+          ${ep.rationale && ep.rationale.length ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">${ep.rationale.map((r) => "• " + r).join("<br>")}</div>` : ""}
         </div>
-        ${ep.slConfirmationRule ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">${ep.slConfirmationRule}</div>` : ""}
-        ${ep.rationale && ep.rationale.length ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">${ep.rationale.map((r) => "• " + r).join("<br>")}</div>` : ""}
-      </div>` : "";
+      </details>` : "";
 
   const outlookSection = h.outlook
     ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">

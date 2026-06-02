@@ -35,6 +35,15 @@ portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Portfolio Analyzer technical levels (June 2026)
+- **This PR** — Portfolio Analyzer now computes per-holding technical review
+  references through a shared exit-plan policy and aggregates them into a
+  collapsed-by-default "Technical levels & review triggers" section after
+  Today's funded plan. The UI keeps these levels as analytical references,
+  not trade instructions, and per-holding technical blocks are also collapsed
+  by default with explicit support, upside-band, profit-zone, trailing, reason,
+  and caveat detail when expanded.
+
 ### Market Intelligence macro regime card (June 2026)
 - **This PR** — Market Intelligence now surfaces the current macro regime inside
   the tab instead of resurrecting the removed global banner. The card reads the

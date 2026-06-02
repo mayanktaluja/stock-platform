@@ -29,6 +29,7 @@ import {
   PERFECT_FIT_FLOOR,
 } from "./swsSectorFit.js";
 import { attachDividendsToHoldings } from "./portfolio/portfolioDividendService.js";
+import { buildExitPlanSummary } from "./exitPlan/exitPlanPolicy.js";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -796,6 +797,7 @@ export function rebuildTierAggregates(report, scoredHoldings) {
     D: { ...prevTierD, rows: tiers.tierD },
   };
   report.holdingsByAction = holdingsByAction;
+  report.exitPlanSummary = buildExitPlanSummary(scoredHoldings);
   if (report.snapshot) report.snapshot.actionMix = actionMix;
 
   return report;
@@ -895,6 +897,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     const enriched = { ...h, freedRupees: freedByTicker.get(tk) ?? null };
     (holdingsByAction[h.action] ||= []).push(enriched);
   }
+  const exitPlanSummary = buildExitPlanSummary(scoredHoldings);
 
   return {
     engine: "sws",
@@ -908,6 +911,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
       D: { label: "Watch (catalyst-driven)", rows: tiers.tierD },
     },
     holdingsByAction,
+    exitPlanSummary,
     sectorOverlay,
     capitalContext: {
       freshCapitalInr: Number.isFinite(Number(freshCapitalInr)) ? Number(freshCapitalInr) : 0,

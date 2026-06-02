@@ -25,6 +25,7 @@
  */
 
 import { analyzeHolding, buildReport } from "../portfolioAnalyzer.js";
+import { containsForbiddenExitPlanCopy } from "../services/exitPlan/exitPlanPolicy.js";
 
 let pass = 0;
 let fail = 0;
@@ -213,6 +214,16 @@ console.log("\nanalyzeHolding — equity in profit (long-term)");
     "exitPlan.atrPct populated",
     eq.exitPlan && eq.exitPlan.atrPct === 1.5,
     eq.exitPlan && eq.exitPlan.atrPct,
+  );
+  assert(
+    "exitPlan carries analytical-reference label",
+    eq.exitPlan && /analytical reference/i.test(eq.exitPlan.displayLabel),
+    eq.exitPlan && eq.exitPlan.displayLabel,
+  );
+  assert(
+    "exitPlan has no imperative/hype copy",
+    eq.exitPlan && !containsForbiddenExitPlanCopy(eq.exitPlan),
+    eq.exitPlan,
   );
   // Tax note recognises >365 day holding → long-term
   assert(
@@ -565,6 +576,11 @@ console.log("\nbuildReport — two-holding aggregation");
     "benchmark forwarded from meta",
     report.benchmark === "^NSEI",
     report.benchmark,
+  );
+  assert(
+    "exitPlanSummary present even when synthetic holdings lack plans",
+    report.exitPlanSummary && report.exitPlanSummary.schema_version === "exit-plan-summary-v1",
+    report.exitPlanSummary,
   );
 }
 
