@@ -145,6 +145,28 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     await gotoApp(page);
     await expect(page.locator(".market-ticker")).toHaveAttribute("aria-hidden", "true");
     await expect(page.locator(".header-clock")).toHaveAttribute("aria-hidden", "true");
+    await expect(page.locator('.market-ticker[aria-hidden="true"] button')).toHaveCount(0);
+    await expect(page.locator(".market-ticker-shell .scroll-rail-btn-right")).toHaveCount(1);
+  });
+
+  test("desktop main tab rail exposes scroll buttons without breaking tab roving", async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await gotoApp(page);
+
+    const rail = page.locator("#mainTabs");
+    const right = page.locator('.main-tabs-rail [data-scroll-dir="right"]');
+    await expect(right).toBeVisible({ timeout: 5_000 });
+
+    const before = await rail.evaluate((el) => el.scrollLeft);
+    await right.click();
+    await expect.poll(() => rail.evaluate((el) => el.scrollLeft), {
+      message: "right rail button should scroll the tablist",
+    }).toBeGreaterThan(before);
+
+    await page.locator("#picksTabBtn").focus();
+    await page.keyboard.press("End");
+    await expect(page.locator("#trackTabBtn")).toBeFocused();
+    await expect(page.locator("#trackTab")).toBeVisible({ timeout: 10_000 });
   });
 
   test("section-chip class is rendered as <button> with hover affordance CSS", async ({ page }) => {

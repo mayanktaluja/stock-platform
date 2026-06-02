@@ -128,6 +128,26 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     expect(Object.keys(body.sections || {})).not.toContain("avoid");
   });
 
+  test("section chip rail exposes mouse scroll controls and preserves chip jumps", async ({ page }) => {
+    await page.setViewportSize({ width: 900, height: 800 });
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    const rail = page.locator("#picksContainer .sws-pick-chipnav-scroll");
+    const right = page.locator('#picksContainer .sws-pick-chipnav [data-scroll-dir="right"]');
+    await expect(right).toBeVisible({ timeout: 5_000 });
+    const before = await rail.evaluate((el) => el.scrollLeft);
+    await right.click();
+    await expect.poll(() => rail.evaluate((el) => el.scrollLeft), {
+      message: "right chip rail button should scroll the India section chips",
+    }).toBeGreaterThan(before);
+
+    const targetKey = await page.locator("#picksContainer .sws-pick-chip[data-section-key]").last().getAttribute("data-section-key");
+    test.skip(!targetKey, "no section chips rendered in this snapshot");
+    await page.locator(`#picksContainer .sws-pick-chip[data-section-key="${targetKey}"]`).click();
+    await expect(page.locator(`.sws-pick-section[data-section-key="${targetKey}"]`)).not.toHaveClass(/collapsed/);
+  });
+
   test("v1 → v2 localStorage migration runs at most once", async ({ page }) => {
     // Boot once to get a live same-origin context, then plant the legacy
     // single-radio v1 key and strip the v2 sentinel — exactly the on-disk

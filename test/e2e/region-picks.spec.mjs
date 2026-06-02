@@ -205,6 +205,17 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       await expect(hero).not.toHaveClass(/collapsed/);
     });
 
+    test("section chip rail has explicit scroll controls", async ({ page }) => {
+      await page.setViewportSize({ width: 900, height: 800 });
+      await openRegionTab(page);
+      const rail = page.locator(`#${dom}Container .sws-pick-chipnav-scroll`);
+      const right = page.locator(`#${dom}Container .sws-pick-chipnav [data-scroll-dir="right"]`);
+      await expect(right).toBeVisible({ timeout: 5_000 });
+      const before = await rail.evaluate((el) => el.scrollLeft);
+      await right.click();
+      await expect.poll(() => rail.evaluate((el) => el.scrollLeft)).toBeGreaterThan(before);
+    });
+
     test("search filter narrows then restores cards", async ({ page }) => {
       await openRegionTab(page);
       const before = await page.locator(`#${dom}Container .sws-pick-card`).count();
