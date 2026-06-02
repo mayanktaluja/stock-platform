@@ -280,6 +280,17 @@ test.describe("US Picks tab", () => {
     await expect(hero).toHaveClass(/collapsed/);
   });
 
+  test("section chip rail has explicit scroll controls", async ({ page }) => {
+    await page.setViewportSize({ width: 900, height: 800 });
+    await openUSPicks(page);
+    const rail = page.locator("#usPicksContainer .sws-pick-chipnav-scroll");
+    const right = page.locator('#usPicksContainer .sws-pick-chipnav [data-scroll-dir="right"]');
+    await expect(right).toBeVisible({ timeout: 5_000 });
+    const before = await rail.evaluate((el) => el.scrollLeft);
+    await right.click();
+    await expect.poll(() => rail.evaluate((el) => el.scrollLeft)).toBeGreaterThan(before);
+  });
+
   test("search filter narrows then restores cards", async ({ page }) => {
     await openUSPicks(page);
     const before = await page.locator("#usPicksContainer .sws-pick-card").count();

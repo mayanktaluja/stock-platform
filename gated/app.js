@@ -138,6 +138,97 @@ function wireMenu(trigger, dropdown, wrapper) {
   return { open, close };
 }
 
+const SCROLL_RAIL_EDGE_TOLERANCE = 3;
+
+function getRailShell(el) {
+  return el?.closest?.("[data-scroll-shell], .scroll-rail-shell") || null;
+}
+
+function refreshScrollRail(shellOrRail) {
+  const shell = getRailShell(shellOrRail) || shellOrRail;
+  if (!shell) return;
+  const rail = shell.matches?.("[data-scroll-rail]")
+    ? shell
+    : shell.querySelector?.("[data-scroll-rail]");
+  if (!rail) return;
+
+  const overflow = rail.scrollWidth - rail.clientWidth > SCROLL_RAIL_EDGE_TOLERANCE;
+  const atStart = rail.scrollLeft <= SCROLL_RAIL_EDGE_TOLERANCE;
+  const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - SCROLL_RAIL_EDGE_TOLERANCE;
+
+  shell.setAttribute("data-scroll-overflow", String(overflow));
+  shell.setAttribute("data-scroll-at-start", String(!overflow || atStart));
+  shell.setAttribute("data-scroll-at-end", String(!overflow || atEnd));
+  rail.setAttribute("data-scroll-overflow", String(overflow && !atEnd));
+
+  shell.querySelectorAll("[data-scroll-dir]").forEach((btn) => {
+    btn.hidden = !overflow;
+    const dir = btn.getAttribute("data-scroll-dir");
+    btn.disabled = dir === "left" ? atStart : atEnd;
+    btn.setAttribute("aria-hidden", String(!overflow));
+  });
+}
+
+function initScrollRail(shell) {
+  if (!shell || shell.__starbhaiScrollRailReady) return;
+  const rail = shell.querySelector("[data-scroll-rail]");
+  if (!rail) return;
+  shell.__starbhaiScrollRailReady = true;
+
+  const scheduleRefresh = () => requestAnimationFrame(() => refreshScrollRail(shell));
+  shell.querySelectorAll("[data-scroll-dir]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const dir = btn.getAttribute("data-scroll-dir") === "left" ? -1 : 1;
+      const amount = Math.max(80, rail.clientWidth * 0.7) * dir;
+      const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      rail.scrollBy({ left: amount, behavior: reduceMotion ? "auto" : "smooth" });
+      scheduleRefresh();
+    });
+  });
+
+  rail.addEventListener("scroll", scheduleRefresh, { passive: true });
+  window.addEventListener("resize", scheduleRefresh);
+  if ("ResizeObserver" in window) {
+    const ro = new ResizeObserver(scheduleRefresh);
+    ro.observe(rail);
+    ro.observe(shell);
+    shell.__starbhaiScrollRailResizeObserver = ro;
+  }
+  if ("MutationObserver" in window) {
+    const mo = new MutationObserver(scheduleRefresh);
+    mo.observe(rail, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      attributeFilter: ["class", "hidden", "style", "aria-selected"],
+    });
+    shell.__starbhaiScrollRailMutationObserver = mo;
+  }
+  scheduleRefresh();
+}
+
+function initScrollRails(root = document) {
+  const scope = root || document;
+  scope.querySelectorAll?.("[data-scroll-shell], .scroll-rail-shell").forEach(initScrollRail);
+}
+
+function refreshScrollRails(root = document) {
+  initScrollRails(root);
+  const scope = root || document;
+  scope.querySelectorAll?.("[data-scroll-shell], .scroll-rail-shell").forEach(refreshScrollRail);
+}
+
+function keepRailItemVisible(item) {
+  if (!item) return;
+  const rail = item.closest?.("[data-scroll-rail]");
+  if (!rail) return;
+  const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  item.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+  requestAnimationFrame(() => refreshScrollRail(rail));
+}
+
+window.refreshScrollRails = refreshScrollRails;
+
 const auth = {
   async init() {
     const menu = document.getElementById("userMenu");
@@ -168,6 +259,7 @@ const auth = {
 
     const usersTabBtn = document.getElementById("usersTabBtn");
     if (usersTabBtn) usersTabBtn.hidden = !window.__starbhai_isAdmin;
+    refreshScrollRails();
 
     // Deep-link recovery: boot ran before this async auth resolved, so a
     // guarded deep-link (#tab=users) may have been deferred to picks. Enter it
@@ -251,6 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (tab) window.switchTab(tab);
     });
   });
+  initScrollRails();
   // Sync aria-current on bottom-nav buttons whenever the tab changes
   // (driven by switchTab via the telemetry emit at the dispatch wrapper).
   document.addEventListener("DOMContentLoaded", () => {
@@ -2548,8 +2641,10 @@ async function switchTab(tab) {
   if (activeBtn) {
     activeBtn.classList.add("active");
     activeBtn.setAttribute("aria-selected", "true");
+    keepRailItemVisible(activeBtn);
   }
   syncLabsActive(tab);
+  refreshScrollRails();
 
   const el = document.getElementById(config.elId);
   if (el) el.style.display = "block";
@@ -10921,6 +11016,7 @@ function jumpToPicksSection(sectionKey) {
   }
   section.scrollIntoView({ behavior: "smooth", block: "start" });
   syncPicksChipActiveStates();
+  keepRailItemVisible(document.querySelector(`.sws-pick-chip[data-section-key="${sectionKey}"]`));
 }
 
 // UI/UX overhaul 2026-05-19 — modal section-chip handler. Used by the
@@ -11000,7 +11096,11 @@ function renderPicksChipNav(visibleSections, collapsedState) {
   }).join("");
   return `
     <div class="sws-pick-chipnav" role="navigation" aria-label="Jump to section">
-      <div class="sws-pick-chipnav-scroll">${chips}</div>
+      <div class="scroll-rail-shell sws-pick-chipnav-rail" data-scroll-shell>
+        <button type="button" class="scroll-rail-btn scroll-rail-btn-left" data-scroll-dir="left" aria-label="Scroll section chips left" hidden>&lsaquo;</button>
+        <div class="sws-pick-chipnav-scroll" data-scroll-rail>${chips}</div>
+        <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll section chips right" hidden>&rsaquo;</button>
+      </div>
       <div class="sws-pick-chipnav-actions">
         <button type="button" class="sws-pick-chip-action" onclick="setAllPicksCollapsed(false)" title="Expand up to ${PICKS_EXPANDED_CAP} sections">Expand all</button>
         <button type="button" class="sws-pick-chip-action" onclick="setAllPicksCollapsed(true)" title="Collapse every section">Collapse all</button>
@@ -11149,6 +11249,7 @@ function renderPicks(data) {
   }).join("");
 
   containerEl.innerHTML = statusHtml + chipNav + sectionsHtml;
+  refreshScrollRails(containerEl);
   hydratePicksChunkSentinels(containerEl);
 }
 
@@ -11618,6 +11719,7 @@ function jumpToTabSection(containerId, lsKey, sectionKey) {
   }
   section.scrollIntoView({ behavior: "smooth", block: "start" });
   syncTabChipActiveStates(containerId);
+  keepRailItemVisible(document.querySelector(`#${containerId} .sws-pick-chip[data-section-key="${sectionKey}"]`));
 }
 // chip-nav + Expand-all/Collapse-all bar. `sections` carries a precomputed
 // `collapsed` flag; opts gives the inline onclick strings for this tab.
@@ -11628,7 +11730,11 @@ function renderTabChipNav(sections, opts) {
   }).join("");
   return `
     <div class="sws-pick-chipnav" role="navigation" aria-label="Jump to section">
-      <div class="sws-pick-chipnav-scroll">${chips}</div>
+      <div class="scroll-rail-shell sws-pick-chipnav-rail" data-scroll-shell>
+        <button type="button" class="scroll-rail-btn scroll-rail-btn-left" data-scroll-dir="left" aria-label="Scroll section chips left" hidden>&lsaquo;</button>
+        <div class="sws-pick-chipnav-scroll" data-scroll-rail>${chips}</div>
+        <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll section chips right" hidden>&rsaquo;</button>
+      </div>
       <div class="sws-pick-chipnav-actions">
         <button type="button" class="sws-pick-chip-action" onclick="${opts.expandAllOnclick}" title="Expand up to ${PICKS_COLLAPSE_EXPAND_CAP} sections">Expand all</button>
         <button type="button" class="sws-pick-chip-action" onclick="${opts.collapseAllOnclick}" title="Collapse every section">Collapse all</button>
@@ -11683,6 +11789,7 @@ function renderUSPicks(data) {
       collapseAllOnclick: "setAllUSPicksCollapsed(true)",
     });
     container.innerHTML = chipNav + html;
+    refreshScrollRails(container);
   }
   const summary = document.getElementById("usPicksFilterSummary");
   if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
@@ -11820,6 +11927,7 @@ async function openUSModal(ticker) {
     const data = await res.json();
     if (usModalTicker !== ticker) return;
     body.innerHTML = renderUSModal(data);
+    refreshScrollRails(body);
   } catch (e) {
     body.innerHTML = `<div style="padding:24px;color:var(--red);">Failed: ${escapeHtml(String((e && e.message) || e))}</div>`;
   }
@@ -11973,6 +12081,7 @@ function renderRegionPicks(code) {
       collapseAllOnclick: `setAllRegionPicksCollapsed('${code}',true)`,
     });
     container.innerHTML = chipNav + html;
+    refreshScrollRails(container);
   }
   const summary = document.getElementById(dom + "FilterSummary");
   if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
@@ -12117,6 +12226,7 @@ async function openRegionModal(code, ticker) {
     const data = await res.json();
     if (_rp(code).modalTicker !== ticker) return;
     body.innerHTML = renderRegionModal(code, data);
+    refreshScrollRails(body);
   } catch (e) {
     body.innerHTML = `<div style="padding:24px;color:var(--red);">Failed: ${escapeHtml(String((e && e.message) || e))}</div>`;
   }
@@ -12274,6 +12384,7 @@ async function openSwsModal(ticker) {
     const data = await res.json();
     if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker since
     body.innerHTML = renderSwsModal(data);
+    refreshScrollRails(body);
     // PR T6 — inject the per-stock "we said X N days ago" strip at the top
     // of the modal body. Fire-and-forget: silent absent strip when there
     // are no paper-trade snapshots for the symbol.
@@ -13119,7 +13230,11 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     return `
       <div class="sws-modal-sections-banner" role="note" aria-label="Picks-section membership">
         <span class="label">In sections:</span>
-        <span class="sws-modal-section-chips">${chips}</span>
+        <span class="scroll-rail-shell sws-modal-section-rail" data-scroll-shell>
+          <button type="button" class="scroll-rail-btn scroll-rail-btn-left" data-scroll-dir="left" aria-label="Scroll modal section chips left" hidden>&lsaquo;</button>
+          <span class="sws-modal-section-chips" data-scroll-rail>${chips}</span>
+          <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll modal section chips right" hidden>&rsaquo;</button>
+        </span>
       </div>`;
   })();
   const eventWarningHtml = (() => {
@@ -13313,6 +13428,7 @@ async function openStockDetailModal(symbolOrTicker, sourceTab) {
     // SWS-rich path: identical to India Market UX. renderSwsModal paints the
     // full hero/snowflake/valuation/rewards-risks/news view.
     body.innerHTML = renderSwsModal(swsData);
+    refreshScrollRails(body);
   } else {
     // Live-only path: /api/sws-stock 404'd. Render from /api/stock alone.
     body.innerHTML = renderLiveOnlySkeleton(ticker, sourceTab);

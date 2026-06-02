@@ -82,7 +82,7 @@ async function mockThinSwsStock(page, dataQuality, overrides = {}) {
         },
         surveillance: null,
         file_mtime: "2026-05-26T00:00:00.000Z",
-        section_memberships: ["top_ranked_30_v3"],
+        section_memberships: overrides.section_memberships || ["top_ranked_30_v3"],
         fundamentals_fallback: null,
       }),
     }),
@@ -172,6 +172,34 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(warning).toContainText("2 of 30 SWS checks");
     await expect(warning).toContainText("Future, Value");
     await expect(warning).toContainText("Revenue vs Market");
+  });
+
+  test("section membership chips in the stock modal expose scroll controls", async ({ page }) => {
+    await mockThinSwsStock(page, undefined, {
+      section_memberships: [
+        "top_ranked_30_v3",
+        "best_to_buy_now",
+        "deep_value",
+        "quality_growth",
+        "best_fundamentals",
+        "midterm",
+        "dividend_aristocrats",
+        "smallcap_gems",
+        "upcoming_earnings",
+      ],
+    });
+    await page.setViewportSize({ width: 390, height: 812 });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("THINTEST"));
+
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    const rail = body.locator(".sws-modal-section-chips");
+    const right = body.locator('.sws-modal-section-rail [data-scroll-dir="right"]');
+    await expect(right).toBeVisible({ timeout: 5_000 });
+    const before = await rail.evaluate((el) => el.scrollLeft);
+    await right.click();
+    await expect.poll(() => rail.evaluate((el) => el.scrollLeft)).toBeGreaterThan(before);
   });
 
   test("does not render Snowflake warning for old deep files or non-insufficient metadata", async ({ page }) => {

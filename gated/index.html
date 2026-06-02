@@ -2565,6 +2565,77 @@
     }
     #mainTabs[data-scroll-overflow="true"]::after { opacity: 0.7; }
 
+    .scroll-rail-shell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .scroll-rail-shell > [data-scroll-rail] {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .scroll-rail-btn {
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-200);
+      background: rgba(255,255,255,0.035);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background var(--dur-quick) var(--ease-standard),
+                  border-color var(--dur-quick) var(--ease-standard),
+                  color var(--dur-quick) var(--ease-standard),
+                  opacity var(--dur-quick) var(--ease-standard);
+    }
+    .scroll-rail-btn:hover:not(:disabled) {
+      background: var(--yellow-bg);
+      border-color: rgba(224,176,96,0.35);
+      color: var(--gold);
+    }
+    .scroll-rail-btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    .scroll-rail-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+    .scroll-rail-btn[hidden],
+    .scroll-rail-shell[data-scroll-overflow="false"] > .scroll-rail-btn {
+      display: none !important;
+    }
+    .main-tabs-rail {
+      width: 100%;
+    }
+    .main-tabs-rail .tabs {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .market-ticker-shell {
+      border-bottom: 1px solid var(--border);
+      padding: 0 18px;
+      background: transparent;
+    }
+    .market-ticker-shell .market-ticker {
+      border-bottom: 0;
+      padding: 0;
+    }
+    .market-ticker-shell .scroll-rail-btn {
+      width: 28px;
+      height: 28px;
+      flex-basis: 28px;
+      font-size: 18px;
+    }
+
     /* Mobile bottom nav (shown ≤720px). 5 tabs sit fixed at the bottom of
        the viewport so the user doesn't have to scroll up to navigate.
        Buttons are ≥44×44px to meet the WCAG 2.5.5 hit-target rule. */
@@ -2618,6 +2689,11 @@
       /* Push page content above the bottom nav so the last row isn't
          covered. 64px = approx nav height. */
       body { padding-bottom: 64px; }
+      .scroll-rail-btn {
+        width: 44px;
+        height: 44px;
+        flex-basis: 44px;
+      }
     }
 
     /* Minimum hit-target sizes on small viewports. WCAG 2.5.5 wants
@@ -2999,6 +3075,7 @@
       flex-wrap: wrap;
     }
     .sws-modal-sections-banner .label {
+      flex: 0 0 auto;
       font-size: 10px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -3048,8 +3125,16 @@
     }
     .sws-modal-section-chips {
       display: inline-flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sws-modal-section-chips::-webkit-scrollbar { display: none; }
+    .sws-modal-section-rail {
+      flex: 1 1 280px;
+      min-width: 0;
     }
     .sws-modal-section-chip {
       display: inline-block;
@@ -3061,6 +3146,7 @@
       color: var(--info-text-soft);
       border: 1px solid rgba(96,165,250,0.35);
       white-space: nowrap;
+      flex: 0 0 auto;
     }
     /* UI/UX overhaul 2026-05-19: when rendered as a <button>, give the chip
      * a real "I am clickable" affordance. Hover lifts the bg, focus draws
@@ -3381,9 +3467,14 @@
       scrollbar-width: thin;
       flex: 1;
       padding-bottom: 2px;
+      -webkit-overflow-scrolling: touch;
     }
     .sws-pick-chipnav-scroll::-webkit-scrollbar { height: 4px; }
     .sws-pick-chipnav-scroll::-webkit-scrollbar-thumb { background: var(--border-graphite); border-radius: 2px; }
+    .sws-pick-chipnav-rail {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
     .sws-pick-chip {
       display: inline-flex;
       align-items: center;
@@ -3444,6 +3535,7 @@
     }
     @media (max-width: 720px) {
       .sws-pick-chipnav { flex-direction: column; align-items: stretch; gap: 8px; }
+      .sws-pick-chipnav-rail { width: 100%; }
       .sws-pick-chipnav-actions { justify-content: flex-end; }
     }
     /* Header collapses to 48px at ≤480px (see the mobile header block above),
@@ -4167,10 +4259,14 @@
   <!-- Market Ticker — aria-hidden because it scrolls + updates too rapidly
        for screen readers; a separate polite announcer (added in Phase 2) can
        emit only on real movement, not on every refresh. -->
-  <div class="market-ticker" aria-hidden="true">
-    <div class="ticker-inner" id="marketTicker">
-      <div style="color: var(--text-muted); font-size: 12px; padding: 0;">Loading indices...</div>
+  <div class="market-ticker-shell scroll-rail-shell" data-scroll-shell>
+    <button type="button" class="scroll-rail-btn scroll-rail-btn-left" data-scroll-dir="left" aria-label="Scroll market ticker left" hidden>&lsaquo;</button>
+    <div class="market-ticker" id="marketTickerRail" aria-hidden="true" data-scroll-rail>
+      <div class="ticker-inner" id="marketTicker">
+        <div style="color: var(--text-muted); font-size: 12px; padding: 0;">Loading indices...</div>
+      </div>
     </div>
+    <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll market ticker right" hidden>&rsaquo;</button>
   </div>
 
   <!-- Main Content. UI/UX overhaul 2026-05-19: <div id="main"> → <main id="main">
@@ -4201,7 +4297,9 @@
          every [role=tab] now has an id + aria-controls pointing to its
          tab-content panel, every panel has role=tabpanel + aria-labelledby.
          Keyboard ←/→ roving is wired in keyboard.js. -->
-    <div class="tabs" id="mainTabs" role="tablist" aria-label="Platform sections" style="margin-bottom:0;">
+    <div class="main-tabs-rail scroll-rail-shell" data-scroll-shell>
+      <button type="button" class="scroll-rail-btn scroll-rail-btn-left" data-scroll-dir="left" aria-label="Scroll platform tabs left" hidden>&lsaquo;</button>
+      <div class="tabs" id="mainTabs" role="tablist" aria-label="Platform sections" style="margin-bottom:0;" data-scroll-rail>
       <button class="tab active" id="picksTabBtn" role="tab" aria-selected="true" aria-controls="picksTab" onclick="switchTab('picks')">India Market</button>
       <button class="tab" id="newsTabBtn" role="tab" aria-selected="false" aria-controls="newsTab" onclick="switchTab('news')">Market Intelligence</button>
       <button class="tab" id="analyzerTabBtn" role="tab" aria-selected="false" aria-controls="analyzerTab" onclick="switchTab('analyzer')">Portfolio Analyzer</button>
@@ -4223,6 +4321,8 @@
       <!-- Sector Outlook (experimental) — bottom-up SWS news theme aggregation × current macro regime. Sector-level only; no named stock recommendations in v1. Hidden when localStorage.sectorOutlookEnabled_v1 === "false". -->
       <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#a78bfa; box-shadow:0 0 0 2px rgba(167,139,250,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Sector Outlook<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#a78bfa; background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
       <button class="tab" id="trackTabBtn" role="tab" aria-selected="false" aria-controls="trackTab" onclick="switchTab('track')">Track Record</button>
+      </div>
+      <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll platform tabs right" hidden>&rsaquo;</button>
     </div>
 
     <!-- 5x Lab Tab — multibagger strategy targeting ₹1L → ₹5L net in 12m. Read-only paper book; user executes via broker. -->
