@@ -12495,6 +12495,28 @@ function normaliseModalReturns(data, ov, card) {
   return out;
 }
 
+function modalFreshSwsReturnBuckets(ov, card, deepParsedAt) {
+  const out = {};
+  const setFromBucket = (bucket) => {
+    if (!bucket || typeof bucket !== "object") return;
+    for (const key of MODAL_RETURN_KEYS) {
+      if (out[key] != null) continue;
+      const v = Number(bucket[key]);
+      if (Number.isFinite(v)) out[key] = v;
+    }
+  };
+  if (isFreshSwsTimestamp(card && card.data_freshness_at, 48)) setFromBucket(card && card.returns_pct);
+  if (isFreshSwsTimestamp(deepParsedAt, 48)) setFromBucket(ov && ov.returns_pct);
+  return out;
+}
+
+function isFreshSwsTimestamp(ts, maxHours = 48) {
+  if (!ts) return false;
+  const ageMs = Date.now() - new Date(ts).getTime();
+  if (!Number.isFinite(ageMs) || ageMs < 0) return false;
+  return ageMs < maxHours * 3600000;
+}
+
 // Region-parametrised modal core. India → renderSwsModal wrapper (INDIA_MODAL_OPTS,
 // byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
 // watchlist suffix, section-nav handler). Single source of truth so every market's
@@ -12582,6 +12604,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
   const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality);
+  const swsReturnBuckets = modalFreshSwsReturnBuckets(ov, card_, deep && deep.parsed_at);
 
   // Score breakdown bars — show v4 when available (pillars/FV/momentum/safety
   // split), v2 otherwise (thin coverage).
@@ -13009,6 +13032,26 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
         <span class="sws-modal-section-chips">${chips}</span>
       </div>`;
   })();
+  const eventWarningHtml = (() => {
+    const oneDay = Number(swsReturnBuckets["1D"]);
+    const sevenDay = Number(swsReturnBuckets["7D"]);
+    const oneMonth = Number(swsReturnBuckets["1M"]);
+    const reasons = [];
+    if (Number.isFinite(oneDay) && oneDay <= -12) {
+      reasons.push(`1D move ${fmtPct(oneDay, 1)}`);
+    }
+    if (Number.isFinite(sevenDay) && Number.isFinite(oneMonth) && sevenDay <= -20 && oneMonth <= -20) {
+      reasons.push(`7D ${fmtPct(sevenDay, 1)} and 1M ${fmtPct(oneMonth, 1)}`);
+    }
+    if (!reasons.length) return "";
+    return `
+      <div class="sws-modal-event-warning" data-testid="sws-modal-event-warning" role="alert">
+        <div class="event-warning-title">Fresh price shock</div>
+        <div class="event-warning-copy">
+          Severe recent selling (${escapeHtml(reasons.join(" · "))}). Fundamentals and V4 score are unchanged, but buying today has elevated price-discovery risk; consider waiting for confirmation before adding.
+        </div>
+      </div>`;
+  })();
 
   return `
     <div class="sws-modal-hero">
@@ -13035,6 +13078,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     </div>
 
     ${sectionsBannerHtml}
+    ${eventWarningHtml}
     ${dataQualityBannerHtml}
 
     ${barsHtml ? `
