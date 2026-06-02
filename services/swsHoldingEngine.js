@@ -31,6 +31,7 @@ import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
 import { promoteToLadderV2, parseTrimPct, parseTopUpPct } from "./actionLadder.js";
+import { buildExitPlan } from "./exitPlan/exitPlanPolicy.js";
 import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
 import { gateActionByTier, getLiquidityTier } from "./swsTierGate.js";
 
@@ -683,6 +684,36 @@ export function scoreHolding(holding, portfolioContext = {}) {
     finalReasons = [`SWS data ${dataAgeHours}h old — verify before acting.`, ...finalReasons];
   }
 
+  const exitPlan = buildExitPlan({
+    action: promotedAction,
+    legacyAction,
+    actionUrgency: promotedAction === "EXIT" || String(promotedAction).startsWith("EXIT")
+      ? "high"
+      : trimFrac > 0
+        ? "medium"
+        : "none",
+    trimRupees,
+    topUpRupees,
+    ladderRationale,
+    reasons: finalReasons,
+    currentPrice: _currentPrice || ov.current_price_inr,
+    current_price_inr: ov.current_price_inr,
+    avgPrice: holding.avgPrice,
+    quantity: holding.quantity,
+    positionWeight: position_weight,
+    sectorWeight: sector_weight,
+    pnlPercent: holding.pnlPercent,
+    purchaseDate: holding.purchaseDate,
+    nextEarningsDate: ov.next_earnings_date,
+    fairValueInr: reconciled.fair_value_inr,
+    fairValueConfidence: reconciled.confidence,
+    upsidePct: reconciled.upside_pct,
+    marketCapInr: ov.market_cap_inr,
+    risks: ov.risks || scored.overview?.risks || [],
+    snowflakeTotal: snow.total,
+    fundamentalVerdict: scored.verdict,
+  });
+
   return {
     ...holding,
     swsCovered: true,
@@ -759,6 +790,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     // rupee impact at a glance, no clicking required.
     trimRupees,
     topUpRupees,
+    exitPlan,
     staleData,
     reasons: finalReasons,
     timing,

@@ -35,6 +35,7 @@ import { runXirrOptimizer } from "./xirrOptimizer.js";
 import { recommendBook as recommendMfBook } from "./mfRecommendation.js";
 import { getGovernance } from "./governance.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
+import { buildExitPlan as buildSharedExitPlan, buildExitPlanSummary } from "./services/exitPlan/exitPlanPolicy.js";
 
 // ──────────────────── Sector canonicalisation ────────────────────
 //
@@ -214,78 +215,26 @@ function buildOutlook({ analysis, midTerm, fundamentals, longTerm, macroDelta })
 // ──────────────────── Exit plan ────────────────────
 
 function buildExitPlan({ midTerm, longTerm, quote, analysis, avgPrice }) {
-  const plan = {
-    stopLoss: null,
-    slConfirmationRule: null,
-    target: null,
-    trailingStop: null,
-    atrPct: null,
-    rationale: [],
-  };
+  if (!quote?.regularMarketPrice) return null;
 
-  if (!quote?.regularMarketPrice) return plan;
+  const structuralSupport = longTerm?.stopLoss && (!midTerm?.stopLoss || longTerm.stopLoss > midTerm.stopLoss)
+    ? longTerm.stopLoss
+    : midTerm?.stopLoss;
+  const plan = buildSharedExitPlan({
+    midTerm,
+    supportLevel: structuralSupport,
+    upsideBand: midTerm?.target ?? longTerm?.target,
+    currentPrice: quote.regularMarketPrice,
+    avgPrice,
+    atrPct: midTerm?.volatilityPct,
+    trailingStop: midTerm?.trailingStop,
+    reasons: analysis?.signals || [],
+  });
 
-  // SL + target from the mid-term engine (ATR-based). We present these as
-  // TECHNICAL LEVELS, not trade instructions — the investor decides whether
-  // to act on them. SEBI's 2023 investor education circulars specifically
-  // frame stop-loss / target levels as analytical reference points, not
-  // recommendations.
-  if (midTerm?.stopLoss != null) {
-    plan.supportLevel = midTerm.stopLoss;
-    plan.stopLoss = midTerm.stopLoss; // kept for backward compat
-    plan.slConfirmationRule = "Technical rule-of-thumb: 2 consecutive daily closes below this level is a more reliable break than a wick-below.";
-    plan.rationale.push(`ATR-derived support level: ₹${midTerm.stopLoss} (3× ATR below current price).`);
-  }
-  if (midTerm?.target != null) {
-    plan.upsideBand = midTerm.target;
-    plan.target = midTerm.target; // kept for backward compat
-    plan.rationale.push(`ATR-derived upside band: ₹${midTerm.target} (7× ATR above current price).`);
-  }
-  if (midTerm?.volatilityPct != null) plan.atrPct = midTerm.volatilityPct;
-
-  if (midTerm?.trailingStop) {
-    plan.trailingStop = {
-      activated: midTerm.trailingStop.activated ?? false,
-      activationLevel: midTerm.trailingStop.activationThreshold ?? null,
-      currentLevel: midTerm.trailingStop.currentLevel ?? null,
-      rule: midTerm.trailingStop.rule,
-    };
-    if (midTerm.trailingStop.activated) {
-      plan.rationale.push(`Trailing support active at ₹${midTerm.trailingStop.currentLevel} — tracks the price up from the activation level.`);
-    } else if (midTerm.trailingStop.activationThreshold) {
-      plan.rationale.push(`Trailing support engages when price closes above ₹${midTerm.trailingStop.activationThreshold} (entry + 2× ATR).`);
-    }
-  }
-
-  // Long-term structural support if we have it (tighter of ATR and structural)
-  if (longTerm?.stopLoss && (!plan.supportLevel || longTerm.stopLoss > plan.supportLevel)) {
-    plan.rationale.push(`Structural support: ₹${longTerm.stopLoss} (max of 200-DMA / 52W low / −20% floor).`);
-    plan.supportLevel = longTerm.stopLoss;
-    plan.stopLoss = longTerm.stopLoss;
-  }
-
-  // Long-term REFERENCE price — not a valuation, just a price anchor.
-  // "52-week high reversion" is a heuristic, not a valuation model.
   if (longTerm?.target) {
     plan.longTermReference = longTerm.target;
-    plan.longTermTarget = longTerm.target; // kept for backward compat
-    const label =
-      /52.week high/i.test(longTerm.valuationBasis || "")
-        ? "52-week high reference"
-        : "long-term reference";
-    plan.rationale.push(`Long-term ${label}: ₹${longTerm.target}.`);
+    plan.longTermTarget = longTerm.target;
   }
-
-  // Cost-basis context: is support above or below entry price?
-  if (plan.supportLevel && avgPrice) {
-    if (plan.supportLevel < avgPrice) {
-      plan.rationale.push(`Support level is below avg buy price of ₹${avgPrice} — a break would imply ${(((plan.supportLevel - avgPrice) / avgPrice) * 100).toFixed(1)}% unrealised loss.`);
-    } else {
-      plan.rationale.push(`Support level is above avg buy price of ₹${avgPrice} — position has rallied enough that the support zone is above cost.`);
-    }
-  }
-
-  plan.displayLabel = "Technical levels (analytical — not trade instructions)";
   return plan;
 }
 
@@ -1210,6 +1159,7 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
   // weights. Delta is in ₹ as well as percentage so the user can
   // directly size any rebalance they choose to make.
   const rebalanceTargets = computeTargetWeights(enrichedHoldings);
+  const exitPlanSummary = buildExitPlanSummary(sorted);
 
   // Strip the internal `_stockReturns` from per-holding objects so the
   // wire payload stays small (returns ×20 holdings × 120 days = ~2400
@@ -1258,6 +1208,7 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
     portfolioLevelActions: portfolioActions,
     topWinners: topWinners.map(stripInternal),
     topLosers: topLosers.map(stripInternal),
+    exitPlanSummary,
     holdings: sorted.map(stripInternal),
     unmatched,
     warnings: meta?.warnings ?? [],
