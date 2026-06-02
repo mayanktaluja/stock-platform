@@ -17,6 +17,28 @@ let watchlist = new Set(); // symbol set for quick lookup
 // so the "More" menu, deep-link recovery, and popstate dedupe have a reliable signal.
 let _activeTab = "picks";
 
+const MARKET_POLL_OPEN_MS = 5 * 60 * 1000;
+const MARKET_POLL_CLOSED_MS = 30 * 60 * 1000;
+const MARKET_RESTORE_STALE_MS = 60 * 1000;
+const SCAN_STATUS_FAST_POLL_MS = 30 * 1000;
+const SCAN_STATUS_IDLE_POLL_MS = 5 * 60 * 1000;
+
+function isPageVisible() {
+  return !document.hidden && document.visibilityState !== "hidden";
+}
+
+function getActiveTabId() {
+  return window.__activeTab || _activeTab || "picks";
+}
+
+function isActiveVisibleTab(tab) {
+  return isPageVisible() && getActiveTabId() === tab;
+}
+
+function isScanStatusHot(s) {
+  return !!(s && (s.in_progress || (s.panic_stop && s.panic_stop.active)));
+}
+
 // DOM Elements
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
@@ -196,10 +218,9 @@ document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
   // Ticker lives in the persistent header above the tabs, so it must load
-  // independently of whichever tab the user lands on. Server caches /api/market
-  // for 30s; a 60s refresh keeps the indices fresh without hammering upstreams.
-  loadMarketData();
-  setInterval(loadMarketData, 60 * 1000);
+  // independently of whichever tab the user lands on. The scheduler below
+  // pauses while hidden and backs off when NSE is closed or status is unknown.
+  startMarketDataPolling();
   // PR W3 — hydrate the in-memory `watchlist` Set before the first
   // openSwsModal renders, so the modal star paints with the correct
   // aria-pressed even when the user hasn't visited the Watchlist tab.
@@ -968,6 +989,52 @@ function updateClock() {
 
 // ==================== MARKET DATA ====================
 
+let marketDataPollTimer = null;
+let marketDataLastFetchAt = 0;
+let marketDataNextDelayMs = MARKET_POLL_CLOSED_MS;
+let marketDataInFlight = false;
+
+function clearMarketDataPollTimer() {
+  if (marketDataPollTimer) {
+    clearTimeout(marketDataPollTimer);
+    marketDataPollTimer = null;
+  }
+}
+
+function scheduleMarketDataPoll(forceNow) {
+  clearMarketDataPollTimer();
+  if (!isPageVisible()) return;
+
+  const now = Date.now();
+  const elapsed = marketDataLastFetchAt ? now - marketDataLastFetchAt : Infinity;
+  const delay = forceNow || elapsed >= marketDataNextDelayMs
+    ? 0
+    : Math.max(0, marketDataNextDelayMs - elapsed);
+
+  marketDataPollTimer = setTimeout(runMarketDataPoll, delay);
+}
+
+async function runMarketDataPoll() {
+  clearMarketDataPollTimer();
+  if (!isPageVisible() || marketDataInFlight) return;
+
+  marketDataInFlight = true;
+  marketDataLastFetchAt = Date.now();
+  try {
+    const data = await loadMarketData();
+    marketDataNextDelayMs = data && data.marketStatus === "OPEN"
+      ? MARKET_POLL_OPEN_MS
+      : MARKET_POLL_CLOSED_MS;
+  } finally {
+    marketDataInFlight = false;
+    scheduleMarketDataPoll(false);
+  }
+}
+
+function startMarketDataPolling() {
+  scheduleMarketDataPoll(true);
+}
+
 async function loadMarketData() {
   try {
     const res = await fetch("/api/market");
@@ -1017,8 +1084,10 @@ async function loadMarketData() {
         })
         .join("");
     }
+    return data;
   } catch (err) {
     console.error("Failed to load market data:", err);
+    return null;
   }
 }
 
@@ -2505,6 +2574,7 @@ async function switchTab(tab) {
     // log to console so the user can pull it from devtools if needed.
     console.warn(`[switchTab] ${tab} loader threw:`, e);
   }
+  syncScanStatusPollers();
 }
 
 // ==================== LEGACY "MORE" MENU ====================
@@ -10350,6 +10420,7 @@ const PICKS_OFF_SECTION_DEF = {
 };
 
 let picksStatusPollTimer = null;
+let picksStatusPollStarted = false;
 
 // Cached payload from /api/sws-picks so the radio filter can re-render
 // without re-fetching. Set on every successful loadPicks().
@@ -11287,6 +11358,7 @@ let usPicksSectorFilter = "all";
 let usPicksUniverse = "all";
 let usPicksSearchTerm = "";
 let usPicksStatusPollTimer = null;
+let usPicksStatusPollStarted = false;
 let usModalTicker = null;
 
 // Currency-aware compact money formatter. The symbol comes from the row's
@@ -11590,27 +11662,56 @@ function onUSPicksSearchClear() {
   if (currentUSPicksData) renderUSPicks(currentUSPicksData);
 }
 
-async function pollUSScanStatus() {
-  if (usPicksStatusPollTimer) clearInterval(usPicksStatusPollTimer);
+function clearUSScanStatusTimer() {
+  if (usPicksStatusPollTimer) {
+    clearTimeout(usPicksStatusPollTimer);
+    usPicksStatusPollTimer = null;
+  }
+}
+
+function scheduleUSScanStatusPoll(delayMs) {
+  clearUSScanStatusTimer();
+  if (!usPicksStatusPollStarted || !isActiveVisibleTab("usPicks")) return;
+  usPicksStatusPollTimer = setTimeout(tickUSScanStatus, Math.max(0, delayMs || 0));
+}
+
+async function tickUSScanStatus() {
+  if (!isActiveVisibleTab("usPicks")) {
+    clearUSScanStatusTimer();
+    return;
+  }
   const banner = document.getElementById("usPicksStatusBanner");
-  const tick = async () => {
-    try {
-      const s = await (await fetch("/api/us-scan/status")).json();
-      if (!banner) return;
-      if (s && s.in_progress) {
-        const lines = (s.shards || []).filter((sh) => sh.last_run_at).map((sh) => `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}`).join(" · ");
-        banner.style.display = "block";
-        banner.style.background = "rgba(0,180,100,0.1)";
-        banner.style.border = "1px solid var(--green)";
-        banner.style.color = "var(--green)";
-        banner.innerHTML = `🟢 US Market scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
-      } else {
-        banner.style.display = "none";
-      }
-    } catch {}
-  };
-  tick();
-  usPicksStatusPollTimer = setInterval(tick, 30000);
+  let nextDelay = SCAN_STATUS_IDLE_POLL_MS;
+  try {
+    const s = await (await fetch("/api/us-scan/status")).json();
+    nextDelay = isScanStatusHot(s) ? SCAN_STATUS_FAST_POLL_MS : SCAN_STATUS_IDLE_POLL_MS;
+    if (!banner) return;
+    if (s && s.panic_stop && s.panic_stop.active) {
+      banner.style.display = "block";
+      banner.style.background = "rgba(220,80,80,0.1)";
+      banner.style.border = "1px solid var(--red)";
+      banner.style.color = "var(--red)";
+      banner.innerHTML = `🚨 US Market scan halted: <strong>${escapeHtml(s.panic_stop.reason || "panic stop")}</strong>`;
+    } else if (s && s.in_progress) {
+      const lines = (s.shards || []).filter((sh) => sh.last_run_at).map((sh) => `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}`).join(" · ");
+      banner.style.display = "block";
+      banner.style.background = "rgba(0,180,100,0.1)";
+      banner.style.border = "1px solid var(--green)";
+      banner.style.color = "var(--green)";
+      banner.innerHTML = `🟢 US Market scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
+    } else {
+      banner.style.display = "none";
+    }
+  } catch {
+    nextDelay = SCAN_STATUS_IDLE_POLL_MS;
+  } finally {
+    scheduleUSScanStatusPoll(nextDelay);
+  }
+}
+
+async function pollUSScanStatus() {
+  usPicksStatusPollStarted = true;
+  scheduleUSScanStatusPoll(0);
 }
 
 async function openUSModal(ticker) {
@@ -11680,8 +11781,8 @@ const REGION_PICKS_SECTIONS = [
 ];
 
 const regionPicksState = {
-  kr: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, modalTicker: null },
-  tw: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, modalTicker: null },
+  kr: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null },
+  tw: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null },
 };
 const _rp = (code) => regionPicksState[code];
 const _rpDom = (code) => code + "Picks"; // krPicks / twPicks element-id prefix
@@ -11851,29 +11952,63 @@ function onRegionPicksSearchClear(code) {
   if (_rp(code).data) renderRegionPicks(code);
 }
 
-async function pollRegionScanStatus(code) {
+function clearRegionScanStatusTimer(code) {
   const st = _rp(code);
-  if (st.pollTimer) clearInterval(st.pollTimer);
+  if (st && st.pollTimer) {
+    clearTimeout(st.pollTimer);
+    st.pollTimer = null;
+  }
+}
+
+function scheduleRegionScanStatusPoll(code, delayMs) {
+  const st = _rp(code);
+  if (!st) return;
+  clearRegionScanStatusTimer(code);
+  if (!st.pollStarted || !isActiveVisibleTab(`${code}Picks`)) return;
+  st.pollTimer = setTimeout(() => tickRegionScanStatus(code), Math.max(0, delayMs || 0));
+}
+
+async function tickRegionScanStatus(code) {
+  const st = _rp(code);
+  if (!st || !isActiveVisibleTab(`${code}Picks`)) {
+    clearRegionScanStatusTimer(code);
+    return;
+  }
   const banner = document.getElementById(_rpDom(code) + "StatusBanner");
   const ui = REGION_PICKS_UI[code];
-  const tick = async () => {
-    try {
-      const s = await (await fetch(`/api/${code}-scan/status`)).json();
-      if (!banner) return;
-      if (s && s.in_progress) {
-        const lines = (s.shards || []).filter((sh) => sh.last_run_at).map((sh) => `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}`).join(" · ");
-        banner.style.display = "block";
-        banner.style.background = "rgba(0,180,100,0.1)";
-        banner.style.border = "1px solid var(--green)";
-        banner.style.color = "var(--green)";
-        banner.innerHTML = `🟢 ${escapeHtml(ui.label)} Market scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
-      } else {
-        banner.style.display = "none";
-      }
-    } catch {}
-  };
-  tick();
-  st.pollTimer = setInterval(tick, 30000);
+  let nextDelay = SCAN_STATUS_IDLE_POLL_MS;
+  try {
+    const s = await (await fetch(`/api/${code}-scan/status`)).json();
+    nextDelay = isScanStatusHot(s) ? SCAN_STATUS_FAST_POLL_MS : SCAN_STATUS_IDLE_POLL_MS;
+    if (!banner || !ui) return;
+    if (s && s.panic_stop && s.panic_stop.active) {
+      banner.style.display = "block";
+      banner.style.background = "rgba(220,80,80,0.1)";
+      banner.style.border = "1px solid var(--red)";
+      banner.style.color = "var(--red)";
+      banner.innerHTML = `🚨 ${escapeHtml(ui.label)} Market scan halted: <strong>${escapeHtml(s.panic_stop.reason || "panic stop")}</strong>`;
+    } else if (s && s.in_progress) {
+      const lines = (s.shards || []).filter((sh) => sh.last_run_at).map((sh) => `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}`).join(" · ");
+      banner.style.display = "block";
+      banner.style.background = "rgba(0,180,100,0.1)";
+      banner.style.border = "1px solid var(--green)";
+      banner.style.color = "var(--green)";
+      banner.innerHTML = `🟢 ${escapeHtml(ui.label)} Market scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
+    } else {
+      banner.style.display = "none";
+    }
+  } catch {
+    nextDelay = SCAN_STATUS_IDLE_POLL_MS;
+  } finally {
+    scheduleRegionScanStatusPoll(code, nextDelay);
+  }
+}
+
+async function pollRegionScanStatus(code) {
+  const st = _rp(code);
+  if (!st) return;
+  st.pollStarted = true;
+  scheduleRegionScanStatusPoll(code, 0);
 }
 
 async function openRegionModal(code, ticker) {
@@ -11938,29 +12073,79 @@ function showPicksBanner(kind, msg) {
   b.innerHTML = msg;
 }
 
-async function pollPicksStatus() {
-  if (picksStatusPollTimer) clearInterval(picksStatusPollTimer);
-  const tick = async () => {
-    try {
-      const res = await fetch("/api/sws-scan/status");
-      const s = await res.json();
-      if (s.panic_stop && s.panic_stop.active) {
-        showPicksBanner("panic", `🚨 Scrape halted: <strong>${s.panic_stop.reason}</strong> (shard ${s.panic_stop.shard_id}) at ${new Date(s.panic_stop.detected_at).toLocaleTimeString()}. Review SWS account, then delete <code>data/sws/panic-stop.flag</code> to resume.`);
-        return;
-      }
-      if (s.in_progress) {
-        const lines = s.shards.filter((sh) => sh.last_run_at).map((sh) =>
-          `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}${sh.complete ? " ✓" : ""}`,
-        ).join(" · ");
-        showPicksBanner("scanning", `🟢 Scanning · ${lines || "starting…"} · Total ${s.total_done}`);
-      } else if (s.all_complete) {
-        document.getElementById("picksStatusBanner").style.display = "none";
-      }
-    } catch (e) { /* silent */ }
-  };
-  tick();
-  picksStatusPollTimer = setInterval(tick, 30 * 1000);
+function clearPicksStatusTimer() {
+  if (picksStatusPollTimer) {
+    clearTimeout(picksStatusPollTimer);
+    picksStatusPollTimer = null;
+  }
 }
+
+function schedulePicksStatusPoll(delayMs) {
+  clearPicksStatusTimer();
+  if (!picksStatusPollStarted || !isActiveVisibleTab("picks")) return;
+  picksStatusPollTimer = setTimeout(tickPicksStatus, Math.max(0, delayMs || 0));
+}
+
+async function tickPicksStatus() {
+  if (!isActiveVisibleTab("picks")) {
+    clearPicksStatusTimer();
+    return;
+  }
+  let nextDelay = SCAN_STATUS_IDLE_POLL_MS;
+  try {
+    const res = await fetch("/api/sws-scan/status");
+    const s = await res.json();
+    nextDelay = isScanStatusHot(s) ? SCAN_STATUS_FAST_POLL_MS : SCAN_STATUS_IDLE_POLL_MS;
+    if (s.panic_stop && s.panic_stop.active) {
+      showPicksBanner("panic", `🚨 Scrape halted: <strong>${s.panic_stop.reason}</strong> (shard ${s.panic_stop.shard_id}) at ${new Date(s.panic_stop.detected_at).toLocaleTimeString()}. Review SWS account, then delete <code>data/sws/panic-stop.flag</code> to resume.`);
+      return;
+    }
+    if (s.in_progress) {
+      const lines = (s.shards || []).filter((sh) => sh.last_run_at).map((sh) =>
+        `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}${sh.complete ? " ✓" : ""}`,
+      ).join(" · ");
+      showPicksBanner("scanning", `🟢 Scanning · ${lines || "starting…"} · Total ${s.total_done}`);
+    } else {
+      const banner = document.getElementById("picksStatusBanner");
+      if (banner) banner.style.display = "none";
+    }
+  } catch (e) {
+    nextDelay = SCAN_STATUS_IDLE_POLL_MS;
+  } finally {
+    schedulePicksStatusPoll(nextDelay);
+  }
+}
+
+async function pollPicksStatus() {
+  picksStatusPollStarted = true;
+  schedulePicksStatusPoll(0);
+}
+
+function syncScanStatusPollers() {
+  if (picksStatusPollStarted) {
+    if (isActiveVisibleTab("picks")) schedulePicksStatusPoll(0);
+    else clearPicksStatusTimer();
+  }
+  if (usPicksStatusPollStarted) {
+    if (isActiveVisibleTab("usPicks")) scheduleUSScanStatusPoll(0);
+    else clearUSScanStatusTimer();
+  }
+  for (const code of Object.keys(regionPicksState)) {
+    const st = _rp(code);
+    if (!st || !st.pollStarted) continue;
+    if (isActiveVisibleTab(`${code}Picks`)) scheduleRegionScanStatusPoll(code, 0);
+    else clearRegionScanStatusTimer(code);
+  }
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (isPageVisible()) {
+    const staleOnRestore = !marketDataLastFetchAt || Date.now() - marketDataLastFetchAt >= MARKET_RESTORE_STALE_MS;
+    scheduleMarketDataPoll(staleOnRestore);
+  }
+  else clearMarketDataPollTimer();
+  syncScanStatusPollers();
+});
 
 // ==================== SWS MODAL ====================
 //

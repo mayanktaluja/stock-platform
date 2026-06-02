@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-01**
+**Last updated: 2026-06-02**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -184,6 +184,12 @@ portfolio analyzer.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
+- **This PR** — Free-tier CPU reduction: idle signed-in browser tabs no longer
+  generate continuous minute-level Vercel Function traffic. `/api/market`
+  serves public, cacheable, non-user market data; warm-cache crons are
+  manual-only and surveillance cron runs weekdays-only. Protected shell/app JS
+  remains auth-gated, with conservative static cache headers so private app
+  surfaces are not CDN-public.
 - **This PR** — Permanent refresh shipping fix: successful full India/US/KR/TW
   SWS refreshes now auto-open generated-data PRs and auto-merge to `main`, while
   seed/capped runs and failed-shard runs are refused. US/KR/TW shortcuts ship
