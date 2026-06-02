@@ -2,7 +2,7 @@
 /**
  * Macro Regime Refresh — local-cron entry point.
  *
- * Fired from scripts/sws-nightly.sh (launchd, 16:30 IST). Mirrors
+ * Fired from scripts/sws-nightly.sh (launchd, 00:30 IST). Mirrors
  * the fundamentals pattern established in PR #195: refresh locally, commit
  * data/macroRegime.json to git, let Vercel deploy on green CI. Production
  * reads the on-disk file via services/macroRegimeStorage.js — no Vercel

@@ -241,16 +241,16 @@ if ! node scripts/sws-fetch-nse-calendar.mjs 2>&1 | tail -5 | sed 's/^/[nse-cal]
 fi
 
 # Groww/Refinitiv is canonical for fast-moving India fundamentals. The full
-# network pass is intentionally restricted to the 16:30 IST launchd window;
+# network pass is intentionally restricted to the 00:30 IST launchd window;
 # manual runs outside that window validate and reuse the last good cache. The
 # script writes both groww-stock-latest.json and the legacy groww-pe-latest.json
 # alias.
 GROWW_STEP_IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
-if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ] || { [ "${RUN_STARTED_IST_HHMM}" -ge 1600 ] && [ "${RUN_STARTED_IST_HHMM}" -lt 1800 ]; }; then
-  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (16:30 IST full pass; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
+if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ] || { [ "${RUN_STARTED_IST_HHMM}" -ge 0 ] && [ "${RUN_STARTED_IST_HHMM}" -lt 200 ]; }; then
+  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (00:30 IST full pass; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
   GROWW_CMD=(node scripts/groww-pe-refresh.mjs --force --max-age-days 1 --stale-grace-days 3)
 else
-  echo "[refresh-api] validating Groww/Refinitiv stock cache (reuse outside 16:30 IST; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
+  echo "[refresh-api] validating Groww/Refinitiv stock cache (reuse outside 00:30 IST; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
   GROWW_CMD=(node scripts/groww-pe-refresh.mjs --validate-only --max-age-days 1 --stale-grace-days 3)
 fi
 if GROWW_OUT="$("${GROWW_CMD[@]}" 2>&1)"; then

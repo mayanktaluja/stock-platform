@@ -22,6 +22,7 @@ import { dirname, resolve } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
 const nightly = readFileSync(resolve(REPO_ROOT, "scripts/sws-nightly.sh"), "utf-8");
+const swsConfig = readFileSync(resolve(REPO_ROOT, "scripts/sws-config.mjs"), "utf-8");
 
 let pass = 0;
 let fail = 0;
@@ -235,12 +236,19 @@ assert(
   { growwPeIdx, parserIdx, scoringIdx },
 );
 assert(
-  "sws-refresh-api.sh gates full Groww refresh to the 16:30 IST launchd window",
+  "sws-refresh-api.sh gates full Groww refresh to the 00:30 IST launchd window",
   /RUN_STARTED_IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
     /GROWW_STEP_IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
-    /\[ "\$\{RUN_STARTED_IST_HHMM\}" -ge 1600 \]/.test(refreshApi) &&
+    /\[ "\$\{RUN_STARTED_IST_HHMM\}" -ge 0 \]/.test(refreshApi) &&
+    /\[ "\$\{RUN_STARTED_IST_HHMM\}" -lt 200 \]/.test(refreshApi) &&
     /--validate-only/.test(refreshApi) &&
     /--force --max-age-days 1 --stale-grace-days 3/.test(refreshApi),
+  null,
+);
+assert(
+  "SWS circadian window allows the 00:30 launchd scrape",
+  /circadianWindow:\s*\{\s*startHour:\s*0,\s*startMinute:\s*0,\s*endHour:\s*4,\s*endMinute:\s*30\s*\}/.test(swsConfig) &&
+    /circadianStartJitterMinutes:\s*0/.test(swsConfig),
   null,
 );
 assert(

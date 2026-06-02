@@ -184,6 +184,11 @@ portfolio analyzer.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
+- **This PR** — India SWS nightly now fires at **00:30 IST daily** instead of
+  16:30 IST, matching observed SWS rolling-update behavior. The installed
+  LaunchAgent was reloaded from the repo template, so it now runs
+  `sws-nightly-isolated.sh`; the SWS circadian scrape window and Groww
+  full-refresh gate moved with the schedule so the 00:30 launch is not blocked.
 - **This PR** — Free-tier CPU reduction: idle signed-in browser tabs no longer
   generate continuous minute-level Vercel Function traffic. `/api/market`
   serves public, cacheable, non-user market data; warm-cache crons are

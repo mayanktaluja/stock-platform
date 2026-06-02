@@ -70,7 +70,7 @@ const MIN_REWARDS_POPULATED        = 1000;   // BLOCK — collapse detector (bug
 const MIN_REWARDS_POPULATED_STRONG = 4500;   // WARN — flip to BLOCK after ~1 wk calibration
 const MIN_RISKS_POPULATED          = 500;    // WARN — risks are legitimately sparse; only trips on a total collapse
 const MAX_RUN_DURATION_SEC      = 6 * 3600;
-// Nightly cadence is once daily at 16:30 IST. The sanity gate runs at the END
+// Nightly cadence is once daily at 00:30 IST. The sanity gate runs at the END
 // of the pipeline and SHOULD see fresh data because sws-scoring.mjs wrote
 // picks-latest.json earlier in this same run. picks_recent here is the
 // second-line defence: "did this run actually advance picks-latest?" A 20h

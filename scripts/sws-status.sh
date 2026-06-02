@@ -32,7 +32,7 @@ show() {
   echo "── launchd ──"
   if launchctl list | grep -q starbhai; then
     launchctl list | awk '/starbhai/ {printf "  pid=%-6s  exit=%-3s  label=%s\n", $1, $2, $3}'
-    echo "  schedule: 16:30 IST daily"
+    echo "  schedule: 00:30 IST daily"
   else
     echo "  ⚠ NOT registered. Run: launchctl load -w ~/Library/LaunchAgents/com.starbhai.sws-nightly.plist"
   fi

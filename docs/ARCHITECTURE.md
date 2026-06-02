@@ -495,7 +495,7 @@ Markets ship **empty** until scraped. Refresh is manual: `/sws-refresh-kr`, `/sw
 
 ### The nightly chain (`scripts/sws-nightly.sh`)
 
-launchd (`com.starbhai.sws-nightly.plist`) fires it once daily at **16:30 IST** (post-close).
+launchd (`com.starbhai.sws-nightly.plist`) fires it once daily at **00:30 IST** after SWS's rolling India updates have settled.
 Logs to `data/sws/sws-nightly.log`. Ordered steps (✗ = fatal):
 
 | # | Step | Script | Writes | Gate / timeout |
@@ -540,7 +540,7 @@ single-writer rule to `data/macro-headlines/` + `data/macroRegime-history/`.
 
 | Job | Schedule | Runs |
 |---|---|---|
-| `com.starbhai.sws-nightly` (launchd) | 16:30 IST daily | full pipeline above |
+| `com.starbhai.sws-nightly` (launchd) | 00:30 IST daily | full pipeline above |
 | `com.starbhai.macro-only` (launchd) | every 2h IST | `data/macroRegime.json` only |
 | `refresh-macro-regime.yml` (GH Actions) | every 4h | heuristic-only backup macro PR (`automation/macro-backup`) |
 | `ci.yml` (GH Actions) | on push/PR | smoke + unit + modal-render e2e |

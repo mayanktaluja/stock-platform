@@ -3,7 +3,7 @@
  * scripts/sws-nightly.sh.
  *
  * The gate decides whether each nightly fire re-runs refresh-fundamentals.mjs.
- * It must be tight enough that the daily 16:30 IST fire refreshes the file
+ * It must be tight enough that the daily 00:30 IST fire refreshes the file
  * while same-day manual reruns can coast — otherwise fundamentals.json drifts past the
  * 48h staleness banner, which is the "Fundamentals (2d old)" incident this
  * test exists to prevent.

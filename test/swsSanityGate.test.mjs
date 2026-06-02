@@ -55,7 +55,7 @@ console.log("\nsws-sanity-gate.mjs picks_recent threshold regression\n");
 // a refresh slipped slightly and self-perpetuated; 14h (PR #294) was still
 // too tight — evening runs blocked at 16.7h on 2026-05-18 (forcing PR #314
 // manual sync). 20h is now intentionally below the once-daily cadence: after
-// a 16:30 run, the gate should only pass if that run produced fresh picks,
+// a 00:30 run, the gate should only pass if that run produced fresh picks,
 // not if it is still seeing yesterday's committed file.
 assert(
   "PICKS_MAX_AGE_HOURS exported and equal to 20",
