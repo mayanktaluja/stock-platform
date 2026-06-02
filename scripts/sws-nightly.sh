@@ -105,17 +105,34 @@ trap slack_notify_on_exit EXIT
 
 # Portable timeout wrapper: GNU `timeout` ships with Linux but not macOS
 # (stock macOS has no equivalent; Homebrew's coreutils provides `gtimeout`).
-# Prefer gtimeout, then timeout, then fall back to running the command
-# directly with no hard cap. The chain steps that use this are all
-# non-fatal and wrapped in `if !` — losing the cap on a vanilla mac is
-# acceptable; silently failing every step because `timeout` doesn't exist
-# is not (cf. #186 regression on 2026-05-12/13).
+# Prefer gtimeout, then timeout, then use a small bash watchdog so vanilla
+# macOS still enforces step deadlines.
 if command -v gtimeout >/dev/null 2>&1; then
   with_timeout() { gtimeout "$@"; }
 elif command -v timeout >/dev/null 2>&1; then
   with_timeout() { timeout "$@"; }
 else
-  with_timeout() { shift; "$@"; }
+  with_timeout() {
+    local seconds="$1"
+    shift
+    "$@" &
+    local child_pid=$!
+    (
+      sleep "${seconds}"
+      if kill -0 "${child_pid}" >/dev/null 2>&1; then
+        echo "[timeout] command exceeded ${seconds}s; terminating pid ${child_pid}: $*" >&2
+        kill -TERM "${child_pid}" >/dev/null 2>&1 || true
+        sleep 5
+        kill -KILL "${child_pid}" >/dev/null 2>&1 || true
+      fi
+    ) &
+    local watchdog_pid=$!
+    wait "${child_pid}"
+    local rc=$?
+    kill "${watchdog_pid}" >/dev/null 2>&1 || true
+    wait "${watchdog_pid}" >/dev/null 2>&1 || true
+    return "${rc}"
+  }
 fi
 
 # shellcheck source=scripts/sws-auto-ship.sh
@@ -1260,13 +1277,11 @@ echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
 # data/macroRegime.json deliberately excluded — single-writer rule per
 # the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
 CHANGED_FILES=$(git status --short \
-  data/sws/deep/ \
   data/sws/deep.tar.gz \
   data/sws/picks-latest.json \
   data/sws/last-refresh.json \
   data/sws/sws-scored-universe.json \
   data/sws/v3-universe-stats.json \
-  data/sws/groww-stock-latest.json \
   data/sws/groww-stock-failed.json \
   data/sws/groww-pe-latest.json \
   data/sws/groww-pe-failed.json \
@@ -1317,13 +1332,11 @@ fi
 
 # data/macroRegime.json deliberately excluded — single-writer rule per
 # the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
-git add data/sws/deep/ \
-        data/sws/deep.tar.gz \
+git add data/sws/deep.tar.gz \
         data/sws/picks-latest.json \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
         data/sws/v3-universe-stats.json \
-        data/sws/groww-stock-latest.json \
         data/sws/groww-stock-failed.json \
         data/sws/groww-pe-latest.json \
         data/sws/groww-pe-failed.json \

@@ -605,14 +605,13 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-stock-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the
     # git add so the tarball reflects the freshly-refreshed deep files.
     bash scripts/sws-pack-deep.sh 2>&1 | sed 's/^/[refresh-api] /'
     git add data/sws/deep.tar.gz 2>/dev/null
-    git add data/sws/deep/ 2>/dev/null
     [ -d reports/sws-picks ] && git add reports/sws-picks/*.pdf 2>/dev/null
 
     if git diff --cached --quiet; then
