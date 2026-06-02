@@ -1,8 +1,7 @@
 // Multibagger paper portfolio — virtual book that tracks Pillar 1-3
 // positions for the 5x strategy. Lives at
 // data/strategy/multibagger-portfolio.json. Atomic writes via PID-temp
-// file + rename. Mirrors the shape of services/compounder/paperTradeLog
-// for consistency, but slimmer (single book, not per-strategy).
+// file + rename. Single active strategy book, not a per-strategy ledger.
 //
 // All actions also write to services/paperTrade/decisionLog.js so we
 // get a full NDJSON audit trail beside the portfolio mark.

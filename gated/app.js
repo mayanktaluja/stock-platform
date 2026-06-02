@@ -266,10 +266,11 @@ const auth = {
     // for real now if its guard passes, without pushing a duplicate history
     // entry because the hash already points at the target.
     const boot = (typeof window.parseHash === "function" ? window.parseHash() : {});
-    if (boot.tab && TAB_CONFIG[boot.tab] && window.__activeTab !== boot.tab) {
-      const cfg = TAB_CONFIG[boot.tab];
+    const bootTab = boot.tab ? resolveTabId(boot.tab) : "";
+    if (bootTab && TAB_CONFIG[bootTab] && window.__activeTab !== bootTab) {
+      const cfg = TAB_CONFIG[bootTab];
       if ((!cfg.guard || cfg.guard()) && typeof window.__enterTab === "function") {
-        window.__enterTab(boot.tab);
+        window.__enterTab(bootTab);
       }
     }
     syncLabsActive(window.__activeTab || "picks");
@@ -317,16 +318,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // openSwsModal renders, so the modal star paints with the correct
   // aria-pressed even when the user hasn't visited the Watchlist tab.
   hydrateWatchlistSet();
-  // PR #7: honor deep-link hash on boot if present, otherwise fall through
-  // to the default picks tab. The router IIFE at the bottom of this file
-  // ALSO listens for popstate, but boot needs explicit handling because
-  // popstate doesn't fire on initial page load.
-  const bootHash = typeof window.parseHash === "function" ? window.parseHash() : {};
+  // PR #7: honor deep-link hash on first entry, otherwise fall through to the
+  // default picks tab. A browser reload is different: users expect Command-R to
+  // return to the India Market home state, not preserve a stale tab/modal hash.
+  const reloadBoot = typeof window.isFullPageReload === "function" && window.isFullPageReload();
+  if (reloadBoot && typeof history !== "undefined" && history.replaceState) {
+    history.replaceState(null, "", `${location.pathname}${location.search}#tab=picks`);
+  }
+  const bootHash = reloadBoot
+    ? { tab: "picks" }
+    : (typeof window.parseHash === "function" ? window.parseHash() : {});
   // Honor the deep-link tab on boot. If it's a guarded tab whose guard can't
   // pass yet (auth.init runs async, AFTER this), show picks WITHOUT rewriting
   // the hash — auth.init's deep-link recovery enters the real tab once the
   // auth flags resolve. Avoids both a blank page and history pollution.
-  const bootTab = bootHash.tab || 'picks';
+  const bootTab = resolveTabId(bootHash.tab || "picks");
+  if (!reloadBoot && bootHash.tab && bootHash.tab !== bootTab && typeof history !== "undefined" && history.replaceState) {
+    const symbolPart = bootHash.symbol ? `&symbol=${encodeURIComponent(bootHash.symbol)}` : "";
+    history.replaceState(null, "", `${location.pathname}${location.search}#tab=${encodeURIComponent(bootTab)}${symbolPart}`);
+  }
   const bootCfg = TAB_CONFIG[bootTab];
   if (bootCfg && (!bootCfg.guard || bootCfg.guard())) {
     switchTab(bootTab);
@@ -2569,16 +2579,6 @@ const TAB_CONFIG = {
     label: "Risk Lab",
     enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
   },
-  // Compounder Lab — SAFE sleeve, open to every signed-in user.
-  compounder: {
-    elId: "compounderTab",
-    enter: () => { if (typeof loadCompounderLab === "function") loadCompounderLab(); },
-  },
-  // Earnings Edge — AGGRESSIVE sleeve, open to every signed-in user.
-  earningsEdge: {
-    elId: "earningsEdgeTab",
-    enter: () => { if (typeof loadEarningsEdge === "function") loadEarningsEdge(); },
-  },
   // 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L
   // net in 12 months. Open to every signed-in user.
   multibaggerLab: {
@@ -2606,11 +2606,18 @@ function normalizeTabId(tab) {
   return tab === "user" ? "users" : tab;
 }
 
+const RETIRED_TAB_IDS = new Set(["compounder", "earningsEdge"]);
+
+function resolveTabId(tab) {
+  const normalized = normalizeTabId(tab);
+  if (RETIRED_TAB_IDS.has(normalized)) return "picks";
+  return TAB_CONFIG[normalized] ? normalized : "picks";
+}
+
 async function switchTab(tab) {
-  tab = normalizeTabId(tab);
+  tab = resolveTabId(tab);
   // Fall through to picks for unknown tabs — preserves the pre-PR5
   // default behaviour that boot uses when no hash is present.
-  if (!TAB_CONFIG[tab]) tab = "picks";
   const config = TAB_CONFIG[tab];
   if (config.guard && !config.guard()) return;
   _activeTab = tab;
@@ -2633,8 +2640,7 @@ async function switchTab(tab) {
   }
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
-  // Activate the matching bar button by EXACT tab id. A substring match would
-  // let switchTab('earnings') also light the 'earningsEdge' button.
+  // Activate the matching bar button by EXACT tab id.
   const activeBtn = Array.from(tabs).find(
     (t) => t.getAttribute("onclick") === `switchTab('${tab}')`,
   );
@@ -11945,29 +11951,6 @@ function renderUSPickCard(s, sectionKey, rank) {
     </div>`;
 }
 
-function isMarketPickCardActivationTarget(target) {
-  return !target.closest("a,button,input,select,textarea,label,[data-watchlist-symbol]");
-}
-
-function handleMarketPickCardActivation(event) {
-  if (event.type === "keydown" && event.key !== "Enter" && event.key !== " ") return;
-  const target = event.target;
-  if (!target || !target.closest) return;
-  const card = target.closest(".stock-card.sws-pick-card[data-ticker]");
-  if (!card || !isMarketPickCardActivationTarget(target)) return;
-  const container = card.closest("#usPicksContainer,#krPicksContainer,#twPicksContainer");
-  if (!container) return;
-  const ticker = card.getAttribute("data-ticker");
-  if (!ticker) return;
-  event.preventDefault();
-  event.stopPropagation();
-  if (container.id === "usPicksContainer") openUSModal(ticker);
-  else openRegionModal(container.id.slice(0, 2), ticker);
-}
-
-document.addEventListener("click", handleMarketPickCardActivation, true);
-document.addEventListener("keydown", handleMarketPickCardActivation, true);
-
 function onUSPicksSectorChange(v) { usPicksSectorFilter = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
 function onUSPicksUniverseChange(v) { usPicksUniverse = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
 function onUSPicksSearchInput(v) {
@@ -12738,28 +12721,6 @@ function normaliseModalReturns(data, ov, card) {
   return out;
 }
 
-function modalFreshSwsReturnBuckets(ov, card, deepParsedAt) {
-  const out = {};
-  const setFromBucket = (bucket) => {
-    if (!bucket || typeof bucket !== "object") return;
-    for (const key of MODAL_RETURN_KEYS) {
-      if (out[key] != null) continue;
-      const v = Number(bucket[key]);
-      if (Number.isFinite(v)) out[key] = v;
-    }
-  };
-  if (isFreshSwsTimestamp(card && card.data_freshness_at, 48)) setFromBucket(card && card.returns_pct);
-  if (isFreshSwsTimestamp(deepParsedAt, 48)) setFromBucket(ov && ov.returns_pct);
-  return out;
-}
-
-function isFreshSwsTimestamp(ts, maxHours = 48) {
-  if (!ts) return false;
-  const ageMs = Date.now() - new Date(ts).getTime();
-  if (!Number.isFinite(ageMs) || ageMs < 0) return false;
-  return ageMs < maxHours * 3600000;
-}
-
 // Region-parametrised modal core. India → renderSwsModal wrapper (INDIA_MODAL_OPTS,
 // byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
 // watchlist suffix, section-nav handler). Single source of truth so every market's
@@ -12847,7 +12808,6 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
   const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality);
-  const swsReturnBuckets = modalFreshSwsReturnBuckets(ov, card_, deep && deep.parsed_at);
 
   // Score breakdown bars — show v4 when available (pillars/FV/momentum/safety
   // split), v2 otherwise (thin coverage).
@@ -13279,26 +13239,6 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
         </span>
       </div>`;
   })();
-  const eventWarningHtml = (() => {
-    const oneDay = Number(swsReturnBuckets["1D"]);
-    const sevenDay = Number(swsReturnBuckets["7D"]);
-    const oneMonth = Number(swsReturnBuckets["1M"]);
-    const reasons = [];
-    if (Number.isFinite(oneDay) && oneDay <= -12) {
-      reasons.push(`1D move ${fmtPct(oneDay, 1)}`);
-    }
-    if (Number.isFinite(sevenDay) && Number.isFinite(oneMonth) && sevenDay <= -20 && oneMonth <= -20) {
-      reasons.push(`7D ${fmtPct(sevenDay, 1)} and 1M ${fmtPct(oneMonth, 1)}`);
-    }
-    if (!reasons.length) return "";
-    return `
-      <div class="sws-modal-event-warning" data-testid="sws-modal-event-warning" role="alert">
-        <div class="event-warning-title">Fresh price shock</div>
-        <div class="event-warning-copy">
-          Severe recent selling (${escapeHtml(reasons.join(" · "))}). Fundamentals and V4 score are unchanged, but buying today has elevated price-discovery risk; consider waiting for confirmation before adding.
-        </div>
-      </div>`;
-  })();
 
   return `
     <div class="sws-modal-hero">
@@ -13325,7 +13265,6 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     </div>
 
     ${sectionsBannerHtml}
-    ${eventWarningHtml}
     ${dataQualityBannerHtml}
 
     ${barsHtml ? `
@@ -13639,6 +13578,19 @@ function parseHash() {
 }
 window.parseHash = parseHash;
 
+function isFullPageReload() {
+  try {
+    const nav = performance?.getEntriesByType?.("navigation")?.[0];
+    if (nav && nav.type === "reload") return true;
+  } catch {}
+  try {
+    return performance?.navigation?.type === 1;
+  } catch {
+    return false;
+  }
+}
+window.isFullPageReload = isFullPageReload;
+
 let _suppressHashWrite = false;
 function writeHash(state) {
   if (_suppressHashWrite) return;
@@ -13664,18 +13616,18 @@ const _origSwitchTab = window.switchTab;
 // history entry the wrapper's writeHash() would otherwise push.
 window.__enterTab = _origSwitchTab;
 window.switchTab = async function switchTabRouterWrap(tab) {
-  tab = normalizeTabId(tab);
-  await _origSwitchTab(tab);
+  const requestedTab = normalizeTabId(tab);
+  await _origSwitchTab(requestedTab);
   // Preserve existing modal symbol in the URL if it's still open
   const current = parseHash();
-  writeHash({ tab, symbol: current.symbol });
+  writeHash({ tab: window.__activeTab || currentView || resolveTabId(requestedTab), symbol: current.symbol });
 };
 
 // Wrap openSwsModal to also write &symbol=… into the hash.
 const _origOpenSwsModal = window.openSwsModal || openSwsModal;
 window.openSwsModal = async function openSwsModalRouterWrap(ticker) {
   const result = await _origOpenSwsModal(ticker);
-  writeHash({ tab: currentView || "picks", symbol: ticker });
+  writeHash({ tab: resolveTabId(currentView || "picks"), symbol: ticker });
   return result;
 };
 
@@ -13684,7 +13636,7 @@ const _origCloseSwsModal = window.closeSwsModal || closeSwsModal;
 window.closeSwsModal = function closeSwsModalRouterWrap() {
   const result = _origCloseSwsModal();
   const current = parseHash();
-  writeHash({ tab: current.tab || currentView || "picks" });
+  writeHash({ tab: resolveTabId(current.tab || currentView || "picks") });
   return result;
 };
 
@@ -13699,7 +13651,12 @@ window.addEventListener("popstate", async () => {
     // was effectively always-true, and a stale-flag dedupe risks skipping a
     // real navigation.)
     if (state.tab) {
-      await _origSwitchTab(state.tab);
+      const targetTab = resolveTabId(state.tab);
+      await _origSwitchTab(targetTab);
+      if (state.tab !== targetTab && typeof history !== "undefined" && history.replaceState) {
+        const symbolPart = state.symbol ? `&symbol=${encodeURIComponent(state.symbol)}` : "";
+        history.replaceState(null, "", `${location.pathname}${location.search}#tab=${encodeURIComponent(targetTab)}${symbolPart}`);
+      }
     }
     const backdrop = document.getElementById("swsModalBackdrop");
     const modalOpen = backdrop?.classList.contains("open");

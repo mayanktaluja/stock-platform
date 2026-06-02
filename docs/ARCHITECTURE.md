@@ -125,7 +125,7 @@ These are the decisions everything else hangs off. Violating them is how you bre
    ≥55% bucket hit-rate, Brier <0.20). Until the gate clears, the signal ships at conservative caps.
 
 6. **Test unproven ideas in isolation, never in-place.** New/experimental signals ship as **new
-   files + new tabs** (US/KR/TW picks, Risk Lab, Sector Outlook, 5x Lab, Earnings Edge), importing
+   files + new tabs** (US/KR/TW picks, Risk Lab, Sector Outlook, 5x Lab), importing
    the proven scorer rather than editing it. The India + US pipelines are explicitly *frozen*; KR/TW
    were added as registry config, not forks. This is why the codebase has many parallel tabs.
 
@@ -249,7 +249,7 @@ PROJECT_STATUS):
 | Tier | Mechanism | Gates |
 |---|---|---|
 | **Public** | session-gate exempt list | `/`, `/login.html`, `/healthz`, `/api/auth/*`, `/api/logout`, `/api/macro/regime/health`, all `/api/cron/*`, `/api/track/migrate` + `/api/track/snapshot-sws-now` (own `MACRO_OVERRIDE_TOKEN` gate) |
-| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India Market, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer, US/KR/TW read routes, Compounder Lab, Earnings Edge, and 5x Lab. |
+| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India Market, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer, US/KR/TW read routes, and 5x Lab. |
 | **Admin** | in-handler `isAdmin` check recomputed from hard-coded owner email `mtaluja11@gmail.com` | `/api/admin/*`; SWS write/refresh routes via `requireAdminForSwsRefresh` (`/api/sws-refresh/*`, `/api/sws-scan/initial-start`). |
 
 **Rate limiting:** `apiLimiter` (60/min) + `stockDetailLimiter` (30/min), key from
@@ -283,8 +283,6 @@ mutation routes noted. Backing modules in the right column.
 | **Earnings Watch** | `GET /api/earnings/upcoming[/stats]`, `/api/earnings/:symbol`, `/api/earnings/{calibration,backtest}`, `/api/audit/earnings/:symbol/:date` | `services/earnings/earningsWatchService.js`, `earningsHistoryArchive.js`, `hitRateSummary.js` |
 | **Risk Lab** | `GET /api/risk-lab/{picks-adjusted,regime-context,quality-flags[/:ticker],macro-thesis}` | `services/riskLab/*`, `data/risk-lab/` |
 | **Track record** | `GET /api/track/{history,stats,sections,calibration,export.csv}`, `POST /api/track/snapshot[-sws-now]`, `/api/track/migrate` | `paperTrades.js`, `services/trackRecord/*` |
-| **Compounder Lab** (personal) | `GET /api/compounder/{latest,paper-trades}` | `services/compounder/compounderService.js` |
-| **Earnings Edge** (personal) | `GET /api/earnings-edge/{latest,paper-trades}` | `services/earningsEdge/edgeService.js` |
 | **5x / Multibagger Lab** (personal) | `GET /api/multibagger/{overview,candidates,portfolio}` | `services/multibagger/*` |
 | **Sector Outlook** | `GET /api/sector-outlook/{latest,healthz}` | `data/sectorOutlook/outlook-latest.json` |
 | **Surveillance / Governance** | `GET /api/surveillance/{status,list}`, `/api/governance/{status,:symbol}` | `surveillance.js`, `governance.js` |
@@ -310,8 +308,6 @@ document embedding every tab panel as a hidden `<div>` (`display:none`, toggled 
 | `swsV2Render.js` | sync | augments the SWS picks banner |
 | `earnings.js` | defer | Earnings Watch IIFE → `loadEarningsWatch()` |
 | `riskLab.js` | defer | Risk Lab IIFE → `loadRiskLab()` |
-| `compounderLab.js` | defer | Compounder Lab IIFE → `loadCompounderLab()` |
-| `earningsEdge.js` | defer | Earnings Edge IIFE → `loadEarningsEdge()` |
 | `multibaggerLab.js` | defer | 5x Lab IIFE → `loadMultibaggerLab()` |
 | `sectorOutlook.js` | defer | Sector Outlook IIFE → `loadSectorOutlook()` |
 | `keyboard.js` | defer | WAI-ARIA roving-tab keyboard nav |
@@ -326,7 +322,7 @@ document embedding every tab panel as a hidden `<div>` (`display:none`, toggled 
 > the hash router (`#tab=<name>`).
 
 **Tab visibility:** the tab bar keeps every read-only research tab in the main row for signed-in
-users, including Compounder Lab, Earnings Edge, and 5x Lab. Users remains owner-admin-only. Risk Lab
+users, including 5x Lab. Users remains owner-admin-only. Risk Lab
 and Sector Outlook are visible but locally toggleable via `localStorage`.
 
 **Client-side caches (the "why am I seeing stale data" list):**
@@ -510,11 +506,7 @@ Logs to `data/sws/sws-nightly.log`. Ordered steps (✗ = fatal):
 | 9 | Resolve actuals | `resolve-earnings-actuals.mjs` | `earnings-history/<date>.json#actual_*` | 300s |
 | 9a | 5x strategy | `refresh-5x-strategy.mjs` | `data/strategy/multibagger-*.json` | 120s |
 | 9b | Risk Lab | `refresh-risk-lab.mjs` | `data/risk-lab/picks-adjusted-latest.json` | 60s |
-| 9b2 | Promoter txns (PIT 7(2)) | `refresh-promoter-transactions.mjs` | `data/promoter-transactions/rolling-30d.json` | 120s |
-| 9c | Compounder Lab | `refresh-compounder.mjs` | `data/compounder/latest.json` | 120s |
-| 9d | Earnings Edge | `refresh-earnings-edge.mjs` | `data/earnings-edge/latest.json` | 120s |
 | 9d2/3 | Sector news + outlook | `refresh-sector-news-themes` · `refresh-sector-outlook` | `data/sectorOutlook/*` | 900s (≤400 LLM calls) |
-| 9e | Paper-trade reconcile | `paper-trade-reconcile.mjs` | `data/paper-trades-reports/` | 60s |
 | 4✗ | Sanity gate | `sws-sanity-gate.mjs` | `data/sws/_sanity/_latest.json` | exit 7 → data-only PR |
 | 4b | Coverage drift | `coverage-gap-analysis.mjs --refresh-sme` | `data/coverage/*` | — |
 | 5✗ | Commit + push | branch `chore/sws-auto-refresh-<date>-<time>` | — | exit 8 |
@@ -635,26 +627,15 @@ caps for severe concentration/surveillance/pledge, grades A (≥85) → E (<40).
 bodies, joins to holdings, computes hold-by date / ₹ payout / yield-on-cost. Refresh:
 `scripts/refresh-dividends.mjs` → `data/catalysts/dividends-upcoming.json`.
 
-### 11.5 Compounder Lab + Earnings Edge (two-sleeve paper-trade book, #337)
+### 11.5 Retired sleeves
 
-Experimental sleeves with a shared paper-trade harness — isolated from the main picks so their
-hit-rate is judged separately before any promotion. They are visible to all signed-in users.
+Compounder Lab and Earnings Edge shipped as isolated experimental sleeves in #337 and were retired
+in June 2026. Their tabs, read APIs, refresh scripts, shared sleeve paper-trade harness, promoter-PIT
+feed, generated data, and tests were removed to reduce surface area and nightly load.
 
-- **Compounder Lab (safe sleeve, `services/compounder/`):** Marcellus-style quality screen
-  (Snowflake `past≥5`, `health≥4`, `dividend≥4`, mcap ≥ ₹500Cr, no debt/dilution keywords, valid FV)
-  → top 20 by upside. Trim signal: HOLD / TRIM_50 / EXIT.
-- **Earnings Edge (aggressive sleeve, `services/earningsEdge/`):** requires `actual_verdict==BEAT`,
-  then 5 on-disk gates **derived from the KEC false-positive post-mortem** (prior-Q-miss regex,
-  `fv_imputed` haircut, forbidden debt keywords, problem-sector watchlist, health/mcap floor).
-  Position 0.25% of ADV proxy, ≤ ₹1L/trade, 30-day hold, −8% trailing / −12% hard stop.
-- **Harness (`services/compounder/paperTradeLog.js`):** append-only ledger
-  `data/paper-trades/<strategy>.json`, idempotent `openTrade` on `(ticker, entry_date)`, atomic
-  writes. Strategies must clear a walk-forward gate before being granted real capital.
-
-> No insider scraper exists on disk yet — SWS capture has `is_insider`/`insider_ownership_pct` null
-> universe-wide. The NSE PIT 7(2) promoter-transaction feed (`refresh-promoter-transactions.mjs` →
-> `data/promoter-transactions/rolling-30d.json`) is the closest signal and feeds Earnings Edge's
-> promoter-sell veto.
+Retired deep links (`#tab=compounder`, `#tab=earningsEdge`) intentionally fall back to India Market
+and canonicalize to `#tab=picks`. Generic Track Record paper-trade storage and 5x Lab infrastructure
+remain active and separate.
 
 ---
 
@@ -670,9 +651,7 @@ hit-rate is judged separately before any promotion. They are visible to all sign
 | `data/risk-lab/` | `picks-adjusted-latest`, `quality-flags-latest`, `macro-thesis-latest` | Risk Lab |
 | `data/strategy/` | `multibagger-scores-latest`, `catalyst-slate-latest`, `multibagger-health-latest` | 5x Lab |
 | `data/sectorOutlook/` | `outlook-latest`, `classified-news/*.jsonl`, `llm-theme-cache` | Sector Outlook |
-| `data/compounder/`, `data/earnings-edge/` | `latest.json` baskets | Compounder / Earnings Edge |
-| `data/paper-trades/`, `data/paper-trades-reports/` | per-sleeve ledgers + mark-to-market reports | paper-trade tracking |
-| `data/promoter-transactions/` | `rolling-30d.json` (PIT 7(2)) | Earnings Edge veto |
+| `data/paper-trades/` | active Track Record/paper-trade artifacts | Track Record |
 | `data/nse-fo/` | `oi-deltas-latest`, `bhavcopy/`, `history/<T>` | F&O OI screener |
 | `data/coverage/` | coverage-gap audit, ground truth, SME/Emerge | universe coverage QA |
 | `fundamentals.json`, `fundamentalsHistory.json`, `surveillance.json`, `governance.json` (repo root) | NSE fundamentals, Yahoo quarterly EPS, ASM/GSM, shareholding | stock modals, predictor trajectory, risk flags |
@@ -718,7 +697,7 @@ flowchart TD
     RISK["riskLab/*"]
     MACRO["macroThesis/* + macroRegime.js"]
     PORT["swsHoldingEngine / swsPortfolioHealth / dividends"]
-    SLEEVE["compounder/* + earningsEdge/*"]
+    MULTI["multibagger/* + paperTrade/multibaggerPortfolioService"]
   end
   subgraph scripts["scripts/ (local crons)"]
     NIGHTLY["sws-nightly.sh"]

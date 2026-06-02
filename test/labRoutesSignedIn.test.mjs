@@ -1,7 +1,8 @@
 /**
- * Prod-like auth smoke for the experimental lab read APIs.
+ * Prod-like auth smoke for lab read APIs.
  *
- * Verifies the lab routes are signed-in surfaces, not owner/admin-only
+ * Verifies retired sleeve APIs stay behind auth for anonymous users and return
+ * 404 for signed-in users, while the active 5x Lab APIs remain signed-in read
  * surfaces. The test starts server.js with AUTH_ENABLED=true and signs a
  * non-admin session cookie using the same HMAC format as the app.
  *
@@ -85,19 +86,28 @@ try {
   const cookie = `starbhai_session=${signSession(SUB)}`;
   const signedIn = { headers: { cookie, accept: "application/json" } };
 
-  console.log("\nlabRoutesSignedIn — anonymous users stay blocked");
-  {
-    const res = await fetch(`${BASE}/api/compounder/latest`, { headers: { accept: "application/json" } });
-    const body = await res.json().catch(() => ({}));
-    assert("anonymous lab request returns 401", res.status === 401 && body.error === "unauthenticated", { status: res.status, body });
-  }
-
-  console.log("\nlabRoutesSignedIn — signed-in non-admin users can read lab APIs");
-  for (const route of [
+  const retiredRoutes = [
     "/api/compounder/latest",
     "/api/compounder/paper-trades",
     "/api/earnings-edge/latest",
     "/api/earnings-edge/paper-trades",
+  ];
+
+  console.log("\nlabRoutesSignedIn — retired sleeve APIs stay auth-gated for anonymous users");
+  for (const route of retiredRoutes) {
+    const res = await fetch(`${BASE}${route}`, { headers: { accept: "application/json" } });
+    const body = await res.json().catch(() => ({}));
+    assert(`${route} returns 401 for anonymous users`, res.status === 401 && body.error === "unauthenticated", { status: res.status, body });
+  }
+
+  console.log("\nlabRoutesSignedIn — retired sleeve APIs are gone for signed-in users");
+  for (const route of retiredRoutes) {
+    const res = await fetch(`${BASE}${route}`, signedIn);
+    assert(`${route} returns 404 for signed-in non-admin`, res.status === 404, { status: res.status });
+  }
+
+  console.log("\nlabRoutesSignedIn — signed-in non-admin users can still read active 5x Lab APIs");
+  for (const route of [
     "/api/multibagger/overview",
     "/api/multibagger/candidates?verdict=HIGH_CONVICTION&limit=3",
     "/api/multibagger/portfolio",
