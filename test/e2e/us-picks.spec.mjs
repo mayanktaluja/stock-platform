@@ -115,6 +115,20 @@ test.describe("US Picks tab", () => {
     await expect(modal).not.toHaveClass(/open/);
   });
 
+  test("stock cards open the US modal through the visible click path", async ({ page }) => {
+    await openUSPicks(page);
+    const card = page.locator('#usPicksContainer .sws-pick-card[data-ticker="AAPL"]').first();
+    await expect(card).toBeVisible({ timeout: 10_000 });
+    await card.click();
+    const modal = page.locator("#usModalBackdrop");
+    await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
+    const txt = await page.locator("#usModalBody").innerText();
+    expect(txt).toMatch(/Rewards\s*\(\d+\)/i);
+    expect(txt).toMatch(/Recent news/i);
+    await page.evaluate(() => window.closeUSModal());
+    await expect(modal).not.toHaveClass(/open/);
+  });
+
   test("modal falls back to picks-card fields when the deep brief is unavailable", async ({ page }) => {
     await openUSPicks(page);
     // Simulate prod when the per-region deep tarball hasn't been bundled/extracted
