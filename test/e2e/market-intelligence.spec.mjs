@@ -2,14 +2,14 @@
 //
 // Per the 2026-05-16 E2E audit: this entire tab had ZERO Playwright coverage
 // before this spec. The tab is non-admin (every signed-in user sees it) and
-// hits four production endpoints — /api/news/market, /api/market-verdict,
-// /api/sector-heatmap, /api/fii-dii — so a regression here ships silently
+// hits four production endpoints — /api/news/market, /api/macro/regime,
+// /api/market-verdict, /api/sector-heatmap — so a regression here ships silently
 // to every user.
 //
 // The spec covers three concerns:
 //   1. Tab routing — switchTab("news") makes #newsTab visible and the
 //      auto-refresh indicator fires.
-//   2. API contracts — the three endpoints `loadMarketNews()` calls return
+//   2. API contracts — the four endpoints `loadMarketNews()` calls return
 //      a usable shape (200 OK and a JSON body, or a documented error).
 //   3. Structural render — after load, #newsContainer has populated past
 //      its initial loading-spinner state (either real content or a clean
@@ -34,7 +34,7 @@ test.describe("Market Intelligence tab", () => {
     await expect(page.locator('#newsTab button.refresh-btn')).toBeVisible();
   });
 
-  test("API contracts — /api/news/market + /api/market-verdict + /api/sector-heatmap respond", async ({ request }) => {
+  test("API contracts — /api/news/market + /api/macro/regime + /api/market-verdict + /api/sector-heatmap respond", async ({ request }) => {
     // Each endpoint may do upstream fetches (Google News RSS, NSE sector
     // indices, etc.) that take >10s on a cold server. Bump the per-test
     // timeout above the 30s default so a slow upstream doesn't tear down
@@ -64,6 +64,7 @@ test.describe("Market Intelligence tab", () => {
     }
 
     const news = await probe("/api/news/market");
+    const macro = await probe("/api/macro/regime");
     const verdict = await probe("/api/market-verdict");
     const heatmap = await probe("/api/sector-heatmap");
 
@@ -73,7 +74,7 @@ test.describe("Market Intelligence tab", () => {
     // when the response had no body. The spec is intentionally loose on
     // the response shape — that's what the unit tests + UI render spec
     // guard. Here we just confirm the route is reachable and well-formed.
-    for (const [name, p] of [["news", news], ["verdict", verdict], ["heatmap", heatmap]]) {
+    for (const [name, p] of [["news", news], ["macro", macro], ["verdict", verdict], ["heatmap", heatmap]]) {
       expect(p.ok, `${name} probe must complete (got error: ${p.err || "none"})`).toBe(true);
       expect(p.status, `${name} status must be <500 (got ${p.status})`).toBeLessThan(500);
       // Body must parse OR be null. We don't fail on null because
@@ -83,6 +84,102 @@ test.describe("Market Intelligence tab", () => {
         expect(typeof p.body, `${name} body must be an object when present`).toBe("object");
       }
     }
+  });
+
+  test("renders the macro regime card from /api/macro/regime", async ({ page }) => {
+    const generatedAt = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+
+    await page.route("**/api/news/market", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          lastUpdated: new Date().toISOString(),
+          digest: {
+            marketMood: "mixed",
+            moodSummary: "Signals are split.",
+            keyTakeaways: ["Macro pressure is the dominant read."],
+            bullishDrivers: [],
+            bearishRisks: [],
+            sectorsToWatch: ["Oil & Gas", "Aviation"],
+          },
+        }),
+      }),
+    );
+    await page.route("**/api/macro/regime", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          regime: "OIL_SHOCK",
+          regimeLabel: "Oil Shock",
+          severity: 4,
+          confidence: 0.72,
+          classifierProvider: "groq",
+          generatedAt,
+          reasoning: "Crude headlines are dominating the macro classifier.",
+          keyEvents: ["Brent crude moves sharply higher before market open."],
+          sectorImpacts: [
+            { sector: "Oil & Gas", impact: 3, reason: "Producer margin tailwind" },
+            { sector: "Aviation", impact: -3, reason: "Fuel cost headwind" },
+          ],
+          transition: {
+            from: "CALM",
+            to: "OIL_SHOCK",
+            signal: {
+              action: "TRIM",
+              summary: "Oil spike favours energy producers and hurts fuel users.",
+            },
+          },
+        }),
+      }),
+    );
+    await page.route("**/api/market-verdict", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          verdict: "CAUTIOUS",
+          verdictColor: "yellow",
+          verdictAction: "Macro risk is elevated.",
+          score: -1,
+          signals: [
+            {
+              name: "Macro Regime",
+              signal: "red",
+              value: "OIL SHOCK · Severity 4/5",
+              action: "High oil = inflation risk.",
+              icon: "!",
+            },
+          ],
+          generatedAt,
+        }),
+      }),
+    );
+    await page.route("**/api/sector-heatmap", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ sectors: [] }),
+      }),
+    );
+
+    await gotoApp(page);
+    await switchTab(page, "news");
+
+    const card = page.getByTestId("market-macro-regime-card");
+    await expect(card).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByTestId("market-macro-regime-label")).toContainText("Oil Shock");
+    await expect(page.getByTestId("market-macro-severity")).toContainText("Severity 4/5");
+    await expect(page.getByTestId("market-macro-freshness")).toContainText("Updated under 1h ago");
+    await expect(card).toContainText("72% confidence");
+    await expect(card).toContainText("GROQ");
+    await expect(card).toContainText("Brent crude moves sharply higher");
+    await expect(page.getByTestId("market-macro-sector-chips")).toContainText("Oil & Gas");
+    await expect(page.getByTestId("market-macro-sector-chips")).toContainText("Aviation");
+    await expect(card).toContainText("CALM");
+    await expect(card).toContainText("OIL_SHOCK");
+    await expect(page.locator("#macroRegimeBanner")).toHaveCount(0);
   });
 
   test("#newsContainer renders past the initial loading-spinner state", async ({ page }) => {

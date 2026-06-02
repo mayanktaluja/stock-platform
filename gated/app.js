@@ -3470,13 +3470,15 @@ async function loadMarketNews(opts = {}) {
   const container = document.getElementById("newsContainer");
 
   try {
-    // Three endpoints feed the slim Market Intelligence tab: digest, verdict, heatmap
-    const [newsRes, verdictRes, heatmapRes] = await Promise.all([
+    // Four endpoints feed the slim Market Intelligence tab: digest, macro regime, verdict, heatmap
+    const [newsRes, macroRes, verdictRes, heatmapRes] = await Promise.all([
       fetch("/api/news/market"),
+      fetch("/api/macro/regime").catch(() => null),
       fetch("/api/market-verdict").catch(() => null),
       fetch("/api/sector-heatmap").catch(() => null),
     ]);
     const data = await newsRes.json();
+    const macroRegime = macroRes && macroRes.ok ? await macroRes.json().catch(() => null) : null;
     const verdict = verdictRes && verdictRes.ok ? await verdictRes.json().catch(() => null) : null;
     const heatmap = heatmapRes && heatmapRes.ok ? await heatmapRes.json().catch(() => null) : null;
 
@@ -3490,7 +3492,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, verdict, heatmap);
+    renderNewsPage(_newsDigest, verdict, heatmap, macroRegime);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -3499,10 +3501,12 @@ async function loadMarketNews(opts = {}) {
   }
 }
 
-function renderNewsPage(digest, verdict, heatmap) {
+function renderNewsPage(digest, verdict, heatmap, macroRegime) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
+
+  html += renderMacroRegimeCard(macroRegime);
 
   // ── Today's Verdict (5-signal dashboard) ──
   if (verdict && verdict.signals) {
@@ -3615,6 +3619,92 @@ function renderNewsPage(digest, verdict, heatmap) {
   html += renderSectorHeatmap(heatmap);
 
   container.innerHTML = html;
+}
+
+function renderMacroRegimeCard(macroRegime) {
+  if (!macroRegime || typeof macroRegime !== "object" || macroRegime.error) return "";
+
+  const generatedAt = macroRegime.generatedAt ? new Date(macroRegime.generatedAt) : null;
+  const ageHours = generatedAt && Number.isFinite(generatedAt.getTime())
+    ? (Date.now() - generatedAt.getTime()) / 36e5
+    : null;
+  const stale = ageHours == null || ageHours > 14;
+  const severity = Number(macroRegime.severity ?? 0);
+  const confidence = Number(macroRegime.confidence ?? 0);
+  const confidenceLabel = Number.isFinite(confidence) && confidence > 0
+    ? `${Math.round(confidence * 100)}% confidence`
+    : "Confidence unavailable";
+  const provider = macroRegime.classifierProvider
+    ? String(macroRegime.classifierProvider).replace(/_/g, " ").toUpperCase()
+    : "UNKNOWN";
+  const label = macroRegime.regimeLabel || String(macroRegime.regime || "Current Regime").replace(/_/g, " ");
+  const regimeId = String(macroRegime.regime || "UNKNOWN").replace(/_/g, " ");
+  const severityColor = severity >= 4 ? "var(--red)" : severity >= 3 ? "var(--yellow)" : "var(--green)";
+  const freshness = ageHours == null
+    ? "No timestamp"
+    : ageHours < 1
+      ? "Updated under 1h ago"
+      : ageHours < 48
+        ? `Updated ${Math.round(ageHours)}h ago`
+        : `Updated ${Math.round(ageHours / 24)}d ago`;
+  const staleNote = stale
+    ? `<div style="margin-top:12px;padding:8px 10px;border-radius:6px;background:rgba(224,176,96,0.08);border:1px solid rgba(224,176,96,0.25);font-size:11px;color:var(--yellow);">Macro regime data is stale or missing a timestamp. Treat this as context until the local refresh pipeline updates.</div>`
+    : "";
+  const keyEvent = Array.isArray(macroRegime.keyEvents) && macroRegime.keyEvents.length > 0
+    ? macroRegime.keyEvents[0]
+    : null;
+  const sectors = Array.isArray(macroRegime.sectorImpacts) ? macroRegime.sectorImpacts.slice(0, 6) : [];
+  const sectorChips = sectors.length > 0
+    ? sectors.map((s) => {
+        const impact = Number(s.impact ?? 0);
+        const color = impact > 0 ? "var(--green)" : impact < 0 ? "var(--red)" : "var(--text-muted)";
+        const bg = impact > 0 ? "rgba(52,211,153,0.08)" : impact < 0 ? "rgba(248,113,113,0.08)" : "rgba(255,255,255,0.04)";
+        const sign = impact > 0 ? "+" : "";
+        const reason = s.reason ? ` · ${s.reason}` : "";
+        return `
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;background:${bg};border:1px solid ${color}33;font-size:11px;color:var(--text-secondary);">
+            <strong style="color:${color};font-family:'JetBrains Mono',monospace;">${sign}${Number.isFinite(impact) ? impact : 0}</strong>
+            ${escapeHtml(s.sector || "Unknown")}${escapeHtml(reason)}
+          </span>`;
+      }).join("")
+    : `<span style="font-size:12px;color:var(--text-muted);">No sector tilts captured for this regime.</span>`;
+  const transition = macroRegime.transition;
+  const transitionHtml = transition && transition.signal
+    ? `
+      <div style="margin-top:12px;padding:10px 12px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:4px;">Regime Transition</div>
+        <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">
+          <strong style="color:var(--text-primary);">${escapeHtml(transition.from || "?")} &rarr; ${escapeHtml(transition.to || "?")}</strong>
+          <span style="color:var(--yellow);font-weight:700;margin-left:8px;">${escapeHtml(transition.signal.action || "WATCH")}</span>
+          ${transition.signal.summary ? `<span style="margin-left:6px;">${escapeHtml(transition.signal.summary)}</span>` : ""}
+        </div>
+      </div>`
+    : "";
+
+  return `
+    <div data-testid="market-macro-regime-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
+        <div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:5px;">Macro Regime</div>
+          <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+            <span data-testid="market-macro-regime-label" style="font-size:20px;font-weight:800;color:var(--text-primary);letter-spacing:-0.2px;">${escapeHtml(label)}</span>
+            <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${escapeHtml(regimeId)}</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+          <span data-testid="market-macro-severity" style="padding:5px 9px;border-radius:6px;background:${severityColor}14;border:1px solid ${severityColor}33;color:${severityColor};font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;">Severity ${Number.isFinite(severity) ? severity : 0}/5</span>
+          <span style="padding:5px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-secondary);font-size:11px;">${escapeHtml(confidenceLabel)}</span>
+          <span style="padding:5px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-secondary);font-size:11px;">${escapeHtml(provider)}</span>
+          <span data-testid="market-macro-freshness" style="padding:5px 9px;border-radius:6px;background:${stale ? "rgba(224,176,96,0.08)" : "rgba(46,204,113,0.08)"};border:1px solid ${stale ? "rgba(224,176,96,0.25)" : "rgba(46,204,113,0.24)"};color:${stale ? "var(--yellow)" : "var(--green)"};font-size:11px;">${escapeHtml(freshness)}</span>
+        </div>
+      </div>
+      ${macroRegime.reasoning ? `<div style="font-size:13px;color:var(--text-secondary);line-height:1.55;margin-bottom:12px;">${escapeHtml(macroRegime.reasoning)}</div>` : ""}
+      ${keyEvent ? `<div style="font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:12px;"><strong style="color:var(--text-secondary);">Key event:</strong> ${escapeHtml(keyEvent)}</div>` : ""}
+      <div data-testid="market-macro-sector-chips" style="display:flex;flex-wrap:wrap;gap:7px;">${sectorChips}</div>
+      ${transitionHtml}
+      ${staleNote}
+    </div>
+  `;
 }
 
 // ── Sector heatmap (19 sectors, ranked by avgChange) ──

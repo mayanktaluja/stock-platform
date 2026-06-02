@@ -35,6 +35,15 @@ portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Market Intelligence macro regime card (June 2026)
+- **This PR** — Market Intelligence now surfaces the current macro regime inside
+  the tab instead of resurrecting the removed global banner. The card reads the
+  existing file-backed `/api/macro/regime` source, shows severity, confidence,
+  freshness, classifier provider, reasoning, key event, sector tilts, and
+  transitions when present. `/api/market-verdict` now hydrates macro context
+  from the same file-backed storage before falling back to CALM, keeping the
+  verdict panel consistent without triggering live classification.
+
 ### US/KR/TW modal enrichment quality gate (June 2026)
 - **This PR** — US, Korea, and Taiwan refresh jobs now treat SWS Recent News
   and Rewards/Risks as a shipping contract for stock-detail modals. The
