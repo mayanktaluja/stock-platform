@@ -32,6 +32,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  extractSwsCurrentPrice,
+  extractSwsFiftyTwoWeek,
+  extractSwsReturnsPct,
+  swsPriceSeries,
+} from "./sws-price-utils.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 const SRC_DIR = path.join(REPO_ROOT, "data/sws/deep-api");
@@ -96,88 +102,10 @@ function extractInfo(api) {
   return api?.graphql?.CompanySummary?.Company?.data?.info || {};
 }
 
-function priceSeries(api) {
-  // rest.price.data is a list of {date, close}. The SWS API returns this
-  // series in NEWEST-FIRST order (verified empirically against the
-  // 2026-04-28 capture). Older versions of this parser assumed oldest-first
-  // and read [length-1] as the latest close, which silently returned the
-  // OLDEST close (up to a year stale) as `current_price_inr` and
-  // collapsed every return calculation toward 0%. Sort ascending so the
-  // rest of the file can rely on [length-1] being the freshest point.
-  const data = Array.isArray(api?.rest?.price?.data) ? api.rest.price.data : [];
-  const dateTs = (value) => {
-    if (typeof value === "number" && Number.isFinite(value)) return value;
-    const t = new Date(value).getTime();
-    return Number.isFinite(t) ? t : 0;
-  };
-  return [...data].sort((a, b) => dateTs(a.date) - dateTs(b.date));
-}
-
-function extractCurrentPrice(api) {
-  const p = priceSeries(api);
-  if (!p.length) return null;
-  return p[p.length - 1]?.close ?? null;
-}
-
-function extractReturnsPct(api) {
-  // Returns over 1D, 7D, 1M, 3M, 6M, 1Y from the price history.
-  // SWS price endpoint typically returns ~1Y of daily data, so 5Y may be
-  // unavailable from the cached series — leave 5Y null in that case.
-  const series = priceSeries(api);
-  if (series.length < 2) return null;
-  const last = series[series.length - 1];
-  const lastPrice = last?.close;
-  const lastDate = last?.date;
-  if (!lastPrice || !lastDate) return null;
-  const lastTs = new Date(lastDate).getTime();
-  const findBaselineN_Days = (days) => {
-    const targetTs = lastTs - days * 86400 * 1000;
-    let best = null;
-    for (const p of series) {
-      if (!p.date || !p.close) continue;
-      const t = new Date(p.date).getTime();
-      if (t <= targetTs) {
-        best = p;
-      }
-    }
-    return best || series.find((p) => p?.date && p?.close) || null;
-  };
-  const ret = (days) => {
-    const p = findBaselineN_Days(days);
-    if (!p?.close || p.close <= 0) return null;
-    return ((lastPrice - p.close) / p.close) * 100;
-  };
-  // findBaselineN_Days snaps to the latest available trading day at or before
-  // the target lookback date. That prevents weekend/holiday targets from
-  // accidentally choosing the current bar and emitting a false 0% 1D return.
-  const r1d = ret(1);
-  const r7d = ret(7);
-  const r1m = ret(30);
-  const r3m = ret(90);
-  const r6m = ret(180);
-  const r1y = ret(365);
-  return {
-    "1D": r1d,
-    "7D": r7d,
-    "1M": r1m,
-    "3M": r3m,
-    "6M": r6m,
-    "1Y": r1y,
-    // Best-effort 5Y — likely null because price series is shorter
-    "5Y": null,
-  };
-}
-
-function extractFiftyTwoWeekFromSwsPrice(api) {
-  const closes = priceSeries(api)
-    .map((p) => finiteNumber(p?.close))
-    .filter((v) => v != null && v > 0);
-  if (!closes.length) return null;
-  return {
-    low: Math.min(...closes),
-    high: Math.max(...closes),
-  };
-}
+const priceSeries = swsPriceSeries;
+const extractCurrentPrice = extractSwsCurrentPrice;
+const extractReturnsPct = extractSwsReturnsPct;
+const extractFiftyTwoWeekFromSwsPrice = extractSwsFiftyTwoWeek;
 
 function extractMarketCap(api) {
   // Per-stock market cap lives at .narratives.edges[0].node.company.data
@@ -1606,6 +1534,7 @@ async function main() {
     }
   }
   console.log(`[parser] ✅ ${ok} parsed, ${failed} failed`);
+  if (failed > 0) process.exitCode = 1;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

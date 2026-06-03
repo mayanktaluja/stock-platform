@@ -1195,6 +1195,23 @@ Inspect data/sws/sws-nightly.log and run:
   exit 8
 fi
 
+echo "[nightly] running packed deep price freshness gate..."
+PRICE_TARBALL_GATE_OUT=$(node scripts/sws-price-freshness-gate.mjs --source tarball --human 2>&1)
+PRICE_TARBALL_GATE_RC=$?
+printf '%s\n' "${PRICE_TARBALL_GATE_OUT}" | sed 's/^/[price-gate] /'
+if [ "${PRICE_TARBALL_GATE_RC}" -ne 0 ]; then
+  echo "[nightly] packed deep price freshness gate failed — refusing to ship stale modal data"
+  send_mail "🚨 SWS nightly — price freshness gate failed" \
+"SWS scrape and sanity gate passed at $(ts), and data/sws/deep.tar.gz was rebuilt, but the deployable tarball still failed the price freshness gate.
+
+Prod serves India stock-detail modals from data/sws/deep.tar.gz, so shipping now could deploy stale Total Returns or modal prices even when loose deep files are fresh.
+
+Gate output:
+
+${PRICE_TARBALL_GATE_OUT}"
+  exit 8
+fi
+
 # ---- 4b. Coverage drift check ----
 #
 # Re-derives the NSE+BSE active equity ground truth and reports any drift
