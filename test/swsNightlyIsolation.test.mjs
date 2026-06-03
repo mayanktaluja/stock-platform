@@ -49,6 +49,9 @@ assert(
 assert(
   "isolated wrapper creates or resets a git worktree",
   /git -C "\$\{PRIMARY_REPO\}" worktree add -B "\$\{BASE_BRANCH\}"/.test(isolated) &&
+    /git -C "\$\{WORKTREE_DIR\}" reset --hard 2>&1/.test(isolated) &&
+    /git -C "\$\{WORKTREE_DIR\}" clean -fd -- \. 2>&1/.test(isolated) &&
+    /git -C "\$\{WORKTREE_DIR\}" checkout -f -B "\$\{BASE_BRANCH\}" origin\/main/.test(isolated) &&
     /git -C "\$\{WORKTREE_DIR\}" reset --hard origin\/main/.test(isolated),
   null,
 );
@@ -56,6 +59,19 @@ assert(
   "isolated wrapper links .env and .env.local into the worktree",
   /for env_file in \.env \.env\.local/.test(isolated) &&
     /ln -sfn "\$\{src\}" "\$\{dest\}"/.test(isolated),
+  null,
+);
+assert(
+  "isolated wrapper links local runtime artifacts",
+  /exclude_worktree_path "node_modules"/.test(isolated) &&
+    /exclude_worktree_path "\.sws-profile-\*"/.test(isolated) &&
+    /exclude_worktree_path "data\/sws\/api-queries\.json"/.test(isolated) &&
+    /rev-parse --git-path info\/exclude/.test(isolated) &&
+    /link_local_artifact "node_modules"/.test(isolated) &&
+    /link_local_artifact "data\/sws\/api-queries\.json"/.test(isolated) &&
+    /link_local_artifact "\.sws-profile-1"/.test(isolated) &&
+    /link_local_artifact "\.sws-profile-2"/.test(isolated) &&
+    /link_local_artifact "\.sws-profile-3"/.test(isolated),
   null,
 );
 assert(

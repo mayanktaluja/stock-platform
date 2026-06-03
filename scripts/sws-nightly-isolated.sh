@@ -32,6 +32,29 @@ send_mail() {
   fi
 }
 
+exclude_worktree_path() {
+  local pattern="$1"
+  local exclude_file
+  exclude_file="$(git -C "${WORKTREE_DIR}" rev-parse --git-path info/exclude 2>/dev/null || true)"
+  if [ -n "${exclude_file}" ]; then
+    mkdir -p "$(dirname "${exclude_file}")"
+    grep -qxF "${pattern}" "${exclude_file}" 2>/dev/null || printf "\n%s\n" "${pattern}" >> "${exclude_file}"
+  fi
+}
+
+link_local_artifact() {
+  local rel="$1"
+  local src="${PRIMARY_REPO}/${rel}"
+  local dest="${WORKTREE_DIR}/${rel}"
+  if [ -e "${src}" ]; then
+    rm -rf -- "${dest}" || fail_critical "local artifact clear failed" "Could not clear ${dest} before linking ${src} at $(ts)." 5
+    mkdir -p "$(dirname "${dest}")"
+    ln -s "${src}" "${dest}" || fail_critical "local artifact link failed" "Could not link ${src} into ${dest} at $(ts)." 5
+  else
+    rm -rf -- "${dest}" 2>/dev/null || true
+  fi
+}
+
 fail_critical() {
   local subject="$1"; local body="$2"; local rc="${3:-5}"
   echo "[isolated-nightly] ${subject}"
@@ -59,7 +82,16 @@ fi
 
 if [ -d "${WORKTREE_DIR}/.git" ] || [ -f "${WORKTREE_DIR}/.git" ]; then
   echo "[isolated-nightly] resetting existing worktree"
-  if ! git -C "${WORKTREE_DIR}" checkout -B "${BASE_BRANCH}" origin/main 2>&1 | sed 's/^/[git] /'; then
+  # This worktree is owned by launchd. A prior run can leave generated data
+  # dirty if publish fails after commit/push, but those files must not block the
+  # next scheduled reset.
+  if ! git -C "${WORKTREE_DIR}" reset --hard 2>&1 | sed 's/^/[git] /'; then
+    fail_critical "worktree pre-reset failed" "Could not discard stale generated changes in ${WORKTREE_DIR} at $(ts)." 5
+  fi
+  if ! git -C "${WORKTREE_DIR}" clean -fd -- . 2>&1 | sed 's/^/[git] /'; then
+    fail_critical "worktree pre-clean failed" "Could not clean stale generated files in ${WORKTREE_DIR} at $(ts)." 5
+  fi
+  if ! git -C "${WORKTREE_DIR}" checkout -f -B "${BASE_BRANCH}" origin/main 2>&1 | sed 's/^/[git] /'; then
     fail_critical "worktree reset failed" "Could not checkout -B ${BASE_BRANCH} origin/main in ${WORKTREE_DIR} at $(ts)." 5
   fi
   if ! git -C "${WORKTREE_DIR}" reset --hard origin/main 2>&1 | sed 's/^/[git] /'; then
@@ -78,6 +110,10 @@ else
   fi
 fi
 
+exclude_worktree_path "node_modules"
+exclude_worktree_path ".sws-profile-*"
+exclude_worktree_path "data/sws/api-queries.json"
+
 for env_file in .env .env.local; do
   src="${PRIMARY_REPO}/${env_file}"
   dest="${WORKTREE_DIR}/${env_file}"
@@ -87,6 +123,12 @@ for env_file in .env .env.local; do
     rm -f "${dest}" 2>/dev/null || true
   fi
 done
+
+link_local_artifact "node_modules"
+link_local_artifact "data/sws/api-queries.json"
+link_local_artifact ".sws-profile-1"
+link_local_artifact ".sws-profile-2"
+link_local_artifact ".sws-profile-3"
 
 if [ -z "${RESEND_API_KEY:-}" ] && [ ! -f "${WORKTREE_DIR}/.env" ] && [ ! -f "${WORKTREE_DIR}/.env.local" ]; then
   fail_critical "mail config unavailable in isolated worktree" "The isolated worktree has no .env/.env.local symlink and launchd env has no RESEND_API_KEY. Critical alerts may not send." 5
