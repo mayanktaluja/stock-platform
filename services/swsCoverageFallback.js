@@ -21,6 +21,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { scoreFundamentalsV2 } from "../fundamentalsV2.js";
 import { num } from "./swsScoring.js";
+import {
+  buildDataQualityGate,
+  buildReductionEvidence,
+  buildSmallcapPolicy,
+  classifyMarketCapBucket,
+  gateReductionAction,
+} from "./portfolioDecisionPolicy.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FUNDAMENTALS_PATH = path.resolve(__dirname, "..", "fundamentals.json");
@@ -119,7 +126,40 @@ export function buildFallbackHolding({ ticker, name, sector, holding }) {
 
   const fallbackSnow = _v2ToSwsSnowflake(v2.pillars || {});
   const v3 = _v3FromV2(v2.score);
-  const action = _fallbackAction(v2.score);
+  const rawAction = _fallbackAction(v2.score);
+  const marketCapBucket = classifyMarketCapBucket(snap.marketCap);
+  const smallcapPolicy = buildSmallcapPolicy({
+    marketCapInr: snap.marketCap,
+    marketCapBucket,
+    positionWeight: num(holding?.positionWeight, 0),
+  });
+  const dataQualityGate = buildDataQualityGate({
+    swsCovered: false,
+    fallback: true,
+    staleData: true,
+    dataAgeHours: null,
+    snowflakeDataQuality: null,
+    marketCapBucket,
+    valuationConfidence: "NONE",
+  });
+  const reductionEvidence = buildReductionEvidence({
+    action: rawAction,
+    legacyAction: rawAction,
+    band: "FALLBACK",
+    dataQualityGate,
+    marketCapBucket,
+    smallcapPolicy,
+    positionWeight: num(holding?.positionWeight, 0),
+    v4: v3,
+    reconciled: { confidence: "NONE", upside_pct: null },
+  });
+  const gated = gateReductionAction({
+    action: rawAction,
+    band: "FALLBACK",
+    reasons: [],
+    reductionEvidence,
+  });
+  const action = gated.action;
   const reasons = [
     `Fallback path — SWS doesn't cover this ticker yet.`,
     `Independent fundamentals score: ${v2.score}/100 (verdict: ${v2.verdict}).`,
@@ -149,6 +189,10 @@ export function buildFallbackHolding({ ticker, name, sector, holding }) {
       fair_value_inr: null,
       upside_pct: null,
       market_cap_inr: num(snap.marketCap, null),
+      market_cap_bucket: marketCapBucket,
+      smallcap_policy: smallcapPolicy,
+      data_quality_gate: dataQualityGate,
+      reduction_evidence: reductionEvidence,
       multiples: { pe: num(snap.pe, null), ps: null, pb: num(snap.priceToBook, null), ev_ebitda: num(snap.enterpriseToEbitda, null) },
       dividend_yield_pct: num(snap.dividendYield, null),
       net_margin_pct: num(snap.profitMargin, null),
@@ -179,6 +223,17 @@ export function buildFallbackHolding({ ticker, name, sector, holding }) {
       },
     },
     action,
+    legacyAction: rawAction,
+    displayActionIntent: reductionEvidence.status === "coverage_watch" ? "Review only" : undefined,
+    reasonFamily: reductionEvidence.intent,
+    actionFactors: [`reduction_${reductionEvidence.status}`],
+    reductionEvidence,
+    dataQualityGate,
+    marketCapBucket,
+    smallcapPolicy,
+    counterEvidence: reductionEvidence.counterEvidence,
+    decisionConfidence: reductionEvidence.decisionConfidence,
+    blockedReasons: reductionEvidence.blockedReasons,
     reasons,
     timing: {
       verdict: action === "HOLD" ? "n/a" : "Yes-not-urgent",

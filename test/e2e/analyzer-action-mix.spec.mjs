@@ -142,6 +142,7 @@ test.describe("Analyzer action-mix chip", () => {
     await expect(fundedPlan).toContainText("Capital ledger");
     await expect(fundedPlan).toContainText("Same-run reductions stay notional until confirmed");
     await expect(fundedPlan).toContainText("Notional reductions");
+    await expect(fundedPlan).toContainText("Blocked / review reduction candidates");
     await expect(page.locator("summary", { hasText: "Eligible but unfunded add candidates" }).first()).toBeVisible();
 
     const order = await page.evaluate(() => {

@@ -33,6 +33,17 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Portfolio Analyzer evidence-gated reductions (June 2026)
+- **This PR** — Portfolio Analyzer reductions now pass through an explicit
+  evidence contract before any ladder sizing can create rupee-sized sell rows.
+  Discounted/high-V4 holdings with stale or single-factor fiscal weakness are
+  downgraded to review/blocked status instead of confirmed reductions, thin SWS
+  coverage becomes `coverage_watch`, and same-run sell proceeds stay excluded
+  from buy capital until confirmed. The cockpit now surfaces decision evidence,
+  counter-evidence, FV/data freshness, small/micro sleeve warnings, and
+  blocked reduction candidates separately from confirmed thesis-break or
+  risk-cap actions.
+
 ### India Growing Sector Value fallback (June 2026)
 - **This PR** — India Market's Growing Sector Value section now keeps showing
   candidates when Sector Outlook is out of sync with the current macro regime.

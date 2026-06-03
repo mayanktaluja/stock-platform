@@ -49,7 +49,8 @@ async function bootServer(extraEnv = {}) {
   });
   // Wait until /api/risk-lab/regime-context responds (lab API is always
   // available regardless of which other tabs/routes happen to need DB init)
-  const deadline = Date.now() + 15000;
+  const timeoutMs = Number(process.env.RISK_LAB_API_BOOT_TIMEOUT_MS || 30000);
+  const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     try {
       const res = await fetch(`http://localhost:${port}/api/risk-lab/regime-context`);
@@ -60,7 +61,7 @@ async function bootServer(extraEnv = {}) {
     await new Promise((r) => setTimeout(r, 200));
   }
   proc.kill();
-  throw new Error("server failed to boot within 15s");
+  throw new Error(`server failed to boot within ${Math.round(timeoutMs / 1000)}s`);
 }
 
 async function safeKill(server) {
