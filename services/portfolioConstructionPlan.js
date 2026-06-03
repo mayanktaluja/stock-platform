@@ -66,6 +66,7 @@ function candidateRejectionReasons(c) {
   if (c.valuation_confidence !== "HIGH") reasons.push("valuation confidence is not HIGH");
   if (!FUNDABLE_VALUATION_BANDS.has(c.valuation_band)) reasons.push("valuation is not at discount/deep discount");
   if (num(c.upside_pct, -Infinity) < 12) reasons.push("FV upside below 12% funding floor");
+  if (c.newsSignal?.signal < 0) reasons.push("negative SWS news vetoes fresh deployment");
   if (c.surveillance?.list) reasons.push(`${c.surveillance.list} surveillance blocks funding`);
   const earningsDays = daysUntil(c.next_earnings_date, c.now);
   if (earningsDays != null && earningsDays >= 0 && earningsDays <= 3) {
@@ -101,6 +102,10 @@ function makeHoldingCandidate(h, context) {
     priceUsable,
     surveillance: sws.surveillance || null,
     next_earnings_date: sws.next_earnings_date || null,
+    newsSignal: h?.newsSignal || sws.news_signal || null,
+    blockedReasons: h?.blockedReasons || [],
+    displayActionIntent: h?.displayActionIntent || null,
+    reasonFamily: h?.reasonFamily || null,
     sectorFitScore: num(h?._sectorFit?.score, 0),
     whyFit: null,
     now: context.now,
@@ -131,6 +136,10 @@ function makeFreshCandidate(row, context) {
     priceUsable: freshPriceUsable(row),
     surveillance: row?.surveillance || null,
     next_earnings_date: row?.next_earnings_date || null,
+    newsSignal: row?.newsSignal || row?.news_signal || null,
+    blockedReasons: row?.blockedReasons || [],
+    displayActionIntent: row?.displayActionIntent || null,
+    reasonFamily: row?.reasonFamily || null,
     sectorFitScore: num(row?._sectorFit?.score ?? row?.sectorFitScore, 0),
     whyFit: row?.whyFit || null,
     now: context.now,
@@ -230,6 +239,10 @@ export function buildPortfolioConstructionPlan({
       unfundedReasons: priceGateReason ? [priceGateReason] : [],
       rejectionReasons,
       whyFit: c.whyFit,
+      newsSignal: c.newsSignal,
+      blockedReasons: c.blockedReasons,
+      displayActionIntent: c.displayActionIntent,
+      reasonFamily: c.reasonFamily,
       _raw: c,
     };
     if (eligible) eligibleAddCandidates.push(candidate);
@@ -320,7 +333,15 @@ export function buildPortfolioConstructionPlan({
       rawAction: h.action,
       tradeRupees,
       fundedTrade: { side: "SELL", tradeRupees },
-      note: "Today sell/trim candidate. Proceeds are not reused for buys until execution is confirmed.",
+      displayActionIntent: h.displayActionIntent || (String(h.action || "").startsWith("EXIT") ? "Exit thesis" : "Trim excess"),
+      reasonFamily: h.reasonFamily || null,
+      actionFactors: h.actionFactors || [],
+      valuationReview: h.valuationReview || h.sws?.valuation_review || null,
+      newsSignal: h.newsSignal || h.sws?.news_signal || null,
+      blockedReasons: h.blockedReasons || [],
+      postTradeWeight: h.postTradeWeight ?? null,
+      requiresConfirmation: h.requiresConfirmation !== false,
+      note: "Suggested reduction candidate. Notional proceeds are not reused for buys until the user confirms the action.",
     });
   }
 
@@ -329,7 +350,7 @@ export function buildPortfolioConstructionPlan({
     zeroStateReasons.push(`Available buy capital below INR ${MIN_FUNDED_TRADE_INR.toLocaleString("en-IN")} minimum trade size.`);
   }
   if (eligibleAddCandidates.length === 0) {
-    zeroStateReasons.push("No add candidate cleared score, valuation, surveillance, and near-term earnings gates.");
+    zeroStateReasons.push("No fundable replacement cleared score, valuation, surveillance, and near-term earnings gates.");
   }
   if (eligibleAddCandidates.length > 0 && fundedTrades.length === 0 && availableBuyCapital >= MIN_FUNDED_TRADE_INR) {
     const priceBlocked = eligibleAddCandidates.every((c) => !c.priceUsable);
@@ -348,7 +369,7 @@ export function buildPortfolioConstructionPlan({
       deployedBuyCapital,
       leftoverCash: remaining,
       minTradeInr: MIN_FUNDED_TRADE_INR,
-      note: "Today's suggested reductions are not counted as available buy capital until execution is confirmed.",
+      note: "Today's suggested reductions are not counted as available buy capital until the user confirms them.",
     },
     constraints: {
       maxFundedAdds: MAX_FUNDED_ADDS,

@@ -18,6 +18,10 @@ function holding({
   staleData = false,
   dataAge = 10,
   priceSource = "sws",
+  newsSignal = null,
+  displayActionIntent = null,
+  postTradeWeight = null,
+  trimRupees = null,
 } = {}) {
   return {
     symbol: ticker,
@@ -27,6 +31,10 @@ function holding({
     positionWeight: currentValue / 10_000,
     sectorWeight: 10,
     action,
+    displayActionIntent,
+    postTradeWeight,
+    trimRupees,
+    newsSignal,
     swsCovered: true,
     staleData,
     priceSource,
@@ -44,6 +52,7 @@ function holding({
       data_age_hours: dataAge,
       surveillance: null,
       next_earnings_date: null,
+      news_signal: newsSignal,
     },
   };
 }
@@ -170,4 +179,66 @@ test("stale fresh candidates can remain eligible but cannot be funded", () => {
   assert.equal(plan.eligibleAddCandidates.length, 1);
   assert.equal(plan.eligibleAddCandidates[0].fundable, false);
   assert.equal(plan.fundedTrades.length, 0);
+});
+
+test("same-run sell candidates do not become buy capital", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "SELLME",
+        action: "Reduction-33%",
+        currentValue: 300_000,
+        displayActionIntent: "Trim excess",
+        postTradeWeight: 2,
+        trimRupees: 99_000,
+      }),
+      holding({ ticker: "BUYME", action: "Top-up-100%", currentValue: 40_000 }),
+    ],
+    freshCapitalInr: 0,
+    confirmedFreedCapitalInr: 0,
+  });
+
+  assert.equal(plan.fundedSells.length, 1);
+  assert.equal(plan.fundedSells[0].displayActionIntent, "Trim excess");
+  assert.equal(plan.fundedSells[0].tradeRupees, 99_000);
+  assert.equal(plan.fundedSells[0].postTradeWeight, 2);
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.equal(plan.capitalLedger.availableBuyCapital, 0);
+  assert.match(plan.capitalLedger.note, /not counted as available buy capital/i);
+});
+
+test("negative SWS news vetoes add funding without creating a sell", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "NEWSVETO",
+        action: "Top-up-100%",
+        newsSignal: { signal: -1, materialDisclosure: true },
+      }),
+    ],
+    freshCapitalInr: 100_000,
+  });
+
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.equal(plan.fundedSells.length, 0);
+  assert.match(plan.rejectedAddCandidates[0].rejectionReasons.join(" "), /negative SWS news vetoes/);
+});
+
+test("positive SWS news does not make an otherwise unfundable add fundable", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "POSNEWS",
+        action: "Top-up-100%",
+        upside: 4,
+        band: "FAIR",
+        newsSignal: { signal: 1, materialDisclosure: false },
+      }),
+    ],
+    freshCapitalInr: 100_000,
+  });
+
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.equal(plan.rejectedAddCandidates.length, 1);
+  assert.match(plan.rejectedAddCandidates[0].rejectionReasons.join(" "), /valuation is not at discount|FV upside below 12/);
 });
