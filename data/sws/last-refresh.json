@@ -1,26 +1,28 @@
 {
-  "started_at": "2026-06-02T19:00:24.000Z",
-  "finished_at": "2026-06-02T19:09:02.001Z",
-  "pipeline": "api",
-  "duration_seconds": 0,
+  "started_at": "2026-06-03T15:18:00.000Z",
+  "finished_at": "2026-06-03T15:26:10.000Z",
+  "pipeline": "api_no_scrape_parse_score_catchup",
+  "duration_seconds": 490,
   "shards_failed": 0,
   "scrape_skipped": true,
   "scored_count": 5561,
   "sections_count": {
     "top_ranked_30_v3": 30,
     "best_to_buy_now": 25,
-    "deep_value": 83,
-    "quality_growth": 234,
+    "deep_value": 79,
+    "growing_sector_value": 0,
+    "quality_growth": 235,
     "best_fundamentals": 100,
-    "midterm": 183,
+    "midterm": 200,
     "dividend_aristocrats": 21,
-    "smallcap_gems": 12,
-    "upcoming_earnings": 3,
-    "avoid": 1297
+    "smallcap_gems": 10,
+    "insider_buying": 0,
+    "upcoming_earnings": 6,
+    "avoid": 1299
   },
   "per_shard_progress": {},
-  "news_populated_count": 5487,
-  "news_items_total": 40673,
+  "news_populated_count": 5490,
+  "news_items_total": 41622,
   "rewards_populated_count": 4654,
   "risks_populated_count": 5250,
   "groww_stock_cache": {
@@ -58,5 +60,14 @@
   "endpoint_timing": {},
   "deep_files_scanned": 5561,
   "stamping_status": "success",
-  "pipeline_status": "skipped_scrape_already_running"
+  "pipeline_status": "no_scrape_parse_score_catchup",
+  "catchup": {
+    "reason": "existing raw SWS captures were newer than parsed deployable price/return artifacts",
+    "raw_capture_count": 5560,
+    "raw_price_as_of": "2026-06-02T00:00:00.000Z",
+    "picks_scanned_at": "2026-06-03T15:22:24.676Z",
+    "parser_dest": "deep",
+    "tarball_packed": true,
+    "price_freshness_gate": "pass"
+  }
 }
