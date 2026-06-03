@@ -182,6 +182,11 @@ check("fails closed on stale or macro-mismatched Sector Outlook", () => {
   });
   assert.equal(mismatch.items.length, 0);
   assert.equal(mismatch.audit.reason, "sector_outlook_macro_mismatch");
+  assert.equal(mismatch.audit.current_regime, "OIL_SHOCK");
+  assert.equal(mismatch.audit.outlook_regime, "CALM");
+  assert.equal(mismatch.audit.ui_warning_label, "Macro mismatch · Oil Shock");
+  assert.match(mismatch.audit.ui_warning_message, /Sector Outlook was generated under Calm/);
+  assert.match(mismatch.audit.ui_warning_message, /current macro is Oil Shock/);
 });
 
 check("withholds section when mapped sector coverage falls below floor", () => {
