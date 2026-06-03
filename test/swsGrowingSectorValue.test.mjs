@@ -91,6 +91,10 @@ check("maps SWS healthcare labels to Sector Outlook Pharma vocabulary", () => {
   assert.equal(mapSwsSectorToOutlookSector("Healthcare"), "Pharma");
 });
 
+check("maps SWS diversified financials to Sector Outlook NBFC vocabulary", () => {
+  assert.equal(mapSwsSectorToOutlookSector("Diversified Financials"), "NBFC");
+});
+
 check("selects HIGH-confidence FV names in tailwind sectors and adds display metadata", () => {
   const result = buildGrowingSectorValueSection([stock("AUTOA")], {
     pickCardFields: card,
