@@ -108,6 +108,37 @@ function macroCompatible(sectorOutlook, macroRegime) {
   return !outlookRegime || !currentRegime || outlookRegime === currentRegime;
 }
 
+function humanRegime(regime) {
+  const raw = String(regime || "").trim().toUpperCase();
+  if (raw === "GLOBAL_RISK_OFF") return "Global Risk-Off";
+  if (!raw) return "Unknown";
+  return raw.toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+}
+
+function failClosedWarning(reason, details = {}) {
+  if (reason === "sector_outlook_macro_mismatch") {
+    const current = humanRegime(details.current_regime);
+    const outlook = humanRegime(details.outlook_regime);
+    return {
+      ui_warning_label: `Macro mismatch · ${current}`,
+      ui_warning_message: `Sector Outlook was generated under ${outlook}, but current macro is ${current}. Candidates are withheld until Sector Outlook refreshes.`,
+    };
+  }
+  if (reason === "sector_outlook_stale") {
+    return {
+      ui_warning_label: "Sector Outlook stale",
+      ui_warning_message: "Candidates are withheld until Sector Outlook refreshes with fresh 3-12m sector data.",
+    };
+  }
+  if (reason === "sector_outlook_missing") {
+    return {
+      ui_warning_label: "Sector Outlook unavailable",
+      ui_warning_message: "Candidates are withheld until Sector Outlook data is available.",
+    };
+  }
+  return {};
+}
+
 export function indexSectorOutlook(sectorOutlook, opts = {}) {
   const now = opts.now instanceof Date ? opts.now : new Date(opts.now || Date.now());
   if (!sectorOutlook || !Array.isArray(sectorOutlook.sectors)) {
@@ -204,6 +235,12 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
         reason: outlookIndex.reason,
         generated_at: outlookIndex.generated_at || null,
         age_hours: outlookIndex.age_hours,
+        current_regime: outlookIndex.current_regime || opts.macroRegime?.regime || null,
+        outlook_regime: outlookIndex.outlook_regime || opts.sectorOutlook?.regime_at_generation?.regime || null,
+        ...failClosedWarning(outlookIndex.reason, {
+          current_regime: outlookIndex.current_regime || opts.macroRegime?.regime || null,
+          outlook_regime: outlookIndex.outlook_regime || opts.sectorOutlook?.regime_at_generation?.regime || null,
+        }),
         base_eligible_count: 0,
         mapped_count: 0,
         selected_count: 0,

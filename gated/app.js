@@ -10665,7 +10665,7 @@ const PICKS_SECTIONS = [
   { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by composite score — start every session here." },
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
-  { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "Fresh sector tailwinds with HIGH-confidence SWS fair value upside ≥ 25%. Experimental cross-check; not a buy-now list." },
+  { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "Fresh sector tailwinds with HIGH-confidence SWS fair value upside ≥ 25%. Experimental cross-check; not a buy-now list.", show_when_empty: true },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
   { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
@@ -10720,6 +10720,7 @@ let picksStatusPollStarted = false;
 // Cached payload from /api/sws-picks so the radio filter can re-render
 // without re-fetching. Set on every successful loadPicks().
 let currentPicksData = null;
+let currentPicksMacroRegime = null;
 
 // V4 is the platform's sole composite score (the V3→V4 migration removed V3 and
 // the A/B toggle). Cards/modals read v4_score_100 / v4_verdict directly.
@@ -11015,6 +11016,9 @@ async function loadPicks() {
       return;
     }
     const data = await res.json();
+    currentPicksMacroRegime = await fetch("/api/macro/regime")
+      .then((r) => r.ok ? r.json() : null)
+      .catch(() => null);
     currentPicksData = data;
     // Disable Large/Mid/Small dropdown options if the server says the
     // constituent JSON isn't loaded (e.g. fresh deploy before first refresh).
@@ -11218,9 +11222,45 @@ function renderPicksChipNav(visibleSections, collapsedState) {
     </div>`;
 }
 
+function humanMacroRegimeLabel(regime) {
+  const raw = String(regime || "").trim().toUpperCase();
+  if (raw === "GLOBAL_RISK_OFF") return "Global Risk-Off";
+  if (!raw) return "Unknown";
+  return raw.toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+}
+
+function getPicksSectionAudit(data, sectionKey) {
+  const audit = data && data.section_audit && data.section_audit[sectionKey];
+  return audit && typeof audit === "object" ? audit : null;
+}
+
+function renderPicksSectionWarning(audit) {
+  if (!audit || audit.available !== false) return { pill: "", empty: "" };
+  let label = audit.ui_warning_label || "";
+  let message = audit.ui_warning_message || "";
+  if (!label && audit.reason === "sector_outlook_macro_mismatch") {
+    const currentRaw = audit.current_regime || currentPicksMacroRegime?.regime || null;
+    const outlookRaw = audit.outlook_regime || null;
+    const current = humanMacroRegimeLabel(currentRaw);
+    const outlook = humanMacroRegimeLabel(outlookRaw);
+    label = `Macro mismatch · ${current}`;
+    message = outlookRaw
+      ? `Sector Outlook was generated under ${outlook}, but current macro is ${current}. Candidates are withheld until Sector Outlook refreshes.`
+      : `Sector Outlook is out of sync with current macro (${current}). Candidates are withheld until Sector Outlook refreshes.`;
+  }
+  if (!label && audit.reason) label = audit.reason.replace(/_/g, " ");
+  if (!message) message = "Candidates are withheld until this section's data gate clears.";
+  return {
+    pill: `<span class="sws-pick-section-warning" title="${escapeHtml(message)}">${escapeHtml(label)}</span>`,
+    empty: `<div class="sws-pick-section-empty" role="note">${escapeHtml(message)}</div>`,
+  };
+}
+
 function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
   const collapsedState = loadPicksCollapsedState();
+  const filterActive = picksFilters.universe !== "all" || picksFilters.sector !== "all";
+  const showDefaultEmptySections = !picksSearchQuery && !filterActive;
 
   // Filter once so chip-nav and the section list stay in sync. Order:
   // universe → sector → search.
@@ -11239,8 +11279,9 @@ function renderPicks(data) {
       .filter((it) => matchesUniverse(it, picksFilters.universe))
       .filter((it) => matchesSector(it, picksFilters.sector))
       .filter((it) => pickMatchesSearch(it, picksSearchQuery));
-    if (items.length === 0) continue;
-    visibleSections.push({ section, items });
+    const showEmptySection = section.show_when_empty && rawItems.length === 0 && showDefaultEmptySections;
+    if (items.length === 0 && !showEmptySection) continue;
+    visibleSections.push({ section, items, audit: getPicksSectionAudit(data, section.key) });
     totalShown += items.length;
     for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
   }
@@ -11270,7 +11311,7 @@ function renderPicks(data) {
     }
   }
 
-  if (!totalShown) {
+  if (!totalShown && visibleSections.length === 0) {
     const uniLabel = ({
       all: "all stocks",
       nifty100: "the Nifty 100 universe",
@@ -11281,7 +11322,6 @@ function renderPicks(data) {
     const secLabel = picksFilters.sector && picksFilters.sector !== "all"
       ? ` in ${escapeHtml(picksFilters.sector)}`
       : "";
-    const filterActive = picksFilters.universe !== "all" || picksFilters.sector !== "all";
     let msg;
     if (picksSearchQuery && filterActive) {
       msg = `No picks match "<strong>${escapeHtml(picksSearchQuery)}</strong>" within ${uniLabel}${secLabel}. Widen the filter or clear the search.`;
@@ -11306,7 +11346,7 @@ function renderPicks(data) {
   // were just wiped by the upcoming innerHTML assignment, so nothing can
   // consume them and they'd otherwise leak across re-renders.
   picksChunkBuffers.clear();
-  const sectionsHtml = visibleSections.map(({ section, items }) => {
+  const sectionsHtml = visibleSections.map(({ section, items, audit }) => {
     const defaultCap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
     const expanded = picksExpandedSections.has(section.key);
     const cap = expanded ? items.length : defaultCap;
@@ -11318,6 +11358,7 @@ function renderPicks(data) {
     const isHero = section.key === "top_ranked_30_v3";
     const isCollapsed = !forceExpand && isPicksSectionCollapsed(collapsedState, section.key);
     const tip = section.term_id ? infoIcon(section.term_id) : "";
+    const sectionWarning = renderPicksSectionWarning(audit);
     // Chunked progressive render: only the first PICKS_EXPANDED_CHUNK_SIZE
     // cards land inline; the rest stream in via an IntersectionObserver
     // sentinel as the user scrolls. Buffers the full filtered slice on
@@ -11341,6 +11382,7 @@ function renderPicks(data) {
               <div class="sws-pick-section-title">
                 <span class="section-name">${section.label}</span>
                 <span class="sws-pick-section-count">${items.length}</span>
+                ${sectionWarning.pill}
                 ${tip}
                 <span class="section-chevron">&#9660;</span>
               </div>
@@ -11353,6 +11395,7 @@ function renderPicks(data) {
             ${cardsHtml}
             ${sentinelHtml}
           </div>
+          ${items.length === 0 ? sectionWarning.empty : ""}
           ${hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="togglePicksExpandAll('${section.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button>${expanded ? "" : ` · or open the PDF for the full list`}</div>` : ""}
         </div>
       </div>`;

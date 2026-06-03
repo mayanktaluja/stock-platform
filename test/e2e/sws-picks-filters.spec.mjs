@@ -181,6 +181,74 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await expect(section).toContainText(/FV 30%\+/i);
   });
 
+  test("Growing Sector Value section stays visible when macro mismatch withholds candidates", async ({ page }) => {
+    await page.route("**/api/sws-picks**", async (route) => {
+      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+        await route.fallback();
+        return;
+      }
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "picks-latest-v3",
+          scoring_version: "test",
+          scanned_at: "2026-06-03T00:00:00.000Z",
+          indexConstituentsAvailable: false,
+          section_audit: {
+            growing_sector_value: {
+              available: false,
+              reason: "sector_outlook_macro_mismatch",
+              generated_at: "2026-06-03T09:04:13.065Z",
+              current_regime: "GLOBAL_RISK_OFF",
+              outlook_regime: "CALM",
+              ui_warning_label: "Macro mismatch · Global Risk-Off",
+              ui_warning_message: "Sector Outlook was generated under Calm, but current macro is Global Risk-Off. Candidates are withheld until Sector Outlook refreshes.",
+              base_eligible_count: 0,
+              mapped_count: 0,
+              selected_count: 0,
+            },
+          },
+          sections: {
+            top_ranked_30_v3: [{
+              ticker: "TOP",
+              name: "Top Pick Ltd",
+              sector: "Software",
+              current_price_inr: 100,
+              fair_value_inr: 130,
+              upside_pct: 30,
+              v4_score_100: 70,
+              v4_verdict: "TOP_PICK",
+              score: 70,
+              snowflake_total: 24,
+              one_line: "Synthetic top pick for render readiness",
+            }],
+            best_to_buy_now: [],
+            deep_value: [],
+            growing_sector_value: [],
+            quality_growth: [],
+          },
+        }),
+      });
+    });
+
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    const chip = page.locator('.sws-pick-chip[data-section-key="growing_sector_value"]');
+    await expect(chip).toBeVisible();
+    await expect(chip).toContainText(/Sector Value/);
+    await expect(chip.locator(".sws-pick-chip-count")).toHaveText("0");
+
+    await chip.click();
+    const section = page.locator('.sws-pick-section[data-section-key="growing_sector_value"]');
+    await expect(section).toBeVisible();
+    await expect(section).toContainText(/Growing Sector Value Stocks/i);
+    await expect(section.locator(".sws-pick-section-warning")).toContainText(/Macro mismatch · Global Risk-Off/i);
+    await expect(section.locator(".sws-pick-section-empty")).toContainText(/Sector Outlook was generated under Calm/i);
+    await expect(section.locator(".sws-pick-section-empty")).toContainText(/current macro is Global Risk-Off/i);
+    await expect(section.locator(".stock-card")).toHaveCount(0);
+  });
+
   test("section chip rail exposes mouse scroll controls and preserves chip jumps", async ({ page }) => {
     await page.setViewportSize({ width: 900, height: 800 });
     await gotoApp(page, { tab: "picks" });
