@@ -181,7 +181,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await expect(section).toContainText(/FV 30%\+/i);
   });
 
-  test("Growing Sector Value section stays visible when macro mismatch withholds candidates", async ({ page }) => {
+  test("Growing Sector Value renders macro fallback candidates when Sector Outlook is mismatched", async ({ page }) => {
     await page.route("**/api/sws-picks**", async (route) => {
       if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
         await route.fallback();
@@ -199,15 +199,16 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
               available: false,
               reason: "sector_outlook_macro_mismatch",
               generated_at: "2026-06-03T09:04:13.065Z",
-              current_regime: "GLOBAL_RISK_OFF",
-              outlook_regime: "CALM",
-              ui_warning_label: "Macro mismatch · Global Risk-Off",
-              ui_warning_message: "Sector Outlook was generated under Calm, but current macro is Global Risk-Off. Candidates are withheld until Sector Outlook refreshes.",
-              base_eligible_count: 0,
-              mapped_count: 0,
-              selected_count: 0,
-            },
-          },
+	              current_regime: "GLOBAL_RISK_OFF",
+	              outlook_regime: "CALM",
+	              display_mode: "macro_value_fallback",
+	              ui_warning_label: "Macro fallback · Global Risk-Off",
+	              ui_warning_message: "Sector Outlook was generated under Calm, so stale Sector Outlook tailwinds are not used. Showing current-macro value candidates from positive Global Risk-Off sectors (Pharma) until Sector Outlook refreshes.",
+	              base_eligible_count: 12,
+	              mapped_count: 1,
+	              selected_count: 1,
+	            },
+	          },
           sections: {
             top_ranked_30_v3: [{
               ticker: "TOP",
@@ -224,9 +225,31 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
             }],
             best_to_buy_now: [],
             deep_value: [],
-            growing_sector_value: [],
-            quality_growth: [],
-          },
+	            growing_sector_value: [{
+	              ticker: "GSVF",
+	              name: "GSV Fallback Ltd",
+	              sector: "Healthcare",
+	              current_price_inr: 100,
+	              fair_value_inr: 150,
+	              upside_pct: 50,
+	              valuation_band: "DEEP_DISCOUNT",
+	              fair_value_confidence: "HIGH",
+	              v4_score_100: 66,
+	              v4_verdict: "STRONG",
+	              composite_verdict: "STRONG",
+	              score: 66,
+	              snowflake_total: 22,
+	              selection_basis: "macro_value_fallback",
+	              sector_outlook_used: false,
+	              macro_fallback_label: "Macro fallback · Global Risk-Off",
+	              macro_impact_score: 3,
+	              macro_impact_sector: "Pharma",
+	              macro_impact_reason: "Defensive earnings profile under risk-off",
+	              fv_discount_badge_30plus: true,
+	              one_line: "Macro fallback candidate with HIGH-confidence FV discount",
+	            }],
+	            quality_growth: [],
+	          },
         }),
       });
     });
@@ -235,19 +258,22 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await waitForPicksLoaded(page);
 
     const chip = page.locator('.sws-pick-chip[data-section-key="growing_sector_value"]');
-    await expect(chip).toBeVisible();
-    await expect(chip).toContainText(/Sector Value/);
-    await expect(chip.locator(".sws-pick-chip-count")).toHaveText("0");
+	    await expect(chip).toBeVisible();
+	    await expect(chip).toContainText(/Sector Value/);
+	    await expect(chip.locator(".sws-pick-chip-count")).toHaveText("1");
 
     await chip.click();
-    const section = page.locator('.sws-pick-section[data-section-key="growing_sector_value"]');
-    await expect(section).toBeVisible();
-    await expect(section).toContainText(/Growing Sector Value Stocks/i);
-    await expect(section.locator(".sws-pick-section-warning")).toContainText(/Macro mismatch · Global Risk-Off/i);
-    await expect(section.locator(".sws-pick-section-empty")).toContainText(/Sector Outlook was generated under Calm/i);
-    await expect(section.locator(".sws-pick-section-empty")).toContainText(/current macro is Global Risk-Off/i);
-    await expect(section.locator(".stock-card")).toHaveCount(0);
-  });
+	    const section = page.locator('.sws-pick-section[data-section-key="growing_sector_value"]');
+	    await expect(section).toBeVisible();
+	    await expect(section).toContainText(/Growing Sector Value Stocks/i);
+	    await expect(section.locator(".sws-pick-section-warning")).toContainText(/Macro fallback · Global Risk-Off/i);
+	    await expect(section.locator(".sws-pick-section-empty")).toContainText(/Sector Outlook was generated under Calm/i);
+	    await expect(section.locator(".sws-pick-section-empty")).toContainText(/stale Sector Outlook tailwinds are not used/i);
+	    await expect(section.locator(".stock-card")).toHaveCount(1);
+	    await expect(section).toContainText(/Macro fallback · Global Risk-Off/i);
+	    await expect(section).toContainText(/FV 30%\+/i);
+	    await expect(section.locator(".stock-card")).not.toContainText(/TAILWIND ·/i);
+	  });
 
   test("section chip rail exposes mouse scroll controls and preserves chip jumps", async ({ page }) => {
     await page.setViewportSize({ width: 900, height: 800 });

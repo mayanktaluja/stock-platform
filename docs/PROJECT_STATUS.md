@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-02**
+**Last updated: 2026-06-04**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,16 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### India Growing Sector Value fallback (June 2026)
+- **This PR** — India Market's Growing Sector Value section now keeps showing
+  candidates when Sector Outlook is out of sync with the current macro regime.
+  The canonical Sector Outlook tailwind strategy still fails closed on
+  stale/macro-mismatched outlooks, but the UI can render a clearly labeled
+  current-macro fallback using only positive macro sector impacts plus the
+  existing high-confidence fair-value and hygiene gates. Macro-fallback rows
+  are marked separately and are not snapshotted into the canonical
+  `sws_growing_sector_value` Track Record cohort.
 
 ### Lab surface decommission (June 2026)
 - **This PR** — Compounder Lab and Earnings Edge are fully retired: tabs,
