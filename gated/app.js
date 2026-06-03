@@ -6096,9 +6096,9 @@ const SWS_ACTION_COLORS = {
   "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
 };
 
-function swsActionBadge(action) {
+function swsActionBadge(action, displayLabel) {
   const c = SWS_ACTION_COLORS[action] || SWS_ACTION_COLORS["HOLD"];
-  return `<span style="display:inline-block; padding:4px 10px; border-radius:5px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">${action || "—"}</span>`;
+  return `<span title="${swsEscapeAttr(action || "")}" style="display:inline-block; padding:4px 10px; border-radius:5px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">${displayLabel || action || "—"}</span>`;
 }
 
 function swsTimingBadge(timing) {
@@ -6445,16 +6445,23 @@ function swsHoldingRow(h) {
   // research size and must not look like executable capital; funded buys are
   // rendered only in the construction plan.
   const rupeesInline = (() => {
-    const r = h.trimRupees ?? null;
+    const r = h.notionalTradeValue ?? h.trimRupees ?? null;
     if (!Number.isFinite(r) || r <= 0) return "";
-    return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${inr(r)}</div>`;
+    return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">notional ${inr(r)}</div>`;
   })();
+  const intent = h.displayActionIntent || h.displayAction || h.action;
+  const postWeight = h.postTradeWeight != null && h.postTradeWeight !== h.positionWeight
+    ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">target/post ${h.positionWeight ?? "—"}% → ${h.postTradeWeight}%</div>`
+    : "";
+  const blocked = Array.isArray(h.blockedReasons) && h.blockedReasons.length
+    ? `<div style="font-size:10px; color:#fde047; margin-top:3px;">${swsEscapeAttr(h.blockedReasons[0])}</div>`
+    : "";
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
-    <td style="padding:10px 12px;">${swsActionBadge(h.action)}${rupeesInline}</td>
+    <td style="padding:10px 12px;">${swsActionBadge(h.action, intent)}${rupeesInline}${postWeight}${blocked}</td>
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${v4}</div>
       <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
@@ -6465,7 +6472,7 @@ function swsHoldingRow(h) {
       <div style="font-size:10px; color:var(--text-muted);">${pos} of book</div>
     </td>
     <td style="padding:10px 12px; text-align:right; color:${pctColor(pnlPct)}; font-weight:600;">${pnlPct != null ? (pnlPct >= 0 ? "+" : "") + pnlPct + "%" : "—"}</td>
-    <td style="padding:10px 12px; text-align:right; color:#86efac; font-weight:600;">${h.freedRupees != null ? inr(h.freedRupees) : "—"}</td>
+    <td style="padding:10px 12px; text-align:right; color:#86efac; font-weight:600;">${h.notionalTradeValue != null ? inr(h.notionalTradeValue) : h.freedRupees != null ? inr(h.freedRupees) : "—"}</td>
     <td style="padding:10px 12px;">${swsTimingBadge(h.timing)}</td>
   </tr>`;
 }
@@ -6648,6 +6655,36 @@ function swsAuditTrailDetails(audit) {
   </details>`;
 }
 
+function swsValuationReviewDetails(review) {
+  if (!review || !review.bucket) return "";
+  const bucketLabel = String(review.bucket).replace(/_/g, " ");
+  const tone = review.recommendation === "rebalance_candidate" ? "#fde047" : review.recommendation === "review_only" ? "#93c5fd" : "var(--text-muted)";
+  const hard = Array.isArray(review.hardPortfolioReasons) && review.hardPortfolioReasons.length
+    ? `<div style="margin-top:5px; color:#fde047;">Trigger: ${swsEscapeAttr(review.hardPortfolioReasons.join(", "))}</div>`
+    : "";
+  return `<div style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.16); border-radius:5px;">
+    <strong style="color:${tone};">Valuation review:</strong> ${swsEscapeAttr(bucketLabel)}
+    ${review.upside_pct != null ? `<span style="color:${review.upside_pct >= 0 ? '#86efac' : '#fca5a5'};"> · ${review.upside_pct >= 0 ? '+' : ''}${Number(review.upside_pct).toFixed(1)}% to FV</span>` : ""}
+    <div style="margin-top:5px;">${swsEscapeAttr(review.rationale || "")}</div>
+    ${hard}
+  </div>`;
+}
+
+function swsNewsSignalDetails(signal) {
+  if (!signal || !signal.available) return "";
+  const color = signal.signal < 0 ? "#fca5a5" : signal.signal > 0 ? "#86efac" : "var(--text-muted)";
+  const evidence = Array.isArray(signal.evidence) ? signal.evidence.slice(0, 3) : [];
+  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(255,255,255,0.025); border:1px solid #1f2937; border-radius:5px;">
+    <summary style="cursor:pointer; list-style:none; color:${color}; font-weight:800;">SWS news evidence ▾</summary>
+    <div style="margin-top:7px; line-height:1.45;">${swsEscapeAttr(signal.summary || "News is evidence only.")}</div>
+    ${evidence.length ? `<div style="margin-top:7px; display:flex; flex-direction:column; gap:5px;">${evidence.map((row) => `
+      <div>
+        <strong>${swsEscapeAttr(row.title || "SWS update")}</strong>
+        <div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(row.date || "")}${row.reason ? " · " + swsEscapeAttr(row.reason) : ""}</div>
+      </div>`).join("")}</div>` : ""}
+  </details>`;
+}
+
 function swsReasonRow(h) {
   if (!h.reasons || h.reasons.length === 0) return "";
   const tk = h.sws?.ticker || h.symbol || "—";
@@ -6679,6 +6716,8 @@ function swsReasonRow(h) {
     </div>
     <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
       ${timingBox}
+      ${swsValuationReviewDetails(h.valuationReview || sws.valuation_review)}
+      ${swsNewsSignalDetails(h.newsSignal || sws.news_signal)}
       ${swsCatalystCalendar(sws.catalyst)}
       ${swsTopPeerChip(h)}
       ${swsPeerSubstitutes(sws.peer_substitute)}
@@ -6698,7 +6737,7 @@ function renderSWSTierA(tier) {
   return `<div style="margin-bottom:22px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; gap:12px; flex-wrap:wrap;">
       <div style="font-size:14px; font-weight:700;">Tier A · Reductions <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${tier.rows.length})</span></div>
-      <div style="font-size:12px; color:var(--text-muted);">Potential gross freed capital <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong>; redeploy only after execution is confirmed</div>
+      <div style="font-size:12px; color:var(--text-muted);">Notional reduction value <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
     </div>
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
@@ -7448,12 +7487,12 @@ function renderSWSConstructionPlan(plan) {
     `).join("");
 
   const sellRows = fundedSells.length === 0
-    ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">No funded sell/exit orders in this pass.</div>`
+    ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">No suggested reduction or exit-thesis rows in this pass.</div>`
     : fundedSells.slice(0, 6).map((t) => `
       <div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:8px 0; border-top:1px solid #1a2238;">
         <div>
-          <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")}</div>
-          <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(t.rawAction || "")} · proceeds not reused until confirmed</div>
+          <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:#fca5a5;">${swsEscapeAttr(t.displayActionIntent || t.rawAction || "")}</span></div>
+          <div style="font-size:11px; color:var(--text-muted);">notional only · not reusable until confirmed${t.postTradeWeight != null ? ` · post ${swsEscapeAttr(String(t.postTradeWeight))}%` : ""}</div>
         </div>
         <div class="tx-num" style="font-size:12px; color:#fca5a5; font-weight:700;">${inr(t.tradeRupees || 0)}</div>
       </div>
@@ -7472,8 +7511,8 @@ function renderSWSConstructionPlan(plan) {
     <section class="analyzer-funded-plan" data-funded-plan style="background:var(--panel); border:1px solid rgba(96,165,250,0.32); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start;">
         <div>
-          <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Today's funded plan ${notAdviceChip("inline")}</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Only this panel contains executable buy rupees. Raw SWS top-ups below are research candidates.</div>
+          <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Capital ledger ${notAdviceChip("inline")}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Buy rupees use fresh capital plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
         </div>
         <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:11px;">
           <span>Available <strong data-funded-available-capital style="color:#e5e7eb;">${inr(ledger.availableBuyCapital || 0)}</strong></span>
@@ -7487,7 +7526,7 @@ function renderSWSConstructionPlan(plan) {
           ${buyRows}
         </div>
         <div>
-          <div style="font-size:11px; color:#fca5a5; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded sells/exits (${fundedSells.length})</div>
+          <div style="font-size:11px; color:#fca5a5; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Notional reductions (${fundedSells.length})</div>
           ${sellRows}
         </div>
       </div>
@@ -7725,8 +7764,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   const actionParts = [];
   if (holdCount > 0) actionParts.push(`<strong>${holdCount}</strong> to hold`);
   if (topUpCount > 0) actionParts.push(`<strong>${topUpCount}</strong> add candidates`);
-  if (trimCount > 0) actionParts.push(`<strong>${trimCount}</strong> to trim`);
-  if (exitCount > 0) actionParts.push(`<strong>${exitCount}</strong> to exit`);
+  if (trimCount > 0) actionParts.push(`<strong>${trimCount}</strong> reduction reviews`);
+  if (exitCount > 0) actionParts.push(`<strong>${exitCount}</strong> exit-thesis reviews`);
   if (actionParts.length > 0) {
     heroSentences.push(`The engine reads ${actionParts.join(", ")}.`);
   }
@@ -12604,12 +12643,12 @@ document.addEventListener("keydown", (e) => {
 // existing swsHoldingRow renderer so the table format mirrors Tier A.
 
 const ACTION_HELP_TEXT = {
-  HOLD: "These stocks scored well enough to keep without action. No buying or selling needed.",
-  EXIT: "Full exit recommended — score and outlook no longer support a position.",
-  "EXIT-now": "Sell the entire position now — flagged for immediate exit.",
-  "EXIT-staged": "Sell half today; the second half is contingent on a confirmation break.",
-  Reduction: "Trim the position to free up capital for stronger ideas.",
-  "Top-up": "Add to the position — the engine sees a favourable risk/reward.",
+  HOLD: "No action proposed. Keep reviewing valuation, freshness, and portfolio fit.",
+  EXIT: "Exit-thesis review candidate. Confirm evidence, costs, and replacement plan before acting.",
+  "EXIT-now": "Highest-severity exit-thesis candidate. Requires manual confirmation.",
+  "EXIT-staged": "Staged exit-thesis review with confirmation checkpoints.",
+  Reduction: "Reduction review candidate. Check target weight, notional value, costs, and evidence.",
+  "Top-up": "Add candidate only. Funded rupees appear only when capital and risk gates clear.",
 };
 
 function actionHelpText(action) {

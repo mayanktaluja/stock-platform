@@ -160,7 +160,7 @@ export function computeTimingObservation({
     return {
       verdict: "Wait-for-open",
       window: "next-session",
-      reason: `Pre-open auction in progress — regular session opens at 09:15 IST; orders here only at limit, no market orders.${closedSuffix}`,
+      reason: `Pre-open auction in progress — regular session opens at 09:15 IST; use this as a liquidity caution, not an action prompt.${closedSuffix}`,
       earnings_alert: earningsAlert,
     };
   }
@@ -243,7 +243,7 @@ export function computeTimingObservation({
     return {
       verdict: "Soft-no",
       window: "closing-vwap",
-      reason: `Severe macro regime against your sector — scale out via closing VWAP, not market orders.${earningsSuffix}`,
+      reason: `Severe macro regime against your sector — review exposure against closing VWAP, not intraday urgency.${earningsSuffix}`,
       earnings_alert: earningsAlert,
     };
   }
