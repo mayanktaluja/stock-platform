@@ -6,6 +6,7 @@
 
 import {
   SECTION_PERFORMANCE_COHORT_SIZES,
+  SECTION_PERFORMANCE_WINDOW_DEFINITIONS,
   SWS_SECTION_PERFORMANCE_REGISTRY,
   buildDailySectionCohortRows,
   buildSectionPerformanceApiPayload,
@@ -32,6 +33,8 @@ function assert(name, cond, got) {
 }
 
 function pick(ticker, r7, r30, extra = {}) {
+  const r3m = extra.r3m ?? r30;
+  const r1y = extra.r1y ?? r30;
   return {
     ticker,
     name: `${ticker} Ltd`,
@@ -41,13 +44,15 @@ function pick(ticker, r7, r30, extra = {}) {
     returns_pct: {
       "7D": r7,
       "1M": r30,
+      "3M": r3m,
+      "1Y": r1y,
     },
     ...extra,
   };
 }
 
-function numberedPicks(prefix, count, r7, r30) {
-  return Array.from({ length: count }, (_, idx) => pick(`${prefix}${idx + 1}`, r7 + idx, r30 + idx));
+function numberedPicks(prefix, count, r7, r30, r3m = r30, r1y = r30) {
+  return Array.from({ length: count }, (_, idx) => pick(`${prefix}${idx + 1}`, r7 + idx, r30 + idx, { r3m: r3m + idx, r1y: r1y + idx }));
 }
 
 function pricedPicks(prefix, prices) {
@@ -60,7 +65,7 @@ function storedConstituents(prefix, count, r7) {
     symbol: `${prefix}${idx + 1}.NS`,
     rank: idx + 1,
     price_inr: 100,
-    returns_pct: { "7d": r7 },
+    returns_pct: { "7d": r7, "30d": r7, "3m": r7, "1y": r7 },
   }));
 }
 
@@ -201,6 +206,47 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   });
   assert("window is not eligible without Nifty 50 benchmark data", payload.windows[0].outperformed === false && payload.bestOverall === null, payload);
   assert("row records missing Nifty 50 benchmark as a quality flag", payload.windows[0].sections[0].qualityFlags.includes("missing_benchmark_7d"), payload.windows[0].sections[0]);
+}
+
+// ──── 4d. Longer enabled windows map to their own SWS return keys ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: numberedPicks("BUY", 10, 1, 2, 20, 50),
+    },
+  });
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["3m", "1y"],
+    cohorts: [10],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "3m": 5, "1y": 10 },
+  });
+  const byWindow = Object.fromEntries(payload.windows.map((w) => [w.window, w]));
+  const w3m = byWindow["3m"].sections.find((s) => s.type === "sws_best_buynow");
+  const w1y = byWindow["1y"].sections.find((s) => s.type === "sws_best_buynow");
+  assert("3m window uses the SWS 3M return key", w3m.underlyingReturnPct === 24.5 && w3m.alphaPct === 19.5, w3m);
+  assert("1y window uses the SWS 1Y return key", w1y.underlyingReturnPct === 54.5 && w1y.alphaPct === 44.5, w1y);
+  assert("1y latest sample is not homepage spotlight eligible", w1y.spotlightEligible === false && payload.spotlightSection.window === "3m", { w1y, spotlight: payload.spotlightSection });
+}
+
+// ──── 4e. Disabled 3y/5y windows are visible status payloads, not winners ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: numberedPicks("BUY", 10, 1, 2, 20, 50),
+    },
+  });
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["3y", "5y"],
+    cohorts: [10],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: {},
+  });
+  assert("3y/5y are accepted window definitions", SECTION_PERFORMANCE_WINDOW_DEFINITIONS["3y"].enabled === false && SECTION_PERFORMANCE_WINDOW_DEFINITIONS["5y"].enabled === false, SECTION_PERFORMANCE_WINDOW_DEFINITIONS);
+  assert("disabled windows return status payloads", payload.windows.length === 2 && payload.windows.every((w) => w.enabled === false && w.sections.length === 0 && w.bestSection === null), payload.windows);
+  assert("disabled windows cannot win Track tab or homepage selection", payload.bestOverall === null && payload.spotlightSection === null, payload);
 }
 
 // ──── 5. LONG and SHORT alpha signs match platform-call semantics ────
@@ -414,6 +460,42 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   assert("resolved sections share one Nifty 50 benchmark return", benchmarks.size === 1 && benchmarks.has(2), win.sections);
   assert("resolved window does not expose benchmarkComparisons", !("benchmarkComparisons" in win), win);
   assert("resolved bestOverall alpha is directly vs Nifty 50", payload.bestOverall.type === "sws_quality_growth" && payload.bestOverall.alphaPct === 8, payload.bestOverall);
+}
+
+// ──── 11b. Stored 3m cohorts use the 91-day maturity window, not 7d ────
+{
+  const startRows = buildDailySectionCohortRows({
+    scanned_at: "2026-01-01T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: pricedPicks("BUY", [100, 100, 100]),
+    },
+  }, { cohorts: [3], dateKey: "2026-01-01" });
+  const earlyRows = buildDailySectionCohortRows({
+    scanned_at: "2026-01-08T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: pricedPicks("BUY", [120, 120, 120]),
+    },
+  }, { cohorts: [3], dateKey: "2026-01-08" });
+  const maturedRows = buildDailySectionCohortRows({
+    scanned_at: "2026-04-02T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: pricedPicks("BUY", [130, 130, 130]),
+    },
+  }, { cohorts: [3], dateKey: "2026-04-02" });
+  const payload = await buildStoredResolvedSectionPerformancePayload([...startRows, ...earlyRows, ...maturedRows], {
+    windows: ["3m"],
+    cohorts: [3],
+    benchmarkSeriesByProxy: {
+      nifty50_tri: [
+        { date: "2026-01-01", nav: 100 },
+        { date: "2026-01-08", nav: 105 },
+        { date: "2026-04-02", nav: 110 },
+      ],
+    },
+  });
+  const win = payload.windows[0];
+  assert("3m stored window resolves against the 91-day date", win.fromDate === "2026-01-01" && win.toDate === "2026-04-02", win);
+  assert("3m stored window uses the 91-day exit prices", win.bestSection.sectionReturnPct === 30 && win.bestSection.alphaPct === 20, win.bestSection);
 }
 
 // ──── 12. Legacy top-10 row dedupes against official top-10 row ────

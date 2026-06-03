@@ -18,7 +18,32 @@ import {
 export const SECTION_PERFORMANCE_SCHEMA_VERSION = "sws-section-performance-v1";
 export const SECTION_PERFORMANCE_TOP_N = 10;
 export const SECTION_PERFORMANCE_COHORT_SIZES = [3, 5, 10, 20];
-export const SECTION_PERFORMANCE_TIMEFRAMES = ["7d", "30d"];
+export const SECTION_PERFORMANCE_WINDOW_DEFINITIONS = {
+  "7d": { label: "7d", returnKey: "7D", days: 7, enabled: true, spotlightLatest: true, spotlightResolved: true },
+  "30d": { label: "30d", returnKey: "1M", days: 30, enabled: true, spotlightLatest: true, spotlightResolved: true },
+  "3m": { label: "3m", returnKey: "3M", days: 91, enabled: true, spotlightLatest: true, spotlightResolved: true },
+  "1y": { label: "1y", returnKey: "1Y", days: 365, enabled: true, spotlightLatest: false, spotlightResolved: true },
+  "3y": {
+    label: "3y",
+    days: 1095,
+    enabled: false,
+    disabledReason: "Waiting for 3 years of daily section snapshots before this can become a Track Record window.",
+    spotlightLatest: false,
+    spotlightResolved: false,
+  },
+  "5y": {
+    label: "5y",
+    days: 1825,
+    enabled: false,
+    disabledReason: "Waiting for 5 years of daily section snapshots before this can become a Track Record window.",
+    spotlightLatest: false,
+    spotlightResolved: false,
+  },
+};
+export const SECTION_PERFORMANCE_WINDOWS = Object.keys(SECTION_PERFORMANCE_WINDOW_DEFINITIONS);
+export const SECTION_PERFORMANCE_TIMEFRAMES = SECTION_PERFORMANCE_WINDOWS.filter(
+  (w) => SECTION_PERFORMANCE_WINDOW_DEFINITIONS[w]?.enabled
+);
 export const DEFAULT_SECTION_BENCHMARK_PROXY = "nifty50_tri";
 
 export const SWS_SECTION_PERFORMANCE_REGISTRY = {
@@ -85,10 +110,9 @@ export const SWS_SECTION_PERFORMANCE_REGISTRY = {
 };
 const PUBLIC_SECTION_PERFORMANCE_EXCLUDED_KEYS = new Set(["upcoming_earnings", "avoid"]);
 
-const RETURN_KEY_BY_TIMEFRAME = {
-  "7d": "7D",
-  "30d": "1M",
-};
+const RETURN_KEY_BY_TIMEFRAME = Object.fromEntries(
+  SECTION_PERFORMANCE_TIMEFRAMES.map((w) => [w, SECTION_PERFORMANCE_WINDOW_DEFINITIONS[w].returnKey])
+);
 
 function num(value) {
   if (value == null || value === "") return null;
@@ -507,8 +531,34 @@ export function buildSectionPerformancePayload(rows, opts = {}) {
 
 export function normalizeSectionPerformanceWindows(windows) {
   const raw = Array.isArray(windows) ? windows : String(windows || "").split(",");
-  const out = raw.map((w) => String(w || "").trim().toLowerCase()).filter((w) => SECTION_PERFORMANCE_TIMEFRAMES.includes(w));
+  const out = raw.map((w) => String(w || "").trim().toLowerCase()).filter((w) => SECTION_PERFORMANCE_WINDOWS.includes(w));
   return out.length ? [...new Set(out)] : [...SECTION_PERFORMANCE_TIMEFRAMES];
+}
+
+function enabledWindows(windows) {
+  return normalizeSectionPerformanceWindows(windows).filter((w) => SECTION_PERFORMANCE_WINDOW_DEFINITIONS[w]?.enabled);
+}
+
+function sectionPerformanceWindowDays(windowKey) {
+  return SECTION_PERFORMANCE_WINDOW_DEFINITIONS[windowKey]?.days ?? null;
+}
+
+function disabledWindowPayload(windowKey, opts = {}) {
+  const def = SECTION_PERFORMANCE_WINDOW_DEFINITIONS[windowKey] || {};
+  return {
+    window: windowKey,
+    label: def.label || windowKey,
+    enabled: false,
+    disabledReason: def.disabledReason || "This Track Record window is not available yet.",
+    fromDate: null,
+    toDate: null,
+    benchmarkReturnPct: null,
+    sampleStatus: opts.sampleStatus || "insufficient_history",
+    cohorts: opts.cohorts || [],
+    outperformed: false,
+    bestSection: null,
+    sections: [],
+  };
 }
 
 export async function getLatestBenchmarkReturns(windows = SECTION_PERFORMANCE_TIMEFRAMES, series = null, proxyKey = DEFAULT_SECTION_BENCHMARK_PROXY) {
@@ -517,7 +567,8 @@ export async function getLatestBenchmarkReturns(windows = SECTION_PERFORMANCE_TI
   if (!latest) return {};
   const out = {};
   for (const w of normalizeSectionPerformanceWindows(windows)) {
-    const days = w === "30d" ? 30 : 7;
+    const days = sectionPerformanceWindowDays(w);
+    if (!SECTION_PERFORMANCE_WINDOW_DEFINITIONS[w]?.enabled || !days) continue;
     const fromDate = addDays(latest.date, -days);
     const startNav = navAtOrBefore(resolvedSeries, fromDate);
     out[w] = {
@@ -530,6 +581,7 @@ export async function getLatestBenchmarkReturns(windows = SECTION_PERFORMANCE_TI
 }
 
 function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
+  const def = SECTION_PERFORMANCE_WINDOW_DEFINITIONS[timeframe] || {};
   const perf = section?.performance_by_timeframe?.[timeframe];
   if (!perf) return null;
   const requestedCohortSize = section.requested_cohort_size || perf.requested_cohort_size || SECTION_PERFORMANCE_TOP_N;
@@ -544,6 +596,10 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
     (perf.n_with_return || 0) >= 3 &&
     Number.isFinite(coveragePct) &&
     coveragePct >= 80;
+  const spotlightEligible =
+    eligibleForBanner &&
+    ((sampleStatus === "resolved" && def.spotlightResolved !== false) ||
+      (sampleStatus === "latest_available" && def.spotlightLatest === true));
   return {
     type: section.type,
     sectionKey: section.sectionKey,
@@ -554,6 +610,7 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
     cohortLabel: label,
     cohortKey: section.cohort_key || perf.cohort_key || cohortKeyForConstituents(section.constituents),
     eligibleForBanner,
+    spotlightEligible,
     sampleSize: perf.n_with_return ?? section.constituents?.length ?? 0,
     coveragePct,
     weighting: `equal_${label.replace(/\s+/g, "_")}`,
@@ -620,19 +677,29 @@ function chooseBestWindowSection(sections) {
   return { ...best, outperformed: eligiblePositive.length > 0 && best.eligibleForBanner === true && best.alphaPct > 0 };
 }
 
+function chooseSpotlightSection(sections) {
+  const eligible = (Array.isArray(sections) ? sections : [])
+    .filter((s) => s?.spotlightEligible === true && Number.isFinite(s.alphaPct) && s.alphaPct > 0);
+  if (eligible.length === 0) return null;
+  return { ...[...eligible].sort(candidateSort)[0], outperformed: true };
+}
+
 export function buildSectionPerformanceApiPayload(rows, opts = {}) {
   const windows = normalizeSectionPerformanceWindows(opts.windows || opts.timeframes);
+  const computableWindows = enabledWindows(windows);
   const cohorts = normalizeSectionPerformanceCohorts(opts.cohorts ?? opts.cohortSizes);
   const sampleStatus = opts.sampleStatus || opts.mode || "latest_available";
   const benchmarkReturnsByTimeframe = opts.benchmarkReturnsByTimeframe || {};
   const cohortSet = new Set(cohorts);
   const filteredRows = dedupeRowsByCohort(filterPublicSectionRows(rows)).filter((row) => cohortSet.has(row.requested_cohort_size));
   const base = buildSectionPerformancePayload(filteredRows, {
-    timeframes: windows,
+    timeframes: computableWindows,
     benchmarkReturnsByTimeframe,
     mode: sampleStatus,
   });
   const windowPayloads = windows.map((w) => {
+    const def = SECTION_PERFORMANCE_WINDOW_DEFINITIONS[w] || {};
+    if (!def.enabled) return disabledWindowPayload(w, { cohorts, sampleStatus: "insufficient_history" });
     const dates = opts.datesByTimeframe?.[w] || {};
     const sections = markDuplicateCohortEligibility(base.sections
       .map((s) => toWindowSection(s, w, sampleStatus, dates))
@@ -641,6 +708,9 @@ export function buildSectionPerformanceApiPayload(rows, opts = {}) {
     const bestSection = chooseBestWindowSection(sections);
     return {
       window: w,
+      label: def.label || w,
+      enabled: true,
+      disabledReason: null,
       fromDate: dates.fromDate || base.dateKey || null,
       toDate: dates.toDate || base.dateKey || null,
       benchmarkReturnPct: benchmarkReturnsByTimeframe[w] == null ? null : round2(num(benchmarkReturnsByTimeframe[w])),
@@ -651,14 +721,18 @@ export function buildSectionPerformanceApiPayload(rows, opts = {}) {
     };
   });
   const overallCandidates = windowPayloads
-    .filter((w) => w.bestSection)
+    .filter((w) => w.enabled !== false && w.bestSection)
     .map((w) => ({ ...w.bestSection, window: w.window, sampleStatus: w.sampleStatus }));
+  const spotlightCandidates = windowPayloads
+    .filter((w) => w.enabled !== false)
+    .flatMap((w) => (w.sections || []).map((s) => ({ ...s, window: w.window, sampleStatus: w.sampleStatus })));
   return {
     schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
     mode: sampleStatus,
     cohorts,
     windows: windowPayloads,
     bestOverall: chooseBestWindowSection(overallCandidates),
+    spotlightSection: chooseSpotlightSection(spotlightCandidates),
     generatedAt: new Date().toISOString(),
   };
 }
@@ -720,6 +794,7 @@ function benchmarkReturnBetween(series, fromDate, toDate) {
 }
 
 function buildResolvedSectionForWindow(row, timeframe, targetDate, exitPrices, benchmarkReturnPct) {
+  const def = SECTION_PERFORMANCE_WINDOW_DEFINITIONS[timeframe] || {};
   const cohortRow = normalizeCohortRow(row);
   const constituents = (cohortRow.constituents || []).map((c) => {
     const symbol = c?.symbol || canonicalSymbol(c?.ticker);
@@ -746,6 +821,7 @@ function buildResolvedSectionForWindow(row, timeframe, targetDate, exitPrices, b
     (perf.n_with_return || 0) >= 3 &&
     Number.isFinite(perf.coverage_pct) &&
     perf.coverage_pct >= 80;
+  const spotlightEligible = eligibleForBanner && def.spotlightResolved !== false;
   return {
     type: cohortRow.type,
     sectionKey: cohortRow.sectionKey,
@@ -756,6 +832,7 @@ function buildResolvedSectionForWindow(row, timeframe, targetDate, exitPrices, b
     cohortLabel: label,
     cohortKey: cohortRow.cohort_key || cohortKeyForConstituents(cohortRow.constituents),
     eligibleForBanner,
+    spotlightEligible,
     sampleSize: perf.n_with_return,
     coveragePct: perf.coverage_pct,
     weighting: `equal_${label.replace(/\s+/g, "_")}`,
@@ -797,13 +874,18 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
   }
 
   const windowPayloads = windows.map((w) => {
-    const days = w === "30d" ? 30 : 7;
+    const def = SECTION_PERFORMANCE_WINDOW_DEFINITIONS[w] || {};
+    if (!def.enabled) return disabledWindowPayload(w, { cohorts, sampleStatus: "insufficient_history" });
+    const days = sectionPerformanceWindowDays(w);
     const candidates = dates
       .map((dateKey) => ({ dateKey, dueDate: addDays(dateKey, days) }))
       .filter((x) => x.dueDate && firstDateOnOrAfter(dates, x.dueDate));
     if (candidates.length === 0) {
       return {
         window: w,
+        label: def.label || w,
+        enabled: true,
+        disabledReason: null,
         fromDate: null,
         toDate: null,
         benchmarkReturnPct: null,
@@ -824,6 +906,9 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
     const bestSection = chooseBestWindowSection(sections);
     return {
       window: w,
+      label: def.label || w,
+      enabled: true,
+      disabledReason: null,
       fromDate: latest.dateKey,
       toDate: targetDate,
       benchmarkReturnPct,
@@ -835,14 +920,18 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
     };
   });
   const overallCandidates = windowPayloads
-    .filter((w) => w.bestSection)
+    .filter((w) => w.enabled !== false && w.bestSection)
     .map((w) => ({ ...w.bestSection, window: w.window, sampleStatus: w.sampleStatus }));
+  const spotlightCandidates = windowPayloads
+    .filter((w) => w.enabled !== false)
+    .flatMap((w) => (w.sections || []).map((s) => ({ ...s, window: w.window, sampleStatus: w.sampleStatus })));
   return {
     schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
     mode: "resolved",
     cohorts,
     windows: windowPayloads,
     bestOverall: chooseBestWindowSection(overallCandidates),
+    spotlightSection: chooseSpotlightSection(spotlightCandidates),
     generatedAt: new Date().toISOString(),
   };
 }
