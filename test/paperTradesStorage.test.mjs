@@ -52,13 +52,14 @@ try {
   {
     writeJsonl(seedPath, [
       trade({ id: "seed-public", type: "sws_top30_v3", symbol: "AAA.NS" }),
+      trade({ id: "seed-growing-sector", type: "sws_growing_sector_value", symbol: "AUTO.NS" }),
       trade({ id: "seed-audit", type: "sws_avoid", symbol: "BAD.NS" }),
     ]);
     const storage = new MergedPaperTradeStorage(new FileStorage(overlayPath), new SeedStorage(seedPath));
     const rows = await storage.readAll();
     const publicRows = filterPublicTrackTrades(rows);
-    assert("seed rows are returned when overlay is empty", rows.length === 2, rows);
-    assert("public filter keeps seed public row", publicRows.length === 1 && publicRows[0].id === "seed-public", publicRows);
+    assert("seed rows are returned when overlay is empty", rows.length === 3, rows);
+    assert("public filter keeps standard and growing-sector public rows", publicRows.length === 2 && publicRows.some((r) => r.id === "seed-public") && publicRows.some((r) => r.id === "seed-growing-sector"), publicRows);
   }
 
   // ──── 2. Overlay dedupes by id and wins over seed ────

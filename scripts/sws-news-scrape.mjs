@@ -142,6 +142,7 @@ const COVERAGE_SECTIONS = [
   "top_ranked_30_v3",
   "best_to_buy_now",
   "deep_value",
+  "growing_sector_value",
   "quality_growth",
   "midterm",
   "dividend_aristocrats",

@@ -75,6 +75,12 @@ console.log("trackRecord/sectionPerformance.js regression\n");
       byType.sws_best_fundamentals?.sectionKey === "best_fundamentals",
     byType.sws_best_fundamentals,
   );
+  assert(
+    "growing_sector_value maps to sws_growing_sector_value",
+    SWS_SECTION_PERFORMANCE_REGISTRY.growing_sector_value?.type === "sws_growing_sector_value" &&
+      byType.sws_growing_sector_value?.sectionKey === "growing_sector_value",
+    byType.sws_growing_sector_value,
+  );
   assert("upcoming_earnings is not a Section Alpha source", !SWS_SECTION_PERFORMANCE_REGISTRY.upcoming_earnings && !byType.sws_upcoming_earnings, byType.sws_upcoming_earnings);
   assert("avoid is not a Section Alpha source", !SWS_SECTION_PERFORMANCE_REGISTRY.avoid && !byType.sws_avoid, byType.sws_avoid);
 }
@@ -86,6 +92,7 @@ console.log("trackRecord/sectionPerformance.js regression\n");
     scoring_version: "test-v1",
     sections: {
       best_fundamentals: numberedPicks("BF", 12, 1, 2),
+      growing_sector_value: numberedPicks("GSV", 12, 2, 4),
     },
   });
   const bfRows = rows.filter((r) => r.type === "sws_best_fundamentals");
@@ -99,6 +106,9 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   assert("partial top-20 label is honest", top20.cohort_label === "top 12 available", top20.cohort_label);
   assert("row id includes cohort size", top10.id.endsWith("|top10") && top20.id.endsWith("|top20"), { top10: top10.id, top20: top20.id });
   assert("service API helpers default omitted cohorts to legacy top-10", JSON.stringify(normalizeSectionPerformanceCohorts()) === JSON.stringify([10]), normalizeSectionPerformanceCohorts());
+  const gsvRows = rows.filter((r) => r.type === "sws_growing_sector_value");
+  const gsvSizes = gsvRows.map((r) => r.requested_cohort_size).sort((a, b) => a - b);
+  assert("growing-sector rows exist for all official sizes", JSON.stringify(gsvSizes) === JSON.stringify(SECTION_PERFORMANCE_COHORT_SIZES), gsvSizes);
 }
 
 // ──── 2b. Context-only SWS buckets never produce new Section Alpha rows ────

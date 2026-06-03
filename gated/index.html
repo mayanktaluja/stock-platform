@@ -4336,6 +4336,7 @@
               <option value="sws_top30_v3">Top 30 (v4 score)</option>
               <option value="sws_best_buynow">Best to Buy Now</option>
               <option value="sws_deep_value">Deep Value</option>
+              <option value="sws_growing_sector_value">Growing Sector Value</option>
               <option value="sws_quality_growth">Quality Growth</option>
               <option value="sws_best_fundamentals">Best Fundamentals</option>
               <option value="sws_midterm">Mid-term</option>
@@ -4354,7 +4355,7 @@
       <!-- About this tab -->
       <div style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.22); border-radius:8px; padding:10px 14px; margin-bottom:24px; font-size:12px; color:var(--text-secondary); line-height:1.6;">
         <strong style="color:var(--info-text);">ⓘ How this works:</strong>
-        Every SWS pipeline run (which writes <code style="font-size:11px;">data/sws/picks-latest.json</code>) snapshots the public recommendation sections — Top 30, Best Buy Now, Deep Value, Quality Growth, Best Fundamentals, Mid-term, Dividend Aristocrats, Small-Cap Gems, and Insider Buying — into the trade log, with the file's own <code style="font-size:11px;">scanned_at</code> as the recommendation timestamp.
+        Every SWS pipeline run (which writes <code style="font-size:11px;">data/sws/picks-latest.json</code>) snapshots the public recommendation sections — Top 30, Best Buy Now, Deep Value, Growing Sector Value, Quality Growth, Best Fundamentals, Mid-term, Dividend Aristocrats, Small-Cap Gems, and Insider Buying — into the trade log, with the file's own <code style="font-size:11px;">scanned_at</code> as the recommendation timestamp.
         Forward return is the % change from snapshot price to current price (or to the close price, when a section drops the ticker), compared against how the Nifty 50 moved over the same window.
         <strong style="color:var(--positive-text-soft);">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
       </div>

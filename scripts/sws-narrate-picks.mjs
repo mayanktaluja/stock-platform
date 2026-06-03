@@ -54,6 +54,7 @@ The pick is in one or more of these categorical buckets (passed in input). Tilt 
 
 - **best_to_buy_now**: composite-score driven — emphasise the score's components (snowflake + upside + quality)
 - **deep_value**: P/E, P/B vs sector; SWS fair-value gap
+- **growing_sector_value**: sector tailwind cross-check + HIGH-confidence SWS fair-value discount; keep the wording experimental
 - **quality_growth**: balance sheet (financial health snowflake), forecast EPS growth, ROE
 - **midterm**: 1Y momentum + analyst upside + forward growth
 - **dividend_aristocrats**: yield, payout ratio, dividend reliability/growth
@@ -106,7 +107,7 @@ const NARRATIVE_SCHEMA = {
 // Categories the narrate stage covers. Order = display priority — earlier
 // sections feed picks first.
 const NARRATE_SECTIONS = [
-  "best_to_buy_now", "deep_value", "quality_growth", "midterm",
+  "best_to_buy_now", "deep_value", "growing_sector_value", "quality_growth", "midterm",
   "dividend_aristocrats", "smallcap_gems", "insider_buying",
   "upcoming_earnings", "avoid",
 ];

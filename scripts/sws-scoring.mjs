@@ -14,6 +14,7 @@ import {
   valuationBandFromUpside as canonicalValuationBandFromUpside,
   withReconciledFairValue,
 } from "../services/fvReconciliation.js";
+import { buildGrowingSectorValueSection } from "../services/swsGrowingSectorValue.js";
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
 // Loaded once at module init; the underlying snapshot is cached in surveillance.js.
@@ -735,7 +736,16 @@ function writeJsonAtomic(filePath, value) {
   fs.renameSync(tmp, filePath);
 }
 
-export function buildLeaderboard(scoredStocks) {
+function readJsonIfExists(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) return null;
+    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  } catch {
+    return null;
+  }
+}
+
+export function buildLeaderboard(scoredStocks, opts = {}) {
   // Sort once, descending by v3 — canonical across every section except
   // upcoming_earnings (which re-sorts by date below). Card headlines render
   // v3, so the section rank order matches the number the user sees.
@@ -800,10 +810,18 @@ export function buildLeaderboard(scoredStocks) {
     .slice(0, 100)
     .map(pickCardFields);
 
-  return {
+  const growingSectorValue = buildGrowingSectorValueSection(scoredStocks, {
+    pickCardFields,
+    sectorOutlook: opts.sectorOutlook || null,
+    macroRegime: opts.macroRegime || null,
+    now: opts.now,
+  });
+
+  const sections = {
     top_ranked_30_v3: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
+    growing_sector_value: growingSectorValue.items,
     quality_growth: cat("quality_growth"),
     best_fundamentals: bestFundamentals,
     midterm: cat("midterm"),
@@ -813,6 +831,11 @@ export function buildLeaderboard(scoredStocks) {
     upcoming_earnings: upcoming,
     avoid: cat("avoid"),
   };
+  Object.defineProperty(sections, "__section_audit", {
+    value: { growing_sector_value: growingSectorValue.audit },
+    enumerable: false,
+  });
+  return sections;
 }
 
 // ---------- Top-level: read all per-stock files, score, write picks-latest.json ----------
@@ -854,7 +877,10 @@ export function runFullScoring() {
       console.error(`Failed to score ${stock?.ticker || "?"}: ${e.message}`);
     }
   }
-  const sections = buildLeaderboard(scored);
+  const sectorOutlook = readJsonIfExists(path.join(PATHS.repoRoot, "data", "sectorOutlook", "outlook-latest.json"));
+  const macroRegime = readJsonIfExists(path.join(PATHS.repoRoot, "data", "macroRegime.json"));
+  const sections = buildLeaderboard(scored, { sectorOutlook, macroRegime });
+  const sectionAudit = sections.__section_audit || {};
 
   // Compute scrape duration estimate from file mtimes if available
   let earliest = null, latest = null;
@@ -874,6 +900,7 @@ export function runFullScoring() {
     universe_size: scored.length + failed,
     scored_count: scored.length,
     failed_count: failed,
+    section_audit: sectionAudit,
     sections,
   };
   fs.writeFileSync(PATHS.picksLatest, JSON.stringify(out, null, 2));

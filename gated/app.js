@@ -3995,6 +3995,7 @@ const TRACK_TYPE_LABELS = {
   sws_top30_v3: "SWS · Top 30 (v4)",
   sws_best_buynow: "SWS · Best to Buy Now",
   sws_deep_value: "SWS · Deep Value",
+  sws_growing_sector_value: "SWS · Growing Sector Value",
   sws_quality_growth: "SWS · Quality Growth",
   sws_best_fundamentals: "SWS · Best Fundamentals",
   sws_midterm: "SWS · Mid-term",
@@ -10664,6 +10665,7 @@ const PICKS_SECTIONS = [
   { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by composite score — start every session here." },
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
+  { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Experimental: Sector Tailwind + FV Discount Candidates", chip_label: "Sector Value", subtitle: "Fresh sector tailwinds with HIGH-confidence SWS fair value upside ≥ 25%. Experimental cross-check; not a buy-now list." },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
   { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
@@ -10682,6 +10684,7 @@ const PICKS_INLINE_CAP = {
   upcoming_earnings: 30,
   // Best Fundamentals ships 100 server-side; show 30 inline, expand for full 100.
   best_fundamentals: 30,
+  growing_sector_value: 30,
   // Off-section search bumps the cap to 24 — global search is the only path
   // to find these stocks, so 12 feels too tight; 24 still keeps render fast.
   off_section_search: 24,
@@ -11569,6 +11572,12 @@ function renderPickCard(s, sectionKey, rank = null) {
     const fundScore100 = (fundSum / 88) * 100;
     fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Pillars 76 + FV 12' lines: 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16) + FV composite (12).">F ${fundScore100.toFixed(1)}/100</span>`;
   }
+  const sectorTailwindBadge = (sectionKey === "growing_sector_value" && s.sector_tailwind_label)
+    ? `<span class="sws-fund-badge" title="${escapeHtml(s.sector_tailwind_reason || "Sector Outlook 3-12m tailwind")}">${escapeHtml(String(s.sector_tailwind_label).replace(/_/g, " "))}${s.sector_tailwind_confidence ? ` · ${escapeHtml(s.sector_tailwind_confidence)}` : ""}</span>`
+    : "";
+  const fv30Badge = (sectionKey === "growing_sector_value" && s.fv_discount_badge_30plus)
+    ? `<span class="sws-pick-valband-chip" style="color:var(--gold);border-color:var(--gold);" title="SWS fair value discount is at least 30%; informational badge only, not a rank boost.">FV 30%+</span>`
+    : "";
   const statusBadges = renderPickStatusBadges(s, sectionKey);
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const fresh = pickFreshnessPill(s.data_freshness_at);
@@ -11604,7 +11613,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${fv30Badge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
