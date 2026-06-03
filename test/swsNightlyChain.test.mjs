@@ -102,11 +102,17 @@ for (const f of ["data/sectorOutlook/outlook-latest.json"]) {
 // refresh script packs the tarball only inside its own auto-PR block; nightly
 // runs it with SWS_AUTO_PR=0, so this outer script must pack + stage it.
 const packIdx = nightly.indexOf("bash scripts/sws-pack-deep.sh");
+const packedPriceGateIdx = nightly.indexOf("sws-price-freshness-gate.mjs --source tarball");
 const coverageIdx = nightly.indexOf("running coverage-gap-analysis");
 assert(
   "nightly packs India deep.tar.gz after sanity passes and before commit staging",
   packIdx > -1 && coverageIdx > -1 && packIdx < coverageIdx,
   { packIdx, coverageIdx },
+);
+assert(
+  "nightly validates packed deep.tar.gz price freshness before coverage/commit",
+  packedPriceGateIdx > packIdx && packedPriceGateIdx < coverageIdx,
+  { packIdx, packedPriceGateIdx, coverageIdx },
 );
 assert("data/sws/deep.tar.gz is staged in the git add list", gitAddBlock.includes("data/sws/deep.tar.gz"), null);
 assert("data/sws/deep.tar.gz is in the CHANGED_FILES check", changedFilesBlock.includes("data/sws/deep.tar.gz"), null);
@@ -243,6 +249,12 @@ const refreshApi = readFileSync(
 assert(
   "sws-refresh-api.sh invokes the inline sanity gate (--inline)",
   /node scripts\/sws-sanity-gate\.mjs --inline/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh exits instead of rescoring stale data when shards are live",
+  /already running.*exiting without parse\/score so stale data cannot be republished/.test(refreshApi) &&
+    /if \[ -n "\$\{LIVE_SHARDS\}" \][\s\S]*?exit 0/.test(refreshApi),
   null,
 );
 assert(

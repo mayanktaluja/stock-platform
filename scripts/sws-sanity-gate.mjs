@@ -35,6 +35,7 @@ import {
   readFileSync, existsSync, readdirSync, writeFileSync, mkdirSync, copyFileSync,
 } from "fs";
 import path from "path";
+import { evaluateSwsPriceFreshness } from "./sws-price-freshness-gate.mjs";
 
 // ----------------------------- paths ------------------------------------
 
@@ -773,6 +774,23 @@ function layerMacro() {
     { groq: ph.groq, gemini: ph.gemini, classifierProvider: mr.classifierProvider });
 }
 
+// ======================== L_price_freshness =============================
+
+function layerPriceFreshness() {
+  const layer = "L_price_freshness";
+  const result = evaluateSwsPriceFreshness({ root: ROOT, source: "loose", maxFindings: 20 });
+  record(layer, "raw_price_matches_deep_and_picks", BLOCK,
+    result.ok,
+    {
+      stats: result.stats,
+      sample: result.findings.slice(0, 10),
+      finding_count: result.findings.length,
+    });
+  for (const warning of result.warnings || []) {
+    record(layer, warning.name || "price_freshness_warning", WARN, false, warning.detail || { message: warning.message });
+  }
+}
+
 // ============================== main ===================================
 
 // --inline mode runs the gate INSIDE sws-refresh-api.sh between stamp
@@ -801,6 +819,7 @@ function main() {
   layer2(lr);
   const insaneOffenders = layer3() || [];
   layer6(picks, scored, insaneOffenders);
+  layerPriceFreshness();
   layerMacro();
 
   const blocks = findings.filter(f => !f.ok && f.severity === BLOCK);

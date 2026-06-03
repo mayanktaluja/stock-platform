@@ -121,8 +121,9 @@ ELAPSED=0
 SCRAPE_SKIPPED=false
 
 if [ -n "${LIVE_SHARDS}" ]; then
-  echo "[refresh-api] shards [${LIVE_SHARDS}] already running → skipping scrape, refreshing scoring/PDF only"
+  echo "[refresh-api] shards [${LIVE_SHARDS}] already running → exiting without parse/score so stale data cannot be republished"
   SCRAPE_SKIPPED=true
+  exit 0
 else
   echo "[refresh-api] spawning 3 API shards in parallel"
 
@@ -273,13 +274,13 @@ fi
 # ---------- 6. Parse raw API → scoring-compatible JSON ----------
 
 echo "[refresh-api] parsing raw API payloads..."
-PARSE_OUT="$(node scripts/sws-api-parser.mjs --dest deep 2>&1 || true)"
+PARSE_OUT="$(node scripts/sws-api-parser.mjs --dest deep 2>&1)"
 echo "${PARSE_OUT}" | tail -5 | sed 's/^/[parser] /'
 
 # ---------- 7. Seed score ----------
 
 echo "[refresh-api] running seed scoring..."
-SCORING_OUT="$(node scripts/sws-scoring.mjs 2>&1 || true)"
+SCORING_OUT="$(node scripts/sws-scoring.mjs 2>&1)"
 echo "${SCORING_OUT}" | tail -12 | sed 's/^/[scoring] /'
 
 # ---------- 7.5. Refresh sector outlook, then final score ----------
@@ -299,7 +300,7 @@ if ! run_with_timeout 120 node scripts/refresh-sector-outlook.mjs 2>&1 | tail -1
   echo "[sector-outlook] non-zero exit — continuing with prior outlook"
 fi
 echo "[refresh-api] running final scoring with sector outlook..."
-FINAL_SCORING_OUT="$(node scripts/sws-scoring.mjs 2>&1 || true)"
+FINAL_SCORING_OUT="$(node scripts/sws-scoring.mjs 2>&1)"
 echo "${FINAL_SCORING_OUT}" | tail -12 | sed 's/^/[scoring-final] /'
 
 # ---------- 8. Backfill last-quarter beat/miss ----------
@@ -362,6 +363,19 @@ if [ "${STAMPED_COUNT}" = "0" ]; then
   echo "[refresh-api] STAMP SMOKE CHECK FAILED — 0 stocks have section_status in picks-latest.json"
 else
   echo "[refresh-api] stamp smoke check: ${STAMPED_COUNT} stocks have section_status"
+fi
+
+# ---------- 8c. Price freshness gate ----------
+
+PRICE_GATE_REPORT="data/sws/_sanity/price-freshness-inline.json"
+mkdir -p data/sws/_sanity
+echo "[refresh-api] price freshness gate (raw deep-api → loose deep + picks)..."
+if node scripts/sws-price-freshness-gate.mjs --source loose > "${PRICE_GATE_REPORT}"; then
+  node -e 'const r=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); console.log(`[price-gate] PASS raw=${r.stats.raw_files} deep=${r.stats.deep_files} checked=${r.stats.raw_deep_checked}`)' "${PRICE_GATE_REPORT}"
+else
+  cat "${PRICE_GATE_REPORT}" | sed 's/^/[price-gate] /'
+  echo "[refresh-api] price freshness gate FAILED — refusing to continue with stale prices/returns"
+  exit 7
 fi
 
 # ---------- 8.6. Track Record snapshot ----------
@@ -557,6 +571,22 @@ try {
     };
   }
 } catch {}
+let priceFreshnessGate = null;
+try {
+  if (existsSync("data/sws/_sanity/price-freshness-inline.json")) {
+    const pg = JSON.parse(readFileSync("data/sws/_sanity/price-freshness-inline.json", "utf-8"));
+    priceFreshnessGate = {
+      ok: !!pg.ok,
+      source: pg.stats?.source || null,
+      raw_files: pg.stats?.raw_files ?? null,
+      raw_with_price: pg.stats?.raw_with_price ?? null,
+      raw_deep_checked: pg.stats?.raw_deep_checked ?? null,
+      raw_newer_than_deep: pg.stats?.raw_newer_than_deep ?? null,
+      finding_count: Array.isArray(pg.findings) ? pg.findings.length : null,
+      latest_price_as_of: pg.stats?.raw_latest_price_as_of || null,
+    };
+  }
+} catch {}
 const summary = {
   // started_at is the pipeline wrapper's wall-clock kickoff (captured at
   // refresh-api.sh:44 as RUN_STARTED_ISO). Pair with finished_at for the
@@ -578,6 +608,7 @@ const summary = {
   groww_stock_cache: growwStockCache,
   groww_pe_cache: growwPeCache,
   endpoint_timing: endpointTiming,
+  price_freshness_gate: priceFreshnessGate,
   deep_files_scanned: deepFilesScanned,
   stamping_status: ${STAMP_FAILED:-0} > 0 ? "failed" : "success",
   pipeline_status: ${SCRAPE_SKIPPED}
@@ -640,6 +671,12 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
     # extracts to /tmp on first read in a cold container. Pack BEFORE the
     # git add so the tarball reflects the freshly-refreshed deep files.
     bash scripts/sws-pack-deep.sh 2>&1 | sed 's/^/[refresh-api] /'
+    if ! node scripts/sws-price-freshness-gate.mjs --source tarball --human 2>&1 | sed 's/^/[refresh-api] /'; then
+      echo "[refresh-api] auto-PR: tarball price freshness gate failed — refusing to ship stale modal data"
+      git checkout "${ORIGINAL_BRANCH}" >/dev/null 2>&1
+      git branch -D "${AUTO_BRANCH}" >/dev/null 2>&1
+      exit 8
+    fi
     git add data/sws/deep.tar.gz 2>/dev/null
     [ -d reports/sws-picks ] && git add reports/sws-picks/*.pdf 2>/dev/null
 
