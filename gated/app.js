@@ -4920,12 +4920,26 @@ async function loadTrackSections(forceBust = false) {
   }
 }
 
-// ==================== TRACK RECORD — 7D/30D SECTION ALPHA ====================
+// ==================== TRACK RECORD — SECTION ALPHA HORIZONS ====================
 
 let _trackSectionPerformanceCache = null;
 let _trackSectionPerformanceWindow = "7d";
 let _trackSectionPerformanceCohort = "best";
 const TRACK_SECTION_COHORTS = [3, 5, 10, 20];
+const TRACK_SECTION_WINDOWS = ["7d", "30d", "3m", "1y", "3y", "5y"];
+const TRACK_SECTION_FETCH_WINDOWS = TRACK_SECTION_WINDOWS.join(",");
+const TRACK_SECTION_WINDOW_META = {
+  "7d": { label: "7d", daysLabel: "7 days", enabled: true, latestDescription: "7D sample" },
+  "30d": { label: "30d", daysLabel: "30 days", enabled: true, latestDescription: "1M sample" },
+  "3m": { label: "3m", daysLabel: "3 months", enabled: true, latestDescription: "current-cohort trailing 3M sample" },
+  "1y": { label: "1y", daysLabel: "1 year", enabled: true, latestDescription: "current-cohort trailing 1Y sample" },
+  "3y": { label: "3y", daysLabel: "3 years", enabled: false, disabledReason: "Waiting for 3 years of Track Record history." },
+  "5y": { label: "5y", daysLabel: "5 years", enabled: false, disabledReason: "Waiting for 5 years of Track Record history." },
+};
+
+function _sectionWindowMeta(windowKey) {
+  return TRACK_SECTION_WINDOW_META[windowKey] || { label: windowKey || "—", daysLabel: windowKey || "—", enabled: false };
+}
 
 function _fmtSignedPct(value, decimals = 1) {
   const n = Number(value);
@@ -4956,13 +4970,15 @@ function _bestForWindow(payload, windowKey) {
 
 function _sampleCopy(windowPayload) {
   if (!windowPayload) return "Waiting for a section-performance sample.";
-  if (windowPayload.sampleStatus === "resolved") return `Past ${windowPayload.window}`;
-  if (windowPayload.sampleStatus === "latest_available") return `Latest available track sample (${windowPayload.window})`;
-  return `Waiting for ${windowPayload.window} history to mature`;
+  const meta = _sectionWindowMeta(windowPayload.window);
+  if (windowPayload.enabled === false) return windowPayload.disabledReason || meta.disabledReason || `${meta.label} is not available yet.`;
+  if (windowPayload.sampleStatus === "resolved") return `Past ${meta.label}`;
+  if (windowPayload.sampleStatus === "latest_available") return `Latest available ${meta.latestDescription || meta.label}`;
+  return `Waiting for ${meta.label} history to mature`;
 }
 
 function _sectionPerformanceDays(windowKey) {
-  return windowKey === "30d" ? "30 days" : "7 days";
+  return _sectionWindowMeta(windowKey).daysLabel;
 }
 
 function _cohortLabel(row) {
@@ -4981,6 +4997,7 @@ function _sectionBenchmarkLine(cohortText, sectionReturn, benchmark, opts = {}) 
 }
 
 function _windowBenchmarkSummary(windowPayload) {
+  if (windowPayload?.enabled === false) return escapeHtml(windowPayload.disabledReason || "This window is not available yet.");
   return `shared benchmark: <strong style="color:var(--text-primary);">Nifty 50 ${_fmtSignedPct(windowPayload.benchmarkReturnPct)}</strong>`;
 }
 
@@ -4994,8 +5011,8 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (!best || !Number.isFinite(alpha)) {
     return {
       tone: "neutral",
-      headline: "Track Record is building 7d/30d evidence vs Nifty 50",
-      evidence: "Section alpha will appear here once enough daily cohorts and benchmark data are available.",
+      headline: "Track Record is building section-alpha evidence vs Nifty 50",
+      evidence: "Section alpha will appear here once enough eligible cohorts and benchmark data are available.",
       showAlpha: false,
     };
   }
@@ -5019,9 +5036,10 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   }
 
   if (isLatestSample) {
+    const latestDescription = _sectionWindowMeta(best?.window || windowPayload?.window).latestDescription || "latest sample";
     return {
       tone: "positive",
-      headline: `Latest ${label} ${_cohortLabel(best)} sample shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
+      headline: `${latestDescription}: ${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
       evidenceSuffix: " Closed-window cohorts will replace this as history matures.",
       showAlpha: true,
     };
@@ -5030,7 +5048,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   return {
     tone: "neutral",
     headline: `${label} ${_cohortLabel(best)} is the strongest cohort in the current track sample`,
-    evidence: "Closed-window 7d/30d evidence is still maturing.",
+    evidence: "Closed-window section-alpha evidence is still maturing.",
     showAlpha: false,
   };
 }
@@ -5038,7 +5056,10 @@ function _credibilityBannerCopy(best, windowPayload, label) {
 function renderPicksCredibilityBanner(payload) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
-  const best = payload?.bestOverall;
+  const hasSpotlightContract = payload && Object.prototype.hasOwnProperty.call(payload, "spotlightSection");
+  const best = hasSpotlightContract
+    ? (payload?.spotlightSection || payload?.bestEligibleSpotlight || null)
+    : payload?.bestOverall;
   const fallbackWindow = _sectionPerformanceWindow(payload, "7d") || _sectionPerformanceWindow(payload, "30d") || {};
   const windowPayload = _sectionPerformanceWindow(payload, best?.window) || fallbackWindow;
   const label = _plainSectionLabel(best?.label || windowPayload?.bestSection?.label || "Track Record");
@@ -5084,7 +5105,7 @@ async function loadPicksCredibilityBanner(forceBust = false) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
   try {
-    const url = `/api/track/section-performance?windows=7d,30d&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
@@ -5104,9 +5125,17 @@ function renderTrackSectionPerformance() {
   const windowPayload = _sectionPerformanceWindow(payload, _trackSectionPerformanceWindow);
   const tabs = document.querySelectorAll("#trackSectionPerformanceWindowTabs button[data-window]");
   tabs.forEach((btn) => {
-    const active = btn.getAttribute("data-window") === _trackSectionPerformanceWindow;
+    const windowKey = btn.getAttribute("data-window");
+    const meta = _sectionWindowMeta(windowKey);
+    const payloadWindow = _sectionPerformanceWindow(payload, windowKey);
+    const disabled = meta.enabled === false || payloadWindow?.enabled === false;
+    const active = windowKey === _trackSectionPerformanceWindow;
+    btn.disabled = disabled;
+    btn.setAttribute("aria-disabled", disabled ? "true" : "false");
     btn.style.background = active ? "rgba(224,176,96,0.16)" : "";
     btn.style.borderColor = active ? "rgba(224,176,96,0.45)" : "";
+    btn.style.opacity = disabled ? "0.48" : "";
+    btn.style.cursor = disabled ? "not-allowed" : "";
   });
   const cohortTabs = document.querySelectorAll("#trackSectionPerformanceCohortTabs button[data-cohort]");
   cohortTabs.forEach((btn) => {
@@ -5115,9 +5144,16 @@ function renderTrackSectionPerformance() {
     btn.style.borderColor = active ? "rgba(224,176,96,0.45)" : "";
     btn.setAttribute("aria-pressed", active ? "true" : "false");
   });
+  if (windowPayload?.enabled === false) {
+    const reason = windowPayload.disabledReason || _sectionWindowMeta(_trackSectionPerformanceWindow).disabledReason || "This horizon is not available yet.";
+    if (summary) summary.textContent = `${_sectionWindowMeta(_trackSectionPerformanceWindow).label} section alpha is not mature yet.`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-text">${escapeHtml(reason)}</div></div>`;
+    return;
+  }
   if (!windowPayload || !Array.isArray(windowPayload.sections) || windowPayload.sections.length === 0) {
-    if (summary) summary.textContent = `${_trackSectionPerformanceWindow} section alpha is waiting for enough track history.`;
-    grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(_trackSectionPerformanceWindow)} section-performance sample yet.</div></div>`;
+    const label = _sectionWindowMeta(_trackSectionPerformanceWindow).label;
+    if (summary) summary.textContent = `${label} section alpha is waiting for enough track history.`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(label)} section-performance sample yet.</div></div>`;
     return;
   }
   const rowsForView = (() => {
@@ -5178,7 +5214,11 @@ function renderTrackSectionPerformance() {
 }
 
 window.__trackSetSectionPerformanceWindow = function(windowKey) {
-  _trackSectionPerformanceWindow = windowKey === "30d" ? "30d" : "7d";
+  const next = String(windowKey || "").toLowerCase();
+  const meta = _sectionWindowMeta(next);
+  const payloadWindow = _sectionPerformanceWindow(_trackSectionPerformanceCache, next);
+  if (!TRACK_SECTION_WINDOWS.includes(next) || meta.enabled === false || payloadWindow?.enabled === false) return;
+  _trackSectionPerformanceWindow = next;
   renderTrackSectionPerformance();
 };
 
@@ -5190,10 +5230,10 @@ window.__trackSetSectionPerformanceCohort = function(cohortKey) {
 async function loadTrackSectionPerformance(forceBust = false) {
   const grid = document.getElementById("trackSectionPerformanceGrid");
   if (grid) {
-    grid.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading 7d/30d section alpha…</div></div>`;
+    grid.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading section alpha horizons…</div></div>`;
   }
   try {
-    const url = `/api/track/section-performance?windows=7d,30d&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     _trackSectionPerformanceCache = await res.json();

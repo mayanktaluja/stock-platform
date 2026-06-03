@@ -4685,7 +4685,8 @@ function parseSectionPerformanceWindows(raw) {
     .split(",")
     .map((w) => w.trim())
     .filter(Boolean);
-  const invalid = values.find((w) => !["7d", "30d"].includes(w));
+  const validWindows = new Set(["7d", "30d", "3m", "1y", "3y", "5y"]);
+  const invalid = values.find((w) => !validWindows.has(w));
   if (invalid) {
     const err = new Error(`Invalid section-performance window: ${invalid}`);
     err.statusCode = 400;
@@ -5215,7 +5216,7 @@ app.post("/api/track/snapshot-sws-now", async (req, res) => {
 });
 
 /**
- * GET /api/track/section-performance?windows=7d,30d
+ * GET /api/track/section-performance?windows=7d,30d,3m,1y,3y,5y
  *
  * Thin wiring endpoint for the India Market credibility banner. The storage
  * and math live in services/trackRecord/sectionPerformance.js when Worker 1
