@@ -6,11 +6,12 @@
 
 import assert from "node:assert/strict";
 import {
-  SWS_SECTION_TO_TYPE,
-  STANDARD_HORIZONS,
-  buildTradeEntry,
-  inferSideFromType,
-} from "../paperTrades.js";
+	  SWS_SECTION_TO_TYPE,
+	  STANDARD_HORIZONS,
+	  buildTradeEntry,
+	  inferSideFromType,
+	  shouldSkipSwsSectionSnapshot,
+	} from "../paperTrades.js";
 
 let pass = 0;
 let fail = 0;
@@ -52,6 +53,19 @@ check("buildTradeEntry uses standard horizons for growing-sector rows", () => {
   assert.equal(entry.type, "sws_growing_sector_value");
   assert.equal(entry.side, "LONG");
   assert.deepEqual(Object.keys(entry.returns_by_horizon), STANDARD_HORIZONS);
+});
+
+check("macro fallback rows are not snapshotted as canonical growing-sector track record", () => {
+  assert.equal(shouldSkipSwsSectionSnapshot("growing_sector_value", {
+    section_audit: {
+      growing_sector_value: { display_mode: "macro_value_fallback" },
+    },
+  }), true);
+  assert.equal(shouldSkipSwsSectionSnapshot("growing_sector_value", {
+    section_audit: {
+      growing_sector_value: { display_mode: "sector_outlook" },
+    },
+  }), false);
 });
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
