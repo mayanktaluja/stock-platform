@@ -6496,12 +6496,19 @@ function swsHoldingRow(h) {
   const blocked = Array.isArray(h.blockedReasons) && h.blockedReasons.length
     ? `<div style="font-size:10px; color:#fde047; margin-top:3px;">${swsEscapeAttr(h.blockedReasons[0])}</div>`
     : "";
+  const evidence = h.reductionEvidence || sws.reduction_evidence || null;
+  const evidenceChip = evidence?.status
+    ? `<div style="font-size:10px; color:${evidence.status === 'confirmed' ? '#86efac' : evidence.status === 'coverage_watch' ? '#fca5a5' : '#fde047'}; margin-top:3px;">${swsEscapeAttr(String(evidence.status).replace(/_/g, " "))}${evidence.decisionConfidence ? ` · ${swsEscapeAttr(evidence.decisionConfidence)}` : ""}</div>`
+    : "";
+  const capChip = h.marketCapBucket || sws.market_cap_bucket
+    ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${swsEscapeAttr(h.marketCapBucket || sws.market_cap_bucket)} cap</div>`
+    : "";
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
-    <td style="padding:10px 12px;">${swsActionBadge(h.action, intent)}${rupeesInline}${postWeight}${blocked}</td>
+    <td style="padding:10px 12px;">${swsActionBadge(h.action, intent)}${rupeesInline}${postWeight}${evidenceChip}${capChip}${blocked}</td>
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${v4}</div>
       <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
@@ -6725,6 +6732,27 @@ function swsNewsSignalDetails(signal) {
   </details>`;
 }
 
+function swsReductionEvidenceDetails(evidence) {
+  if (!evidence || !evidence.status) return "";
+  const decisive = Array.isArray(evidence.decisiveEvidence) ? evidence.decisiveEvidence.slice(0, 4) : [];
+  const counter = Array.isArray(evidence.counterEvidence) ? evidence.counterEvidence.slice(0, 4) : [];
+  const blocked = Array.isArray(evidence.blockedReasons) ? evidence.blockedReasons.slice(0, 4) : [];
+  const data = evidence.dataQuality || {};
+  const color = evidence.status === "confirmed" ? "#86efac" : evidence.status === "coverage_watch" ? "#fca5a5" : "#fde047";
+  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(250,204,21,0.035); border:1px solid rgba(250,204,21,0.18); border-radius:5px;">
+    <summary style="cursor:pointer; list-style:none; color:${color}; font-weight:800;">Decision evidence · ${swsEscapeAttr(String(evidence.status).replace(/_/g, " "))} ▾</summary>
+    <div style="margin-top:7px; display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:8px;">
+      <div><span style="color:var(--text-muted);">Intent:</span> <strong style="color:var(--text);">${swsEscapeAttr(String(evidence.intent || "review").replace(/_/g, " "))}</strong></div>
+      <div><span style="color:var(--text-muted);">Confidence:</span> <strong style="color:var(--text);">${swsEscapeAttr(evidence.decisionConfidence || "low")}</strong></div>
+      <div><span style="color:var(--text-muted);">Freshness:</span> <strong style="color:var(--text);">${data.dataAgeHours != null ? `${Number(data.dataAgeHours).toFixed(0)}h` : "—"}</strong></div>
+      <div><span style="color:var(--text-muted);">Cap bucket:</span> <strong style="color:var(--text);">${swsEscapeAttr(evidence.marketCapBucket || "unknown")}</strong></div>
+    </div>
+    ${decisive.length ? `<div style="margin-top:8px;"><strong style="color:#bfdbfe;">Decisive evidence</strong><div style="margin-top:4px; line-height:1.45;">${decisive.map((r) => `• ${swsEscapeAttr(r.summary || r.type || "")}`).join("<br>")}</div></div>` : ""}
+    ${counter.length ? `<div style="margin-top:8px;"><strong style="color:#86efac;">Counter-evidence</strong><div style="margin-top:4px; line-height:1.45;">${counter.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
+    ${blocked.length ? `<div style="margin-top:8px;"><strong style="color:#fde047;">Blocked / review reasons</strong><div style="margin-top:4px; line-height:1.45;">${blocked.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
+  </details>`;
+}
+
 function swsReasonRow(h) {
   if (!h.reasons || h.reasons.length === 0) return "";
   const tk = h.sws?.ticker || h.symbol || "—";
@@ -6756,6 +6784,7 @@ function swsReasonRow(h) {
     </div>
     <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
       ${timingBox}
+      ${swsReductionEvidenceDetails(h.reductionEvidence || sws.reduction_evidence)}
       ${swsValuationReviewDetails(h.valuationReview || sws.valuation_review)}
       ${swsNewsSignalDetails(h.newsSignal || sws.news_signal)}
       ${swsCatalystCalendar(sws.catalyst)}
@@ -7509,6 +7538,8 @@ function renderSWSConstructionPlan(plan) {
   const ledger = plan.capitalLedger || {};
   const fundedBuys = Array.isArray(plan.fundedTrades) ? plan.fundedTrades : [];
   const fundedSells = Array.isArray(plan.fundedSells) ? plan.fundedSells : [];
+  const blockedReductions = Array.isArray(plan.blockedReductionCandidates) ? plan.blockedReductionCandidates : [];
+  const sleeve = plan.smallcapSleeve || null;
   const candidates = Array.isArray(plan.eligibleAddCandidates)
     ? plan.eligibleAddCandidates.filter((c) => c.status !== "funded").slice(0, 8)
     : [];
@@ -7526,15 +7557,39 @@ function renderSWSConstructionPlan(plan) {
       </div>
     `).join("");
 
+  const sellGroupLabel = (row) => {
+    const ev = row.reductionEvidence || {};
+    if (ev.intent === "thesis_break") return "Confirmed thesis break";
+    if (ev.intent === "risk_cap") return "Risk-cap rebalance";
+    if (ev.intent === "valuation_review" || ev.intent === "trim_excess") return "Valuation review";
+    if (ev.status === "coverage_watch") return "Coverage watch";
+    if (ev.status === "blocked") return "Data blocked";
+    return "Confirmed reductions";
+  };
+  const groupedSells = fundedSells.reduce((acc, row) => {
+    const key = sellGroupLabel(row);
+    (acc[key] ||= []).push(row);
+    return acc;
+  }, {});
   const sellRows = fundedSells.length === 0
     ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">No suggested reduction or exit-thesis rows in this pass.</div>`
-    : fundedSells.slice(0, 6).map((t) => `
-      <div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:8px 0; border-top:1px solid #1a2238;">
-        <div>
-          <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:#fca5a5;">${swsEscapeAttr(t.displayActionIntent || t.rawAction || "")}</span></div>
-          <div style="font-size:11px; color:var(--text-muted);">notional only · not reusable until confirmed${t.postTradeWeight != null ? ` · post ${swsEscapeAttr(String(t.postTradeWeight))}%` : ""}</div>
-        </div>
-        <div class="tx-num" style="font-size:12px; color:#fca5a5; font-weight:700;">${inr(t.tradeRupees || 0)}</div>
+    : Object.entries(groupedSells).map(([group, rows]) => `
+      <div style="border-top:1px solid #1a2238; padding-top:7px; margin-top:5px;">
+        <div style="font-size:10px; color:#fde047; text-transform:uppercase; letter-spacing:0.5px; font-weight:800;">${swsEscapeAttr(group)} (${rows.length})</div>
+        ${rows.slice(0, 6).map((t) => {
+          const ev = t.reductionEvidence || {};
+          const decisive = Array.isArray(ev.decisiveEvidence) && ev.decisiveEvidence[0]?.summary
+            ? ev.decisiveEvidence[0].summary
+            : t.reasonFamily || t.rawAction || "";
+          return `<div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:8px 0; border-top:1px solid rgba(26,34,56,0.75);">
+            <div>
+              <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:#fca5a5;">${swsEscapeAttr(t.displayActionIntent || t.rawAction || "")}</span></div>
+              <div style="font-size:11px; color:var(--text-muted);">notional only · not reusable until confirmed${t.postTradeWeight != null ? ` · post ${swsEscapeAttr(String(t.postTradeWeight))}%` : ""}</div>
+              <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(decisive)}${t.marketCapBucket ? ` · ${swsEscapeAttr(t.marketCapBucket)} cap` : ""}</div>
+            </div>
+            <div class="tx-num" style="font-size:12px; color:#fca5a5; font-weight:700;">${inr(t.tradeRupees || 0)}</div>
+          </div>`;
+        }).join("")}
       </div>
     `).join("");
 
@@ -7546,6 +7601,19 @@ function renderSWSConstructionPlan(plan) {
         <span style="color:var(--text-muted); text-align:right;">${swsEscapeAttr((c.unfundedReasons || ["budget/cap gated"])[0])}</span>
       </div>
     `).join("");
+  const blockedReductionRows = blockedReductions.length === 0
+    ? `<div style="padding:8px 0; font-size:11px; color:var(--text-muted);">No blocked reduction reviews in this pass.</div>`
+    : blockedReductions.slice(0, 10).map((t) => {
+      const ev = t.reductionEvidence || {};
+      const reason = (Array.isArray(ev.blockedReasons) && ev.blockedReasons[0])
+        || (Array.isArray(t.blockedReasons) && t.blockedReasons[0])
+        || ev.intent
+        || "review only";
+      return `<div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:7px 0; border-top:1px solid #1a2238; font-size:11px;">
+        <span><strong>${swsEscapeAttr(t.ticker || "—")}</strong> · ${swsEscapeAttr(String(ev.status || "review_only").replace(/_/g, " "))}${t.marketCapBucket ? ` · ${swsEscapeAttr(t.marketCapBucket)} cap` : ""}</span>
+        <span style="color:var(--text-muted); text-align:right;">${swsEscapeAttr(reason)}</span>
+      </div>`;
+    }).join("");
 
   return `
     <section class="analyzer-funded-plan" data-funded-plan style="background:var(--panel); border:1px solid rgba(96,165,250,0.32); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
@@ -7553,6 +7621,7 @@ function renderSWSConstructionPlan(plan) {
         <div>
           <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Capital ledger ${notAdviceChip("inline")}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Buy rupees use fresh capital plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
+          ${sleeve?.warning ? `<div style="font-size:11px; color:#fde047; margin-top:5px;">${swsEscapeAttr(sleeve.warning)}</div>` : ""}
         </div>
         <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:11px;">
           <span>Available <strong data-funded-available-capital style="color:#e5e7eb;">${inr(ledger.availableBuyCapital || 0)}</strong></span>
@@ -7570,6 +7639,10 @@ function renderSWSConstructionPlan(plan) {
           ${sellRows}
         </div>
       </div>
+      <details style="margin-top:12px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Blocked / review reduction candidates (${blockedReductions.length})</summary>
+        <div style="margin-top:8px;">${blockedReductionRows}</div>
+      </details>
       <details style="margin-top:12px;">
         <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Eligible but unfunded add candidates (${candidates.length})</summary>
         <div style="margin-top:8px;">${candidateRows}</div>
