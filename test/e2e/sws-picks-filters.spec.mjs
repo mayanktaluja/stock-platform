@@ -176,7 +176,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await expect(page.locator('.sws-pick-chip[data-section-key="growing_sector_value"]')).toContainText(/Sector Value/);
     const section = page.locator('.sws-pick-section[data-section-key="growing_sector_value"]');
     await expect(section).toBeVisible();
-    await expect(section).toContainText(/Sector Tailwind \+ FV Discount/i);
+    await expect(section).toContainText(/Growing Sector Value Stocks/i);
     await expect(section).toContainText(/TAILWIND/i);
     await expect(section).toContainText(/FV 30%\+/i);
   });

@@ -555,7 +555,7 @@ window.GLOSSARY = {
   },
 
   section_growing_sector_value: {
-    term: "Experimental: Sector Tailwind + FV Discount Candidates",
+    term: "Growing Sector Value Stocks",
     category: "verdict",
     short: "ACCEPTABLE+ stocks with HIGH-confidence SWS FV upside ≥ 25% in positive Sector Outlook buckets.",
     full: "This experimental section cross-checks stock-level SWS valuation against the platform's Sector Outlook. A stock needs market cap ≥ ₹500cr, V4 score ≥47, HIGH-confidence fair value data, at least 25% upside to SWS AnalystConsensus FV, and a mapped sector whose 3-12m outlook is TAILWIND or STRONG_TAILWIND with non-low confidence. The 30%+ discount badge is informational only; it does not boost ranking.",
