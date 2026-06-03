@@ -200,6 +200,12 @@ experimental surface area and nightly refresh load.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
+- **Current** — SWS nightly isolated-worktree recovery hardened after the
+  2026-06-04 00:30 IST failure: the launchd wrapper now discards stale
+  generated files before resetting the dedicated worktree, force-checks out
+  `origin/main`, and links ignored local runtime artifacts
+  (`node_modules`, SWS API queries, and `.sws-profile-*`) so scrapes and
+  auto-push pre-push tests run with dependencies.
 - **This PR** — India SWS nightly now fires at **00:30 IST daily** instead of
   16:30 IST, matching observed SWS rolling-update behavior. The installed
   LaunchAgent was reloaded from the repo template, so it now runs
