@@ -938,21 +938,11 @@ echo "[sws-nightly] refresh-risk-lab.mjs (timeout 60s)"
 with_timeout 60 node scripts/refresh-risk-lab.mjs 2>&1 | sed 's/^/[risk-lab] /' || \
   echo "[sws-nightly] refresh-risk-lab.mjs FAILED — continuing (non-fatal; lab tab will show stale data)"
 
-# Step 9d2: Sector Outlook refresh — bottom-up SWS news theme classifier
-# from the 2026-05-20 sector-outlook plan. Walks data/sws/deep/*.json,
-# classifies all news[] via heuristic-first + LLM-refine (Gemini → Groq
-# → heuristic fallback), then aggregates by canonical sector × 30d/90d/
-# 365d windows and cross-checks against current macroRegime.json. Writes
-# data/sectorOutlook/outlook-latest.json + per-ticker JSONL. Local-only
-# (LLM keys aren't on Vercel; --skip-llm is the safety net). Non-fatal —
-# the tab gracefully degrades to a stale-banner if either step fails.
-# Caps LLM at 400 calls/run to bound Gemini free-tier spend.
-echo "[sws-nightly] refresh-sector-news-themes.mjs (timeout 900s)"
-with_timeout 900 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=400 2>&1 | sed 's/^/[sector-themes] /' || \
-  echo "[sws-nightly] refresh-sector-news-themes.mjs FAILED — continuing (non-fatal; outlook will use stale themes)"
-echo "[sws-nightly] refresh-sector-outlook.mjs (timeout 120s)"
-with_timeout 120 node scripts/refresh-sector-outlook.mjs 2>&1 | sed 's/^/[sector-outlook] /' || \
-  echo "[sws-nightly] refresh-sector-outlook.mjs FAILED — continuing (non-fatal; tab will show prior snapshot)"
+# Step 9d2: Sector Outlook is refreshed inside scripts/sws-refresh-api.sh
+# between seed scoring and final scoring. Do not run it again here: a later
+# post-score refresh would make data/sectorOutlook/outlook-latest.json newer
+# than the growing_sector_value section that was just written.
+echo "[sws-nightly] sector outlook already refreshed inside sws-refresh-api.sh before final scoring"
 
 echo "[nightly] checking health-critical snapshot freshness..."
 HEALTH_GATE_OUT=$(node scripts/check-snapshot-health.mjs --strict --critical-only 2>&1)
@@ -1248,6 +1238,7 @@ CHANGED_FILES=$(git status --short \
   data/sws-us/deep-us.tar.gz \
   data/sws-kr/deep-kr.tar.gz \
   data/sws-tw/deep-tw.tar.gz \
+  data/sectorOutlook/outlook-latest.json \
   data/nse-index-constituents.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
@@ -1305,6 +1296,7 @@ git add data/sws/deep.tar.gz \
         data/sws-us/deep-us.tar.gz \
         data/sws-kr/deep-kr.tar.gz \
         data/sws-tw/deep-tw.tar.gz \
+        data/sectorOutlook/outlook-latest.json \
         data/nse-index-constituents.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
@@ -1330,7 +1322,7 @@ const lines = [
   ``,
   `- scored: ${lr.scored_count}, failed shards: ${lr.shards_failed}`,
   `- duration: ${lr.duration_seconds}s`,
-  `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, quality_growth=${sc.quality_growth?.length}, best_fundamentals=${sc.best_fundamentals?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
+  `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, growing_sector_value=${sc.growing_sector_value?.length}, quality_growth=${sc.quality_growth?.length}, best_fundamentals=${sc.best_fundamentals?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
 ];
 if (process.env.SANITY_SUMMARY) lines.push(`- sanity: ${process.env.SANITY_SUMMARY}`);
 if (process.env.COVERAGE_LINE) lines.push(`- ${process.env.COVERAGE_LINE}`);

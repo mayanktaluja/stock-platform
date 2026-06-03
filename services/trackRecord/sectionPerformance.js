@@ -40,6 +40,12 @@ export const SWS_SECTION_PERFORMANCE_REGISTRY = {
     label: "SWS - Deep Value",
     side: "LONG",
   },
+  growing_sector_value: {
+    sectionKey: "growing_sector_value",
+    type: "sws_growing_sector_value",
+    label: "SWS - Growing Sector Value",
+    side: "LONG",
+  },
   quality_growth: {
     sectionKey: "quality_growth",
     type: "sws_quality_growth",

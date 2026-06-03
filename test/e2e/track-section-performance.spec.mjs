@@ -379,6 +379,7 @@ test.describe("India Market credibility banner and section alpha", () => {
     expect(sectionsRes.ok()).toBe(true);
     const sections = await sectionsRes.json();
     expect((sections.sections || []).map((s) => s.type)).not.toEqual(expect.arrayContaining(retiredTypes));
+    expect((sections.sections || []).map((s) => s.type)).toContain("sws_growing_sector_value");
     expect(JSON.stringify(sections)).not.toMatch(retiredLabels);
 
     const statsRes = await request.get("/api/track/stats?bust=1");
@@ -400,6 +401,7 @@ test.describe("India Market credibility banner and section alpha", () => {
 
     await gotoApp(page);
     await switchTab(page, "track");
+    await expect(page.locator("#trackFilter")).toContainText(/Growing Sector Value/i);
     await expect(page.locator("#trackFilter")).not.toContainText(/Upcoming Earnings|Avoid \(sell signal\)/i);
     await expect(page.locator("#trackSectionPerformancePanel")).not.toContainText(retiredLabels);
     await expect(page.locator("#trackSectionGrid")).not.toContainText(retiredLabels);

@@ -17,6 +17,7 @@ import {
   valuationBandFromUpside as canonicalValuationBandFromUpside,
   withReconciledFairValue,
 } from "./fvReconciliation.js";
+import { buildGrowingSectorValueSection } from "./swsGrowingSectorValue.js";
 
 export const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
@@ -468,7 +469,7 @@ export function pickCardFields(stock) {
   };
 }
 
-export function buildLeaderboard(scoredStocks) {
+export function buildLeaderboard(scoredStocks, opts = {}) {
   // PR 2.5 — single canonical v3 sort (was previously: v1 composite for the
   // base list, v2 re-sort for top_ranked_30, v3 verdict for category gates —
   // three score versions across one function). Every section now reads from
@@ -527,10 +528,18 @@ export function buildLeaderboard(scoredStocks) {
     .slice(0, 100)
     .map(pickCardFields);
 
-  return {
+  const growingSectorValue = buildGrowingSectorValueSection(scoredStocks, {
+    pickCardFields,
+    sectorOutlook: opts.sectorOutlook || null,
+    macroRegime: opts.macroRegime || null,
+    now: opts.now,
+  });
+
+  const sections = {
     top_ranked_30: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
+    growing_sector_value: growingSectorValue.items,
     quality_growth: cat("quality_growth"),
     best_fundamentals: bestFundamentals,
     midterm: cat("midterm"),
@@ -540,4 +549,9 @@ export function buildLeaderboard(scoredStocks) {
     upcoming_earnings: upcoming,
     avoid: cat("avoid"),
   };
+  Object.defineProperty(sections, "__section_audit", {
+    value: { growing_sector_value: growingSectorValue.audit },
+    enumerable: false,
+  });
+  return sections;
 }

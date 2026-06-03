@@ -128,6 +128,59 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     expect(Object.keys(body.sections || {})).not.toContain("avoid");
   });
 
+  test("Growing Sector Value section renders from the India section registry", async ({ page }) => {
+    await page.route("**/api/sws-picks**", async (route) => {
+      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+        await route.fallback();
+        return;
+      }
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "picks-latest-v3",
+          scoring_version: "test",
+          scanned_at: "2026-06-03T00:00:00.000Z",
+          indexConstituentsAvailable: false,
+          sections: {
+            top_ranked_30_v3: [],
+            best_to_buy_now: [],
+            deep_value: [],
+            growing_sector_value: [{
+              ticker: "GSV",
+              name: "Growing Sector Value Ltd",
+              sector: "Automobile",
+              current_price_inr: 100,
+              fair_value_inr: 140,
+              upside_pct: 40,
+              valuation_band: "DEEP_DISCOUNT",
+              fair_value_confidence: "HIGH",
+              v4_score_100: 68,
+              v4_verdict: "STRONG",
+              score: 62,
+              snowflake_total: 23,
+              sector_tailwind_label: "TAILWIND",
+              sector_tailwind_confidence: "MED",
+              sector_tailwind_reason: "Auto demand improving",
+              fv_discount_badge_30plus: true,
+              one_line: "Auto sector tailwind with HIGH-confidence FV discount",
+            }],
+            quality_growth: [],
+          },
+        }),
+      });
+    });
+
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    await expect(page.locator('.sws-pick-chip[data-section-key="growing_sector_value"]')).toContainText(/Sector Value/);
+    const section = page.locator('.sws-pick-section[data-section-key="growing_sector_value"]');
+    await expect(section).toBeVisible();
+    await expect(section).toContainText(/Sector Tailwind \+ FV Discount/i);
+    await expect(section).toContainText(/TAILWIND/i);
+    await expect(section).toContainText(/FV 30%\+/i);
+  });
+
   test("section chip rail exposes mouse scroll controls and preserves chip jumps", async ({ page }) => {
     await page.setViewportSize({ width: 900, height: 800 });
     await gotoApp(page, { tab: "picks" });

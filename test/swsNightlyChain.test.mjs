@@ -91,6 +91,11 @@ for (const f of ["data/macroCalendar.json", "data/nse-index-constituents.json"])
   assert(`${f} is in the DATA_FILES array (data-only PR path)`, dataFilesBlock.includes(f), null);
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
 }
+for (const f of ["data/sectorOutlook/outlook-latest.json"]) {
+  assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
+  assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+  assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
+}
 
 // India modals in prod read data/sws/deep.tar.gz, not loose data/sws/deep/*,
 // because .vercelignore excludes the thousands of loose deep files. The inner
@@ -255,10 +260,38 @@ assert(
 const growwPeIdx = refreshApi.indexOf("node scripts/groww-pe-refresh.mjs");
 const parserIdx = refreshApi.indexOf("node scripts/sws-api-parser.mjs --dest deep");
 const scoringIdx = refreshApi.indexOf("node scripts/sws-scoring.mjs");
+const finalScoringIdx = refreshApi.lastIndexOf("node scripts/sws-scoring.mjs");
+const sectorThemesIdx = refreshApi.indexOf("node scripts/refresh-sector-news-themes.mjs");
+const sectorOutlookIdx = refreshApi.indexOf("node scripts/refresh-sector-outlook.mjs");
+const earningsBeatIdx = refreshApi.indexOf("node scripts/sws-fetch-earnings-beat.mjs");
+const narrateIdx = refreshApi.indexOf("node scripts/sws-narrate-picks.mjs");
+const stampIdx = refreshApi.indexOf("node scripts/sws-stamp-section-status.mjs");
 assert(
   "sws-refresh-api.sh refreshes/validates Groww stock cache before parser/scoring",
   growwPeIdx > -1 && parserIdx > growwPeIdx && scoringIdx > parserIdx,
   { growwPeIdx, parserIdx, scoringIdx },
+);
+assert(
+  "sws-refresh-api.sh runs seed scoring, sector outlook, then final scoring for growing_sector_value",
+  scoringIdx > parserIdx &&
+    sectorThemesIdx > scoringIdx &&
+    sectorOutlookIdx > sectorThemesIdx &&
+    finalScoringIdx > sectorOutlookIdx &&
+    finalScoringIdx !== scoringIdx,
+  { scoringIdx, sectorThemesIdx, sectorOutlookIdx, finalScoringIdx },
+);
+assert(
+  "sws-refresh-api.sh runs downstream enrich/stamp steps after final scoring",
+  earningsBeatIdx > finalScoringIdx &&
+    narrateIdx > earningsBeatIdx &&
+    stampIdx > narrateIdx,
+  { finalScoringIdx, earningsBeatIdx, narrateIdx, stampIdx },
+);
+assert(
+  "sws-nightly.sh does not run a late post-score Sector Outlook refresh",
+  !/with_timeout\s+\d+\s+node scripts\/refresh-sector-outlook\.mjs/.test(nightly) &&
+    !/with_timeout\s+\d+\s+node scripts\/refresh-sector-news-themes\.mjs/.test(nightly),
+  null,
 );
 assert(
   "sws-refresh-api.sh gates full Groww refresh to the 00:30 IST launchd window",

@@ -11,11 +11,12 @@
 #   4. Wait for shards
 #   5. Refresh auxiliary caches (NSE events, Groww/Refinitiv P/E TTL cache)
 #   6. Parse raw API output → scoring-compatible deep/<TICKER>.json
-#   7. Run scoring (sws-scoring.mjs)
-#   8. Backfill last-quarter beat/miss on upcoming-earnings cards (Yahoo Finance)
-#   9. Optionally narrate (if ANTHROPIC_API_KEY set)
-#  10. Generate PDF
-#  11. Write last-refresh.json
+#   7. Run seed scoring (sws-scoring.mjs)
+#   8. Refresh sector themes/outlook, then run final scoring
+#   9. Backfill last-quarter beat/miss on upcoming-earnings cards (Yahoo Finance)
+#  10. Optionally narrate (if ANTHROPIC_API_KEY set)
+#  11. Generate PDF
+#  12. Write last-refresh.json
 #
 # Usage:
 #   ./scripts/sws-refresh-api.sh                       # full universe
@@ -50,6 +51,14 @@ if ! corun_guard in; then exit 5; fi
 exec > >(tee -a "${LOG}") 2>&1
 
 ts() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
+run_with_timeout() {
+  local seconds="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then
+    timeout "${seconds}" "$@"
+  else
+    "$@"
+  fi
+}
 START_EPOCH="$(date +%s)"
 # RUN_STARTED_ISO is the canonical "when did this pipeline start" timestamp,
 # stamped into last-refresh.json's `started_at` field at summary-write time
@@ -267,13 +276,33 @@ echo "[refresh-api] parsing raw API payloads..."
 PARSE_OUT="$(node scripts/sws-api-parser.mjs --dest deep 2>&1 || true)"
 echo "${PARSE_OUT}" | tail -5 | sed 's/^/[parser] /'
 
-# ---------- 7. Score ----------
+# ---------- 7. Seed score ----------
 
-echo "[refresh-api] running scoring..."
+echo "[refresh-api] running seed scoring..."
 SCORING_OUT="$(node scripts/sws-scoring.mjs 2>&1 || true)"
 echo "${SCORING_OUT}" | tail -12 | sed 's/^/[scoring] /'
 
-# ---------- 7. Backfill last-quarter beat/miss ----------
+# ---------- 7.5. Refresh sector outlook, then final score ----------
+#
+# The growing_sector_value section depends on Sector Outlook. Seed scoring
+# gives refresh-sector-outlook.mjs a current picks-latest.json, then final
+# scoring reads the fresh outlook and writes the section into picks-latest.
+# Both sector steps stay non-fatal so the SWS scrape can still ship; the scorer
+# withholds growing_sector_value when outlook is stale/missing/macro-mismatched.
+
+echo "[refresh-api] refreshing sector news themes for growing-sector section..."
+if ! run_with_timeout 900 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=400 2>&1 | tail -12 | sed 's/^/[sector-themes] /'; then
+  echo "[sector-themes] non-zero exit — continuing with prior themes/outlook"
+fi
+echo "[refresh-api] refreshing sector outlook for growing-sector section..."
+if ! run_with_timeout 120 node scripts/refresh-sector-outlook.mjs 2>&1 | tail -12 | sed 's/^/[sector-outlook] /'; then
+  echo "[sector-outlook] non-zero exit — continuing with prior outlook"
+fi
+echo "[refresh-api] running final scoring with sector outlook..."
+FINAL_SCORING_OUT="$(node scripts/sws-scoring.mjs 2>&1 || true)"
+echo "${FINAL_SCORING_OUT}" | tail -12 | sed 's/^/[scoring-final] /'
+
+# ---------- 8. Backfill last-quarter beat/miss ----------
 
 echo "[refresh-api] backfilling earnings beat/miss..."
 BEAT_OUT="$(node scripts/sws-fetch-earnings-beat.mjs 2>&1 || true)"

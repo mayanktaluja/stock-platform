@@ -186,6 +186,7 @@ def cover_page(picks):
     counts = [
         ["Best Stocks to Buy Now", len(sections.get("best_to_buy_now", []))],
         ["Deep Value", len(sections.get("deep_value", []))],
+        ["Growing Sector Value", len(sections.get("growing_sector_value", []))],
         ["Quality Growth", len(sections.get("quality_growth", []))],
         ["Midterm Picks", len(sections.get("midterm", []))],
         ["Dividend Aristocrats", len(sections.get("dividend_aristocrats", []))],
@@ -464,6 +465,7 @@ def section_appendix(picks):
     sections = picks.get("sections", {})
     label_map = {
         "deep_value": "Deep Value",
+        "growing_sector_value": "Growing Sector Value",
         "quality_growth": "Quality Growth",
         "midterm": "Midterm Picks",
         "dividend_aristocrats": "Dividend Aristocrats",
@@ -529,7 +531,7 @@ def main():
         if s.get("ticker") not in seen:
             top_for_pages.append(s)
             seen.add(s.get("ticker"))
-    for cat in ("deep_value", "quality_growth", "midterm", "dividend_aristocrats", "smallcap_gems"):
+    for cat in ("deep_value", "growing_sector_value", "quality_growth", "midterm", "dividend_aristocrats", "smallcap_gems"):
         for s in picks.get("sections", {}).get(cat, []):
             if len(top_for_pages) >= 50:
                 break

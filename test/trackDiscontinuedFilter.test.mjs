@@ -34,6 +34,7 @@ const PUBLIC_TRACK_TYPES = new Set([
   "sws_top30_v3",
   "sws_best_buynow",
   "sws_deep_value",
+  "sws_growing_sector_value",
   "sws_quality_growth",
   "sws_best_fundamentals",
   "sws_midterm",
@@ -81,6 +82,7 @@ function applyByTypeFilter(byType) {
     sws_top30_v3: { count: 12, avgReturn: 4.2 },
     sws_best_buynow: { count: 8, avgReturn: 3.1 },
     sws_deep_value: { count: 5, avgReturn: 5.6 },
+    sws_growing_sector_value: { count: 4, avgReturn: 4.8 },
     sws_quality_growth: { count: 7, avgReturn: 2.9 },
     sws_best_fundamentals: { count: 6, avgReturn: 3.6 },
     // 2 retired SWS context buckets
@@ -97,14 +99,14 @@ function applyByTypeFilter(byType) {
   const keys = Object.keys(filtered).sort();
 
   assert(
-    "exactly 5 keys remain after filter",
-    keys.length === 5,
+    "exactly 6 keys remain after filter",
+    keys.length === 6,
     keys.length,
   );
   assert(
     "remaining keys are exactly the active SWS types in this fixture",
     JSON.stringify(keys) ===
-      JSON.stringify(["sws_best_buynow", "sws_best_fundamentals", "sws_deep_value", "sws_quality_growth", "sws_top30_v3"]),
+      JSON.stringify(["sws_best_buynow", "sws_best_fundamentals", "sws_deep_value", "sws_growing_sector_value", "sws_quality_growth", "sws_top30_v3"]),
     keys,
   );
   assert(
@@ -130,6 +132,7 @@ function applyByTypeFilter(byType) {
 {
   const trades = [
     { id: 1, type: "sws_top30_v3", symbol: "RELIANCE" },
+    { id: 1.5, type: "sws_growing_sector_value", symbol: "MARUTI" },
     { id: 2, type: "buynow_nifty100", symbol: "TCS" },
     { id: 3, type: "smallcap_buynow", symbol: "DCMSHRIRAM" },
     { id: 4, type: "fundamental_deep_value", symbol: "ITC" },
@@ -139,7 +142,7 @@ function applyByTypeFilter(byType) {
   const publicTrades = filterPublicTrades(trades);
   assert(
     "default public trades contain only visible public types",
-    publicTrades.length === 1 && publicTrades[0].type === "sws_top30_v3",
+    publicTrades.length === 2 && publicTrades.some((t) => t.type === "sws_top30_v3") && publicTrades.some((t) => t.type === "sws_growing_sector_value"),
     publicTrades,
   );
 
@@ -187,8 +190,8 @@ function applyByTypeFilter(byType) {
     overlap,
   );
   assert(
-    "PUBLIC_TRACK_TYPES has exactly 14 entries (pin against accidental drift)",
-    PUBLIC_TRACK_TYPES.size === 14,
+    "PUBLIC_TRACK_TYPES has exactly 15 entries (pin against accidental drift)",
+    PUBLIC_TRACK_TYPES.size === 15,
     PUBLIC_TRACK_TYPES.size,
   );
   assert(
