@@ -1013,11 +1013,74 @@
     details.analyzer-secondary-kpis > summary::-webkit-details-marker { display: none; }
     details.analyzer-tier-details > summary::before { content: "▶ "; color: var(--text-muted); margin-right: 6px; transition: transform var(--dur-quick) var(--ease-standard); display: inline-block; }
     details.analyzer-tier-details[open] > summary::before { transform: rotate(90deg); }
+    .analyzer-section {
+      background: var(--panel);
+      border: 1px solid rgba(96, 165, 250, 0.24);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+    }
+    .analyzer-section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .analyzer-section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #bfdbfe;
+      letter-spacing: 0;
+    }
+    .analyzer-section-copy {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-top: 3px;
+    }
+    .analyzer-compact-ledger {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+    }
+    .analyzer-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .analyzer-priority-table {
+      min-width: 760px;
+    }
+    .analyzer-priority-header,
+    .analyzer-priority-row {
+      display: grid;
+      grid-template-columns: minmax(96px, 1fr) 84px 92px 92px minmax(180px, 1.6fr);
+      gap: 10px;
+      align-items: center;
+    }
+    .analyzer-priority-header {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 8px 0;
+    }
+    .analyzer-priority-row {
+      border-top: 1px solid #1a2238;
+      font-size: 12px;
+      padding: 9px 0;
+    }
     /* Mobile (≤ 480 px): hero trio collapses to single column, action-mix
      * bar grows to 44 px so the segment labels stay legible. */
     @media (max-width: 480px) {
       .analyzer-hero-trio { grid-template-columns: 1fr !important; }
       .analyzer-actionmix-bar { height: 44px !important; }
+      .analyzer-section { padding: 12px 14px; }
+      .analyzer-compact-ledger { width: 100%; justify-content: space-between; }
     }
 
     /* PR P9 — inline ★ on pick cards.

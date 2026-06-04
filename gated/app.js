@@ -7662,20 +7662,20 @@ function renderSWSConstructionPlan(plan) {
     }).join("");
 
   return `
-    <section class="analyzer-funded-plan" data-funded-plan style="background:var(--panel); border:1px solid rgba(96,165,250,0.32); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-      <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start;">
+    <section class="analyzer-section analyzer-funded-plan" data-funded-plan>
+      <div class="analyzer-section-header">
         <div>
-          <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Capital ledger ${notAdviceChip("inline")}</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Buy rupees use fresh capital plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
+          <div class="analyzer-section-title">Today's plan</div>
+          <div class="analyzer-section-copy">Fresh cash plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
           ${sleeve?.warning ? `<div style="font-size:11px; color:#fde047; margin-top:5px;">${swsEscapeAttr(sleeve.warning)}</div>` : ""}
         </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:11px;">
+        <div class="analyzer-compact-ledger">
           <span>Available <strong data-funded-available-capital style="color:#e5e7eb;">${inr(ledger.availableBuyCapital || 0)}</strong></span>
           <span>Buys <strong data-funded-buy-total style="color:#86efac;">${inr(ledger.deployedBuyCapital || 0)}</strong></span>
           <span>Left cash <strong style="color:#fde047;">${inr(ledger.leftoverCash || 0)}</strong></span>
         </div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-top:14px;">
+      <div class="analyzer-evidence-grid">
         <div>
           <div style="font-size:11px; color:#86efac; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded buys (${fundedBuys.length})</div>
           ${buyRows}
@@ -7713,7 +7713,7 @@ function renderAnalyzerExitPlanSummary(summary) {
     ? `<div style="font-size:12px; color:var(--text-muted); padding-top:8px;">No active review rows from available support and upside references.</div>`
     : rows.map((r) => {
         const stateColor = r.state === "REVIEW" ? "#fca5a5" : r.state === "WATCH" ? "#fde047" : "#93c5fd";
-        return `<div data-exit-plan-summary-row style="display:grid; grid-template-columns:minmax(96px, 1fr) 84px 92px 92px minmax(160px, 1.6fr); gap:10px; align-items:center; padding:8px 0; border-top:1px solid #1a2238; font-size:12px;">
+        return `<div class="analyzer-priority-row" data-exit-plan-summary-row>
           <div><strong>${swsEscapeAttr(r.symbol || "—")}</strong><div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(r.intentLabel || "")}</div></div>
           <div style="color:${stateColor}; font-weight:800;">${swsEscapeAttr(r.state || "CLEAR")}</div>
           <div class="tx-num" style="color:var(--text-muted);">${r.supportLevel != null ? inr(r.supportLevel) : "—"}</div>
@@ -7731,16 +7731,16 @@ function renderAnalyzerExitPlanSummary(summary) {
       <summary class="tx-title" style="cursor:pointer; padding:10px 0; border-bottom:1px solid var(--border); list-style:none;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
           <div>
-            <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Technical levels &amp; review triggers ${notAdviceChip("inline")}</div>
+            <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Technical levels &amp; review triggers</div>
             <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"} · analytical reference, not trade instructions</div>
           </div>
           <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:11px; font-weight:700; text-align:right;">${compactCounts}</div>
         </div>
       </summary>
-      <div style="padding-top:var(--space-200); background:var(--panel); border:1px solid rgba(147,197,253,0.30); border-top:0; border-radius:0 0 10px 10px; padding:14px 18px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+      <div class="analyzer-section" style="border-top:0; border-radius:0 0 8px 8px;">
+        <div class="analyzer-section-header">
         <div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${swsEscapeAttr(summary.copy || "Technical levels are analytical references, not trade instructions.")}</div>
+          <div class="analyzer-section-copy">${swsEscapeAttr(summary.copy || "Technical levels are analytical references, not trade instructions.")}</div>
         </div>
         <div style="font-size:11px; color:var(--text-muted);">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"}</div>
       </div>
@@ -7750,10 +7750,15 @@ function renderAnalyzerExitPlanSummary(summary) {
         ${stat("Profit-zone", profitZone, profitZone ? "#86efac" : "#93c5fd")}
         ${stat("High-volatility", highVol, highVol ? "#fca5a5" : "#93c5fd")}
       </div>
-      <details style="margin-top:12px;">
-        <summary style="cursor:pointer; list-style:none; font-size:11px; color:var(--text-muted);">Priority technical rows (${rows.length})</summary>
-        <div style="margin-top:8px; overflow-x:auto;">${rowHtml}</div>
-      </details>
+      <div style="margin-top:14px;">
+        <div style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">Priority technical rows (${rows.length})</div>
+        <div style="margin-top:8px; overflow-x:auto;">
+          <div class="analyzer-priority-table">
+            ${rows.length ? `<div class="analyzer-priority-header"><span>Stock</span><span>State</span><span>Support</span><span>Upside</span><span>Reason</span></div>` : ""}
+            ${rowHtml}
+          </div>
+        </div>
+      </div>
       </div>
     </details>
   `;
@@ -7822,8 +7827,6 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
-    ${renderSWSConstructionPlan(report.constructionPlan)}
-    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* PR A10 — Tier 1 hero trio above the Health ring. */ ""}
     ${renderAnalyzerHeroTrio(snap)}
@@ -7832,6 +7835,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
 
     ${/* PR A10 — Action mix as a 100 %-width stacked bar. */ ""}
     ${renderAnalyzerActionMixBar(snap)}
+    ${renderSWSConstructionPlan(report.constructionPlan)}
+    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* Secondary KPIs — collapsed by default. */ ""}
     <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
@@ -7983,8 +7988,6 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
-    ${renderSWSConstructionPlan(report.constructionPlan)}
-    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* PR A10 — Tier 1 hero. Invested / Today / Net P&L read first,
         Net P&L dominant + signed-coloured. Hoists ABOVE the engine hero
@@ -7998,6 +8001,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${/* PR A10 — Action mix is now a 100 %-width stacked bar. Click-through
         to openActionListModal still works via the bucket bridge. */ ""}
     ${renderAnalyzerActionMixBar(snap)}
+    ${renderSWSConstructionPlan(report.constructionPlan)}
+    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* Secondary KPIs — kept visible but de-emphasised below the Tier 1
         hero. Useful for power users but no longer the first read. */ ""}

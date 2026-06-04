@@ -316,7 +316,7 @@ export function computeTrimSeverity({
 
   const pp = (n) => `${(n * 100).toFixed(0)}pp`;
   const rationale = [
-    `v3 ${v3n.toFixed(0)}/100 → +${pp(components.weakness)} weakness signal`,
+    `Score ${v3n.toFixed(0)}/100 → +${pp(components.weakness)} weakness signal`,
     `Position ${pw.toFixed(1)}% of book → +${pp(components.concentration)} concentration`,
     `Sector ${sw.toFixed(1)}% of book → +${pp(components.sectorOverweight)} sector overweight`,
     `Conviction ${conviction || "MEDIUM"} → +${pp(components.conviction)}`,
@@ -633,7 +633,7 @@ export function computeTopUpSeverity({
 
   const pp = (n) => `${(n * 100).toFixed(0)}pp`;
   const rationale = [
-    `v3 ${v3n.toFixed(0)}/100 → +${pp(components.strength)} strength`,
+    `Score ${v3n.toFixed(0)}/100 → +${pp(components.strength)} strength`,
     `Position ${pw.toFixed(1)}% (room to ${(Math.max(0, 8 - pw)).toFixed(1)}pp) → +${pp(components.positionRoom)}`,
     `Sector ${sw.toFixed(1)}% (room to ${(Math.max(0, 25 - sw)).toFixed(1)}pp) → +${pp(components.sectorRoom)}`,
     `Upside ${up.toFixed(1)}% to FV → +${pp(components.upside)}`,
@@ -829,6 +829,7 @@ export function pickTrimRung({ v3, position_weight, sector_weight, conviction, s
 export function promoteToLadderV2({
   legacyAction,
   v3,
+  v4,
   snow_total,
   position_weight,
   sector_weight,
@@ -846,7 +847,8 @@ export function promoteToLadderV2({
   materialDisclosure,// boolean — bypasses settle-period gate when true
 }) {
   const rationale = [];
-  const conviction = deriveConvictionProxy({ v3, snow_total, surveillance, risks_count });
+  const score = Number.isFinite(v4) ? v4 : v3;
+  const conviction = deriveConvictionProxy({ v3: score, snow_total, surveillance, risks_count });
 
   if (!isLadderV2Enabled()) {
     return {
@@ -865,7 +867,7 @@ export function promoteToLadderV2({
   // All V4-only inputs are optional — partial data degrades gracefully to V3.
   if (isLadderV4Enabled()) {
     return _promoteV4({
-      legacyAction, v3, pillars, position_weight, sector_weight, upside, risks_count,
+      legacyAction, v3: score, pillars, position_weight, sector_weight, upside, risks_count,
       surveillance, pnlPercent, conviction,
       currentPrice, fiftyTwoWeekHigh, fiftyTwoWeekLow, currentValue,
       daysHeld, materialDisclosure,
@@ -878,12 +880,12 @@ export function promoteToLadderV2({
   // observational framing — engine emits a number, not an instruction.
   if (isLadderV3Enabled()) {
     return _promoteV3({
-      legacyAction, v3, position_weight, sector_weight, upside, risks_count,
+      legacyAction, v3: score, position_weight, sector_weight, upside, risks_count,
       surveillance, pnlPercent, conviction,
     });
   }
 
-  const v3n = Number.isFinite(v3) ? v3 : 0;
+  const v3n = Number.isFinite(score) ? score : 0;
   const pw = Number.isFinite(position_weight) ? position_weight : 0;
   const sw = Number.isFinite(sector_weight) ? sector_weight : 0;
   const up = Number.isFinite(upside) ? upside : 0;

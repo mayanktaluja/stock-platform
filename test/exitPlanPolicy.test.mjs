@@ -95,6 +95,7 @@ console.log("exitPlanPolicy.js regression");
   assert.equal(summary.watchCount, 0);
   assert.equal(summary.highVolatilityCount, 1);
   assert.equal(summary.rows[0].symbol, "REVIEWCO");
+  assert.match(summary.rows[0].reason, /Current price is below the support reference|Reduction/i);
   assert.equal(containsForbiddenExitPlanCopy(summary), false);
 }
 

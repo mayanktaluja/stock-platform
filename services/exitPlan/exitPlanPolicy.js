@@ -335,6 +335,15 @@ export function buildExitPlanSummary(holdings = []) {
     concentrationReviewCount: 0,
     highVolatilityCount: 0,
   };
+  const rowReason = (plan) => {
+    const parts = [
+      ...cleanList(plan.trigger?.reasons).slice(0, 2),
+      plan.profitZone?.inZone ? plan.profitZone.reason : null,
+      ...cleanList(plan.rationale).slice(0, 2),
+      ...cleanList(plan.caveats).slice(0, 1),
+    ].filter(Boolean);
+    return parts[0] || "No active review trigger; keep this as a reference level.";
+  };
 
   for (const h of Array.isArray(holdings) ? holdings : []) {
     const plan = h?.exitPlan;
@@ -356,7 +365,7 @@ export function buildExitPlanSummary(holdings = []) {
         supportLevel: plan.supportReference?.value ?? plan.supportLevel ?? null,
         upsideBand: plan.upsideReference?.value ?? plan.upsideBand ?? null,
         profitZone: Boolean(plan.profitZone?.inZone),
-        reason: plan.trigger?.reasons?.[0] || plan.rationale?.[0] || "",
+        reason: rowReason(plan),
       });
     }
   }

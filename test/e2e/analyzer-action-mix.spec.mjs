@@ -139,7 +139,9 @@ test.describe("Analyzer action-mix chip", () => {
 
     const fundedPlan = page.locator("[data-funded-plan]");
     await expect(fundedPlan).toBeVisible({ timeout: 5_000 });
-    await expect(fundedPlan).toContainText("Capital ledger");
+    await expect(fundedPlan).toContainText("Today's plan");
+    await expect(fundedPlan).not.toContainText("Capital ledger");
+    await expect(fundedPlan).toContainText("Fresh cash plus confirmed freed capital only");
     await expect(fundedPlan).toContainText("Same-run reductions stay notional until confirmed");
     await expect(fundedPlan).toContainText("Notional reductions");
     await expect(fundedPlan).toContainText("Blocked / review reduction candidates");
