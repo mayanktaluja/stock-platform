@@ -37,6 +37,15 @@ function stock(ticker, overrides = {}) {
       fair_value_inr: overrides.fairValue ?? 140,
       market_cap_inr: overrides.marketCap ?? 1e11,
       snowflake_total: 22,
+      snowflake: {
+        valuation: 4,
+        future: overrides.future ?? 4,
+        future_growth: overrides.future ?? 4,
+        past_performance: 4,
+        financial_health: 5,
+        dividends: 3,
+        ...overrides.snowflake,
+      },
       ...overrides.overview,
     },
   };
@@ -81,6 +90,7 @@ const card = (s) => ({
   ticker: s.ticker,
   sector: s.sector,
   v4_score_100: s.v4_score_100,
+  snowflake: s.overview.snowflake,
   upside_pct: Math.round((((s.overview.fair_value_inr - s.overview.current_price_inr) / s.overview.current_price_inr) * 100) * 10) / 10,
   fair_value_confidence: "HIGH",
 });
@@ -108,7 +118,45 @@ check("selects HIGH-confidence FV names in tailwind sectors and adds display met
   assert.equal(result.items[0].sector_tailwind_label, "TAILWIND");
   assert.equal(result.items[0].sector_tailwind_confidence, "MED");
   assert.equal(result.items[0].fv_discount_badge_30plus, true);
+  assert.equal(result.items[0].snowflake.future_growth, 4);
   assert.equal(result.audit.reason, "ok");
+});
+
+check("requires Future Growth >=4 in tailwind mode and does not relax when strict candidates exist", () => {
+  const result = buildGrowingSectorValueSection([
+    stock("STRICT", { future: 4, v4_score_100: 62 }),
+    stock("RELAXED", { future: 3, v4_score_100: 80 }),
+  ], {
+    pickCardFields: card,
+    sectorOutlook: outlook(),
+    macroRegime: { regime: "CALM" },
+    now,
+  });
+  assert.deepEqual(result.items.map((x) => x.ticker), ["STRICT"]);
+  assert.equal(result.audit.future_growth_min_target, 4);
+  assert.equal(result.audit.future_growth_min_used, 4);
+  assert.equal(result.audit.future_growth_strict_selected_count, 1);
+  assert.equal(result.audit.future_growth_relaxed_selected_count, 2);
+  assert.equal(result.audit.future_growth_gate_relaxed, false);
+});
+
+check("relaxes to Future Growth >=3 only when strict mode has zero candidates", () => {
+  const result = buildGrowingSectorValueSection([
+    stock("RELAXED", { future: 3, v4_score_100: 65 }),
+    stock("TOOLOW", { future: 2, v4_score_100: 80 }),
+  ], {
+    pickCardFields: card,
+    sectorOutlook: outlook(),
+    macroRegime: { regime: "CALM" },
+    now,
+  });
+  assert.deepEqual(result.items.map((x) => x.ticker), ["RELAXED"]);
+  assert.equal(result.audit.available, false);
+  assert.equal(result.audit.reason, "future_growth_relaxed_fallback");
+  assert.equal(result.audit.future_growth_min_used, 3);
+  assert.equal(result.audit.future_growth_gate_relaxed, true);
+  assert.match(result.audit.ui_warning_label, /Future fallback/);
+  assert.match(result.audit.ui_warning_message, /Future Growth ≥4\/6/);
 });
 
 check("excludes LOW-confidence sector outlook even when label is tailwind", () => {
@@ -228,6 +276,36 @@ check("uses current macro-only fallback when Sector Outlook is macro-mismatched"
   assert.equal(result.items[0].macro_impact_sector, "Oil & Gas");
   assert.equal(result.items[0].sector_tailwind_label, undefined);
   assert.equal(result.items[0].fv_discount_badge_30plus, true);
+});
+
+check("applies Future Growth gate inside macro fallback mode", () => {
+  const result = buildGrowingSectorValueSection([
+    stock("OILLOW", { sector: "Energy", fairValue: 160, v4_score_100: 80, future: 2 }),
+    stock("DEFSTRICT", {
+      sector: "Capital Goods",
+      fairValue: 150,
+      v4_score_100: 64,
+      future: 4,
+      v4_breakdown: { fv_pe_industry_name: "Aerospace & Defence" },
+    }),
+  ], {
+    pickCardFields: card,
+    sectorOutlook: outlook({ regime: "CALM" }),
+    macroRegime: {
+      regime: "WAR_ESCALATION",
+      confidence: 0.55,
+      generatedAt: "2026-06-03T05:00:00.000Z",
+      sectorImpacts: [
+        { sector: "Defence", impact: 4, reason: "War events boost defence orders" },
+        { sector: "Oil & Gas", impact: 2, reason: "Conflict raises crude price expectations" },
+      ],
+    },
+    now,
+  });
+  assert.deepEqual(result.items.map((x) => x.ticker), ["DEFSTRICT"]);
+  assert.equal(result.audit.display_mode, "macro_value_fallback");
+  assert.equal(result.audit.future_growth_min_used, 4);
+  assert.equal(result.audit.future_growth_gate_relaxed, false);
 });
 
 check("withholds section when mapped sector coverage falls below floor", () => {

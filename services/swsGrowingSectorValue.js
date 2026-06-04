@@ -9,6 +9,8 @@ const MIN_COVERAGE_RATIO = 0.6;
 const STALE_HOURS = 36;
 const MACRO_FALLBACK_STALE_HOURS = 18;
 const MIN_MACRO_FALLBACK_CONFIDENCE = 0.3;
+const FUTURE_GROWTH_MIN_STRICT = 4;
+const FUTURE_GROWTH_MIN_RELAXED = 3;
 const TAILWIND_LABELS = new Set(["TAILWIND", "STRONG_TAILWIND"]);
 
 const DIRECT_SECTOR_MAP = new Map(Object.entries({
@@ -240,6 +242,78 @@ function baseEligible(stock) {
   return true;
 }
 
+function futureGrowthScore(stock) {
+  const snow = stock?.overview?.snowflake || {};
+  const score = snow.future ?? snow.future_growth;
+  return isFiniteNumber(score) ? score : null;
+}
+
+function applyFutureGrowthGate(candidates, opts = {}) {
+  const strictMin = opts.strictMin || FUTURE_GROWTH_MIN_STRICT;
+  const relaxedMin = opts.relaxedMin || FUTURE_GROWTH_MIN_RELAXED;
+  const strict = candidates.filter(({ stock }) => {
+    const score = futureGrowthScore(stock);
+    return isFiniteNumber(score) && score >= strictMin;
+  });
+  if (strict.length > 0) {
+    return {
+      candidates: strict,
+      minUsed: strictMin,
+      relaxed: false,
+      candidateCount: candidates.length,
+      strictCount: strict.length,
+      relaxedCount: candidates.filter(({ stock }) => {
+        const score = futureGrowthScore(stock);
+        return isFiniteNumber(score) && score >= relaxedMin;
+      }).length,
+    };
+  }
+  const relaxed = candidates.filter(({ stock }) => {
+    const score = futureGrowthScore(stock);
+    return isFiniteNumber(score) && score >= relaxedMin;
+  });
+  return {
+    candidates: relaxed,
+    minUsed: relaxed.length > 0 ? relaxedMin : strictMin,
+    relaxed: relaxed.length > 0,
+    candidateCount: candidates.length,
+    strictCount: 0,
+    relaxedCount: relaxed.length,
+  };
+}
+
+function futureGrowthAudit(gate) {
+  return {
+    future_growth_min_target: FUTURE_GROWTH_MIN_STRICT,
+    future_growth_min_used: gate?.minUsed || FUTURE_GROWTH_MIN_STRICT,
+    future_growth_candidate_count: gate?.candidateCount || 0,
+    future_growth_strict_selected_count: gate?.strictCount || 0,
+    future_growth_relaxed_selected_count: gate?.relaxedCount || 0,
+    future_growth_gate_relaxed: Boolean(gate?.relaxed),
+  };
+}
+
+function appendFutureGrowthWarning(audit) {
+  const candidateCount = audit?.future_growth_candidate_count || 0;
+  const filteredOutByFuture = candidateCount > 0 && audit.selected_count === 0;
+  if (!audit?.future_growth_gate_relaxed && !filteredOutByFuture) return audit;
+  const futureLabel = audit.future_growth_gate_relaxed
+    ? `Future fallback · ≥${audit.future_growth_min_used}/6`
+    : `Future Growth < ${FUTURE_GROWTH_MIN_RELAXED}/6`;
+  const futureMessage = audit.future_growth_gate_relaxed
+    ? `No strict Future Growth ≥${FUTURE_GROWTH_MIN_STRICT}/6 candidates passed the section gates, so this section is showing the clearly labelled ≥${FUTURE_GROWTH_MIN_RELAXED}/6 fallback.`
+    : `Otherwise eligible candidates are withheld because none meet the minimum Future Growth ≥${FUTURE_GROWTH_MIN_RELAXED}/6 fallback floor.`;
+  return {
+    ...audit,
+    available: false,
+    reason: audit.reason === "ok"
+      ? (audit.future_growth_gate_relaxed ? "future_growth_relaxed_fallback" : "future_growth_below_floor")
+      : audit.reason,
+    ui_warning_label: audit.ui_warning_label ? `${audit.ui_warning_label} · ${futureLabel}` : futureLabel,
+    ui_warning_message: audit.ui_warning_message ? `${audit.ui_warning_message} ${futureMessage}` : futureMessage,
+  };
+}
+
 function tailwindForStock(stock, outlookIndex) {
   for (const mappedSector of candidateOutlookSectors(stock)) {
     const sectorRow = outlookIndex.bySector.get(mappedSector);
@@ -304,8 +378,9 @@ function buildMacroFallbackSection(scoredStocks, opts, outlookIndex) {
     const fallback = macroFallbackForStock(stock, macroIndex);
     if (fallback) selected.push({ stock, fallback });
   }
+  const futureGate = applyFutureGrowthGate(selected);
 
-  const items = selected
+  const items = futureGate.candidates
     .sort((a, b) =>
       (b.stock.v4_score_100 || 0) - (a.stock.v4_score_100 || 0) ||
       (reconcileFairValue(b.stock.overview || {}).upside_pct || 0) - (reconcileFairValue(a.stock.overview || {}).upside_pct || 0) ||
@@ -319,7 +394,7 @@ function buildMacroFallbackSection(scoredStocks, opts, outlookIndex) {
   const sectors = [...macroIndex.bySector.keys()].join(", ");
   return {
     items,
-    audit: {
+    audit: appendFutureGrowthWarning({
       available: false,
       reason: outlookIndex.reason,
       display_mode: "macro_value_fallback",
@@ -336,7 +411,8 @@ function buildMacroFallbackSection(scoredStocks, opts, outlookIndex) {
       base_eligible_count: base.length,
       mapped_count: selected.length,
       selected_count: items.length,
-    },
+      ...futureGrowthAudit(futureGate),
+    }),
   };
 }
 
@@ -348,7 +424,7 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
   const outlookIndex = indexSectorOutlook(opts.sectorOutlook || null, opts);
   if (!outlookIndex.ok) {
     const fallback = buildMacroFallbackSection(scoredStocks, opts, outlookIndex);
-    if (fallback && fallback.items.length > 0) return fallback;
+    if (fallback) return fallback;
     return {
       items: [],
       audit: {
@@ -365,6 +441,7 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
         base_eligible_count: 0,
         mapped_count: 0,
         selected_count: 0,
+        ...futureGrowthAudit(null),
       },
     };
   }
@@ -377,18 +454,21 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
     const tailwind = tailwindForStock(stock, outlookIndex);
     if (tailwind) selected.push({ stock, tailwind: { ...tailwind, generated_at: outlookIndex.generated_at } });
   }
+  const futureGate = applyFutureGrowthGate(selected);
 
   const coverageRatio = base.length > 0 ? mapped.length / base.length : 0;
-  const audit = {
+  let audit = {
     available: true,
     reason: "ok",
     generated_at: outlookIndex.generated_at || null,
     age_hours: outlookIndex.age_hours,
     base_eligible_count: base.length,
     mapped_count: mapped.length,
-    selected_count: selected.length,
+    selected_count: futureGate.candidates.length,
     coverage_ratio: Math.round(coverageRatio * 1000) / 1000,
+    ...futureGrowthAudit(futureGate),
   };
+  audit = appendFutureGrowthWarning(audit);
   if (base.length > 0 && coverageRatio < MIN_COVERAGE_RATIO) {
     return {
       items: [],
@@ -396,7 +476,7 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
     };
   }
 
-  const items = selected
+  const items = futureGate.candidates
     .sort((a, b) =>
       (b.stock.v4_score_100 || 0) - (a.stock.v4_score_100 || 0) ||
       (reconcileFairValue(b.stock.overview || {}).upside_pct || 0) - (reconcileFairValue(a.stock.overview || {}).upside_pct || 0) ||

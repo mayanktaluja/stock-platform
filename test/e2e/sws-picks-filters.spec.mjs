@@ -158,6 +158,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
               v4_verdict: "STRONG",
               score: 62,
               snowflake_total: 23,
+              snowflake: { future_growth: 4, future: 4 },
               sector_tailwind_label: "TAILWIND",
               sector_tailwind_confidence: "MED",
               sector_tailwind_reason: "Auto demand improving",
@@ -178,6 +179,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await expect(section).toBeVisible();
     await expect(section).toContainText(/Growing Sector Value Stocks/i);
     await expect(section).toContainText(/TAILWIND/i);
+    await expect(section).toContainText(/Future 4\/6/i);
     await expect(section).toContainText(/FV 30%\+/i);
   });
 
@@ -239,6 +241,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 	              composite_verdict: "STRONG",
 	              score: 66,
 	              snowflake_total: 22,
+	              snowflake: { future_growth: 5, future: 5 },
 	              selection_basis: "macro_value_fallback",
 	              sector_outlook_used: false,
 	              macro_fallback_label: "Macro fallback · Global Risk-Off",
@@ -271,9 +274,77 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 	    await expect(section.locator(".sws-pick-section-empty")).toContainText(/stale Sector Outlook tailwinds are not used/i);
 	    await expect(section.locator(".stock-card")).toHaveCount(1);
 	    await expect(section).toContainText(/Macro fallback · Global Risk-Off/i);
+	    await expect(section).toContainText(/Future 5\/6/i);
 	    await expect(section).toContainText(/FV 30%\+/i);
 	    await expect(section.locator(".stock-card")).not.toContainText(/TAILWIND ·/i);
 	  });
+
+  test("Growing Sector Value shows labelled Future Growth fallback when strict candidates are absent", async ({ page }) => {
+    await page.route("**/api/sws-picks**", async (route) => {
+      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+        await route.fallback();
+        return;
+      }
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "picks-latest-v3",
+          scoring_version: "test",
+          scanned_at: "2026-06-03T00:00:00.000Z",
+          indexConstituentsAvailable: false,
+          section_audit: {
+            growing_sector_value: {
+              available: false,
+              reason: "future_growth_relaxed_fallback",
+              future_growth_min_target: 4,
+              future_growth_min_used: 3,
+              future_growth_gate_relaxed: true,
+              ui_warning_label: "Future fallback · ≥3/6",
+              ui_warning_message: "No strict Future Growth ≥4/6 candidates passed the section gates, so this section is showing the clearly labelled ≥3/6 fallback.",
+              selected_count: 1,
+            },
+          },
+          sections: {
+            top_ranked_30_v3: [],
+            best_to_buy_now: [],
+            deep_value: [],
+            growing_sector_value: [{
+              ticker: "GSV3",
+              name: "Future Fallback Ltd",
+              sector: "Automobile",
+              current_price_inr: 100,
+              fair_value_inr: 135,
+              upside_pct: 35,
+              valuation_band: "DEEP_DISCOUNT",
+              fair_value_confidence: "HIGH",
+              v4_score_100: 61,
+              v4_verdict: "STRONG",
+              composite_verdict: "STRONG",
+              score: 61,
+              snowflake_total: 21,
+              snowflake: { future_growth: 3, future: 3 },
+              sector_tailwind_label: "TAILWIND",
+              sector_tailwind_confidence: "MED",
+              sector_tailwind_reason: "Auto demand improving",
+              fv_discount_badge_30plus: true,
+              one_line: "Relaxed Future Growth fallback candidate",
+            }],
+            quality_growth: [],
+          },
+        }),
+      });
+    });
+
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    const section = page.locator('.sws-pick-section[data-section-key="growing_sector_value"]');
+    await expect(section).toBeVisible();
+    await expect(section.locator(".sws-pick-section-warning")).toContainText(/Future fallback · ≥3\/6/i);
+    await expect(section.locator(".sws-pick-section-empty")).toContainText(/Future Growth ≥4\/6/i);
+    await expect(section).toContainText(/Future 3\/6/i);
+    await expect(section).not.toContainText(/future_growth_relaxed_fallback/i);
+  });
 
   test("section chip rail exposes mouse scroll controls and preserves chip jumps", async ({ page }) => {
     await page.setViewportSize({ width: 900, height: 800 });
