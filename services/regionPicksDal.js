@@ -49,9 +49,11 @@ export function makeRegionPicksDal(code) {
   const readV3 = mtimeCached(V3_UNIVERSE_PATH, readJson);
   const readFundamentalsFallback = createMarketFundamentalsFallbackReader(FUNDAMENTALS_LATEST_PATH);
 
-  // KR/TW canonical keys are uppercase + dotted (005930.KS / 2330.TW). Uppercase
-  // + trim, keep the dot — no .NS/.BO/.KS stripping (the key IS the suffix).
-  const normaliseTickerKey = (ticker) => (ticker ? String(ticker).trim().toUpperCase() : null);
+  // KR/TW canonical keys are dotted and case-preserving. Most are uppercase
+  // numeric keys (005930.KS / 2330.TW), but SWS also emits exchange ids with
+  // lower-case letters (q500036.KS, 01001t.TW). Preserve the canonical case for
+  // deep-file lookup, and resolve user/input variants case-insensitively.
+  const normaliseTickerKey = (ticker) => (ticker ? String(ticker).trim() : null);
 
   // Local/nightly: deep/ is populated. Prod: the Vercel bundle ships
   // deep-<code>.tar.gz, extracted per-ticker into /tmp. When both exist, prefer
@@ -89,6 +91,14 @@ export function makeRegionPicksDal(code) {
     return byTicker;
   };
 
+  const resolveCanonicalTicker = (ticker) => {
+    const key = normaliseTickerKey(ticker);
+    if (!key) return null;
+    const idx = getUniverseIndex();
+    const card = idx ? idx.get(String(key).toUpperCase()) : null;
+    return card?.ticker ? String(card.ticker) : key;
+  };
+
   return {
     code,
     currencyIso: region.currencyIso,
@@ -111,7 +121,7 @@ export function makeRegionPicksDal(code) {
       } : null;
     },
     getStockByTicker: (ticker) => {
-      const key = normaliseTickerKey(ticker);
+      const key = resolveCanonicalTicker(ticker);
       return key ? readDeepByKey(key) : null;
     },
     getFundamentalsFallback: (ticker) => {
@@ -119,6 +129,7 @@ export function makeRegionPicksDal(code) {
       return key ? readFundamentalsFallback(key) : null;
     },
     getUniverseIndex,
+    resolveCanonicalTicker,
     getShardProgressApi: (n) => readProgressApi(n),
     getAllShardProgressApi: () =>
       [1, 2, 3].map((n) => {

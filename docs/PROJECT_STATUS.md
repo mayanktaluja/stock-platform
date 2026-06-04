@@ -33,6 +33,15 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Unified global search (June 2026)
+- **This PR** — Header global search now covers every committed SWS scored
+  universe across India, US, Korea, and Taiwan while keeping results compact.
+  The API reads only scored-universe JSON, preserves India NSE/BSE dedupe and
+  India-scoped Yahoo fallback, and returns market metadata so the frontend
+  opens India, US, Korea, or Taiwan SWS detail modals correctly. KR/TW ticker
+  lookup now resolves mixed-case SWS keys such as `q500036.KS` and `01001t.TW`
+  without breaking deep tarball lookups.
+
 ### SWS nightly artifact contract (June 2026)
 - **This PR** — The isolated SWS nightly now separates deployable artifacts
   from local generator caches before opening its auto-refresh PR. Loose India

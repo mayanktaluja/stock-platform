@@ -1218,7 +1218,7 @@ function setupSearch() {
   });
 
   document.addEventListener("click", (e) => {
-    if (!e.target.closest(".search-container")) {
+    if (!e.target.closest(".header-search-wrap")) {
       searchResults.classList.remove("active");
     }
   });
@@ -1229,32 +1229,83 @@ function setupSearch() {
       searchInput.blur();
     }
   });
+
+  searchResults.addEventListener("click", (e) => {
+    const item = e.target.closest(".search-result-item");
+    if (!item) return;
+    openGlobalSearchResult({
+      market: item.dataset.market || "india",
+      ticker: item.dataset.ticker || item.dataset.symbol || "",
+      symbol: item.dataset.symbol || item.dataset.ticker || "",
+    });
+  });
+
+  searchResults.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const item = e.target.closest(".search-result-item");
+    if (!item) return;
+    e.preventDefault();
+    openGlobalSearchResult({
+      market: item.dataset.market || "india",
+      ticker: item.dataset.ticker || item.dataset.symbol || "",
+      symbol: item.dataset.symbol || item.dataset.ticker || "",
+    });
+  });
 }
 
 function renderSearchResults(query, results) {
   if (results && results.length > 0) {
     searchResults.innerHTML = results
-      .map(
-        (r) => `
-        <div class="search-result-item" onclick="openStockDetailModal('${r.symbol}','search')">
-          <div>
+      .map((r) => {
+        const market = r.market || "india";
+        const marketLabel = r.marketLabel || (market === "india" ? "India" : market.toUpperCase());
+        const ticker = r.ticker || r.symbol || "";
+        const symbol = r.symbol || ticker;
+        const score = typeof r.score === "number" ? r.score.toFixed(1) : "";
+        const sideLabel = score ? `${score}${r.verdict ? " · " + String(r.verdict).replace(/_/g, " ") : ""}` : (r.source === "yahoo" ? "Yahoo" : "");
+        return `
+        <div class="search-result-item" role="option" tabindex="0"
+             data-market="${escapeAttr(market)}"
+             data-ticker="${escapeAttr(ticker)}"
+             data-symbol="${escapeAttr(symbol)}">
+          <div class="search-result-main">
             <div class="search-result-name">${escapeHtml(r.name)}</div>
-            <div class="search-result-sector">${r.sector || r.exchange || ""}</div>
+            <div class="search-result-sector">${escapeHtml(r.sector || r.exchange || "")}</div>
           </div>
-          <span class="search-result-symbol">${r.symbol}</span>
+          <div class="search-result-side">
+            ${sideLabel ? `<span class="search-result-score">${escapeHtml(sideLabel)}</span>` : ""}
+            <span class="search-result-market">${escapeHtml(marketLabel)}</span>
+            <span class="search-result-symbol">${escapeHtml(symbol)}</span>
+          </div>
         </div>
-      `
-      )
+      `;
+      })
       .join("");
   } else {
     searchResults.innerHTML = `
       <div style="padding: 20px; text-align: center; color: var(--text-muted);">
-        No Indian stocks found for "${escapeHtml(query)}"
+        No stocks found for "${escapeHtml(query)}"
       </div>
     `;
   }
   searchResults.classList.add("active");
 }
+
+function openGlobalSearchResult(result) {
+  const market = result?.market || "india";
+  const ticker = result?.ticker || "";
+  const symbol = result?.symbol || ticker;
+  searchResults.classList.remove("active");
+  searchInput.value = "";
+  if (market === "us") {
+    openUSModal(ticker);
+  } else if (market === "kr" || market === "tw") {
+    openRegionModal(market, ticker);
+  } else {
+    openStockDetailModal(symbol, "search");
+  }
+}
+window.openGlobalSearchResult = openGlobalSearchResult;
 
 async function searchStocks(query) {
   const cacheKey = query.toLowerCase().trim();
@@ -12526,7 +12577,7 @@ async function pollRegionScanStatus(code) {
 }
 
 async function openRegionModal(code, ticker) {
-  ticker = String(ticker || "").toUpperCase();
+  ticker = String(ticker || "").trim();
   _rp(code).modalTicker = ticker;
   const backdrop = document.getElementById(code + "ModalBackdrop");
   const body = document.getElementById(code + "ModalBody");
