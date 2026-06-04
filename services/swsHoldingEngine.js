@@ -436,6 +436,46 @@ function actionIsTopUp(action) {
   return String(action || "").startsWith("Top-up") || action === "STRONG Top-up";
 }
 
+const RAW_ADD_VALUATION_BANDS = new Set(["DISCOUNT", "DEEP_DISCOUNT"]);
+
+export function _buildRawAddGate({
+  action,
+  v4 = null,
+  reconciled = null,
+  newsSignal = null,
+  dataQualityGate = null,
+  surveillance = null,
+} = {}) {
+  if (!actionIsTopUp(action)) return { allowed: true, reasons: [] };
+  const reasons = [];
+  const score = num(v4, null);
+  const upside = num(reconciled?.upside_pct, null);
+  const confidence = reconciled?.confidence || "NONE";
+  const band = reconciled?.valuation_band || "UNKNOWN";
+  const dataStatus = dataQualityGate?.status || "ok";
+
+  if (score == null || score < 53) reasons.push("V4 score below 53 add-candidate floor");
+  if (confidence !== "HIGH") reasons.push("fair-value confidence is not HIGH");
+  if (!RAW_ADD_VALUATION_BANDS.has(band)) reasons.push("valuation is not discounted or deep-discounted");
+  if (upside == null || upside < 12) reasons.push("FV upside below 12% add-candidate floor");
+  if (newsSignal?.signal < 0) {
+    reasons.push(newsSignal?.materialDisclosure
+      ? "material negative SWS news blocks adding exposure"
+      : "negative SWS news blocks adding exposure");
+  }
+  if (dataStatus !== "ok") {
+    reasons.push(...(Array.isArray(dataQualityGate?.blockedReasons) && dataQualityGate.blockedReasons.length
+      ? dataQualityGate.blockedReasons
+      : [`data quality gate is ${dataStatus}`]));
+  }
+  if (surveillance?.list) reasons.push(`${surveillance.list} surveillance blocks adding exposure`);
+
+  return {
+    allowed: reasons.length === 0,
+    reasons: [...new Set(reasons.filter(Boolean))],
+  };
+}
+
 export function _buildDecisionMetadata({
   action,
   legacyAction,
@@ -853,6 +893,23 @@ export function scoreHolding(holding, portfolioContext = {}) {
     finalAction = "HOLD";
     finalReasons = [
       "Review only: reduction evidence is not decision-grade; no ladder sizing applied.",
+      ...finalReasons,
+    ];
+  }
+  const rawAddGate = _buildRawAddGate({
+    action: finalAction,
+    v4: num(scored.v4_score_100, null),
+    reconciled,
+    newsSignal,
+    dataQualityGate,
+    surveillance,
+  });
+  if (actionIsTopUp(finalAction) && !rawAddGate.allowed) {
+    blockedReasons.push(...rawAddGate.reasons);
+    finalAction = "HOLD";
+    decisionReasonFamily = "add_gate";
+    finalReasons = [
+      `Add candidate blocked: ${rawAddGate.reasons[0] || "did not clear the high-confidence add gate"}.`,
       ...finalReasons,
     ];
   }
