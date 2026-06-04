@@ -7838,6 +7838,9 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
       if (found) {
         sectionMemberships.push(key);
         if (!card) card = { ...found };
+        else if (found.snowflake_gap_lab && !card.snowflake_gap_lab) {
+          card.snowflake_gap_lab = found.snowflake_gap_lab;
+        }
       }
     }
   }

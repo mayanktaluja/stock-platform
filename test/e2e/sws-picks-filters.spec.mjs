@@ -183,6 +183,78 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await expect(section).toContainText(/FV 30%\+/i);
   });
 
+  test("Snowflake Gap Lab renders as experimental and keeps canonical score primary", async ({ page }) => {
+    await page.route("**/api/sws-picks**", async (route) => {
+      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+        await route.fallback();
+        return;
+      }
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "picks-latest-v3",
+          scoring_version: "test",
+          scanned_at: "2026-06-04T00:00:00.000Z",
+          indexConstituentsAvailable: false,
+          section_audit: {
+            snowflake_gap_lab: {
+              experimental: true,
+              caveat: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record.",
+            },
+          },
+          sections: {
+            top_ranked_30_v3: [],
+            best_to_buy_now: [],
+            deep_value: [],
+            growing_sector_value: [],
+            snowflake_gap_lab: [{
+              ticker: "GAPLAB",
+              name: "Gap Lab Ltd",
+              sector: "Capital Goods",
+              current_price_inr: 100,
+              fair_value_inr: 135,
+              upside_pct: 35,
+              valuation_band: "DEEP_DISCOUNT",
+              v4_score_100: 50,
+              v4_verdict: "STRONG",
+              score: 50,
+              snowflake_total: 15,
+              snowflake: { future_growth: 0, future: 0, valuation: 3 },
+              one_line: "Canonical row remains unchanged",
+              snowflake_gap_lab: {
+                label: "Experimental shadow V4",
+                caveat: "For review, not a recommendation. Canonical V4 remains the source of record.",
+                canonical_v4_score_100: 50,
+                canonical_v4_verdict: "STRONG",
+                shadow_v4_score_100: 61,
+                shadow_v4_verdict: "TOP_PICK",
+                score_delta: 11,
+                affected_pillars: ["future", "valuation"],
+                imputed_checks_count: 3,
+                peer_label: "Capital Goods",
+                market_cap_bucket: "micro",
+                imputed_checks: [],
+              },
+            }],
+            quality_growth: [],
+          },
+        }),
+      });
+    });
+
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    await expect(page.locator('.sws-pick-chip[data-section-key="snowflake_gap_lab"]')).toContainText(/Gap Lab/);
+    const section = page.locator('.sws-pick-section[data-section-key="snowflake_gap_lab"]');
+    await expect(section).toBeVisible();
+    await expect(section).toContainText(/Snowflake Gap Lab/i);
+    await expect(section).toContainText(/Experimental screen for SWS data gaps/i);
+    await expect(section.locator(".sws-pick-card-score-num")).toContainText("50.0");
+    await expect(section.locator(".sws-gap-lab-badge")).toContainText("Lab V4 61.0");
+    await expect(section.locator(".sws-gap-lab-card-note")).toContainText(/Canonical V4 stays 50.0/i);
+  });
+
   test("Growing Sector Value renders macro fallback candidates when Sector Outlook is mismatched", async ({ page }) => {
     await page.route("**/api/sws-picks**", async (route) => {
       if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {

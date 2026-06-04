@@ -10864,6 +10864,7 @@ const PICKS_SECTIONS = [
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
   { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, positive sector context, and Future Growth ≥ 4/6; may show a labelled ≥ 3/6 fallback only when strict candidates are absent.", show_when_empty: true },
+  { key: "snowflake_gap_lab", term_id: "section_snowflake_gap_lab", emoji: "🧪", label: "🧪 Snowflake Gap Lab", chip_label: "Gap Lab", subtitle: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record.", show_when_empty: true },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
   { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
@@ -10883,6 +10884,7 @@ const PICKS_INLINE_CAP = {
   // Best Fundamentals ships 100 server-side; show 30 inline, expand for full 100.
   best_fundamentals: 30,
   growing_sector_value: 30,
+  snowflake_gap_lab: 30,
   // Off-section search bumps the cap to 24 — global search is the only path
   // to find these stocks, so 12 feels too tight; 24 still keeps render fast.
   off_section_search: 24,
@@ -11828,6 +11830,10 @@ function renderPickCard(s, sectionKey, rank = null) {
   const fv30Badge = (sectionKey === "growing_sector_value" && s.fv_discount_badge_30plus)
     ? `<span class="sws-pick-valband-chip" style="color:var(--gold);border-color:var(--gold);" title="SWS fair value discount is at least 30%; informational badge only, not a rank boost.">FV 30%+</span>`
     : "";
+  const gapLab = sectionKey === "snowflake_gap_lab" ? s.snowflake_gap_lab : null;
+  const gapLabBadge = gapLab && Number.isFinite(Number(gapLab.shadow_v4_score_100))
+    ? `<span class="sws-gap-lab-badge" title="${escapeHtml(gapLab.caveat || "Experimental shadow V4. For review, not a recommendation. Canonical V4 remains the source of record.")}">Lab V4 ${Number(gapLab.shadow_v4_score_100).toFixed(1)}${Number.isFinite(Number(gapLab.score_delta)) ? ` (+${Number(gapLab.score_delta).toFixed(1)})` : ""}</span>`
+    : "";
   const statusBadges = renderPickStatusBadges(s, sectionKey);
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const fresh = pickFreshnessPill(s.data_freshness_at);
@@ -11863,7 +11869,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${gapLabBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
@@ -11884,6 +11890,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
       <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
+      ${gapLabBadge ? `<div class="sws-gap-lab-card-note"><span>Experimental data-gap screen. Canonical V4 stays ${score}.</span></div>` : ""}
       ${extraRow}
       ${s.sws_url ? `<div class="sws-pick-card-link"><a href="${s.sws_url}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open on SWS →</a></div>` : ""}
     </div>`;
@@ -13015,6 +13022,45 @@ function renderSnowflakeDataQualityBanner(dataQuality) {
     </div>`;
 }
 
+function renderSnowflakeGapLabPanel(lab) {
+  if (!lab || typeof lab !== "object") return "";
+  const shadow = Number(lab.shadow_v4_score_100);
+  const canonical = Number(lab.canonical_v4_score_100);
+  if (!Number.isFinite(shadow) || !Number.isFinite(canonical)) return "";
+  const delta = Number(lab.score_delta);
+  const affected = Array.isArray(lab.affected_pillars)
+    ? lab.affected_pillars.map((p) => String(p || "").replace(/_/g, " ")).filter(Boolean)
+    : [];
+  const checks = Array.isArray(lab.imputed_checks) ? lab.imputed_checks.slice(0, 4) : [];
+  const peer = [lab.peer_label, lab.market_cap_bucket].filter(Boolean).join(" · ");
+  return `
+    <div class="sws-modal-gap-lab" data-testid="sws-snowflake-gap-lab" role="note" aria-label="Snowflake Gap Lab comparison">
+      <div class="gap-lab-head">
+        <div>
+          <div class="gap-lab-kicker">Experimental shadow V4</div>
+          <div class="gap-lab-title">Canonical V4 remains the source of record.</div>
+        </div>
+        <div class="gap-lab-score">
+          <span>${shadow.toFixed(1)}</span>
+          <small>${Number.isFinite(delta) ? `+${delta.toFixed(1)}` : "shadow"}</small>
+        </div>
+      </div>
+      <div class="gap-lab-copy">For review, not a recommendation. The lab fills explicit SWS no-data checks from comparable ${escapeHtml(peer || "industry/cap")} peers and keeps the headline score unchanged.</div>
+      <div class="gap-lab-meta">
+        <span>Canonical ${canonical.toFixed(1)}</span>
+        ${lab.shadow_v4_verdict ? `<span>Shadow ${escapeHtml(String(lab.shadow_v4_verdict).replace(/_/g, " "))}</span>` : ""}
+        ${affected.length ? `<span>${escapeHtml(affected.join(", "))}</span>` : ""}
+        ${Number.isFinite(Number(lab.imputed_checks_count)) ? `<span>${Number(lab.imputed_checks_count)} checks</span>` : ""}
+      </div>
+      ${checks.length ? `<div class="gap-lab-checks">${checks.map((check) => {
+        const title = escapeHtml(check.title || check.name || "SWS check");
+        const pct = Number.isFinite(Number(check.peer_pass_rate)) ? `${Math.round(Number(check.peer_pass_rate) * 100)}%` : "peer";
+        const count = Number.isFinite(Number(check.peer_count)) ? `n=${Number(check.peer_count)}` : "";
+        return `<span title="${title}">${title} · ${pct}${count ? ` · ${count}` : ""}</span>`;
+      }).join("")}</div>` : ""}
+    </div>`;
+}
+
 function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const { ticker, deep, card, surveillance, file_mtime, fundamentals_fallback } = data;
   // US/region endpoints return `in_sections`; India returns `section_memberships`.
@@ -13067,6 +13113,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
   const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality);
+  const snowflakeGapLabHtml = renderSnowflakeGapLabPanel(card_.snowflake_gap_lab);
 
   // Score breakdown bars — show v4 when available (pillars/FV/momentum/safety
   // split), v2 otherwise (thin coverage).
@@ -13450,10 +13497,12 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   // PR 2.11 — section-membership banner. Uses the same labels/emojis defined
   // in PICKS_SECTIONS so chip-nav and modal stay in lockstep. `upcoming_earnings`
   // is informational rather than a buy-list signal, so it's suppressed whenever
-  // the stock also has buy-list memberships. keysToRender is then filtered to
+  // the stock also has buy-list memberships. Snowflake Gap Lab follows the same
+  // rule because it is experimental data-gap discovery, not a recommendation.
+  // keysToRender is then filtered to
   // keys that still exist in PICKS_SECTIONS, so a membership for a removed
   // section (e.g. the retired Avoid list) never renders a dead/un-navigable chip.
-  const INFORMATIONAL_KEYS = new Set(["upcoming_earnings"]);
+  const INFORMATIONAL_KEYS = new Set(["upcoming_earnings", "snowflake_gap_lab"]);
   const sectionLabelByKey = (() => {
     const m = {};
     if (Array.isArray(PICKS_SECTIONS)) {
@@ -13525,6 +13574,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
 
     ${sectionsBannerHtml}
     ${dataQualityBannerHtml}
+    ${snowflakeGapLabHtml}
 
     ${barsHtml ? `
     <div class="sws-modal-section">

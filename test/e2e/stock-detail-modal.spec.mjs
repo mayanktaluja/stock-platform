@@ -79,6 +79,7 @@ async function mockThinSwsStock(page, dataQuality, overrides = {}) {
             fv_imputed: false,
             momentum_imputed: true,
           },
+          ...(overrides.card || {}),
         },
         surveillance: null,
         file_mtime: "2026-05-26T00:00:00.000Z",
@@ -169,6 +170,43 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(warning).toContainText("2 of 30 SWS checks");
     await expect(warning).toContainText("Future, Value");
     await expect(warning).toContainText("Revenue vs Market");
+  });
+
+  test("renders Snowflake Gap Lab comparison as subordinate to canonical V4", async ({ page }) => {
+    await mockThinSwsStock(page, undefined, {
+      section_memberships: ["snowflake_gap_lab"],
+      card: {
+        snowflake_gap_lab: {
+          label: "Experimental shadow V4",
+          caveat: "For review, not a recommendation. Canonical V4 remains the source of record.",
+          canonical_v4_score_100: 41,
+          canonical_v4_verdict: "ACCEPTABLE",
+          shadow_v4_score_100: 53,
+          shadow_v4_verdict: "STRONG",
+          score_delta: 12,
+          affected_pillars: ["future", "valuation"],
+          imputed_checks_count: 3,
+          peer_label: "Capital Goods",
+          market_cap_bucket: "micro",
+          imputed_checks: [
+            { title: "Future ROE", peer_pass_rate: 0.6, peer_count: 12 },
+            { title: "PEG Ratio", peer_pass_rate: 0.5, peer_count: 10 },
+          ],
+        },
+      },
+    });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("THINTEST"));
+
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-score")).toContainText("41.0");
+    const lab = body.locator('[data-testid="sws-snowflake-gap-lab"]');
+    await expect(lab).toBeVisible();
+    await expect(lab).toContainText("Experimental shadow V4");
+    await expect(lab).toContainText("Canonical V4 remains the source of record");
+    await expect(lab).toContainText("For review, not a recommendation");
+    await expect(lab).toContainText("53.0");
+    await expect(lab).toContainText("Future ROE");
   });
 
   test("section membership chips in the stock modal expose scroll controls", async ({ page }) => {

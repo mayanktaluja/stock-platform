@@ -15,6 +15,7 @@ import {
   withReconciledFairValue,
 } from "../services/fvReconciliation.js";
 import { buildGrowingSectorValueSection } from "../services/swsGrowingSectorValue.js";
+import { buildSnowflakeGapLabSection, buildSnowflakeGapPeerAverages } from "../services/swsSnowflakeGapLab.js";
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
 // Loaded once at module init; the underlying snapshot is cached in surveillance.js.
@@ -816,12 +817,17 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
     macroRegime: opts.macroRegime || null,
     now: opts.now,
   });
+  const snowflakeGapLab = buildSnowflakeGapLabSection(scoredStocks, {
+    pickCardFields,
+    universe: opts.universe || null,
+  });
 
   const sections = {
     top_ranked_30_v3: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
     growing_sector_value: growingSectorValue.items,
+    snowflake_gap_lab: snowflakeGapLab.items,
     quality_growth: cat("quality_growth"),
     best_fundamentals: bestFundamentals,
     midterm: cat("midterm"),
@@ -832,7 +838,10 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
     avoid: cat("avoid"),
   };
   Object.defineProperty(sections, "__section_audit", {
-    value: { growing_sector_value: growingSectorValue.audit },
+    value: {
+      growing_sector_value: growingSectorValue.audit,
+      snowflake_gap_lab: snowflakeGapLab.audit,
+    },
     enumerable: false,
   });
   return sections;
@@ -867,6 +876,7 @@ export function runFullScoring() {
     { microCapFloorInr: 5e9 },
   );
   universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);
+  universe.snowflakeGapPeerAverages = buildSnowflakeGapPeerAverages(loaded);
 
   const scored = [];
   for (const stock of loaded) {
@@ -879,7 +889,7 @@ export function runFullScoring() {
   }
   const sectorOutlook = readJsonIfExists(path.join(PATHS.repoRoot, "data", "sectorOutlook", "outlook-latest.json"));
   const macroRegime = readJsonIfExists(path.join(PATHS.repoRoot, "data", "macroRegime.json"));
-  const sections = buildLeaderboard(scored, { sectorOutlook, macroRegime });
+  const sections = buildLeaderboard(scored, { sectorOutlook, macroRegime, universe });
   const sectionAudit = sections.__section_audit || {};
 
   // Compute scrape duration estimate from file mtimes if available

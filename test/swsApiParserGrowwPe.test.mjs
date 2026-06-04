@@ -6,7 +6,7 @@
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { parseStock, extractSnowflakeDataQuality } from "../scripts/sws-api-parser.mjs";
+import { parseStock, extractSnowflakeDataQuality, extractSnowflakeCheckMatrix } from "../scripts/sws-api-parser.mjs";
 import { parseStockUS } from "../scripts/sws-api-parser-us.mjs";
 import { parseStockRegion } from "../scripts/sws-api-parser-region.mjs";
 import { getRegion } from "../scripts/sws-regions.mjs";
@@ -421,6 +421,42 @@ check("extractSnowflakeDataQuality returns compact pillar metadata for insuffici
   assert.ok(!("description" in dq.samples[0]), "samples must not persist long descriptions");
 });
 
+check("extractSnowflakeCheckMatrix persists full visible check states", () => {
+  const matrix = extractSnowflakeCheckMatrix(baseApi({ statementRows: insufficientRows }));
+  assert.equal(matrix.version, "sws-visible-snowflake-checks-v1");
+  assert.equal(matrix.checked_count, 30);
+  assert.equal(matrix.health_check_set, "Health");
+  assert.equal(matrix.checks.length, 30);
+  const future = matrix.checks.find((c) => c.name === "IsExpectedRevenueGrowthAboveMarket");
+  assert.equal(future.pillar, "Future");
+  assert.equal(future.result, "no_data");
+  assert.equal(future.available, false);
+  assert.equal(future.insufficient, true);
+  const peg = matrix.checks.find((c) => c.name === "IsUndervaluedBasedOnPEG");
+  assert.equal(peg.result, "no_data");
+  assert.equal(matrix.checks.some((c) => c.name === "IsGoodValueComparingRatioToFairRatio"), false);
+});
+
+check("extractSnowflakeCheckMatrix separates bank-health check set", () => {
+  const matrix = extractSnowflakeCheckMatrix(baseApi({
+    statementRows: [{
+      name: "HasAppropriateNonPerformingLoans",
+      title: "Level of Bad Loans",
+      area: "BankHealth",
+      public: true,
+      value: true,
+      outcome_name: "OUTCOME_TRUE",
+      description: "Bad loans are appropriate.",
+    }],
+  }));
+  assert.equal(matrix.health_check_set, "BankHealth");
+  assert.equal(matrix.checks.filter((c) => c.pillar === "Health").length, 6);
+  const bankRow = matrix.checks.find((c) => c.name === "HasAppropriateNonPerformingLoans");
+  assert.equal(bankRow.result, "pass");
+  assert.equal(bankRow.available, true);
+  assert.equal(matrix.checks.some((c) => c.name === "IsDebtLevelAppropriate"), false);
+});
+
 check("parseStock persists snowflake_data_quality only when insufficient data exists", () => {
   const thin = parseStock(baseApi({ statementRows: insufficientRows }), {
     growwPeMap: new Map(),
@@ -442,6 +478,7 @@ check("parseStock persists snowflake_data_quality only when insufficient data ex
     internalIndustryPeMap: new Map(),
   });
   assert.equal(normal.overview.snowflake_data_quality, undefined);
+  assert.equal(Array.isArray(normal.overview.snowflake_check_matrix.checks), true);
 });
 
 check("extractSnowflakeDataQuality is null-safe for missing or malformed statements", () => {
