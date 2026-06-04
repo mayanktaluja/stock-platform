@@ -12991,7 +12991,7 @@ function normaliseModalReturns(data, ov, card) {
 // byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
 // watchlist suffix, section-nav handler). Single source of truth so every market's
 // modal renders the same sections from the same code.
-function renderSnowflakeDataQualityBanner(dataQuality) {
+function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
   if (dataQuality?.insufficient !== true) return "";
   const affected = Array.isArray(dataQuality.affected_pillars)
     ? dataQuality.affected_pillars.map((p) => String(p || "").trim()).filter(Boolean)
@@ -13002,6 +13002,49 @@ function renderSnowflakeDataQualityBanner(dataQuality) {
   const countText = Number.isFinite(insufficientCount)
     ? `${insufficientCount}${Number.isFinite(checkedCount) && checkedCount > 0 ? ` of ${checkedCount}` : ""} SWS check${insufficientCount === 1 ? "" : "s"}`
     : "Some SWS checks";
+  const byPillar = dataQuality.by_pillar && typeof dataQuality.by_pillar === "object"
+    ? dataQuality.by_pillar
+    : null;
+  const seenPillars = new Set();
+  const pillarOrder = [...affected, ...Object.keys(byPillar || {})]
+    .map((pillar) => String(pillar || "").trim())
+    .filter((pillar) => {
+      if (!pillar || seenPillars.has(pillar)) return false;
+      seenPillars.add(pillar);
+      return true;
+    });
+  const pillarCounts = byPillar
+    ? pillarOrder
+        .map((pillar) => {
+          const row = byPillar[pillar] || {};
+          const insufficient = Number(row.insufficient);
+          if (!Number.isFinite(insufficient) || insufficient <= 0) return null;
+          const checked = Number(row.checked);
+          const checkedLabel = Number.isFinite(checked) && checked > 0 ? checked : 6;
+          return `${escapeHtml(pillar)} ${insufficient}/${checkedLabel}`;
+        })
+        .filter(Boolean)
+    : [];
+  const pillarText = pillarCounts.length ? `Missing by section: ${pillarCounts.join(" · ")}` : "";
+  const missingCheckGroups = [];
+  if (Array.isArray(checkMatrix?.checks)) {
+    const grouped = new Map();
+    for (const check of checkMatrix.checks) {
+      if (check?.insufficient !== true) continue;
+      const title = String(check.title || check.name || "").trim();
+      if (!title) continue;
+      const pillar = String(check.pillar || "Snowflake").trim() || "Snowflake";
+      if (!grouped.has(pillar)) grouped.set(pillar, []);
+      const titles = grouped.get(pillar);
+      if (!titles.includes(title)) titles.push(title);
+    }
+    for (const [pillar, titles] of grouped.entries()) {
+      if (titles.length) missingCheckGroups.push({ pillar, titles });
+    }
+  }
+  const missingChecksText = missingCheckGroups.length
+    ? `Missing checks: ${missingCheckGroups.map(({ pillar, titles }) => `${escapeHtml(pillar)}: ${titles.map((title) => escapeHtml(title)).join(", ")}`).join(" · ")}`
+    : "";
   const samples = Array.isArray(dataQuality.samples)
     ? dataQuality.samples
         .map((s) => {
@@ -13013,11 +13056,13 @@ function renderSnowflakeDataQualityBanner(dataQuality) {
         .filter(Boolean)
         .slice(0, 3)
     : [];
-  const sampleText = samples.length ? `Examples: ${samples.join(" · ")}` : "";
+  const sampleText = !missingChecksText && samples.length ? `Examples: ${samples.join(" · ")}` : "";
   return `
     <div class="sws-modal-data-warning" data-testid="sws-snowflake-data-warning" role="note" aria-label="SWS Snowflake data warning">
       <strong>SWS data warning:</strong>
       ${escapeHtml(countText)} show insufficient source data across ${escapeHtml(affectedText)}. Treat the Snowflake score as source-limited and verify manually.
+      ${pillarText ? `<span class="warning-meta warning-pillars">${pillarText}</span>` : ""}
+      ${missingChecksText ? `<span class="warning-meta">${missingChecksText}</span>` : ""}
       ${sampleText ? `<span class="warning-meta">${sampleText}</span>` : ""}
     </div>`;
 }
@@ -13112,7 +13157,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const mcapVal = ov.market_cap_inr ?? card_.market_cap_inr;
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
-  const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality);
+  const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality, ov.snowflake_check_matrix);
   const snowflakeGapLabHtml = renderSnowflakeGapLabPanel(card_.snowflake_gap_lab);
 
   // Score breakdown bars — show v4 when available (pillars/FV/momentum/safety

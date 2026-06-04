@@ -169,7 +169,47 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(warning).toContainText("SWS data warning");
     await expect(warning).toContainText("2 of 30 SWS checks");
     await expect(warning).toContainText("Future, Value");
+    await expect(warning).toContainText("Missing by section: Future 1/6 · Value 1/6");
+    await expect(warning).toContainText("Examples: Future: Revenue vs Market");
     await expect(warning).toContainText("Revenue vs Market");
+  });
+
+  test("groups complete Snowflake missing-check names when matrix metadata is present", async ({ page }) => {
+    await mockThinSwsStock(page, {
+      insufficient: true,
+      insufficient_count: 3,
+      checked_count: 30,
+      affected_pillars: ["Future", "Value"],
+      by_pillar: {
+        Future: { checked: 6, insufficient: 2 },
+        Value: { checked: 6, insufficient: 1 },
+      },
+      samples: [
+        { pillar: "Future", title: "Revenue vs Market", reason_code: "OUTCOME_NULL" },
+      ],
+    }, {
+      ticker: "MATRIXTEST",
+      overview: {
+        snowflake_check_matrix: {
+          version: "sws-visible-snowflake-checks-v1",
+          checked_count: 30,
+          checks: [
+            { pillar: "Future", title: "Revenue vs Market", insufficient: true },
+            { pillar: "Future", title: "Earnings vs Market", insufficient: true },
+            { pillar: "Value", title: "PEG Ratio", insufficient: true },
+            { pillar: "Past", title: "Past Earnings Growth", insufficient: false },
+          ],
+        },
+      },
+    });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("MATRIXTEST"));
+
+    const warning = page.locator("#swsModalBody").locator('[data-testid="sws-snowflake-data-warning"]');
+    await expect(warning).toBeVisible();
+    await expect(warning).toContainText("Missing by section: Future 2/6 · Value 1/6");
+    await expect(warning).toContainText("Missing checks: Future: Revenue vs Market, Earnings vs Market · Value: PEG Ratio");
+    await expect(warning).not.toContainText("Examples:");
   });
 
   test("renders Snowflake Gap Lab comparison as subordinate to canonical V4", async ({ page }) => {
