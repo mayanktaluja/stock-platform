@@ -1,6 +1,15 @@
 import { test, expect } from "@playwright/test";
 import { gotoApp, switchTab, waitForPicksLoaded } from "./helpers/app.mjs";
 
+const SPOTLIGHT_COPY_REGRESSIONS = [
+  /current.?cohort/i,
+  /latest available .*sample/i,
+  /Closed.?window/i,
+  /history .*matures/i,
+  /current track .*sample/i,
+  /latest_available/i,
+];
+
 async function probeSectionPerformance(request) {
   const res = await request.get("/api/track/section-performance?windows=7d,30d,3m,1y,3y,5y&cohorts=3,5,10,20&bust=1");
   if (!res.ok()) return { ok: false, status: res.status(), data: null };
@@ -76,7 +85,9 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(banner).toContainText(/Methodology/i);
     await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);
     await expect(banner.getByRole("button", { name: /^30d\b/i })).toHaveCount(0);
-    await expect(banner).not.toContainText(/Latest available track sample \(/i);
+    for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
+      await expect(banner).not.toContainText(pattern);
+    }
     expect(await page.evaluate(() => typeof window.__picksCredibilitySelect)).toBe("undefined");
     if (best?.window) {
       const selected = banner.locator('[data-testid="picks-credibility-selected-window"]');
@@ -88,8 +99,8 @@ test.describe("India Market credibility banner and section alpha", () => {
       await expect(banner).toContainText(/top (3|5|10|20|\d+ available)/i);
       await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText(/[+-]\d/);
       if (bestWindow?.sampleStatus === "latest_available") {
-        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/sample: .* shows|sample shows/i);
-        await expect(banner).toContainText(/Closed-window cohorts will replace this as history matures/i);
+        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/shows .* alpha vs Nifty 50/i);
+        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/sample/i);
       }
       if (bestWindow?.sampleStatus === "resolved") {
         await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/beat Nifty 50/i);
@@ -252,8 +263,11 @@ test.describe("India Market credibility banner and section alpha", () => {
 
     const banner = page.locator("#picksCredibilityBanner");
     await expect(banner).toBeVisible({ timeout: 20_000 });
-    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/current-cohort trailing 3M sample: Quality Growth top 3 shows \+5\.0% alpha vs Nifty 50/i);
+    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/Quality Growth top 3 shows \+5\.0% alpha vs Nifty 50/i);
     await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/Equal-weight top 3: \+8\.1% vs Nifty 50 \+3\.1%/);
+    for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
+      await expect(banner).not.toContainText(pattern);
+    }
     await expect(banner).not.toContainText(/Nifty 500|N500|N50/i);
     await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText("+5.0%");
     await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).toHaveText(/3m · Quality Growth top 3 \+5\.0%/);
@@ -409,6 +423,9 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(panel).toContainText(/ranked against Nifty 50 TRI/i);
     await expect(panel.locator("#trackSectionPerformanceSummary")).toContainText(/shared benchmark: Nifty 50 \+3\.0%/);
     await expect(panel.locator('[data-testid="track-section-performance-row"]').first()).toContainText(/Nifty 50 \+3\.0%/);
+    for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
+      await expect(panel).not.toContainText(pattern);
+    }
     await expect(panel).not.toContainText(/Nifty 500|N500|N50|Benchmarks/i);
   });
 
@@ -431,6 +448,9 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(panel.locator("#trackSectionPerformanceWindowTabs")).toContainText(/1y/i);
     await expect(panel.locator('button[data-window="3y"]')).toBeDisabled();
     await expect(panel.locator('button[data-window="5y"]')).toBeDisabled();
+    for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
+      await expect(panel).not.toContainText(pattern);
+    }
 
     const rows = panel.locator('[data-testid="track-section-performance-row"]');
     await expect(rows.first()).toBeVisible({ timeout: 20_000 });
