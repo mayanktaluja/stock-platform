@@ -7031,8 +7031,8 @@ function renderSWSEarningsCalendar(report) {
 
 // Dividends to capture — per-holding upcoming ex-dividend calendar, populated
 // from data/catalysts/dividends-upcoming.json by services/portfolio/
-// portfolioDividendService.js. Rows are SWS-news-sourced; format is templated
-// so DPS + ex_date + record_date are parsed structurally from the body.
+// portfolioDividendService.js. Rows are exchange-date confirmed and sourced
+// from the materialized nightly dividend feed.
 // Section header is factual ("Dividends to capture") — the site-wide
 // #sebiSiteFooter is the canonical site-wide disclosure.
 function renderSWSDividendCalendar(report) {
@@ -7133,6 +7133,93 @@ function renderSWSDividendCalendar(report) {
 
   return `<details class="analyzer-tier-details" style="margin-top: var(--space-200);" ${rows.length > 0 ? "open" : ""}>
     <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Dividends to capture <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
+    <div style="padding-top: var(--space-200);">
+      ${body}
+    </div>
+  </details>`;
+}
+
+// Recommended dividends that are still waiting for an exchange-confirmed
+// ex-date. Kept separate from "Dividends to capture" because there is no
+// hold-by date or capture window until the exchange date exists.
+function renderSWSAwaitingDividendSection(report) {
+  const all = Object.values(report?.holdingsByAction || {}).flat();
+  const seen = new Set();
+  const withAwaiting = [];
+  for (const h of all) {
+    const key = h?.sws?.ticker || h?.symbol;
+    if (!key || seen.has(key)) continue;
+    if (!h?.sws?.awaiting_dividend) continue;
+    seen.add(key);
+    withAwaiting.push(h);
+  }
+
+  const stripSuffix = (s) => String(s || "").replace(/\.(NS|BO|BSE)$/i, "");
+  const rows = withAwaiting.slice().sort((a, b) => {
+    const da = a.sws.awaiting_dividend.announced_at_iso || "9999-12-31";
+    const db = b.sws.awaiting_dividend.announced_at_iso || "9999-12-31";
+    if (da !== db) return da < db ? 1 : -1;
+    return String(a.symbol || "").localeCompare(String(b.symbol || ""));
+  });
+
+  const rowHtml = rows.length === 0
+    ? ""
+    : rows.map((h, i) => {
+        const div = h.sws.awaiting_dividend;
+        const ticker = stripSuffix(h.sws?.ticker || h.symbol || "");
+        const annMs = div.announced_at_iso ? Date.parse(div.announced_at_iso + "T00:00:00Z") : NaN;
+        const annStr = Number.isFinite(annMs)
+          ? new Date(annMs).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+          : "—";
+        const dpsCell = Number.isFinite(div.dps) ? `₹${Number(div.dps).toFixed(2)}` : "—";
+        const typeCell = div.dividend_type ? String(div.dividend_type).replace(/_/g, " ") : "—";
+        const statusCell = div.awaiting_type === "board_review" ? "Board review" : "Recommended";
+        const sourceCell = div.source === "nse-announcements" ? "NSE filing" : "SWS news";
+        const detail = div.source_detail
+          ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px; max-width:520px;">${swsEscapeAttr(div.source_detail)}</div>`
+          : "";
+        const extra = Number.isFinite(div.other_awaiting_count) && div.other_awaiting_count > 0
+          ? ` <span title="${div.other_awaiting_count} additional awaiting dividend item(s)" style="color:var(--text-muted); font-size:10px;">+${div.other_awaiting_count}</span>`
+          : "";
+        const trOpen = ticker
+          ? `<tr style="border-bottom:1px solid #1a2238; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(ticker)} detail" onclick="openStockDetailModal('${escapeHtml(ticker)}','analyzer-awaiting-dividends')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
+          : `<tr style="border-bottom:1px solid #1a2238;">`;
+        return `${trOpen}
+          <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
+          <td style="padding:10px 12px;">
+            <strong style="font-size:13px;">${swsEscapeAttr(ticker)}</strong>${extra}
+            <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(h?.name || "")}</div>
+            ${detail}
+          </td>
+          <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${annStr}</td>
+          <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${dpsCell}</td>
+          <td style="padding:10px 12px; text-transform:capitalize;">${swsEscapeAttr(typeCell)}</td>
+          <td style="padding:10px 12px;">${swsEscapeAttr(statusCell)}</td>
+          <td style="padding:10px 12px; color:var(--text-muted);">${swsEscapeAttr(sourceCell)}</td>
+        </tr>`;
+      }).join("");
+
+  const body = rows.length === 0
+    ? `<div style="padding: var(--space-200); color:var(--text-muted); font-size:13px;">No held stocks currently have recommended dividends awaiting a confirmed ex-date.</div>`
+    : `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings with recommended dividends awaiting ex-date">
+          <thead>
+            <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+              <th style="padding:10px 12px;">#</th>
+              <th style="padding:10px 12px;">Stock</th>
+              <th style="padding:10px 12px;">Announced</th>
+              <th style="padding:10px 12px; text-align:right;">DPS</th>
+              <th style="padding:10px 12px;">Type</th>
+              <th style="padding:10px 12px;">Status</th>
+              <th style="padding:10px 12px;">Source</th>
+            </tr>
+          </thead>
+          <tbody>${rowHtml}</tbody>
+        </table>
+      </div>`;
+
+  return `<details class="analyzer-tier-details" style="margin-top: var(--space-200);" ${rows.length > 0 ? "open" : ""}>
+    <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Recommended dividends awaiting ex-date <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
     <div style="padding-top: var(--space-200);">
       ${body}
     </div>
@@ -7879,6 +7966,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     </details>
 
     ${renderSWSEarningsCalendar(report)}
+    ${renderSWSAwaitingDividendSection(report)}
     ${renderSWSDividendCalendar(report)}
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
@@ -8049,6 +8137,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     </details>
 
     ${renderSWSEarningsCalendar(report)}
+    ${renderSWSAwaitingDividendSection(report)}
     ${renderSWSDividendCalendar(report)}
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">

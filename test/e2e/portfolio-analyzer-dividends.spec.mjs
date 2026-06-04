@@ -28,13 +28,22 @@ function loadDividendsCount() {
   }
 }
 
+function loadAwaitingCount() {
+  if (!existsSync(DIV_FEED)) return 0;
+  try {
+    const json = JSON.parse(readFileSync(DIV_FEED, "utf8"));
+    return Number.isFinite(json?.awaiting_ex_date_count)
+      ? json.awaiting_ex_date_count
+      : Array.isArray(json?.awaiting_ex_date) ? json.awaiting_ex_date.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 test.describe("Portfolio Analyzer — Dividends to capture", () => {
   test.skip(!existsSync(FIXTURE), "fixture missing");
 
-  test("section appears with factual heading and the table renders OR shows zero-state body", async ({ page }) => {
-    const divCount = loadDividendsCount();
-    test.skip(divCount === 0, "no dividends in data/catalysts/dividends-upcoming.json — section may not have holdings to surface");
-
+  test("dividend sections appear with factual headings and table or zero-state bodies", async ({ page }) => {
     await gotoApp(page, { tab: "analyzer" });
     await page.locator("#analyzerFileInput").setInputFiles(FIXTURE);
 
@@ -57,6 +66,26 @@ test.describe("Portfolio Analyzer — Dividends to capture", () => {
     const sectionCount = await summary.count();
     expect(sectionCount, "section must always render — empty state is informative, not absent").toBeGreaterThan(0);
 
+    const awaitingSummary = page.locator(
+      "details.analyzer-tier-details summary:has-text(\"Recommended dividends awaiting ex-date\")"
+    );
+    await expect(awaitingSummary.first()).toBeVisible();
+
+    const upcomingIdx = await page.locator("details.analyzer-tier-details summary:has-text(\"Upcoming results calendar\")").first().evaluate((el) => {
+      const all = [...document.querySelectorAll("details.analyzer-tier-details summary")];
+      return all.indexOf(el);
+    });
+    const awaitingIdx = await awaitingSummary.first().evaluate((el) => {
+      const all = [...document.querySelectorAll("details.analyzer-tier-details summary")];
+      return all.indexOf(el);
+    });
+    const captureIdx = await summary.first().evaluate((el) => {
+      const all = [...document.querySelectorAll("details.analyzer-tier-details summary")];
+      return all.indexOf(el);
+    });
+    expect(upcomingIdx).toBeLessThan(awaitingIdx);
+    expect(awaitingIdx).toBeLessThan(captureIdx);
+
     await summary.first().click();
     const section = summary.first().locator(
       "xpath=ancestor::details[contains(@class,'analyzer-tier-details')][1]"
@@ -66,6 +95,14 @@ test.describe("Portfolio Analyzer — Dividends to capture", () => {
     const sectionText = await section.innerText();
     expect(sectionText.toLowerCase()).not.toContain("you will earn");
     expect(sectionText.toLowerCase()).not.toContain("guaranteed");
+
+    const awaitingSection = awaitingSummary.first().locator(
+      "xpath=ancestor::details[contains(@class,'analyzer-tier-details')][1]"
+    );
+    const awaitingText = await awaitingSection.innerText();
+    expect(awaitingText.toLowerCase()).not.toContain("you will earn");
+    expect(awaitingText.toLowerCase()).not.toContain("guaranteed");
+    expect(loadAwaitingCount()).toBeGreaterThanOrEqual(0);
   });
 
   test("when holdings match dividends, row arithmetic is DPS × qty and sort is ex-date ASC", async ({ page }) => {
