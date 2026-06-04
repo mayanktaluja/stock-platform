@@ -128,7 +128,8 @@ data/sws/deep.scraper-backup/
 data/coverage/sws-sitemap-cache/
 
 # F&O OI screener — runtime files (locks/logs/raw bhavcopy not committed).
-# oi-deltas-latest.json + history/ ARE committed as Vercel boot seed.
+# oi-deltas-latest.json is committed as the disk boot seed; per-ticker history
+# is local rolling compute state and is restored from KV in prod.
 data/nse-fo/pipeline.lock
 data/nse-fo/refresh.log
 data/nse-fo/oi-deltas-latest.json.tmp.*

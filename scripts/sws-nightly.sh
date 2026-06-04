@@ -579,6 +579,26 @@ Inspect:
   fi
 }
 
+restore_non_deployable_generated_worksets() {
+  # These are local working sets or refresh caches. Prod either consumes their
+  # packed/aggregated snapshot or uses KV-backed state, so leaving thousands of
+  # tracked file edits after a successful publish only creates operator noise.
+  local restore_paths=(
+    data/sws/deep
+    data/sws/groww-stock-latest.json
+    data/sectorOutlook/classified-news
+    data/nse-fo/history
+    data/coverage/coverage_gap.json
+    data/coverage/coverage_report.md
+    data/coverage/ground_truth.json
+    data/coverage/groww_missing_candidates.json
+    data/risk-lab/llm-disagreement-cache.json
+  )
+  echo "[nightly] restoring non-deployable generated working sets before commit..."
+  git restore -- "${restore_paths[@]}" 2>/dev/null || true
+  git clean -fd -- data/sws/deep data/sectorOutlook/classified-news data/nse-fo/history 2>/dev/null || true
+}
+
 run_sws_primary_branch() {
   echo "[nightly] running scripts/sws-refresh-api.sh (SWS_AUTO_PR=0; nightly creates the PR)..."
   SWS_AUTO_PR=0 bash scripts/sws-refresh-api.sh
@@ -938,6 +958,14 @@ echo "[sws-nightly] refresh-risk-lab.mjs (timeout 60s)"
 with_timeout 60 node scripts/refresh-risk-lab.mjs 2>&1 | sed 's/^/[risk-lab] /' || \
   echo "[sws-nightly] refresh-risk-lab.mjs FAILED — continuing (non-fatal; lab tab will show stale data)"
 
+echo "[sws-nightly] refresh macro-thesis-latest.json (timeout 30s)"
+with_timeout 30 node --input-type=module -e '
+import { writeMacroThesis } from "./services/macroThesis/thesisOrchestrator.js";
+const { outputPath, thesis } = writeMacroThesis();
+console.log(`[macro-thesis] wrote ${outputPath} regime=${thesis.regime?.regime || "<missing>"} branches=${thesis.branches?.length || 0}`);
+' 2>&1 | sed 's/^/[macro-thesis] /' || \
+  echo "[sws-nightly] macro thesis refresh FAILED — continuing (non-fatal; route will show prior thesis)"
+
 # Step 9d2: Sector Outlook is refreshed inside scripts/sws-refresh-api.sh
 # between seed scoring and final scoring. Do not run it again here: a later
 # post-score refresh would make data/sectorOutlook/outlook-latest.json newer
@@ -1238,6 +1266,8 @@ try {
 ' 2>/dev/null)
 echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
 
+restore_non_deployable_generated_worksets
+
 # ---- 5. Commit + push ----
 
 # data/macroRegime.json deliberately excluded — single-writer rule per
@@ -1248,6 +1278,9 @@ CHANGED_FILES=$(git status --short \
   data/sws/last-refresh.json \
   data/sws/sws-scored-universe.json \
   data/sws/v3-universe-stats.json \
+  data/sws/universe.json \
+  data/sws/universe-meta.json \
+  data/sws/_sanity/_latest.json \
   data/sws/groww-stock-failed.json \
   data/sws/groww-pe-latest.json \
   data/sws/groww-pe-failed.json \
@@ -1256,6 +1289,14 @@ CHANGED_FILES=$(git status --short \
   data/sws-kr/deep-kr.tar.gz \
   data/sws-tw/deep-tw.tar.gz \
   data/sectorOutlook/outlook-latest.json \
+  data/coverage/bse_equity_active.json \
+  data/risk-lab/picks-adjusted-latest.json \
+  data/risk-lab/quality-flags-latest.json \
+  data/risk-lab/macro-thesis-latest.json \
+  data/strategy/multibagger-scores-latest.json \
+  data/strategy/catalyst-slate-latest.json \
+  data/strategy/multibagger-health-latest.json \
+  data/strategy/multibagger-portfolio.json \
   data/nse-index-constituents.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
@@ -1304,6 +1345,7 @@ git add data/sws/deep.tar.gz \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
         data/sws/v3-universe-stats.json \
+        data/sws/_sanity/_latest.json \
         data/sws/groww-stock-failed.json \
         data/sws/groww-pe-latest.json \
         data/sws/groww-pe-failed.json \
@@ -1314,6 +1356,14 @@ git add data/sws/deep.tar.gz \
         data/sws-kr/deep-kr.tar.gz \
         data/sws-tw/deep-tw.tar.gz \
         data/sectorOutlook/outlook-latest.json \
+        data/coverage/bse_equity_active.json \
+        data/risk-lab/picks-adjusted-latest.json \
+        data/risk-lab/quality-flags-latest.json \
+        data/risk-lab/macro-thesis-latest.json \
+        data/strategy/multibagger-scores-latest.json \
+        data/strategy/catalyst-slate-latest.json \
+        data/strategy/multibagger-health-latest.json \
+        data/strategy/multibagger-portfolio.json \
         data/nse-index-constituents.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
