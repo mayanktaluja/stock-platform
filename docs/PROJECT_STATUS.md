@@ -34,6 +34,12 @@ experimental surface area and nightly refresh load.
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
 ### Snowflake Gap Lab (June 2026)
+- **Data backfill follow-up** — `scripts/sws-populate-gap-lab.mjs` can now
+  populate only `sections.snowflake_gap_lab` and its audit block from the
+  current India SWS deep files, without running the full scorer or rewriting
+  canonical V4 sections. The June 4 backfill packed Snowflake check matrices
+  into `data/sws/deep.tar.gz` and populated 415 India Gap Lab rows; KRISHNADEF
+  is included as a review-only example with canonical V4 unchanged.
 - **This PR** — India Market now has an experimental Snowflake Gap Lab surface
   for discovering SWS data-gap candidates without changing canonical V4. The
   parser persists the visible Snowflake check matrix, the pure
