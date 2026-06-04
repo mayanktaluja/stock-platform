@@ -100,8 +100,10 @@ test.describe("Stock detail modal (SWS)", () => {
     for (const bucket of buckets) {
       for (const card of bucket) {
         expect(card).not.toHaveProperty("snowflake_data_quality");
+        expect(card).not.toHaveProperty("snowflake_check_matrix");
         expect(card?.overview).toBeUndefined();
         expect(card?.audit_trail?.inputs_used?.snowflake_data_quality).toBeUndefined();
+        expect(card?.audit_trail?.inputs_used?.snowflake_check_matrix).toBeUndefined();
       }
     }
   });
@@ -247,6 +249,76 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(lab).toContainText("For review, not a recommendation");
     await expect(lab).toContainText("53.0");
     await expect(lab).toContainText("Future ROE");
+  });
+
+  test("renders Snowflake warning alongside Gap Lab when deep metadata flags insufficient checks", async ({ page }) => {
+    await mockThinSwsStock(page, {
+      insufficient: true,
+      insufficient_count: 6,
+      checked_count: 30,
+      affected_pillars: ["Value", "Future"],
+      by_pillar: {
+        Value: { checked: 6, insufficient: 1 },
+        Future: { checked: 6, insufficient: 5 },
+      },
+      samples: [
+        { pillar: "Value", title: "PEG Ratio", reason_code: "OUTCOME_NULL" },
+        { pillar: "Future", title: "High Growth Earnings", reason_code: "OUTCOME_NULL" },
+        { pillar: "Future", title: "Earnings vs Market", reason_code: "OUTCOME_NULL" },
+      ],
+    }, {
+      ticker: "TIMETECHNO",
+      name: "Time Technoplast Limited",
+      sector: "Materials",
+      section_memberships: ["snowflake_gap_lab"],
+      overview: {
+        snowflake_check_matrix: null,
+      },
+      card: {
+        v4_score_100: 65.7,
+        v4_verdict: "TOP_PICK",
+        composite_verdict: "TOP_PICK",
+        snowflake_gap_lab: {
+          label: "Experimental shadow V4",
+          caveat: "For review, not a recommendation. Canonical V4 remains the source of record.",
+          canonical_v4_score_100: 65.7,
+          canonical_v4_verdict: "TOP_PICK",
+          shadow_v4_score_100: 75,
+          shadow_v4_verdict: "TOP_PICK",
+          score_delta: 9.3,
+          affected_pillars: ["valuation", "future"],
+          imputed_checks_count: 6,
+          peer_label: "Materials",
+          market_cap_bucket: "midsmall4",
+          imputed_checks: [
+            { title: "PEG Ratio", peer_pass_rate: 0, peer_count: 9 },
+            { title: "High Growth Earnings", peer_pass_rate: 0.556, peer_count: 9 },
+            { title: "Earnings vs Market", peer_pass_rate: 0.667, peer_count: 9 },
+          ],
+        },
+      },
+    });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("TIMETECHNO"));
+
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-score")).toContainText("65.7");
+    await expect(body.locator(".sws-modal-score")).not.toContainText("75.0");
+
+    const warning = body.locator('[data-testid="sws-snowflake-data-warning"]');
+    await expect(warning).toBeVisible();
+    await expect(warning).toContainText("SWS data warning");
+    await expect(warning).toContainText("6 of 30 SWS checks");
+    await expect(warning).toContainText("Value, Future");
+    await expect(warning).toContainText("Missing by section: Value 1/6 · Future 5/6");
+    await expect(warning).toContainText("Examples: Value: PEG Ratio");
+    await expect(warning).toContainText("High Growth Earnings");
+
+    const lab = body.locator('[data-testid="sws-snowflake-gap-lab"]');
+    await expect(lab).toBeVisible();
+    await expect(lab).toContainText("Canonical V4 remains the source of record");
+    await expect(lab).toContainText("75.0");
+    await expect(lab).toContainText("High Growth Earnings");
   });
 
   test("section membership chips in the stock modal expose scroll controls", async ({ page }) => {

@@ -48,6 +48,47 @@ test.describe("SWS data health", () => {
     expect(failures, `India card/detail drift: ${JSON.stringify(failures)}`).toEqual([]);
   });
 
+  test("India Gap Lab rows resolve to warning-compatible stock detail metadata", async ({ request }) => {
+    const picksRes = await request.get("/api/sws-picks");
+    if (picksRes.status() === 404) return;
+    expect(picksRes.status()).toBe(200);
+    const picks = await picksRes.json();
+    const gapRows = Array.isArray(picks?.sections?.snowflake_gap_lab)
+      ? picks.sections.snowflake_gap_lab.slice(0, SAMPLE_PER_MARKET)
+      : [];
+    test.skip(gapRows.length === 0, "no India Snowflake Gap Lab rows in current fixture");
+
+    const failures = [];
+    for (const row of gapRows) {
+      if (!row?.ticker) continue;
+      if (Object.prototype.hasOwnProperty.call(row, "snowflake_data_quality")) {
+        failures.push({ ticker: row.ticker, error: "card exposes snowflake_data_quality" });
+      }
+      if (Object.prototype.hasOwnProperty.call(row, "snowflake_check_matrix")) {
+        failures.push({ ticker: row.ticker, error: "card exposes snowflake_check_matrix" });
+      }
+      if (row?.overview != null) {
+        failures.push({ ticker: row.ticker, error: "card exposes deep overview" });
+      }
+
+      const detailRes = await request.get(`/api/sws-stock/${encodeURIComponent(row.ticker)}`);
+      if (detailRes.status() !== 200) {
+        failures.push({ ticker: row.ticker, status: detailRes.status() });
+        continue;
+      }
+      const detail = await detailRes.json();
+      const ov = detail?.deep?.overview || {};
+      if (ov.snowflake_data_quality?.insufficient !== true) {
+        failures.push({ ticker: row.ticker, status: 200, error: "missing insufficient-data metadata" });
+      }
+      if (!Array.isArray(ov.snowflake_check_matrix?.checks) || ov.snowflake_check_matrix.checks.length === 0) {
+        failures.push({ ticker: row.ticker, status: 200, error: "missing warning-compatible check matrix" });
+      }
+    }
+
+    expect(failures, `Gap Lab detail warning contract drift: ${JSON.stringify(failures)}`).toEqual([]);
+  });
+
   for (const market of [
     { code: "us", label: "US", currency: "USD" },
     { code: "kr", label: "Korea", currency: "KRW" },
