@@ -180,6 +180,41 @@ check("includes material same-verdict shadow uplifts for review-only discovery",
   assert.deepEqual(lab.affected_pillars, ["future"]);
 });
 
+check("orders section rows by experimental shadow V4 score before delta", () => {
+  const peers = [1, 2, 3, 4, 5].map((i) => peer(i, {
+    checks: [
+      row("Future", "F1", "pass", "Future ROE"),
+      row("Future", "F2", "pass", "High Growth Earnings"),
+      row("Future", "F3", "pass", "Revenue Growth Forecast"),
+      row("Value", "V1", "pass", "PEG Ratio"),
+    ],
+  }));
+  const higherShadowLowerDelta = stock("VALFUT", {
+    snow: { financial_health: 6, future: 0, valuation: 0, past: 6, dividends: 0 },
+    checks: [
+      row("Future", "F1", "no_data", "Future ROE"),
+      row("Future", "F2", "no_data", "High Growth Earnings"),
+      row("Value", "V1", "no_data", "PEG Ratio"),
+    ],
+  });
+  const lowerShadowHigherDelta = stock("MIDBASE", {
+    snow: { financial_health: 4, future: 0, valuation: 4, past: 4, dividends: 0 },
+    checks: [
+      row("Future", "F1", "no_data", "Future ROE"),
+      row("Future", "F2", "no_data", "High Growth Earnings"),
+      row("Future", "F3", "no_data", "Revenue Growth Forecast"),
+    ],
+  });
+  const section = buildSnowflakeGapLabSection([lowerShadowHigherDelta, higherShadowLowerDelta, ...peers], {
+    pickCardFields,
+    minPeerCheckCount: 5,
+  });
+  assert.equal(section.items.length, 2);
+  assert.equal(section.items[0].ticker, "VALFUT");
+  assert.ok(section.items[0].snowflake_gap_lab.shadow_v4_score_100 > section.items[1].snowflake_gap_lab.shadow_v4_score_100);
+  assert.ok(section.items[0].snowflake_gap_lab.score_delta < section.items[1].snowflake_gap_lab.score_delta);
+});
+
 check("excludes low market cap, GSM, and numeric tickers from the section", () => {
   const checks = [
     row("Future", "F1", "no_data"),
