@@ -816,7 +816,7 @@
       max-height: min(400px, 60vh);
       overflow-y: auto;
       display: none;
-      z-index: 50;
+      z-index: var(--z-dropdown);
       box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
 
@@ -828,6 +828,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       transition: background 0.15s;
       border-bottom: 1px solid rgba(42, 48, 64, 0.5);
     }
@@ -838,6 +839,17 @@
     .search-result-name {
       font-weight: 600;
       font-size: 14px;
+    }
+
+    .search-result-main {
+      min-width: 0;
+    }
+
+    .search-result-side {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
     }
 
     .search-result-symbol {
@@ -853,6 +865,24 @@
       font-size: 11px;
       color: var(--text-muted);
       margin-top: 2px;
+    }
+
+    .search-result-market {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 4px;
+      padding: 2px 6px;
+      text-transform: uppercase;
+    }
+
+    .search-result-score {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
     .search-loading {
@@ -1279,6 +1309,20 @@
       .market-status-pill { padding: 4px 8px; font-size: 10px; }
       .header-search { font-size: 13px; padding: 7px 14px 7px 34px; }
       .header-search-wrap { max-width: 120px; }
+      .search-results {
+        position: fixed;
+        top: 72px;
+        left: 12px;
+        right: 12px;
+        max-height: min(400px, 58vh);
+      }
+      .search-result-item { align-items: flex-start; }
+      .search-result-side {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
+      .search-result-score { display: none; }
 
       /* ─── Market Ticker: horizontal scroll so SENSEX/BANK NIFTY are reachable ─── */
       .market-ticker {
@@ -4205,10 +4249,10 @@
       <div class="header-center" role="search">
         <div class="header-search-wrap">
           <span class="header-search-icon" aria-hidden="true">&#128269;</span>
-          <label for="searchInput" class="sr-only">Search NSE or BSE stocks</label>
+          <label for="searchInput" class="sr-only">Search stocks across markets</label>
           <input type="text" class="header-search" id="searchInput"
-                 placeholder="Search any NSE / BSE stock..."
-                 aria-label="Search NSE or BSE stocks"
+                 placeholder="Search any stock..."
+                 aria-label="Search stocks across markets"
                  aria-autocomplete="list"
                  aria-controls="searchResults"
                  autocomplete="off">

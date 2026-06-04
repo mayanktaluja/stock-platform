@@ -33,6 +33,16 @@ async function readDropdownSymbols(page) {
   );
 }
 
+async function readDropdownRows(page) {
+  const rows = page.locator(".search-result-item");
+  return rows.evaluateAll((els) =>
+    els.map((el) => ({
+      symbol: el.querySelector(".search-result-symbol")?.textContent?.trim() || "",
+      market: el.getAttribute("data-market") || "india",
+    }))
+  );
+}
+
 function assertNoBareTickerDups(symbols) {
   const bareKeys = symbols.map((s) => s.replace(/\.(NS|BO)$/i, ""));
   expect(new Set(bareKeys).size, `no two rows should share a bare ticker; got ${JSON.stringify(symbols)}`).toBe(bareKeys.length);
@@ -51,12 +61,14 @@ test.describe("Global search — NSE preference dedup", () => {
     // Wait for at least one row to render (debounce + fetch + render).
     await expect(page.locator(".search-result-item").first()).toBeVisible({ timeout: 5_000 });
 
-    const symbols = await readDropdownSymbols(page);
-    expect(symbols.length, "at least one result").toBeGreaterThan(0);
-    for (const sym of symbols) {
-      expect(sym, `every row should be .NS-suffixed for a local-universe hit; got "${sym}"`).toMatch(/\.NS$/);
+    const rows = await readDropdownRows(page);
+    expect(rows.length, "at least one result").toBeGreaterThan(0);
+    const indiaSymbols = rows.filter((r) => r.market === "india").map((r) => r.symbol);
+    expect(indiaSymbols.length, "at least one India result").toBeGreaterThan(0);
+    for (const sym of indiaSymbols) {
+      expect(sym, `every India row should be .NS-suffixed for a local-universe hit; got "${sym}"`).toMatch(/\.NS$/);
     }
-    assertNoBareTickerDups(symbols);
+    assertNoBareTickerDups(indiaSymbols);
   });
 
   test("live /api/search: explicit '.BO' query is normalised — returns .NS", async ({ page }) => {

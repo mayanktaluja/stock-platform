@@ -95,6 +95,13 @@ import { buildCalibration as buildTrackCalibration } from "./services/trackRecor
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
 import { dedupeByBareSymbol } from "./services/searchDedup.js";
+import {
+  dedupeGlobalSearchResults,
+  hasIndiaSearchResult,
+  rankGlobalSearchResults,
+  searchSwsMarkets,
+  stripIndiaExchangeSuffix,
+} from "./services/globalSearchIndex.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { filterPicksWithDeepDataFailOpen } from "./services/swsPicksResponse.js";
 import * as usPicksDal from "./services/usPicksDal.js";
@@ -1440,23 +1447,38 @@ app.post("/api/telemetry", express.json({ limit: "8kb" }), async (req, res) => {
 });
 
 /**
- * Search for Indian stocks
+ * Search for stocks across the India local universe plus SWS markets.
  */
+function decorateIndiaSearchResult(row, source = "nse_bse") {
+  const symbol = String(row?.symbol || "").trim();
+  const ticker = stripIndiaExchangeSuffix(symbol || row?.ticker || "").toUpperCase();
+  return {
+    ...row,
+    symbol,
+    ticker,
+    market: "india",
+    marketLabel: "India",
+    currency: "INR",
+    source,
+  };
+}
+
 app.get("/api/search", async (req, res) => {
   try {
     const query = req.query.q;
-    if (!query || query.length < 1) {
+    if (!query || String(query).trim().length < 2) {
       return res.json({ results: [] });
     }
 
-    const cacheKey = `q:${query.toLowerCase().trim()}`;
+    const queryText = String(query).slice(0, 80).trim();
+    const cacheKey = `q:${queryText.toLowerCase()}`;
     const cached = searchCache.get(cacheKey);
     if (cached) {
       res.set("X-Search-Cache", "HIT");
       return res.json({ results: cached });
     }
 
-    const q = query.toLowerCase().trim();
+    const q = queryText.toLowerCase();
     // Strip a trailing exchange suffix so "AJAXENGG.BO" and "AJAXENGG.NS"
     // both behave like "AJAXENGG". Without this, the local filter never
     // matches an explicit .BO query (it's .NS-suffix-aware only), and
@@ -1469,13 +1491,21 @@ app.get("/api/search", async (req, res) => {
         s.name.toLowerCase().includes(qBare) ||
         s.symbol.toLowerCase().includes(qBare + ".ns") ||
         s.symbol.toLowerCase().replace(".ns", "").includes(qBare)
-    ).slice(0, 10);
+    ).slice(0, 20).map((s) => decorateIndiaSearchResult(s, "nse_bse"));
+
+    const swsResults = searchSwsMarkets(qBare, { limit: 40 });
+    const indiaCandidates = [...localResults, ...swsResults.filter((r) => r.market === "india")];
 
     // Yahoo only fires when local has zero hits — typos, brand-new IPOs,
     // obscure BSE-only names. Cuts ~95% of round-trips at 750-stock coverage.
-    const yahooResults = localResults.length === 0 ? await searchYahoo(qBare) : [];
+    const yahooResults = hasIndiaSearchResult(indiaCandidates)
+      ? []
+      : (await searchYahoo(qBare)).map((s) => decorateIndiaSearchResult(s, "yahoo"));
 
     const allResults = [...localResults];
+    for (const sr of swsResults) {
+      allResults.push(sr);
+    }
     for (const yr of yahooResults) {
       if (!allResults.find((r) => r.symbol === yr.symbol)) {
         allResults.push(yr);
@@ -1483,11 +1513,13 @@ app.get("/api/search", async (req, res) => {
     }
 
     // Collapse NSE/BSE pairs to one row per company, preferring .NS.
-    const deduped = dedupeByBareSymbol(allResults);
-    const finalResults = deduped.slice(0, 15);
+    const indiaDeduped = dedupeByBareSymbol(allResults.filter((r) => r.market === "india"));
+    const nonIndia = allResults.filter((r) => r.market !== "india");
+    const deduped = dedupeGlobalSearchResults([...indiaDeduped, ...nonIndia]);
+    const finalResults = rankGlobalSearchResults(qBare, deduped, { limit: 15 });
     searchCache.set(cacheKey, finalResults);
     res.set("X-Search-Cache", "MISS");
-    res.set("X-Search-Yahoo", localResults.length === 0 ? "called" : "skipped");
+    res.set("X-Search-Yahoo", yahooResults.length > 0 ? "called" : "skipped");
     res.json({ results: finalResults });
   } catch (err) {
     console.error("Search error:", err.message);
@@ -8241,11 +8273,14 @@ function registerRegionPicksRoutes(app, dal) {
 
   app.get(`/api/${prefix}-stock/:ticker`, async (req, res) => {
     if (!(await requireSignedInRead(req, res))) return;
-    // KR/TW canonical keys are uppercase + dotted (005930.KS / 2330.TW) — allow the dot.
-    const ticker = String(req.params.ticker || "").toUpperCase().trim();
-    if (!ticker || !/^[A-Z0-9.\-]+$/.test(ticker)) {
+    // KR/TW canonical keys are dotted and may contain lower-case exchange ids
+    // (q500036.KS / 01001t.TW). Accept any case, then resolve through the
+    // scored-universe index so deep tarball lookup uses the on-disk filename.
+    const requestedTicker = String(req.params.ticker || "").trim();
+    if (!requestedTicker || !/^[A-Z0-9.\-]+$/i.test(requestedTicker)) {
       return res.status(400).json({ error: "invalid_ticker" });
     }
+    const ticker = dal.resolveCanonicalTicker?.(requestedTicker) || requestedTicker;
     const picks = dal.getPicksLatest();
     let card = null;
     const sectionMemberships = [];
@@ -8262,7 +8297,7 @@ function registerRegionPicksRoutes(app, dal) {
     // Fallback to the scored-universe card when the ticker isn't in a curated section.
     if (!card) {
       const idx = dal.getUniverseIndex();
-      if (idx) card = idx.get(ticker) || null;
+      if (idx) card = idx.get(String(ticker).toUpperCase()) || null;
     }
     if (isSyntheticMarketFixtureRow(card)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
     if (!card) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
