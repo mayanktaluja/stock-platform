@@ -10,31 +10,8 @@
     "api/index.js": {
       "memory": 1024,
       "maxDuration": 60,
-      "includeFiles": [
-        "gated/**",
-        "data/*.json",
-        "data/sws*/*.json",
-        "../data/sws/deep.tar.gz",
-        "../data/sws-us/deep-us.tar.gz",
-        "../data/sws-kr/deep-kr.tar.gz",
-        "../data/sws-tw/deep-tw.tar.gz",
-        "data/{catalysts,coverage,track-record}/**",
-        "data/sectorOutlook/outlook-latest.json",
-        "data/nse-fo/oi-deltas-latest.json",
-        "data/risk-lab/{picks-adjusted-latest.json,quality-flags-latest.json,macro-thesis-latest.json,_quality-keywords.json,_sector-overlays.json}",
-        "data/strategy/{multibagger-scores-latest.json,catalyst-slate-latest.json,multibagger-health-latest.json,multibagger-portfolio.json}",
-        "data/disclosures/holdings.json",
-        "services/swsDal/**",
-        "db/**",
-        "fundamentals*.json",
-        "*ance.json"
-      ],
-      "excludeFiles": [
-        "{test/**,test-results/**,.git/**,.github/**,.claude/**,.Codex/**,.vercel/**,.sentiment-cache.json,.paper-trades.json,playwright.config.mjs}",
-        "{data/sws*/deep/**,data/sws*/deep-api/**,data/sws*/deep-parsed/**}",
-        "{data/sws/groww-stock-latest.json,data/sectorOutlook/classified-news/**,data/sectorOutlook/llm-theme-cache.json}",
-        "{data/nse-fo/history/**,data/risk-lab/llm-disagreement-cache.json,data/strategy/history/**,data/strategy/decisions.ndjson}"
-      ]
+      "includeFiles": "{gated/**,data/*.json,data/sws*/*.{json,tar.gz},data/{catalysts,coverage,track-record,risk-lab,strategy,sectorOutlook,nse-fo,disclosures}/**,services/swsDal/**,db/**,fundamentals*.json,*ance.json}",
+      "excludeFiles": "{test/**,test-results/**,.git*/**,.claude/**,.Codex/**,.vercel/**,.sentiment-cache.json,.paper-trades.json,playwright.config.mjs,data/sws*/deep*/**,data/{sectorOutlook/classified-news/**,nse-fo/history/**,strategy/history/**}}"
     }
   },
   "crons": [

@@ -70,8 +70,8 @@ function loadIncludeFilesRaw() {
   const vercel = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "vercel.json"), "utf-8"));
   const entry = (vercel.functions || {})["api/index.js"];
   assert.ok(
-    entry && (typeof entry.includeFiles === "string" || Array.isArray(entry.includeFiles)),
-    "vercel.json functions['api/index.js'].includeFiles must be a string or array",
+    entry && typeof entry.includeFiles === "string",
+    "vercel.json functions['api/index.js'].includeFiles must be a single glob string",
   );
   return entry.includeFiles;
 }
@@ -84,8 +84,8 @@ function loadFunctionConfig(pathname) {
 function loadExcludeFilesRaw() {
   const entry = loadFunctionConfig("api/index.js");
   assert.ok(
-    entry && (typeof entry.excludeFiles === "string" || Array.isArray(entry.excludeFiles)),
-    "vercel.json functions['api/index.js'].excludeFiles must be a string or array",
+    entry && typeof entry.excludeFiles === "string",
+    "vercel.json functions['api/index.js'].excludeFiles must be a single glob string",
   );
   return entry.excludeFiles;
 }
@@ -291,8 +291,12 @@ check("the glob matcher discriminates (covers sws tarballs, rejects unrelated pa
   assert.ok(isCovered("data/sws-us/deep-us.tar.gz"), "US deep tarball must be bundled");
   assert.ok(isCovered("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must be bundled");
   assert.ok(isCovered("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must be bundled");
-  // …but it must NOT match paths outside the include globs.
-  assert.ok(!isCovered("data/nse-fo/history/RELIANCE.json"), "matcher must NOT match a deep, unrelated data path");
+  // ...but broad runtime directories must still be trimmed by excludeFiles.
+  assert.ok(
+    isCovered("data/nse-fo/history/RELIANCE.json") && isExcluded("data/nse-fo/history/RELIANCE.json"),
+    "F&O history can match a broad include glob only if excludeFiles trims it from the function bundle",
+  );
+  // And it must NOT match paths outside the include globs.
   assert.ok(!isCovered("package.json"), "matcher must NOT match an unlisted root file");
 });
 
@@ -306,11 +310,11 @@ check("nested runtime snapshots served by API routes are in includeFiles", () =>
 });
 
 check("local-only generated worksets are excluded from the function bundle", () => {
-  const bundled = LOCAL_ONLY_GENERATED_WORKSETS.filter((f) => isCovered(f) && !isExcluded(f));
+  const bundled = LOCAL_ONLY_GENERATED_WORKSETS.filter((f) => isCovered(f) && !isExcluded(f) && !isIgnored(f));
   assert.deepEqual(
     bundled,
     [],
-    `Local cache file(s) still bundled into prod:\n    ${bundled.join("\n    ")}`,
+    `Local cache file(s) still bundled or uploaded into prod:\n    ${bundled.join("\n    ")}`,
   );
 });
 
