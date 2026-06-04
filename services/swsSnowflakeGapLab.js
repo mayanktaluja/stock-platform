@@ -7,7 +7,7 @@ const MIN_SHADOW_SCORE = 47;
 const MIN_AFFECTED_PILLARS = 2;
 const MIN_IMPUTED_CHECKS = 3;
 const MAX_PILLAR_UPLIFT = 4;
-const SECTION_LIMIT = 100;
+const SECTION_LIMIT = 500;
 
 const V4_PILLAR_KEYS = {
   Health: ["financial_health", "health"],
