@@ -173,6 +173,15 @@ function requiredBundledFiles() {
   );
 }
 
+function readJsonFromTarball(tarball, member) {
+  const raw = execSync(`tar -xOzf "${tarball}" "${member}"`, {
+    cwd: REPO_ROOT,
+    encoding: "utf-8",
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(raw);
+}
+
 const REQUIRED_ROOT_FIXTURES = [
   "fundamentals.json",
   "fundamentalsHistory.json",
@@ -324,6 +333,22 @@ check("EVERY committed deep tarball + regional picks-latest.json is in includeFi
     missing,
     [],
     `Not bundled into the Vercel function (India modal/leaderboards will be blank on prod):\n    ${missing.join("\n    ")}\n  Add the artifact to vercel.json includeFiles.`,
+  );
+});
+
+check("India deep tarball preserves Snowflake insufficient-data metadata canary", () => {
+  const canary = readJsonFromTarball("data/sws/deep.tar.gz", "deep/UMESLTD.json");
+  const dq = canary?.overview?.snowflake_data_quality;
+  assert.equal(dq?.insufficient, true, "UMESLTD must preserve compact insufficient-data metadata");
+  assert.equal(dq.insufficient_count, 10, "UMESLTD insufficient-data count drifted");
+  assert.equal(dq.checked_count, 30, "UMESLTD checked-count contract drifted");
+  assert.deepEqual(dq.affected_pillars, ["Value", "Future", "Dividends"]);
+  const matrix = canary?.overview?.snowflake_check_matrix;
+  assert.ok(Array.isArray(matrix?.checks), "UMESLTD must preserve the deployable Snowflake check matrix");
+  assert.equal(matrix.checks.length, 30, "UMESLTD Snowflake matrix must include the 30 visible checks");
+  assert.ok(
+    matrix.checks.some((check) => check?.title === "PEG Ratio" && check.insufficient === true),
+    "UMESLTD matrix must retain missing PEG Ratio evidence",
   );
 });
 
