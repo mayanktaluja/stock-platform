@@ -671,13 +671,25 @@ function buildSectorOverlay(scoredHoldings) {
     // case-variant duplicates ("energy" vs "Energy", "utilities" vs
     // "Utilities"). SWS only fills in when stockList has none.
     const sector = h.sector || (h.swsCovered ? h.sws.sector : null) || "Unclassified";
-    if (!bySector.has(sector)) bySector.set(sector, { sector, currentValue: 0, holdings: [], avgSnowflake: 0, avgV3: 0, _snowSum: 0, _v3Sum: 0, _n: 0 });
+    if (!bySector.has(sector)) {
+      bySector.set(sector, {
+        sector,
+        currentValue: 0,
+        holdings: [],
+        avgSnowflake: 0,
+        avgV4: 0,
+        avgV3: 0,
+        _snowSum: 0,
+        _v4Sum: 0,
+        _n: 0,
+      });
+    }
     const row = bySector.get(sector);
     row.currentValue += cv;
     row.holdings.push(h.sws?.ticker || h.symbol);
     if (h.swsCovered) {
       row._snowSum += num(h.sws.snowflake_total, 0);
-      row._v3Sum += num(h.sws.v4_score, 0);
+      row._v4Sum += num(h.sws.v4_score, 0);
       row._n += 1;
     }
   }
@@ -689,7 +701,9 @@ function buildSectorOverlay(scoredHoldings) {
       pct: totalCV > 0 ? Math.round((row.currentValue / totalCV) * 1000) / 10 : 0,
       holdings: row.holdings,
       avgSnowflake: row._n ? Math.round(row._snowSum / row._n * 10) / 10 : null,
-      avgV3: row._n ? Math.round(row._v3Sum / row._n * 10) / 10 : null,
+      avgV4: row._n ? Math.round(row._v4Sum / row._n * 10) / 10 : null,
+      // Back-compat alias: this field now carries V4 values.
+      avgV3: row._n ? Math.round(row._v4Sum / row._n * 10) / 10 : null,
     });
   }
   out.sort((a, b) => b.currentValue - a.currentValue);
@@ -701,8 +715,8 @@ function buildSnapshot(scoredHoldings) {
   let totalInv = 0;
   let snowSum = 0;
   let snowN = 0;
-  let v3Sum = 0;
-  let v3N = 0;
+  let v4Sum = 0;
+  let v4N = 0;
   const verdictMix = {};
   const actionMix = {};
   let coveredCount = 0;
@@ -715,8 +729,8 @@ function buildSnapshot(scoredHoldings) {
       coveredCount++;
       snowSum += num(h.sws.snowflake_total, 0);
       snowN++;
-      v3Sum += num(h.sws.v4_score, 0);
-      v3N++;
+      v4Sum += num(h.sws.v4_score, 0);
+      v4N++;
       const verdict = h.sws.verdict || "n/a";
       verdictMix[verdict] = (verdictMix[verdict] || 0) + 1;
     }
@@ -730,7 +744,9 @@ function buildSnapshot(scoredHoldings) {
     coveredCount,
     holdingsCount: scoredHoldings.length,
     avgSnowflake: snowN ? Math.round(snowSum / snowN * 10) / 10 : null,
-    avgV3Score: v3N ? Math.round(v3Sum / v3N * 10) / 10 : null,
+    avgV4Score: v4N ? Math.round(v4Sum / v4N * 10) / 10 : null,
+    // Back-compat alias: this field now carries V4 values.
+    avgV3Score: v4N ? Math.round(v4Sum / v4N * 10) / 10 : null,
     verdictMix,
     actionMix,
   };
