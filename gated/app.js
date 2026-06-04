@@ -10817,7 +10817,7 @@ const PICKS_SECTIONS = [
   { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by composite score — start every session here." },
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
-  { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, normally Sector Outlook-backed; falls back to current positive macro sectors when outlook is out of sync.", show_when_empty: true },
+  { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, positive sector context, and Future Growth ≥ 4/6; may show a labelled ≥ 3/6 fallback only when strict candidates are absent.", show_when_empty: true },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
   { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
@@ -11773,6 +11773,12 @@ function renderPickCard(s, sectionKey, rank = null) {
   const macroFallbackBadge = (sectionKey === "growing_sector_value" && s.selection_basis === "macro_value_fallback")
     ? `<span class="sws-fund-badge" title="${escapeHtml(s.macro_impact_reason || "Current macro-regime positive sector impact; Sector Outlook tailwind not used.")}">${escapeHtml(s.macro_fallback_label || "Macro fallback")}${Number.isFinite(s.macro_impact_score) ? ` · +${s.macro_impact_score}` : ""}</span>`
     : "";
+  const futureSnow = sectionKey === "growing_sector_value"
+    ? (Number.isFinite(s.snowflake?.future) ? s.snowflake.future : (Number.isFinite(s.snowflake?.future_growth) ? s.snowflake.future_growth : null))
+    : null;
+  const futureBadge = Number.isFinite(futureSnow)
+    ? `<span class="sws-fund-badge" title="SWS Future Growth pillar. Standard Growing Sector Value gate is ≥ 4/6; a labelled fallback can show ≥ 3/6 only when strict candidates are absent.">Future ${futureSnow}/6</span>`
+    : "";
   const fv30Badge = (sectionKey === "growing_sector_value" && s.fv_discount_badge_30plus)
     ? `<span class="sws-pick-valband-chip" style="color:var(--gold);border-color:var(--gold);" title="SWS fair value discount is at least 30%; informational badge only, not a rank boost.">FV 30%+</span>`
     : "";
@@ -11811,7 +11817,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${fv30Badge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>

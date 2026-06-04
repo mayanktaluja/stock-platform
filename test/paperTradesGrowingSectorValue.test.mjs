@@ -68,5 +68,18 @@ check("macro fallback rows are not snapshotted as canonical growing-sector track
   }), false);
 });
 
+check("relaxed Future Growth fallback rows are not snapshotted as canonical growing-sector track record", () => {
+  assert.equal(shouldSkipSwsSectionSnapshot("growing_sector_value", {
+    section_audit: {
+      growing_sector_value: { future_growth_gate_relaxed: true },
+    },
+  }), true);
+  assert.equal(shouldSkipSwsSectionSnapshot("quality_growth", {
+    section_audit: {
+      growing_sector_value: { future_growth_gate_relaxed: true },
+    },
+  }), false);
+});
+
 console.log(`\n${pass} passed, ${fail} failed\n`);
 if (fail > 0) process.exit(1);

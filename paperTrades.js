@@ -405,8 +405,10 @@ export function swsPickToTradeShape(swsPick) {
 }
 
 export function shouldSkipSwsSectionSnapshot(sectionKey, picksData) {
-  return sectionKey === "growing_sector_value" &&
-    picksData?.section_audit?.growing_sector_value?.display_mode === "macro_value_fallback";
+  if (sectionKey !== "growing_sector_value") return false;
+  const audit = picksData?.section_audit?.growing_sector_value || {};
+  return audit.display_mode === "macro_value_fallback" ||
+    audit.future_growth_gate_relaxed === true;
 }
 
 /**
