@@ -40,6 +40,9 @@ experimental surface area and nightly refresh load.
   canonical V4 sections. The June 4 backfill packed Snowflake check matrices
   into `data/sws/deep.tar.gz` and populated 415 India Gap Lab rows; KRISHNADEF
   is included as a review-only example with canonical V4 unchanged.
+- **Ordering follow-up** — Snowflake Gap Lab rows now sort by experimental
+  shadow V4 score descending, with score delta used only as a tie-breaker, so
+  the section reads like the other score-led India Market sections.
 - **This PR** — India Market now has an experimental Snowflake Gap Lab surface
   for discovering SWS data-gap candidates without changing canonical V4. The
   parser persists the visible Snowflake check matrix, the pure

@@ -324,10 +324,12 @@ export function buildSnowflakeGapLabSection(scoredStocks, opts = {}) {
   }
 
   candidates.sort((a, b) => {
+    const sa = a.snowflake_gap_lab?.shadow_v4_score_100 || 0;
+    const sb = b.snowflake_gap_lab?.shadow_v4_score_100 || 0;
+    if (sb !== sa) return sb - sa;
     const da = a.snowflake_gap_lab?.score_delta || 0;
     const db = b.snowflake_gap_lab?.score_delta || 0;
-    if (db !== da) return db - da;
-    return (b.snowflake_gap_lab?.shadow_v4_score_100 || 0) - (a.snowflake_gap_lab?.shadow_v4_score_100 || 0);
+    return db - da;
   });
   const items = candidates.slice(0, opts.limit ?? SECTION_LIMIT);
   audit.candidates_selected = items.length;

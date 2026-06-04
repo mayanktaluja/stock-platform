@@ -4,7 +4,9 @@
 // data-gap backfill cannot rewrite canonical V4 sections or Track Record inputs.
 
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { PATHS } from "./sws-config.mjs";
 import { buildFvCompositeIndustryAverages } from "../services/swsScoringV4.js";
 import { reconcileFairValue } from "../services/fvReconciliation.js";
@@ -49,6 +51,28 @@ function loadDeepUniverse(deepDir) {
   return { loaded, failed };
 }
 
+function countCheckMatrices(stocks) {
+  return (stocks || []).filter((stock) => stock?.overview?.snowflake_check_matrix?.checks?.length > 0).length;
+}
+
+function loadDeepUniverseWithTarFallback(deepDir) {
+  const loose = loadDeepUniverse(deepDir);
+  if (countCheckMatrices(loose.loaded) > 0) return { ...loose, source: "loose_deep" };
+
+  const tarPath = path.join(path.dirname(deepDir), "deep.tar.gz");
+  if (!fs.existsSync(tarPath)) return { ...loose, source: "loose_deep" };
+
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "sws-gap-lab-deep-"));
+  try {
+    execFileSync("tar", ["-xzf", tarPath, "-C", tempRoot], { stdio: "ignore" });
+    const extractedDeepDir = path.join(tempRoot, "deep");
+    const packed = loadDeepUniverse(extractedDeepDir);
+    return { ...packed, source: "deep_tarball" };
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
+}
+
 function buildShadowUniverse(loaded) {
   const universe = buildUniverseStats(loaded);
   universe.fvBenchmark = buildFvUpsideBenchmark(
@@ -80,7 +104,7 @@ function orderSectionsWithGapLab(existingSections, gapLabItems) {
 
 export function populateSnowflakeGapLab({ deepDir = PATHS.deepDir, picksPath = PATHS.picksLatest, limit: sectionLimit = limit } = {}) {
   const picks = readJson(picksPath);
-  const { loaded, failed } = loadDeepUniverse(deepDir);
+  const { loaded, failed, source } = loadDeepUniverseWithTarFallback(deepDir);
   const universe = buildShadowUniverse(loaded);
   const scored = [];
   let scoreFailed = 0;
@@ -106,6 +130,7 @@ export function populateSnowflakeGapLab({ deepDir = PATHS.deepDir, picksPath = P
       deep_files_loaded: loaded.length,
       deep_files_failed: failed,
       score_failed: scoreFailed,
+      source,
     },
   };
   picks.sections = orderSectionsWithGapLab(picks.sections || {}, section.items);
@@ -115,6 +140,7 @@ export function populateSnowflakeGapLab({ deepDir = PATHS.deepDir, picksPath = P
     deep_files_loaded: loaded.length,
     deep_files_failed: failed,
     score_failed: scoreFailed,
+    source,
     selected: section.items.length,
     totalCandidates: section.audit.candidates_total,
   };
