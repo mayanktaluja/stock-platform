@@ -18,6 +18,13 @@ function holding({
   staleData = false,
   dataAge = 10,
   priceSource = "sws",
+  newsSignal = null,
+  reductionEvidence = null,
+  marketCapBucket = "large",
+  dataQualityGate = null,
+  displayActionIntent = null,
+  postTradeWeight = null,
+  trimRupees = null,
 } = {}) {
   return {
     symbol: ticker,
@@ -27,6 +34,13 @@ function holding({
     positionWeight: currentValue / 10_000,
     sectorWeight: 10,
     action,
+    displayActionIntent,
+    postTradeWeight,
+    trimRupees,
+    newsSignal,
+    reductionEvidence,
+    marketCapBucket,
+    dataQualityGate,
     swsCovered: true,
     staleData,
     priceSource,
@@ -41,9 +55,13 @@ function holding({
       valuation_confidence: confidence,
       valuation_source: "sws_raw_fv",
       valuation_band: band,
+      market_cap_inr: marketCapBucket === "micro" ? 4_000 * 10_000_000 : marketCapBucket === "small" ? 10_000 * 10_000_000 : marketCapBucket === "mid" ? 50_000 * 10_000_000 : 200_000 * 10_000_000,
+      market_cap_bucket: marketCapBucket,
+      data_quality_gate: dataQualityGate,
       data_age_hours: dataAge,
       surveillance: null,
       next_earnings_date: null,
+      news_signal: newsSignal,
     },
   };
 }
@@ -134,6 +152,7 @@ test("enforces post-trade sector cap", () => {
       valuation_confidence: "HIGH",
       valuation_band: "DISCOUNT",
       data_age_hours: 8,
+      market_cap_inr: 200_000 * 10_000_000,
     }],
   };
   const plan = buildPortfolioConstructionPlan({ scoredHoldings, baskets, freshCapitalInr: 100_000 });
@@ -163,6 +182,7 @@ test("stale fresh candidates can remain eligible but cannot be funded", () => {
         valuation_confidence: "HIGH",
         valuation_band: "DEEP_DISCOUNT",
         data_age_hours: 72,
+        market_cap_inr: 200_000 * 10_000_000,
       }],
     },
     freshCapitalInr: 100_000,
@@ -170,4 +190,110 @@ test("stale fresh candidates can remain eligible but cannot be funded", () => {
   assert.equal(plan.eligibleAddCandidates.length, 1);
   assert.equal(plan.eligibleAddCandidates[0].fundable, false);
   assert.equal(plan.fundedTrades.length, 0);
+});
+
+test("same-run sell candidates do not become buy capital", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "SELLME",
+        action: "Reduction-33%",
+        currentValue: 300_000,
+        displayActionIntent: "Trim excess",
+        postTradeWeight: 2,
+        trimRupees: 99_000,
+        reductionEvidence: { status: "confirmed", intent: "risk_cap", decisiveEvidence: [{ summary: "Position cap" }] },
+      }),
+      holding({ ticker: "BUYME", action: "Top-up-100%", currentValue: 40_000 }),
+    ],
+    freshCapitalInr: 0,
+    confirmedFreedCapitalInr: 0,
+  });
+
+  assert.equal(plan.fundedSells.length, 1);
+  assert.equal(plan.fundedSells[0].displayActionIntent, "Trim excess");
+  assert.equal(plan.fundedSells[0].tradeRupees, 99_000);
+  assert.equal(plan.fundedSells[0].postTradeWeight, 2);
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.equal(plan.capitalLedger.availableBuyCapital, 0);
+  assert.match(plan.capitalLedger.note, /not counted as available buy capital/i);
+});
+
+test("unconfirmed reductions are review candidates, not notional sells", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "REVIEWME",
+        action: "HOLD",
+        currentValue: 300_000,
+        displayActionIntent: "Review only",
+        reductionEvidence: {
+          status: "blocked",
+          intent: "data_quality",
+          requestedAction: "Reduction-25%",
+          blockedReasons: ["SWS data is stale"],
+        },
+      }),
+    ],
+    freshCapitalInr: 0,
+  });
+
+  assert.equal(plan.fundedSells.length, 0);
+  assert.equal(plan.blockedReductionCandidates.length, 1);
+  assert.equal(plan.blockedReductionCandidates[0].ticker, "REVIEWME");
+});
+
+test("smallcap policy tightens add cap without forcing sells", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "SMALLADD",
+        action: "Top-up-100%",
+        currentValue: 45_000,
+        marketCapBucket: "small",
+      }),
+      holding({ ticker: "OTHER", action: "HOLD", currentValue: 955_000, marketCapBucket: "large" }),
+    ],
+    freshCapitalInr: 100_000,
+  });
+
+  assert.equal(plan.fundedSells.length, 0);
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.match(plan.eligibleAddCandidates[0].unfundedReasons.join(" "), /single-name 4% cap/);
+});
+
+test("negative SWS news vetoes add funding without creating a sell", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "NEWSVETO",
+        action: "Top-up-100%",
+        newsSignal: { signal: -1, materialDisclosure: true },
+      }),
+    ],
+    freshCapitalInr: 100_000,
+  });
+
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.equal(plan.fundedSells.length, 0);
+  assert.match(plan.rejectedAddCandidates[0].rejectionReasons.join(" "), /negative SWS news vetoes/);
+});
+
+test("positive SWS news does not make an otherwise unfundable add fundable", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: [
+      holding({
+        ticker: "POSNEWS",
+        action: "Top-up-100%",
+        upside: 4,
+        band: "FAIR",
+        newsSignal: { signal: 1, materialDisclosure: false },
+      }),
+    ],
+    freshCapitalInr: 100_000,
+  });
+
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.equal(plan.rejectedAddCandidates.length, 1);
+  assert.match(plan.rejectedAddCandidates[0].rejectionReasons.join(" "), /valuation is not at discount|FV upside below 12/);
 });

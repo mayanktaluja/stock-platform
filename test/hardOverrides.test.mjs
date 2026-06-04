@@ -177,15 +177,23 @@ console.log("\nExisting overrides — regression\n");
   assert("GSM still emits EXIT (not Reduction)", r?.action === "EXIT", r);
 }
 
-// ─── Earnings-declining override preserved ────────────────────────
+// ─── Earnings-declining override requires confirmation ─────────────
 {
   const r = evaluateHardOverrides({
     scored: scoredOf({}), holding: { pnlPercent: 0 },
     snow: snowOf({}), fiscal: { earnings_growth_pct: -15 },
-    position_weight: 5, sector_weight: 10, upside: 5,
+    position_weight: 5, sector_weight: 10, upside: 35, v4: 65,
   });
-  assert("earnings declining -15% → fires Reduction-50%", r?.action === "Reduction-50%", r);
-  assert("earnings reason mentions YoY decline", /declining.*YoY/.test((r?.reasons || []).join(" ")), r?.reasons);
+  assert("earnings declining alone on discounted/high-v4 stock → no hard override", r === null, r);
+}
+{
+  const r = evaluateHardOverrides({
+    scored: scoredOf({}), holding: { pnlPercent: 0 },
+    snow: snowOf({}), fiscal: { earnings_growth_pct: -15, revenue_growth_pct: -4 },
+    position_weight: 5, sector_weight: 10, upside: 5, v4: 45,
+  });
+  assert("earnings declining with revenue decline + low v4 → fires Reduction-50%", r?.action === "Reduction-50%", r);
+  assert("earnings reason mentions confirmation", /with confirmation/.test((r?.reasons || []).join(" ")), r?.reasons);
 }
 
 // ─── Fragile balance + extreme PE preserved ───────────────────────

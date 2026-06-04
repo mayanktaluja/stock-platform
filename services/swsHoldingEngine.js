@@ -34,6 +34,14 @@ import { promoteToLadderV2, parseTrimPct, parseTopUpPct } from "./actionLadder.j
 import { buildExitPlan } from "./exitPlan/exitPlanPolicy.js";
 import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
 import { gateActionByTier, getLiquidityTier } from "./swsTierGate.js";
+import { extractSwsNewsSignals } from "./swsNewsSignal.js";
+import {
+  buildDataQualityGate,
+  buildReductionEvidence,
+  buildSmallcapPolicy,
+  classifyMarketCapBucket,
+  gateReductionAction,
+} from "./portfolioDecisionPolicy.js";
 
 // V3-universe and per-ticker deep loads now go through services/swsDal.
 // Backwards-compatible re-exports — many modules import these names; the
@@ -90,6 +98,8 @@ export function _reconcileFVUpside(ov) {
     confidence: r.fair_value_confidence,
     source: r.fair_value_source,
     valuation_band: r.valuation_band || "UNKNOWN",
+    fv_reconcile_reason: r.fv_reconcile_reason,
+    upside_source: r.upside_source,
   };
 }
 
@@ -108,23 +118,36 @@ const NARRATIVE_RED = /declin|structurally\s*weak|promoter\s*(exit|pledge|stake)
 // independent risk signal that confirmed the call. The action label remains
 // single-valued (Reduction-50% legacy or EXIT for GSM) — the V3 promoter
 // reads only `action`, but a SEBI RA reading the report sees all signals.
-export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_weight, sector_weight, upside }) {
+export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_weight, sector_weight, upside, v4 = null, newsSignal = null }) {
   const surveillance = scored.v2_breakdown?.surveillance || null;
 
   // GSM surveillance is special — exits the holding entirely, not a partial
   // trim. Returns immediately with a single regulatory reason.
   if (surveillance && surveillance.list === "GSM") {
-    return { action: "EXIT", reasons: [`Listed on NSE GSM surveillance (${surveillance.timeframe || "—"}) — regulatory red flag, exit per SEBI-aligned framework.`] };
+    return {
+      action: "EXIT",
+      reasons: [`Listed on NSE GSM surveillance (${surveillance.timeframe || "—"}) — regulatory red flag, exit per SEBI-aligned framework.`],
+      evidence: [{
+        type: "regulatory",
+        intent: "thesis_break",
+        source: "nse_surveillance",
+        confidence: "high",
+        summary: `NSE GSM surveillance${surveillance.timeframe ? ` (${surveillance.timeframe})` : ""}.`,
+      }],
+    };
   }
 
   const pnl = num(holding.pnlPercent, 0);
   const snowTotal = snow.total;
   const fwdGrowth = num(fiscal.earnings_growth_pct, null);
+  const revenueGrowth = num(fiscal.revenue_growth_pct, null);
   const pw = num(position_weight, 0);
   const sw = num(sector_weight, 0);
   const up = Number.isFinite(upside) ? upside : null;
+  const v4n = num(v4, null);
 
   const reasons = [];
+  const evidence = [];
 
   // ─── Override A: single-stock concentration cap ──────────────────
   // SEBI RA risk-management observation: single-issuer concentration above
@@ -134,8 +157,10 @@ export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_
   // severity escalator (pw>30 → ≥0.55) then promotes to Red-66%.
   if (pw > 35) {
     reasons.push(`Position weight ${pw.toFixed(1)}% exceeds 35% concentration cap — single-name risk independent of fundamentals (SEBI RA risk-management observation).`);
+    evidence.push({ type: "concentration", intent: "risk_cap", source: "portfolio_weight", confidence: "high", summary: `Position weight ${pw.toFixed(1)}% exceeds 35% cap.` });
   } else if (pw > 25) {
     reasons.push(`Position weight ${pw.toFixed(1)}% exceeds 25% concentration threshold — partial trim to restore single-name risk discipline.`);
+    evidence.push({ type: "concentration", intent: "risk_cap", source: "portfolio_weight", confidence: "high", summary: `Position weight ${pw.toFixed(1)}% exceeds 25% threshold.` });
   }
 
   // ─── Override B: severe FV downside ──────────────────────────────
@@ -147,8 +172,10 @@ export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_
   if (up != null) {
     if (up <= -45) {
       reasons.push(`Trading ${Math.abs(up).toFixed(1)}% above AnalystConsensus FV — extreme overvaluation by published research consensus.`);
+      evidence.push({ type: "valuation", intent: "trim_excess", source: "sws_fair_value", confidence: "high", summary: `${up.toFixed(1)}% upside to SWS FV.` });
     } else if (up <= -30 && snowTotal <= 14) {
       reasons.push(`Trading ${Math.abs(up).toFixed(1)}% above AnalystConsensus FV with weak fundamentals (Snowflake ${snowTotal}/30) — overvaluation + thin fundamental support.`);
+      evidence.push({ type: "valuation", intent: "trim_excess", source: "sws_fair_value", confidence: "high", summary: `${up.toFixed(1)}% upside plus Snowflake ${snowTotal}/30.` });
     }
   }
 
@@ -165,16 +192,31 @@ export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_
   if (sw > 30) signalLabels.push(`sector weight ${sw.toFixed(1)}% (sector overweight)`);
   if (signalLabels.length >= 2) {
     reasons.push(`Multi-signal weakness — ${signalLabels.length} of 4 risk signals firing: ${signalLabels.join("; ")}.`);
+    evidence.push({ type: "multi_signal", intent: "thesis_break", source: "sws_factor_stack", confidence: "high", summary: `${signalLabels.length} of 4 risk signals firing.` });
   }
 
-  // ─── Existing earnings-declining override (preserved) ────────────
+  // ─── Earnings-declining override ─────────────────────────────────
+  // Earnings decline alone is an attention signal, not a decision-grade trim.
+  // It must be confirmed by a separate deterioration signal so discounted /
+  // high-v4 names do not become reductions off one stale fiscal field.
   if (fwdGrowth != null && fwdGrowth < -10) {
-    reasons.push(`Earnings declining ${fwdGrowth.toFixed(1)}% YoY (fiscal block) — structurally weak, reduce exposure.`);
+    const confirmations = [];
+    if (revenueGrowth != null && revenueGrowth < 0) confirmations.push(`revenue growth ${revenueGrowth.toFixed(1)}%`);
+    if (snow.financial_health <= 2) confirmations.push(`Health ${snow.financial_health}/6`);
+    if (v4n != null && v4n < 47) confirmations.push(`v4 ${v4n.toFixed(1)}`);
+    if (newsSignal?.signal < 0 && newsSignal?.materialDisclosure) confirmations.push("material negative SWS news");
+    const lastQ = String(scored.overview?.last_quarter_result || "");
+    if (/\b(miss|declin|fall|lower|weak|loss)\b/i.test(lastQ)) confirmations.push("weak latest result");
+    if (confirmations.length > 0) {
+      reasons.push(`Earnings declining ${fwdGrowth.toFixed(1)}% YoY with confirmation (${confirmations.join(", ")}) — thesis deterioration review.`);
+      evidence.push({ type: "earnings_decline", intent: "thesis_break", source: "sws_fiscal", confidence: confirmations.length >= 2 ? "high" : "medium", summary: `Earnings ${fwdGrowth.toFixed(1)}% YoY; ${confirmations.join(", ")}.` });
+    }
   }
 
   // ─── Existing fragile-balance + extreme-PE override (preserved) ──
   if (snow.financial_health <= 1 && (scored.overview?.multiples?.pe ?? 0) > 100) {
     reasons.push(`Fragile balance sheet (Health ${snow.financial_health}/6) at extreme valuation (P/E ${scored.overview?.multiples?.pe?.toFixed?.(1) ?? "—"}x).`);
+    evidence.push({ type: "balance_sheet", intent: "thesis_break", source: "sws_snowflake", confidence: "high", summary: `Health ${snow.financial_health}/6 at extreme P/E.` });
   }
 
   // ─── Existing narrative-red override (preserved) ─────────────────
@@ -184,6 +226,7 @@ export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_
   for (const r of risksList) {
     if (NARRATIVE_RED.test(String(r))) {
       reasons.push(`SWS narrative flag: "${String(r).slice(0, 120)}".`);
+      evidence.push({ type: "narrative_red", intent: "thesis_break", source: "sws_risks", confidence: "medium", summary: String(r).slice(0, 120) });
       break;
     }
   }
@@ -192,7 +235,7 @@ export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_
   // All firing overrides emit Reduction-50% legacy. The V3 severity model
   // then picks the specific rung — Red-66% for pw>30 via the severity
   // escalator, Red-50% otherwise.
-  return { action: "Reduction-50%", reasons };
+  return { action: "Reduction-50%", reasons, evidence };
 }
 
 // v3 score thresholds — calibrated to the v3 universe distribution
@@ -378,6 +421,131 @@ export function _buildPredictionReasoningBullet(action, prediction) {
   return null;
 }
 
+export function valuationReviewBucket(upside, confidence = "NONE") {
+  if (confidence !== "HIGH" || !Number.isFinite(upside)) return "unknown";
+  if (upside >= 10) return "discounted";
+  if (upside >= -5) return "near_fv";
+  return "materially_above_fv";
+}
+
+function actionIsReduction(action) {
+  return String(action || "").startsWith("Reduction") || String(action || "").startsWith("EXIT");
+}
+
+function actionIsTopUp(action) {
+  return String(action || "").startsWith("Top-up") || action === "STRONG Top-up";
+}
+
+export function _buildDecisionMetadata({
+  action,
+  legacyAction,
+  valuationReview,
+  reductionEvidence,
+  newsSignal,
+  blockedReasons = [],
+  trimFrac = 0,
+  topUpFrac = 0,
+  position_weight = 0,
+  currentValue = 0,
+  reasonFamily = null,
+} = {}) {
+  const isReduction = actionIsReduction(action);
+  const isTopUp = actionIsTopUp(action);
+  const postTradeWeight = trimFrac > 0
+    ? +Math.max(0, position_weight * (1 - trimFrac)).toFixed(1)
+    : topUpFrac > 0
+      ? +Math.max(0, position_weight * (1 + topUpFrac)).toFixed(1)
+      : +num(position_weight, 0).toFixed(1);
+  let displayActionIntent = "Do nothing";
+  if (String(action || "").startsWith("EXIT")) {
+    displayActionIntent = "Exit thesis";
+  } else if (isReduction) {
+    displayActionIntent = trimFrac >= 0.45 ? "Cut risk" : "Trim excess";
+  } else if (isTopUp) {
+    displayActionIntent = "Add candidate";
+  } else if (reductionEvidence?.status && reductionEvidence.status !== "confirmed") {
+    displayActionIntent = "Review only";
+  } else if (valuationReview?.reviewCandidate || blockedReasons.length) {
+    displayActionIntent = "Review only";
+  }
+
+  const family = reasonFamily
+    || (String(action || "").startsWith("EXIT")
+      ? "thesis_break"
+      : isReduction
+        ? reductionEvidence?.intent || (valuationReview?.reviewCandidate ? "valuation_review" : "risk_reduction")
+        : isTopUp
+          ? "add_candidate"
+          : reductionEvidence?.status && reductionEvidence.status !== "confirmed"
+            ? reductionEvidence.intent || "data_quality"
+          : valuationReview?.reviewCandidate
+            ? "valuation_review"
+            : "do_nothing");
+
+  const actionFactors = [];
+  if (valuationReview?.reviewCandidate) actionFactors.push("valuation_review");
+  if (reductionEvidence?.status) actionFactors.push(`reduction_${reductionEvidence.status}`);
+  if (newsSignal?.signal < 0) actionFactors.push("news_veto");
+  if (newsSignal?.signal > 0) actionFactors.push("positive_news_context");
+  if (trimFrac > 0) actionFactors.push("reduction_sizing");
+  if (topUpFrac > 0) actionFactors.push("topup_sizing");
+  if (blockedReasons.length) actionFactors.push("blocked_or_provisional");
+
+  return {
+    displayActionIntent,
+    reasonFamily: family,
+    actionFactors,
+    blockedReasons,
+    postTradeWeight,
+    requiresConfirmation: reductionEvidence?.requiresConfirmation ?? (isReduction || isTopUp || Boolean(legacyAction && legacyAction !== action)),
+    notionalTradeValue: trimFrac > 0 ? Math.round(num(currentValue, 0) * trimFrac) : null,
+  };
+}
+
+function buildValuationReview({
+  reconciled,
+  v4,
+  snow,
+  position_weight,
+  sector_weight,
+  pnlPercent,
+  newsSignal,
+} = {}) {
+  const upside = Number.isFinite(reconciled?.upside_pct) ? reconciled.upside_pct : null;
+  const bucket = valuationReviewBucket(upside, reconciled?.confidence);
+  const highQualityWinner = num(v4, 0) >= 59 || num(snow?.total, 0) >= 18;
+  const reviewCandidate = highQualityWinner && (bucket === "near_fv" || bucket === "materially_above_fv");
+  const hardPortfolioReasons = [];
+  if (num(position_weight, 0) >= 8) hardPortfolioReasons.push("position size");
+  if (num(sector_weight, 0) >= 25) hardPortfolioReasons.push("sector pressure");
+  if (num(pnlPercent, 0) >= 35) hardPortfolioReasons.push("profit cushion");
+  if (bucket === "materially_above_fv" && upside != null && upside <= -20) hardPortfolioReasons.push("FV downside");
+  if (newsSignal?.signal < 0 && newsSignal?.materialDisclosure) hardPortfolioReasons.push("material negative news");
+
+  return {
+    bucket,
+    upside_pct: upside,
+    fair_value_inr: reconciled?.fair_value_inr ?? null,
+    confidence: reconciled?.confidence || "NONE",
+    source: reconciled?.source || null,
+    reconcile_reason: reconciled?.fv_reconcile_reason || null,
+    reviewCandidate,
+    hardPortfolioReasons,
+    recommendation: reviewCandidate
+      ? hardPortfolioReasons.length
+        ? "rebalance_candidate"
+        : "review_only"
+      : "not_applicable",
+    rationale: reviewCandidate
+      ? hardPortfolioReasons.length
+        ? `Near/above SWS fair value with portfolio trigger: ${hardPortfolioReasons.join(", ")}.`
+        : "Near SWS fair value, but no hard portfolio trigger for a reduction."
+      : bucket === "discounted"
+        ? "SWS fair value still leaves material upside."
+        : "Fair-value signal is not strong enough for a valuation review.",
+  };
+}
+
 /**
  * Backward-compatibility shim. The real timing logic moved to
  * services/timingObservation.js as part of PR-3 (richer inputs:
@@ -440,11 +608,28 @@ export function scoreHolding(holding, portfolioContext = {}) {
   // Reconcile FV / upside_pct once — every downstream consumer (action
   // mapping, reasons, basket classifier) reads the same clean numbers.
   const reconciled = _reconcileFVUpside(ov);
+  const nowForSignals = portfolioContext.now instanceof Date ? portfolioContext.now : new Date();
+  const newsSignal = extractSwsNewsSignals(scored.news || deep.news || [], { now: nowForSignals });
 
   const position_weight = num(holding.positionWeight, 0);
   const sector_weight = num(portfolioContext.sectorWeights?.[scored.sector] ?? holding.sectorWeight, 0);
   const upside = num(reconciled.upside_pct, 0);
   const risks_count = scored.v2_breakdown?.risks_count ?? (ov.risks?.length || 0);
+  const valuationReview = buildValuationReview({
+    reconciled,
+    v4: num(scored.v4_score_100, 0),
+    snow,
+    position_weight,
+    sector_weight,
+    pnlPercent: num(holding.pnlPercent, 0),
+    newsSignal,
+  });
+  const marketCapBucket = classifyMarketCapBucket(ov.market_cap_inr);
+  const smallcapPolicy = buildSmallcapPolicy({
+    marketCapInr: ov.market_cap_inr,
+    marketCapBucket,
+    positionWeight: position_weight,
+  });
 
   const surveillance = scored.v2_breakdown?.surveillance || null;
 
@@ -481,6 +666,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const hard = evaluateHardOverrides({
     scored, holding, snow, fiscal,
     position_weight, sector_weight, upside,
+    v4: num(scored.v4_score_100, null),
+    newsSignal,
   });
   let action, band, reasons;
   if (hard) {
@@ -499,6 +686,71 @@ export function scoreHolding(holding, portfolioContext = {}) {
     action = sb.action;
     band = sb.band;
     reasons = buildSWSReasons({ scored, snow, fiscal, action, band, reconciled });
+  }
+
+  const blockedReasons = [];
+  let decisionReasonFamily = null;
+  if (valuationReview.reviewCandidate && valuationReview.recommendation === "review_only") {
+    blockedReasons.push("near SWS fair value but no hard portfolio trigger; review only");
+  }
+  if (!hard && action === "HOLD" && valuationReview.recommendation === "rebalance_candidate") {
+    action = "Reduction-25-33%";
+    band = "VALUATION_REVIEW";
+    decisionReasonFamily = "valuation_review";
+    reasons = [
+      `${valuationReview.rationale} Treat as trim-excess review, not a thesis exit.`,
+      ...reasons,
+    ];
+  }
+  if (actionIsTopUp(action) && newsSignal.signal < 0) {
+    blockedReasons.push(...(newsSignal.blockedReasons || []));
+    action = "HOLD";
+    band = `${band}-NEWS-VETO`;
+    decisionReasonFamily = "news_veto";
+    reasons = [
+      "SWS news signal is adverse; add candidate blocked pending manual review.",
+      ...reasons,
+    ];
+  } else if (newsSignal.signal < 0 && actionIsReduction(action)) {
+    reasons = [
+      "SWS news is adverse and confirms an independently-supported reduction review.",
+      ...reasons,
+    ];
+  }
+
+  const dataAgeHoursPre = dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null;
+  const staleDataPre = Number.isFinite(dataAgeHoursPre) && dataAgeHoursPre > 36;
+  const dataQualityGate = buildDataQualityGate({
+    swsCovered: true,
+    fallback: false,
+    staleData: staleDataPre,
+    dataAgeHours: dataAgeHoursPre,
+    snowflakeDataQuality: ov.snowflake_data_quality || null,
+    marketCapBucket,
+    valuationConfidence: reconciled.confidence,
+  });
+  const reductionEvidence = buildReductionEvidence({
+    action,
+    legacyAction: action,
+    band,
+    hard,
+    valuationReview,
+    newsSignal,
+    dataQualityGate,
+    marketCapBucket,
+    smallcapPolicy,
+    positionWeight: position_weight,
+    sectorWeight: sector_weight,
+    v4: num(scored.v4_score_100, null),
+    reconciled,
+  });
+  const gatedReduction = gateReductionAction({ action, band, reasons, reductionEvidence });
+  if (gatedReduction.action !== action) {
+    blockedReasons.push(...(reductionEvidence.blockedReasons || []));
+    action = gatedReduction.action;
+    band = gatedReduction.band;
+    reasons = gatedReduction.reasons;
+    decisionReasonFamily = reductionEvidence.intent || "data_quality";
   }
 
   // Append the upcoming-earnings prediction bullet to whichever reasons set
@@ -597,6 +849,13 @@ export function scoreHolding(holding, portfolioContext = {}) {
     finalAction = v2recommendation.action;
     finalReasons = v2recommendation.narrative_paragraphs;
   }
+  if (actionIsReduction(finalAction) && reductionEvidence.status !== "confirmed") {
+    finalAction = "HOLD";
+    finalReasons = [
+      "Review only: reduction evidence is not decision-grade; no ladder sizing applied.",
+      ...finalReasons,
+    ];
+  }
 
   // ─── Ladder-v2 final-stage promotion ─────────────────────────────
   // SWS_LADDER_V2=1 promotes the legacy action label to a granular
@@ -636,7 +895,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     fiftyTwoWeekLow:  num(holding.fiftyTwoWeekLow, null),
     currentPrice:     _currentPrice,
     currentValue:     _currentValue > 0 ? _currentValue : null,
-    materialDisclosure: false, // wire from a disclosure feed when one lands
+    materialDisclosure: actionIsReduction(finalAction) && newsSignal.materialDisclosure,
   });
   // Liquidity-tier gate — runs AFTER ladder promotion so it sees the final
   // rung label (Top-up-25%, STRONG Top-up, etc.). Suppresses every buy-side
@@ -678,11 +937,26 @@ export function scoreHolding(holding, portfolioContext = {}) {
   // Stale-data tag — SWS refreshes daily, so anything > 36h old gets a
   // visible "verify before acting" note. Action remains whatever V3 emits;
   // this is informational, not gating.
-  const dataAgeHours = dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null;
-  const staleData = Number.isFinite(dataAgeHours) && dataAgeHours > 36;
+  const dataAgeHours = dataAgeHoursPre;
+  const staleData = staleDataPre;
   if (staleData) {
+    blockedReasons.push("SWS data is stale; verify price/FV before acting");
     finalReasons = [`SWS data ${dataAgeHours}h old — verify before acting.`, ...finalReasons];
   }
+
+  const decisionMetadata = _buildDecisionMetadata({
+    action: promotedAction,
+    legacyAction,
+    valuationReview,
+    reductionEvidence,
+    newsSignal,
+    blockedReasons: [...new Set(blockedReasons)],
+    trimFrac,
+    topUpFrac,
+    position_weight,
+    currentValue: _currentValue,
+    reasonFamily: decisionReasonFamily,
+  });
 
   const exitPlan = buildExitPlan({
     action: promotedAction,
@@ -739,6 +1013,14 @@ export function scoreHolding(holding, portfolioContext = {}) {
       valuation_confidence: reconciled.confidence,
       valuation_source: reconciled.source,
       valuation_band: reconciled.valuation_band,
+      fv_reconcile_reason: reconciled.fv_reconcile_reason,
+      upside_source: reconciled.upside_source,
+      valuation_review: valuationReview,
+      reduction_evidence: reductionEvidence,
+      news_signal: newsSignal,
+      data_quality_gate: dataQualityGate,
+      market_cap_bucket: marketCapBucket,
+      smallcap_policy: smallcapPolicy,
       market_cap_inr: ov.market_cap_inr,
       multiples: ov.multiples || null,
       dividend_yield_pct: ov.dividend?.yield_pct ?? ov.dividend_yield_pct ?? null,
@@ -754,6 +1036,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
       surveillance: scored.v2_breakdown?.surveillance || null,
       data_freshness_at: scored.parsed_at,
       data_age_hours: dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null,
+      snowflake_data_quality: ov.snowflake_data_quality || null,
       breakdown: scored.score_breakdown,
       v2_breakdown: scored.v2_breakdown,
       v4_breakdown: scored.v4_breakdown,
@@ -792,6 +1075,21 @@ export function scoreHolding(holding, portfolioContext = {}) {
     topUpRupees,
     exitPlan,
     staleData,
+    displayActionIntent: decisionMetadata.displayActionIntent,
+    reasonFamily: decisionMetadata.reasonFamily,
+    actionFactors: decisionMetadata.actionFactors,
+    valuationReview,
+    reductionEvidence,
+    dataQualityGate,
+    marketCapBucket,
+    smallcapPolicy,
+    counterEvidence: reductionEvidence.counterEvidence,
+    decisionConfidence: reductionEvidence.decisionConfidence,
+    newsSignal,
+    blockedReasons: decisionMetadata.blockedReasons,
+    postTradeWeight: decisionMetadata.postTradeWeight,
+    requiresConfirmation: decisionMetadata.requiresConfirmation,
+    notionalTradeValue: decisionMetadata.notionalTradeValue,
     reasons: finalReasons,
     timing,
     audit: buildAuditTrail({

@@ -3394,10 +3394,11 @@
       max-width: 780px;
       line-height: 1.45;
     }
-    .sws-pick-section-empty {
-      grid-column: 1 / -1;
-      padding: 14px 16px;
-      border: 1px solid rgba(251,191,36,0.26);
+	    .sws-pick-section-empty {
+	      grid-column: 1 / -1;
+	      margin: 0 0 12px 0;
+	      padding: 14px 16px;
+	      border: 1px solid rgba(251,191,36,0.26);
       border-radius: 8px;
       background: rgba(251,191,36,0.07);
       color: var(--text-secondary);
@@ -4534,9 +4535,13 @@
             </div>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
-            <div id="trackSectionPerformanceWindowTabs" style="display:flex; gap:6px;" aria-label="Section alpha timeframe">
+            <div id="trackSectionPerformanceWindowTabs" style="display:flex; gap:6px; flex-wrap:wrap;" aria-label="Section alpha timeframe">
               <button class="refresh-btn" type="button" data-window="7d" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('7d')" style="font-size:11px;">7d</button>
               <button class="refresh-btn" type="button" data-window="30d" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('30d')" style="font-size:11px;">30d</button>
+              <button class="refresh-btn" type="button" data-window="3m" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('3m')" style="font-size:11px;">3m</button>
+              <button class="refresh-btn" type="button" data-window="1y" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('1y')" style="font-size:11px;">1y</button>
+              <button class="refresh-btn" type="button" data-window="3y" disabled aria-disabled="true" title="Waiting for 3 years of Track Record history" style="font-size:11px; opacity:0.48; cursor:not-allowed;">3y</button>
+              <button class="refresh-btn" type="button" data-window="5y" disabled aria-disabled="true" title="Waiting for 5 years of Track Record history" style="font-size:11px; opacity:0.48; cursor:not-allowed;">5y</button>
             </div>
             <div id="trackSectionPerformanceCohortTabs" style="display:flex; gap:6px; flex-wrap:wrap;" aria-label="Section alpha cohort">
               <button class="refresh-btn" type="button" data-cohort="best" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('best')" style="font-size:11px;">Best</button>
@@ -4550,7 +4555,7 @@
         <div id="trackSectionPerformanceSummary" style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;"></div>
         <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Methodology: each daily SWS snapshot stores official top 3, 5, 10, and 20 cohorts per public recommendation section. The India Market spotlight may surface the strongest eligible cohort, labelled explicitly to avoid hidden cherry-picking.</div>
         <div id="trackSectionPerformanceGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px;">
-          <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading 7d/30d section alpha…</div></div>
+          <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading section alpha horizons…</div></div>
         </div>
       </div>
 

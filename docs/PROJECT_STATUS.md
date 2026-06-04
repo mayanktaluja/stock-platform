@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-02**
+**Last updated: 2026-06-04**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,27 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Portfolio Analyzer evidence-gated reductions (June 2026)
+- **This PR** — Portfolio Analyzer reductions now pass through an explicit
+  evidence contract before any ladder sizing can create rupee-sized sell rows.
+  Discounted/high-V4 holdings with stale or single-factor fiscal weakness are
+  downgraded to review/blocked status instead of confirmed reductions, thin SWS
+  coverage becomes `coverage_watch`, and same-run sell proceeds stay excluded
+  from buy capital until confirmed. The cockpit now surfaces decision evidence,
+  counter-evidence, FV/data freshness, small/micro sleeve warnings, and
+  blocked reduction candidates separately from confirmed thesis-break or
+  risk-cap actions.
+
+### India Growing Sector Value fallback (June 2026)
+- **This PR** — India Market's Growing Sector Value section now keeps showing
+  candidates when Sector Outlook is out of sync with the current macro regime.
+  The canonical Sector Outlook tailwind strategy still fails closed on
+  stale/macro-mismatched outlooks, but the UI can render a clearly labeled
+  current-macro fallback using only positive macro sector impacts plus the
+  existing high-confidence fair-value and hygiene gates. Macro-fallback rows
+  are marked separately and are not snapshotted into the canonical
+  `sws_growing_sector_value` Track Record cohort.
 
 ### Lab surface decommission (June 2026)
 - **This PR** — Compounder Lab and Earnings Edge are fully retired: tabs,
@@ -200,6 +221,12 @@ experimental surface area and nightly refresh load.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
+- **Current** — SWS nightly isolated-worktree recovery hardened after the
+  2026-06-04 00:30 IST failure: the launchd wrapper now discards stale
+  generated files before resetting the dedicated worktree, force-checks out
+  `origin/main`, and links ignored local runtime artifacts
+  (`node_modules`, SWS API queries, and `.sws-profile-*`) so scrapes and
+  auto-push pre-push tests run with dependencies.
 - **This PR** — India SWS nightly now fires at **00:30 IST daily** instead of
   16:30 IST, matching observed SWS rolling-update behavior. The installed
   LaunchAgent was reloaded from the repo template, so it now runs

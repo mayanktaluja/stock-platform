@@ -404,6 +404,11 @@ export function swsPickToTradeShape(swsPick) {
   };
 }
 
+export function shouldSkipSwsSectionSnapshot(sectionKey, picksData) {
+  return sectionKey === "growing_sector_value" &&
+    picksData?.section_audit?.growing_sector_value?.display_mode === "macro_value_fallback";
+}
+
 /**
  * Snapshot every section of a picks-latest.json document into the trade log.
  * One pass over `picksData.sections`, applying the SWS→scanner-shape adapter
@@ -425,6 +430,11 @@ export async function snapshotSwsAllSections(picksData, context = {}) {
   for (const [sectionKey, type] of Object.entries(SWS_SECTION_TO_TYPE)) {
     const items = picksData.sections[sectionKey];
     if (!Array.isArray(items) || items.length === 0) continue;
+    if (shouldSkipSwsSectionSnapshot(sectionKey, picksData)) {
+      totals.perSection[type] = { written: 0, skipped: items.length, reason: "macro_value_fallback_not_canonical_track_record" };
+      totals.skipped += items.length;
+      continue;
+    }
     // V2 — cap each section to the top SECTION_TOP_N picks. Sections like
     // top_ranked_30_v3 carry 30 entries; the SEBI-RA scorecard only tracks
     // the headline top 10 to match what users see on the picks tab.

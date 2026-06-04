@@ -7,6 +7,8 @@ const MIN_V4_SCORE = 47;
 const MIN_UPSIDE_PCT = 25;
 const MIN_COVERAGE_RATIO = 0.6;
 const STALE_HOURS = 36;
+const MACRO_FALLBACK_STALE_HOURS = 18;
+const MIN_MACRO_FALLBACK_CONFIDENCE = 0.3;
 const TAILWIND_LABELS = new Set(["TAILWIND", "STRONG_TAILWIND"]);
 
 const DIRECT_SECTOR_MAP = new Map(Object.entries({
@@ -97,7 +99,13 @@ export function mapSwsSectorToOutlookSector(sector) {
 
 function candidateOutlookSectors(stock) {
   const resolved = resolveSectorsForTicker(stock?.ticker, stock?.sector);
-  const sectors = Array.isArray(resolved) ? resolved : [resolved];
+  const sectors = Array.isArray(resolved) ? [...resolved] : [resolved];
+  for (const industryHint of [stock?.industry, stock?.overview?.industry, stock?.v4_breakdown?.fv_pe_industry_name]) {
+    // SWS often stores defence names under broad "Capital Goods" while the FV
+    // peer group is the more precise "Aerospace & Defence". Use that precision
+    // only for Defence; do not let peer-industry labels remap unrelated sectors.
+    if (mapSwsSectorToOutlookSector(industryHint) === "Defence") sectors.push(industryHint);
+  }
   return [...new Set(sectors.map(mapSwsSectorToOutlookSector).filter(Boolean))];
 }
 
@@ -137,6 +145,46 @@ function failClosedWarning(reason, details = {}) {
     };
   }
   return {};
+}
+
+function macroGeneratedAt(macroRegime) {
+  return macroRegime?.generatedAt || macroRegime?.generated_at || null;
+}
+
+function indexPositiveMacroImpacts(macroRegime, opts = {}) {
+  const now = opts.now instanceof Date ? opts.now : new Date(opts.now || Date.now());
+  const generatedAt = macroGeneratedAt(macroRegime);
+  const ageHours = ageHoursFromIso(generatedAt, now);
+  if (!Number.isFinite(ageHours) || ageHours > (opts.macroFallbackStaleHours || MACRO_FALLBACK_STALE_HOURS)) {
+    return { ok: false, reason: "macro_regime_stale", bySector: new Map(), age_hours: Number.isFinite(ageHours) ? Math.round(ageHours * 10) / 10 : null };
+  }
+  const confidence = Number(macroRegime?.confidence);
+  if (Number.isFinite(confidence) && confidence < MIN_MACRO_FALLBACK_CONFIDENCE) {
+    return { ok: false, reason: "macro_regime_low_confidence", bySector: new Map(), age_hours: Math.round(ageHours * 10) / 10 };
+  }
+  const bySector = new Map();
+  for (const impact of macroRegime?.sectorImpacts || []) {
+    const score = Number(impact?.impact);
+    if (!(score > 0)) continue;
+    const sector = mapSwsSectorToOutlookSector(impact?.sector);
+    if (!sector) continue;
+    bySector.set(sector, {
+      sector,
+      impact: score,
+      reason: impact?.reason || null,
+    });
+  }
+  if (bySector.size === 0) {
+    return { ok: false, reason: "macro_regime_no_positive_sector_impacts", bySector, age_hours: Math.round(ageHours * 10) / 10 };
+  }
+  return {
+    ok: true,
+    reason: "ok",
+    bySector,
+    age_hours: Math.round(ageHours * 10) / 10,
+    generated_at: generatedAt,
+    current_regime: macroRegime?.regime || null,
+  };
 }
 
 export function indexSectorOutlook(sectorOutlook, opts = {}) {
@@ -221,6 +269,77 @@ function enrichCard(card, tailwind) {
   };
 }
 
+function macroFallbackForStock(stock, macroIndex) {
+  for (const mappedSector of candidateOutlookSectors(stock)) {
+    const impact = macroIndex.bySector.get(mappedSector);
+    if (impact) return { mappedSector, impact };
+  }
+  return null;
+}
+
+function enrichMacroFallbackCard(card, fallback, macroRegime) {
+  const regime = macroRegime?.regime || null;
+  const regimeLabel = humanRegime(regime);
+  return {
+    ...card,
+    selection_basis: "macro_value_fallback",
+    sector_outlook_used: false,
+    macro_regime_at_selection: regime,
+    macro_regime_label: regimeLabel,
+    macro_impact_sector: fallback.mappedSector,
+    macro_impact_score: fallback.impact.impact,
+    macro_impact_reason: fallback.impact.reason,
+    macro_fallback_label: `Macro fallback · ${regimeLabel}`,
+    fv_discount_badge_30plus: isFiniteNumber(card.upside_pct) && card.upside_pct >= 30,
+  };
+}
+
+function buildMacroFallbackSection(scoredStocks, opts, outlookIndex) {
+  const macroIndex = indexPositiveMacroImpacts(opts.macroRegime || null, opts);
+  if (!macroIndex.ok) return null;
+
+  const base = scoredStocks.filter(baseEligible);
+  const selected = [];
+  for (const stock of base) {
+    const fallback = macroFallbackForStock(stock, macroIndex);
+    if (fallback) selected.push({ stock, fallback });
+  }
+
+  const items = selected
+    .sort((a, b) =>
+      (b.stock.v4_score_100 || 0) - (a.stock.v4_score_100 || 0) ||
+      (reconcileFairValue(b.stock.overview || {}).upside_pct || 0) - (reconcileFairValue(a.stock.overview || {}).upside_pct || 0) ||
+      (b.fallback.impact.impact || 0) - (a.fallback.impact.impact || 0)
+    )
+    .slice(0, opts.limit || 100)
+    .map(({ stock, fallback }) => enrichMacroFallbackCard(opts.pickCardFields(stock), fallback, opts.macroRegime || null));
+
+  const current = humanRegime(macroIndex.current_regime);
+  const outlook = humanRegime(outlookIndex.outlook_regime || opts.sectorOutlook?.regime_at_generation?.regime || null);
+  const sectors = [...macroIndex.bySector.keys()].join(", ");
+  return {
+    items,
+    audit: {
+      available: false,
+      reason: outlookIndex.reason,
+      display_mode: "macro_value_fallback",
+      fallback_reason: "current_macro_positive_sector_impacts",
+      generated_at: outlookIndex.generated_at || null,
+      age_hours: outlookIndex.age_hours,
+      current_regime: macroIndex.current_regime,
+      outlook_regime: outlookIndex.outlook_regime || opts.sectorOutlook?.regime_at_generation?.regime || null,
+      macro_generated_at: macroIndex.generated_at,
+      macro_age_hours: macroIndex.age_hours,
+      macro_positive_sectors: [...macroIndex.bySector.values()],
+      ui_warning_label: `Macro fallback · ${current}`,
+      ui_warning_message: `Sector Outlook was generated under ${outlook}, so stale Sector Outlook tailwinds are not used. Showing current-macro value candidates from positive ${current} sectors (${sectors}) until Sector Outlook refreshes.`,
+      base_eligible_count: base.length,
+      mapped_count: selected.length,
+      selected_count: items.length,
+    },
+  };
+}
+
 export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
   const pickCardFields = opts.pickCardFields;
   if (typeof pickCardFields !== "function") {
@@ -228,6 +347,8 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
   }
   const outlookIndex = indexSectorOutlook(opts.sectorOutlook || null, opts);
   if (!outlookIndex.ok) {
+    const fallback = buildMacroFallbackSection(scoredStocks, opts, outlookIndex);
+    if (fallback && fallback.items.length > 0) return fallback;
     return {
       items: [],
       audit: {

@@ -31,6 +31,7 @@ function stock(ticker, overrides = {}) {
     v4_score_100: overrides.v4_score_100 ?? 60,
     v4_verdict: overrides.v4_verdict || "STRONG",
     v2_breakdown: overrides.v2_breakdown || {},
+    v4_breakdown: overrides.v4_breakdown || {},
     overview: {
       current_price_inr: overrides.price ?? 100,
       fair_value_inr: overrides.fairValue ?? 140,
@@ -187,6 +188,46 @@ check("fails closed on stale or macro-mismatched Sector Outlook", () => {
   assert.equal(mismatch.audit.ui_warning_label, "Macro mismatch · Oil Shock");
   assert.match(mismatch.audit.ui_warning_message, /Sector Outlook was generated under Calm/);
   assert.match(mismatch.audit.ui_warning_message, /current macro is Oil Shock/);
+});
+
+check("uses current macro-only fallback when Sector Outlook is macro-mismatched", () => {
+  const result = buildGrowingSectorValueSection([
+    stock("OILVAL", { sector: "Energy", fairValue: 160, v4_score_100: 66 }),
+    stock("DEFVAL", {
+      sector: "Capital Goods",
+      fairValue: 150,
+      v4_score_100: 64,
+      v4_breakdown: { fv_pe_industry_name: "Aerospace & Defence" },
+    }),
+    stock("AUTOA", { sector: "Automobile", fairValue: 180, v4_score_100: 70 }),
+  ], {
+    pickCardFields: card,
+    sectorOutlook: outlook({ regime: "CALM" }),
+    macroRegime: {
+      regime: "WAR_ESCALATION",
+      confidence: 0.55,
+      generatedAt: "2026-06-03T05:00:00.000Z",
+      sectorImpacts: [
+        { sector: "Defence", impact: 4, reason: "War events boost defence orders" },
+        { sector: "Oil & Gas", impact: 2, reason: "Conflict raises crude price expectations" },
+        { sector: "Aviation", impact: -3, reason: "Fuel costs squeeze margins" },
+      ],
+    },
+    now,
+  });
+  assert.equal(result.items.length, 2);
+  assert.deepEqual(result.items.map((x) => x.ticker), ["OILVAL", "DEFVAL"]);
+  assert.equal(result.audit.available, false);
+  assert.equal(result.audit.reason, "sector_outlook_macro_mismatch");
+  assert.equal(result.audit.display_mode, "macro_value_fallback");
+  assert.equal(result.audit.selected_count, 2);
+  assert.match(result.audit.ui_warning_label, /Macro fallback/);
+  assert.match(result.audit.ui_warning_message, /stale Sector Outlook tailwinds are not used/);
+  assert.equal(result.items[0].selection_basis, "macro_value_fallback");
+  assert.equal(result.items[0].sector_outlook_used, false);
+  assert.equal(result.items[0].macro_impact_sector, "Oil & Gas");
+  assert.equal(result.items[0].sector_tailwind_label, undefined);
+  assert.equal(result.items[0].fv_discount_badge_30plus, true);
 });
 
 check("withholds section when mapped sector coverage falls below floor", () => {

@@ -554,12 +554,12 @@ window.GLOSSARY = {
     full: "Stocks that are both high-quality (TOP_PICK on v3) AND visibly cheap (Valuation pillar 4+ and at least 20% upside to consensus FV). The combination is the point — cheap-only without quality is the value-trap zone. Typical hold period 12–24 months while the multiple re-rates. Smaller bucket than Quality Growth because the dual filter is strict.",
   },
 
-  section_growing_sector_value: {
-    term: "Growing Sector Value Stocks",
-    category: "verdict",
-    short: "ACCEPTABLE+ stocks with HIGH-confidence SWS FV upside ≥ 25% in positive Sector Outlook buckets.",
-    full: "This experimental section cross-checks stock-level SWS valuation against the platform's Sector Outlook. A stock needs market cap ≥ ₹500cr, V4 score ≥47, HIGH-confidence fair value data, at least 25% upside to SWS AnalystConsensus FV, and a mapped sector whose 3-12m outlook is TAILWIND or STRONG_TAILWIND with non-low confidence. The 30%+ discount badge is informational only; it does not boost ranking.",
-  },
+	  section_growing_sector_value: {
+	    term: "Growing Sector Value Stocks",
+	    category: "verdict",
+	    short: "ACCEPTABLE+ stocks with HIGH-confidence SWS FV upside ≥ 25%, normally in positive Sector Outlook buckets.",
+	    full: "This experimental section cross-checks stock-level SWS valuation against the platform's Sector Outlook. A stock needs market cap ≥ ₹500cr, V4 score ≥47, HIGH-confidence fair value data, at least 25% upside to SWS AnalystConsensus FV, and a mapped sector whose 3-12m outlook is TAILWIND or STRONG_TAILWIND with non-low confidence. When Sector Outlook is stale or generated under a different macro regime, the section can show a clearly labelled current-macro fallback from positive macro sector impacts only; stale Sector Outlook tailwind badges are not reused. The 30%+ discount badge is informational only; it does not boost ranking.",
+	  },
 
   section_quality_growth: {
     term: "Quality Growth (section)",

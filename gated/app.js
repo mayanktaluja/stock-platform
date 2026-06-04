@@ -4920,12 +4920,26 @@ async function loadTrackSections(forceBust = false) {
   }
 }
 
-// ==================== TRACK RECORD — 7D/30D SECTION ALPHA ====================
+// ==================== TRACK RECORD — SECTION ALPHA HORIZONS ====================
 
 let _trackSectionPerformanceCache = null;
 let _trackSectionPerformanceWindow = "7d";
 let _trackSectionPerformanceCohort = "best";
 const TRACK_SECTION_COHORTS = [3, 5, 10, 20];
+const TRACK_SECTION_WINDOWS = ["7d", "30d", "3m", "1y", "3y", "5y"];
+const TRACK_SECTION_FETCH_WINDOWS = TRACK_SECTION_WINDOWS.join(",");
+const TRACK_SECTION_WINDOW_META = {
+  "7d": { label: "7d", daysLabel: "7 days", enabled: true, latestDescription: "7D sample" },
+  "30d": { label: "30d", daysLabel: "30 days", enabled: true, latestDescription: "1M sample" },
+  "3m": { label: "3m", daysLabel: "3 months", enabled: true, latestDescription: "current-cohort trailing 3M sample" },
+  "1y": { label: "1y", daysLabel: "1 year", enabled: true, latestDescription: "current-cohort trailing 1Y sample" },
+  "3y": { label: "3y", daysLabel: "3 years", enabled: false, disabledReason: "Waiting for 3 years of Track Record history." },
+  "5y": { label: "5y", daysLabel: "5 years", enabled: false, disabledReason: "Waiting for 5 years of Track Record history." },
+};
+
+function _sectionWindowMeta(windowKey) {
+  return TRACK_SECTION_WINDOW_META[windowKey] || { label: windowKey || "—", daysLabel: windowKey || "—", enabled: false };
+}
 
 function _fmtSignedPct(value, decimals = 1) {
   const n = Number(value);
@@ -4956,13 +4970,15 @@ function _bestForWindow(payload, windowKey) {
 
 function _sampleCopy(windowPayload) {
   if (!windowPayload) return "Waiting for a section-performance sample.";
-  if (windowPayload.sampleStatus === "resolved") return `Past ${windowPayload.window}`;
-  if (windowPayload.sampleStatus === "latest_available") return `Latest available track sample (${windowPayload.window})`;
-  return `Waiting for ${windowPayload.window} history to mature`;
+  const meta = _sectionWindowMeta(windowPayload.window);
+  if (windowPayload.enabled === false) return windowPayload.disabledReason || meta.disabledReason || `${meta.label} is not available yet.`;
+  if (windowPayload.sampleStatus === "resolved") return `Past ${meta.label}`;
+  if (windowPayload.sampleStatus === "latest_available") return `Latest available ${meta.latestDescription || meta.label}`;
+  return `Waiting for ${meta.label} history to mature`;
 }
 
 function _sectionPerformanceDays(windowKey) {
-  return windowKey === "30d" ? "30 days" : "7 days";
+  return _sectionWindowMeta(windowKey).daysLabel;
 }
 
 function _cohortLabel(row) {
@@ -4981,6 +4997,7 @@ function _sectionBenchmarkLine(cohortText, sectionReturn, benchmark, opts = {}) 
 }
 
 function _windowBenchmarkSummary(windowPayload) {
+  if (windowPayload?.enabled === false) return escapeHtml(windowPayload.disabledReason || "This window is not available yet.");
   return `shared benchmark: <strong style="color:var(--text-primary);">Nifty 50 ${_fmtSignedPct(windowPayload.benchmarkReturnPct)}</strong>`;
 }
 
@@ -4994,8 +5011,8 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (!best || !Number.isFinite(alpha)) {
     return {
       tone: "neutral",
-      headline: "Track Record is building 7d/30d evidence vs Nifty 50",
-      evidence: "Section alpha will appear here once enough daily cohorts and benchmark data are available.",
+      headline: "Track Record is building section-alpha evidence vs Nifty 50",
+      evidence: "Section alpha will appear here once enough eligible cohorts and benchmark data are available.",
       showAlpha: false,
     };
   }
@@ -5019,9 +5036,10 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   }
 
   if (isLatestSample) {
+    const latestDescription = _sectionWindowMeta(best?.window || windowPayload?.window).latestDescription || "latest sample";
     return {
       tone: "positive",
-      headline: `Latest ${label} ${_cohortLabel(best)} sample shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
+      headline: `${latestDescription}: ${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
       evidenceSuffix: " Closed-window cohorts will replace this as history matures.",
       showAlpha: true,
     };
@@ -5030,7 +5048,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   return {
     tone: "neutral",
     headline: `${label} ${_cohortLabel(best)} is the strongest cohort in the current track sample`,
-    evidence: "Closed-window 7d/30d evidence is still maturing.",
+    evidence: "Closed-window section-alpha evidence is still maturing.",
     showAlpha: false,
   };
 }
@@ -5038,7 +5056,10 @@ function _credibilityBannerCopy(best, windowPayload, label) {
 function renderPicksCredibilityBanner(payload) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
-  const best = payload?.bestOverall;
+  const hasSpotlightContract = payload && Object.prototype.hasOwnProperty.call(payload, "spotlightSection");
+  const best = hasSpotlightContract
+    ? (payload?.spotlightSection || payload?.bestEligibleSpotlight || null)
+    : payload?.bestOverall;
   const fallbackWindow = _sectionPerformanceWindow(payload, "7d") || _sectionPerformanceWindow(payload, "30d") || {};
   const windowPayload = _sectionPerformanceWindow(payload, best?.window) || fallbackWindow;
   const label = _plainSectionLabel(best?.label || windowPayload?.bestSection?.label || "Track Record");
@@ -5084,7 +5105,7 @@ async function loadPicksCredibilityBanner(forceBust = false) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
   try {
-    const url = `/api/track/section-performance?windows=7d,30d&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
@@ -5104,9 +5125,17 @@ function renderTrackSectionPerformance() {
   const windowPayload = _sectionPerformanceWindow(payload, _trackSectionPerformanceWindow);
   const tabs = document.querySelectorAll("#trackSectionPerformanceWindowTabs button[data-window]");
   tabs.forEach((btn) => {
-    const active = btn.getAttribute("data-window") === _trackSectionPerformanceWindow;
+    const windowKey = btn.getAttribute("data-window");
+    const meta = _sectionWindowMeta(windowKey);
+    const payloadWindow = _sectionPerformanceWindow(payload, windowKey);
+    const disabled = meta.enabled === false || payloadWindow?.enabled === false;
+    const active = windowKey === _trackSectionPerformanceWindow;
+    btn.disabled = disabled;
+    btn.setAttribute("aria-disabled", disabled ? "true" : "false");
     btn.style.background = active ? "rgba(224,176,96,0.16)" : "";
     btn.style.borderColor = active ? "rgba(224,176,96,0.45)" : "";
+    btn.style.opacity = disabled ? "0.48" : "";
+    btn.style.cursor = disabled ? "not-allowed" : "";
   });
   const cohortTabs = document.querySelectorAll("#trackSectionPerformanceCohortTabs button[data-cohort]");
   cohortTabs.forEach((btn) => {
@@ -5115,9 +5144,16 @@ function renderTrackSectionPerformance() {
     btn.style.borderColor = active ? "rgba(224,176,96,0.45)" : "";
     btn.setAttribute("aria-pressed", active ? "true" : "false");
   });
+  if (windowPayload?.enabled === false) {
+    const reason = windowPayload.disabledReason || _sectionWindowMeta(_trackSectionPerformanceWindow).disabledReason || "This horizon is not available yet.";
+    if (summary) summary.textContent = `${_sectionWindowMeta(_trackSectionPerformanceWindow).label} section alpha is not mature yet.`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-text">${escapeHtml(reason)}</div></div>`;
+    return;
+  }
   if (!windowPayload || !Array.isArray(windowPayload.sections) || windowPayload.sections.length === 0) {
-    if (summary) summary.textContent = `${_trackSectionPerformanceWindow} section alpha is waiting for enough track history.`;
-    grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(_trackSectionPerformanceWindow)} section-performance sample yet.</div></div>`;
+    const label = _sectionWindowMeta(_trackSectionPerformanceWindow).label;
+    if (summary) summary.textContent = `${label} section alpha is waiting for enough track history.`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(label)} section-performance sample yet.</div></div>`;
     return;
   }
   const rowsForView = (() => {
@@ -5178,7 +5214,11 @@ function renderTrackSectionPerformance() {
 }
 
 window.__trackSetSectionPerformanceWindow = function(windowKey) {
-  _trackSectionPerformanceWindow = windowKey === "30d" ? "30d" : "7d";
+  const next = String(windowKey || "").toLowerCase();
+  const meta = _sectionWindowMeta(next);
+  const payloadWindow = _sectionPerformanceWindow(_trackSectionPerformanceCache, next);
+  if (!TRACK_SECTION_WINDOWS.includes(next) || meta.enabled === false || payloadWindow?.enabled === false) return;
+  _trackSectionPerformanceWindow = next;
   renderTrackSectionPerformance();
 };
 
@@ -5190,10 +5230,10 @@ window.__trackSetSectionPerformanceCohort = function(cohortKey) {
 async function loadTrackSectionPerformance(forceBust = false) {
   const grid = document.getElementById("trackSectionPerformanceGrid");
   if (grid) {
-    grid.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading 7d/30d section alpha…</div></div>`;
+    grid.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading section alpha horizons…</div></div>`;
   }
   try {
-    const url = `/api/track/section-performance?windows=7d,30d&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     _trackSectionPerformanceCache = await res.json();
@@ -6096,9 +6136,9 @@ const SWS_ACTION_COLORS = {
   "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
 };
 
-function swsActionBadge(action) {
+function swsActionBadge(action, displayLabel) {
   const c = SWS_ACTION_COLORS[action] || SWS_ACTION_COLORS["HOLD"];
-  return `<span style="display:inline-block; padding:4px 10px; border-radius:5px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">${action || "—"}</span>`;
+  return `<span title="${swsEscapeAttr(action || "")}" style="display:inline-block; padding:4px 10px; border-radius:5px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">${displayLabel || action || "—"}</span>`;
 }
 
 function swsTimingBadge(timing) {
@@ -6445,16 +6485,30 @@ function swsHoldingRow(h) {
   // research size and must not look like executable capital; funded buys are
   // rendered only in the construction plan.
   const rupeesInline = (() => {
-    const r = h.trimRupees ?? null;
+    const r = h.notionalTradeValue ?? h.trimRupees ?? null;
     if (!Number.isFinite(r) || r <= 0) return "";
-    return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${inr(r)}</div>`;
+    return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">notional ${inr(r)}</div>`;
   })();
+  const intent = h.displayActionIntent || h.displayAction || h.action;
+  const postWeight = h.postTradeWeight != null && h.postTradeWeight !== h.positionWeight
+    ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">target/post ${h.positionWeight ?? "—"}% → ${h.postTradeWeight}%</div>`
+    : "";
+  const blocked = Array.isArray(h.blockedReasons) && h.blockedReasons.length
+    ? `<div style="font-size:10px; color:#fde047; margin-top:3px;">${swsEscapeAttr(h.blockedReasons[0])}</div>`
+    : "";
+  const evidence = h.reductionEvidence || sws.reduction_evidence || null;
+  const evidenceChip = evidence?.status
+    ? `<div style="font-size:10px; color:${evidence.status === 'confirmed' ? '#86efac' : evidence.status === 'coverage_watch' ? '#fca5a5' : '#fde047'}; margin-top:3px;">${swsEscapeAttr(String(evidence.status).replace(/_/g, " "))}${evidence.decisionConfidence ? ` · ${swsEscapeAttr(evidence.decisionConfidence)}` : ""}</div>`
+    : "";
+  const capChip = h.marketCapBucket || sws.market_cap_bucket
+    ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${swsEscapeAttr(h.marketCapBucket || sws.market_cap_bucket)} cap</div>`
+    : "";
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
-    <td style="padding:10px 12px;">${swsActionBadge(h.action)}${rupeesInline}</td>
+    <td style="padding:10px 12px;">${swsActionBadge(h.action, intent)}${rupeesInline}${postWeight}${evidenceChip}${capChip}${blocked}</td>
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${v4}</div>
       <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
@@ -6465,7 +6519,7 @@ function swsHoldingRow(h) {
       <div style="font-size:10px; color:var(--text-muted);">${pos} of book</div>
     </td>
     <td style="padding:10px 12px; text-align:right; color:${pctColor(pnlPct)}; font-weight:600;">${pnlPct != null ? (pnlPct >= 0 ? "+" : "") + pnlPct + "%" : "—"}</td>
-    <td style="padding:10px 12px; text-align:right; color:#86efac; font-weight:600;">${h.freedRupees != null ? inr(h.freedRupees) : "—"}</td>
+    <td style="padding:10px 12px; text-align:right; color:#86efac; font-weight:600;">${h.notionalTradeValue != null ? inr(h.notionalTradeValue) : h.freedRupees != null ? inr(h.freedRupees) : "—"}</td>
     <td style="padding:10px 12px;">${swsTimingBadge(h.timing)}</td>
   </tr>`;
 }
@@ -6648,6 +6702,57 @@ function swsAuditTrailDetails(audit) {
   </details>`;
 }
 
+function swsValuationReviewDetails(review) {
+  if (!review || !review.bucket) return "";
+  const bucketLabel = String(review.bucket).replace(/_/g, " ");
+  const tone = review.recommendation === "rebalance_candidate" ? "#fde047" : review.recommendation === "review_only" ? "#93c5fd" : "var(--text-muted)";
+  const hard = Array.isArray(review.hardPortfolioReasons) && review.hardPortfolioReasons.length
+    ? `<div style="margin-top:5px; color:#fde047;">Trigger: ${swsEscapeAttr(review.hardPortfolioReasons.join(", "))}</div>`
+    : "";
+  return `<div style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.16); border-radius:5px;">
+    <strong style="color:${tone};">Valuation review:</strong> ${swsEscapeAttr(bucketLabel)}
+    ${review.upside_pct != null ? `<span style="color:${review.upside_pct >= 0 ? '#86efac' : '#fca5a5'};"> · ${review.upside_pct >= 0 ? '+' : ''}${Number(review.upside_pct).toFixed(1)}% to FV</span>` : ""}
+    <div style="margin-top:5px;">${swsEscapeAttr(review.rationale || "")}</div>
+    ${hard}
+  </div>`;
+}
+
+function swsNewsSignalDetails(signal) {
+  if (!signal || !signal.available) return "";
+  const color = signal.signal < 0 ? "#fca5a5" : signal.signal > 0 ? "#86efac" : "var(--text-muted)";
+  const evidence = Array.isArray(signal.evidence) ? signal.evidence.slice(0, 3) : [];
+  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(255,255,255,0.025); border:1px solid #1f2937; border-radius:5px;">
+    <summary style="cursor:pointer; list-style:none; color:${color}; font-weight:800;">SWS news evidence ▾</summary>
+    <div style="margin-top:7px; line-height:1.45;">${swsEscapeAttr(signal.summary || "News is evidence only.")}</div>
+    ${evidence.length ? `<div style="margin-top:7px; display:flex; flex-direction:column; gap:5px;">${evidence.map((row) => `
+      <div>
+        <strong>${swsEscapeAttr(row.title || "SWS update")}</strong>
+        <div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(row.date || "")}${row.reason ? " · " + swsEscapeAttr(row.reason) : ""}</div>
+      </div>`).join("")}</div>` : ""}
+  </details>`;
+}
+
+function swsReductionEvidenceDetails(evidence) {
+  if (!evidence || !evidence.status) return "";
+  const decisive = Array.isArray(evidence.decisiveEvidence) ? evidence.decisiveEvidence.slice(0, 4) : [];
+  const counter = Array.isArray(evidence.counterEvidence) ? evidence.counterEvidence.slice(0, 4) : [];
+  const blocked = Array.isArray(evidence.blockedReasons) ? evidence.blockedReasons.slice(0, 4) : [];
+  const data = evidence.dataQuality || {};
+  const color = evidence.status === "confirmed" ? "#86efac" : evidence.status === "coverage_watch" ? "#fca5a5" : "#fde047";
+  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(250,204,21,0.035); border:1px solid rgba(250,204,21,0.18); border-radius:5px;">
+    <summary style="cursor:pointer; list-style:none; color:${color}; font-weight:800;">Decision evidence · ${swsEscapeAttr(String(evidence.status).replace(/_/g, " "))} ▾</summary>
+    <div style="margin-top:7px; display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:8px;">
+      <div><span style="color:var(--text-muted);">Intent:</span> <strong style="color:var(--text);">${swsEscapeAttr(String(evidence.intent || "review").replace(/_/g, " "))}</strong></div>
+      <div><span style="color:var(--text-muted);">Confidence:</span> <strong style="color:var(--text);">${swsEscapeAttr(evidence.decisionConfidence || "low")}</strong></div>
+      <div><span style="color:var(--text-muted);">Freshness:</span> <strong style="color:var(--text);">${data.dataAgeHours != null ? `${Number(data.dataAgeHours).toFixed(0)}h` : "—"}</strong></div>
+      <div><span style="color:var(--text-muted);">Cap bucket:</span> <strong style="color:var(--text);">${swsEscapeAttr(evidence.marketCapBucket || "unknown")}</strong></div>
+    </div>
+    ${decisive.length ? `<div style="margin-top:8px;"><strong style="color:#bfdbfe;">Decisive evidence</strong><div style="margin-top:4px; line-height:1.45;">${decisive.map((r) => `• ${swsEscapeAttr(r.summary || r.type || "")}`).join("<br>")}</div></div>` : ""}
+    ${counter.length ? `<div style="margin-top:8px;"><strong style="color:#86efac;">Counter-evidence</strong><div style="margin-top:4px; line-height:1.45;">${counter.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
+    ${blocked.length ? `<div style="margin-top:8px;"><strong style="color:#fde047;">Blocked / review reasons</strong><div style="margin-top:4px; line-height:1.45;">${blocked.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
+  </details>`;
+}
+
 function swsReasonRow(h) {
   if (!h.reasons || h.reasons.length === 0) return "";
   const tk = h.sws?.ticker || h.symbol || "—";
@@ -6679,6 +6784,9 @@ function swsReasonRow(h) {
     </div>
     <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
       ${timingBox}
+      ${swsReductionEvidenceDetails(h.reductionEvidence || sws.reduction_evidence)}
+      ${swsValuationReviewDetails(h.valuationReview || sws.valuation_review)}
+      ${swsNewsSignalDetails(h.newsSignal || sws.news_signal)}
       ${swsCatalystCalendar(sws.catalyst)}
       ${swsTopPeerChip(h)}
       ${swsPeerSubstitutes(sws.peer_substitute)}
@@ -6698,7 +6806,7 @@ function renderSWSTierA(tier) {
   return `<div style="margin-bottom:22px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; gap:12px; flex-wrap:wrap;">
       <div style="font-size:14px; font-weight:700;">Tier A · Reductions <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${tier.rows.length})</span></div>
-      <div style="font-size:12px; color:var(--text-muted);">Potential gross freed capital <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong>; redeploy only after execution is confirmed</div>
+      <div style="font-size:12px; color:var(--text-muted);">Notional reduction value <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
     </div>
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
@@ -7430,6 +7538,8 @@ function renderSWSConstructionPlan(plan) {
   const ledger = plan.capitalLedger || {};
   const fundedBuys = Array.isArray(plan.fundedTrades) ? plan.fundedTrades : [];
   const fundedSells = Array.isArray(plan.fundedSells) ? plan.fundedSells : [];
+  const blockedReductions = Array.isArray(plan.blockedReductionCandidates) ? plan.blockedReductionCandidates : [];
+  const sleeve = plan.smallcapSleeve || null;
   const candidates = Array.isArray(plan.eligibleAddCandidates)
     ? plan.eligibleAddCandidates.filter((c) => c.status !== "funded").slice(0, 8)
     : [];
@@ -7447,15 +7557,39 @@ function renderSWSConstructionPlan(plan) {
       </div>
     `).join("");
 
+  const sellGroupLabel = (row) => {
+    const ev = row.reductionEvidence || {};
+    if (ev.intent === "thesis_break") return "Confirmed thesis break";
+    if (ev.intent === "risk_cap") return "Risk-cap rebalance";
+    if (ev.intent === "valuation_review" || ev.intent === "trim_excess") return "Valuation review";
+    if (ev.status === "coverage_watch") return "Coverage watch";
+    if (ev.status === "blocked") return "Data blocked";
+    return "Confirmed reductions";
+  };
+  const groupedSells = fundedSells.reduce((acc, row) => {
+    const key = sellGroupLabel(row);
+    (acc[key] ||= []).push(row);
+    return acc;
+  }, {});
   const sellRows = fundedSells.length === 0
-    ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">No funded sell/exit orders in this pass.</div>`
-    : fundedSells.slice(0, 6).map((t) => `
-      <div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:8px 0; border-top:1px solid #1a2238;">
-        <div>
-          <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")}</div>
-          <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(t.rawAction || "")} · proceeds not reused until confirmed</div>
-        </div>
-        <div class="tx-num" style="font-size:12px; color:#fca5a5; font-weight:700;">${inr(t.tradeRupees || 0)}</div>
+    ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">No suggested reduction or exit-thesis rows in this pass.</div>`
+    : Object.entries(groupedSells).map(([group, rows]) => `
+      <div style="border-top:1px solid #1a2238; padding-top:7px; margin-top:5px;">
+        <div style="font-size:10px; color:#fde047; text-transform:uppercase; letter-spacing:0.5px; font-weight:800;">${swsEscapeAttr(group)} (${rows.length})</div>
+        ${rows.slice(0, 6).map((t) => {
+          const ev = t.reductionEvidence || {};
+          const decisive = Array.isArray(ev.decisiveEvidence) && ev.decisiveEvidence[0]?.summary
+            ? ev.decisiveEvidence[0].summary
+            : t.reasonFamily || t.rawAction || "";
+          return `<div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:8px 0; border-top:1px solid rgba(26,34,56,0.75);">
+            <div>
+              <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:#fca5a5;">${swsEscapeAttr(t.displayActionIntent || t.rawAction || "")}</span></div>
+              <div style="font-size:11px; color:var(--text-muted);">notional only · not reusable until confirmed${t.postTradeWeight != null ? ` · post ${swsEscapeAttr(String(t.postTradeWeight))}%` : ""}</div>
+              <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(decisive)}${t.marketCapBucket ? ` · ${swsEscapeAttr(t.marketCapBucket)} cap` : ""}</div>
+            </div>
+            <div class="tx-num" style="font-size:12px; color:#fca5a5; font-weight:700;">${inr(t.tradeRupees || 0)}</div>
+          </div>`;
+        }).join("")}
       </div>
     `).join("");
 
@@ -7467,13 +7601,27 @@ function renderSWSConstructionPlan(plan) {
         <span style="color:var(--text-muted); text-align:right;">${swsEscapeAttr((c.unfundedReasons || ["budget/cap gated"])[0])}</span>
       </div>
     `).join("");
+  const blockedReductionRows = blockedReductions.length === 0
+    ? `<div style="padding:8px 0; font-size:11px; color:var(--text-muted);">No blocked reduction reviews in this pass.</div>`
+    : blockedReductions.slice(0, 10).map((t) => {
+      const ev = t.reductionEvidence || {};
+      const reason = (Array.isArray(ev.blockedReasons) && ev.blockedReasons[0])
+        || (Array.isArray(t.blockedReasons) && t.blockedReasons[0])
+        || ev.intent
+        || "review only";
+      return `<div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:7px 0; border-top:1px solid #1a2238; font-size:11px;">
+        <span><strong>${swsEscapeAttr(t.ticker || "—")}</strong> · ${swsEscapeAttr(String(ev.status || "review_only").replace(/_/g, " "))}${t.marketCapBucket ? ` · ${swsEscapeAttr(t.marketCapBucket)} cap` : ""}</span>
+        <span style="color:var(--text-muted); text-align:right;">${swsEscapeAttr(reason)}</span>
+      </div>`;
+    }).join("");
 
   return `
     <section class="analyzer-funded-plan" data-funded-plan style="background:var(--panel); border:1px solid rgba(96,165,250,0.32); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start;">
         <div>
-          <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Today's funded plan ${notAdviceChip("inline")}</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Only this panel contains executable buy rupees. Raw SWS top-ups below are research candidates.</div>
+          <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Capital ledger ${notAdviceChip("inline")}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Buy rupees use fresh capital plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
+          ${sleeve?.warning ? `<div style="font-size:11px; color:#fde047; margin-top:5px;">${swsEscapeAttr(sleeve.warning)}</div>` : ""}
         </div>
         <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:11px;">
           <span>Available <strong data-funded-available-capital style="color:#e5e7eb;">${inr(ledger.availableBuyCapital || 0)}</strong></span>
@@ -7487,10 +7635,14 @@ function renderSWSConstructionPlan(plan) {
           ${buyRows}
         </div>
         <div>
-          <div style="font-size:11px; color:#fca5a5; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded sells/exits (${fundedSells.length})</div>
+          <div style="font-size:11px; color:#fca5a5; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Notional reductions (${fundedSells.length})</div>
           ${sellRows}
         </div>
       </div>
+      <details style="margin-top:12px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Blocked / review reduction candidates (${blockedReductions.length})</summary>
+        <div style="margin-top:8px;">${blockedReductionRows}</div>
+      </details>
       <details style="margin-top:12px;">
         <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Eligible but unfunded add candidates (${candidates.length})</summary>
         <div style="margin-top:8px;">${candidateRows}</div>
@@ -7725,8 +7877,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   const actionParts = [];
   if (holdCount > 0) actionParts.push(`<strong>${holdCount}</strong> to hold`);
   if (topUpCount > 0) actionParts.push(`<strong>${topUpCount}</strong> add candidates`);
-  if (trimCount > 0) actionParts.push(`<strong>${trimCount}</strong> to trim`);
-  if (exitCount > 0) actionParts.push(`<strong>${exitCount}</strong> to exit`);
+  if (trimCount > 0) actionParts.push(`<strong>${trimCount}</strong> reduction reviews`);
+  if (exitCount > 0) actionParts.push(`<strong>${exitCount}</strong> exit-thesis reviews`);
   if (actionParts.length > 0) {
     heroSentences.push(`The engine reads ${actionParts.join(", ")}.`);
   }
@@ -10665,7 +10817,7 @@ const PICKS_SECTIONS = [
   { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by composite score — start every session here." },
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
-  { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "Fresh sector tailwinds with HIGH-confidence SWS fair value upside ≥ 25%. Experimental cross-check; not a buy-now list.", show_when_empty: true },
+  { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, normally Sector Outlook-backed; falls back to current positive macro sectors when outlook is out of sync.", show_when_empty: true },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
   { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
@@ -11391,11 +11543,11 @@ function renderPicks(data) {
           </div>
         </div>
         <div class="section-body">
+          ${sectionWarning.empty}
           <div class="stock-cards sws-pick-grid">
             ${cardsHtml}
             ${sentinelHtml}
           </div>
-          ${items.length === 0 ? sectionWarning.empty : ""}
           ${hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="togglePicksExpandAll('${section.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button>${expanded ? "" : ` · or open the PDF for the full list`}</div>` : ""}
         </div>
       </div>`;
@@ -11618,6 +11770,9 @@ function renderPickCard(s, sectionKey, rank = null) {
   const sectorTailwindBadge = (sectionKey === "growing_sector_value" && s.sector_tailwind_label)
     ? `<span class="sws-fund-badge" title="${escapeHtml(s.sector_tailwind_reason || "Sector Outlook 3-12m tailwind")}">${escapeHtml(String(s.sector_tailwind_label).replace(/_/g, " "))}${s.sector_tailwind_confidence ? ` · ${escapeHtml(s.sector_tailwind_confidence)}` : ""}</span>`
     : "";
+  const macroFallbackBadge = (sectionKey === "growing_sector_value" && s.selection_basis === "macro_value_fallback")
+    ? `<span class="sws-fund-badge" title="${escapeHtml(s.macro_impact_reason || "Current macro-regime positive sector impact; Sector Outlook tailwind not used.")}">${escapeHtml(s.macro_fallback_label || "Macro fallback")}${Number.isFinite(s.macro_impact_score) ? ` · +${s.macro_impact_score}` : ""}</span>`
+    : "";
   const fv30Badge = (sectionKey === "growing_sector_value" && s.fv_discount_badge_30plus)
     ? `<span class="sws-pick-valband-chip" style="color:var(--gold);border-color:var(--gold);" title="SWS fair value discount is at least 30%; informational badge only, not a rank boost.">FV 30%+</span>`
     : "";
@@ -11656,7 +11811,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${fv30Badge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${fv30Badge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
@@ -12601,12 +12756,12 @@ document.addEventListener("keydown", (e) => {
 // existing swsHoldingRow renderer so the table format mirrors Tier A.
 
 const ACTION_HELP_TEXT = {
-  HOLD: "These stocks scored well enough to keep without action. No buying or selling needed.",
-  EXIT: "Full exit recommended — score and outlook no longer support a position.",
-  "EXIT-now": "Sell the entire position now — flagged for immediate exit.",
-  "EXIT-staged": "Sell half today; the second half is contingent on a confirmation break.",
-  Reduction: "Trim the position to free up capital for stronger ideas.",
-  "Top-up": "Add to the position — the engine sees a favourable risk/reward.",
+  HOLD: "No action proposed. Keep reviewing valuation, freshness, and portfolio fit.",
+  EXIT: "Exit-thesis review candidate. Confirm evidence, costs, and replacement plan before acting.",
+  "EXIT-now": "Highest-severity exit-thesis candidate. Requires manual confirmation.",
+  "EXIT-staged": "Staged exit-thesis review with confirmation checkpoints.",
+  Reduction: "Reduction review candidate. Check target weight, notional value, costs, and evidence.",
+  "Top-up": "Add candidate only. Funded rupees appear only when capital and risk gates clear.",
 };
 
 function actionHelpText(action) {

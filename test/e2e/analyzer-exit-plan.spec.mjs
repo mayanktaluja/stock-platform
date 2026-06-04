@@ -44,7 +44,7 @@ test.describe("Portfolio Analyzer technical levels", () => {
     await expect(priorityRows).toHaveJSProperty("open", false);
 
     const text = await page.locator("#analyzerReport").innerText();
-    expect(text).not.toMatch(/\b(buy now|sell now|book profit now|stop-loss hit|exit position|place order|guaranteed|assured returns?)\b/i);
+    expect(text).not.toMatch(/\b(buy now|sell now|sell the entire|sell half|book profit now|stop-loss hit|exit position|place order|market orders?|must trim|guaranteed|assured returns?)\b/i);
 
     const detail = page.locator("[data-exit-plan-detail]").first();
     const detailCount = await page.locator("[data-exit-plan-detail]").count();
