@@ -96,6 +96,36 @@ for (const f of ["data/sectorOutlook/outlook-latest.json"]) {
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
   assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
 }
+for (const f of [
+  "data/sws/universe.json",
+  "data/sws/universe-meta.json",
+  "data/sws/_sanity/_latest.json",
+  "data/coverage/bse_equity_active.json",
+  "data/risk-lab/picks-adjusted-latest.json",
+  "data/risk-lab/quality-flags-latest.json",
+  "data/risk-lab/macro-thesis-latest.json",
+  "data/strategy/multibagger-scores-latest.json",
+  "data/strategy/catalyst-slate-latest.json",
+  "data/strategy/multibagger-health-latest.json",
+  "data/strategy/multibagger-portfolio.json",
+]) {
+  assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
+  assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+}
+for (const f of [
+  "data/sws/deep/",
+  "data/sws/groww-stock-latest.json",
+  "data/sectorOutlook/classified-news",
+  "data/nse-fo/history",
+  "data/coverage/coverage_gap.json",
+  "data/coverage/coverage_report.md",
+  "data/coverage/ground_truth.json",
+  "data/coverage/groww_missing_candidates.json",
+  "data/risk-lab/llm-disagreement-cache.json",
+]) {
+  assert(`${f} is not staged by the nightly auto-PR`, !gitAddBlock.includes(f), null);
+  assert(`${f} is not counted by the nightly CHANGED_FILES check`, !changedFilesBlock.includes(f), null);
+}
 
 // India modals in prod read data/sws/deep.tar.gz, not loose data/sws/deep/*,
 // because .vercelignore excludes the thousands of loose deep files. The inner
@@ -113,6 +143,23 @@ assert(
   "nightly validates packed deep.tar.gz price freshness before coverage/commit",
   packedPriceGateIdx > packIdx && packedPriceGateIdx < coverageIdx,
   { packIdx, packedPriceGateIdx, coverageIdx },
+);
+const multibaggerIdx = nightly.indexOf("refresh-5x-strategy.mjs");
+const cleanupCallIdx = nightly.indexOf("\nrestore_non_deployable_generated_worksets\n");
+const commitIdx = nightly.indexOf("# ---- 5. Commit + push ----");
+assert(
+  "nightly restores local-only generated worksets after 5x/deep pack/coverage and before commit staging",
+  cleanupCallIdx > multibaggerIdx &&
+    cleanupCallIdx > packedPriceGateIdx &&
+    cleanupCallIdx > coverageIdx &&
+    cleanupCallIdx < commitIdx,
+  { multibaggerIdx, packedPriceGateIdx, coverageIdx, cleanupCallIdx, commitIdx },
+);
+assert(
+  "nightly cleanup restores tracked cache edits and removes untracked local cache files",
+  /git restore -- "\$\{restore_paths\[@\]\}"/.test(nightly) &&
+    /git clean -fd -- data\/sws\/deep data\/sectorOutlook\/classified-news data\/nse-fo\/history/.test(nightly),
+  null,
 );
 assert("data/sws/deep.tar.gz is staged in the git add list", gitAddBlock.includes("data/sws/deep.tar.gz"), null);
 assert("data/sws/deep.tar.gz is in the CHANGED_FILES check", changedFilesBlock.includes("data/sws/deep.tar.gz"), null);
@@ -304,6 +351,13 @@ assert(
   !/with_timeout\s+\d+\s+node scripts\/refresh-sector-outlook\.mjs/.test(nightly) &&
     !/with_timeout\s+\d+\s+node scripts\/refresh-sector-news-themes\.mjs/.test(nightly),
   null,
+);
+const riskLabIdx = nightly.indexOf("refresh-risk-lab.mjs (timeout 60s)");
+const macroThesisIdx = nightly.indexOf("writeMacroThesis");
+assert(
+  "sws-nightly.sh refreshes macro-thesis-latest after Risk Lab before staging it",
+  riskLabIdx > -1 && macroThesisIdx > riskLabIdx && macroThesisIdx < packIdx,
+  { riskLabIdx, macroThesisIdx, packIdx },
 );
 assert(
   "sws-refresh-api.sh gates full Groww refresh to the 00:30 IST launchd window",

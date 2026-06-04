@@ -15,3 +15,13 @@ data/sws-kr/deep/**
 data/sws-tw/deep/**
 data/sws*/deep-api/**
 data/sws*/deep-parsed/**
+
+# Local generator caches. Prod consumes the aggregate snapshots/tarballs or
+# KV-restored state instead of these rolling working sets.
+data/sws/groww-stock-latest.json
+data/sectorOutlook/classified-news/**
+data/sectorOutlook/llm-theme-cache.json
+data/nse-fo/history/**
+data/risk-lab/llm-disagreement-cache.json
+data/strategy/history/**
+data/strategy/decisions.ndjson

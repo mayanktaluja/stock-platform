@@ -33,6 +33,17 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### SWS nightly artifact contract (June 2026)
+- **This PR** — The isolated SWS nightly now separates deployable artifacts
+  from local generator caches before opening its auto-refresh PR. Loose India
+  deep briefs, Sector Outlook classified-news shards, F&O history, Groww stock
+  cache, coverage diagnostics, and Risk Lab LLM cache are restored/cleaned
+  after the packed deep tarball, 5x Lab, Risk Lab, and coverage steps have run.
+  The auto-PR allow-list now includes the served universe, sanity, coverage
+  master, Risk Lab, macro thesis, and 5x Lab snapshots, and the Vercel bundle
+  contract explicitly includes runtime JSON/tarball artifacts while excluding
+  local working sets.
+
 ### Portfolio Analyzer evidence-gated reductions (June 2026)
 - **This PR** — Portfolio Analyzer reductions now pass through an explicit
   evidence contract before any ladder sizing can create rupee-sized sell rows.

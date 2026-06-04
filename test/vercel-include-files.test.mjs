@@ -83,7 +83,10 @@ function loadFunctionConfig(pathname) {
 
 function loadExcludeFilesRaw() {
   const entry = loadFunctionConfig("api/index.js");
-  assert.ok(entry && typeof entry.excludeFiles === "string", "vercel.json functions['api/index.js'].excludeFiles must be a string");
+  assert.ok(
+    entry && (typeof entry.excludeFiles === "string" || Array.isArray(entry.excludeFiles)),
+    "vercel.json functions['api/index.js'].excludeFiles must be a string or array",
+  );
   return entry.excludeFiles;
 }
 
@@ -139,7 +142,12 @@ function expandBraces(pattern) {
 // Split the outer brace-list into individual patterns, then expand compact
 // nested brace groups used to keep vercel.json under the 256-char schema limit.
 function splitBraceGlob(glob) {
-  if (Array.isArray(glob)) return glob.map((p) => String(p).trim()).filter(Boolean);
+  if (Array.isArray(glob)) {
+    return glob
+      .map((p) => String(p).trim())
+      .filter(Boolean)
+      .flatMap(expandBraces);
+  }
   glob = String(glob || "").trim();
   if (glob.startsWith("{") && glob.endsWith("}")) glob = glob.slice(1, -1);
   return splitTopLevelComma(glob).flatMap(expandBraces).filter(Boolean);
@@ -170,6 +178,33 @@ const REQUIRED_ROOT_FIXTURES = [
   "fundamentalsHistory.json",
   "governance.json",
   "surveillance.json",
+];
+
+const REQUIRED_NESTED_RUNTIME_FILES = [
+  "data/sectorOutlook/outlook-latest.json",
+  "data/nse-fo/oi-deltas-latest.json",
+  "data/risk-lab/picks-adjusted-latest.json",
+  "data/risk-lab/quality-flags-latest.json",
+  "data/risk-lab/macro-thesis-latest.json",
+  "data/risk-lab/_quality-keywords.json",
+  "data/risk-lab/_sector-overlays.json",
+  "data/strategy/multibagger-scores-latest.json",
+  "data/strategy/catalyst-slate-latest.json",
+  "data/strategy/multibagger-health-latest.json",
+  "data/strategy/multibagger-portfolio.json",
+  "data/disclosures/holdings.json",
+];
+
+const LOCAL_ONLY_GENERATED_WORKSETS = [
+  "data/sws/deep/20MICRONS.json",
+  "data/sws-us/deep/AAPL.json",
+  "data/sws/groww-stock-latest.json",
+  "data/sectorOutlook/classified-news/RELIANCE.jsonl",
+  "data/sectorOutlook/llm-theme-cache.json",
+  "data/nse-fo/history/RELIANCE.json",
+  "data/risk-lab/llm-disagreement-cache.json",
+  "data/strategy/history/2026-06-01.json",
+  "data/strategy/decisions.ndjson",
 ];
 
 console.log("\nvercel.json includeFiles — market deep tarballs + regional picks must be bundled\n");
@@ -203,10 +238,12 @@ check("framework auto-detection stays disabled so Vercel builds only api/index.j
 
 check("excludeFiles trims non-runtime trace bloat without hiding packed deep briefs", () => {
   const raw = loadExcludeFilesRaw();
-  assert.ok(
-    raw.length <= 256,
-    `excludeFiles is ${raw.length} chars; keep the brace-list compact enough for Vercel's schema.`,
-  );
+  for (const entry of Array.isArray(raw) ? raw : [raw]) {
+    assert.ok(
+      String(entry).length <= 256,
+      `excludeFiles entry is ${String(entry).length} chars; keep each Vercel glob/path compact.`,
+    );
+  }
   assert.ok(!isExcluded("data/sws/deep.tar.gz"), "India deep.tar.gz must stay bundled for lazy /tmp extraction");
   assert.ok(!isExcluded("data/sws-us/deep-us.tar.gz"), "US deep tarball must stay bundled for lazy /tmp extraction");
   assert.ok(!isExcluded("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must stay bundled for lazy /tmp extraction");
@@ -223,6 +260,8 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
     "data/sws-us/deep/**",
     "data/sws-kr/deep/**",
     "data/sws-tw/deep/**",
+    "data/sectorOutlook/classified-news/**",
+    "data/nse-fo/history/**",
   ]) {
     assert.ok(ignoredPatterns.includes(pattern), `${pattern} must be excluded from Vercel source uploads`);
   }
@@ -232,6 +271,8 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
   assert.ok(!isIgnored("data/sws-us/deep-us.tar.gz"), "US deep tarball must remain deployable");
   assert.ok(!isIgnored("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must remain deployable");
   assert.ok(!isIgnored("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must remain deployable");
+  assert.ok(isIgnored("data/sectorOutlook/classified-news/RELIANCE.jsonl"), "classified-news cache must not be uploaded");
+  assert.ok(isIgnored("data/nse-fo/history/RELIANCE.json"), "F&O rolling history cache must not be uploaded");
 });
 
 check("discovery sanity: found the market deep tarballs + regional picks (else git/glob is broken)", () => {
@@ -253,6 +294,24 @@ check("the glob matcher discriminates (covers sws tarballs, rejects unrelated pa
   // …but it must NOT match paths outside the include globs.
   assert.ok(!isCovered("data/nse-fo/history/RELIANCE.json"), "matcher must NOT match a deep, unrelated data path");
   assert.ok(!isCovered("package.json"), "matcher must NOT match an unlisted root file");
+});
+
+check("nested runtime snapshots served by API routes are in includeFiles", () => {
+  const missing = REQUIRED_NESTED_RUNTIME_FILES.filter((f) => !isCovered(f) || isExcluded(f));
+  assert.deepEqual(
+    missing,
+    [],
+    `Runtime file(s) missing from the Vercel function bundle or excluded:\n    ${missing.join("\n    ")}`,
+  );
+});
+
+check("local-only generated worksets are excluded from the function bundle", () => {
+  const bundled = LOCAL_ONLY_GENERATED_WORKSETS.filter((f) => isCovered(f) && !isExcluded(f));
+  assert.deepEqual(
+    bundled,
+    [],
+    `Local cache file(s) still bundled into prod:\n    ${bundled.join("\n    ")}`,
+  );
 });
 
 check("EVERY committed deep tarball + regional picks-latest.json is in includeFiles", () => {
