@@ -33,6 +33,17 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Snowflake Gap Lab (June 2026)
+- **This PR** — India Market now has an experimental Snowflake Gap Lab surface
+  for discovering SWS data-gap candidates without changing canonical V4. The
+  parser persists the visible Snowflake check matrix, the pure
+  `swsSnowflakeGapLab` helper imputes only explicit no-data V4 checks from
+  self-excluded sector/industry plus market-cap peers, and the resulting
+  shadow V4 metadata stays under `snowflake_gap_lab`. The lab excludes
+  dividend checks, GSM rows, sub-₹500cr companies, thin peer samples, and weak
+  deltas; it is intentionally absent from Track Record, section-performance,
+  model-portfolio, and recommendation mappings.
+
 ### Unified global search (June 2026)
 - **This PR** — Header global search now covers every committed SWS scored
   universe across India, US, Korea, and Taiwan while keeping results compact.

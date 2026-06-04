@@ -561,6 +561,13 @@ window.GLOSSARY = {
 	    full: "This experimental section cross-checks stock-level SWS valuation and forward runway against the platform's Sector Outlook. A stock needs market cap ≥ ₹500cr, V4 score ≥47, HIGH-confidence fair value data, at least 25% upside to SWS AnalystConsensus FV, SWS Future Growth ≥ 4/6, and a mapped sector whose 3-12m outlook is TAILWIND or STRONG_TAILWIND with non-low confidence. If no strict Future Growth ≥ 4/6 candidates pass, a clearly labelled ≥ 3/6 fallback can appear. When Sector Outlook is stale or generated under a different macro regime, the section can show a clearly labelled current-macro fallback from positive macro sector impacts only; stale Sector Outlook tailwind badges are not reused. The 30%+ discount badge is informational only; it does not boost ranking.",
 	  },
 
+  section_snowflake_gap_lab: {
+    term: "Snowflake Gap Lab",
+    category: "verdict",
+    short: "Experimental data-gap screen. Canonical V4 remains the source of record.",
+    full: "This lab looks for India stocks where explicit SWS no-data checks may suppress the Snowflake pillars used by V4. It fills only those no-data checks from comparable industry/sector + market-cap peers and shows a separate shadow V4 for review. It is not a recommendation section, does not enter Track Record, and does not replace the canonical V4 score shown elsewhere.",
+  },
+
   section_quality_growth: {
     term: "Quality Growth (section)",
     category: "verdict",

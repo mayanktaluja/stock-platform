@@ -18,6 +18,7 @@ import {
   withReconciledFairValue,
 } from "./fvReconciliation.js";
 import { buildGrowingSectorValueSection } from "./swsGrowingSectorValue.js";
+import { buildSnowflakeGapLabSection } from "./swsSnowflakeGapLab.js";
 
 export const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
@@ -534,12 +535,17 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
     macroRegime: opts.macroRegime || null,
     now: opts.now,
   });
+  const snowflakeGapLab = buildSnowflakeGapLabSection(scoredStocks, {
+    pickCardFields,
+    universe: opts.universe || null,
+  });
 
   const sections = {
     top_ranked_30: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
     growing_sector_value: growingSectorValue.items,
+    snowflake_gap_lab: snowflakeGapLab.items,
     quality_growth: cat("quality_growth"),
     best_fundamentals: bestFundamentals,
     midterm: cat("midterm"),
@@ -550,7 +556,10 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
     avoid: cat("avoid"),
   };
   Object.defineProperty(sections, "__section_audit", {
-    value: { growing_sector_value: growingSectorValue.audit },
+    value: {
+      growing_sector_value: growingSectorValue.audit,
+      snowflake_gap_lab: snowflakeGapLab.audit,
+    },
     enumerable: false,
   });
   return sections;

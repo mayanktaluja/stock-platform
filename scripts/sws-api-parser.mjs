@@ -284,6 +284,76 @@ function isInsufficientStatement(row) {
   return INSUFFICIENT_DATA_TEXT_RE.test(String(row.description || ""));
 }
 
+function classifySnowflakeCheckRow(row) {
+  if (!row || typeof row !== "object") {
+    return { result: "uncaptured", available: false, insufficient: false };
+  }
+  if (isInsufficientStatement(row)) {
+    return { result: "no_data", available: false, insufficient: true };
+  }
+  const outcome = String(row.outcome_name || "").toUpperCase();
+  if (row.value === true || row.state === "pass" || outcome.startsWith("OUTCOME_TRUE")) {
+    return { result: "pass", available: true, insufficient: false };
+  }
+  if (row.value === false || row.state === "fail" || outcome.startsWith("OUTCOME_FALSE")) {
+    return { result: "fail", available: true, insufficient: false };
+  }
+  return { result: "unknown", available: false, insufficient: false };
+}
+
+export function extractSnowflakeCheckMatrix(api) {
+  const list = api?.rest?.statements?.data?.statements?.data;
+  if (!Array.isArray(list)) return null;
+
+  const rowsByName = new Map();
+  for (const row of list) {
+    if (row && typeof row === "object" && typeof row.name === "string" && row.public === true) {
+      rowsByName.set(row.name, row);
+    }
+  }
+
+  const healthCheckSet = SNOWFLAKE_UI_CHECKS.BankHealth.some((name) => rowsByName.has(name))
+    ? "BankHealth"
+    : "Health";
+  const healthChecks = SNOWFLAKE_UI_CHECKS[healthCheckSet];
+  const dividendChecks = [
+    ...SNOWFLAKE_UI_CHECKS.Dividends.filter((name) => rowsByName.has(name)),
+    ...SNOWFLAKE_UI_CHECKS.BankDividends.filter((name) => rowsByName.has(name)),
+  ].slice(0, 6);
+  const checksByPillar = {
+    Value: SNOWFLAKE_UI_CHECKS.Value,
+    Future: SNOWFLAKE_UI_CHECKS.Future,
+    Past: SNOWFLAKE_UI_CHECKS.Past,
+    Health: healthChecks,
+    Dividends: dividendChecks.length ? dividendChecks : SNOWFLAKE_UI_CHECKS.Dividends,
+  };
+
+  const checks = [];
+  for (const pillar of SNOWFLAKE_DATA_PILLARS) {
+    for (const name of checksByPillar[pillar]) {
+      const row = rowsByName.get(name);
+      const classified = classifySnowflakeCheckRow(row);
+      checks.push({
+        pillar,
+        name,
+        title: compactText(row?.title || name, 64),
+        result: classified.result,
+        available: classified.available,
+        insufficient: classified.insufficient,
+        outcome_name: compactText(row?.outcome_name || row?.state || null, 64),
+      });
+    }
+  }
+
+  return {
+    version: "sws-visible-snowflake-checks-v1",
+    checked_count: SNOWFLAKE_UI_CHECK_COUNT,
+    captured_count: checks.filter((c) => c.result !== "uncaptured").length,
+    health_check_set: healthCheckSet,
+    checks,
+  };
+}
+
 export function extractSnowflakeDataQuality(api) {
   const list = api?.rest?.statements?.data?.statements?.data;
   if (!Array.isArray(list)) return null;
@@ -1144,6 +1214,7 @@ export function parseStock(api, opts = {}) {
   const sf = extractSnowflake(api);
   const sfTotal = snowflakeTotal(sf);
   const snowflakeDataQuality = extractSnowflakeDataQuality(api);
+  const snowflakeCheckMatrix = extractSnowflakeCheckMatrix(api);
   const fv = extractAnalystFairValue(api);
   const fvRange = extractFairValueRange(api);
   const { rewards, risks } = extractRewardsRisks(api);
@@ -1303,6 +1374,7 @@ export function parseStock(api, opts = {}) {
       snowflake: sf,
       snowflake_total: sfTotal,
       ...(snowflakeDataQuality ? { snowflake_data_quality: snowflakeDataQuality } : {}),
+      ...(snowflakeCheckMatrix ? { snowflake_check_matrix: snowflakeCheckMatrix } : {}),
       current_price_inr: price,
       market_cap_inr: marketCap,
       market_cap_usd: extractMarketCapUSD(api),
