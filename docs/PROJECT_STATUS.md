@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-04**
+**Last updated: 2026-06-05**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -34,6 +34,12 @@ experimental surface area and nightly refresh load.
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
 ### Snowflake Gap Lab (June 2026)
+- **Warning-banner follow-up** — India stock-detail modals now break SWS
+  insufficient-data warnings down by Snowflake section, using the persisted
+  `snowflake_data_quality.by_pillar` counts that are present across current
+  India warning payloads. When refreshed payloads include a full
+  `snowflake_check_matrix`, the same banner groups the missing metric names by
+  section; otherwise it keeps the existing sample metric examples.
 - **Data backfill follow-up** — `scripts/sws-populate-gap-lab.mjs` can now
   populate only `sections.snowflake_gap_lab` and its audit block from the
   current India SWS deep files, without running the full scorer or rewriting
