@@ -4929,10 +4929,10 @@ const TRACK_SECTION_COHORTS = [3, 5, 10, 20];
 const TRACK_SECTION_WINDOWS = ["7d", "30d", "3m", "1y", "3y", "5y"];
 const TRACK_SECTION_FETCH_WINDOWS = TRACK_SECTION_WINDOWS.join(",");
 const TRACK_SECTION_WINDOW_META = {
-  "7d": { label: "7d", daysLabel: "7 days", enabled: true, latestDescription: "7D sample" },
-  "30d": { label: "30d", daysLabel: "30 days", enabled: true, latestDescription: "1M sample" },
-  "3m": { label: "3m", daysLabel: "3 months", enabled: true, latestDescription: "current-cohort trailing 3M sample" },
-  "1y": { label: "1y", daysLabel: "1 year", enabled: true, latestDescription: "current-cohort trailing 1Y sample" },
+  "7d": { label: "7d", daysLabel: "7 days", enabled: true, latestDescription: "7D" },
+  "30d": { label: "30d", daysLabel: "30 days", enabled: true, latestDescription: "1M" },
+  "3m": { label: "3m", daysLabel: "3 months", enabled: true, latestDescription: "3M" },
+  "1y": { label: "1y", daysLabel: "1 year", enabled: true, latestDescription: "1Y" },
   "3y": { label: "3y", daysLabel: "3 years", enabled: false, disabledReason: "Waiting for 3 years of Track Record history." },
   "5y": { label: "5y", daysLabel: "5 years", enabled: false, disabledReason: "Waiting for 5 years of Track Record history." },
 };
@@ -4973,8 +4973,15 @@ function _sampleCopy(windowPayload) {
   const meta = _sectionWindowMeta(windowPayload.window);
   if (windowPayload.enabled === false) return windowPayload.disabledReason || meta.disabledReason || `${meta.label} is not available yet.`;
   if (windowPayload.sampleStatus === "resolved") return `Past ${meta.label}`;
-  if (windowPayload.sampleStatus === "latest_available") return `Latest available ${meta.latestDescription || meta.label}`;
-  return `Waiting for ${meta.label} history to mature`;
+  if (windowPayload.sampleStatus === "latest_available") return meta.latestDescription || meta.label;
+  return `Not enough ${meta.label} section-alpha data yet`;
+}
+
+function _sectionPerformanceStatusLabel(status) {
+  if (status === "resolved") return "closed";
+  if (status === "latest_available") return "observed";
+  if (status === "insufficient_history") return "pending";
+  return status || "—";
 }
 
 function _sectionPerformanceDays(windowKey) {
@@ -4985,8 +4992,7 @@ function _cohortLabel(row) {
   return row?.cohortLabel || (row?.requestedCohortSize ? `top ${row.requestedCohortSize}` : "top 10");
 }
 
-function _spotlightLabel(windowPayload) {
-  if (windowPayload?.sampleStatus === "latest_available") return "Track Record Spotlight · latest available sample";
+function _spotlightLabel() {
   return "Track Record Spotlight";
 }
 
@@ -5005,7 +5011,6 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   const alpha = Number(best?.alphaPct);
   const hasPositiveAlpha = Number.isFinite(alpha) && alpha > 0 && best?.outperformed !== false;
   const isResolved = windowPayload?.sampleStatus === "resolved";
-  const isLatestSample = windowPayload?.sampleStatus === "latest_available";
   const windowText = _sectionPerformanceDays(best?.window || windowPayload?.window);
 
   if (!best || !Number.isFinite(alpha)) {
@@ -5021,7 +5026,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
     return {
       tone: "neutral",
       headline: "No eligible section cohort is currently ahead of Nifty 50",
-      evidence: `${label} ${_cohortLabel(best)} is the strongest relative cohort in the current track sample, but it is not eligible for a positive-alpha claim.`,
+      evidence: `${label} ${_cohortLabel(best)} is the strongest relative cohort, but it is not eligible for a positive-alpha claim.`,
       showAlpha: false,
     };
   }
@@ -5035,21 +5040,11 @@ function _credibilityBannerCopy(best, windowPayload, label) {
     };
   }
 
-  if (isLatestSample) {
-    const latestDescription = _sectionWindowMeta(best?.window || windowPayload?.window).latestDescription || "latest sample";
-    return {
-      tone: "positive",
-      headline: `${latestDescription}: ${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
-      evidenceSuffix: " Closed-window cohorts will replace this as history matures.",
-      showAlpha: true,
-    };
-  }
-
   return {
-    tone: "neutral",
-    headline: `${label} ${_cohortLabel(best)} is the strongest cohort in the current track sample`,
-    evidence: "Closed-window section-alpha evidence is still maturing.",
-    showAlpha: false,
+    tone: "positive",
+    headline: `${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
+    evidenceSuffix: "",
+    showAlpha: true,
   };
 }
 
@@ -5208,7 +5203,7 @@ function renderTrackSectionPerformance() {
       <div style="font-size:11px;color:var(--text-muted);margin-top:7px;line-height:1.45;">
         ${escapeHtml(_sectionBenchmarkLine(cohort, s.sectionReturnPct, s.benchmarkReturnPct, { compact: true }))}
       </div>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(s.status || windowPayload.sampleStatus || "—")} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(_sectionPerformanceStatusLabel(s.status || windowPayload.sampleStatus))} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
     </div>`;
   }).join("");
 }
