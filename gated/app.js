@@ -7197,7 +7197,7 @@ function renderSWSTierB(baskets) {
       <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No qualifying add candidates in current snapshot. Picks-latest may need refresh.</div>
     </div>`;
   }
-  const perfectFitFloorCopy = "v3 ≥45 · Snowflake ≥16 · Upside ≥8% · sector-fit gated";
+  const perfectFitFloorCopy = "v4 ≥47 · Snowflake ≥16 · Upside ≥8% · sector-fit gated";
   return `<div style="margin-bottom:24px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:10px;">
       <div style="font-size:14px; font-weight:700;">Eligible but unfunded add candidates <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(research candidates, not an order list)</span></div>
@@ -7271,7 +7271,7 @@ function renderSWSSectorOverlay(rows) {
             <th style="padding:8px 12px;">Sector</th>
             <th style="padding:8px 12px; text-align:right;">Weight</th>
             <th style="padding:8px 12px; text-align:right;">Avg Snowflake</th>
-            <th style="padding:8px 12px; text-align:right;">Avg v3</th>
+            <th style="padding:8px 12px; text-align:right;">Avg v4</th>
             <th style="padding:8px 12px;">Holdings</th>
           </tr>
         </thead>
@@ -7280,7 +7280,7 @@ function renderSWSSectorOverlay(rows) {
             <td style="padding:8px 12px; font-weight:600;">${swsEscapeAttr(s.sector)}</td>
             <td style="padding:8px 12px; text-align:right; font-weight:600;">${s.pct}%</td>
             <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgSnowflake ?? "—"}</td>
-            <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgV3 ?? "—"}</td>
+            <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgV4 ?? s.avgV3 ?? "—"}</td>
             <td style="padding:8px 12px; font-size:11px; color:var(--text-muted);">${s.holdings.slice(0, 6).map(t => t.replace(/\.NS$/, "")).join(", ")}${s.holdings.length > 6 ? " +" + (s.holdings.length - 6) : ""}</td>
           </tr>`).join("")}
         </tbody>
@@ -7347,7 +7347,7 @@ function renderSWSOutsidePicks(picks) {
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
       ${renderColumn(picks.defensive || [], "Defensive (quality_growth + deep_value)", "#86efac")}
-      ${renderColumn(picks.growth || [], "Growth (top_ranked_v3 + smallcap_gems)", "#93c5fd")}
+      ${renderColumn(picks.growth || [], "Growth (top-ranked + smallcap gems)", "#93c5fd")}
     </div>
   </div>`;
 }
@@ -7789,10 +7789,10 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
 
     ${/* Secondary KPIs — collapsed by default. */ ""}
     <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
-      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v3, holdings count)</summary>
+      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v4, holdings count)</summary>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
         ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-        ${swsKpiCard("Avg v4 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+        ${swsKpiCard("Avg v4 score", `${snap.avgV4Score ?? snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
         ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
       </div>
     </details>
@@ -7956,10 +7956,10 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${/* Secondary KPIs — kept visible but de-emphasised below the Tier 1
         hero. Useful for power users but no longer the first read. */ ""}
     <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
-      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v3, holdings count)</summary>
+      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v4, holdings count)</summary>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
         ${swsKpiCard(`Avg quality score ${infoIcon("snowflake_score")}`, `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-        ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+        ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV4Score ?? snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
         ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
       </div>
     </details>

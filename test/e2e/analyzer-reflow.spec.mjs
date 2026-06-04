@@ -46,6 +46,10 @@ test.describe("Portfolio Analyzer reflow (PR A10)", () => {
     // At least one segment.
     await expect(bar.locator(".analyzer-actionmix-segment")).not.toHaveCount(0);
 
+    const secondaryKpis = page.locator("details.analyzer-secondary-kpis summary");
+    await expect(secondaryKpis).toContainText("v4");
+    await expect(secondaryKpis).not.toContainText("v3");
+
     // Tier A wrapper present.
     const tierDetails = page.locator("details.analyzer-tier-details").first();
     await expect(tierDetails).toBeVisible();
