@@ -44,6 +44,7 @@ assert("refresh-governance.mjs is invoked", /node scripts\/refresh-governance\.m
 
 const catalystInvocations = nightly.match(/node scripts\/refresh-catalysts\.mjs/g) || [];
 const nseCorpInvocations = nightly.match(/node scripts\/refresh-nse-corporate\.mjs/g) || [];
+const dividendInvocations = nightly.match(/node scripts\/refresh-dividends\.mjs/g) || [];
 assert(
   "refresh-catalysts.mjs is invoked once from the parallel NSE catalyst branch",
   catalystInvocations.length === 1 && /run_nse_catalyst_branch[\s\S]*?node scripts\/refresh-catalysts\.mjs/.test(nightly),
@@ -53,6 +54,12 @@ assert(
   "refresh-nse-corporate.mjs is invoked once from the parallel NSE catalyst branch",
   nseCorpInvocations.length === 1 && /run_nse_catalyst_branch[\s\S]*?node scripts\/refresh-nse-corporate\.mjs/.test(nightly),
   { count: nseCorpInvocations.length },
+);
+assert(
+  "refresh-dividends.mjs is invoked once after the SWS/NSE parallel barrier",
+  dividendInvocations.length === 1 &&
+    nightly.indexOf("parallel refresh barrier complete") < nightly.indexOf("node scripts/refresh-dividends.mjs"),
+  { count: dividendInvocations.length },
 );
 assert(
   "SWS and NSE catalyst branches are launched before a shared wait barrier",
@@ -87,6 +94,11 @@ for (const f of ["surveillance.json", "governance.json"]) {
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
 }
 for (const f of ["data/macroCalendar.json", "data/nse-index-constituents.json"]) {
+  assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
+  assert(`${f} is in the DATA_FILES array (data-only PR path)`, dataFilesBlock.includes(f), null);
+  assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+}
+for (const f of ["data/catalysts/"]) {
   assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
   assert(`${f} is in the DATA_FILES array (data-only PR path)`, dataFilesBlock.includes(f), null);
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
