@@ -4873,7 +4873,7 @@ function _sectionCardHTML(section, primaryHorizon) {
   // Top-10 chips
   const chips = (section.latest_top10 || []).slice(0, 10).map((p) => {
     const sym = (p.symbol || "").replace(/\.NS$/, "");
-    return `<span onclick="openStockDetail('${escapeHtml(p.symbol)}')" style="display:inline-block; padding:2px 7px; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.25); border-radius:4px; color:#93c5fd; font-size:11px; font-weight:600; cursor:pointer; margin:2px 3px 2px 0;">${escapeHtml(sym)}</span>`;
+    return `<span onclick="openStockDetailModal('${escapeHtml(p.symbol)}','track')" style="display:inline-block; padding:2px 7px; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.25); border-radius:4px; color:#93c5fd; font-size:11px; font-weight:600; cursor:pointer; margin:2px 3px 2px 0;">${escapeHtml(sym)}</span>`;
   }).join("");
 
   // SEBI 10/10 — D2: dynamic tooltip body for the ⓘ next to the title.
@@ -12993,6 +12993,7 @@ function normaliseModalReturns(data, ov, card) {
 // modal renders the same sections from the same code.
 function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
   if (dataQuality?.insufficient !== true) return "";
+  const isFallback = dataQuality.fallback === true || dataQuality.source === "snowflake_gap_lab_fallback";
   const affected = Array.isArray(dataQuality.affected_pillars)
     ? dataQuality.affected_pillars.map((p) => String(p || "").trim()).filter(Boolean)
     : [];
@@ -13057,10 +13058,14 @@ function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
         .slice(0, 3)
     : [];
   const sampleText = !missingChecksText && samples.length ? `Examples: ${samples.join(" · ")}` : "";
+  const titleText = isFallback ? "Snowflake data-gap warning:" : "SWS data warning:";
+  const bodyText = isFallback
+    ? `${countText} were inferred from Gap Lab peer-imputed no-data checks across ${affectedText}. Parser warning metadata was missing for this artifact; treat the Snowflake score as source-limited and verify manually.`
+    : `${countText} show insufficient source data across ${affectedText}. Treat the Snowflake score as source-limited and verify manually.`;
   return `
     <div class="sws-modal-data-warning" data-testid="sws-snowflake-data-warning" role="note" aria-label="SWS Snowflake data warning">
-      <strong>SWS data warning:</strong>
-      ${escapeHtml(countText)} show insufficient source data across ${escapeHtml(affectedText)}. Treat the Snowflake score as source-limited and verify manually.
+      <strong>${escapeHtml(titleText)}</strong>
+      ${escapeHtml(bodyText)}
       ${pillarText ? `<span class="warning-meta warning-pillars">${pillarText}</span>` : ""}
       ${missingChecksText ? `<span class="warning-meta">${missingChecksText}</span>` : ""}
       ${sampleText ? `<span class="warning-meta">${sampleText}</span>` : ""}

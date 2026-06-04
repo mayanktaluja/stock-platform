@@ -7794,6 +7794,94 @@ app.get("/api/sws-picks", async (req, res) => {
   res.json(data);
 });
 
+function normaliseSnowflakeGapPillar(pillar) {
+  const key = String(pillar || "").trim().toLowerCase().replace(/\s+/g, "_");
+  if (key === "valuation" || key === "value") return "Value";
+  if (key === "future" || key === "future_growth") return "Future";
+  if (key === "past" || key === "past_performance") return "Past";
+  if (key === "health" || key === "financial_health") return "Health";
+  if (key === "dividend" || key === "dividends") return "Dividends";
+  return key ? key.replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase()) : "Snowflake";
+}
+
+function gapLabMissingChecks(lab) {
+  if (!lab || !Array.isArray(lab.imputed_checks)) return [];
+  return lab.imputed_checks
+    .map((check) => {
+      const title = String(check?.title || check?.name || "").trim();
+      if (!title) return null;
+      return {
+        pillar: normaliseSnowflakeGapPillar(check.pillar),
+        title,
+        name: check.name || null,
+        result: "no_data",
+        available: false,
+        insufficient: true,
+        source: "snowflake_gap_lab",
+      };
+    })
+    .filter(Boolean);
+}
+
+function snowflakeDataQualityFromGapLab(lab) {
+  const checks = gapLabMissingChecks(lab);
+  if (!checks.length) return null;
+  const affected = [];
+  const byPillar = {};
+  for (const check of checks) {
+    if (!affected.includes(check.pillar)) affected.push(check.pillar);
+    byPillar[check.pillar] = byPillar[check.pillar] || { checked: 6, insufficient: 0 };
+    byPillar[check.pillar].insufficient += 1;
+  }
+  const count = Number(lab?.imputed_checks_count);
+  return {
+    insufficient: true,
+    insufficient_count: Number.isFinite(count) && count > 0 ? count : checks.length,
+    checked_count: 30,
+    affected_pillars: affected,
+    by_pillar: byPillar,
+    samples: checks.slice(0, 3).map((check) => ({
+      pillar: check.pillar,
+      title: check.title,
+      reason_code: "GAP_LAB_NO_DATA",
+    })),
+    source: "snowflake_gap_lab_fallback",
+    fallback: true,
+  };
+}
+
+function snowflakeCheckMatrixFromGapLab(lab, dataQuality) {
+  const checks = gapLabMissingChecks(lab);
+  if (!checks.length) return null;
+  return {
+    version: "sws-gap-lab-missing-checks-fallback-v1",
+    source: "snowflake_gap_lab",
+    checked_count: Number(dataQuality?.checked_count) || 30,
+    checks,
+  };
+}
+
+function prepareSwsStockDeepForResponse(deep, card) {
+  const overview = deep?.overview && typeof deep.overview === "object" ? deep.overview : {};
+  const responseOverview = { ...overview };
+  const responseDeep = { ...deep, overview: responseOverview };
+  const gapLab = card?.snowflake_gap_lab || null;
+  if (!gapLab) return responseDeep;
+
+  if (responseOverview.snowflake_data_quality == null) {
+    const fallbackQuality = snowflakeDataQualityFromGapLab(gapLab);
+    if (fallbackQuality) responseOverview.snowflake_data_quality = fallbackQuality;
+  }
+
+  const hasRealCheckMatrix = Array.isArray(responseOverview.snowflake_check_matrix?.checks);
+  if (!hasRealCheckMatrix && responseOverview.snowflake_data_quality?.insufficient === true) {
+    const fallbackMatrix = snowflakeCheckMatrixFromGapLab(gapLab, responseOverview.snowflake_data_quality);
+    if (fallbackMatrix) responseOverview.snowflake_check_matrix = fallbackMatrix;
+  }
+
+  return responseDeep;
+}
+
 // Per-ticker detail endpoint backing the SWS modal. Returns the full deep-
 // scrape JSON for a ticker, plus the leaderboard card if present (so the
 // modal has access to the v2 score + breakdown without recomputing) and
@@ -7947,10 +8035,11 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
       return null;
     }
   })();
+  const responseDeep = prepareSwsStockDeepForResponse(deep, card);
 
   res.json({
     ticker,
-    deep,
+    deep: responseDeep,
     card,
     surveillance,
     file_mtime: mtime,
