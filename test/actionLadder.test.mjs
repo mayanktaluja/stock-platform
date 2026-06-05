@@ -660,6 +660,25 @@ withV3On(() => {
     surveillance: { list: "GSM", stage: 3 }, pnlPercent: -15,
   });
   assert("V3 GSM-3+ EXIT → EXIT-now", r3.action === "EXIT-now", r3.action);
+
+  const topUpFromV4 = promoteToLadderV2({
+    legacyAction: "Top-up",
+    v4: 60, snow_total: 20, position_weight: 4, sector_weight: 14,
+    upside: 18, risks_count: 0,
+    surveillance: null, pnlPercent: 12,
+  });
+  assert("V4 score alias produces top-up severity", Number.isFinite(topUpFromV4.severity) && topUpFromV4.action.startsWith("Top-up"), topUpFromV4);
+  assert("V4 score alias rationale uses Score label",
+    Array.isArray(topUpFromV4.ladderRationale) && /Score 60\/100/.test(topUpFromV4.ladderRationale.join(" ")),
+    topUpFromV4.ladderRationale);
+
+  const topUpFromLegacyV3 = promoteToLadderV2({
+    legacyAction: "Top-up",
+    v3: 60, snow_total: 20, position_weight: 4, sector_weight: 14,
+    upside: 18, risks_count: 0,
+    surveillance: null, pnlPercent: 12,
+  });
+  assert("legacy v3 score still supported", topUpFromLegacyV3.action === topUpFromV4.action, [topUpFromLegacyV3.action, topUpFromV4.action]);
 });
 
 // ──────────────────── Summary ────────────────────

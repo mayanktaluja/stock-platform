@@ -11,9 +11,18 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE
+  ? path.resolve(process.cwd(), process.env.SWS_REPO_ROOT_OVERRIDE)
+  : path.join(__dirname, "..", "..", ".e2e", "sws-root");
 const HAS_FIXTURE = fs.existsSync(
-  path.join(__dirname, "..", "..", "data", "sws-us", "picks-latest.json"),
+  path.join(REPO_ROOT, "data", "sws-us", "picks-latest.json"),
 );
+const COHU_DEEP_PATH = path.join(REPO_ROOT, "data", "sws-us", "deep", "COHU.json");
+const US_SCORED_UNIVERSE_PATH = path.join(REPO_ROOT, "data", "sws-us", "sws-scored-universe.json");
+const HAS_COHU_FIXTURE =
+  fs.existsSync(COHU_DEEP_PATH) &&
+  fs.existsSync(US_SCORED_UNIVERSE_PATH) &&
+  fs.readFileSync(US_SCORED_UNIVERSE_PATH, "utf-8").includes('"ticker":"COHU"');
 
 function expectFiniteReturnsPayload(body) {
   expect(body.returns_pct).toBeTruthy();
@@ -76,6 +85,19 @@ test.describe("US Picks API", () => {
     } else {
       expect(sb.fundamentals_fallback).toBeNull();
     }
+  });
+
+  test("GET /api/us-stock/COHU hydrates V4 breakdown for universe-only modal rows", async ({ request }) => {
+    test.skip(!HAS_COHU_FIXTURE, "no data/sws-us/deep/COHU.json fixture present");
+    const r = await request.get("/api/us-stock/COHU");
+    expect(r.status()).toBe(200);
+    const b = await r.json();
+    expect(b.ticker).toBe("COHU");
+    expect(b.card?.v4_score_100).toBe(52.1);
+    expect(b.card?.v4_verdict).toBe("STRONG");
+    expect(b.card?.v4_breakdown).toBeTruthy();
+    expect(Number.isFinite(b.card.v4_breakdown.pts_fv_total)).toBe(true);
+    expect(Number.isFinite(b.card.v4_breakdown.pts_mom_1y)).toBe(true);
   });
 
   test("GET /api/us-stock/BAD!! → 400 invalid_ticker", async ({ request }) => {

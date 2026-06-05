@@ -11,7 +11,7 @@ test("filterPicksWithDeepDataFailOpen keeps India section rows when deep lookup 
   const counter = { count: 0, sample: [], failOpenSections: [] };
 
   const out = filterPicksWithDeepDataFailOpen(
-    "top_ranked_30_v3",
+    "top_ranked_30_v4",
     rows,
     () => null,
     counter,
@@ -22,7 +22,7 @@ test("filterPicksWithDeepDataFailOpen keeps India section rows when deep lookup 
   assert.deepEqual(counter, {
     count: 2,
     sample: ["AAA", "BBB"],
-    failOpenSections: ["top_ranked_30_v3"],
+    failOpenSections: ["top_ranked_30_v4"],
   });
 });
 

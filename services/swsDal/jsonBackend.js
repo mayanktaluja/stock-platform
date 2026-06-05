@@ -203,8 +203,7 @@ export async function getSnapshotFvMap(tickers) {
   return map;
 }
 
-export function getV3UniverseStats() {
-  const raw = readV3UniverseRaw();
+function normaliseUniverseStats(raw) {
   if (!raw) return null;
   return {
     r1m: raw.r1m || [],
@@ -213,6 +212,14 @@ export function getV3UniverseStats() {
     fvBenchmark: raw.fv_benchmark || raw.fvBenchmark || null,
     fvCompositeIndustryAverages: raw.fv_composite_industry_averages || raw.fvCompositeIndustryAverages || null,
   };
+}
+
+export function getV4UniverseStats() {
+  return normaliseUniverseStats(readV4UniverseRaw() || readV3UniverseRaw());
+}
+
+export function getV3UniverseStats() {
+  return getV4UniverseStats();
 }
 
 // V4 rank-based verdict band cutoffs, persisted by the scorer to a dedicated

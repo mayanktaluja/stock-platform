@@ -84,7 +84,7 @@ function _decisionPath({ holding, scored }) {
   const rec = sws.v2_recommendation || null;
   const path = [];
 
-  path.push(`SWS v3 score: ${num(sws.v4_score, null)?.toFixed?.(1) ?? "—"} (verdict: ${sws.v4_verdict || "—"})`);
+  path.push(`SWS V4 score: ${num(sws.v4_score_100 ?? sws.v4_score, null)?.toFixed?.(1) ?? "—"} (verdict: ${sws.v4_verdict || "—"})`);
   path.push(`v1 SWS-only action: ${rec?.action_source === "guardrail" ? "(skipped — guardrail)" : holding.action || "—"}`);
 
   if (sws.crosscheck?.available) {

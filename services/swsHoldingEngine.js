@@ -17,7 +17,7 @@
 // so narrative-phrase hard overrides are replaced with structured-data overrides
 // pulled from the `fiscal` and `overview.snowflake` blocks.
 
-import { scoreStock, num } from "./swsScoring.js";
+import { scoreStock, num, buildCanonicalScore, buildRegulatoryFlags, buildRiskOverlay } from "./swsScoring.js";
 import { reconcileFairValue } from "./fvReconciliation.js";
 import * as dal from "./swsDal/index.js";
 import { crosscheckHolding } from "./swsLayerCrosscheck.js";
@@ -43,12 +43,16 @@ import {
   gateReductionAction,
 } from "./portfolioDecisionPolicy.js";
 
-// V3-universe and per-ticker deep loads now go through services/swsDal.
+// V4-universe and per-ticker deep loads now go through services/swsDal.
 // Backwards-compatible re-exports — many modules import these names; the
 // underlying caching, file paths, and ticker normalisation live in the DAL
 // (see services/swsDal/jsonBackend.js).
 export function loadV3Universe() {
-  return dal.getV3UniverseStats();
+  return dal.getV4UniverseStats?.() ?? dal.getV3UniverseStats();
+}
+
+export function loadV4Universe() {
+  return loadV3Universe();
 }
 
 export function loadSWSDeep(ticker) {
@@ -119,7 +123,7 @@ const NARRATIVE_RED = /declin|structurally\s*weak|promoter\s*(exit|pledge|stake)
 // single-valued (Reduction-50% legacy or EXIT for GSM) — the V3 promoter
 // reads only `action`, but a SEBI RA reading the report sees all signals.
 export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_weight, sector_weight, upside, v4 = null, newsSignal = null }) {
-  const surveillance = scored.v2_breakdown?.surveillance || null;
+  const surveillance = buildRegulatoryFlags(scored).surveillance || null;
 
   // GSM surveillance is special — exits the holding entirely, not a partial
   // trim. Returns immediately with a single regulatory reason.
@@ -350,8 +354,9 @@ function buildSWSReasons({ scored, snow, fiscal, action, band, reconciled }) {
   if (fwd != null) reasons.push(`Earnings growth ${fwd.toFixed(1)}% YoY.`);
   if (margin != null) reasons.push(`Net margin ${margin.toFixed(1)}%.`);
   if (ret1y != null) reasons.push(`1Y return ${ret1y >= 0 ? "+" : ""}${ret1y.toFixed(1)}%.`);
-  if (scored.v2_breakdown?.surveillance) {
-    const s = scored.v2_breakdown.surveillance;
+  const surveillance = buildRegulatoryFlags(scored).surveillance;
+  if (surveillance) {
+    const s = surveillance;
     reasons.push(`NSE ${s.list}${s.timeframe ? ` (${s.timeframe})` : ""} surveillance.`);
   }
 
@@ -434,6 +439,46 @@ function actionIsReduction(action) {
 
 function actionIsTopUp(action) {
   return String(action || "").startsWith("Top-up") || action === "STRONG Top-up";
+}
+
+const RAW_ADD_VALUATION_BANDS = new Set(["DISCOUNT", "DEEP_DISCOUNT"]);
+
+export function _buildRawAddGate({
+  action,
+  v4 = null,
+  reconciled = null,
+  newsSignal = null,
+  dataQualityGate = null,
+  surveillance = null,
+} = {}) {
+  if (!actionIsTopUp(action)) return { allowed: true, reasons: [] };
+  const reasons = [];
+  const score = num(v4, null);
+  const upside = num(reconciled?.upside_pct, null);
+  const confidence = reconciled?.confidence || "NONE";
+  const band = reconciled?.valuation_band || "UNKNOWN";
+  const dataStatus = dataQualityGate?.status || "ok";
+
+  if (score == null || score < 53) reasons.push("V4 score below 53 add-candidate floor");
+  if (confidence !== "HIGH") reasons.push("fair-value confidence is not HIGH");
+  if (!RAW_ADD_VALUATION_BANDS.has(band)) reasons.push("valuation is not discounted or deep-discounted");
+  if (upside == null || upside < 12) reasons.push("FV upside below 12% add-candidate floor");
+  if (newsSignal?.signal < 0) {
+    reasons.push(newsSignal?.materialDisclosure
+      ? "material negative SWS news blocks adding exposure"
+      : "negative SWS news blocks adding exposure");
+  }
+  if (dataStatus !== "ok") {
+    reasons.push(...(Array.isArray(dataQualityGate?.blockedReasons) && dataQualityGate.blockedReasons.length
+      ? dataQualityGate.blockedReasons
+      : [`data quality gate is ${dataStatus}`]));
+  }
+  if (surveillance?.list) reasons.push(`${surveillance.list} surveillance blocks adding exposure`);
+
+  return {
+    allowed: reasons.length === 0,
+    reasons: [...new Set(reasons.filter(Boolean))],
+  };
 }
 
 export function _buildDecisionMetadata({
@@ -631,7 +676,9 @@ export function scoreHolding(holding, portfolioContext = {}) {
     positionWeight: position_weight,
   });
 
-  const surveillance = scored.v2_breakdown?.surveillance || null;
+  const regulatoryFlags = buildRegulatoryFlags(scored);
+  const riskOverlay = buildRiskOverlay(scored);
+  const surveillance = regulatoryFlags.surveillance || null;
 
   // Look up the upcoming-earnings event for this ticker. Passed into the
   // catalyst layer (for the prediction metadata block) AND used directly
@@ -856,6 +903,23 @@ export function scoreHolding(holding, portfolioContext = {}) {
       ...finalReasons,
     ];
   }
+  const rawAddGate = _buildRawAddGate({
+    action: finalAction,
+    v4: num(scored.v4_score_100, null),
+    reconciled,
+    newsSignal,
+    dataQualityGate,
+    surveillance,
+  });
+  if (actionIsTopUp(finalAction) && !rawAddGate.allowed) {
+    blockedReasons.push(...rawAddGate.reasons);
+    finalAction = "HOLD";
+    decisionReasonFamily = "add_gate";
+    finalReasons = [
+      `Add candidate blocked: ${rawAddGate.reasons[0] || "did not clear the high-confidence add gate"}.`,
+      ...finalReasons,
+    ];
+  }
 
   // ─── Ladder-v2 final-stage promotion ─────────────────────────────
   // SWS_LADDER_V2=1 promotes the legacy action label to a granular
@@ -886,7 +950,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     sector_weight,
     upside,
     risks_count,
-    surveillance: scored.v2_breakdown?.surveillance || null,
+    surveillance,
     pnlPercent: num(holding.pnlPercent, 0),
     // V4 inputs (silently ignored when SWS_LADDER_V4 is off)
     pillars: snow,
@@ -998,8 +1062,14 @@ export function scoreHolding(holding, portfolioContext = {}) {
       sws_url: scored.sws_url,
       score: scored.composite_score_100,
       v2_score: scored.v2_score_100,
-      v4_score:scored.v4_score_100,
+      v4_score: scored.v4_score_100,
+      v4_score_100: scored.v4_score_100,
       v4_verdict: scored.v4_verdict,
+      canonical_score: buildCanonicalScore(scored),
+      score_model: "sws-v4-100pt-2026-05",
+      score_source: "sws_v4",
+      regulatory_flags: regulatoryFlags,
+      risk_overlay: riskOverlay,
       verdict: scored.verdict,
       band,
       crosscheck,
@@ -1033,7 +1103,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
       last_quarter_result: ov.last_quarter_result,
       last_earnings_date: lastEarnings?.date ?? null,
       last_earnings_period: lastEarnings?.period ?? null,
-      surveillance: scored.v2_breakdown?.surveillance || null,
+      surveillance,
       data_freshness_at: scored.parsed_at,
       data_age_hours: dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null,
       snowflake_data_quality: ov.snowflake_data_quality || null,

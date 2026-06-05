@@ -8,9 +8,7 @@
 //   1. Look up the ticker in fundamentals.json (744 NSE names, refreshed
 //      by scripts/refresh-fundamentals.mjs).
 //   2. Run fundamentalsV2.scoreFundamentalsV2 on the snapshot.
-//   3. Synthesize an SWS-shaped result (snowflake from V2 pillar grades,
-//      composite score, verdict).
-//   4. Emit a low-confidence v2 recommendation tagged
+//   3. Emit a low-confidence independent fallback tagged
 //      `fallback_source: "fundamentalsV2"` so the UI can clearly mark it.
 //
 // Indian-risk + catalyst layers are still consulted if their inputs are
@@ -77,7 +75,7 @@ function _v2ToSwsSnowflake(v2pillars) {
   };
 }
 
-// Map V2 verdict + composite to an SWS-style action band. Conservative
+// Map V2 verdict + composite to a conservative action band.
 // thresholds — fallback path always biases toward HOLD because we don't
 // have the SWS catalyst-aware momentum overlay.
 //
@@ -96,11 +94,10 @@ function _fallbackAction(v2score) {
   return v2Mode ? "EXIT-staged" : "EXIT";
 }
 
-function _v3FromV2(v2score) {
-  // V2 composite is already 0..100. The v3 engine uses a slightly
-  // different scale (universe-percentile-calibrated). For fallback, we
-  // pin v3 ≈ v2 score with a -10 conservative haircut to reflect missing
-  // SWS-specific signals.
+function _fallbackScoreFromV2(v2score) {
+  // FundamentalsV2 is an independent low-confidence fallback, not SWS V4.
+  // Keep the historical -10 haircut for action gating, but expose it only
+  // as fallback_score_100 so it never masquerades as v4_score.
   if (v2score == null) return null;
   return Math.max(0, v2score - 10);
 }
@@ -125,7 +122,7 @@ export function buildFallbackHolding({ ticker, name, sector, holding }) {
   if (!v2) return null;
 
   const fallbackSnow = _v2ToSwsSnowflake(v2.pillars || {});
-  const v3 = _v3FromV2(v2.score);
+  const fallbackScore = _fallbackScoreFromV2(v2.score);
   const rawAction = _fallbackAction(v2.score);
   const marketCapBucket = classifyMarketCapBucket(snap.marketCap);
   const smallcapPolicy = buildSmallcapPolicy({
@@ -150,7 +147,7 @@ export function buildFallbackHolding({ ticker, name, sector, holding }) {
     marketCapBucket,
     smallcapPolicy,
     positionWeight: num(holding?.positionWeight, 0),
-    v4: v3,
+    v4: null,
     reconciled: { confidence: "NONE", upside_pct: null },
   });
   const gated = gateReductionAction({
@@ -179,8 +176,20 @@ export function buildFallbackHolding({ ticker, name, sector, holding }) {
       sws_url: null,
       score: v2.score,
       v2_score: v2.score,
-      v4_score: v3,
-      v4_verdict: v2.verdict,
+      fallback_score_100: fallbackScore,
+      fallback_verdict: v2.verdict,
+      fallback_score_source: "fundamentalsV2",
+      score_source: "fundamentalsV2",
+      canonical_score: {
+        version: "fallback",
+        model: "fundamentalsV2",
+        source: "fundamentalsV2",
+        value: fallbackScore,
+        verdict: v2.verdict,
+      },
+      v4_score: null,
+      v4_score_100: null,
+      v4_verdict: null,
       verdict: v2.verdict,
       band: "FALLBACK",
       snowflake: fallbackSnow,

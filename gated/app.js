@@ -10860,7 +10860,7 @@ function renderHoldingCardV2(h, defaultOpen) {
 // inclusion criteria in plain English (replaces the cryptic threshold-spec
 // subtitles that used to live here). emoji + chip_label feed the chip-nav.
 const PICKS_SECTIONS = [
-  { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by composite score — start every session here." },
+  { key: "top_ranked_30_v4", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — V4 Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
   { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, positive sector context, and Future Growth ≥ 4/6; may show a labelled ≥ 3/6 fallback only when strict candidates are absent.", show_when_empty: true },
@@ -10879,7 +10879,7 @@ const PICKS_SECTIONS = [
 // earnings is the worst offender today (156 entries) — capping at 30 keeps
 // the page actionable.
 const PICKS_INLINE_CAP = {
-  top_ranked_30_v3: 30,
+  top_ranked_30_v4: 30,
   upcoming_earnings: 30,
   // Best Fundamentals ships 100 server-side; show 30 inline, expand for full 100.
   best_fundamentals: 30,
@@ -10890,6 +10890,26 @@ const PICKS_INLINE_CAP = {
   off_section_search: 24,
 };
 const PICKS_INLINE_DEFAULT_CAP = 12;
+
+function swsSectionItems(sections, key) {
+  if (!sections) return [];
+  if (Array.isArray(sections[key])) return sections[key];
+  if (key === "top_ranked_30_v4") return sections.top_ranked_30_v3 || sections.top_ranked_30 || [];
+  return [];
+}
+
+function isTopRankedSectionKey(sectionKey) {
+  return sectionKey === "top_ranked_30_v4" || sectionKey === "top_ranked_30_v3" || sectionKey === "top_ranked_30";
+}
+
+function swsV4ScoreValue(row) {
+  const v = row && (row.v4_score_100 ?? row.v4_score);
+  return typeof v === "number" && Number.isFinite(v) ? v : null;
+}
+
+function swsRegulatorySurveillance(row) {
+  return row?.regulatory_flags?.surveillance || row?.risk_overlay?.surveillance || row?.v4_breakdown?.surveillance || null;
+}
 
 // Chunked progressive render for expanded sections. When the user clicks
 // "Show all (N)" on a large section (e.g. Upcoming Earnings at ~640 stocks), rendering
@@ -11274,7 +11294,7 @@ function savePicksCollapsedState(state) {
 // hero section.
 function isPicksSectionCollapsed(state, sectionKey) {
   if (Object.prototype.hasOwnProperty.call(state, sectionKey)) return state[sectionKey];
-  return sectionKey !== "top_ranked_30_v3";
+  return !isTopRankedSectionKey(sectionKey);
 }
 
 // Sync chip-nav .active classes from current section collapsed-state. Called
@@ -11471,7 +11491,7 @@ function renderPicks(data) {
   const shownTickers  = new Set();
   const totalTickers  = new Set();
   for (const section of PICKS_SECTIONS) {
-    const rawItems = (data.sections && data.sections[section.key]) || [];
+    const rawItems = swsSectionItems(data.sections, section.key);
     for (const it of rawItems) {
       if (it && it.ticker) totalTickers.add(it.ticker);
     }
@@ -11555,7 +11575,7 @@ function renderPicks(data) {
     // the toggle is meaningful at all — and stays > 0 even after expansion so
     // the user can collapse back.
     const hidden = items.length - defaultCap;
-    const isHero = section.key === "top_ranked_30_v3";
+    const isHero = isTopRankedSectionKey(section.key);
     const isCollapsed = !forceExpand && isPicksSectionCollapsed(collapsedState, section.key);
     const tip = section.term_id ? infoIcon(section.term_id) : "";
     const sectionWarning = renderPicksSectionWarning(audit);
@@ -11645,7 +11665,7 @@ function renderNextPicksChunk(sentinelEl) {
 
   const nextEnd = Math.min(rendered + PICKS_EXPANDED_CHUNK_SIZE, buffer.length);
   const nextChunk = buffer.slice(rendered, nextEnd);
-  const isHero = (sectionKey === "top_ranked_30_v3");
+  const isHero = isTopRankedSectionKey(sectionKey);
   const html = nextChunk
     .map((s, i) => renderPickCard(s, sectionKey, isHero ? rendered + i + 1 : null))
     .join("");
@@ -11765,12 +11785,12 @@ function renderPickCard(s, sectionKey, rank = null) {
   // Headline score: v3 (fundamentals 74 + momentum 14 + safety overlay −15) > v2 > v1.
   // v4 is the platform's sole composite score (fundamentals 76 + FV 12 +
   // momentum 12 − safety overlay), emitted for every stock alongside v1/v2.
-  const headlineRaw = s.v4_score_100 != null ? s.v4_score_100 : (s.v2_score != null ? s.v2_score : s.score);
+  const headlineRaw = swsV4ScoreValue(s);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = s.v4_score_100 != null ? pickScoreColorV4(s.v4_score_100, s.v4_verdict) : pickScoreColor(headlineRaw);
-  const scoreTermId = s.v4_score_100 != null ? "v4_composite_score" : "combined_score";
+  const scoreColor = headlineRaw != null ? pickScoreColorV4(headlineRaw, s.v4_verdict) : "var(--text-muted)";
+  const scoreTermId = "v4_composite_score";
   // Composite verdict (multi-factor quality band): TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID.
-  const verdict = (s.v4_score_100 != null ? (s.v4_verdict || s.composite_verdict) : s.verdict) || "—";
+  const verdict = (headlineRaw != null ? (s.v4_verdict || s.composite_verdict) : null) || "—";
   const verdictColor = {
     TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
     DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
@@ -11788,7 +11808,7 @@ function renderPickCard(s, sectionKey, rank = null) {
   const valBandChip = valBand
     ? `<span class="sws-pick-valband-chip" style="color:${valBandColor};border-color:${valBandColor};" title="Price vs AnalystConsensus fair value">${valBandLabel}</span>`
     : "";
-  const surv = s.v2_breakdown?.surveillance;
+  const surv = swsRegulatorySurveillance(s);
   // Surveillance badge — when a flag is present, hook it to the glossary.
   // Native title is preserved as a fallback for keyboard-only users; the
   // delegated tooltip handler kicks in on hover/click via data-term-id.
@@ -11905,7 +11925,7 @@ function renderPickCard(s, sectionKey, rank = null) {
 // values render with the right symbol ($ for USD).
 
 const US_PICKS_SECTIONS = [
-  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Universe-wide top 30 by composite score — start every session here." },
+  { key: "top_ranked_30_v4", label: "⭐ Top 30 — V4 Score", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
   { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
   { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
   { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
@@ -12036,7 +12056,7 @@ function usPickMatchesFilters(it) {
 // ── Generic collapsible-section machinery for the US + region picks tabs ──
 // India's togglePicksSection / setAllPicksCollapsed are bound to swsPicksCollapsed_v1
 // and a global `.sws-pick-section` query. US/KR/TW reuse the SAME section keys
-// (top_ranked_30_v3, deep_value, …), so they MUST persist to their own
+// (top_ranked_30_v4, deep_value, …), so they MUST persist to their own
 // localStorage key and scope DOM queries to their own container — otherwise
 // collapse state bleeds across tabs. Markup/CSS classes are shared with India
 // (.dashboard-section.collapsed .section-body, .section-chevron, .sws-pick-chip*).
@@ -12049,7 +12069,7 @@ function saveTabCollapsedState(lsKey, state) {
 }
 function isTabSectionCollapsed(state, sectionKey) {
   if (Object.prototype.hasOwnProperty.call(state, sectionKey)) return state[sectionKey];
-  return sectionKey !== "top_ranked_30_v3"; // hero open by default; the rest collapse
+  return !isTopRankedSectionKey(sectionKey); // hero open by default; the rest collapse
 }
 function syncTabChipActiveStates(containerId) {
   document.querySelectorAll(`#${containerId} .sws-pick-chip[data-section-key]`).forEach((chip) => {
@@ -12135,10 +12155,10 @@ function renderUSPicks(data) {
   let html = "";
   let totalShown = 0;
   for (const sec of US_PICKS_SECTIONS) {
-    const items = (data.sections[sec.key] || []).filter(usPickMatchesFilters);
+    const items = swsSectionItems(data.sections, sec.key).filter(usPickMatchesFilters);
     if (!items.length) continue;
     totalShown += items.length;
-    const isHero = sec.key === "top_ranked_30_v3";
+    const isHero = isTopRankedSectionKey(sec.key);
     const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
     visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
     const cards = items.map((s, i) => renderUSPickCard(s, sec.key, isHero ? i + 1 : null)).join("");
@@ -12173,10 +12193,10 @@ function renderUSPickCard(s, sectionKey, rank) {
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
   const sn = s.snowflake_total != null ? s.snowflake_total : "—";
-  const headlineRaw = s.v4_score_100 != null ? s.v4_score_100 : s.score;
+  const headlineRaw = swsV4ScoreValue(s);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = (typeof pickScoreColorV4 === "function") ? pickScoreColorV4(s.v4_score_100, s.v4_verdict) : "var(--text-primary)";
-  const verdict = s.v4_verdict || s.composite_verdict || s.verdict || "—";
+  const scoreColor = headlineRaw != null && typeof pickScoreColorV4 === "function" ? pickScoreColorV4(headlineRaw, s.v4_verdict) : "var(--text-muted)";
+  const verdict = headlineRaw != null ? (s.v4_verdict || s.composite_verdict || "—") : "—";
   const verdictColor = { TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)" }[verdict] || "var(--text-muted)";
   const valBand = s.valuation_band || null;
   const valBandColor = { DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)", PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)" }[valBand] || "var(--text-muted)";
@@ -12339,7 +12359,7 @@ const REGION_PICKS_UI = {
 
 // Region-neutral subtitles — no "$50M"/"for US" leaks (native gates differ).
 const REGION_PICKS_SECTIONS = [
-  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Universe-wide top 30 by composite score — start every session here." },
+  { key: "top_ranked_30_v4", label: "⭐ Top 30 — V4 Score", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
   { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
   { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
   { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
@@ -12427,10 +12447,10 @@ function renderRegionPicks(code) {
   let html = "";
   let totalShown = 0;
   for (const sec of REGION_PICKS_SECTIONS) {
-    const items = (data.sections[sec.key] || []).filter((it) => regionPickMatchesFilters(code, it));
+    const items = swsSectionItems(data.sections, sec.key).filter((it) => regionPickMatchesFilters(code, it));
     if (!items.length) continue;
     totalShown += items.length;
-    const isHero = sec.key === "top_ranked_30_v3";
+    const isHero = isTopRankedSectionKey(sec.key);
     const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
     visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
     const cards = items.map((s, i) => renderRegionPickCard(code, s, sec.key, isHero ? i + 1 : null)).join("");
@@ -12465,10 +12485,10 @@ function renderRegionPickCard(code, s, sectionKey, rank) {
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
   const sn = s.snowflake_total != null ? s.snowflake_total : "—";
-  const headlineRaw = s.v4_score_100 != null ? s.v4_score_100 : s.score;
+  const headlineRaw = swsV4ScoreValue(s);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = (typeof pickScoreColorV4 === "function") ? pickScoreColorV4(s.v4_score_100, s.v4_verdict) : "var(--text-primary)";
-  const verdict = s.v4_verdict || s.composite_verdict || s.verdict || "—";
+  const scoreColor = headlineRaw != null && typeof pickScoreColorV4 === "function" ? pickScoreColorV4(headlineRaw, s.v4_verdict) : "var(--text-muted)";
+  const verdict = headlineRaw != null ? (s.v4_verdict || s.composite_verdict || "—") : "—";
   const verdictColor = { TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)" }[verdict] || "var(--text-muted)";
   const valBand = s.valuation_band || null;
   const valBandColor = { DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)", PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)" }[valBand] || "var(--text-muted)";
@@ -13123,15 +13143,15 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   // INR via fmtBigMoney, else fmtMoney $/₩/NT$ B/M).
   const fmtInr = (v) => fmtBigMoney(v, cur);
   const fmtPct = (v, d = 2) => v == null ? "—" : `${v >= 0 ? "+" : ""}${Number(v).toFixed(d)}%`;
-  // v4 is the platform's sole composite score; v2/score is the thin-coverage
-  // fallback for stocks the v4 scorer couldn't reach (no pillars on disk).
-  const modalUseV4 = card_.v4_score_100 != null;
-  const headlineRaw = modalUseV4 ? card_.v4_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
+  // V4 is the platform's sole composite score. Legacy v2 fields may still exist
+  // in historical JSON, but the modal must never use them for the headline or
+  // visible breakdown.
+  const headlineRaw = swsV4ScoreValue(card_);
+  const modalUseV4 = headlineRaw != null;
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = modalUseV4 ? pickScoreColorV4(card_.v4_score_100, card_.v4_verdict) : pickScoreColor(headlineRaw);
-  const scoreLabel = modalUseV4 ? "v4" : (card_.v2_score != null ? "v2" : "score");
+  const scoreColor = modalUseV4 ? pickScoreColorV4(headlineRaw, card_.v4_verdict) : "var(--text-muted)";
   // Composite verdict (multi-factor quality band) — TOP_PICK / STRONG / …
-  const verdict = (modalUseV4 ? (card_.v4_verdict || card_.composite_verdict) : card_.verdict) || "—";
+  const verdict = modalUseV4 ? (card_.v4_verdict || card_.composite_verdict || "—") : "—";
   const verdictColor = {
     TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
     DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
@@ -13148,7 +13168,8 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const valBandPill = valBand
     ? `<div class="sws-modal-valband-pill" style="color:${valBandColor};border-color:${valBandColor};" title="Price vs AnalystConsensus fair value">${valBandLabel}</div>`
     : "";
-  const survBadge = surveillance ? `<span class="sws-surveillance-badge" title="NSE ${surveillance.list} surveillance flag (${surveillance.timeframe || "—"})">${surveillance.list}</span>` : "";
+  const modalSurveillance = swsRegulatorySurveillance(card_) || surveillance;
+  const survBadge = modalSurveillance ? `<span class="sws-surveillance-badge" title="NSE ${modalSurveillance.list} surveillance flag (${modalSurveillance.timeframe || "—"})">${modalSurveillance.list}</span>` : "";
   const fresh = pickFreshnessPill(deep && deep.parsed_at);
   const sn = ov.snowflake || {};
   const ret = normaliseModalReturns(data, ov, card_);
@@ -13165,14 +13186,11 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality, ov.snowflake_check_matrix);
   const snowflakeGapLabHtml = renderSnowflakeGapLabPanel(card_.snowflake_gap_lab);
 
-  // Score breakdown bars — show v4 when available (pillars/FV/momentum/safety
-  // split), v2 otherwise (thin coverage).
-  const v2bd = card_.v2_breakdown || {};
+  // Score breakdown bars — V4 only. If an older/slim artifact lacks the V4
+  // component payload, suppress the section instead of showing stale V2 labels.
   const v4bd = card_.v4_breakdown || null;
   const barsHtml = (() => {
-    if (headlineRaw == null) return "";
-    let items;
-    if (v4bd) {
+    if (!v4bd) return "";
       const pillarTotal = (v4bd.pts_health || 0) + (v4bd.pts_future || 0) + (v4bd.pts_valuation || 0) + (v4bd.pts_past || 0);
       const momTotal = (v4bd.pts_mom_1y || 0) + (v4bd.pts_mom_3m || 0) + (v4bd.pts_mom_1m || 0);
       const n1 = (v) => Number.isFinite(Number(v)) ? Number(v).toFixed(1) : "—";
@@ -13215,19 +13233,12 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       }
       fvHintParts.push(`Total ${n1(v4bd.pts_fv_total)}/12`);
       const fvHint = fvHintParts.join(" · ");
-      items = [
+      const items = [
         { label: "Pillars 76", value: Math.round(pillarTotal * 10) / 10, max: 76, hint: "Health 22 · Future 20 · Valuation 18 · Past 16 (no dividend pillar in v4)" },
         { label: "FV composite 12", value: v4bd.pts_fv_total, max: 12, hint: fvHint || "Relative analyst-upside + P/E-vs-industry, renormalised over present signals" },
         { label: "Momentum 12", value: Math.round(momTotal * 10) / 10, max: 12, hint: "Universe-percentile returns: 1Y (7) + 3M (3) + 1M (2)" },
         { label: "Safety overlay", value: v4bd.pts_overlay, max: 0, min: -15, negative: true, hint: (v4bd.overlay_reasons || []).join(" · ") || "No surveillance / value-trap / momentum-tail penalties triggered" },
       ];
-    } else {
-      items = [
-        { label: "Fundamentals (v1)", value: v2bd.v1_fundamentals, max: 100, hint: "Snowflake + analyst upside + growth + margin + dividend + insider" },
-        { label: "Catalyst bonus", value: v2bd.pts_catalyst, max: 5, hint: "Earnings beat setup + insider buying + analyst upgrade" },
-        { label: "Risk overlay", value: v2bd.pts_risk_overlay, max: 0, min: -15, negative: true, hint: "ASM/GSM, high beta, multiple risk flags" },
-      ];
-    }
     return items.map((it) => {
       const v = it.value == null ? 0 : it.value;
       const pct = it.negative ? (Math.abs(v) / 15) * 100 : (v / it.max) * 100;
@@ -13557,8 +13568,12 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     const m = {};
     if (Array.isArray(PICKS_SECTIONS)) {
       for (const s of PICKS_SECTIONS) m[s.key] = { label: s.chip_label, emoji: s.emoji };
-      // top_ranked_30_v3 is the API key; PICKS_SECTIONS uses the same key.
-      if (m.top_ranked_30_v3) m.top_ranked_30 = m.top_ranked_30_v3;
+      // Historical cards may carry old membership keys; render them with the
+      // current V4 Top 30 label.
+      if (m.top_ranked_30_v4) {
+        m.top_ranked_30_v3 = m.top_ranked_30_v4;
+        m.top_ranked_30 = m.top_ranked_30_v4;
+      }
     }
     return m;
   })();
@@ -13628,14 +13643,9 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
 
     ${barsHtml ? `
     <div class="sws-modal-section">
-      <h4>Score breakdown — ${v4bd ? "v4 quality-value blend" : "v2 fundamentals composite"} (out of 100)</h4>
+      <h4>Score breakdown — v4 quality-value blend (out of 100)</h4>
       ${barsHtml}
-      ${v4bd ? `
-        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v4 = 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) − safety overlay (max −15). Stocks lacking analyst FV use an industry-average FV composite when covered peers exist; otherwise they get a neutral 6/12 (flagged fv_imputed in the breakdown).</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v4</strong> ${card_.v4_score_100?.toFixed(1) || "—"} (quality-value reweight + momentum).</div>
-      ` : `
-        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100.</div>
-      `}
+      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">V4 = 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) - safety overlay (max -15). Stocks lacking analyst FV use an industry-average FV composite when covered peers exist; otherwise they get a neutral 6/12 (flagged fv_imputed in the breakdown).</div>
     </div>` : ""}
 
     ${hexHtml}

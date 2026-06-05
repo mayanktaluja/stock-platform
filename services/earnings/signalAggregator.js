@@ -40,7 +40,7 @@ import {
   buildPerSymbolDealIndex,
 } from "./nseBulkBlockIngester.js";
 import * as dal from "../swsDal/index.js";
-import { extractV3SignalsForEvent } from "./v3SignalAdapter.js";
+import { extractV4SignalsForEvent } from "./v3SignalAdapter.js";
 import { loadV3UniverseStats } from "./loadV3UniverseStats.js";
 
 const ROOT = process.cwd();
@@ -413,13 +413,13 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
   const upcomingRow = ctx.upcomingMap.get(symbol) || null;
   const inUpcomingEarnings = !!upcomingRow;
 
-  // ── SWS V3 100-pt breakdown ──
+  // ── SWS V4 100-pt breakdown ──
   // The predictor scores on the decomposed V3 pillars (future, past,
   // valuation, overlay) rather than echoing the blunt composite verdict
   // — that echo is what made 73% of predictions cluster on INLINE.
   // Resolution: upcoming_earnings row → any picks row → inline compute
   // off the SWS deep file (see v3SignalAdapter.js).
-  const v3Signal = extractV3SignalsForEvent({
+  const v4Signal = extractV4SignalsForEvent({
     swsDeep,
     pickRow,
     upcomingRow,
@@ -516,6 +516,8 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
     },
     picks_universe: pickRow
       ? {
+          v4_score_100: num(pickRow.v4_score_100),
+          v4_verdict: pickRow.v4_verdict || null,
           v3_score_100: num(pickRow.v4_score_100),
           v3_verdict: pickRow.v4_verdict || null,
           composite_verdict: pickRow.composite_verdict || null,
@@ -527,15 +529,23 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
             : [],
         }
       : null,
-    // SWS V3 100-pt breakdown — the predictor's strongest signal post-v2.
+    // SWS V4 100-pt breakdown — the predictor's strongest signal post-v2.
     // `source` records how it was resolved (upcoming | picks | computed)
     // so the UI's audit-trail expander can show provenance.
-    v3: v3Signal
+    v4: v4Signal
       ? {
-          v3_score_100: v3Signal.v3_score_100,
-          v3_verdict: v3Signal.v3_verdict,
-          source: v3Signal.source,
-          breakdown: v3Signal.v3_breakdown,
+          v4_score_100: v4Signal.v4_score_100,
+          v4_verdict: v4Signal.v4_verdict,
+          source: v4Signal.source,
+          breakdown: v4Signal.v4_breakdown,
+        }
+      : null,
+    v3: v4Signal
+      ? {
+          v3_score_100: v4Signal.v4_score_100,
+          v3_verdict: v4Signal.v4_verdict,
+          source: v4Signal.source,
+          breakdown: v4Signal.v4_breakdown,
         }
       : null,
     // ── Milestone D fields ──

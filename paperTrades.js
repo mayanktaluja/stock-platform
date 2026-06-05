@@ -25,7 +25,7 @@ import crypto from "crypto";
 import { getStorage } from "./paperTradesStorage.js";
 import { classifyCapBand } from "./services/trackRecord/capBandClassifier.js";
 
-// ──────────────────── Section registry (V2 — multi-source) ────────────────────
+// ──────────────────── Section registry (multi-source) ────────────────────
 //
 // Every section the Track Record covers, side-tagged. The first block is
 // SWS picks (already auto-snapshotted by snapshotAndCloseSwsPicks); the rest
@@ -372,6 +372,7 @@ export function groupAndAggregate(tradesWithReturns, attribute) {
  * Avoid are intentionally omitted so future SWS runs do not append them.
  */
 export const SWS_SECTION_TO_TYPE = {
+  top_ranked_30_v4: "sws_top30_v3",
   top_ranked_30_v3: "sws_top30_v3",
   best_to_buy_now: "sws_best_buynow",
   deep_value: "sws_deep_value",
@@ -397,8 +398,8 @@ export function swsPickToTradeShape(swsPick) {
     name: swsPick.name || swsPick.ticker,
     sector: swsPick.sector || null,
     price: swsPick.current_price_inr ?? null,
-    score: swsPick.v3_score_100 ?? swsPick.v2_score ?? swsPick.score ?? 0,
-    recommendation: swsPick.composite_verdict || swsPick.v3_verdict || swsPick.verdict || null,
+    score: swsPick.v4_score_100 ?? swsPick.v4_score ?? 0,
+    recommendation: swsPick.composite_verdict || swsPick.v4_verdict || null,
     // Pass m-cap through so buildTradeEntry can route to the right TRI proxy.
     market_cap_inr: swsPick.market_cap_inr ?? null,
   };
@@ -430,6 +431,7 @@ export async function snapshotSwsAllSections(picksData, context = {}) {
   const totals = { written: 0, skipped: 0, perSection: {} };
 
   for (const [sectionKey, type] of Object.entries(SWS_SECTION_TO_TYPE)) {
+    if (sectionKey === "top_ranked_30_v3" && Array.isArray(picksData.sections.top_ranked_30_v4)) continue;
     const items = picksData.sections[sectionKey];
     if (!Array.isArray(items) || items.length === 0) continue;
     if (shouldSkipSwsSectionSnapshot(sectionKey, picksData)) {
@@ -437,8 +439,8 @@ export async function snapshotSwsAllSections(picksData, context = {}) {
       totals.skipped += items.length;
       continue;
     }
-    // V2 — cap each section to the top SECTION_TOP_N picks. Sections like
-    // top_ranked_30_v3 carry 30 entries; the SEBI-RA scorecard only tracks
+    // Cap each section to the top SECTION_TOP_N picks. Sections like
+    // top_ranked_30_v4 carry 30 entries; the SEBI-RA scorecard only tracks
     // the headline top 10 to match what users see on the picks tab.
     const sliced = items.slice(0, SECTION_TOP_N);
     const picks = sliced.map(swsPickToTradeShape).filter(Boolean);

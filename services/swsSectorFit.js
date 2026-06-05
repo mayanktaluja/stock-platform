@@ -45,13 +45,13 @@ function num(v, d = 0) {
 }
 
 /**
- * Aggregate top_ranked_30_v3 by canonical sector to find which sectors
+ * Aggregate top_ranked_30_v4 by canonical sector to find which sectors
  * have the highest average FV upside in current SWS top picks.
  *
- * Returns Map<canonicalSector, { count, avgUpside, avgV3, examples[] }>.
+ * Returns Map<canonicalSector, { count, avgUpside, avgV4, examples[] }>.
  */
 function aggregatePicksBySector(picks) {
-  const top = picks?.sections?.top_ranked_30_v3 || picks?.sections?.top_ranked_30 || [];
+  const top = picks?.sections?.top_ranked_30_v4 || picks?.sections?.top_ranked_30_v3 || picks?.sections?.top_ranked_30 || [];
   const bySector = new Map();
   for (const p of top) {
     const canonical = normalizeSector(p?.sector);

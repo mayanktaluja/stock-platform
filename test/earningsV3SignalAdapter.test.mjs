@@ -1,6 +1,6 @@
 // PR 3 — services/earnings/v3SignalAdapter.js unit tests.
 //
-// The adapter resolves a stock's SWS V3 100-pt breakdown via three
+// The adapter resolves a stock's SWS V4 100-pt breakdown via three
 // sources, richest first: the upcoming_earnings pick row, any other
 // picks-latest row, then an inline computeV3Score off the SWS deep
 // file. These tests pin the priority order, the malformed-breakdown

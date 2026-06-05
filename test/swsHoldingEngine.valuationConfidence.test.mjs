@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   _buildDecisionMetadata,
+  _buildRawAddGate,
   _reconcileFVUpside,
   valuationReviewBucket,
 } from "../services/swsHoldingEngine.js";
@@ -101,4 +102,29 @@ test("reduction metadata emits notional and post-trade weight", () => {
   assert.equal(meta.requiresConfirmation, true);
   assert.equal(meta.postTradeWeight, 6);
   assert.equal(meta.notionalTradeValue, 99_000);
+});
+
+function addGate(overrides = {}) {
+  return _buildRawAddGate({
+    action: "Top-up",
+    v4: 58,
+    reconciled: { confidence: "HIGH", valuation_band: "DISCOUNT", upside_pct: 18 },
+    newsSignal: { signal: 0 },
+    dataQualityGate: { status: "ok", blockedReasons: [] },
+    surveillance: null,
+    ...overrides,
+  });
+}
+
+test("raw add gate allows only high-confidence discounted add candidates", () => {
+  assert.equal(addGate().allowed, true);
+  assert.equal(addGate({ v4: 52 }).allowed, false);
+  assert.match(addGate({ v4: 52 }).reasons.join(" "), /V4 score below 53/);
+  assert.match(addGate({ reconciled: { confidence: "MEDIUM_QUOTED", valuation_band: "DISCOUNT", upside_pct: 18 } }).reasons.join(" "), /confidence is not HIGH/);
+  assert.match(addGate({ reconciled: { confidence: "HIGH", valuation_band: "FAIR", upside_pct: 18 } }).reasons.join(" "), /not discounted/);
+  assert.match(addGate({ reconciled: { confidence: "HIGH", valuation_band: "DISCOUNT", upside_pct: 8 } }).reasons.join(" "), /below 12%/);
+  assert.match(addGate({ newsSignal: { signal: -1, materialDisclosure: true } }).reasons.join(" "), /negative SWS news/);
+  assert.match(addGate({ dataQualityGate: { status: "stale", blockedReasons: ["SWS data is stale"] } }).reasons.join(" "), /stale/);
+  assert.match(addGate({ dataQualityGate: { status: "coverage_watch", blockedReasons: ["coverage watch"] } }).reasons.join(" "), /coverage watch/);
+  assert.match(addGate({ surveillance: { list: "GSM", stage: 1 } }).reasons.join(" "), /GSM surveillance/);
 });

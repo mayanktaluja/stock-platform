@@ -1,8 +1,8 @@
 /**
  * v3SignalAdapter.js
  *
- * Resolves the SWS V3 100-pt breakdown for one Earnings Watch event so
- * the predictor can score on the *decomposed* V3 pillars (future, past,
+ * Resolves the SWS V4 100-pt breakdown for one Earnings Watch event so
+ * the predictor can score on the decomposed V4 pillars (future, past,
  * valuation, overlay) instead of echoing the single blunt composite
  * verdict — which is what made 73% of predictions cluster on INLINE.
  *
@@ -11,11 +11,11 @@
  *                               already computed by the SWS pipeline
  *   2. any picks-latest row   — same breakdown, stock filed in another
  *                               section (top_ranked, deep_value, avoid…)
- *   3. inline computeV3Score  — for events in NO picks section at all;
+ *   3. inline computeV4Score  — for events in NO picks section at all;
  *                               computed straight off the SWS deep file
  *
  * Pure function — `universe` (the {r1m,r3m,r1y} percentile bands) is
- * injected so it's testable without disk. computeV3Score degrades
+ * injected so it's testable without disk. computeV4Score degrades
  * gracefully when `universe` is null (momentum imputed); none of the
  * pillars the predictor reads depend on it anyway.
  */
@@ -24,9 +24,8 @@ import { computeV4Score, verdictV4FromScore } from "../swsScoringV4.js";
 
 const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
 
-// NOTE: the `signals.v3` bus key + the v3_* return keys below are retained as
-// internal labels but now carry V4 data (V3 was deleted in the 2026-05
-// migration). The breakdown is a v4_breakdown.
+// NOTE: the v3_* return keys below are temporary aliases for legacy predictors.
+// New callers should use the v4_* fields and `signals.v4`.
 //
 // A breakdown is usable by the predictor only if the pillars it scores on are
 // present and numeric. Anything less and we fall through to the next source.
@@ -44,6 +43,9 @@ function hasUsableBreakdown(b) {
 function fromPickRow(row, source) {
   if (!row || !hasUsableBreakdown(row.v4_breakdown)) return null;
   return {
+    v4_score_100: num(row.v4_score_100),
+    v4_verdict: row.v4_verdict || null,
+    v4_breakdown: row.v4_breakdown,
     v3_score_100: num(row.v4_score_100),
     v3_verdict: row.v4_verdict || null,
     v3_breakdown: row.v4_breakdown,
@@ -57,9 +59,9 @@ function fromPickRow(row, source) {
  * @param {object} [args.pickRow]     flattened picks-latest row for the ticker
  * @param {object} [args.upcomingRow] picks-latest upcoming_earnings row
  * @param {object} [args.universe]    {r1m,r3m,r1y} sorted bands, or null
- * @returns {{v3_score_100, v3_verdict, v3_breakdown, source}|null}
+ * @returns {{v4_score_100, v4_verdict, v4_breakdown, v3_score_100, v3_verdict, v3_breakdown, source}|null}
  */
-export function extractV3SignalsForEvent({ swsDeep, pickRow, upcomingRow, universe } = {}) {
+export function extractV4SignalsForEvent({ swsDeep, pickRow, upcomingRow, universe } = {}) {
   // 1 — upcoming_earnings row (richest, earnings-specific).
   const fromUpcoming = fromPickRow(upcomingRow, "upcoming");
   if (fromUpcoming) return fromUpcoming;
@@ -74,6 +76,9 @@ export function extractV3SignalsForEvent({ swsDeep, pickRow, upcomingRow, univer
       const computed = computeV4Score(swsDeep, { universe: universe || null });
       if (computed && hasUsableBreakdown(computed.v4_breakdown)) {
         return {
+          v4_score_100: num(computed.v4_score_100),
+          v4_verdict: verdictV4FromScore(computed.v4_score_100),
+          v4_breakdown: computed.v4_breakdown,
           v3_score_100: num(computed.v4_score_100),
           v3_verdict: verdictV4FromScore(computed.v4_score_100),
           v3_breakdown: computed.v4_breakdown,
@@ -87,4 +92,8 @@ export function extractV3SignalsForEvent({ swsDeep, pickRow, upcomingRow, univer
   }
 
   return null;
+}
+
+export function extractV3SignalsForEvent(args = {}) {
+  return extractV4SignalsForEvent(args);
 }

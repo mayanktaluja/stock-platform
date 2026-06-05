@@ -112,9 +112,13 @@ it("ticker stripped of .NS, score/verdict/snowflake present", () => {
   assert.equal(typeof out.sws.score, "number");
   assert.ok(out.sws.score >= 0 && out.sws.score <= 100, `score must be 0..100, got ${out.sws.score}`);
   assert.equal(typeof out.sws.verdict, "string", "verdict surfaced from V2");
-  // v4 is the v2 score with a -10 conservative haircut (or null if v2 is null).
-  assert.equal(typeof out.sws.v4_score, "number");
-  assert.equal(out.sws.v4_score, Math.max(0, out.sws.v2_score - 10), "v4 = max(0, v2 - 10)");
+  // FundamentalsV2 fallback is independent and must not masquerade as SWS V4.
+  assert.equal(out.sws.v4_score, null);
+  assert.equal(out.sws.v4_score_100, null);
+  assert.equal(out.sws.v4_verdict, null);
+  assert.equal(typeof out.sws.fallback_score_100, "number");
+  assert.equal(out.sws.fallback_score_100, Math.max(0, out.sws.v2_score - 10), "fallback = max(0, v2 - 10)");
+  assert.equal(out.sws.score_source, "fundamentalsV2");
 });
 it("falls back to snapshot.name / snapshot.sector when caller omits them", () => {
   // Don't pass name/sector — module should read them from fundamentals.json.

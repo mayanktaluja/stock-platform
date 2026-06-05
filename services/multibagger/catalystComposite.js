@@ -41,11 +41,7 @@ function filterEarningsBeat(earningsWatch, today_iso) {
       const s = e?.signals;
       if (!p || p.verdict !== "BEAT") return false;
       if (!isFiniteNumber(p.confidence_pct) || p.confidence_pct < EARNINGS_MIN_CONFIDENCE_PCT) return false;
-      // The earnings signal bus key `signals.v3` is a legacy carrier that now
-      // holds the V4 score under its inner alias `v3_score_100` (set by
-      // v3SignalAdapter / signalAggregator). Read that alias — NOT v4_score_100,
-      // which the bus never sets — or this floor silently rejects every event.
-      const v4 = s?.v3?.v3_score_100;
+      const v4 = s?.v4?.v4_score_100 ?? s?.v3?.v3_score_100;
       if (!isFiniteNumber(v4) || v4 < EARNINGS_MIN_V3_SCORE) return false;
       const days = daysBetweenIso(today_iso, e.event_iso_date);
       if (days === null || days < 0 || days > 7) return false;
@@ -56,7 +52,7 @@ function filterEarningsBeat(earningsWatch, today_iso) {
       symbol: e.symbol,
       event_iso_date: e.event_iso_date,
       confidence_pct: e.prediction.confidence_pct,
-      v4_score_100: e.signals?.v3?.v3_score_100 ?? null,
+      v4_score_100: e.signals?.v4?.v4_score_100 ?? e.signals?.v3?.v3_score_100 ?? null,
       sector: e.signals?.sector || null,
       reasons_top: e.prediction.reasons_top || [],
     }))

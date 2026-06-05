@@ -3,7 +3,7 @@
 // portfolio analyzer) can score on demand without dragging in CLI/file-I/O.
 //
 // Inputs: per-stock objects matching data/sws/deep/{TICKER}.json schema.
-// Outputs: composite_score_100 (v1), verdict, categories, v2_score_100, v2_breakdown.
+// Outputs: V4 score contracts plus temporary legacy aliases for older readers.
 
 let _getSurveillanceFlag = () => null;
 try {
@@ -28,7 +28,7 @@ export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinit
 // Bump PICKS_SCHEMA_VERSION on a breaking field rename; bump
 // PICKS_SCORING_VERSION when the scoring math changes (weights, gates,
 // imputation rules).
-export const PICKS_SCHEMA_VERSION = "picks-latest-v3";
+export const PICKS_SCHEMA_VERSION = "picks-latest-v4";
 export const PICKS_SCORING_VERSION = "sws-v4-100pt-2026-05";
 
 // 13 input fields the scoring engine looks at. Track which were populated
@@ -135,6 +135,7 @@ export function buildPickCounterThesis(stock) {
 export function buildPickAuditTrail(stock) {
   const ov = stock.overview || {};
   const r = ov.returns_pct || {};
+  const regulatoryFlags = buildRegulatoryFlags(stock);
   return {
     scoring_version: PICKS_SCORING_VERSION,
     inputs_used: {
@@ -144,7 +145,7 @@ export function buildPickAuditTrail(stock) {
       returns_3m: r["3M"] ?? null,
       returns_1m: r["1M"] ?? null,
       risks_count: (ov.risks || []).length,
-      surveillance: stock.v2_breakdown?.surveillance || null,
+      surveillance: regulatoryFlags.surveillance || null,
       market_cap_inr: ov.market_cap_inr ?? null,
     },
     imputations: {
@@ -275,6 +276,53 @@ export function computeV2Score(stock, opts = {}) {
   };
 }
 
+export function normaliseSurveillanceFlag(flag) {
+  if (!flag) return null;
+  if (flag === true) return { list: "SURVEILLANCE", timeframe: null };
+  const list = flag.list || flag.type || null;
+  const timeframe = flag.timeframe || flag.term || null;
+  return list || timeframe ? { list, timeframe } : null;
+}
+
+export function buildRegulatoryFlags(stock = {}) {
+  const surveillance = normaliseSurveillanceFlag(
+    stock.regulatory_flags?.surveillance ||
+      stock.v4_breakdown?.surveillance ||
+      stock.v2_breakdown?.surveillance ||
+      null,
+  );
+  return { surveillance };
+}
+
+export function buildRiskOverlay(stock = {}) {
+  const ov = stock.overview || {};
+  const v4 = stock.v4_breakdown || {};
+  const v2 = stock.v2_breakdown || {};
+  const regulatoryFlags = buildRegulatoryFlags(stock);
+  const beta = num(ov.beta, null);
+  const risksCount = Array.isArray(ov.risks) ? ov.risks.length : 0;
+  return {
+    surveillance: regulatoryFlags.surveillance,
+    pts_overlay: typeof v4.pts_overlay === "number" ? v4.pts_overlay : null,
+    overlay_reasons: Array.isArray(v4.overlay_reasons) ? v4.overlay_reasons : [],
+    pts_risk_overlay: typeof v2.pts_risk_overlay === "number" ? v2.pts_risk_overlay : null,
+    beta_flag: v2.beta_flag ?? (beta != null && beta > 1.5),
+    risks_flag: v2.risks_flag ?? risksCount >= 4,
+    risks_count: risksCount,
+  };
+}
+
+export function buildCanonicalScore(stock = {}) {
+  const value = num(stock.v4_score_100 ?? stock.v4_score, null);
+  return {
+    version: "v4",
+    model: PICKS_SCORING_VERSION,
+    source: value == null ? null : "sws",
+    value,
+    verdict: stock.v4_verdict ?? stock.composite_verdict ?? null,
+  };
+}
+
 // ---------- v3 score: 50%-coverage-gated scorecard ----------
 // Mirror of scripts/sws-scoring.mjs::computeV3Score. Kept in sync so that the
 // runFullScoring pipeline and the live holding engine produce identical
@@ -400,6 +448,9 @@ export function scoreStock(stock, opts = {}) {
   stock.v4_score_100 = v4.v4_score_100;
   stock.v4_breakdown = v4.v4_breakdown;
   stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
+  stock.regulatory_flags = buildRegulatoryFlags(stock);
+  stock.risk_overlay = buildRiskOverlay(stock);
+  stock.canonical_score = buildCanonicalScore(stock);
   // Categorise AFTER v4 — categories key off v4_verdict.
   scoringStock.v4_score_100 = v4.v4_score_100;
   scoringStock.v4_breakdown = v4.v4_breakdown;
@@ -437,6 +488,11 @@ export function pickCardFields(stock) {
     v4_score_100: stock.v4_score_100,
     v4_breakdown: stock.v4_breakdown,
     v4_verdict: stock.v4_verdict,
+    canonical_score: stock.canonical_score || buildCanonicalScore(stock),
+    score_model: PICKS_SCORING_VERSION,
+    score_source: "sws_v4",
+    regulatory_flags: stock.regulatory_flags || buildRegulatoryFlags(stock),
+    risk_overlay: stock.risk_overlay || buildRiskOverlay(stock),
     verdict: stock.verdict,
     // PR 2.3 — explicitly named aliases. UI prefers these over the legacy
     // `verdict` / `v4_verdict` fields so the two signals can never be
@@ -506,7 +562,7 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
   const hygiene = (s) => {
     const mcap = num(s.overview?.market_cap_inr, 0);
     if (mcap < MIN_MCAP_INR) return false;
-    const surv = s.v2_breakdown?.surveillance;
+    const surv = buildRegulatoryFlags(s).surveillance;
     if (surv && surv.list === "GSM") return false;
     return true;
   };
@@ -541,6 +597,10 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
   });
 
   const sections = {
+    top_ranked_30_v4: top30,
+    // Temporary compatibility alias. New first-party readers use
+    // top_ranked_30_v4; historical/older consumers may still request v3.
+    top_ranked_30_v3: top30,
     top_ranked_30: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),

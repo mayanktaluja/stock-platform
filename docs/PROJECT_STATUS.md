@@ -33,6 +33,16 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### V4-only score contract (June 2026)
+- **This PR** — SWS score truth is now V4-native across first-party market
+  APIs, cards, modals, analyzer payloads, earnings signals, Track Record
+  snapshot mapping, scorer outputs, and static guards. Generated payloads
+  dual-write `top_ranked_30_v4`, `signals.v4`, and `v4-universe-stats.json`
+  while temporarily mirroring legacy V3 compatibility keys. Surveillance and
+  risk-overlay metadata now live under `regulatory_flags` / `risk_overlay`, and
+  `fundamentalsV2` fallback scores are explicit non-SWS fallback candidates
+  instead of populating V4 score fields.
+
 ### Snowflake Gap Lab (June 2026)
 - **Warning-banner follow-up** — India stock-detail modals now break SWS
   insufficient-data warnings down by Snowflake section, using the persisted
@@ -351,9 +361,11 @@ experimental surface area and nightly refresh load.
 
 - **`gated/app.js` is ~13,040 LOC.** Concurrent edits collide — edit sequentially.
 - **NSE cookie-gated endpoints fail on Vercel datacenter IPs.** Run locally, commit JSON.
-- **`v3` names are V4 aliases, not leftovers.** `signals.v3.*`, `top_ranked_30_v3`,
-  `v3-universe-stats.json`, `v3SignalAdapter.js` all carry V4 data by design — don't
-  blind find-replace.
+- **V4-native score names are the first-party contract.** `signals.v4`,
+  `top_ranked_30_v4`, and `v4-universe-stats.json` are canonical runtime
+  surfaces. Historical V3 labels may still exist as temporary compatibility
+  mirrors or ledger identifiers, but UI/API/analyzer code should not use them
+  as score truth.
 - **V4 verdicts are absolute cutoffs** (≥59 / ≥47 / ≥37 / ≥28), not rank-based — no
   universe band is loaded at runtime.
 - **Vercel KV is dead for the picks/fundamentals READ path** (#195) but still backs

@@ -32,6 +32,7 @@ const DEEP_EXTRACT_BASE = "/tmp/sws-us-deep";
 const PICKS_LATEST_PATH = path.join(DATA_DIR, "picks-latest.json");
 const SCORED_UNIVERSE_PATH = path.join(DATA_DIR, "sws-scored-universe.json");
 const LAST_REFRESH_PATH = path.join(DATA_DIR, "last-refresh.json");
+const V4_UNIVERSE_PATH = path.join(DATA_DIR, "v4-universe-stats.json");
 const V3_UNIVERSE_PATH = path.join(DATA_DIR, "v3-universe-stats.json");
 const FUNDAMENTALS_LATEST_PATH = path.join(DATA_DIR, MARKET_FUNDAMENTALS_FILE);
 
@@ -48,6 +49,7 @@ function readJson(fp) {
 const readPicks = mtimeCached(PICKS_LATEST_PATH, readJson);
 const readScoredUniverse = mtimeCached(SCORED_UNIVERSE_PATH, readJson);
 const readLastRefresh = mtimeCached(LAST_REFRESH_PATH, readJson);
+const readV4 = mtimeCached(V4_UNIVERSE_PATH, readJson);
 const readV3 = mtimeCached(V3_UNIVERSE_PATH, readJson);
 const readFundamentalsFallback = createMarketFundamentalsFallbackReader(FUNDAMENTALS_LATEST_PATH);
 
@@ -81,14 +83,22 @@ export function getUsLastRefresh() {
   return readLastRefresh();
 }
 
-export function getUsV3UniverseStats() {
-  const r = readV3();
+function normaliseUniverseStats(r) {
   return r ? {
     r1m: r.r1m || [],
     r3m: r.r3m || [],
     r1y: r.r1y || [],
     fvBenchmark: r.fv_benchmark || r.fvBenchmark || null,
+    fvCompositeIndustryAverages: r.fv_composite_industry_averages || r.fvCompositeIndustryAverages || null,
   } : null;
+}
+
+export function getUsV4UniverseStats() {
+  return normaliseUniverseStats(readV4() || readV3());
+}
+
+export function getUsV3UniverseStats() {
+  return getUsV4UniverseStats();
 }
 
 export function getUsStockByTicker(ticker) {

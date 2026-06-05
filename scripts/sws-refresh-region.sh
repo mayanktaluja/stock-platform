@@ -299,6 +299,7 @@ sws_auto_ship_market \
   "${DATA_DIR}/last-refresh.json" \
   "${DATA_DIR}/picks-latest.json" \
   "${DATA_DIR}/sws-scored-universe.json" \
+  "${DATA_DIR}/v4-universe-stats.json" \
   "${DATA_DIR}/v3-universe-stats.json" \
   "${DATA_DIR}/universe.json" \
   "${DATA_DIR}/universe-meta.json" \

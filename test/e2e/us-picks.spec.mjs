@@ -90,6 +90,12 @@ test.describe("US Picks tab", () => {
     // PR2 parity: these sections were ABSENT from the old simplified US modal —
     // their presence proves the US tab now renders via the shared renderSwsModalCore.
     expect(txt).toMatch(/Score breakdown/i);
+    expect(txt).toMatch(/Pillars 76/i);
+    expect(txt).toMatch(/FV composite 12/i);
+    expect(txt).toMatch(/Momentum 12/i);
+    expect(txt).not.toMatch(/Score evolution/i);
+    expect(txt).not.toMatch(/Fundamentals \(v1\)/i);
+    expect(txt).not.toMatch(/v2 fundamentals composite/i);
     expect(txt).toMatch(/Total returns/i);
     expect(txt).toMatch(/Rewards\s*\(\d+\)/i);
     expect(txt).toMatch(/Risks\s*\(\d+\)/i);
@@ -113,6 +119,60 @@ test.describe("US Picks tab", () => {
     expect(hero).not.toMatch(/Price\s*—/);
     await page.evaluate(() => window.closeUSModal());
     await expect(modal).not.toHaveClass(/open/);
+  });
+
+  test("modal never falls back to legacy V2 breakdown labels when V4 components are missing", async ({ page }) => {
+    await openUSPicks(page);
+    await page.route("**/api/us-stock/**", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ticker: "COHU",
+          deep: {
+            overview: {
+              ticker: "COHU",
+              name: "Cohu, Inc.",
+              sector: "Semiconductors",
+              currency: "USD",
+              snowflake_total: 11,
+              snowflake: { valuation: 4, future_growth: 4, past_performance: 0, financial_health: 3, dividends: 0 },
+            },
+          },
+          card: {
+            ticker: "COHU",
+            name: "Cohu, Inc.",
+            sector: "Semiconductors",
+            currency: "USD",
+            current_price_inr: 52.75,
+            fair_value_inr: 57.43,
+            upside_pct: 8.9,
+            market_cap_inr: 2.49e9,
+            v4_score_100: 52.1,
+            v4_verdict: "STRONG",
+            composite_verdict: "STRONG",
+            score: 0,
+            v2_score: 0,
+            v2_breakdown: { v1_fundamentals: 0, pts_catalyst: 0, pts_risk_overlay: 0 },
+            snowflake_total: 11,
+            snowflake: { valuation: 4, future_growth: 4, past_performance: 0, financial_health: 3, dividends: 0 },
+          },
+          fundamentals_fallback: null,
+          in_sections: [],
+          currency: "USD",
+        }),
+      }),
+    );
+    await page.evaluate(() => window.openUSModal("COHU"));
+    const modal = page.locator("#usModalBackdrop");
+    await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
+    const txt = await page.locator("#usModalBody").innerText();
+    expect(txt).toMatch(/52\.1/);
+    expect(txt).toMatch(/STRONG/i);
+    expect(txt).not.toMatch(/Score breakdown/i);
+    expect(txt).not.toMatch(/Fundamentals \(v1\)/i);
+    expect(txt).not.toMatch(/v2 fundamentals composite/i);
+    expect(txt).not.toMatch(/v2 = fundamentals/i);
   });
 
   test("stock cards open the US modal through the visible click path", async ({ page }) => {

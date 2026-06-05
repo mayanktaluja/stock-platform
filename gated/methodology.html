@@ -64,7 +64,7 @@
       tracks shows up unless an NSE surveillance flag (ASM/GSM) blocks it.
     </p>
     <ul>
-      <li><strong>Simply Wall Street (SWS)</strong> — Snowflake score, fair-value upside, V3 100-pt breakdown, 90-day news briefs.</li>
+      <li><strong>Simply Wall Street (SWS)</strong> — Snowflake pillars, fair-value upside, V4 100-pt breakdown, regulatory flags, 90-day news briefs.</li>
       <li><strong>Yahoo Finance</strong> — live quotes, earnings history (~494 covered names for fundamentals trajectory).</li>
       <li><strong>NSE (scraped locally)</strong> — event calendar, corporate announcements, bulk/block deals, surveillance flags.</li>
       <li><strong>Groq / Gemini LLMs</strong> — qualitative news classifier for the earnings predictor. Heuristic keyword fallback when keys are absent (UI surfaces a banner when this happens).</li>
@@ -72,11 +72,10 @@
 
     <h2>2. India Market — how a stock becomes a recommendation</h2>
     <p>
-      The picks come straight from SWS's V3 framework (100-pt composite of Future, Past, Health,
-      Dividends, Valuation). The platform doesn't re-score — it bands the SWS score into
-      <strong>STRONG&nbsp;BUY → BUY → HOLD → TRIM → SELL</strong> bands and pairs each with the live
-      fair-value upside %. The bands are conservative: STRONG BUY requires score ≥ 75 + upside ≥ 30%
-      together, not either-or.
+      The picks use the platform's SWS V4 framework: SWS pillars 76 + fair-value composite 12 +
+      momentum 12 minus the safety overlay. Verdicts use fixed V4 cutoffs
+      (<strong>TOP_PICK ≥ 59, STRONG ≥ 47, ACCEPTABLE ≥ 37, WATCH ≥ 28, AVOID below 28</strong>)
+      and regulatory surveillance is surfaced separately through <code>regulatory_flags</code>.
     </p>
     <p>
       Hard gates that REMOVE a stock from picks regardless of score:

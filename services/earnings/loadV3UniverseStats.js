@@ -1,8 +1,8 @@
 /**
  * loadV3UniverseStats.js
  *
- * Loads data/sws/v3-universe-stats.json — the sorted {r1m, r3m, r1y}
- * return arrays the SWS V3 scorer needs as `opts.universe` to turn raw
+ * Loads data/sws/v4-universe-stats.json — the sorted {r1m, r3m, r1y}
+ * return arrays the SWS V4 scorer needs as `opts.universe` to turn raw
  * returns into momentum percentiles.
  *
  * Why a dedicated loader: the Earnings Watch predictor's V3 adapter may
@@ -31,6 +31,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = process.cwd();
+const V4_UNIVERSE_STATS_PATH = path.join(ROOT, "data", "sws", "v4-universe-stats.json");
 const V3_UNIVERSE_STATS_PATH = path.join(ROOT, "data", "sws", "v3-universe-stats.json");
 const STALE_AFTER_DAYS = 7;
 
@@ -43,11 +44,12 @@ const STALE_AFTER_DAYS = 7;
  *          "impute momentum".
  */
 export function loadV3UniverseStats(opts = {}) {
-  const filePath = opts.filePath || V3_UNIVERSE_STATS_PATH;
+  const filePath = opts.filePath || (fs.existsSync(V4_UNIVERSE_STATS_PATH) ? V4_UNIVERSE_STATS_PATH : V3_UNIVERSE_STATS_PATH);
+  const logPrefix = filePath.endsWith("v4-universe-stats.json") ? "v4-universe-stats" : "v3-universe-stats";
   if (!fs.existsSync(filePath)) {
     console.warn(
-      `[v3-universe-stats] ${path.relative(ROOT, filePath)} missing — ` +
-        `V3 momentum percentiles will be imputed (run the SWS refresh pipeline)`,
+      `[${logPrefix}] ${path.relative(ROOT, filePath)} missing — ` +
+        `V4 momentum percentiles will be imputed (run the SWS refresh pipeline)`,
     );
     return null;
   }
@@ -55,11 +57,11 @@ export function loadV3UniverseStats(opts = {}) {
   try {
     parsed = JSON.parse(fs.readFileSync(filePath, "utf8"));
   } catch (err) {
-    console.warn(`[v3-universe-stats] unparseable, imputing momentum: ${err.message}`);
+    console.warn(`[${logPrefix}] unparseable, imputing momentum: ${err.message}`);
     return null;
   }
   if (!Array.isArray(parsed.r1m) || !Array.isArray(parsed.r3m) || !Array.isArray(parsed.r1y)) {
-    console.warn(`[v3-universe-stats] missing r1m/r3m/r1y arrays — imputing momentum`);
+    console.warn(`[${logPrefix}] missing r1m/r3m/r1y arrays — imputing momentum`);
     return null;
   }
 
@@ -70,7 +72,7 @@ export function loadV3UniverseStats(opts = {}) {
     const ageDays = (Date.now() - new Date(parsed.generated_at).getTime()) / 86400000;
     if (Number.isFinite(ageDays) && ageDays > STALE_AFTER_DAYS) {
       console.warn(
-        `[v3-universe-stats] ${ageDays.toFixed(1)}d old — re-run the SWS refresh pipeline`,
+        `[${logPrefix}] ${ageDays.toFixed(1)}d old — re-run the SWS refresh pipeline`,
       );
     }
   }

@@ -89,8 +89,16 @@ import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolio
 // the only engine.
 import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
-import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
-import { reconcileFairValue } from "./services/fvReconciliation.js";
+import {
+  scoreStock as swsScoreStock,
+  valuationBandFromUpside,
+  buildCanonicalScore,
+  buildRegulatoryFlags,
+  buildRiskOverlay,
+  PICKS_SCORING_VERSION,
+} from "./services/swsScoring.js";
+import { computeV4Score, verdictV4FromScore } from "./services/swsScoringV4.js";
+import { reconcileFairValue, withReconciledFairValue } from "./services/fvReconciliation.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
@@ -2435,7 +2443,7 @@ app.get("/api/surveillance/status", (req, res) => {
  *                      rebuild — read via the universe-meta.json sidecar)
  *
  * Deliberately NOT monitored (internal caches / derived / not user-facing):
- * sws-scored-universe.json + v3-universe-stats.json (derived from the scrape),
+ * sws-scored-universe.json + v4-universe-stats.json (derived from the scrape),
  * last-refresh.json (covered via picks_latest), coverage_gap.json,
  * earnings-backtest-latest.json (admin/backtest surface, not the live
  * dashboard), and the rolling nse-announcements/bulk-block files (transient).
@@ -7511,14 +7519,52 @@ function stampMarketRows(data, market) {
   if (!st || !data) return;
   if (data.sections) {
     for (const items of Object.values(data.sections)) {
-      if (Array.isArray(items)) for (const it of items) stampMarketIndexFlags(it, st.sets, market);
+      if (Array.isArray(items)) {
+        for (const it of items) {
+          normaliseV4ScoreContracts(it);
+          stampMarketIndexFlags(it, st.sets, market);
+        }
+      }
     }
   }
   data.universeFilters = { keys: MARKET_INDEX_KEYS[market], available: availableMarketIndexKeys(st.sets, market) };
 }
 
+function normaliseTopRankedSections(sections) {
+  if (!sections || typeof sections !== "object") return sections;
+  if (!Array.isArray(sections.top_ranked_30_v4)) {
+    sections.top_ranked_30_v4 =
+      Array.isArray(sections.top_ranked_30_v3) ? sections.top_ranked_30_v3 :
+      Array.isArray(sections.top_ranked_30) ? sections.top_ranked_30 :
+      sections.top_ranked_30_v4;
+  }
+  if (!Array.isArray(sections.top_ranked_30_v3) && Array.isArray(sections.top_ranked_30_v4)) {
+    sections.top_ranked_30_v3 = sections.top_ranked_30_v4;
+  }
+  return sections;
+}
+
+function normaliseTopRankedCategory(category) {
+  return category === "top_ranked_30_v3" || category === "top_ranked_30"
+    ? "top_ranked_30_v4"
+    : category;
+}
+
+function normaliseV4ScoreContracts(row) {
+  if (!row || typeof row !== "object") return row;
+  if (row.v4_score_100 == null && row.v4_score != null) row.v4_score_100 = row.v4_score;
+  if (row.v4_score == null && row.v4_score_100 != null) row.v4_score = row.v4_score_100;
+  row.canonical_score = row.canonical_score || buildCanonicalScore(row);
+  row.score_model = row.score_model || PICKS_SCORING_VERSION;
+  row.score_source = row.score_source || (row.canonical_score?.value == null ? null : "sws_v4");
+  row.regulatory_flags = row.regulatory_flags || buildRegulatoryFlags(row);
+  row.risk_overlay = row.risk_overlay || buildRiskOverlay(row);
+  return row;
+}
+
 function enrichPickRow(it) {
   if (!it || !it.ticker) return;
+  normaliseV4ScoreContracts(it);
   if (it.composite_verdict == null && it.v4_verdict != null) {
     it.composite_verdict = it.v4_verdict;
   }
@@ -7694,7 +7740,7 @@ app.get("/api/sws-picks", async (req, res) => {
   const data = {
     ...raw,
     sections: raw.sections
-      ? (() => { const { avoid, ...rest } = raw.sections; return { ...rest }; })()
+      ? (() => { const { avoid, ...rest } = raw.sections; return normaliseTopRankedSections({ ...rest }); })()
       : raw.sections,
   };
   const limitRaw = req.query.limit;
@@ -7702,7 +7748,7 @@ app.get("/api/sws-picks", async (req, res) => {
     ? Math.min(Math.max(parseInt(limitRaw, 10) || 0, 0), SWS_PICKS_MAX_LIMIT)
     : null;
   const category = typeof req.query.category === "string" && req.query.category.trim()
-    ? req.query.category.trim()
+    ? normaliseTopRankedCategory(req.query.category.trim())
     : null;
   const driftCounter = { count: 0 };
   const driftTimeoutFlag = { timedOut: false, errored: false };
@@ -7955,6 +8001,11 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
         v4_score_100: scored.v4_score_100,
         v4_breakdown: scored.v4_breakdown,
         v4_verdict: scored.v4_verdict,
+        canonical_score: scored.canonical_score,
+        score_model: PICKS_SCORING_VERSION,
+        score_source: "sws_v4",
+        regulatory_flags: scored.regulatory_flags,
+        risk_overlay: scored.risk_overlay,
         snowflake_total: ov.snowflake_total,
         current_price_inr: ov.current_price_inr,
         fair_value_inr: fv.fair_value_inr,
@@ -7977,6 +8028,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   // pickCardFields change. Mirrors the /api/sws-picks back-fill so the modal
   // can show composite_verdict + valuation_band even on stale snapshots.
   if (card) {
+    normaliseV4ScoreContracts(card);
     applyReconciledFvToCard(card, deep.overview || {});
     if (card.composite_verdict == null && card.v4_verdict != null) {
       card.composite_verdict = card.v4_verdict;
@@ -8194,6 +8246,38 @@ function filterSyntheticMarketFixtureRows(data) {
   return data;
 }
 
+function hydrateMarketCardV4Breakdown(card, deep, dal, marketCode) {
+  if (!card || card.v4_breakdown || !deep) return card;
+  try {
+    const universe = typeof dal.getUsV4UniverseStats === "function"
+      ? dal.getUsV4UniverseStats()
+      : (typeof dal.getV4UniverseStats === "function"
+          ? dal.getV4UniverseStats()
+          : (typeof dal.getUsV3UniverseStats === "function"
+              ? dal.getUsV3UniverseStats()
+              : (typeof dal.getV3UniverseStats === "function" ? dal.getV3UniverseStats() : null)));
+    const scoringStock = withReconciledFairValue({
+      ...deep,
+      ticker: card.ticker || deep.ticker,
+      sector: card.sector || deep.sector,
+    });
+    const v4 = computeV4Score(scoringStock, { universe, surveillanceFlag: false });
+    const v4Verdict = card.v4_verdict || verdictV4FromScore(v4.v4_score_100);
+    const nextCard = {
+      ...card,
+      v4_score: card.v4_score ?? card.v4_score_100 ?? v4.v4_score_100,
+      v4_score_100: card.v4_score_100 ?? v4.v4_score_100,
+      v4_breakdown: v4.v4_breakdown,
+      v4_verdict: v4Verdict,
+      composite_verdict: card.composite_verdict || v4Verdict,
+    };
+    return normaliseV4ScoreContracts(nextCard);
+  } catch (e) {
+    console.warn(`[${marketCode || "market"}-stock] V4 breakdown hydration failed for ${card.ticker || deep.ticker || "unknown"}:`, e.message);
+    return card;
+  }
+}
+
 app.get("/api/us-picks", async (req, res) => {
   if (!(await requireSignedInRead(req, res))) return;
   const raw = usPicksDal.getUsPicksLatest();
@@ -8204,14 +8288,16 @@ app.get("/api/us-picks", async (req, res) => {
     });
   }
   // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
-  const data = { ...raw, sections: { ...(raw.sections || {}) } };
+  const data = { ...raw, sections: normaliseTopRankedSections({ ...(raw.sections || {}) }) };
   filterSyntheticMarketFixtureRows(data);
   const limit =
     req.query.limit != null
       ? Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), US_PICKS_MAX_LIMIT)
       : null;
   const category =
-    typeof req.query.category === "string" && req.query.category.trim() ? req.query.category.trim() : null;
+    typeof req.query.category === "string" && req.query.category.trim()
+      ? normaliseTopRankedCategory(req.query.category.trim())
+      : null;
   if (data.sections && (limit !== null || category)) {
     if (category) {
       const keep = data.sections[category];
@@ -8267,7 +8353,8 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
   const deep = usPicksDal.getUsStockByTicker(ticker);
   if (isSyntheticMarketFixtureRow(deep)) return res.status(404).json({ error: "no_us_data", ticker });
   const returnsPct = normaliseMarketReturns({ deep, card });
-  const responseCard = enrichMarketCardReturns(card, returnsPct);
+  const hydratedCard = hydrateMarketCardV4Breakdown(card, deep, usPicksDal, "us");
+  const responseCard = enrichMarketCardReturns(normaliseV4ScoreContracts(hydratedCard), returnsPct);
   res.json({
     ticker,
     deep: deep || null,
@@ -8331,14 +8418,16 @@ function registerRegionPicksRoutes(app, dal) {
       });
     }
     // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
-    const data = { ...raw, sections: { ...(raw.sections || {}) } };
+    const data = { ...raw, sections: normaliseTopRankedSections({ ...(raw.sections || {}) }) };
     filterSyntheticMarketFixtureRows(data);
     const limit =
       req.query.limit != null
         ? Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), REGION_PICKS_MAX_LIMIT)
         : null;
     const category =
-      typeof req.query.category === "string" && req.query.category.trim() ? req.query.category.trim() : null;
+      typeof req.query.category === "string" && req.query.category.trim()
+        ? normaliseTopRankedCategory(req.query.category.trim())
+        : null;
     if (data.sections && (limit !== null || category)) {
       if (category) {
         const keep = data.sections[category];
@@ -8396,7 +8485,8 @@ function registerRegionPicksRoutes(app, dal) {
     const deep = dal.getStockByTicker(ticker);
     if (isSyntheticMarketFixtureRow(deep)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
     const returnsPct = normaliseMarketReturns({ deep, card });
-    const responseCard = enrichMarketCardReturns(card, returnsPct);
+    const hydratedCard = hydrateMarketCardV4Breakdown(card, deep, dal, prefix);
+    const responseCard = enrichMarketCardReturns(normaliseV4ScoreContracts(hydratedCard), returnsPct);
     res.json({
       ticker,
       deep: deep || null,

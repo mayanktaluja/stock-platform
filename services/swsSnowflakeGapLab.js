@@ -309,7 +309,11 @@ export function buildSnowflakeGapLabSection(scoredStocks, opts = {}) {
   for (const stock of scoredStocks || []) {
     const ticker = canonicalTicker(stock);
     const mcap = Number(stock?.overview?.market_cap_inr);
-    const surveillance = stock?.v4_breakdown?.surveillance || stock?.v2_breakdown?.surveillance || null;
+    const surveillance =
+      stock?.regulatory_flags?.surveillance ||
+      stock?.risk_overlay?.surveillance ||
+      stock?.v4_breakdown?.surveillance ||
+      null;
     const reject = (reason) => {
       audit.rejected[reason] = (audit.rejected[reason] || 0) + 1;
     };

@@ -135,9 +135,11 @@ check("smallcap_gems: $3B excluded (> $2B ceiling)", () => {
 check("hygiene floor: <$50M excluded from top30, ≥$50M included", () => {
   const tiny = scoreStockUS(stock({ ticker: "TINY", overview: { market_cap_inr: 40_000_000 } }), { universe });
   const okay = scoreStockUS(stock({ ticker: "OKAY", overview: { market_cap_inr: 60_000_000 } }), { universe });
-  const top = buildLeaderboardUS([tiny, okay]).top_ranked_30_v3.map((c) => c.ticker);
+  const lb = buildLeaderboardUS([tiny, okay]);
+  const top = lb.top_ranked_30_v4.map((c) => c.ticker);
   assert.ok(!top.includes("TINY"));
   assert.ok(top.includes("OKAY"));
+  assert.equal(lb.top_ranked_30_v3, lb.top_ranked_30_v4);
 });
 
 console.log("\nNegative / null robustness (US hits these far more than NSE)\n");
@@ -220,7 +222,7 @@ check("(e) Infinity / NaN inputs → clamped, finite scores, no throw", () => {
   assert.ok(Number.isFinite(s.v4_score_100));
   assert.ok(Number.isFinite(s.composite_score_100));
   // Infinity mcap → num()→0 → below hygiene floor → not in top30
-  assert.ok(!buildLeaderboardUS([s]).top_ranked_30_v3.some((c) => c.ticker === "NAN"));
+  assert.ok(!buildLeaderboardUS([s]).top_ranked_30_v4.some((c) => c.ticker === "NAN"));
 });
 
 check("(f) no universe → momentum imputed at p50", () => {
@@ -254,6 +256,9 @@ check("V4 surface — scoreStockUS emits finite v4 fields, no v3 residue, card c
   assert.ok(!("v3_score_100" in s) && !("v3_breakdown" in s) && !("v3_verdict" in s));
   // V4 breakdown uses pts_fv_total; the old pts_fv_upside name is gone.
   assert.ok("pts_fv_total" in s.v4_breakdown && !("pts_fv_upside" in s.v4_breakdown));
+  assert.equal(s.canonical_score.version, "v4");
+  assert.ok(s.regulatory_flags);
+  assert.ok(s.risk_overlay);
   assert.equal(cardOf(s).v4_score_100, s.v4_score_100); // usCardFields spreads pickCardFields → v4 carried
 });
 
