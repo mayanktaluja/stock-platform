@@ -13114,13 +13114,11 @@ function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
           const row = byPillar[pillar] || {};
           const insufficient = Number(row.insufficient);
           if (!Number.isFinite(insufficient) || insufficient <= 0) return null;
-          const checked = Number(row.checked);
-          const checkedLabel = Number.isFinite(checked) && checked > 0 ? checked : 6;
-          return `${escapeHtml(pillar)} ${insufficient}/${checkedLabel}`;
+          return `${escapeHtml(pillar)} ${insufficient} unavailable source check${insufficient === 1 ? "" : "s"}`;
         })
         .filter(Boolean)
     : [];
-  const pillarText = pillarCounts.length ? `Missing by section: ${pillarCounts.join(" · ")}` : "";
+  const pillarText = pillarCounts.length ? `Unavailable by section: ${pillarCounts.join(" · ")}` : "";
   const missingCheckGroups = [];
   if (Array.isArray(checkMatrix?.checks)) {
     const grouped = new Map();
@@ -13154,8 +13152,8 @@ function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
   const sampleText = !missingChecksText && samples.length ? `Examples: ${samples.join(" · ")}` : "";
   const titleText = isFallback ? "Snowflake data-gap warning:" : "SWS data warning:";
   const bodyText = isFallback
-    ? `${countText} were inferred from Gap Lab peer-imputed no-data checks across ${affectedText}. Parser warning metadata was missing for this artifact; treat the Snowflake score as source-limited and verify manually.`
-    : `${countText} show insufficient source data across ${affectedText}. Treat the Snowflake score as source-limited and verify manually.`;
+    ? `${countText} were inferred from Gap Lab peer-imputed no-data checks across ${affectedText}. Parser warning metadata was missing for this artifact; the Snowflake score below is separate from source-data availability.`
+    : `${countText} show insufficient source data across ${affectedText}. The Snowflake score below is separate from source-data availability.`;
   return `
     <div class="sws-modal-data-warning" data-testid="sws-snowflake-data-warning" role="note" aria-label="SWS Snowflake data warning">
       <strong>${escapeHtml(titleText)}</strong>
