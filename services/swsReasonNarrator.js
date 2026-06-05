@@ -40,7 +40,7 @@ function _primaryDriverFromLayers({ sws_v3, sws_verdict, crosscheck, catalyst, i
     { name: "Cross-check", text: crosscheck?.reason, magnitude: 100 - (crosscheck?.pillar_agreement_pct ?? 100), delta: crosscheck?.confidence_delta ?? 0 },
   ].filter((c) => c.delta !== 0 && c.text);
   if (candidates.length === 0) {
-    return `SWS v3 score ${num(sws_v3, 0).toFixed(0)}/100 (verdict: ${sws_verdict || "n/a"}) is the dominant driver — no independent layer carries a strong dissent or confirmation.`;
+    return `SWS V4 score ${num(sws_v3, 0).toFixed(0)}/100 (verdict: ${sws_verdict || "n/a"}) is the dominant driver — no independent layer carries a strong dissent or confirmation.`;
   }
   candidates.sort((a, b) => b.magnitude - a.magnitude);
   const top = candidates[0];

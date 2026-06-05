@@ -382,9 +382,10 @@ function layer1(lr, picks) {
   }
 
   const sec = picks?.sections || {};
+  const top30Section = sec.top_ranked_30_v4 || sec.top_ranked_30_v3 || [];
   record(layer, "section_top30", BLOCK,
-    (sec.top_ranked_30_v3?.length ?? 0) === 30,
-    { count: sec.top_ranked_30_v3?.length });
+    (top30Section?.length ?? 0) === 30,
+    { count: top30Section?.length });
   record(layer, "section_best_to_buy_now", BLOCK,
     (sec.best_to_buy_now?.length ?? 0) >= MIN_BEST_TO_BUY_NOW,
     { count: sec.best_to_buy_now?.length, threshold: MIN_BEST_TO_BUY_NOW });
@@ -711,7 +712,7 @@ function layer6(picks, scored, insaneOffenders) {
     picksMissingDeep.length === 0,
     { missing_count: picksMissingDeep.length, sample: picksMissingDeep.slice(0, 10) });
 
-  const top30 = picks.sections.top_ranked_30_v3 || [];
+  const top30 = picks.sections.top_ranked_30_v4 || picks.sections.top_ranked_30_v3 || [];
   let sortedDesc = true;
   for (let i = 1; i < top30.length; i++) {
     if ((top30[i].v4_score_100 ?? 0) > (top30[i - 1].v4_score_100 ?? 0)) {
@@ -840,7 +841,7 @@ function main() {
   const summaryLine = [
     `verdict=${verdict}`,
     `scored=${lr?.scored_count ?? "?"}`,
-    `top30=${picks?.sections?.top_ranked_30_v3?.length ?? "?"}`,
+    `top30=${(picks?.sections?.top_ranked_30_v4 || picks?.sections?.top_ranked_30_v3)?.length ?? "?"}`,
     blocks.length ? `blocks=${blocks.length}` : null,
     warns.length ? `warns=${warns.length}` : null,
   ].filter(Boolean).join(" · ");

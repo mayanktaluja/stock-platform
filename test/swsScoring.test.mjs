@@ -62,7 +62,7 @@ check("num undefined default 0",     () => assert.equal(num(undefined), 0));
 
 console.log("\nschema/scoring version constants\n");
 
-check("schema version is v3 string", () => assert.equal(PICKS_SCHEMA_VERSION, "picks-latest-v3"));
+check("schema version is v4 string", () => assert.equal(PICKS_SCHEMA_VERSION, "picks-latest-v4"));
 check("scoring version stamp present", () => assert.ok(/sws-v4-100pt/.test(PICKS_SCORING_VERSION)));
 
 console.log("\ndataCompletenessPct\n");
@@ -192,6 +192,10 @@ check("scoreStock writes composite/v2/v4/categories onto stock", () => {
   assert.ok(Number.isFinite(s.composite_score_100));
   assert.ok(Number.isFinite(s.v2_score_100));
   assert.ok(Number.isFinite(s.v4_score_100));
+  assert.equal(s.canonical_score.version, "v4");
+  assert.equal(s.score_source ?? s.canonical_score.source, "sws");
+  assert.ok(s.regulatory_flags);
+  assert.ok(s.risk_overlay);
   assert.ok(Array.isArray(s.categories));
   assert.ok(typeof s.verdict === "string" && typeof s.v4_verdict === "string");
 });
@@ -249,6 +253,11 @@ check("pickCardFields exposes verdict + score aliases", () => {
   assert.equal(card.valuation_band, "DISCOUNT");
   assert.equal(card.v4_score, 55);
   assert.equal(card.v4_score_100, 55);
+  assert.equal(card.canonical_score.version, "v4");
+  assert.equal(card.score_model, PICKS_SCORING_VERSION);
+  assert.equal(card.score_source, "sws_v4");
+  assert.ok(card.regulatory_flags);
+  assert.ok(card.risk_overlay);
   assert.ok(card.counter_thesis && card.audit_trail);
 });
 
@@ -384,9 +393,11 @@ check("hygiene drops GSM-flagged stocks from top_ranked_30", () => {
   // Force GSM flag onto A's v2_breakdown post-score (computeV2Score consults
   // module-level _getSurveillanceFlag, so we just inject the breakdown).
   a.v2_breakdown = { surveillance: { list: "GSM", timeframe: null } };
+  a.regulatory_flags = { surveillance: { list: "GSM", timeframe: null } };
   const lb = buildLeaderboard([a, b]);
-  const tickers = lb.top_ranked_30.map((c) => c.ticker);
+  const tickers = lb.top_ranked_30_v4.map((c) => c.ticker);
   assert.ok(!tickers.includes("A") && tickers.includes("B"), `tickers=${tickers}`);
+  assert.equal(lb.top_ranked_30_v3, lb.top_ranked_30_v4);
 });
 
 check("ordered respects v4_score descending (tie-stable)", () => {

@@ -2,7 +2,7 @@
 // Pure-JS, deterministic, runs after Layer 1 scrape completes.
 // Inputs: per-stock JSON written by sws-parse-capture.mjs.
 // Outputs: { composite_score_100, verdict, categories[] } added to each stock,
-//          and a leaderboard JSON written to data/sws/picks-latest.json.
+//          V4 score contracts and a leaderboard JSON written to data/sws/picks-latest.json.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -34,7 +34,7 @@ const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? 
 // (UI, audit consumers, partner dashboards) can detect a model migration.
 // Bump PICKS_SCHEMA_VERSION on a breaking field rename; bump
 // PICKS_SCORING_VERSION when scoring math changes.
-export const PICKS_SCHEMA_VERSION = "picks-latest-v3";
+export const PICKS_SCHEMA_VERSION = "picks-latest-v4";
 export const PICKS_SCORING_VERSION = "sws-v4-100pt-2026-05";
 
 // 13 input fields the scoring engine looks at. Track which were populated
@@ -66,7 +66,7 @@ function dataCompletenessPct(stock) {
 
 // Lite counter-thesis emitter for the static picks file. Mirrors the helper
 // in services/swsScoring.js — keep in sync. Inputs are overview, snowflake,
-// v3 breakdown; no holding-level layer outputs needed.
+// V4 breakdown; no holding-level layer outputs needed.
 function buildPickCounterThesis(stock) {
   const ov = stock.overview || {};
   const sn = ov.snowflake || {};
@@ -120,7 +120,7 @@ function buildPickCounterThesis(stock) {
     else triggers.push("snowflake total rebounds above 22 on next refresh");
   } else {
     triggers.push("a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)");
-    triggers.push("v3 score moves into TOP_PICK (≥60) or AVOID (<22) on next refresh");
+    triggers.push("V4 score moves into TOP_PICK (≥59) or AVOID (<28) on next refresh");
   }
 
   return {
@@ -136,6 +136,7 @@ function buildPickCounterThesis(stock) {
 function buildPickAuditTrail(stock) {
   const ov = stock.overview || {};
   const r = ov.returns_pct || {};
+  const regulatoryFlags = buildRegulatoryFlags(stock);
   return {
     scoring_version: PICKS_SCORING_VERSION,
     inputs_used: {
@@ -145,7 +146,7 @@ function buildPickAuditTrail(stock) {
       returns_3m: r["3M"] ?? null,
       returns_1m: r["1M"] ?? null,
       risks_count: (ov.risks || []).length,
-      surveillance: stock.v2_breakdown?.surveillance || null,
+      surveillance: regulatoryFlags.surveillance || null,
       market_cap_inr: ov.market_cap_inr ?? null,
     },
     imputations: {
@@ -310,6 +311,53 @@ export function computeV2Score(stock, opts = {}) {
       beta_flag: beta != null && beta > 1.5,
       risks_flag: risks >= 4,
     },
+  };
+}
+
+export function normaliseSurveillanceFlag(flag) {
+  if (!flag) return null;
+  if (flag === true) return { list: "SURVEILLANCE", timeframe: null };
+  const list = flag.list || flag.type || null;
+  const timeframe = flag.timeframe || flag.term || null;
+  return list || timeframe ? { list, timeframe } : null;
+}
+
+export function buildRegulatoryFlags(stock = {}) {
+  const surveillance = normaliseSurveillanceFlag(
+    stock.regulatory_flags?.surveillance ||
+      stock.v4_breakdown?.surveillance ||
+      stock.v2_breakdown?.surveillance ||
+      null,
+  );
+  return { surveillance };
+}
+
+export function buildRiskOverlay(stock = {}) {
+  const ov = stock.overview || {};
+  const v4 = stock.v4_breakdown || {};
+  const v2 = stock.v2_breakdown || {};
+  const regulatoryFlags = buildRegulatoryFlags(stock);
+  const beta = num(ov.beta, null);
+  const risksCount = Array.isArray(ov.risks) ? ov.risks.length : 0;
+  return {
+    surveillance: regulatoryFlags.surveillance,
+    pts_overlay: typeof v4.pts_overlay === "number" ? v4.pts_overlay : null,
+    overlay_reasons: Array.isArray(v4.overlay_reasons) ? v4.overlay_reasons : [],
+    pts_risk_overlay: typeof v2.pts_risk_overlay === "number" ? v2.pts_risk_overlay : null,
+    beta_flag: v2.beta_flag ?? (beta != null && beta > 1.5),
+    risks_flag: v2.risks_flag ?? risksCount >= 4,
+    risks_count: risksCount,
+  };
+}
+
+export function buildCanonicalScore(stock = {}) {
+  const value = num(stock.v4_score_100 ?? stock.v4_score, null);
+  return {
+    version: "v4",
+    model: PICKS_SCORING_VERSION,
+    source: value == null ? null : "sws",
+    value,
+    verdict: stock.v4_verdict ?? stock.composite_verdict ?? null,
   };
 }
 
@@ -600,6 +648,9 @@ export function scoreStock(stock, opts = {}) {
   stock.v4_score_100 = v4.v4_score_100;
   stock.v4_breakdown = v4.v4_breakdown;
   stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
+  stock.regulatory_flags = buildRegulatoryFlags(stock);
+  stock.risk_overlay = buildRiskOverlay(stock);
+  stock.canonical_score = buildCanonicalScore(stock);
   // Categorise AFTER v4 — categories key off v4_verdict.
   scoringStock.v4_score_100 = v4.v4_score_100;
   scoringStock.v4_breakdown = v4.v4_breakdown;
@@ -660,6 +711,11 @@ export function pickCardFields(stock) {
     v4_score_100: stock.v4_score_100,
     v4_breakdown: stock.v4_breakdown,
     v4_verdict: stock.v4_verdict,
+    canonical_score: stock.canonical_score || buildCanonicalScore(stock),
+    score_model: PICKS_SCORING_VERSION,
+    score_source: "sws_v4",
+    regulatory_flags: stock.regulatory_flags || buildRegulatoryFlags(stock),
+    risk_overlay: stock.risk_overlay || buildRiskOverlay(stock),
     verdict: stock.verdict,
     // PR 2.3 — explicit aliases. Composite (multi-factor) and valuation
     // (price-vs-FV) are two SEPARATE signals; the UI keeps them as two
@@ -709,6 +765,11 @@ function slimUniverseEntry(stock, inSections) {
     v4_score: card.v4_score,
     v4_score_100: card.v4_score_100,
     v4_verdict: card.v4_verdict,
+    canonical_score: card.canonical_score,
+    score_model: card.score_model,
+    score_source: card.score_source,
+    regulatory_flags: card.regulatory_flags,
+    risk_overlay: card.risk_overlay,
     composite_verdict: card.composite_verdict,
     valuation_band: card.valuation_band,
     verdict: card.verdict,
@@ -746,10 +807,16 @@ function readJsonIfExists(filePath) {
   }
 }
 
+function writeUniverseStatsPayload(payload) {
+  const dir = path.dirname(PATHS.picksLatest);
+  writeJsonAtomic(path.join(dir, "v4-universe-stats.json"), payload);
+  writeJsonAtomic(path.join(dir, "v3-universe-stats.json"), payload);
+}
+
 export function buildLeaderboard(scoredStocks, opts = {}) {
-  // Sort once, descending by v3 — canonical across every section except
+  // Sort once, descending by V4 — canonical across every section except
   // upcoming_earnings (which re-sorts by date below). Card headlines render
-  // v3, so the section rank order matches the number the user sees.
+  // V4, so the section rank order matches the number the user sees.
   //
   // PR 2.7 — drop pure-numeric BSE codes (e.g. "538992") at the universe
   // boundary. They were leaking into Avoid + Deep Value lists alongside
@@ -766,7 +833,7 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
   const hygiene = (s) => {
     const mcap = num(s.overview?.market_cap_inr, 0);
     if (mcap < MIN_MCAP_INR) return false;
-    const surv = s.v2_breakdown?.surveillance;
+    const surv = buildRegulatoryFlags(s).surveillance;
     if (surv && surv.list === "GSM") return false;
     return true;
   };
@@ -791,7 +858,7 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
       return c;
     });
 
-  // Universe-wide top 30 by v3 composite — canonical headline section.
+  // Universe-wide top 30 by V4 composite — canonical headline section.
   const top30 = ordered.filter(hygiene).slice(0, 30).map(pickCardFields);
 
   // Best Fundamentals — matches the score-breakdown modal's "Fundamentals 74"
@@ -823,6 +890,8 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
   });
 
   const sections = {
+    top_ranked_30_v4: top30,
+    // Temporary compatibility alias. New first-party readers use V4.
     top_ranked_30_v3: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
@@ -959,10 +1028,9 @@ export function runFullScoring() {
   // accurate). Per-stock scoring still covers ALL loaded stocks — the
   // 53 excluded tickers go through computeV3Score with imputed
   // momentum (breakdown.momentum_imputed: true).
-  const universeStatsPath = path.join(path.dirname(PATHS.picksLatest), "v3-universe-stats.json");
   const coverage = buildMomentumCoverageReport(loaded);
   const excludedForMomentum = collectExcludedForMomentum(loaded);
-  fs.writeFileSync(universeStatsPath, JSON.stringify({
+  writeUniverseStatsPayload({
     generated_at: new Date().toISOString(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
@@ -979,13 +1047,14 @@ export function runFullScoring() {
     r1m: universe.r1m,
     r3m: universe.r3m,
     r1y: universe.r1y,
-  }));
+  });
 
   return out;
 }
 
 /**
- * Rebuild ONLY data/sws/v3-universe-stats.json from the current deep dir.
+ * Rebuild data/sws/v4-universe-stats.json plus the temporary
+ * data/sws/v3-universe-stats.json compatibility mirror from the current deep dir.
  *
  * Use this when you've changed the v3-universe-stats schema (e.g. added
  * the momentum_coverage block) and want to regenerate the file without
@@ -1034,15 +1103,14 @@ export function rebuildUniverseStatsOnly() {
     r3m: universe.r3m,
     r1y: universe.r1y,
   };
-  const universeStatsPath = path.join(path.dirname(PATHS.picksLatest), "v3-universe-stats.json");
-  fs.writeFileSync(universeStatsPath, JSON.stringify(payload));
+  writeUniverseStatsPayload(payload);
   return payload;
 }
 
 // CLI: `node scripts/sws-scoring.mjs` → score all + write picks-latest.json
 // CLI: `node scripts/sws-scoring.mjs TICKER` → score one stock, print result
 // CLI: `node scripts/sws-scoring.mjs --rebuild-universe-stats` → metadata-only
-//      refresh of data/sws/v3-universe-stats.json without re-scoring picks.
+//      refresh of data/sws/v4-universe-stats.json plus the v3 mirror without re-scoring picks.
 //      Useful after schema changes (e.g. adding momentum_coverage) or to
 //      observe the current upstream-coverage gap without a 30-min refresh.
 if (import.meta.url === `file://${process.argv[1]}`) {
@@ -1052,7 +1120,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const cov = payload.momentum_coverage;
     const excluded = payload.excluded_for_momentum?.length || 0;
     console.log(
-      `Rebuilt v3-universe-stats.json: universe_size=${payload.universe_size} ` +
+      `Rebuilt v4-universe-stats.json (+ v3 mirror): universe_size=${payload.universe_size} ` +
         `(== r1m.length == r3m.length == r1y.length by construction), ` +
         `coverage ${cov.completeness_pct}% (${cov.with_all_windows}/${cov.scored} loaded), ` +
         `${excluded} excluded_for_momentum (deep-file scan covered ${cov.scored} stocks)`,

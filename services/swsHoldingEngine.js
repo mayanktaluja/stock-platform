@@ -17,7 +17,7 @@
 // so narrative-phrase hard overrides are replaced with structured-data overrides
 // pulled from the `fiscal` and `overview.snowflake` blocks.
 
-import { scoreStock, num } from "./swsScoring.js";
+import { scoreStock, num, buildCanonicalScore, buildRegulatoryFlags, buildRiskOverlay } from "./swsScoring.js";
 import { reconcileFairValue } from "./fvReconciliation.js";
 import * as dal from "./swsDal/index.js";
 import { crosscheckHolding } from "./swsLayerCrosscheck.js";
@@ -43,12 +43,16 @@ import {
   gateReductionAction,
 } from "./portfolioDecisionPolicy.js";
 
-// V3-universe and per-ticker deep loads now go through services/swsDal.
+// V4-universe and per-ticker deep loads now go through services/swsDal.
 // Backwards-compatible re-exports — many modules import these names; the
 // underlying caching, file paths, and ticker normalisation live in the DAL
 // (see services/swsDal/jsonBackend.js).
 export function loadV3Universe() {
-  return dal.getV3UniverseStats();
+  return dal.getV4UniverseStats?.() ?? dal.getV3UniverseStats();
+}
+
+export function loadV4Universe() {
+  return loadV3Universe();
 }
 
 export function loadSWSDeep(ticker) {
@@ -119,7 +123,7 @@ const NARRATIVE_RED = /declin|structurally\s*weak|promoter\s*(exit|pledge|stake)
 // single-valued (Reduction-50% legacy or EXIT for GSM) — the V3 promoter
 // reads only `action`, but a SEBI RA reading the report sees all signals.
 export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_weight, sector_weight, upside, v4 = null, newsSignal = null }) {
-  const surveillance = scored.v2_breakdown?.surveillance || null;
+  const surveillance = buildRegulatoryFlags(scored).surveillance || null;
 
   // GSM surveillance is special — exits the holding entirely, not a partial
   // trim. Returns immediately with a single regulatory reason.
@@ -350,8 +354,9 @@ function buildSWSReasons({ scored, snow, fiscal, action, band, reconciled }) {
   if (fwd != null) reasons.push(`Earnings growth ${fwd.toFixed(1)}% YoY.`);
   if (margin != null) reasons.push(`Net margin ${margin.toFixed(1)}%.`);
   if (ret1y != null) reasons.push(`1Y return ${ret1y >= 0 ? "+" : ""}${ret1y.toFixed(1)}%.`);
-  if (scored.v2_breakdown?.surveillance) {
-    const s = scored.v2_breakdown.surveillance;
+  const surveillance = buildRegulatoryFlags(scored).surveillance;
+  if (surveillance) {
+    const s = surveillance;
     reasons.push(`NSE ${s.list}${s.timeframe ? ` (${s.timeframe})` : ""} surveillance.`);
   }
 
@@ -671,7 +676,9 @@ export function scoreHolding(holding, portfolioContext = {}) {
     positionWeight: position_weight,
   });
 
-  const surveillance = scored.v2_breakdown?.surveillance || null;
+  const regulatoryFlags = buildRegulatoryFlags(scored);
+  const riskOverlay = buildRiskOverlay(scored);
+  const surveillance = regulatoryFlags.surveillance || null;
 
   // Look up the upcoming-earnings event for this ticker. Passed into the
   // catalyst layer (for the prediction metadata block) AND used directly
@@ -943,7 +950,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     sector_weight,
     upside,
     risks_count,
-    surveillance: scored.v2_breakdown?.surveillance || null,
+    surveillance,
     pnlPercent: num(holding.pnlPercent, 0),
     // V4 inputs (silently ignored when SWS_LADDER_V4 is off)
     pillars: snow,
@@ -1055,8 +1062,14 @@ export function scoreHolding(holding, portfolioContext = {}) {
       sws_url: scored.sws_url,
       score: scored.composite_score_100,
       v2_score: scored.v2_score_100,
-      v4_score:scored.v4_score_100,
+      v4_score: scored.v4_score_100,
+      v4_score_100: scored.v4_score_100,
       v4_verdict: scored.v4_verdict,
+      canonical_score: buildCanonicalScore(scored),
+      score_model: "sws-v4-100pt-2026-05",
+      score_source: "sws_v4",
+      regulatory_flags: regulatoryFlags,
+      risk_overlay: riskOverlay,
       verdict: scored.verdict,
       band,
       crosscheck,
@@ -1090,7 +1103,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
       last_quarter_result: ov.last_quarter_result,
       last_earnings_date: lastEarnings?.date ?? null,
       last_earnings_period: lastEarnings?.period ?? null,
-      surveillance: scored.v2_breakdown?.surveillance || null,
+      surveillance,
       data_freshness_at: scored.parsed_at,
       data_age_hours: dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null,
       snowflake_data_quality: ov.snowflake_data_quality || null,

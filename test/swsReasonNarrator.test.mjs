@@ -222,7 +222,7 @@ console.log("\nPrimary driver — highest absolute magnitude with non-zero delta
     guardrailReason: null,
   });
   assert("no-layer-opinion fallback names SWS as dominant",
-    out.paragraphs[0].includes("SWS v3 score 48/100"), out.paragraphs[0]);
+    out.paragraphs[0].includes("SWS V4 score 48/100"), out.paragraphs[0]);
   assert("fallback includes verdict",
     out.paragraphs[0].includes("ACCEPTABLE"), out.paragraphs[0]);
   assert("fallback explicitly says no dissent",

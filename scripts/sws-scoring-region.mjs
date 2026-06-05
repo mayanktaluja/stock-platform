@@ -30,6 +30,9 @@ import {
   buildUniverseStats,
   buildMomentumCoverageReport,
   collectExcludedForMomentum,
+  buildRegulatoryFlags,
+  buildRiskOverlay,
+  buildCanonicalScore,
   PICKS_SCHEMA_VERSION,
   PICKS_SCORING_VERSION,
 } from "./sws-scoring.mjs";
@@ -116,6 +119,9 @@ export function scoreStockRegion(stock, region, opts = {}) {
   stock.v4_score_100 = v4.v4_score_100;
   stock.v4_breakdown = v4.v4_breakdown;
   stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
+  stock.regulatory_flags = buildRegulatoryFlags(stock);
+  stock.risk_overlay = buildRiskOverlay(stock);
+  stock.canonical_score = buildCanonicalScore(stock);
 
   scoringStock.v4_score_100 = v4.v4_score_100;
   scoringStock.v4_breakdown = v4.v4_breakdown;
@@ -145,7 +151,13 @@ function slimUniverseEntryRegion(stock, region, inSections) {
     v2_score: card.v2_score,
     v4_score: card.v4_score,
     v4_score_100: card.v4_score_100,
+    v4_breakdown: card.v4_breakdown,
     v4_verdict: card.v4_verdict,
+    canonical_score: card.canonical_score,
+    score_model: card.score_model,
+    score_source: card.score_source,
+    regulatory_flags: card.regulatory_flags,
+    risk_overlay: card.risk_overlay,
     composite_verdict: card.composite_verdict,
     valuation_band: card.valuation_band,
     verdict: card.verdict,
@@ -211,6 +223,8 @@ export function buildLeaderboardRegion(scoredStocks, region) {
     .map(card);
 
   return {
+    top_ranked_30_v4: top30,
+    // Temporary compatibility alias. New first-party readers use V4.
     top_ranked_30_v3: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
@@ -296,7 +310,7 @@ export function runFullScoringRegion(code) {
 
   const coverage = buildMomentumCoverageReport(loaded);
   const excludedForMomentum = collectExcludedForMomentum(loaded);
-  writeJsonAtomic(cfg.PATHS.v3Stats, {
+  const universeStatsPayload = {
     generated_at: new Date().toISOString(),
     region: region.code.toUpperCase(),
     universe_size: universe.r1m.length,
@@ -308,7 +322,9 @@ export function runFullScoringRegion(code) {
     r1m: universe.r1m,
     r3m: universe.r3m,
     r1y: universe.r1y,
-  });
+  };
+  writeJsonAtomic(cfg.PATHS.v4Stats, universeStatsPayload);
+  writeJsonAtomic(cfg.PATHS.v3Stats, universeStatsPayload);
 
   return out;
 }

@@ -49,6 +49,7 @@ export const PATHS = {
   universeMeta: path.join(repoRoot, "data", "sws-us", "universe-meta.json"),
   picksLatest: path.join(repoRoot, "data", "sws-us", "picks-latest.json"),
   scoredUniverse: path.join(repoRoot, "data", "sws-us", "sws-scored-universe.json"),
+  v4Stats: path.join(repoRoot, "data", "sws-us", "v4-universe-stats.json"),
   v3Stats: path.join(repoRoot, "data", "sws-us", "v3-universe-stats.json"),
   failed: path.join(repoRoot, "data", "sws-us", "failed.json"),
   panicStop: path.join(repoRoot, "data", "sws-us", "panic-stop.flag"),

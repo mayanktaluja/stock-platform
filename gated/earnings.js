@@ -920,14 +920,16 @@
     }).join("");
 
     // 2 — SWS V4 breakdown bars.
-    const v3 = signals.v3;
+    const v3 = signals.v4 || signals.v3;
     let v3Html = "";
     if (v3 && v3.breakdown) {
       const b = v3.breakdown;
+      const v4Verdict = v3.v4_verdict || v3.v3_verdict || "";
+      const v4Score = v3.v4_score_100 ?? v3.v3_score_100;
       v3Html = `
         <div>
           <div style="font-size:9px; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px;">
-            SWS V4 breakdown · ${escHtml(v3.v3_verdict || "")} ${v3.v3_score_100 != null ? `(${v3.v3_score_100}/100)` : ""} · ${escHtml(v3.source || "")}
+            SWS V4 breakdown · ${escHtml(v4Verdict)} ${v4Score != null ? `(${v4Score}/100)` : ""} · ${escHtml(v3.source || "")}
           </div>
           <div style="display:flex; flex-direction:column; gap:4px;">
             ${v3Bar("Future", b.pts_future, 20)}

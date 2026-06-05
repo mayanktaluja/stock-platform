@@ -64,11 +64,11 @@ const FAILED_RETRY_MS = 24 * 60 * 60 * 1000;
 // distribution (V4 median ~37). Stocks below the floor are platform-disliked
 // on fundamentals; spending scarce free-tier Gemini RPM / Groq TPD on them is
 // wasted budget. They still get a deterministic heuristic signal. Field:
-// event.signals.v3.v3_score_100 (the bus key is legacy; it carries the V4
-// score). Fail-closed: null/missing → below floor.
+// event.signals.v4.v4_score_100. A temporary v3 alias is accepted for old
+// event snapshots. Fail-closed: null/missing → below floor.
 const V3_COMPOSITE_FLOOR = 47;
 export function meetsLlmCompositeFloor(event, floor = V3_COMPOSITE_FLOOR) {
-  const score = event?.signals?.v3?.v3_score_100;
+  const score = event?.signals?.v4?.v4_score_100 ?? event?.signals?.v3?.v3_score_100;
   return typeof score === "number" && score >= floor;
 }
 

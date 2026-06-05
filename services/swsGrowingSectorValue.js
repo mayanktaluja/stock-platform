@@ -232,7 +232,11 @@ function baseEligible(stock) {
   const ov = stock?.overview || {};
   const fv = reconcileFairValue(ov);
   const mcap = ov.market_cap_inr;
-  const surv = stock?.v2_breakdown?.surveillance;
+  const surv =
+    stock?.regulatory_flags?.surveillance ||
+    stock?.risk_overlay?.surveillance ||
+    stock?.v4_breakdown?.surveillance ||
+    stock?.v2_breakdown?.surveillance;
   if (!isFiniteNumber(mcap) || mcap < MIN_MCAP_INR) return false;
   if ((stock?.v4_score_100 || 0) < MIN_V4_SCORE) return false;
   if (stock?.v4_verdict === "AVOID" || stock?.composite_verdict === "AVOID") return false;

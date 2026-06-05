@@ -104,11 +104,11 @@ const V3_VERDICT_NUDGE = {
 // the rationale narrator (Milestone C/3) lifts verbatim into ¶1.
 
 /**
- * Component 1a — V3 future + past pillars.
+ * Component 1a — V4 future + past pillars.
  *
  * v2 replaces the old ±32 `scoreSwsQuality` (which just echoed the
  * blunt composite verdict — the thing that made 73% of predictions
- * cluster on INLINE) with the *decomposed* SWS V3 100-pt breakdown.
+ * cluster on INLINE) with the decomposed SWS V4 100-pt breakdown.
  *
  * `pts_future` (0–20, SWS forward-earnings-growth pillar) and
  * `pts_past` (0–12, earnings-trajectory pillar) are the two V3 pillars
@@ -119,16 +119,22 @@ const V3_VERDICT_NUDGE = {
  *
  * Max: ±18 pts (±12 future + ±6 past, plus a ±2 verdict nudge, clamped).
  */
+function swsV4Signal(signals) {
+  return signals?.v4 || signals?.v3 || null;
+}
+
 function scoreV3FuturePast(signals) {
-  const b = signals.v3?.breakdown;
-  if (!b) return { pts: 0, breakdown: { futurePts: 0, pastPts: 0 }, why: "no V3 signal" };
+  const swsSignal = swsV4Signal(signals);
+  const b = swsSignal?.breakdown;
+  if (!b) return { pts: 0, breakdown: { futurePts: 0, pastPts: 0 }, why: "no V4 signal" };
 
   const ptsFuture = num(b.pts_future) ?? 10; // neutral = (3/6)*20
   const ptsPast = num(b.pts_past) ?? 8; // V4: neutral = (3/6)*16 (Past is 0–16)
   // Anchor at the neutral midpoint, scale to ±12 / ±6.
   const futureContrib = clamp(((ptsFuture - 10) / 10) * 12, -12, 12);
   const pastContrib = clamp(((ptsPast - 8) / 8) * 6, -6, 6); // V4 Past 0–16, neutral 8
-  const verdictNudge = num(V3_VERDICT_NUDGE[signals.v3?.v3_verdict]) ?? 0;
+  const verdict = swsSignal.v4_verdict || swsSignal.v3_verdict;
+  const verdictNudge = num(V3_VERDICT_NUDGE[verdict]) ?? 0;
 
   const pts = Math.round(clamp(futureContrib + pastContrib + verdictNudge, -18, 18) * 10) / 10;
   return {
@@ -138,8 +144,8 @@ function scoreV3FuturePast(signals) {
       pastPts: Math.round(pastContrib * 10) / 10,
       verdictNudge,
     },
-    why: `V3 future ${ptsFuture.toFixed(0)}/20 · past ${ptsPast.toFixed(0)}/12` +
-      (signals.v3?.v3_verdict ? ` (${signals.v3.v3_verdict})` : ""),
+    why: `V4 future ${ptsFuture.toFixed(0)}/20 · past ${ptsPast.toFixed(0)}/16` +
+      (verdict ? ` (${verdict})` : ""),
   };
 }
 
@@ -155,7 +161,7 @@ function scoreV3FuturePast(signals) {
  * Max: ±8 pts.
  */
 function scoreV3Valuation(signals) {
-  const b = signals.v3?.breakdown;
+  const b = swsV4Signal(signals)?.breakdown;
   if (!b || num(b.pts_fv_total) == null) {
     // Fallback — no V4 FV composite; score off raw FV upside.
     return scoreFvUpside(signals);
@@ -193,9 +199,9 @@ function scoreV3Valuation(signals) {
  * Max: −10 pts (0 when no flags).
  */
 function scoreV3Overlay(signals) {
-  const b = signals.v3?.breakdown;
+  const b = swsV4Signal(signals)?.breakdown;
   if (!b || num(b.pts_overlay) == null) {
-    return { pts: 0, breakdown: { overlayPts: 0 }, why: "no V3 risk flags" };
+    return { pts: 0, breakdown: { overlayPts: 0 }, why: "no V4 risk flags" };
   }
   const pts = clamp(num(b.pts_overlay), -10, 0);
   const reasons = Array.isArray(b.overlay_reasons) ? b.overlay_reasons : [];
@@ -203,8 +209,8 @@ function scoreV3Overlay(signals) {
     pts,
     breakdown: { overlayPts: pts, overlay_reasons: reasons },
     why: pts < 0
-      ? `V3 risk overlay: ${reasons.join("; ") || "flagged"}`
-      : "no V3 risk flags",
+      ? `V4 risk overlay: ${reasons.join("; ") || "flagged"}`
+      : "no V4 risk flags",
   };
 }
 
@@ -529,7 +535,7 @@ function scoreLlmSignal(signals) {
  */
 function scoreMissingDataPenalty(signals) {
   const missing = [];
-  if (!signals.v3?.breakdown) missing.push("v3");
+  if (!swsV4Signal(signals)?.breakdown) missing.push("v4");
   if (signals.data_quality_flags?.trajectory === "absent") missing.push("trajectory");
   const annTop3 = signals.announcements?.top3;
   if (!Array.isArray(annTop3) || annTop3.length === 0) missing.push("announcements");

@@ -13,8 +13,8 @@
  *   - data/sws/sws-scored-universe.json  — pre-built bulk index (5,439 stocks).
  *   - data/sws/last-refresh.json         — refresh metadata for footer.
  *   - services/swsHoldingEngine.js::loadSWSDeep — per-ticker fallback.
- *   - services/swsCoverageFallback.js::buildFallbackHolding — synthetic
- *                                                              SWS via V2.
+ *   - services/swsCoverageFallback.js::buildFallbackHolding — independent
+ *                                                              fundamentalsV2 fallback metadata.
  *
  * SEBI compliance:
  *   - Methodology version is stamped on every response (`combined-v1-2026-04`).
@@ -26,7 +26,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadSWSDeep } from "./swsHoldingEngine.js";
-import { scoreStock } from "./swsScoring.js";
+import { scoreStock, buildCanonicalScore, buildRegulatoryFlags, buildRiskOverlay } from "./swsScoring.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import * as dal from "./swsDal/index.js";
 
@@ -96,14 +96,14 @@ function _key(ticker) {
 // ─────────────────────── Lookup helpers ───────────────────────
 
 /**
- * Lookup SWS score for a single ticker. Three-tier fallback:
+ * Lookup SWS score for a single ticker. Three-tier lookup:
  *   1. Bulk universe index (fast, mtime-cached)
  *   2. Per-ticker deep file (loadSWSDeep + scoreStock)
- *   3. fundamentalsV2-derived fallback (buildFallbackHolding)
+ *   3. fundamentalsV2-derived fallback candidate metadata (not an SWS score)
  *   4. null — caller pro-rata reweights Tech+Fund.
  *
- * Returns { v3Score, snowflakeTotal, surveillance, v3Verdict, source, mtime }
- * where source is "primary" | "fallback" | "missing".
+ * Returns { v4Score, snowflakeTotal, surveillance, v4Verdict, source, mtime }
+ * where source is "primary" | "missing". `v3*` fields remain temporary aliases.
  */
 export function lookupSwsScore(symbol) {
   const k = _key(symbol);
@@ -114,11 +114,17 @@ export function lookupSwsScore(symbol) {
   if (idx) {
     const hit = idx.get(k);
     if (hit && (hit.v4_score_100 != null || hit.v4_score != null)) {
-      const v3 = hit.v4_score_100 ?? hit.v4_score;
+      const v4 = hit.v4_score_100 ?? hit.v4_score;
+      const regulatoryFlags = buildRegulatoryFlags(hit);
       return {
-        v3Score: typeof v3 === "number" ? v3 : null,
+        v4Score: typeof v4 === "number" ? v4 : null,
+        v3Score: typeof v4 === "number" ? v4 : null,
         snowflakeTotal: hit.snowflake_total ?? null,
-        surveillance: hit.v2_breakdown?.surveillance ?? null,
+        surveillance: regulatoryFlags.surveillance ?? null,
+        regulatoryFlags,
+        riskOverlay: buildRiskOverlay(hit),
+        canonicalScore: buildCanonicalScore(hit),
+        v4Verdict: hit.v4_verdict ?? null,
         v3Verdict: hit.v4_verdict ?? null,
         compositeScore: hit.score ?? null,
         v1Verdict: hit.verdict ?? null,
@@ -133,10 +139,16 @@ export function lookupSwsScore(symbol) {
   if (deep) {
     try {
       const scored = scoreStock({ ...deep, ticker: k });
+      const regulatoryFlags = buildRegulatoryFlags(scored);
       return {
+        v4Score: scored.v4_score_100 ?? null,
         v3Score: scored.v4_score_100 ?? null,
         snowflakeTotal: scored.overview?.snowflake_total ?? null,
-        surveillance: scored.v2_breakdown?.surveillance ?? null,
+        surveillance: regulatoryFlags.surveillance ?? null,
+        regulatoryFlags,
+        riskOverlay: buildRiskOverlay(scored),
+        canonicalScore: buildCanonicalScore(scored),
+        v4Verdict: scored.v4_verdict ?? null,
         v3Verdict: scored.v4_verdict ?? null,
         compositeScore: scored.composite_score_100 ?? null,
         v1Verdict: scored.verdict ?? null,
@@ -148,18 +160,29 @@ export function lookupSwsScore(symbol) {
     }
   }
 
-  // Tier 3 — V2-fundamentals fallback.
+  // Tier 3 — fundamentalsV2 fallback candidate metadata. Do not count it as
+  // a Simply Wall St V4 score.
   try {
     const fb = buildFallbackHolding({ ticker: k, name: null, sector: null, holding: {} });
     if (fb && fb.sws) {
       return {
-        v3Score: fb.sws.v4_score ?? null,
+        v4Score: null,
+        v3Score: null,
         snowflakeTotal: fb.sws.snowflake_total ?? null,
         surveillance: null,
-        v3Verdict: fb.sws.v4_verdict ?? null,
+        regulatoryFlags: { surveillance: null },
+        riskOverlay: null,
+        canonicalScore: null,
+        v4Verdict: null,
+        v3Verdict: null,
         compositeScore: fb.sws.score ?? null,
         v1Verdict: fb.sws.verdict ?? null,
-        source: "fallback",
+        fallbackCandidate: {
+          source: "fundamentalsV2",
+          score: fb.sws.fallback_score_100 ?? null,
+          verdict: fb.sws.fallback_verdict ?? fb.sws.verdict ?? null,
+        },
+        source: "missing",
         mtime: null,
       };
     }
@@ -172,9 +195,14 @@ export function lookupSwsScore(symbol) {
 
 function _missingResult() {
   return {
+    v4Score: null,
     v3Score: null,
     snowflakeTotal: null,
     surveillance: null,
+    regulatoryFlags: { surveillance: null },
+    riskOverlay: null,
+    canonicalScore: null,
+    v4Verdict: null,
     v3Verdict: null,
     compositeScore: null,
     v1Verdict: null,
@@ -204,11 +232,17 @@ export function lookupSwsScoreBulk(symbols) {
     }
     const hit = idx?.get(k);
     if (hit && (hit.v4_score_100 != null || hit.v4_score != null)) {
-      const v3 = hit.v4_score_100 ?? hit.v4_score;
+      const v4 = hit.v4_score_100 ?? hit.v4_score;
+      const regulatoryFlags = buildRegulatoryFlags(hit);
       out.set(sym, {
-        v3Score: typeof v3 === "number" ? v3 : null,
+        v4Score: typeof v4 === "number" ? v4 : null,
+        v3Score: typeof v4 === "number" ? v4 : null,
         snowflakeTotal: hit.snowflake_total ?? null,
-        surveillance: hit.v2_breakdown?.surveillance ?? null,
+        surveillance: regulatoryFlags.surveillance ?? null,
+        regulatoryFlags,
+        riskOverlay: buildRiskOverlay(hit),
+        canonicalScore: buildCanonicalScore(hit),
+        v4Verdict: hit.v4_verdict ?? null,
         v3Verdict: hit.v4_verdict ?? null,
         compositeScore: hit.score ?? null,
         v1Verdict: hit.verdict ?? null,

@@ -100,7 +100,7 @@ async function main() {
 
   // Collect unique tickers from the lists where the blended score matters
   // most — the broad Top-30 plus the curated buckets users actually scan.
-  const SECTIONS_TO_ENRICH = ["top_ranked_30_v3", "best_to_buy_now", "quality_growth", "smallcap_gems", "midterm", "dividend_aristocrats"];
+  const SECTIONS_TO_ENRICH = ["top_ranked_30_v4", "top_ranked_30_v3", "best_to_buy_now", "quality_growth", "smallcap_gems", "midterm", "dividend_aristocrats"];
   const seen = new Map();
   for (const key of SECTIONS_TO_ENRICH) {
     for (const card of (sections[key] || [])) {

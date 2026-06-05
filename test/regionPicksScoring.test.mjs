@@ -151,9 +151,11 @@ for (const code of ["kr", "tw"]) {
   check(`[${code}] hygiene floor: under-floor excluded from top30, over-floor included`, () => {
     const tiny = scoreStockRegion(stock(region, { ticker: "TINY" + dot, overview: { market_cap_inr: region.mcapFloorNative * 0.8 } }), region, { universe });
     const okay = scoreStockRegion(stock(region, { ticker: "OKAY" + dot, overview: { market_cap_inr: region.mcapFloorNative * 1.2 } }), region, { universe });
-    const top = buildLeaderboardRegion([tiny, okay], region).top_ranked_30_v3.map((c) => c.ticker);
+    const lb = buildLeaderboardRegion([tiny, okay], region);
+    const top = lb.top_ranked_30_v4.map((c) => c.ticker);
     assert.ok(!top.includes("TINY" + dot));
     assert.ok(top.includes("OKAY" + dot));
+    assert.equal(lb.top_ranked_30_v3, lb.top_ranked_30_v4);
   });
 
   console.log(`\n[${code.toUpperCase()}] negative / null robustness\n`);
@@ -208,7 +210,7 @@ for (const code of ["kr", "tw"]) {
     );
     assert.ok(Number.isFinite(s.v4_score_100));
     assert.ok(Number.isFinite(s.composite_score_100));
-    assert.ok(!buildLeaderboardRegion([s], region).top_ranked_30_v3.some((c) => c.ticker === "NAN" + dot));
+    assert.ok(!buildLeaderboardRegion([s], region).top_ranked_30_v4.some((c) => c.ticker === "NAN" + dot));
   });
 
   check(`[${code}] (f) no universe → momentum imputed at p50`, () => {
@@ -262,6 +264,9 @@ check("V4 surface — scoreStockRegion emits finite v4 fields, no v3 residue, ca
   assert.ok(!("v3_score_100" in s) && !("v3_breakdown" in s) && !("v3_verdict" in s));
   // V4 breakdown uses pts_fv_total; the old pts_fv_upside name is gone.
   assert.ok("pts_fv_total" in s.v4_breakdown && !("pts_fv_upside" in s.v4_breakdown));
+  assert.equal(s.canonical_score.version, "v4");
+  assert.ok(s.regulatory_flags);
+  assert.ok(s.risk_overlay);
   assert.equal(cardOf(region, s).v4_score_100, s.v4_score_100); // regionCardFields spreads pickCardFields → v4 carried
 });
 

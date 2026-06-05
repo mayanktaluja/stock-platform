@@ -139,6 +139,7 @@ export function readJsonSafe(p, fallback) {
 // is on the user's avoid list, recent news is exactly how they'd validate the
 // avoid call ("did the bad thing actually happen").
 const COVERAGE_SECTIONS = [
+  "top_ranked_30_v4",
   "top_ranked_30_v3",
   "best_to_buy_now",
   "deep_value",

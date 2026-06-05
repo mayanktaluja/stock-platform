@@ -90,4 +90,3 @@ check("refresh-dividends writes Groww-derived rows without live NSE/BSE fetches"
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail === 0 ? 0 : 1);
-

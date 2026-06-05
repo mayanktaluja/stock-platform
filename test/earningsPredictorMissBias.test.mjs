@@ -133,7 +133,7 @@ function makeFullSignals(overrides = {}) {
   );
   assert(
     "all 4 missing components listed",
-    ["v3", "trajectory", "announcements", "llm"].every((k) =>
+    ["v4", "trajectory", "announcements", "llm"].every((k) =>
       r.score_breakdown.missing_data_components.includes(k),
     ),
     r.score_breakdown.missing_data_components,

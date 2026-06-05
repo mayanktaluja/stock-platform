@@ -343,7 +343,9 @@ function pickToBasketRow(pick) {
     last_earnings_date: pick.last_earnings_date ?? null,
     last_earnings_period: pick.last_earnings_period ?? null,
     v2_breakdown: pick.v2_breakdown,
-    surveillance: pick.v2_breakdown?.surveillance ?? null,
+    regulatory_flags: pick.regulatory_flags || { surveillance: pick.v4_breakdown?.surveillance || pick.v2_breakdown?.surveillance || null },
+    risk_overlay: pick.risk_overlay || null,
+    surveillance: pick.regulatory_flags?.surveillance || pick.risk_overlay?.surveillance || pick.v4_breakdown?.surveillance || pick.v2_breakdown?.surveillance || null,
     sws_url: pick.sws_url ?? null,
   };
 }
@@ -351,7 +353,7 @@ function pickToBasketRow(pick) {
 // Outside-portfolio fresh picks — surfaces a structured list of
 // candidates from 4 picks-latest buckets, set-diffed against the user's
 // held tickers, split into defensive (quality_growth + deep_value) and
-// growth (top_ranked_30_v3 + smallcap_gems).
+// growth (top_ranked_30_v4 + smallcap_gems).
 //
 // Trigger: fires when fresh capital > 0 OR top-5 holdings > 50% of book
 // (concentration risk). This surface is candidate-only; executable rupee
@@ -391,11 +393,10 @@ export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 1
   const picks = loadPicksLatest();
   const sections = picks?.sections || {};
 
-  // Pull from 4 buckets, set-diff against held. The plan calls out
-  // top_ranked_30_v3 (the v3-aware ranking) — we fall back to
-  // top_ranked_30 if the v3 variant isn't populated.
+  // Pull from 4 buckets, set-diff against held. Prefer the V4 Top 30 key;
+  // keep older aliases for pre-migration generated data.
   const growthSrc = [
-    ...(sections.top_ranked_30_v3 || sections.top_ranked_30 || []),
+    ...(sections.top_ranked_30_v4 || sections.top_ranked_30_v3 || sections.top_ranked_30 || []),
     ...(sections.smallcap_gems || []),
   ].filter((p) => p?.ticker && !heldTickers.has(p.ticker));
 
@@ -455,7 +456,7 @@ export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 1
       total: totalPicks,
     },
     methodology:
-      `Picks: top_ranked_30_v3 + smallcap_gems (growth) and quality_growth + deep_value (defensive), ` +
+      `Picks: top_ranked_30_v4 + smallcap_gems (growth) and quality_growth + deep_value (defensive), ` +
       `set-diffed against your ${heldTickers.size} held ticker(s). Candidate-only surface; funded rupees ` +
       `come from the construction plan after budget, valuation confidence, freshness, and post-trade caps. ` +
       `Always opt-in via OUTSIDE_PICKS=1.`,

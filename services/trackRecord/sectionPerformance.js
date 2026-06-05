@@ -47,10 +47,11 @@ export const SECTION_PERFORMANCE_TIMEFRAMES = SECTION_PERFORMANCE_WINDOWS.filter
 export const DEFAULT_SECTION_BENCHMARK_PROXY = "nifty50_tri";
 
 export const SWS_SECTION_PERFORMANCE_REGISTRY = {
-  top_ranked_30_v3: {
-    sectionKey: "top_ranked_30_v3",
+  top_ranked_30_v4: {
+    sectionKey: "top_ranked_30_v4",
+    fallbackSectionKeys: ["top_ranked_30_v3", "top_ranked_30"],
     type: "sws_top30_v3",
-    label: "SWS - Top 30",
+    label: "SWS - Top 30 (V4)",
     side: "LONG",
   },
   best_to_buy_now: {
@@ -306,7 +307,9 @@ export function buildDailySectionCohortRows(picksData, opts = {}) {
   const rows = [];
 
   for (const section of Object.values(SWS_SECTION_PERFORMANCE_REGISTRY)) {
-    const rawItems = picksData?.sections?.[section.sectionKey];
+    const rawItems = [section.sectionKey, ...(section.fallbackSectionKeys || [])]
+      .map((key) => picksData?.sections?.[key])
+      .find((items) => Array.isArray(items));
     const items = Array.isArray(rawItems) ? rawItems : [];
 
     for (const requestedCohortSize of cohortSizes) {

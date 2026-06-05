@@ -61,6 +61,7 @@ export function makeRegionConfig(code) {
     universeMeta: path.join(dataDir, "universe-meta.json"),
     picksLatest: path.join(dataDir, "picks-latest.json"),
     scoredUniverse: path.join(dataDir, "sws-scored-universe.json"),
+    v4Stats: path.join(dataDir, "v4-universe-stats.json"),
     v3Stats: path.join(dataDir, "v3-universe-stats.json"),
     failed: path.join(dataDir, "failed.json"),
     panicStop: path.join(dataDir, "panic-stop.flag"),
