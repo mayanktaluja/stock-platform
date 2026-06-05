@@ -31,6 +31,17 @@ function canonicalTicker(stock) {
   return String(stock?.ticker || stock?.overview?.ticker || "").trim().toUpperCase();
 }
 
+function defaultScoreShadowStock(shadowStock, { universe, sourceStock } = {}) {
+  const scored = computeV4Score(shadowStock, {
+    universe,
+    surveillanceFlag: sourceStock?.v4_breakdown?.surveillance || false,
+  });
+  return {
+    ...scored,
+    v4_verdict: verdictV4FromScore(scored.v4_score_100),
+  };
+}
+
 export function classifySnowflakeGapMarketCap(mcapInr) {
   const mcap = Number(mcapInr);
   if (!Number.isFinite(mcap) || mcap <= 0) return null;
@@ -47,10 +58,21 @@ function normaliseKeyPart(value) {
   return clean || null;
 }
 
-export function snowflakeGapPeerKeys(stock) {
+function resolveSnowflakeGapMarketCapBucket(stock, opts = {}) {
+  const ov = stock?.overview || {};
+  const useProvidedMarketCapBand = opts.useProvidedMarketCapBand ?? true;
+  if (useProvidedMarketCapBand) {
+    const provided = normaliseKeyPart(ov.market_cap_band);
+    if (provided) return provided;
+  }
+  const classifyMarketCap = opts.classifyMarketCap || classifySnowflakeGapMarketCap;
+  return normaliseKeyPart(classifyMarketCap(ov.market_cap_inr, stock));
+}
+
+export function snowflakeGapPeerKeys(stock, opts = {}) {
   const ov = stock?.overview || {};
   const audit = ov.pe_benchmark_audit || {};
-  const cap = normaliseKeyPart(ov.market_cap_band) || classifySnowflakeGapMarketCap(ov.market_cap_inr);
+  const cap = resolveSnowflakeGapMarketCapBucket(stock, opts);
   if (!cap) return [];
   const keys = [];
   const push = (scope, value, label) => {
@@ -109,7 +131,7 @@ export function buildSnowflakeGapPeerAverages(stocks, opts = {}) {
     const ticker = canonicalTicker(stock);
     const matrix = stock?.overview?.snowflake_check_matrix;
     if (!Array.isArray(matrix?.checks)) continue;
-    for (const peerKey of snowflakeGapPeerKeys(stock)) {
+    for (const peerKey of snowflakeGapPeerKeys(stock, opts)) {
       if (!buckets.has(peerKey.key)) {
         buckets.set(peerKey.key, {
           ...peerKey,
@@ -166,10 +188,10 @@ export function buildSnowflakeGapPeerAverages(stocks, opts = {}) {
   return out;
 }
 
-function findPeerBucket(stock, averages, missingChecks, selfTicker) {
+function findPeerBucket(stock, averages, missingChecks, selfTicker, opts = {}) {
   const buckets = averages?.by_key || {};
   const healthSet = stock?.overview?.snowflake_check_matrix?.health_check_set || "Health";
-  for (const peerKey of snowflakeGapPeerKeys(stock)) {
+  for (const peerKey of snowflakeGapPeerKeys(stock, opts)) {
     const bucket = buckets[peerKey.key];
     if (!bucket) continue;
     const resolved = [];
@@ -206,6 +228,7 @@ export function computeSnowflakeGapLabForStock(stock, universe, opts = {}) {
   const minAffectedPillars = opts.minAffectedPillars ?? MIN_AFFECTED_PILLARS;
   const minImputedChecks = opts.minImputedChecks ?? MIN_IMPUTED_CHECKS;
   const maxPillarUplift = opts.maxPillarUplift ?? MAX_PILLAR_UPLIFT;
+  const scoreShadowStock = opts.scoreShadowStock || defaultScoreShadowStock;
   const matrix = stock?.overview?.snowflake_check_matrix;
   if (!Array.isArray(matrix?.checks)) return null;
 
@@ -218,7 +241,7 @@ export function computeSnowflakeGapLabForStock(stock, universe, opts = {}) {
   if (affectedPillars.length < minAffectedPillars && missingChecks.length < minImputedChecks) return null;
 
   const selfTicker = canonicalTicker(stock);
-  const peerBucket = findPeerBucket(stock, universe?.snowflakeGapPeerAverages, missingChecks, selfTicker);
+  const peerBucket = findPeerBucket(stock, universe?.snowflakeGapPeerAverages, missingChecks, selfTicker, opts);
   if (!peerBucket) return null;
 
   const baseSnow = stock?.overview?.snowflake || {};
@@ -245,16 +268,13 @@ export function computeSnowflakeGapLabForStock(stock, universe, opts = {}) {
       snowflake: shadowSnow,
     },
   };
-  const scored = computeV4Score(shadowStock, {
-    universe,
-    surveillanceFlag: stock?.v4_breakdown?.surveillance || false,
-  });
+  const scored = scoreShadowStock(shadowStock, { universe, sourceStock: stock });
   const shadowScore = scored.v4_score_100;
   const canonicalScore = stock?.v4_score_100;
   if (!isFiniteNumber(shadowScore) || !isFiniteNumber(canonicalScore)) return null;
   const scoreDelta = round1(shadowScore - canonicalScore);
   if (scoreDelta < minScoreDelta || shadowScore < minShadowScore) return null;
-  const shadowVerdict = verdictV4FromScore(shadowScore);
+  const shadowVerdict = scored.v4_verdict || verdictV4FromScore(shadowScore);
 
   return {
     label: "Experimental shadow V4",
@@ -292,12 +312,20 @@ export function buildSnowflakeGapLabSection(scoredStocks, opts = {}) {
   const universe = opts.universe || {};
   const averages = universe.snowflakeGapPeerAverages || buildSnowflakeGapPeerAverages(scoredStocks, opts);
   const labUniverse = { ...universe, snowflakeGapPeerAverages: averages };
+  const minMarketCap = opts.minMarketCap ?? MIN_MCAP_INR;
+  const excludePureNumericTicker = opts.excludePureNumericTicker ?? true;
+  const surveillanceExclusion = opts.surveillanceExclusion || ((surveillance) => surveillance?.list === "GSM");
+  const surveillanceRejectReason = opts.surveillanceRejectReason || "gsm";
+  const limit = opts.limit ?? SECTION_LIMIT;
   const audit = {
     experimental: true,
     available: true,
+    market: opts.marketCode || "in",
     caveat: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record.",
     peer_scope: "industry_or_sector_plus_market_cap_bucket",
     min_peer_check_count: averages.min_peer_check_count,
+    min_market_cap: minMarketCap,
+    limit,
     min_score_delta: opts.minScoreDelta ?? MIN_SCORE_DELTA,
     min_shadow_score: opts.minShadowScore ?? MIN_SHADOW_SCORE,
     candidates_scanned: Array.isArray(scoredStocks) ? scoredStocks.length : 0,
@@ -317,9 +345,9 @@ export function buildSnowflakeGapLabSection(scoredStocks, opts = {}) {
     const reject = (reason) => {
       audit.rejected[reason] = (audit.rejected[reason] || 0) + 1;
     };
-    if (!ticker || isPureBseCode(ticker)) { reject("ticker_hygiene"); continue; }
-    if (!Number.isFinite(mcap) || mcap < MIN_MCAP_INR) { reject("mcap_floor"); continue; }
-    if (surveillance?.list === "GSM") { reject("gsm"); continue; }
+    if (!ticker || (excludePureNumericTicker && isPureBseCode(ticker))) { reject("ticker_hygiene"); continue; }
+    if (!Number.isFinite(mcap) || mcap < minMarketCap) { reject("mcap_floor"); continue; }
+    if (surveillanceExclusion(surveillance, stock)) { reject(surveillanceRejectReason); continue; }
     const lab = computeSnowflakeGapLabForStock(stock, labUniverse, opts);
     if (!lab) { reject("lab_gate"); continue; }
     const card = pickCardFields(stock);
@@ -335,7 +363,7 @@ export function buildSnowflakeGapLabSection(scoredStocks, opts = {}) {
     const db = b.snowflake_gap_lab?.score_delta || 0;
     return db - da;
   });
-  const items = candidates.slice(0, opts.limit ?? SECTION_LIMIT);
+  const items = candidates.slice(0, limit);
   audit.candidates_selected = items.length;
   audit.candidates_total = candidates.length;
   return { items, audit, averages };

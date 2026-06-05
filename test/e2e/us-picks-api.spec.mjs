@@ -43,16 +43,50 @@ test.describe("US Picks API", () => {
     expect(b.region).toBe("US");
     expect(b.currency).toBe("USD");
     expect(b.sections).toBeTruthy();
+    expect(Array.isArray(b.sections.top_ranked_30_v4)).toBe(true);
     expect(Array.isArray(b.sections.top_ranked_30_v3)).toBe(true);
+    expect(b.sections.top_ranked_30_v3).toEqual(b.sections.top_ranked_30_v4);
+    expect(Array.isArray(b.sections.snowflake_gap_lab)).toBe(true);
     expect(b.sections.avoid).toBeUndefined();
   });
 
-  test("GET /api/us-picks?limit=2&category=top_ranked_30_v3 paginates", async ({ request }) => {
+  test("GET /api/us-picks?limit=2&category=top_ranked_30_v4 paginates canonical V4", async ({ request }) => {
+    const r = await request.get("/api/us-picks?limit=2&category=top_ranked_30_v4");
+    expect(r.status()).toBe(200);
+    const b = await r.json();
+    expect(Object.keys(b.sections)).toEqual(["top_ranked_30_v4"]);
+    expect(b.sections.top_ranked_30_v4.length).toBeLessThanOrEqual(2);
+  });
+
+  test("GET /api/us-picks?category=top_ranked_30_v3 keeps compatibility alias", async ({ request }) => {
     const r = await request.get("/api/us-picks?limit=2&category=top_ranked_30_v3");
     expect(r.status()).toBe(200);
     const b = await r.json();
-    expect(Object.keys(b.sections)).toEqual(["top_ranked_30_v3"]);
-    expect(b.sections.top_ranked_30_v3.length).toBeLessThanOrEqual(2);
+    expect(Object.keys(b.sections)).toEqual(["top_ranked_30_v4"]);
+    expect(b._meta.category).toBe("top_ranked_30_v4");
+  });
+
+  test("GET /api/us-picks?category=snowflake_gap_lab&limit=2 returns slim Gap Lab cards", async ({ request }) => {
+    const r = await request.get("/api/us-picks?category=snowflake_gap_lab&limit=2");
+    expect(r.status()).toBe(200);
+    const b = await r.json();
+    expect(Object.keys(b.sections)).toEqual(["snowflake_gap_lab"]);
+    expect(b.sections.snowflake_gap_lab.length).toBeGreaterThan(0);
+    expect(b.sections.snowflake_gap_lab.length).toBeLessThanOrEqual(2);
+    const row = b.sections.snowflake_gap_lab.find((it) => it.ticker === "GAPAI") || b.sections.snowflake_gap_lab[0];
+    expect(row.snowflake_gap_lab).toBeTruthy();
+    expect(row.snowflake_data_quality).toBeUndefined();
+    expect(row.snowflake_check_matrix).toBeUndefined();
+    expect(row.overview).toBeUndefined();
+    if (row.ticker === "GAPAI") {
+      expect(row.v4_score_100).toBe(45.9);
+      expect(row.snowflake_gap_lab.shadow_v4_score_100).toBe(55.6);
+      expect(row.snowflake_gap_lab.score_delta).toBe(9.7);
+      expect(row.snowflake_gap_lab.affected_pillars).toEqual(["future", "valuation"]);
+      expect(row.snowflake_gap_lab.imputed_checks_count).toBe(3);
+      expect(row.snowflake_gap_lab.market_cap_bucket).toBe("small_us");
+      expect(row.canonical_score.version).toBe("v4");
+    }
   });
 
   test("GET /api/us-stock/:ticker → 200 with currency USD", async ({ request }) => {
@@ -85,6 +119,26 @@ test.describe("US Picks API", () => {
     } else {
       expect(sb.fundamentals_fallback).toBeNull();
     }
+  });
+
+  test("GET /api/us-stock/GAPAI merges Gap Lab metadata and preserves parser matrix", async ({ request }) => {
+    const r = await request.get("/api/us-stock/GAPAI");
+    expect(r.status()).toBe(200);
+    const b = await r.json();
+    expect(b.ticker).toBe("GAPAI");
+    expect(b.card?.v4_score_100).toBe(45.9);
+    expect(b.card?.canonical_score?.version).toBe("v4");
+    expect(b.card?.snowflake_gap_lab).toBeTruthy();
+    expect(b.card.snowflake_gap_lab.shadow_v4_score_100).toBe(55.6);
+    expect(b.card.snowflake_gap_lab.score_delta).toBe(9.7);
+    expect(b.card.snowflake_gap_lab.market_cap_bucket).toBe("small_us");
+    expect(b.deep?.overview?.snowflake_data_quality?.insufficient).toBe(true);
+    expect(b.deep.overview.snowflake_data_quality.source).toBe("snowflake_check_matrix");
+    expect(b.deep.overview.snowflake_data_quality.fallback).toBeUndefined();
+    expect(b.deep.overview.snowflake_check_matrix.source).toBeUndefined();
+    expect(Array.isArray(b.deep.overview.snowflake_check_matrix.checks)).toBe(true);
+    expect(b.deep.overview.snowflake_check_matrix.checks.length).toBe(3);
+    expect(b.in_sections).toContain("snowflake_gap_lab");
   });
 
   test("GET /api/us-stock/COHU hydrates V4 breakdown for universe-only modal rows", async ({ request }) => {

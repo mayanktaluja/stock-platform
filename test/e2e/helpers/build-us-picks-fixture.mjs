@@ -44,6 +44,39 @@ function fixtureNews(ticker) {
   }];
 }
 
+function snowflakeCheck(pillar, name, result, title = name) {
+  return {
+    pillar,
+    name,
+    title,
+    result,
+    available: result === "pass" || result === "fail",
+    insufficient: result === "no_data",
+  };
+}
+
+function snowflakeMatrix(checks) {
+  return {
+    version: "sws-visible-snowflake-checks-v1",
+    checked_count: 30,
+    captured_count: checks.length,
+    health_check_set: "Health",
+    checks,
+  };
+}
+
+const GAP_MISSING_CHECKS = [
+  snowflakeCheck("Future", "F1", "no_data", "Future ROE"),
+  snowflakeCheck("Future", "F2", "no_data", "High Growth Earnings"),
+  snowflakeCheck("Value", "V1", "no_data", "PEG Ratio"),
+];
+
+const GAP_PEER_PASS_CHECKS = [
+  snowflakeCheck("Future", "F1", "pass", "Future ROE"),
+  snowflakeCheck("Future", "F2", "pass", "High Growth Earnings"),
+  snowflakeCheck("Value", "V1", "pass", "PEG Ratio"),
+];
+
 function withIsolatedDeepDir(fn) {
   const backupDir = `${PATHS.deepDir}.fixture-backup-${process.pid}`;
   if (fs.existsSync(backupDir)) fs.rmSync(backupDir, { recursive: true, force: true });
@@ -98,6 +131,7 @@ function makeDeep(o) {
     overview: {
       snowflake,
       snowflake_total,
+      snowflake_check_matrix: o.snowflake_check_matrix || null,
       current_price_inr: price,
       fair_value_inr: fv,
       upside_pct: upside,
@@ -154,6 +188,24 @@ const STOCKS = [
   { ticker: "GROWTH", name: "Quality Growth Co", sector: "tech", mcap: 8e10, price: 80, fv: 110,
     snowflake: { financial_health: 6, future: 6, valuation: 4, past: 5, dividends: 1 },
     returns: { "1M": 6, "3M": 14, "1Y": 45, "5Y": 400 }, rewards: ["Earnings are forecast to grow 22% per year"] },
+  { ticker: "GAPAI", name: "Gap AI", sector: "software", mcap: 1.0e9, price: 80, fv: 112,
+    snowflake: { financial_health: 5, future: 0, valuation: 2, past: 4, dividends: 0 },
+    snowflake_check_matrix: snowflakeMatrix(GAP_MISSING_CHECKS) },
+  { ticker: "GAPP1", name: "Gap Peer 1", sector: "software", mcap: 1.01e9, price: 90, fv: 105,
+    snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 0 },
+    snowflake_check_matrix: snowflakeMatrix(GAP_PEER_PASS_CHECKS) },
+  { ticker: "GAPP2", name: "Gap Peer 2", sector: "software", mcap: 1.02e9, price: 91, fv: 106,
+    snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 0 },
+    snowflake_check_matrix: snowflakeMatrix(GAP_PEER_PASS_CHECKS) },
+  { ticker: "GAPP3", name: "Gap Peer 3", sector: "software", mcap: 1.03e9, price: 92, fv: 107,
+    snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 0 },
+    snowflake_check_matrix: snowflakeMatrix(GAP_PEER_PASS_CHECKS) },
+  { ticker: "GAPP4", name: "Gap Peer 4", sector: "software", mcap: 1.04e9, price: 93, fv: 108,
+    snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 0 },
+    snowflake_check_matrix: snowflakeMatrix(GAP_PEER_PASS_CHECKS) },
+  { ticker: "GAPP5", name: "Gap Peer 5", sector: "software", mcap: 1.05e9, price: 94, fv: 109,
+    snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 0 },
+    snowflake_check_matrix: snowflakeMatrix(GAP_PEER_PASS_CHECKS) },
 ];
 
 function makeFallbackFundamentals(spec) {
@@ -221,6 +273,10 @@ function main() {
     }
     writeFallbackFundamentals(STOCKS);
     const scored = runFullScoringUS();
+    const gapRows = scored.sections?.snowflake_gap_lab || [];
+    if (!gapRows.some((row) => row?.ticker === "GAPAI")) {
+      throw new Error("US fixture did not generate expected GAPAI Snowflake Gap Lab row");
+    }
     packSyntheticDeepTarball();
     return scored;
   });

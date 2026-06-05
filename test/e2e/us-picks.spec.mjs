@@ -63,7 +63,36 @@ test.describe("US Picks tab", () => {
     const text = await container.innerText();
     expect(text).toContain("$");
     expect(text).not.toContain("₹");
-    await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
+    await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v4"]')).toBeVisible();
+  });
+
+  test("renders US Snowflake Gap Lab chip, card badge, modal panel, and search cap", async ({ page }) => {
+    await openUSPicks(page);
+    const container = page.locator("#usPicksContainer");
+    const chip = container.locator('.sws-pick-chip[data-section-key="snowflake_gap_lab"]');
+    await expect(chip).toBeVisible();
+    await expect(chip).toContainText(/Gap Lab/);
+    await chip.click();
+
+    const section = container.locator('.sws-pick-section[data-section-key="snowflake_gap_lab"]');
+    await expect(section).toBeVisible();
+    const card = section.locator('.sws-pick-card[data-ticker="GAPAI"]');
+    await expect(card).toBeVisible();
+    await expect(card.locator(".sws-pick-card-score-num")).toContainText("45.9");
+    await expect(card.locator(".sws-gap-lab-badge")).toContainText("Lab V4 55.6 (+9.7)");
+    await expect(card.locator(".sws-gap-lab-card-note")).toContainText("Canonical V4 stays 45.9");
+
+    await card.click();
+    const modal = page.locator("#usModalBackdrop");
+    await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
+    await expect(page.locator("#usModalBody [data-testid='sws-snowflake-gap-lab']")).toBeVisible();
+    await expect(page.locator("#usModalBody")).toContainText(/Canonical V4 remains the source of record/i);
+    await page.evaluate(() => window.closeUSModal());
+    await expect(modal).not.toHaveClass(/open/);
+
+    await page.fill("#usPicksSearchInput", "a");
+    await expect(container.locator('.sws-pick-section[data-section-key="snowflake_gap_lab"]')).toBeVisible();
+    expect(await section.locator(".sws-pick-card").count()).toBeLessThanOrEqual(30);
   });
 
   test("open to all signed-in users: tab renders without the admin flag", async ({ page }) => {
@@ -182,9 +211,8 @@ test.describe("US Picks tab", () => {
     await card.click();
     const modal = page.locator("#usModalBackdrop");
     await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
-    const txt = await page.locator("#usModalBody").innerText();
-    expect(txt).toMatch(/Rewards\s*\(\d+\)/i);
-    expect(txt).toMatch(/Recent news/i);
+    await expect(page.locator("#usModalBody .sws-modal-hero")).toContainText(/AAPL/);
+    await expect(page.locator("#usModalBody .sws-modal-score")).toContainText(/TOP PICK/i);
     await page.evaluate(() => window.closeUSModal());
     await expect(modal).not.toHaveClass(/open/);
   });
@@ -344,7 +372,7 @@ test.describe("US Picks tab", () => {
   test("collapsible sections: chip-nav + Expand/Collapse-all toggle the accordion", async ({ page }) => {
     await openUSPicks(page);
     await expect(page.locator("#usPicksContainer .sws-pick-chipnav")).toBeVisible();
-    const hero = page.locator('#usPicksContainer .sws-pick-section[data-section-key="top_ranked_30_v3"]');
+    const hero = page.locator('#usPicksContainer .sws-pick-section[data-section-key="top_ranked_30_v4"]');
     await expect(hero).not.toHaveClass(/collapsed/); // hero open by default
     await page.locator("#usPicksContainer .sws-pick-chip-action", { hasText: "Collapse all" }).click();
     await expect(hero).toHaveClass(/collapsed/);

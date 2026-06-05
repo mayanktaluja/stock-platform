@@ -8297,6 +8297,17 @@ function filterSyntheticMarketFixtureRows(data) {
   return data;
 }
 
+function cloneMarketSections(sections) {
+  if (!sections || typeof sections !== "object") return sections;
+  const cloned = {};
+  for (const [key, items] of Object.entries(sections)) {
+    cloned[key] = Array.isArray(items)
+      ? items.map((row) => (row && typeof row === "object" ? { ...row } : row))
+      : items;
+  }
+  return cloned;
+}
+
 function hydrateMarketCardV4Breakdown(card, deep, dal, marketCode) {
   if (!card || card.v4_breakdown || !deep) return card;
   try {
@@ -8338,8 +8349,9 @@ app.get("/api/us-picks", async (req, res) => {
       hint: "Run /sws-refresh-us (or the seed scrape) to populate data/sws-us/.",
     });
   }
-  // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
-  const data = { ...raw, sections: normaliseTopRankedSections({ ...(raw.sections || {}) }) };
+  // Clone section arrays and row objects so stamping/limiting never mutates the
+  // mtime-cached DAL object shared with /api/us-stock and other in-process reads.
+  const data = { ...raw, sections: normaliseTopRankedSections(cloneMarketSections(raw.sections || {})) };
   filterSyntheticMarketFixtureRows(data);
   const limit =
     req.query.limit != null
@@ -8389,7 +8401,10 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
       const found = items.find((c) => c.ticker === ticker);
       if (found) {
         sectionMemberships.push(key);
-        if (!card) card = found;
+        if (!card) card = { ...found };
+        else if (found.snowflake_gap_lab && !card.snowflake_gap_lab) {
+          card.snowflake_gap_lab = found.snowflake_gap_lab;
+        }
       }
     }
   }
@@ -8397,7 +8412,10 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
   // section (the modal degrades gracefully even without a deep file present).
   if (!card) {
     const idx = usPicksDal.getUsUniverseIndex();
-    if (idx) card = idx.get(ticker) || null;
+    if (idx) {
+      const universeCard = idx.get(ticker);
+      card = universeCard ? { ...universeCard } : null;
+    }
   }
   if (isSyntheticMarketFixtureRow(card)) return res.status(404).json({ error: "no_us_data", ticker });
   if (!card) return res.status(404).json({ error: "no_us_data", ticker });
@@ -8406,9 +8424,12 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
   const returnsPct = normaliseMarketReturns({ deep, card });
   const hydratedCard = hydrateMarketCardV4Breakdown(card, deep, usPicksDal, "us");
   const responseCard = enrichMarketCardReturns(normaliseV4ScoreContracts(hydratedCard), returnsPct);
+  const responseDeep = deep && typeof deep === "object"
+    ? prepareSwsStockDeepForResponse(deep, responseCard)
+    : null;
   res.json({
     ticker,
-    deep: deep || null,
+    deep: responseDeep,
     card: responseCard || null,
     returns_pct: returnsPct,
     fundamentals_fallback: usPicksDal.getUsFundamentalsFallback(ticker),
