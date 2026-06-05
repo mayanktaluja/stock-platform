@@ -4979,6 +4979,8 @@ let _trackSectionPerformanceCohort = "best";
 const TRACK_SECTION_COHORTS = [3, 5, 10, 20];
 const TRACK_SECTION_WINDOWS = ["7d", "30d", "3m", "1y", "3y", "5y"];
 const TRACK_SECTION_FETCH_WINDOWS = TRACK_SECTION_WINDOWS.join(",");
+const PICKS_CREDIBILITY_WINDOWS = ["7d", "30d"];
+const PICKS_CREDIBILITY_FETCH_WINDOWS = PICKS_CREDIBILITY_WINDOWS.join(",");
 const TRACK_SECTION_WINDOW_META = {
   "7d": { label: "7d", daysLabel: "7 days", enabled: true, latestDescription: "7D" },
   "30d": { label: "30d", daysLabel: "30 days", enabled: true, latestDescription: "1M" },
@@ -5099,13 +5101,54 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   };
 }
 
+function _isPicksCredibilityWindow(windowKey) {
+  return PICKS_CREDIBILITY_WINDOWS.includes(String(windowKey || "").toLowerCase());
+}
+
+function _picksCredibilityCandidateFromWindow(windowPayload) {
+  const windowKey = windowPayload?.window;
+  if (!_isPicksCredibilityWindow(windowKey)) return null;
+  const rows = Array.isArray(windowPayload?.sections) && windowPayload.sections.length
+    ? windowPayload.sections
+    : (windowPayload?.bestSection ? [windowPayload.bestSection] : []);
+  const candidates = rows
+    .filter((row) => {
+      const alpha = Number(row?.alphaPct);
+      return row?.eligibleForBanner === true &&
+        row?.outperformed !== false &&
+        Number.isFinite(alpha) &&
+        alpha > 0;
+    })
+    .map((row) => ({ ...row, window: windowKey, sampleStatus: row.sampleStatus || row.status || windowPayload.sampleStatus }));
+  if (candidates.length === 0) return null;
+  return candidates.sort((a, b) => {
+    const alphaDiff = (Number(b.alphaPct) || -Infinity) - (Number(a.alphaPct) || -Infinity);
+    if (alphaDiff !== 0) return alphaDiff;
+    return Number(a.requestedCohortSize || 99) - Number(b.requestedCohortSize || 99);
+  })[0];
+}
+
+function _selectPicksCredibilitySpotlight(payload) {
+  const explicit = payload?.spotlightSection || payload?.bestEligibleSpotlight || null;
+  if (explicit && _isPicksCredibilityWindow(explicit.window)) return explicit;
+
+  const fallbackCandidates = PICKS_CREDIBILITY_WINDOWS
+    .map((windowKey) => _picksCredibilityCandidateFromWindow(_sectionPerformanceWindow(payload, windowKey)))
+    .filter(Boolean);
+  if (fallbackCandidates.length === 0) return null;
+  return fallbackCandidates.sort((a, b) => {
+    const alphaDiff = (Number(b.alphaPct) || -Infinity) - (Number(a.alphaPct) || -Infinity);
+    if (alphaDiff !== 0) return alphaDiff;
+    const orderDiff = PICKS_CREDIBILITY_WINDOWS.indexOf(a.window) - PICKS_CREDIBILITY_WINDOWS.indexOf(b.window);
+    if (orderDiff !== 0) return orderDiff;
+    return Number(a.requestedCohortSize || 99) - Number(b.requestedCohortSize || 99);
+  })[0];
+}
+
 function renderPicksCredibilityBanner(payload) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
-  const hasSpotlightContract = payload && Object.prototype.hasOwnProperty.call(payload, "spotlightSection");
-  const best = hasSpotlightContract
-    ? (payload?.spotlightSection || payload?.bestEligibleSpotlight || null)
-    : payload?.bestOverall;
+  const best = _selectPicksCredibilitySpotlight(payload);
   const fallbackWindow = _sectionPerformanceWindow(payload, "7d") || _sectionPerformanceWindow(payload, "30d") || {};
   const windowPayload = _sectionPerformanceWindow(payload, best?.window) || fallbackWindow;
   const label = _plainSectionLabel(best?.label || windowPayload?.bestSection?.label || "Track Record");
@@ -5117,7 +5160,7 @@ function renderPicksCredibilityBanner(payload) {
   const statusText = _spotlightLabel(windowPayload);
   const cohortText = _cohortLabel(best);
   const evidence = copy.evidence || `${_sectionBenchmarkLine(cohortText, sectionReturn, benchmark)}.${copy.evidenceSuffix || ""}`;
-  const selectedWindow = best?.window || windowPayload?.window || null;
+  const selectedWindow = best?.window || null;
   const selectedWindowText = selectedWindow && Number.isFinite(alpha)
     ? `${selectedWindow} · ${label} ${cohortText} ${_fmtSignedPct(alpha)}`
     : selectedWindow
@@ -5151,11 +5194,10 @@ async function loadPicksCredibilityBanner(forceBust = false) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
   try {
-    const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=${PICKS_CREDIBILITY_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
-    _trackSectionPerformanceCache = payload;
     renderPicksCredibilityBanner(payload);
   } catch (err) {
     host.style.display = "none";
