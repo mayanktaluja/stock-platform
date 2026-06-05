@@ -89,6 +89,26 @@ test.describe("SWS data health", () => {
     expect(failures, `Gap Lab detail warning contract drift: ${JSON.stringify(failures)}`).toEqual([]);
   });
 
+  test("India detail derives Snowflake warning metadata from real check matrix before Gap Lab fallback", async ({ request }) => {
+    const detailRes = await request.get("/api/sws-stock/TIMETECHNO");
+    test.skip(detailRes.status() === 404, "TIMETECHNO fixture not present in current India SWS data");
+    expect(detailRes.status()).toBe(200);
+    const detail = await detailRes.json();
+    const ov = detail?.deep?.overview || {};
+    const matrix = ov.snowflake_check_matrix;
+    test.skip(!Array.isArray(matrix?.checks), "TIMETECHNO fixture has no Snowflake check matrix");
+    test.skip(!detail?.card?.snowflake_gap_lab, "TIMETECHNO fixture is not currently a Gap Lab row");
+
+    expect(ov.snowflake_data_quality?.insufficient).toBe(true);
+    expect(["snowflake_check_matrix", "snowflake_data_quality"]).toContain(ov.snowflake_data_quality?.source);
+    expect(ov.snowflake_data_quality?.source).not.toBe("snowflake_gap_lab_fallback");
+    expect(ov.snowflake_data_quality?.fallback).toBeUndefined();
+    expect(ov.snowflake_data_quality?.by_pillar?.Future?.insufficient).toBe(
+      matrix.checks.filter((check) => check.pillar === "Future" && check.insufficient === true).length,
+    );
+    expect(ov.snowflake_data_quality?.samples?.some((sample) => sample.title === "High Growth Earnings")).toBe(true);
+  });
+
   for (const market of [
     { code: "us", label: "US", currency: "USD" },
     { code: "kr", label: "Korea", currency: "KRW" },

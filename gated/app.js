@@ -4979,6 +4979,8 @@ let _trackSectionPerformanceCohort = "best";
 const TRACK_SECTION_COHORTS = [3, 5, 10, 20];
 const TRACK_SECTION_WINDOWS = ["7d", "30d", "3m", "1y", "3y", "5y"];
 const TRACK_SECTION_FETCH_WINDOWS = TRACK_SECTION_WINDOWS.join(",");
+const PICKS_CREDIBILITY_WINDOWS = ["7d", "30d"];
+const PICKS_CREDIBILITY_FETCH_WINDOWS = PICKS_CREDIBILITY_WINDOWS.join(",");
 const TRACK_SECTION_WINDOW_META = {
   "7d": { label: "7d", daysLabel: "7 days", enabled: true, latestDescription: "7D" },
   "30d": { label: "30d", daysLabel: "30 days", enabled: true, latestDescription: "1M" },
@@ -5099,13 +5101,54 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   };
 }
 
+function _isPicksCredibilityWindow(windowKey) {
+  return PICKS_CREDIBILITY_WINDOWS.includes(String(windowKey || "").toLowerCase());
+}
+
+function _picksCredibilityCandidateFromWindow(windowPayload) {
+  const windowKey = windowPayload?.window;
+  if (!_isPicksCredibilityWindow(windowKey)) return null;
+  const rows = Array.isArray(windowPayload?.sections) && windowPayload.sections.length
+    ? windowPayload.sections
+    : (windowPayload?.bestSection ? [windowPayload.bestSection] : []);
+  const candidates = rows
+    .filter((row) => {
+      const alpha = Number(row?.alphaPct);
+      return row?.eligibleForBanner === true &&
+        row?.outperformed !== false &&
+        Number.isFinite(alpha) &&
+        alpha > 0;
+    })
+    .map((row) => ({ ...row, window: windowKey, sampleStatus: row.sampleStatus || row.status || windowPayload.sampleStatus }));
+  if (candidates.length === 0) return null;
+  return candidates.sort((a, b) => {
+    const alphaDiff = (Number(b.alphaPct) || -Infinity) - (Number(a.alphaPct) || -Infinity);
+    if (alphaDiff !== 0) return alphaDiff;
+    return Number(a.requestedCohortSize || 99) - Number(b.requestedCohortSize || 99);
+  })[0];
+}
+
+function _selectPicksCredibilitySpotlight(payload) {
+  const explicit = payload?.spotlightSection || payload?.bestEligibleSpotlight || null;
+  if (explicit && _isPicksCredibilityWindow(explicit.window)) return explicit;
+
+  const fallbackCandidates = PICKS_CREDIBILITY_WINDOWS
+    .map((windowKey) => _picksCredibilityCandidateFromWindow(_sectionPerformanceWindow(payload, windowKey)))
+    .filter(Boolean);
+  if (fallbackCandidates.length === 0) return null;
+  return fallbackCandidates.sort((a, b) => {
+    const alphaDiff = (Number(b.alphaPct) || -Infinity) - (Number(a.alphaPct) || -Infinity);
+    if (alphaDiff !== 0) return alphaDiff;
+    const orderDiff = PICKS_CREDIBILITY_WINDOWS.indexOf(a.window) - PICKS_CREDIBILITY_WINDOWS.indexOf(b.window);
+    if (orderDiff !== 0) return orderDiff;
+    return Number(a.requestedCohortSize || 99) - Number(b.requestedCohortSize || 99);
+  })[0];
+}
+
 function renderPicksCredibilityBanner(payload) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
-  const hasSpotlightContract = payload && Object.prototype.hasOwnProperty.call(payload, "spotlightSection");
-  const best = hasSpotlightContract
-    ? (payload?.spotlightSection || payload?.bestEligibleSpotlight || null)
-    : payload?.bestOverall;
+  const best = _selectPicksCredibilitySpotlight(payload);
   const fallbackWindow = _sectionPerformanceWindow(payload, "7d") || _sectionPerformanceWindow(payload, "30d") || {};
   const windowPayload = _sectionPerformanceWindow(payload, best?.window) || fallbackWindow;
   const label = _plainSectionLabel(best?.label || windowPayload?.bestSection?.label || "Track Record");
@@ -5117,7 +5160,7 @@ function renderPicksCredibilityBanner(payload) {
   const statusText = _spotlightLabel(windowPayload);
   const cohortText = _cohortLabel(best);
   const evidence = copy.evidence || `${_sectionBenchmarkLine(cohortText, sectionReturn, benchmark)}.${copy.evidenceSuffix || ""}`;
-  const selectedWindow = best?.window || windowPayload?.window || null;
+  const selectedWindow = best?.window || null;
   const selectedWindowText = selectedWindow && Number.isFinite(alpha)
     ? `${selectedWindow} · ${label} ${cohortText} ${_fmtSignedPct(alpha)}`
     : selectedWindow
@@ -5151,11 +5194,10 @@ async function loadPicksCredibilityBanner(forceBust = false) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
   try {
-    const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=${PICKS_CREDIBILITY_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
-    _trackSectionPerformanceCache = payload;
     renderPicksCredibilityBanner(payload);
   } catch (err) {
     host.style.display = "none";
@@ -7031,8 +7073,8 @@ function renderSWSEarningsCalendar(report) {
 
 // Dividends to capture — per-holding upcoming ex-dividend calendar, populated
 // from data/catalysts/dividends-upcoming.json by services/portfolio/
-// portfolioDividendService.js. Rows are SWS-news-sourced; format is templated
-// so DPS + ex_date + record_date are parsed structurally from the body.
+// portfolioDividendService.js. Rows are exchange-date confirmed and sourced
+// from the materialized nightly dividend feed.
 // Section header is factual ("Dividends to capture") — the site-wide
 // #sebiSiteFooter is the canonical site-wide disclosure.
 function renderSWSDividendCalendar(report) {
@@ -7133,6 +7175,93 @@ function renderSWSDividendCalendar(report) {
 
   return `<details class="analyzer-tier-details" style="margin-top: var(--space-200);" ${rows.length > 0 ? "open" : ""}>
     <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Dividends to capture <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
+    <div style="padding-top: var(--space-200);">
+      ${body}
+    </div>
+  </details>`;
+}
+
+// Recommended dividends that are still waiting for an exchange-confirmed
+// ex-date. Kept separate from "Dividends to capture" because there is no
+// hold-by date or capture window until the exchange date exists.
+function renderSWSAwaitingDividendSection(report) {
+  const all = Object.values(report?.holdingsByAction || {}).flat();
+  const seen = new Set();
+  const withAwaiting = [];
+  for (const h of all) {
+    const key = h?.sws?.ticker || h?.symbol;
+    if (!key || seen.has(key)) continue;
+    if (!h?.sws?.awaiting_dividend) continue;
+    seen.add(key);
+    withAwaiting.push(h);
+  }
+
+  const stripSuffix = (s) => String(s || "").replace(/\.(NS|BO|BSE)$/i, "");
+  const rows = withAwaiting.slice().sort((a, b) => {
+    const da = a.sws.awaiting_dividend.announced_at_iso || "9999-12-31";
+    const db = b.sws.awaiting_dividend.announced_at_iso || "9999-12-31";
+    if (da !== db) return da < db ? 1 : -1;
+    return String(a.symbol || "").localeCompare(String(b.symbol || ""));
+  });
+
+  const rowHtml = rows.length === 0
+    ? ""
+    : rows.map((h, i) => {
+        const div = h.sws.awaiting_dividend;
+        const ticker = stripSuffix(h.sws?.ticker || h.symbol || "");
+        const annMs = div.announced_at_iso ? Date.parse(div.announced_at_iso + "T00:00:00Z") : NaN;
+        const annStr = Number.isFinite(annMs)
+          ? new Date(annMs).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+          : "—";
+        const dpsCell = Number.isFinite(div.dps) ? `₹${Number(div.dps).toFixed(2)}` : "—";
+        const typeCell = div.dividend_type ? String(div.dividend_type).replace(/_/g, " ") : "—";
+        const statusCell = div.awaiting_type === "board_review" ? "Board review" : "Recommended";
+        const sourceCell = div.source === "nse-announcements" ? "NSE filing" : "SWS news";
+        const detail = div.source_detail
+          ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px; max-width:520px;">${swsEscapeAttr(div.source_detail)}</div>`
+          : "";
+        const extra = Number.isFinite(div.other_awaiting_count) && div.other_awaiting_count > 0
+          ? ` <span title="${div.other_awaiting_count} additional awaiting dividend item(s)" style="color:var(--text-muted); font-size:10px;">+${div.other_awaiting_count}</span>`
+          : "";
+        const trOpen = ticker
+          ? `<tr style="border-bottom:1px solid #1a2238; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(ticker)} detail" onclick="openStockDetailModal('${escapeHtml(ticker)}','analyzer-awaiting-dividends')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
+          : `<tr style="border-bottom:1px solid #1a2238;">`;
+        return `${trOpen}
+          <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
+          <td style="padding:10px 12px;">
+            <strong style="font-size:13px;">${swsEscapeAttr(ticker)}</strong>${extra}
+            <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(h?.name || "")}</div>
+            ${detail}
+          </td>
+          <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${annStr}</td>
+          <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${dpsCell}</td>
+          <td style="padding:10px 12px; text-transform:capitalize;">${swsEscapeAttr(typeCell)}</td>
+          <td style="padding:10px 12px;">${swsEscapeAttr(statusCell)}</td>
+          <td style="padding:10px 12px; color:var(--text-muted);">${swsEscapeAttr(sourceCell)}</td>
+        </tr>`;
+      }).join("");
+
+  const body = rows.length === 0
+    ? `<div style="padding: var(--space-200); color:var(--text-muted); font-size:13px;">No held stocks currently have recommended dividends awaiting a confirmed ex-date.</div>`
+    : `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings with recommended dividends awaiting ex-date">
+          <thead>
+            <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+              <th style="padding:10px 12px;">#</th>
+              <th style="padding:10px 12px;">Stock</th>
+              <th style="padding:10px 12px;">Announced</th>
+              <th style="padding:10px 12px; text-align:right;">DPS</th>
+              <th style="padding:10px 12px;">Type</th>
+              <th style="padding:10px 12px;">Status</th>
+              <th style="padding:10px 12px;">Source</th>
+            </tr>
+          </thead>
+          <tbody>${rowHtml}</tbody>
+        </table>
+      </div>`;
+
+  return `<details class="analyzer-tier-details" style="margin-top: var(--space-200);" ${rows.length > 0 ? "open" : ""}>
+    <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Recommended dividends awaiting ex-date <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
     <div style="padding-top: var(--space-200);">
       ${body}
     </div>
@@ -7662,20 +7791,20 @@ function renderSWSConstructionPlan(plan) {
     }).join("");
 
   return `
-    <section class="analyzer-funded-plan" data-funded-plan style="background:var(--panel); border:1px solid rgba(96,165,250,0.32); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-      <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start;">
+    <section class="analyzer-section analyzer-funded-plan" data-funded-plan>
+      <div class="analyzer-section-header">
         <div>
-          <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Capital ledger ${notAdviceChip("inline")}</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">Buy rupees use fresh capital plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
+          <div class="analyzer-section-title">Today's plan</div>
+          <div class="analyzer-section-copy">Fresh cash plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
           ${sleeve?.warning ? `<div style="font-size:11px; color:#fde047; margin-top:5px;">${swsEscapeAttr(sleeve.warning)}</div>` : ""}
         </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:11px;">
+        <div class="analyzer-compact-ledger">
           <span>Available <strong data-funded-available-capital style="color:#e5e7eb;">${inr(ledger.availableBuyCapital || 0)}</strong></span>
           <span>Buys <strong data-funded-buy-total style="color:#86efac;">${inr(ledger.deployedBuyCapital || 0)}</strong></span>
           <span>Left cash <strong style="color:#fde047;">${inr(ledger.leftoverCash || 0)}</strong></span>
         </div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-top:14px;">
+      <div class="analyzer-evidence-grid">
         <div>
           <div style="font-size:11px; color:#86efac; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded buys (${fundedBuys.length})</div>
           ${buyRows}
@@ -7713,7 +7842,7 @@ function renderAnalyzerExitPlanSummary(summary) {
     ? `<div style="font-size:12px; color:var(--text-muted); padding-top:8px;">No active review rows from available support and upside references.</div>`
     : rows.map((r) => {
         const stateColor = r.state === "REVIEW" ? "#fca5a5" : r.state === "WATCH" ? "#fde047" : "#93c5fd";
-        return `<div data-exit-plan-summary-row style="display:grid; grid-template-columns:minmax(96px, 1fr) 84px 92px 92px minmax(160px, 1.6fr); gap:10px; align-items:center; padding:8px 0; border-top:1px solid #1a2238; font-size:12px;">
+        return `<div class="analyzer-priority-row" data-exit-plan-summary-row>
           <div><strong>${swsEscapeAttr(r.symbol || "—")}</strong><div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(r.intentLabel || "")}</div></div>
           <div style="color:${stateColor}; font-weight:800;">${swsEscapeAttr(r.state || "CLEAR")}</div>
           <div class="tx-num" style="color:var(--text-muted);">${r.supportLevel != null ? inr(r.supportLevel) : "—"}</div>
@@ -7731,16 +7860,16 @@ function renderAnalyzerExitPlanSummary(summary) {
       <summary class="tx-title" style="cursor:pointer; padding:10px 0; border-bottom:1px solid var(--border); list-style:none;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
           <div>
-            <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Technical levels &amp; review triggers ${notAdviceChip("inline")}</div>
+            <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Technical levels &amp; review triggers</div>
             <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"} · analytical reference, not trade instructions</div>
           </div>
           <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:11px; font-weight:700; text-align:right;">${compactCounts}</div>
         </div>
       </summary>
-      <div style="padding-top:var(--space-200); background:var(--panel); border:1px solid rgba(147,197,253,0.30); border-top:0; border-radius:0 0 10px 10px; padding:14px 18px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+      <div class="analyzer-section" style="border-top:0; border-radius:0 0 8px 8px;">
+        <div class="analyzer-section-header">
         <div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${swsEscapeAttr(summary.copy || "Technical levels are analytical references, not trade instructions.")}</div>
+          <div class="analyzer-section-copy">${swsEscapeAttr(summary.copy || "Technical levels are analytical references, not trade instructions.")}</div>
         </div>
         <div style="font-size:11px; color:var(--text-muted);">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"}</div>
       </div>
@@ -7750,10 +7879,15 @@ function renderAnalyzerExitPlanSummary(summary) {
         ${stat("Profit-zone", profitZone, profitZone ? "#86efac" : "#93c5fd")}
         ${stat("High-volatility", highVol, highVol ? "#fca5a5" : "#93c5fd")}
       </div>
-      <details style="margin-top:12px;">
-        <summary style="cursor:pointer; list-style:none; font-size:11px; color:var(--text-muted);">Priority technical rows (${rows.length})</summary>
-        <div style="margin-top:8px; overflow-x:auto;">${rowHtml}</div>
-      </details>
+      <div style="margin-top:14px;">
+        <div style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">Priority technical rows (${rows.length})</div>
+        <div style="margin-top:8px; overflow-x:auto;">
+          <div class="analyzer-priority-table">
+            ${rows.length ? `<div class="analyzer-priority-header"><span>Stock</span><span>State</span><span>Support</span><span>Upside</span><span>Reason</span></div>` : ""}
+            ${rowHtml}
+          </div>
+        </div>
+      </div>
       </div>
     </details>
   `;
@@ -7822,8 +7956,6 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
-    ${renderSWSConstructionPlan(report.constructionPlan)}
-    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* PR A10 — Tier 1 hero trio above the Health ring. */ ""}
     ${renderAnalyzerHeroTrio(snap)}
@@ -7832,6 +7964,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
 
     ${/* PR A10 — Action mix as a 100 %-width stacked bar. */ ""}
     ${renderAnalyzerActionMixBar(snap)}
+    ${renderSWSConstructionPlan(report.constructionPlan)}
+    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* Secondary KPIs — collapsed by default. */ ""}
     <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
@@ -7874,6 +8008,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     </details>
 
     ${renderSWSEarningsCalendar(report)}
+    ${renderSWSAwaitingDividendSection(report)}
     ${renderSWSDividendCalendar(report)}
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
@@ -7983,8 +8118,6 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
-    ${renderSWSConstructionPlan(report.constructionPlan)}
-    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* PR A10 — Tier 1 hero. Invested / Today / Net P&L read first,
         Net P&L dominant + signed-coloured. Hoists ABOVE the engine hero
@@ -7998,6 +8131,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${/* PR A10 — Action mix is now a 100 %-width stacked bar. Click-through
         to openActionListModal still works via the bucket bridge. */ ""}
     ${renderAnalyzerActionMixBar(snap)}
+    ${renderSWSConstructionPlan(report.constructionPlan)}
+    ${renderAnalyzerExitPlanSummary(report.exitPlanSummary)}
 
     ${/* Secondary KPIs — kept visible but de-emphasised below the Tier 1
         hero. Useful for power users but no longer the first read. */ ""}
@@ -8044,6 +8179,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     </details>
 
     ${renderSWSEarningsCalendar(report)}
+    ${renderSWSAwaitingDividendSection(report)}
     ${renderSWSDividendCalendar(report)}
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
@@ -13040,13 +13176,11 @@ function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
           const row = byPillar[pillar] || {};
           const insufficient = Number(row.insufficient);
           if (!Number.isFinite(insufficient) || insufficient <= 0) return null;
-          const checked = Number(row.checked);
-          const checkedLabel = Number.isFinite(checked) && checked > 0 ? checked : 6;
-          return `${escapeHtml(pillar)} ${insufficient}/${checkedLabel}`;
+          return `${escapeHtml(pillar)} ${insufficient} unavailable source check${insufficient === 1 ? "" : "s"}`;
         })
         .filter(Boolean)
     : [];
-  const pillarText = pillarCounts.length ? `Missing by section: ${pillarCounts.join(" · ")}` : "";
+  const pillarText = pillarCounts.length ? `Unavailable by section: ${pillarCounts.join(" · ")}` : "";
   const missingCheckGroups = [];
   if (Array.isArray(checkMatrix?.checks)) {
     const grouped = new Map();
@@ -13080,8 +13214,8 @@ function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
   const sampleText = !missingChecksText && samples.length ? `Examples: ${samples.join(" · ")}` : "";
   const titleText = isFallback ? "Snowflake data-gap warning:" : "SWS data warning:";
   const bodyText = isFallback
-    ? `${countText} were inferred from Gap Lab peer-imputed no-data checks across ${affectedText}. Parser warning metadata was missing for this artifact; treat the Snowflake score as source-limited and verify manually.`
-    : `${countText} show insufficient source data across ${affectedText}. Treat the Snowflake score as source-limited and verify manually.`;
+    ? `${countText} were inferred from Gap Lab peer-imputed no-data checks across ${affectedText}. Parser warning metadata was missing for this artifact; the Snowflake score below is separate from source-data availability.`
+    : `${countText} show insufficient source data across ${affectedText}. The Snowflake score below is separate from source-data availability.`;
   return `
     <div class="sws-modal-data-warning" data-testid="sws-snowflake-data-warning" role="note" aria-label="SWS Snowflake data warning">
       <strong>${escapeHtml(titleText)}</strong>

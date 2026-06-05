@@ -171,7 +171,8 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(warning).toContainText("SWS data warning");
     await expect(warning).toContainText("2 of 30 SWS checks");
     await expect(warning).toContainText("Future, Value");
-    await expect(warning).toContainText("Missing by section: Future 1/6 · Value 1/6");
+    await expect(warning).toContainText("Unavailable by section: Future 1 unavailable source check · Value 1 unavailable source check");
+    await expect(warning).toContainText("Snowflake score below is separate from source-data availability");
     await expect(warning).toContainText("Examples: Future: Revenue vs Market");
     await expect(warning).toContainText("Revenue vs Market");
   });
@@ -209,7 +210,7 @@ test.describe("Stock detail modal (SWS)", () => {
 
     const warning = page.locator("#swsModalBody").locator('[data-testid="sws-snowflake-data-warning"]');
     await expect(warning).toBeVisible();
-    await expect(warning).toContainText("Missing by section: Future 2/6 · Value 1/6");
+    await expect(warning).toContainText("Unavailable by section: Future 2 unavailable source checks · Value 1 unavailable source check");
     await expect(warning).toContainText("Missing checks: Future: Revenue vs Market, Earnings vs Market · Value: PEG Ratio");
     await expect(warning).not.toContainText("Examples:");
   });
@@ -310,7 +311,9 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(warning).toContainText("SWS data warning");
     await expect(warning).toContainText("6 of 30 SWS checks");
     await expect(warning).toContainText("Value, Future");
-    await expect(warning).toContainText("Missing by section: Value 1/6 · Future 5/6");
+    await expect(warning).toContainText("Unavailable by section: Value 1 unavailable source check · Future 5 unavailable source checks");
+    await expect(warning).toContainText("Snowflake score below is separate from source-data availability");
+    await expect(warning).not.toContainText("Future 5/6");
     await expect(warning).toContainText("Examples: Value: PEG Ratio");
     await expect(warning).toContainText("High Growth Earnings");
 

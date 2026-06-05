@@ -219,6 +219,22 @@ test("same-run sell candidates do not become buy capital", () => {
   assert.match(plan.capitalLedger.note, /not counted as available buy capital/i);
 });
 
+test("many raw add candidates remain unfunded when buy capital is zero", () => {
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: Array.from({ length: 8 }, (_, i) =>
+      holding({ ticker: `RAWADD${i}`, action: "Top-up-100%", currentValue: 40_000 + i * 1000, sector: `Sector${i}` }),
+    ),
+    freshCapitalInr: 0,
+    confirmedFreedCapitalInr: 0,
+  });
+
+  assert.equal(plan.fundedTrades.length, 0);
+  assert.equal(plan.summary.fundedBuyCount, 0);
+  assert.equal(plan.eligibleAddCandidates.length, 8);
+  assert.equal(plan.summary.eligibleUnfundedCount, 8);
+  assert.match(plan.zeroStateReasons.join(" "), /below INR 25,000/);
+});
+
 test("unconfirmed reductions are review candidates, not notional sells", () => {
   const plan = buildPortfolioConstructionPlan({
     scoredHoldings: [

@@ -34,15 +34,18 @@ import fs from "node:fs";
 import path from "node:path";
 
 let _dividendCache = null;
-function loadDividendsUpcoming() {
+function loadDividendFeed() {
   if (_dividendCache) return _dividendCache;
   const p = path.resolve(process.cwd(), "data", "catalysts", "dividends-upcoming.json");
   try {
     const raw = fs.readFileSync(p, "utf8");
     const json = JSON.parse(raw);
-    _dividendCache = Array.isArray(json?.dividends) ? json.dividends : [];
+    _dividendCache = {
+      dividends: Array.isArray(json?.dividends) ? json.dividends : [],
+      awaiting_ex_date: Array.isArray(json?.awaiting_ex_date) ? json.awaiting_ex_date : [],
+    };
   } catch {
-    _dividendCache = [];
+    _dividendCache = { dividends: [], awaiting_ex_date: [] };
   }
   return _dividendCache;
 }
@@ -828,7 +831,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const asOfDateIso = opts.asOfDateIso ?? null;
   const brokerSummary = opts.brokerSummary ?? null;
 
-  attachDividendsToHoldings(scoredHoldings, loadDividendsUpcoming());
+  attachDividendsToHoldings(scoredHoldings, loadDividendFeed());
 
   const tiers = buildTiers(scoredHoldings);
   // sectorOverlay must be built before baskets — buildBaskets uses the

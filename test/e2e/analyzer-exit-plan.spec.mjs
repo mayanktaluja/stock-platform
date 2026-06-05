@@ -40,8 +40,10 @@ test.describe("Portfolio Analyzer technical levels", () => {
     await expect(summary).toHaveJSProperty("open", true);
     await expect(summary).toContainText("Priority technical rows");
     await expect(summary).toContainText("High-volatility");
-    const priorityRows = summary.locator("details").filter({ hasText: "Priority technical rows" });
-    await expect(priorityRows).toHaveJSProperty("open", false);
+    const priorityRows = summary.locator("[data-exit-plan-summary-row]");
+    await expect(priorityRows.first()).toBeVisible({ timeout: 5_000 });
+    const priorityReason = await priorityRows.first().innerText();
+    expect(priorityReason).toMatch(/support|upside|volatility|review|profit-zone/i);
 
     const text = await page.locator("#analyzerReport").innerText();
     expect(text).not.toMatch(/\b(buy now|sell now|sell the entire|sell half|book profit now|stop-loss hit|exit position|place order|market orders?|must trim|guaranteed|assured returns?)\b/i);

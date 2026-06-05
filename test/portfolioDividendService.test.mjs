@@ -1,5 +1,6 @@
 import {
   buildNextDividend,
+  buildAwaitingDividend,
   attachDividendsToHoldings,
   __testing__,
 } from "../services/portfolio/portfolioDividendService.js";
@@ -106,6 +107,37 @@ function assert(name, cond, got) {
   assert("attach: RELIANCE.NS payout = 5×10 = 50", out[0]?.sws?.next_dividend?.total_payout_inr === 50);
   assert("attach: TCS.NS got next_dividend", out[1]?.sws?.next_dividend?.dps === 5);
   assert("attach: UNKNOWN.NS got no next_dividend", out[2]?.sws?.next_dividend == null);
+}
+
+// ──── buildAwaitingDividend / attachDividendsToHoldings — awaiting stays separate ────
+{
+  const awaiting = buildAwaitingDividend([
+    {
+      symbol: "NETWEB",
+      announced_at_iso: "2026-05-02",
+      dps: 3,
+      dividend_type: "final",
+      status: "awaiting_ex_date",
+      awaiting_type: "recommended",
+      source: "sws-news",
+      source_detail: "Recommends Final Dividend",
+    },
+  ]);
+  assert("awaiting: dps retained", awaiting?.dps === 3, awaiting);
+  assert("awaiting: source detail retained", awaiting?.source_detail === "Recommends Final Dividend", awaiting);
+
+  const holdings = [
+    { symbol: "NETWEB.NS", quantity: 2, avgPrice: 1000 },
+    { symbol: "RELIANCE.NS", quantity: 5, avgPrice: 2000 },
+  ];
+  const out = attachDividendsToHoldings(holdings, {
+    dividends: [{ symbol: "RELIANCE", ex_date: "2026-07-01", dps: 10, source: "groww-events" }],
+    awaiting_ex_date: [{ symbol: "NETWEB", announced_at_iso: "2026-05-02", dps: 3, source: "sws-news", source_detail: "Recommends Final Dividend" }],
+  }, { todayIso: "2026-05-19" });
+  assert("attach: NETWEB got awaiting_dividend", out[0]?.sws?.awaiting_dividend?.dps === 3, out[0]);
+  assert("attach: NETWEB did not get next_dividend", out[0]?.sws?.next_dividend == null, out[0]);
+  assert("attach: RELIANCE got confirmed next_dividend", out[1]?.sws?.next_dividend?.source === "groww-events", out[1]);
+  assert("attach: RELIANCE did not get awaiting_dividend when confirmed exists", out[1]?.sws?.awaiting_dividend == null, out[1]);
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

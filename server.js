@@ -7896,6 +7896,45 @@ function snowflakeDataQualityFromGapLab(lab) {
   };
 }
 
+function snowflakeDataQualityFromCheckMatrix(matrix) {
+  const checks = Array.isArray(matrix?.checks) ? matrix.checks : [];
+  if (!checks.length) return null;
+
+  const byPillar = {};
+  const samples = [];
+  let insufficientCount = 0;
+  for (const check of checks) {
+    const pillar = normaliseSnowflakeGapPillar(check?.pillar);
+    if (!byPillar[pillar]) byPillar[pillar] = { checked: 0, insufficient: 0 };
+    byPillar[pillar].checked += 1;
+    if (check?.insufficient !== true) continue;
+    insufficientCount += 1;
+    byPillar[pillar].insufficient += 1;
+    if (samples.length < 3) {
+      samples.push({
+        pillar,
+        title: String(check.title || check.name || "").trim() || "Snowflake check",
+        reason_code: String(check.outcome_name || check.result || "NO_DATA").trim(),
+      });
+    }
+  }
+  if (insufficientCount <= 0) return null;
+
+  const affected = Object.entries(byPillar)
+    .filter(([, row]) => Number(row?.insufficient) > 0)
+    .map(([pillar]) => pillar);
+
+  return {
+    insufficient: true,
+    insufficient_count: insufficientCount,
+    checked_count: Number(matrix.checked_count) || checks.length,
+    affected_pillars: affected,
+    by_pillar: byPillar,
+    samples,
+    source: "snowflake_check_matrix",
+  };
+}
+
 function snowflakeCheckMatrixFromGapLab(lab, dataQuality) {
   const checks = gapLabMissingChecks(lab);
   if (!checks.length) return null;
@@ -7912,12 +7951,24 @@ function prepareSwsStockDeepForResponse(deep, card) {
   const responseOverview = { ...overview };
   const responseDeep = { ...deep, overview: responseOverview };
   const gapLab = card?.snowflake_gap_lab || null;
-  if (!gapLab) return responseDeep;
 
   if (responseOverview.snowflake_data_quality == null) {
-    const fallbackQuality = snowflakeDataQualityFromGapLab(gapLab);
+    const matrixQuality = snowflakeDataQualityFromCheckMatrix(responseOverview.snowflake_check_matrix);
+    const fallbackQuality = matrixQuality || snowflakeDataQualityFromGapLab(gapLab);
     if (fallbackQuality) responseOverview.snowflake_data_quality = fallbackQuality;
+  } else if (
+    responseOverview.snowflake_data_quality?.insufficient === true &&
+    responseOverview.snowflake_data_quality.source == null
+  ) {
+    responseOverview.snowflake_data_quality = {
+      ...responseOverview.snowflake_data_quality,
+      source: Array.isArray(responseOverview.snowflake_check_matrix?.checks)
+        ? "snowflake_check_matrix"
+        : "snowflake_data_quality",
+    };
   }
+
+  if (!gapLab) return responseDeep;
 
   const hasRealCheckMatrix = Array.isArray(responseOverview.snowflake_check_matrix?.checks);
   if (!hasRealCheckMatrix && responseOverview.snowflake_data_quality?.insufficient === true) {

@@ -41,6 +41,26 @@ function indexByNormalizedSymbol(dividends) {
   return map;
 }
 
+function indexAwaitingByNormalizedSymbol(rows) {
+  const map = new Map();
+  for (const d of rows || []) {
+    const sym = normalizeSymbol(d?.symbol);
+    if (!sym) continue;
+    const list = map.get(sym) || [];
+    list.push(d);
+    map.set(sym, list);
+  }
+  for (const [, list] of map) {
+    list.sort((a, b) => {
+      const da = a.announced_at_iso || "";
+      const db = b.announced_at_iso || "";
+      if (da !== db) return da < db ? 1 : -1;
+      return String(a.source || "").localeCompare(String(b.source || ""));
+    });
+  }
+  return map;
+}
+
 export function buildNextDividend(holding, dividendsForSymbol, { todayIso } = {}) {
   if (!holding || !Array.isArray(dividendsForSymbol) || dividendsForSymbol.length === 0) return null;
   const today = todayIso || todayIstIso();
@@ -79,28 +99,52 @@ export function buildNextDividend(holding, dividendsForSymbol, { todayIso } = {}
   };
 }
 
-export function attachDividendsToHoldings(holdings, dividends, { todayIso } = {}) {
+export function buildAwaitingDividend(awaitingForSymbol) {
+  if (!Array.isArray(awaitingForSymbol) || awaitingForSymbol.length === 0) return null;
+  const next = awaitingForSymbol[0];
+  return {
+    announced_at_iso: next.announced_at_iso || null,
+    dps: Number.isFinite(Number(next.dps)) ? Number(next.dps) : null,
+    dividend_type: next.dividend_type || null,
+    status: next.status || "awaiting_ex_date",
+    awaiting_type: next.awaiting_type || "recommended",
+    source: next.source || "sws-news",
+    source_detail: next.source_detail || null,
+    other_awaiting_count: awaitingForSymbol.length - 1,
+  };
+}
+
+export function attachDividendsToHoldings(holdings, dividends, opts = {}) {
   if (!Array.isArray(holdings) || holdings.length === 0) return holdings || [];
-  const index = indexByNormalizedSymbol(dividends);
-  const today = todayIso || todayIstIso();
-  const unmatchedWithUpcoming = [];
+  const feed = Array.isArray(dividends)
+    ? { dividends, awaiting_ex_date: opts.awaiting_ex_date || [] }
+    : {
+        dividends: dividends?.dividends || [],
+        awaiting_ex_date: dividends?.awaiting_ex_date || [],
+      };
+  const index = indexByNormalizedSymbol(feed.dividends);
+  const awaitingIndex = indexAwaitingByNormalizedSymbol(feed.awaiting_ex_date);
+  const today = opts.todayIso || todayIstIso();
 
   for (const h of holdings) {
     const sym = normalizeSymbol(h?.symbol || h?.sws?.ticker);
     if (!sym) continue;
     const forSymbol = index.get(sym);
-    if (!forSymbol || forSymbol.length === 0) {
-      unmatchedWithUpcoming.push(sym);
-      continue;
-    }
-    const next = buildNextDividend(h, forSymbol, { todayIso: today });
+    const next = forSymbol && forSymbol.length > 0
+      ? buildNextDividend(h, forSymbol, { todayIso: today })
+      : null;
     if (next) {
       h.sws = h.sws || {};
       h.sws.next_dividend = next;
+    }
+    const awaiting = buildAwaitingDividend(awaitingIndex.get(sym));
+    if (awaiting && !next) {
+      h.sws = h.sws || {};
+      h.sws.awaiting_dividend = awaiting;
     }
   }
 
   return holdings;
 }
 
-export const __testing__ = { normalizeSymbol, dateMinusOne, daysUntil, indexByNormalizedSymbol };
+export const __testing__ = { normalizeSymbol, dateMinusOne, daysUntil, indexByNormalizedSymbol, indexAwaitingByNormalizedSymbol };
