@@ -44,6 +44,12 @@ experimental surface area and nightly refresh load.
   instead of populating V4 score fields.
 
 ### Snowflake Gap Lab (June 2026)
+- **US follow-up** — US Market now has the same experimental Snowflake Gap Lab
+  contract as India, with USD market-cap buckets, a $50M hygiene floor,
+  US-native shadow scoring, API clone-safety, US-scoped UI chunking, and
+  explicit `snowflake_gap_lab` audit metadata. Canonical V4 remains the source
+  of record; the first populate-only US artifact ships a capped 200-row Gap
+  Lab section from the current US deep tarball.
 - **Warning-banner follow-up** — India stock-detail modals now break SWS
   insufficient-data warnings down by Snowflake section, using the persisted
   `snowflake_data_quality.by_pillar` counts that are present across current

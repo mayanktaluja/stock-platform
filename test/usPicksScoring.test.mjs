@@ -20,10 +20,13 @@ import {
   scoreStockUS,
   buildLeaderboardUS,
   categoriseStockUS,
+  classifySnowflakeGapMarketCapUS,
+  snowflakeGapLabUSOptions,
   usCardFields,
   MIN_MCAP_USD,
   SMALLCAP_CEILING_USD,
 } from "../scripts/sws-scoring-us.mjs";
+import { buildSnowflakeGapPeerAverages } from "../services/swsSnowflakeGapLab.js";
 import assert from "node:assert/strict";
 
 let pass = 0,
@@ -55,14 +58,36 @@ function stock(overrides = {}) {
     dividend: { yield_pct: 1.0, payout_pct: 30 },
     risks: [],
     rewards: [],
+    snowflake_check_matrix: overrides.overview?.snowflake_check_matrix || null,
     ...(overrides.overview || {}),
   };
   return {
     ticker: overrides.ticker || "TEST",
     name: overrides.name || "Test",
-    sector: "tech",
+    sector: overrides.sector || "tech",
     currency: overrides.currency || "USD",
     overview: ov,
+  };
+}
+
+function matrix(checks) {
+  return {
+    version: "sws-visible-snowflake-checks-v1",
+    checked_count: 30,
+    captured_count: checks.length,
+    health_check_set: "Health",
+    checks,
+  };
+}
+
+function snowCheck(pillar, name, result, title = name) {
+  return {
+    pillar,
+    name,
+    title,
+    result,
+    available: result === "pass" || result === "fail",
+    insufficient: result === "no_data",
   };
 }
 
@@ -98,6 +123,13 @@ console.log("\nUSD market-cap gates\n");
 check("constants are USD ($50M floor, $2B small-cap ceiling)", () => {
   assert.equal(MIN_MCAP_USD, 50_000_000);
   assert.equal(SMALLCAP_CEILING_USD, 2_000_000_000);
+});
+
+check("Gap Lab US market-cap buckets are USD labels only", () => {
+  assert.equal(classifySnowflakeGapMarketCapUS(250_000_000_000), "mega_us");
+  assert.equal(classifySnowflakeGapMarketCapUS(1_000_000_000), "small_us");
+  assert.equal(classifySnowflakeGapMarketCapUS(40_000_000), "sub_50m_us");
+  assert.notEqual(classifySnowflakeGapMarketCapUS(1_000_000_000), "sub_500cr");
 });
 
 check("smallcap_gems: $1B qualifies (< $2B ceiling)", () => {
@@ -140,6 +172,67 @@ check("hygiene floor: <$50M excluded from top30, ≥$50M included", () => {
   assert.ok(!top.includes("TINY"));
   assert.ok(top.includes("OKAY"));
   assert.equal(lb.top_ranked_30_v3, lb.top_ranked_30_v4);
+});
+
+check("Snowflake Gap Lab: $1B qualifies, $40M rejected, numeric tickers allowed, canonical score stays primary", () => {
+  const missing = [
+    snowCheck("Future", "F1", "no_data", "Future ROE"),
+    snowCheck("Future", "F2", "no_data", "High Growth Earnings"),
+    snowCheck("Value", "V1", "no_data", "PEG Ratio"),
+  ];
+  const passing = [
+    snowCheck("Future", "F1", "pass", "Future ROE"),
+    snowCheck("Future", "F2", "pass", "High Growth Earnings"),
+    snowCheck("Value", "V1", "pass", "PEG Ratio"),
+  ];
+  const candidate = stock({
+    ticker: "1234",
+    sector: "software",
+    overview: {
+      market_cap_inr: 1_000_000_000,
+      snowflake: { financial_health: 5, future: 0, valuation: 2, past: 4, dividends: 0 },
+      snowflake_total: 11,
+      snowflake_check_matrix: matrix(missing),
+    },
+  });
+  const tiny = stock({
+    ticker: "TINYLAB",
+    sector: "software",
+    overview: {
+      market_cap_inr: 40_000_000,
+      snowflake: { financial_health: 5, future: 0, valuation: 2, past: 4, dividends: 0 },
+      snowflake_total: 11,
+      snowflake_check_matrix: matrix(missing),
+    },
+  });
+  const peers = [1, 2, 3, 4, 5].map((i) => stock({
+    ticker: `GAPP${i}`,
+    sector: "software",
+    overview: {
+      market_cap_inr: 1_000_000_000 + i,
+      snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 0 },
+      snowflake_total: 17,
+      snowflake_check_matrix: matrix(passing),
+    },
+  }));
+  const loaded = [candidate, tiny, ...peers];
+  const usUniverse = {
+    ...universe,
+    snowflakeGapPeerAverages: buildSnowflakeGapPeerAverages(loaded, snowflakeGapLabUSOptions()),
+  };
+  const scored = loaded.map((s) => scoreStockUS(s, { universe: usUniverse }));
+  const lb = buildLeaderboardUS(scored, { universe: usUniverse });
+  const rows = lb.snowflake_gap_lab;
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].ticker, "1234");
+  assert.equal(rows[0].v4_score_100, scored[0].v4_score_100);
+  assert.equal(rows[0].canonical_score.version, "v4");
+  assert.ok(rows[0].snowflake_gap_lab.shadow_v4_score_100 > rows[0].v4_score_100);
+  assert.equal(rows[0].snowflake_gap_lab.market_cap_bucket, "small_us");
+  assert.ok(!String(rows[0].snowflake_gap_lab.market_cap_bucket).includes("cr"));
+  assert.equal(lb.__section_audit.snowflake_gap_lab.market, "us");
+  assert.equal(lb.__section_audit.snowflake_gap_lab.limit, 200);
+  assert.equal(lb.__section_audit.snowflake_gap_lab.rejected.mcap_floor, 1);
 });
 
 console.log("\nNegative / null robustness (US hits these far more than NSE)\n");

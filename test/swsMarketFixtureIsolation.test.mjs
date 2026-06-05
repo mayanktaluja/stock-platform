@@ -14,6 +14,7 @@ const PRODUCTION_FILES = [
   "data/sws-us/picks-latest.json",
   "data/sws-us/sws-scored-universe.json",
   "data/sws-us/v3-universe-stats.json",
+  "data/sws-us/v4-universe-stats.json",
   "data/sws-us/fundamentals-latest.json",
   "data/sws-us/deep-us.tar.gz",
   "data/sws-kr/picks-latest.json",

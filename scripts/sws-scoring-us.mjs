@@ -34,6 +34,10 @@ import {
 import { computeV4Score, verdictV4FromScore, buildFvCompositeIndustryAverages } from "./swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 import { reconcileFairValue, withReconciledFairValue } from "../services/fvReconciliation.js";
+import {
+  buildSnowflakeGapLabSection,
+  buildSnowflakeGapPeerAverages,
+} from "../services/swsSnowflakeGapLab.js";
 
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 
@@ -46,6 +50,42 @@ function writeJsonAtomic(filePath, value) {
 // US market-cap gates (USD), replacing India's ₹ thresholds.
 export const MIN_MCAP_USD = 50_000_000; // $50M floor — drops micro shells / dead SPACs
 export const SMALLCAP_CEILING_USD = 2_000_000_000; // $2B — standard US small-cap line
+export const US_GAP_LAB_LIMIT = 200;
+
+export function classifySnowflakeGapMarketCapUS(mcapUsd) {
+  const mcap = Number(mcapUsd);
+  if (!Number.isFinite(mcap) || mcap <= 0) return null;
+  if (mcap >= 200_000_000_000) return "mega_us";
+  if (mcap >= 10_000_000_000) return "large_us";
+  if (mcap >= 2_000_000_000) return "mid_us";
+  if (mcap >= 300_000_000) return "small_us";
+  if (mcap >= MIN_MCAP_USD) return "micro_us";
+  return "sub_50m_us";
+}
+
+export function scoreSnowflakeGapShadowUS(shadowStock, { universe } = {}) {
+  return scoreStockUS({
+    ...shadowStock,
+    overview: {
+      ...(shadowStock?.overview || {}),
+      snowflake: { ...(shadowStock?.overview?.snowflake || {}) },
+    },
+  }, { universe });
+}
+
+export function snowflakeGapLabUSOptions(overrides = {}) {
+  return {
+    marketCode: "us",
+    minMarketCap: MIN_MCAP_USD,
+    classifyMarketCap: classifySnowflakeGapMarketCapUS,
+    useProvidedMarketCapBand: false,
+    excludePureNumericTicker: false,
+    surveillanceExclusion: () => false,
+    scoreShadowStock: scoreSnowflakeGapShadowUS,
+    limit: US_GAP_LAB_LIMIT,
+    ...overrides,
+  };
+}
 
 // Faithful copy of sws-scoring.mjs::categoriseStock with the two ₹ market-cap
 // gates swapped for USD (market_cap_inr holds the native USD value) and the
@@ -173,7 +213,7 @@ function slimUniverseEntryUS(stock, inSections) {
 // Mirror of sws-scoring.mjs::buildLeaderboard: USD hygiene floor, no
 // pure-numeric (BSE) ticker filter, US card fields, and no `avoid` section
 // (matching the India tab's recent removal of the avoid list).
-export function buildLeaderboardUS(scoredStocks) {
+export function buildLeaderboardUS(scoredStocks, opts = {}) {
   const ordered = [...scoredStocks].sort((a, b) => (b.v4_score_100 || 0) - (a.v4_score_100 || 0));
   const hygiene = (s) => num(s.overview?.market_cap_inr, 0) >= MIN_MCAP_USD;
 
@@ -215,12 +255,19 @@ export function buildLeaderboardUS(scoredStocks) {
     .slice(0, 100)
     .map(usCardFields);
 
-  return {
+  const snowflakeGapLab = buildSnowflakeGapLabSection(scoredStocks, {
+    ...snowflakeGapLabUSOptions(),
+    pickCardFields: usCardFields,
+    universe: opts.universe || null,
+  });
+
+  const sections = {
     top_ranked_30_v4: top30,
     // Temporary compatibility alias. New first-party readers use V4.
     top_ranked_30_v3: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
+    snowflake_gap_lab: snowflakeGapLab.items,
     quality_growth: cat("quality_growth"),
     best_fundamentals: bestFundamentals,
     midterm: cat("midterm"),
@@ -229,6 +276,13 @@ export function buildLeaderboardUS(scoredStocks) {
     insider_buying: cat("insider_buying"),
     upcoming_earnings: upcoming,
   };
+  Object.defineProperty(sections, "__section_audit", {
+    value: {
+      snowflake_gap_lab: snowflakeGapLab.audit,
+    },
+    enumerable: false,
+  });
+  return sections;
 }
 
 export function runFullScoringUS() {
@@ -256,6 +310,7 @@ export function runFullScoringUS() {
     { microCapFloorInr: MIN_MCAP_USD },
   );
   universe.fvCompositeIndustryAverages = buildFvCompositeIndustryAverages(loaded, universe.fvBenchmark);
+  universe.snowflakeGapPeerAverages = buildSnowflakeGapPeerAverages(loaded, snowflakeGapLabUSOptions());
 
   const scored = [];
   for (const stock of loaded) {
@@ -266,7 +321,8 @@ export function runFullScoringUS() {
       console.error(`Failed to score ${stock?.ticker || "?"}: ${e.message}`);
     }
   }
-  const sections = buildLeaderboardUS(scored);
+  const sections = buildLeaderboardUS(scored, { universe });
+  const sectionAudit = sections.__section_audit || {};
 
   const out = {
     schema_version: PICKS_SCHEMA_VERSION,
@@ -277,6 +333,7 @@ export function runFullScoringUS() {
     universe_size: scored.length + failed,
     scored_count: scored.length,
     failed_count: failed,
+    section_audit: sectionAudit,
     sections,
   };
   fs.mkdirSync(path.dirname(PATHS.picksLatest), { recursive: true });

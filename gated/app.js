@@ -12061,17 +12061,27 @@ function renderPickCard(s, sectionKey, rank = null) {
 // values render with the right symbol ($ for USD).
 
 const US_PICKS_SECTIONS = [
-  { key: "top_ranked_30_v4", label: "⭐ Top 30 — V4 Score", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
-  { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
-  { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
-  { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
-  { key: "best_fundamentals", label: "🧱 Best Fundamentals", subtitle: "Ranked by the 5 SWS pillars + analyst FV upside. Hygiene: mcap ≥ $50M." },
-  { key: "midterm", label: "⚡ Midterm Picks (3-12 months)", subtitle: "Momentum already on side, with FV upside ≥ 15% remaining." },
-  { key: "dividend_aristocrats", label: "💰 Dividend Aristocrats", subtitle: "Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
-  { key: "smallcap_gems", label: "🔍 Smallcap Hidden Gems", subtitle: "Mcap < $2B + Snowflake ≥ 22 + upside ≥ 15%." },
-  { key: "insider_buying", label: "👁 Insider Buying", subtitle: "Material insider buys. Data field not yet captured for US." },
-  { key: "upcoming_earnings", label: "📅 Upcoming Earnings", subtitle: "Catalyst calendar. Not captured for US v1." },
+  { key: "top_ranked_30_v4", emoji: "⭐", label: "⭐ Top 30 — V4 Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
+  { key: "best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
+  { key: "deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
+  { key: "snowflake_gap_lab", emoji: "🧪", label: "🧪 Snowflake Gap Lab", chip_label: "Gap Lab", subtitle: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record." },
+  { key: "quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
+  { key: "best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the 5 SWS pillars + analyst FV upside. Hygiene: mcap ≥ $50M." },
+  { key: "midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Momentum already on side, with FV upside ≥ 15% remaining." },
+  { key: "dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
+  { key: "smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "Mcap < $2B + Snowflake ≥ 22 + upside ≥ 15%." },
+  { key: "insider_buying", emoji: "👁", label: "👁 Insider Buying", chip_label: "Insider", subtitle: "Material insider buys. Data field not yet captured for US." },
+  { key: "upcoming_earnings", emoji: "📅", label: "📅 Upcoming Earnings", chip_label: "Earnings", subtitle: "Catalyst calendar. Not captured for US v1." },
 ];
+
+const US_PICKS_INLINE_CAP = {
+  top_ranked_30_v4: 30,
+  top_ranked_30_v3: 30,
+  top_ranked_30: 30,
+  snowflake_gap_lab: 30,
+  best_fundamentals: 30,
+};
+const US_PICKS_INLINE_DEFAULT_CAP = 12;
 
 let currentUSPicksData = null;
 let usPicksSectorFilter = "all";
@@ -12080,6 +12090,9 @@ let usPicksSearchTerm = "";
 let usPicksStatusPollTimer = null;
 let usPicksStatusPollStarted = false;
 let usModalTicker = null;
+const usPicksExpandedSections = new Set();
+const usPicksChunkBuffers = new Map();
+let usPicksChunkObserver = null;
 
 // Currency-aware compact money formatter. The symbol comes from the row's
 // `currency` field: US=$, Korea=₩, Taiwan=NT$ (plus a few stray listing
@@ -12254,7 +12267,7 @@ function jumpToTabSection(containerId, lsKey, sectionKey) {
 // `collapsed` flag; opts gives the inline onclick strings for this tab.
 function renderTabChipNav(sections, opts) {
   const chips = sections.map(({ section, count, collapsed }) => {
-    const chipLabel = section.label.split(" — ")[0];
+    const chipLabel = section.chip_label || section.label.split(" — ")[0];
     return `<button type="button" class="sws-pick-chip${collapsed ? "" : " active"}" data-section-key="${section.key}" onclick="${opts.jumpOnclick(section.key)}" title="${escapeHtml(section.subtitle)}"><span class="sws-pick-chip-label">${escapeHtml(chipLabel)}</span><span class="sws-pick-chip-count">${count}</span></button>`;
   }).join("");
   return `
@@ -12276,6 +12289,54 @@ const US_PICKS_COLLAPSED_KEY = "swsUSPicksCollapsed_v1";
 window.toggleUSPicksSection = (el) => toggleTabSection(el, US_PICKS_COLLAPSED_KEY, "usPicksContainer");
 window.setAllUSPicksCollapsed = (c) => setAllTabCollapsed("usPicksContainer", US_PICKS_COLLAPSED_KEY, c);
 window.jumpToUSPicksSection = (k) => jumpToTabSection("usPicksContainer", US_PICKS_COLLAPSED_KEY, k);
+function toggleUSPicksExpandAll(sectionKey, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if (!sectionKey) return;
+  if (usPicksExpandedSections.has(sectionKey)) usPicksExpandedSections.delete(sectionKey);
+  else usPicksExpandedSections.add(sectionKey);
+  if (currentUSPicksData) renderUSPicks(currentUSPicksData);
+}
+function hydrateUSPicksChunkSentinels(containerEl) {
+  if (usPicksChunkObserver) {
+    usPicksChunkObserver.disconnect();
+    usPicksChunkObserver = null;
+  }
+  const sentinels = containerEl.querySelectorAll(".sws-us-pick-chunk-sentinel");
+  if (!sentinels.length) return;
+  usPicksChunkObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) renderNextUSPicksChunk(entry.target);
+    });
+  }, { rootMargin: "400px" });
+  sentinels.forEach((sentinel) => usPicksChunkObserver.observe(sentinel));
+}
+function renderNextUSPicksChunk(sentinelEl) {
+  if (!sentinelEl.isConnected || sentinelEl.offsetParent === null) return;
+  const sectionKey = sentinelEl.getAttribute("data-section-key");
+  const rendered = parseInt(sentinelEl.getAttribute("data-rendered"), 10);
+  const buffer = usPicksChunkBuffers.get(sectionKey);
+  if (!buffer || Number.isNaN(rendered)) {
+    sentinelEl.remove();
+    return;
+  }
+  const nextEnd = Math.min(rendered + PICKS_EXPANDED_CHUNK_SIZE, buffer.length);
+  const nextChunk = buffer.slice(rendered, nextEnd);
+  const isHero = isTopRankedSectionKey(sectionKey);
+  const html = nextChunk
+    .map((s, i) => renderUSPickCard(s, sectionKey, isHero ? rendered + i + 1 : null))
+    .join("");
+  sentinelEl.insertAdjacentHTML("beforebegin", html);
+  if (nextEnd >= buffer.length) {
+    sentinelEl.remove();
+    usPicksChunkBuffers.delete(sectionKey);
+  } else {
+    sentinelEl.setAttribute("data-rendered", String(nextEnd));
+  }
+}
+window.toggleUSPicksExpandAll = toggleUSPicksExpandAll;
 const regionPicksCollapsedKey = (code) => `sws${String(code).toUpperCase()}PicksCollapsed_v1`;
 window.toggleRegionPicksSection = (el, code) => toggleTabSection(el, regionPicksCollapsedKey(code), `${code}PicksContainer`);
 window.setAllRegionPicksCollapsed = (code, c) => setAllTabCollapsed(`${code}PicksContainer`, regionPicksCollapsedKey(code), c);
@@ -12290,6 +12351,7 @@ function renderUSPicks(data) {
   const visibleSections = [];
   let html = "";
   let totalShown = 0;
+  usPicksChunkBuffers.clear();
   for (const sec of US_PICKS_SECTIONS) {
     const items = swsSectionItems(data.sections, sec.key).filter(usPickMatchesFilters);
     if (!items.length) continue;
@@ -12297,16 +12359,32 @@ function renderUSPicks(data) {
     const isHero = isTopRankedSectionKey(sec.key);
     const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
     visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
-    const cards = items.map((s, i) => renderUSPickCard(s, sec.key, isHero ? i + 1 : null)).join("");
+    const defaultCap = US_PICKS_INLINE_CAP[sec.key] ?? US_PICKS_INLINE_DEFAULT_CAP;
+    const expanded = usPicksExpandedSections.has(sec.key);
+    const sliced = items.slice(0, expanded ? items.length : defaultCap);
+    const hidden = items.length - defaultCap;
+    const useChunked = expanded && sliced.length > PICKS_EXPANDED_THRESHOLD;
+    const firstChunkEnd = useChunked ? PICKS_EXPANDED_CHUNK_SIZE : sliced.length;
+    const firstChunk = sliced.slice(0, firstChunkEnd);
+    if (useChunked) usPicksChunkBuffers.set(sec.key, sliced);
+    const cards = firstChunk
+      .map((s, i) => renderUSPickCard(s, sec.key, isHero ? i + 1 : null))
+      .join("");
+    const sentinelHtml = useChunked
+      ? `<div class="sws-us-pick-chunk-sentinel" data-section-key="${sec.key}" data-rendered="${firstChunkEnd}" aria-hidden="true"></div>`
+      : "";
     html += `
-      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${sec.key}">
+      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}${useChunked ? " sws-pick-section-uncapped" : ""}" data-section-key="${sec.key}">
         <div class="section-header" onclick="toggleUSPicksSection(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleUSPicksSection(this);}">
           <div class="section-header-left"><div>
             <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span> <span class="section-chevron">&#9660;</span></div>
             <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
           </div></div>
         </div>
-        <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
+        <div class="section-body">
+          <div class="stock-cards sws-pick-grid">${cards}${sentinelHtml}</div>
+          ${hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="toggleUSPicksExpandAll('${sec.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button></div>` : ""}
+        </div>
       </div>`;
   }
   if (!totalShown) {
@@ -12319,6 +12397,7 @@ function renderUSPicks(data) {
     });
     container.innerHTML = chipNav + html;
     refreshScrollRails(container);
+    hydrateUSPicksChunkSentinels(container);
   }
   const summary = document.getElementById("usPicksFilterSummary");
   if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
@@ -12339,6 +12418,10 @@ function renderUSPickCard(s, sectionKey, rank) {
   const valBandChip = valBand ? `<span class="sws-pick-valband-chip" style="color:${valBandColor};border-color:${valBandColor};" title="Price vs analyst fair value">${valBand.replace(/_/g, " ")}</span>` : "";
   const cov = typeof s.data_completeness_pct === "number" ? s.data_completeness_pct : null;
   const coverageBadge = (cov != null && cov < 60) ? `<span class="sws-thin-coverage-badge" title="Only ${cov}% of SWS input fields populated when scored — verify before acting.">Thin · ${cov}%</span>` : "";
+  const gapLab = sectionKey === "snowflake_gap_lab" ? s.snowflake_gap_lab : null;
+  const gapLabBadge = gapLab && Number.isFinite(Number(gapLab.shadow_v4_score_100))
+    ? `<span class="sws-gap-lab-badge" title="${escapeHtml(gapLab.caveat || "Experimental shadow V4. For review, not a recommendation. Canonical V4 remains the source of record.")}">Lab V4 ${Number(gapLab.shadow_v4_score_100).toFixed(1)}${Number.isFinite(Number(gapLab.score_delta)) ? ` (+${Number(gapLab.score_delta).toFixed(1)})` : ""}</span>`
+    : "";
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9.\-]/gi, "");
   const fvCell = s.fair_value_inr == null
@@ -12353,7 +12436,7 @@ function renderUSPickCard(s, sectionKey, rank) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${escapeHtml(s.ticker || "")}${coverageBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${escapeHtml(s.ticker || "")}${coverageBadge}${gapLabBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${escapeHtml(s.name || "")}</div>
           </div>
         </div>
@@ -12369,6 +12452,7 @@ function renderUSPickCard(s, sectionKey, rank) {
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow</span> ${sn}/30</div>
       </div>
       <div class="sws-pick-card-narrative">${escapeHtml((s.narrative && s.narrative.card_one_line) || s.one_line || "")}</div>
+      ${gapLabBadge ? `<div class="sws-gap-lab-card-note"><span>Experimental data-gap screen. Canonical V4 stays ${score}.</span></div>` : ""}
       ${s.sws_url ? `<div class="sws-pick-card-link"><a href="${escapeHtml(s.sws_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open on SWS →</a></div>` : ""}
     </div>`;
 }
@@ -12470,7 +12554,7 @@ function closeUSModal() {
 function renderUSModal(data) {
   // Parity (PR2): delegate to the shared rich modal core. US opts — USD currency,
   // own modal title id, no India watchlist star, inert section chips until PR3.
-  return renderSwsModalCore(data, { currency: data.currency || "USD", titleId: "usModalTitle", watchlistSuffix: null, sectionNavFn: null });
+  return renderSwsModalCore(data, { currency: data.currency || "USD", titleId: "usModalTitle", watchlistSuffix: null, sectionNavFn: null, sectionDefs: US_PICKS_SECTIONS });
 }
 
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && usModalTicker) closeUSModal(); });
@@ -13700,8 +13784,9 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const INFORMATIONAL_KEYS = new Set(["upcoming_earnings", "snowflake_gap_lab"]);
   const sectionLabelByKey = (() => {
     const m = {};
-    if (Array.isArray(PICKS_SECTIONS)) {
-      for (const s of PICKS_SECTIONS) m[s.key] = { label: s.chip_label, emoji: s.emoji };
+    const sectionDefs = Array.isArray(opts.sectionDefs) ? opts.sectionDefs : PICKS_SECTIONS;
+    if (Array.isArray(sectionDefs)) {
+      for (const s of sectionDefs) m[s.key] = { label: s.chip_label || s.label, emoji: s.emoji || "" };
       // Historical cards may carry old membership keys; render them with the
       // current V4 Top 30 label.
       if (m.top_ranked_30_v4) {

@@ -230,6 +230,8 @@ check("excludes low market cap, GSM, and numeric tickers from the section", () =
     minPeerCheckCount: 5,
   });
   assert.equal(section.items.length, 0);
+  assert.equal(section.audit.market, "in");
+  assert.equal(section.audit.min_market_cap, 5_000_000_000);
   assert.equal(section.audit.rejected.mcap_floor, 1);
   assert.equal(section.audit.rejected.gsm, 1);
   assert.equal(section.audit.rejected.ticker_hygiene, 1);
