@@ -1,6 +1,6 @@
 name: Refresh macro regime (backup)
 
-# Backup path for data/macroRegime.json refresh. Fires every 4h on
+# Backup path for data/macroRegime.json refresh. Fires daily on
 # GitHub-hosted runners — independent of the user's Mac being online or
 # the main worktree being clean. The primary refresh path is the local
 # launchd job com.starbhai.macro-only (every 2h); this workflow exists so
@@ -16,14 +16,13 @@ name: Refresh macro regime (backup)
 # always succeeds when RSS sources are reachable. The local cron remains
 # the primary, high-fidelity LLM path.
 #
-# Race vs. the local cron: the script's 30-min idempotency gate (see
-# scripts/refresh-macro-only.sh:6) is mirrored here — if origin/main's
-# last data/macroRegime.json commit is <30min old AND the just-written
-# generatedAt is <30min old, this workflow no-ops without pushing.
+# Race vs. the local cron: the script's material-change/12h ship gate (see
+# scripts/refresh-macro-only.sh) is mirrored here so backup refreshes do not
+# trigger full Vercel deploys for equivalent macro JSON churn.
 
 on:
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '15 1 * * *'
   workflow_dispatch:
 
 permissions:
@@ -66,7 +65,7 @@ jobs:
           MACRO_ALLOW_HEURISTIC_ONLY: '1'
         run: node scripts/refresh-macro-regime.mjs
 
-      - name: Idempotency gate (skip if last commit <30min old AND generatedAt <30min)
+      - name: Ship gate (skip equivalent macro snapshot under 12h)
         id: gate
         run: |
           set -uo pipefail
@@ -87,13 +86,32 @@ jobs:
               process.stdout.write(String(Math.round((Date.now()-gen)/60000)));
             } catch { process.stdout.write("999999"); }
           ' 2>/dev/null || echo 999999)
-          if [ "$age_min" -lt 30 ] && [ "$gen_age_min" -lt 30 ]; then
+          decision=$(LAST_COMMIT_AGE_MIN="$age_min" node --input-type=module - <<'NODE'
+          import {readFileSync} from "fs";
+          import {spawnSync} from "node:child_process";
+          const lastAge = Number(process.env.LAST_COMMIT_AGE_MIN || 999999);
+          let prev = null;
+          let next = null;
+          try {
+            const child = spawnSync("git", ["show", "origin/main:data/macroRegime.json"], { encoding: "utf-8" });
+            if (child.status === 0 && child.stdout) prev = JSON.parse(child.stdout);
+          } catch {}
+          try { next = JSON.parse(readFileSync("data/macroRegime.json", "utf-8")); } catch {}
+          const prevKey = `${prev?.regime || ""}|${prev?.severity ?? ""}`;
+          const nextKey = `${next?.regime || ""}|${next?.severity ?? ""}`;
+          if (!prev || !next) process.stdout.write("ship:missing_compare");
+          else if (prevKey !== nextKey) process.stdout.write("ship:material_change");
+          else if (lastAge >= 720) process.stdout.write("ship:age_12h");
+          else process.stdout.write(`skip:equivalent_${lastAge}m`);
+          NODE
+          )
+          if [[ "$decision" == skip:* ]]; then
             echo "no_change=1" >> "$GITHUB_OUTPUT"
-            echo "idempotency skip: last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
+            echo "ship gate skip: ${decision}, last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
             exit 0
           fi
           echo "no_change=0" >> "$GITHUB_OUTPUT"
-          echo "will commit: last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
+          echo "will commit: ${decision}, last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
 
       - name: Open / update backup PR (never push protected main directly)
         if: steps.gate.outputs.no_change == '0'
@@ -122,7 +140,7 @@ jobs:
           # local cron run sees consistent state and doesn't re-archive.
           git add data/macro-headlines/ 2>/dev/null || true
           git add data/macroRegime-history/ 2>/dev/null || true
-          msg=$(printf 'chore(macro): GH Actions backup refresh — %s\n\nHeuristic-classified macro regime via the free GH Actions backup\nworkflow (every 4h, github-hosted runners). Defence-in-depth against\nthe local cron being unavailable. Lower fidelity than the local LLM\npath; the next local cron fire supersedes this with a Groq or\nGemini-classified regime.\n' "$regime")
+          msg=$(printf 'chore(macro): GH Actions backup refresh — %s\n\nHeuristic-classified macro regime via the free GH Actions backup\nworkflow (daily, github-hosted runners). Defence-in-depth against\nthe local cron being unavailable. Lower fidelity than the local LLM\npath; the next local cron fire supersedes this with a Groq or\nGemini-classified regime.\n' "$regime")
           git commit -m "$msg" || { echo "nothing to commit"; exit 0; }
           # Push the branch (never main). Automation-exclusive branch, so force
           # is safe; concurrency.group serialises runs.
@@ -134,7 +152,7 @@ jobs:
           if [ -z "$(gh pr list --head "$BRANCH" --state open --json number -q '.[0].number' 2>/dev/null)" ]; then
             gh pr create --base main --head "$BRANCH" \
               --title "chore(macro): GH Actions backup refresh — $regime" \
-              --body "Automated heuristic macro-regime refresh from the backup workflow (fires every 4h when the local cron is unavailable). Auto-merges once \"Smoke + unit tests\" passes; supersede freely with a local-cron refresh." \
+              --body "Automated heuristic macro-regime refresh from the backup workflow (daily fallback when the local cron is unavailable). Auto-merges once \"Smoke + unit tests\" passes; supersede freely with a local-cron refresh." \
               || { echo "::warning::pr create failed; leaving branch for next run"; exit 0; }
           fi
           # Best-effort auto-merge once the required check passes.

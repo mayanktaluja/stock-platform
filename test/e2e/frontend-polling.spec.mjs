@@ -16,7 +16,13 @@ const emptyPicks = (currency = "INR") => ({
   scanned_at: "2026-06-02T04:00:00.000Z",
   last_refresh: { finished_at: "2026-06-02T04:00:00.000Z" },
   shard_progress_api: [],
+  scan_status_hint: { should_poll: false, in_progress_hint: false, panic_active: false },
   universeFilters: { available: ["nifty500"] },
+});
+
+const activeScanPicks = (currency = "INR") => ({
+  ...emptyPicks(currency),
+  scan_status_hint: { should_poll: true, in_progress_hint: true, panic_active: false },
 });
 
 async function installVisibilityShim(page) {
@@ -42,6 +48,58 @@ async function tickClock(page, ms) {
 }
 
 test.describe("frontend polling cadence", () => {
+  test("default India boot avoids optional CPU-heavy requests", async ({ page }) => {
+    await page.clock.install({ time: new Date("2026-06-02T04:00:00.000Z") });
+    await installVisibilityShim(page);
+    await page.addInitScript(() => {
+      window.STARBHAI_CLIENT_TELEMETRY_ENABLED = false;
+    });
+
+    const hits = {
+      telemetry: 0,
+      watchlist: 0,
+      sectionPerformance: 0,
+      scanStatus: 0,
+      summary: 0,
+      fullPicks: 0,
+    };
+
+    await page.route("**/api/market", (route) => json(route, { marketStatus: "OPEN", indices: [] }));
+    await page.route("**/api/sws-picks-summary", (route) => {
+      hits.summary += 1;
+      return json(route, emptyPicks());
+    });
+    await page.route("**/api/sws-picks", (route) => {
+      hits.fullPicks += 1;
+      return json(route, emptyPicks());
+    });
+    await page.route("**/api/telemetry", (route) => {
+      hits.telemetry += 1;
+      return route.fulfill({ status: 204, body: "" });
+    });
+    await page.route("**/api/watchlist**", (route) => {
+      hits.watchlist += 1;
+      return json(route, { stocks: [] });
+    });
+    await page.route("**/api/track/section-performance**", (route) => {
+      hits.sectionPerformance += 1;
+      return json(route, { windows: [], cohorts: [] });
+    });
+    await page.route("**/api/sws-scan/status", (route) => {
+      hits.scanStatus += 1;
+      return json(route, { in_progress: false, all_complete: true, shards: [], total_done: 0 });
+    });
+
+    await gotoApp(page);
+    await tickClock(page, 100);
+    await expect.poll(() => hits.summary).toBe(1);
+    expect(hits.fullPicks).toBe(0);
+    expect(hits.telemetry).toBe(0);
+    expect(hits.watchlist).toBe(0);
+    expect(hits.sectionPerformance).toBe(0);
+    expect(hits.scanStatus).toBe(0);
+  });
+
   test("market data polls on visible boot, pauses while hidden, and backs off when closed", async ({ page }) => {
     await page.clock.install({ time: new Date("2026-06-02T04:00:00.000Z") });
     await installVisibilityShim(page);
@@ -54,7 +112,7 @@ test.describe("frontend polling cadence", () => {
       marketRequests += 1;
       return json(route, { marketStatus, indices: [] });
     });
-    await page.route("**/api/sws-picks", (route) => json(route, emptyPicks()));
+    await page.route("**/api/sws-picks-summary", (route) => json(route, emptyPicks()));
     await page.route("**/api/sws-scan/status", (route) =>
       json(route, { in_progress: false, all_complete: true, shards: [], total_done: 0 }),
     );
@@ -90,7 +148,7 @@ test.describe("frontend polling cadence", () => {
     let scanInProgress = true;
 
     await page.route("**/api/market", (route) => json(route, { marketStatus: "OPEN", indices: [] }));
-    await page.route("**/api/sws-picks", (route) => json(route, emptyPicks()));
+    await page.route("**/api/sws-picks-summary", (route) => json(route, activeScanPicks()));
     await page.route("**/api/sws-scan/status", (route) => {
       swsStatusRequests += 1;
       return json(route, {
@@ -143,13 +201,13 @@ test.describe("frontend polling cadence", () => {
     const statusBody = { in_progress: true, shards: [], total_done: 0 };
 
     await page.route("**/api/market", (route) => json(route, { marketStatus: "OPEN", indices: [] }));
-    await page.route("**/api/sws-picks", (route) => json(route, emptyPicks()));
+    await page.route("**/api/sws-picks-summary", (route) => json(route, emptyPicks()));
     await page.route("**/api/sws-scan/status", (route) =>
       json(route, { in_progress: false, all_complete: true, shards: [], total_done: 0 }),
     );
-    await page.route("**/api/us-picks", (route) => json(route, emptyPicks("USD")));
-    await page.route("**/api/kr-picks", (route) => json(route, emptyPicks("KRW")));
-    await page.route("**/api/tw-picks", (route) => json(route, emptyPicks("TWD")));
+    await page.route("**/api/us-picks", (route) => json(route, activeScanPicks("USD")));
+    await page.route("**/api/kr-picks", (route) => json(route, activeScanPicks("KRW")));
+    await page.route("**/api/tw-picks", (route) => json(route, activeScanPicks("TWD")));
     await page.route("**/api/us-scan/status", (route) => {
       statusRequests.us += 1;
       return json(route, statusBody);

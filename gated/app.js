@@ -35,6 +35,14 @@ function isActiveVisibleTab(tab) {
   return isPageVisible() && getActiveTabId() === tab;
 }
 
+function runWhenIdle(fn, timeout = 2000) {
+  if (typeof window !== "undefined" && typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(fn, { timeout });
+  } else {
+    setTimeout(fn, Math.min(timeout, 500));
+  }
+}
+
 function isScanStatusHot(s) {
   return !!(s && (s.in_progress || (s.panic_stop && s.panic_stop.active)));
 }
@@ -65,6 +73,16 @@ window.RA_CONFIG = { methodologyVersion: null };
 //   telemetry.emit(event, payload?)         — generic event
 //   telemetry.markVerdictVisible(surface)   — call once per page when the
 //     headline verdict / KPI hero is on screen. NS-1 = ts(this) − ts(page_load).
+const CLIENT_TELEMETRY_ENABLED = (() => {
+  try {
+    if (window.STARBHAI_CLIENT_TELEMETRY_ENABLED === true) return true;
+    if (window.STARBHAI_CLIENT_TELEMETRY_ENABLED === false) return false;
+    return ["localhost", "127.0.0.1", "::1"].includes(location.hostname);
+  } catch {
+    return false;
+  }
+})();
+
 const telemetry = (() => {
   const SESSION_KEY = "starbhai_telemetry_session";
   let sessionId = "";
@@ -82,6 +100,7 @@ const telemetry = (() => {
   }
   const verdictMarkedFor = new Set();
   function emit(event, payload) {
+    if (!CLIENT_TELEMETRY_ENABLED) return;
     try {
       const body = JSON.stringify({
         event: String(event).slice(0, 64),
@@ -314,10 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // independently of whichever tab the user lands on. The scheduler below
   // pauses while hidden and backs off when NSE is closed or status is unknown.
   startMarketDataPolling();
-  // PR W3 — hydrate the in-memory `watchlist` Set before the first
-  // openSwsModal renders, so the modal star paints with the correct
-  // aria-pressed even when the user hasn't visited the Watchlist tab.
-  hydrateWatchlistSet();
   // PR #7: honor deep-link hash on first entry, otherwise fall through to the
   // default picks tab. A browser reload is different: users expect Command-R to
   // return to the India Market home state, not preserve a stale tab/modal hash.
@@ -388,23 +403,21 @@ document.addEventListener("DOMContentLoaded", () => {
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   attachNumericFlash();     // MutationObserver: data-num cells flash on update
   auth.init();
-  // Snapshot freshness banner — surfaces when any underlying fixture
-  // (fundamentals, surveillance, governance, picks-latest, macro) is older
-  // than its source-specific staleness threshold. Polled once at boot, then
-  // hourly. Silent when everything is fresh.
-  loadSnapshotHealth();
-  setInterval(loadSnapshotHealth, 60 * 60 * 1000);
-  // P2.1 — LLM signal degraded banner (chip appended after snapshot health).
-  // Fires when GROQ/Gemini keys aren't configured on the refresh host so the
-  // earnings predictor's LLM-signal component is running on keyword fallback.
-  loadLlmSignalBanner();
-  setInterval(loadLlmSignalBanner, 60 * 60 * 1000);
+  // Snapshot / LLM health are useful but not first-paint data. Defer them so
+  // default India boot avoids two extra function calls on Vercel.
+  runWhenIdle(() => {
+    loadSnapshotHealth();
+    setInterval(loadSnapshotHealth, 60 * 60 * 1000);
+    loadLlmSignalBanner();
+    setInterval(loadLlmSignalBanner, 60 * 60 * 1000);
+  }, 3000);
 });
 
-// PR W3 — fire-and-forget watchlist Set hydration. Run on boot so the
-// modal-star aria-pressed paints correctly even before the Watchlist tab
-// is visited. Failures stay silent — the Watchlist tab itself re-syncs
-// the Set when opened.
+let _watchlistHydratePromise = null;
+
+// Lazy watchlist Set hydration. Default India boot should not spend a private
+// API call on this; modals and the Watchlist tab call ensureWatchlistHydrated()
+// before rendering star state.
 async function hydrateWatchlistSet() {
   try {
     const res = await fetch("/api/watchlist");
@@ -414,6 +427,15 @@ async function hydrateWatchlistSet() {
       watchlist = new Set(data.stocks.map((s) => s.symbol));
     }
   } catch { /* silent — non-critical */ }
+}
+
+function ensureWatchlistHydrated() {
+  if (!_watchlistHydratePromise) {
+    _watchlistHydratePromise = hydrateWatchlistSet().finally(() => {
+      _watchlistHydratePromise = null;
+    });
+  }
+  return _watchlistHydratePromise;
 }
 
 // ==================== SNAPSHOT HEALTH BANNER ====================
@@ -5392,6 +5414,7 @@ async function toggleWatchlist(symbol, name, sector) {
   if (_pendingWatchlistToggle.has(symbol)) return; // in-flight guard
   _pendingWatchlistToggle.add(symbol);
 
+  await ensureWatchlistHydrated();
   const wasSaved = watchlist.has(symbol);
   const action = wasSaved ? "remove" : "add";
 
@@ -6076,7 +6099,7 @@ function formatINR(value, opts) {
 window.signedColorFor = signedColorFor;
 window.formatINR = formatINR;
 
-// PR W3 — picksByTicker lookup. Build once on first use from /api/sws-picks
+// PR W3 — picksByTicker lookup. Build once on first use from /api/sws-picks-summary
 // so the Watchlist's verdict pill resolves in O(1) per row. Returns null when
 // the ticker is outside the curated set (renders as muted "—" in the UI).
 //
@@ -6100,7 +6123,7 @@ async function loadPicksByTicker() {
   if (_picksByTickerPromise) return _picksByTickerPromise;
   _picksByTickerPromise = (async () => {
     try {
-      const res = await fetch("/api/sws-picks");
+      const res = await fetch("/api/sws-picks-summary");
       if (!res.ok) return new Map();
       const data = await res.json();
       const map = new Map();
@@ -11362,13 +11385,11 @@ async function loadPicks() {
   containerEl.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading picks…</div></div>`;
 
   try {
-    const res = await fetch("/api/sws-picks");
+    const res = await fetch("/api/sws-picks-summary");
     if (res.status === 404) {
       currentPicksData = null;
       containerEl.innerHTML = renderPicksEmptyState();
       metaEl.textContent = "No scan run yet";
-      loadPicksCredibilityBanner();
-      pollPicksStatus(); // still useful — show scan progress if a scan is currently running
       return;
     }
     const data = await res.json();
@@ -11383,9 +11404,8 @@ async function loadPicks() {
     // don't shrink as the user changes the universe filter.
     populatePicksSectorOptions(data?.sections);
     renderPicks(data);
-    loadPicksCredibilityBanner();
     metaEl.innerHTML = renderPicksMetaBanner(data);
-    pollPicksStatus();
+    pollPicksStatusIfNeeded(data);
   } catch (e) {
     containerEl.innerHTML = `<div style="padding:24px;color:var(--red);">Failed to load picks: ${e.message}</div>`;
     const banner = document.getElementById("picksCredibilityBanner");
@@ -12155,7 +12175,11 @@ async function loadUSPicks() {
       const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
       meta.textContent = `${data.scored_count != null ? data.scored_count : "—"} US stocks scored · ${data.currency || "USD"} · updated ${when}`;
     }
-    pollUSScanStatus();
+    if (data?.scan_status_hint?.should_poll) pollUSScanStatus();
+    else {
+      usPicksStatusPollStarted = false;
+      clearUSScanStatusTimer();
+    }
   } catch (e) {
     container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load US Market: ${escapeHtml(String((e && e.message) || e))}</div>`;
   }
@@ -12623,7 +12647,11 @@ async function loadRegionPicks(code) {
       const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
       meta.textContent = `${data.scored_count != null ? data.scored_count : "—"} ${ui.label} stocks scored · ${data.currency || ui.currency} · updated ${when}`;
     }
-    pollRegionScanStatus(code);
+    if (data?.scan_status_hint?.should_poll) pollRegionScanStatus(code);
+    else {
+      _rp(code).pollStarted = false;
+      clearRegionScanStatusTimer(code);
+    }
   } catch (e) {
     container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load ${escapeHtml(marketLabel)}: ${escapeHtml(String((e && e.message) || e))}</div>`;
   }
@@ -12934,6 +12962,18 @@ async function pollPicksStatus() {
   schedulePicksStatusPoll(0);
 }
 
+function pollPicksStatusIfNeeded(picksPayload) {
+  const hint = picksPayload?.scan_status_hint;
+  if (hint?.should_poll || hint?.in_progress_hint || hint?.panic_active) {
+    pollPicksStatus();
+    return;
+  }
+  picksStatusPollStarted = false;
+  clearPicksStatusTimer();
+  const banner = document.getElementById("picksStatusBanner");
+  if (banner) banner.style.display = "none";
+}
+
 function syncScanStatusPollers() {
   if (picksStatusPollStarted) {
     if (isActiveVisibleTab("picks")) schedulePicksStatusPoll(0);
@@ -12988,6 +13028,7 @@ async function openSwsModal(ticker) {
   document.body.style.overflow = "hidden";
 
   try {
+    await ensureWatchlistHydrated();
     const res = await fetch(`/api/sws-stock/${encodeURIComponent(ticker)}`);
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
@@ -13986,6 +14027,7 @@ async function openStockDetailModal(symbolOrTicker, sourceTab) {
   // Stage 1 — try SWS deep data first (20ms typical, 404 for non-universe).
   let swsData = null;
   try {
+    await ensureWatchlistHydrated();
     const r = await fetch(`/api/sws-stock/${encodeURIComponent(ticker)}`);
     if (r.ok) swsData = await r.json();
   } catch {

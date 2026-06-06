@@ -5412,32 +5412,32 @@
        ₹ glyph, signed/percent helpers). Exposed on window.IndianNumber for
        vanilla-JS callers in app.js / earnings.js / riskLab.js. Loaded BEFORE
        app.js so call-sites can rely on it being available at first render. -->
-  <script src="utils/formatIndianNumber.js"></script>
-  <script src="glossary.js"></script>
-  <script src="app.js"></script>
+  <script src="/assets/gated/utils/formatIndianNumber.js"></script>
+  <script src="/assets/gated/glossary.js"></script>
+  <script src="/assets/gated/app.js"></script>
   <!-- v2 SWS recommender renderer (monkey-patches swsReasonRow / swsHoldingRow
        when sws.v2_recommendation is present in the API response). Loaded AFTER
        app.js so the v1 globals exist before patching. -->
-  <script src="swsV2Render.js"></script>
+  <script src="/assets/gated/swsV2Render.js"></script>
   <!-- Earnings Watch tab — loadEarningsWatch + renderers. Loaded after app.js
        so it can reuse switchTab and openStockDetailModal globals. -->
-  <script src="earnings.js" defer></script>
+  <script src="/assets/gated/earnings.js" defer></script>
   <!-- Risk Lab (experimental) tab — loadRiskLab + renderers. Defer so it
        initialises after app.js exposes switchTab + window globals. -->
-  <script src="riskLab.js" defer></script>
+  <script src="/assets/gated/riskLab.js" defer></script>
 
   <!-- 5x Lab — concentrated multibagger book targeting ₹1L → ₹5L net in 12m.
        Defer so it initialises after app.js exposes switchTab + globals. -->
-  <script src="multibaggerLab.js" defer></script>
+  <script src="/assets/gated/multibaggerLab.js" defer></script>
 
   <!-- Sector Outlook (experimental) — bottom-up SWS news theme aggregation
        × current macro regime. Sector-level only; no named stock
        recommendations in v1. -->
-  <script src="sectorOutlook.js" defer></script>
+  <script src="/assets/gated/sectorOutlook.js" defer></script>
 
   <!-- PR #8: global keyboard shortcuts. Defer so it loads after app.js
        exposes window.switchTab + window.telemetry. -->
-  <script src="keyboard.js" defer></script>
+  <script src="/assets/gated/keyboard.js" defer></script>
 
   <!-- PR #10: Mobile bottom-nav. Shown ≤720px via the .bottom-nav
        media query; click delegates to window.switchTab. -->

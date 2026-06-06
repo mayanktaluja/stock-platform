@@ -7,6 +7,7 @@
 import http from "node:http";
 import { once } from "node:events";
 import { createHmac } from "node:crypto";
+import { execSync } from "node:child_process";
 
 process.env.NODE_ENV = "test";
 process.env.VERCEL = "1";
@@ -16,6 +17,8 @@ process.env.GOOGLE_CLIENT_SECRET = "test-secret";
 process.env.GOOGLE_OAUTH_REDIRECT_URI = "https://starbhai-stock-platform.vercel.app/api/auth/google/callback";
 process.env.KV_REST_API_URL = "";
 process.env.KV_REST_API_TOKEN = "";
+
+execSync("node scripts/prepare-public-assets.mjs", { stdio: "inherit" });
 
 const { default: app } = await import(`../server.js?static-cache-headers=${Date.now()}`);
 
@@ -71,6 +74,10 @@ try {
 
   const appJs = await request("/app.js", { cookie: signedCookie });
   assert("stable gated app.js gets only short private cache", appJs.statusCode === 200 && appJs.headers["cache-control"] === "private, max-age=300, must-revalidate", { status: appJs.statusCode, cache: appJs.headers["cache-control"] });
+
+  const publicAppJs = await request("/assets/gated/app.js");
+  assert("public generated app.js is reachable without session", publicAppJs.statusCode === 200, { status: publicAppJs.statusCode });
+  assert("public generated app.js gets edge-friendly short cache", publicAppJs.headers["cache-control"] === "public, max-age=300, stale-while-revalidate=3600", { cache: publicAppJs.headers["cache-control"] });
 
   console.log("\nstaticCacheHeaders — public assets");
   const login = await request("/login.html");

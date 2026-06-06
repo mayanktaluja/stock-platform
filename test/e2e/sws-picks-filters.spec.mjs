@@ -130,7 +130,8 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 
   test("Growing Sector Value section renders from the India section registry", async ({ page }) => {
     await page.route("**/api/sws-picks**", async (route) => {
-      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+      const pathname = new URL(route.request().url()).pathname;
+      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
         await route.fallback();
         return;
       }
@@ -185,7 +186,8 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 
   test("Snowflake Gap Lab renders as experimental and keeps canonical score primary", async ({ page }) => {
     await page.route("**/api/sws-picks**", async (route) => {
-      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+      const pathname = new URL(route.request().url()).pathname;
+      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
         await route.fallback();
         return;
       }
@@ -257,7 +259,8 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 
   test("Growing Sector Value renders macro fallback candidates when Sector Outlook is mismatched", async ({ page }) => {
     await page.route("**/api/sws-picks**", async (route) => {
-      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+      const pathname = new URL(route.request().url()).pathname;
+      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
         await route.fallback();
         return;
       }
@@ -353,7 +356,8 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 
   test("Growing Sector Value shows labelled Future Growth fallback when strict candidates are absent", async ({ page }) => {
     await page.route("**/api/sws-picks**", async (route) => {
-      if (!new URL(route.request().url()).pathname.endsWith("/api/sws-picks")) {
+      const pathname = new URL(route.request().url()).pathname;
+      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
         await route.fallback();
         return;
       }

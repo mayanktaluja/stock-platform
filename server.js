@@ -240,6 +240,72 @@ const PORT = process.env.PORT || 3000;
 // express.static + every /api/* route.
 app.use(compression());
 
+const ROUTE_PERF_STARTED_AT = new Date().toISOString();
+const ROUTE_PERF_SLOW_MS = Number(process.env.STARBHAI_ROUTE_PERF_SLOW_MS || 250);
+const ROUTE_PERF_SAMPLE_RATE = Math.max(0, Math.min(1, Number(process.env.STARBHAI_ROUTE_PERF_SAMPLE_RATE || (process.env.VERCEL ? 0.01 : 0))));
+const ROUTE_PERF_RECENT_MAX = 80;
+let routePerfCold = true;
+const routePerfRecent = [];
+const routePerfByRoute = new Map();
+
+function routePerfKey(req) {
+  return `${req.method} ${req.path || req.url || "unknown"}`;
+}
+
+function recordRoutePerf(entry) {
+  routePerfRecent.push(entry);
+  if (routePerfRecent.length > ROUTE_PERF_RECENT_MAX) routePerfRecent.shift();
+  const prev = routePerfByRoute.get(entry.route) || {
+    route: entry.route,
+    count: 0,
+    slowCount: 0,
+    totalWallMs: 0,
+    totalCpuMs: 0,
+    maxWallMs: 0,
+    maxCpuMs: 0,
+    lastStatus: null,
+    lastSeenAt: null,
+  };
+  prev.count += 1;
+  if (entry.wallMs >= ROUTE_PERF_SLOW_MS) prev.slowCount += 1;
+  prev.totalWallMs += entry.wallMs;
+  prev.totalCpuMs += entry.cpuMs;
+  prev.maxWallMs = Math.max(prev.maxWallMs, entry.wallMs);
+  prev.maxCpuMs = Math.max(prev.maxCpuMs, entry.cpuMs);
+  prev.lastStatus = entry.status;
+  prev.lastSeenAt = entry.at;
+  routePerfByRoute.set(entry.route, prev);
+}
+
+app.use((req, res, next) => {
+  const startedAt = Date.now();
+  const startedCpu = process.cpuUsage();
+  const coldStart = routePerfCold;
+  routePerfCold = false;
+  res.on("finish", () => {
+    const wallMs = Date.now() - startedAt;
+    const cpu = process.cpuUsage(startedCpu);
+    const cpuMs = Math.round((cpu.user + cpu.system) / 1000);
+    const shouldRecord = coldStart || wallMs >= ROUTE_PERF_SLOW_MS || Math.random() < ROUTE_PERF_SAMPLE_RATE;
+    if (!shouldRecord) return;
+    const entry = {
+      at: new Date().toISOString(),
+      route: routePerfKey(req),
+      status: res.statusCode,
+      wallMs,
+      cpuMs,
+      coldStart,
+      cache: res.getHeader("X-Cache") || res.getHeader("x-vercel-cache") || null,
+      bytes: Number(res.getHeader("Content-Length")) || null,
+    };
+    recordRoutePerf(entry);
+    if (coldStart || wallMs >= ROUTE_PERF_SLOW_MS) {
+      console.warn(`[route-perf] ${entry.route} status=${entry.status} wall=${entry.wallMs}ms cpu=${entry.cpuMs}ms cold=${entry.coldStart} cache=${entry.cache || "-"}`);
+    }
+  });
+  next();
+});
+
 // Cache: short TTL for real-time feel
 const quoteCache = new NodeCache({ stdTTL: 60, checkperiod: 30 });
 const historicalCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
@@ -924,6 +990,7 @@ const AUTH_EXEMPT_PATHS = new Set([
 app.use((req, res, next) => {
   if (!AUTH_ENABLED) return next();
   if (AUTH_EXEMPT_PATHS.has(req.path)) return next();
+  if (req.path.startsWith("/assets/gated/")) return next();
   if (req.path.startsWith("/api/cron/")) return next();
   // Track-record bootstrap endpoints have their own MACRO_OVERRIDE_TOKEN
   // gate inside the handler — they intentionally bypass the session gate
@@ -982,6 +1049,8 @@ function setPublicStaticHeaders(res, filePath) {
   const name = path.basename(filePath);
   if (name === "login.html") {
     res.setHeader("Cache-Control", "no-cache");
+  } else if (filePath.includes(`${path.sep}assets${path.sep}gated${path.sep}`) && /\.(?:js|css)$/i.test(name)) {
+    res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=3600");
   } else if (/\.(?:png|jpg|jpeg|webp|ico|svg|webmanifest)$/i.test(name)) {
     res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
   }
@@ -991,6 +1060,43 @@ app.use(express.static(path.join(__dirname, "public"), {
   setHeaders: setPublicStaticHeaders,
 }));
 app.use(express.json());
+
+async function requireAdminRequest(req, res) {
+  if (!AUTH_ENABLED) {
+    res.status(401).json({ error: "auth-disabled" });
+    return false;
+  }
+  const sub = req.user && req.user.sub;
+  if (!sub) {
+    res.status(401).json({ error: "unauthenticated" });
+    return false;
+  }
+  const me = await getUserStorage().read(sub);
+  if (!me || !computeIsAdmin(me.email)) {
+    res.status(403).json({ error: "forbidden" });
+    return false;
+  }
+  return true;
+}
+
+app.get("/api/admin/perf/summary", async (req, res) => {
+  if (!(await requireAdminRequest(req, res))) return;
+  const routes = [...routePerfByRoute.values()]
+    .map((r) => ({
+      ...r,
+      avgWallMs: r.count ? Math.round(r.totalWallMs / r.count) : 0,
+      avgCpuMs: r.count ? Math.round(r.totalCpuMs / r.count) : 0,
+    }))
+    .sort((a, b) => b.totalCpuMs - a.totalCpuMs)
+    .slice(0, 40);
+  res.json({
+    startedAt: ROUTE_PERF_STARTED_AT,
+    slowThresholdMs: ROUTE_PERF_SLOW_MS,
+    sampleRate: ROUTE_PERF_SAMPLE_RATE,
+    routes,
+    recent: [...routePerfRecent].reverse(),
+  });
+});
 
 // ==================== Yahoo Finance Direct API ====================
 
@@ -4691,6 +4797,7 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 
 const SECTION_PERFORMANCE_MODULE_PATH = "./services/trackRecord/sectionPerformance.js";
 const SECTION_PERFORMANCE_STORAGE_MODULE_PATH = "./services/trackRecord/sectionPerformanceStorage.js";
+const SECTION_PERFORMANCE_LATEST_PATH = path.join(__dirname, "data", "track-record", "section-performance-latest.json");
 let _sectionPerformanceModulePromise = null;
 let _sectionPerformanceStorageModulePromise = null;
 
@@ -4775,7 +4882,40 @@ function readCurrentSwsPicksForSectionPerformance() {
   }
 }
 
+function filterStoredSectionPerformancePayload(payload, { windows, cohorts }) {
+  if (!payload || typeof payload !== "object") return null;
+  const wantedWindows = new Set(windows || []);
+  const wantedCohorts = new Set(cohorts || []);
+  const out = {
+    ...payload,
+    fromStoredSnapshot: true,
+  };
+  if (Array.isArray(payload.windows) && wantedWindows.size) {
+    out.windows = payload.windows.filter((w) => wantedWindows.has(w?.window));
+  }
+  if (Array.isArray(payload.cohorts) && wantedCohorts.size) {
+    out.cohorts = payload.cohorts.filter((c) => wantedCohorts.has(Number(c)));
+  } else {
+    out.cohorts = cohorts;
+  }
+  return out;
+}
+
+function readStoredSectionPerformancePayload({ windows, cohorts }) {
+  if (!fs.existsSync(SECTION_PERFORMANCE_LATEST_PATH)) return null;
+  try {
+    const payload = JSON.parse(fs.readFileSync(SECTION_PERFORMANCE_LATEST_PATH, "utf-8"));
+    return filterStoredSectionPerformancePayload(payload, { windows, cohorts });
+  } catch (err) {
+    console.warn("[trackRecord:sectionPerformance] stored snapshot read failed:", err.message);
+    return null;
+  }
+}
+
 async function readSectionPerformanceSafe({ windows, cohorts }) {
+  const stored = readStoredSectionPerformancePayload({ windows, cohorts });
+  if (stored) return stored;
+
   const mod = await loadSectionPerformanceModule();
   const fn = mod?.getSectionPerformancePayload;
   if (fn) return fn({ windows, cohorts, picksData: readCurrentSwsPicksForSectionPerformance() });
@@ -7727,10 +7867,116 @@ app.get("/api/sws-universe", async (req, res) => {
 // payload on every call, including ~1208-item "avoid" section. Mobile +
 // slow-network users paid the full 7 MB even when asking for top 10.
 const SWS_PICKS_MAX_LIMIT = 200;
+const SWS_SCAN_RECENT_MS = 5 * 60 * 1000;
+
+function applySwsPicksQuery(data, req) {
+  const limitRaw = req.query.limit;
+  const limit = limitRaw != null
+    ? Math.min(Math.max(parseInt(limitRaw, 10) || 0, 0), SWS_PICKS_MAX_LIMIT)
+    : null;
+  const category = typeof req.query.category === "string" && req.query.category.trim()
+    ? normaliseTopRankedCategory(req.query.category.trim())
+    : null;
+  if (!data.sections || (limit === null && !category)) return;
+  if (category) {
+    const keep = data.sections[category];
+    data.sections = keep ? { [category]: keep } : {};
+  }
+  if (limit !== null) {
+    const totals = {};
+    for (const k of Object.keys(data.sections)) {
+      const arr = data.sections[k];
+      if (Array.isArray(arr) && arr.length > limit) {
+        totals[`${k}_total`] = arr.length;
+        data.sections[k] = arr.slice(0, limit);
+      }
+    }
+    data._meta = { ...(data._meta || {}), ...totals, limit };
+  }
+  if (category) data._meta = { ...(data._meta || {}), category };
+}
+
+function buildSwsScanStatusHint() {
+  const now = Date.now();
+  const progress = swsDal.getAllShardProgressApi();
+  const shards = Array.isArray(progress) ? progress : [];
+  const recent = shards.some((p) => p?.last_run_at && (now - new Date(p.last_run_at).getTime()) < SWS_SCAN_RECENT_MS);
+  const panic = readJsonSafe(SWS_PATHS.panicStop);
+  return {
+    should_poll: !!(recent || panic),
+    in_progress_hint: !!recent,
+    panic_active: !!panic,
+  };
+}
+
+function buildMarketScanStatusHint(progress) {
+  const now = Date.now();
+  const shards = Array.isArray(progress) ? progress : [];
+  const recent = shards.some((p) => p?.last_run_at && (now - new Date(p.last_run_at).getTime()) < SWS_SCAN_RECENT_MS);
+  return {
+    should_poll: !!recent,
+    in_progress_hint: !!recent,
+    panic_active: false,
+  };
+}
+
+function buildSwsPicksSummaryPayload(raw, req) {
+  const data = {
+    ...raw,
+    sections: raw.sections
+      ? (() => { const { avoid, ...rest } = raw.sections; return normaliseTopRankedSections({ ...rest }); })()
+      : raw.sections,
+  };
+  const missingDeepCounter = { count: 0, sample: [], failOpenSections: [] };
+  if (data.sections) {
+    const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
+    const passesDividendGate = (it) => {
+      const upside = Number(it?.upside_pct);
+      const valSnow = Number((it?.snowflake || {}).valuation);
+      return (Number.isFinite(upside) && upside >= 0) || (Number.isFinite(valSnow) && valSnow >= 4);
+    };
+    for (const [key, items] of Object.entries(data.sections)) {
+      if (!Array.isArray(items)) continue;
+      let filtered = items.filter((it) => it && it.ticker && !isPureBSEcode(it.ticker)).map((it) => ({ ...it }));
+      if (key === "dividend_aristocrats") filtered = filtered.filter(passesDividendGate);
+      data.sections[key] = filtered;
+      for (const it of filtered) {
+        stampIndexFlagsOnRow(it);
+        enrichPickRow(it);
+      }
+    }
+  }
+  data.last_refresh = swsDal.getLastRefresh();
+  data.shard_progress_api = swsDal.getAllShardProgressApi();
+  data.scan_status_hint = buildSwsScanStatusHint();
+  data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
+  data._meta = {
+    ...(data._meta || {}),
+    summary_view: true,
+    fv_drift_count: 0,
+    fv_drift_skipped: true,
+    missing_deep_count: missingDeepCounter.count,
+    missing_deep_sample: missingDeepCounter.sample,
+    missing_deep_fail_open_sections: missingDeepCounter.failOpenSections,
+  };
+  applySwsPicksQuery(data, req);
+  return data;
+}
+
+app.get("/api/sws-picks-summary", (req, res) => {
+  const raw = swsDal.getPicksLatest();
+  if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  res.set("Cache-Control", "private, max-age=300, must-revalidate");
+  res.json(buildSwsPicksSummaryPayload(raw, req));
+});
 
 app.get("/api/sws-picks", async (req, res) => {
   const raw = swsDal.getPicksLatest();
   if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  if (String(req.query.view || "").toLowerCase() === "summary") {
+    res.set("Cache-Control", "private, max-age=300, must-revalidate");
+    return res.json(buildSwsPicksSummaryPayload(raw, req));
+  }
   // The Avoid List was removed from the SWS Picks tab — drop its ~1,191-row
   // section from the payload so it stops shipping on every load. Shallow-clone
   // `raw` + its sections so we never mutate the mtime-cached object that
@@ -7801,6 +8047,7 @@ app.get("/api/sws-picks", async (req, res) => {
   // when a refresh is mid-flight or last-refresh.json is stale.
   data.last_refresh = swsDal.getLastRefresh();
   data.shard_progress_api = swsDal.getAllShardProgressApi();
+  data.scan_status_hint = buildSwsScanStatusHint();
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
   data._meta = {
     ...(data._meta || {}),
@@ -7816,26 +8063,7 @@ app.get("/api/sws-picks", async (req, res) => {
   // dataset, not just the served slice. The `_meta.<section>_total` fields
   // tell the client "this section has X total; you got Y".
   if (data.sections && (limit !== null || category)) {
-    if (category) {
-      const keep = data.sections[category];
-      data.sections = keep ? { [category]: keep } : {};
-    }
-    if (limit !== null) {
-      const totals = {};
-      for (const k of Object.keys(data.sections)) {
-        const arr = data.sections[k];
-        if (Array.isArray(arr) && arr.length > limit) {
-          totals[`${k}_total`] = arr.length;
-          data.sections[k] = arr.slice(0, limit);
-        }
-      }
-      if (Object.keys(totals).length > 0) {
-        data._meta = { ...data._meta, ...totals, limit };
-      } else if (limit !== null) {
-        data._meta = { ...data._meta, limit };
-      }
-    }
-    if (category) data._meta = { ...data._meta, category };
+    applySwsPicksQuery(data, req);
   }
   res.json(data);
 });
@@ -7896,45 +8124,6 @@ function snowflakeDataQualityFromGapLab(lab) {
   };
 }
 
-function snowflakeDataQualityFromCheckMatrix(matrix) {
-  const checks = Array.isArray(matrix?.checks) ? matrix.checks : [];
-  if (!checks.length) return null;
-
-  const byPillar = {};
-  const samples = [];
-  let insufficientCount = 0;
-  for (const check of checks) {
-    const pillar = normaliseSnowflakeGapPillar(check?.pillar);
-    if (!byPillar[pillar]) byPillar[pillar] = { checked: 0, insufficient: 0 };
-    byPillar[pillar].checked += 1;
-    if (check?.insufficient !== true) continue;
-    insufficientCount += 1;
-    byPillar[pillar].insufficient += 1;
-    if (samples.length < 3) {
-      samples.push({
-        pillar,
-        title: String(check.title || check.name || "").trim() || "Snowflake check",
-        reason_code: String(check.outcome_name || check.result || "NO_DATA").trim(),
-      });
-    }
-  }
-  if (insufficientCount <= 0) return null;
-
-  const affected = Object.entries(byPillar)
-    .filter(([, row]) => Number(row?.insufficient) > 0)
-    .map(([pillar]) => pillar);
-
-  return {
-    insufficient: true,
-    insufficient_count: insufficientCount,
-    checked_count: Number(matrix.checked_count) || checks.length,
-    affected_pillars: affected,
-    by_pillar: byPillar,
-    samples,
-    source: "snowflake_check_matrix",
-  };
-}
-
 function snowflakeCheckMatrixFromGapLab(lab, dataQuality) {
   const checks = gapLabMissingChecks(lab);
   if (!checks.length) return null;
@@ -7951,24 +8140,12 @@ function prepareSwsStockDeepForResponse(deep, card) {
   const responseOverview = { ...overview };
   const responseDeep = { ...deep, overview: responseOverview };
   const gapLab = card?.snowflake_gap_lab || null;
+  if (!gapLab) return responseDeep;
 
   if (responseOverview.snowflake_data_quality == null) {
-    const matrixQuality = snowflakeDataQualityFromCheckMatrix(responseOverview.snowflake_check_matrix);
-    const fallbackQuality = matrixQuality || snowflakeDataQualityFromGapLab(gapLab);
+    const fallbackQuality = snowflakeDataQualityFromGapLab(gapLab);
     if (fallbackQuality) responseOverview.snowflake_data_quality = fallbackQuality;
-  } else if (
-    responseOverview.snowflake_data_quality?.insufficient === true &&
-    responseOverview.snowflake_data_quality.source == null
-  ) {
-    responseOverview.snowflake_data_quality = {
-      ...responseOverview.snowflake_data_quality,
-      source: Array.isArray(responseOverview.snowflake_check_matrix?.checks)
-        ? "snowflake_check_matrix"
-        : "snowflake_data_quality",
-    };
   }
-
-  if (!gapLab) return responseDeep;
 
   const hasRealCheckMatrix = Array.isArray(responseOverview.snowflake_check_matrix?.checks);
   if (!hasRealCheckMatrix && responseOverview.snowflake_data_quality?.insufficient === true) {
@@ -8297,17 +8474,6 @@ function filterSyntheticMarketFixtureRows(data) {
   return data;
 }
 
-function cloneMarketSections(sections) {
-  if (!sections || typeof sections !== "object") return sections;
-  const cloned = {};
-  for (const [key, items] of Object.entries(sections)) {
-    cloned[key] = Array.isArray(items)
-      ? items.map((row) => (row && typeof row === "object" ? { ...row } : row))
-      : items;
-  }
-  return cloned;
-}
-
 function hydrateMarketCardV4Breakdown(card, deep, dal, marketCode) {
   if (!card || card.v4_breakdown || !deep) return card;
   try {
@@ -8349,9 +8515,8 @@ app.get("/api/us-picks", async (req, res) => {
       hint: "Run /sws-refresh-us (or the seed scrape) to populate data/sws-us/.",
     });
   }
-  // Clone section arrays and row objects so stamping/limiting never mutates the
-  // mtime-cached DAL object shared with /api/us-stock and other in-process reads.
-  const data = { ...raw, sections: normaliseTopRankedSections(cloneMarketSections(raw.sections || {})) };
+  // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
+  const data = { ...raw, sections: normaliseTopRankedSections({ ...(raw.sections || {}) }) };
   filterSyntheticMarketFixtureRows(data);
   const limit =
     req.query.limit != null
@@ -8381,6 +8546,7 @@ app.get("/api/us-picks", async (req, res) => {
   }
   data.last_refresh = usPicksDal.getUsLastRefresh();
   data.scan_progress = usPicksDal.getUsAllShardProgressApi();
+  data.scan_status_hint = buildMarketScanStatusHint(data.scan_progress);
   stampMarketRows(data, "us");
   res.json(data);
 });
@@ -8401,10 +8567,7 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
       const found = items.find((c) => c.ticker === ticker);
       if (found) {
         sectionMemberships.push(key);
-        if (!card) card = { ...found };
-        else if (found.snowflake_gap_lab && !card.snowflake_gap_lab) {
-          card.snowflake_gap_lab = found.snowflake_gap_lab;
-        }
+        if (!card) card = found;
       }
     }
   }
@@ -8412,10 +8575,7 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
   // section (the modal degrades gracefully even without a deep file present).
   if (!card) {
     const idx = usPicksDal.getUsUniverseIndex();
-    if (idx) {
-      const universeCard = idx.get(ticker);
-      card = universeCard ? { ...universeCard } : null;
-    }
+    if (idx) card = idx.get(ticker) || null;
   }
   if (isSyntheticMarketFixtureRow(card)) return res.status(404).json({ error: "no_us_data", ticker });
   if (!card) return res.status(404).json({ error: "no_us_data", ticker });
@@ -8424,12 +8584,9 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
   const returnsPct = normaliseMarketReturns({ deep, card });
   const hydratedCard = hydrateMarketCardV4Breakdown(card, deep, usPicksDal, "us");
   const responseCard = enrichMarketCardReturns(normaliseV4ScoreContracts(hydratedCard), returnsPct);
-  const responseDeep = deep && typeof deep === "object"
-    ? prepareSwsStockDeepForResponse(deep, responseCard)
-    : null;
   res.json({
     ticker,
-    deep: responseDeep,
+    deep: deep || null,
     card: responseCard || null,
     returns_pct: returnsPct,
     fundamentals_fallback: usPicksDal.getUsFundamentalsFallback(ticker),
@@ -8520,6 +8677,7 @@ function registerRegionPicksRoutes(app, dal) {
     }
     data.last_refresh = dal.getLastRefresh();
     data.scan_progress = dal.getAllShardProgressApi();
+    data.scan_status_hint = buildMarketScanStatusHint(data.scan_progress);
     stampMarketRows(data, prefix);
     res.json(data);
   });

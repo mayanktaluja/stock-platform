@@ -1,7 +1,19 @@
 {
   "version": 2,
   "framework": null,
+  "buildCommand": "node scripts/prepare-public-assets.mjs",
   "regions": ["bom1"],
+  "headers": [
+    {
+      "source": "/assets/gated/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=3600"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/index.js" },
     { "source": "/(.*)",       "destination": "/api/index.js" }
@@ -30,10 +42,6 @@
     {
       "path": "/api/cron/refresh-fo-oi",
       "schedule": "0 15 * * 1-5"
-    },
-    {
-      "path": "/api/cron/refresh-earnings",
-      "schedule": "0 4 * * *"
     },
     {
       "path": "/api/cron/snapshot-track-record",

@@ -18,9 +18,9 @@
 #      guard, which was silently skipping every commit because the main
 #      worktree always had unrelated dirt (worktree artifacts, test outputs).
 #   4. node scripts/refresh-macro-regime.mjs (inside the temp worktree)
-#   5. Idempotency gate — skip if the existing committed file is <30min old
-#      AND the just-written generatedAt is <30min old (race-safe against
-#      the GH Actions backup workflow)
+#   5. Ship gate — commit only when regime/severity materially changed or the
+#      last committed macro snapshot is >=12h old. The classifier may run every
+#      2h, but Vercel should not redeploy for equivalent macro prose churn.
 #   6. If file changed: branch + commit + push + open PR + auto-merge
 #   7. Trap-cleanup removes the temp worktree on every exit path
 #
@@ -177,15 +177,11 @@ if [ -z "$(git status --porcelain data/macroRegime.json)" ]; then
   exit 0
 fi
 
-# ---- 6. Idempotency gate ----
-# Skip the commit if both signals say "recently refreshed":
-#   (a) origin/main's last commit touching data/macroRegime.json is <30min old
-#   (b) the just-written file's generatedAt is <30min old
-# Either condition by itself isn't sufficient — (a) without (b) could mean
-# a stale commit + a genuine fresh refresh; (b) without (a) means we DO
-# need to commit. Both together = a concurrent refresher already shipped
-# fresh data, so this run is a no-op duplicate. Race-safe vs. the GH
-# Actions backup workflow.
+# ---- 6. Ship gate ----
+# Commit only when the user-visible regime/severity changed or when the
+# committed snapshot is old enough to justify a fresh deploy. This keeps the
+# 2h local classifier useful for logs, but avoids burning Vercel cold starts
+# for equivalent macro JSON churn.
 LAST_COMMIT_TS=$(git log -1 --format=%ct origin/main -- data/macroRegime.json 2>/dev/null || echo 0)
 NOW_TS=$(date +%s)
 LAST_COMMIT_AGE_MIN=$(( (NOW_TS - LAST_COMMIT_TS) / 60 ))
@@ -199,11 +195,32 @@ try {
 } catch { process.stdout.write("999999"); }
 ' 2>/dev/null || echo 999999)
 
-if [ "${LAST_COMMIT_AGE_MIN}" -lt 30 ] && [ "${GEN_AGE_MIN}" -lt 30 ]; then
-  echo "[macro-only] idempotency skip: last commit ${LAST_COMMIT_AGE_MIN}m ago, generatedAt ${GEN_AGE_MIN}m old"
+SHIP_DECISION=$(LAST_COMMIT_AGE_MIN="${LAST_COMMIT_AGE_MIN}" node --input-type=module - <<'NODE'
+import {readFileSync} from "fs";
+import {spawnSync} from "node:child_process";
+const lastAge = Number(process.env.LAST_COMMIT_AGE_MIN || 999999);
+let prev = null;
+let next = null;
+try {
+  const child = spawnSync("git", ["show", "origin/main:data/macroRegime.json"], { encoding: "utf-8" });
+  const raw = child.status === 0 ? child.stdout : "";
+  if (raw) prev = JSON.parse(raw);
+} catch {}
+try { next = JSON.parse(readFileSync("data/macroRegime.json", "utf-8")); } catch {}
+const prevKey = `${prev?.regime || ""}|${prev?.severity ?? ""}`;
+const nextKey = `${next?.regime || ""}|${next?.severity ?? ""}`;
+if (!prev || !next) process.stdout.write("ship:missing_compare");
+else if (prevKey !== nextKey) process.stdout.write("ship:material_change");
+else if (lastAge >= 720) process.stdout.write("ship:age_12h");
+else process.stdout.write(`skip:equivalent_${lastAge}m`);
+NODE
+)
+
+if [[ "${SHIP_DECISION}" == skip:* ]]; then
+  echo "[macro-only] ship gate skip (${SHIP_DECISION}): last commit ${LAST_COMMIT_AGE_MIN}m ago, generatedAt ${GEN_AGE_MIN}m old"
   exit 0
 fi
-echo "[macro-only] idempotency: last commit ${LAST_COMMIT_AGE_MIN}m ago, generatedAt ${GEN_AGE_MIN}m old — committing"
+echo "[macro-only] ship gate ${SHIP_DECISION}: last commit ${LAST_COMMIT_AGE_MIN}m ago, generatedAt ${GEN_AGE_MIN}m old — committing"
 
 # ---- 7. Commit + push + PR ----
 DATE=$(date +'%Y-%m-%d')

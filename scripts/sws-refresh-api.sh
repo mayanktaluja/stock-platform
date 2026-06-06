@@ -388,6 +388,11 @@ if ! node scripts/sws-snapshot-track-record.mjs 2>&1 | tail -8 | sed 's/^/[track
   echo "[track] non-zero exit — continuing (Track Record snapshot is non-fatal)"
 fi
 
+echo "[refresh-api] building section-performance API snapshot..."
+if ! node scripts/build-section-performance-snapshot.mjs 2>&1 | tail -8 | sed 's/^/[section-perf] /'; then
+  echo "[section-perf] non-zero exit — continuing (section-performance snapshot is non-fatal)"
+fi
+
 # ---------- 8.7. Inline sanity gate (pass 1) ----------
 #
 # Runs the SAME sanity gate that sws-nightly.sh runs at the end of the
