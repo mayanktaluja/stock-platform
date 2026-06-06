@@ -1,54 +1,55 @@
 {
-  "started_at": "2026-06-04T19:00:30.000Z",
-  "finished_at": "2026-06-05T01:15:07.302Z",
+  "started_at": "2026-06-05T19:00:12.000Z",
+  "finished_at": "2026-06-06T00:55:08.428Z",
   "pipeline": "api",
-  "duration_seconds": 12458,
+  "duration_seconds": 12622,
   "shards_failed": 0,
   "scrape_skipped": false,
   "scored_count": 5575,
   "sections_count": {
+    "top_ranked_30_v4": 30,
     "top_ranked_30_v3": 30,
     "best_to_buy_now": 25,
-    "deep_value": 91,
-    "growing_sector_value": 45,
-    "snowflake_gap_lab": 412,
-    "quality_growth": 234,
+    "deep_value": 94,
+    "growing_sector_value": 42,
+    "snowflake_gap_lab": 415,
+    "quality_growth": 232,
     "best_fundamentals": 100,
-    "midterm": 194,
-    "dividend_aristocrats": 20,
-    "smallcap_gems": 9,
-    "upcoming_earnings": 7,
-    "avoid": 1303
+    "midterm": 199,
+    "dividend_aristocrats": 21,
+    "smallcap_gems": 10,
+    "upcoming_earnings": 6,
+    "avoid": 1305
   },
   "per_shard_progress": {
     "1": {
-      "done_count": 3637,
+      "done_count": 5454,
       "next_local_index": 1820,
-      "today_count": 1818,
+      "today_count": 1817,
       "last_ticker": "541634"
     },
     "2": {
-      "done_count": 3639,
+      "done_count": 5458,
       "next_local_index": 1820,
-      "today_count": 1820,
+      "today_count": 1819,
       "last_ticker": "HPTL"
     },
     "3": {
-      "done_count": 3642,
+      "done_count": 5463,
       "next_local_index": 1821,
       "today_count": 1821,
       "last_ticker": "ZYDUSWELL"
     }
   },
   "news_populated_count": 5499,
-  "news_items_total": 42095,
+  "news_items_total": 42318,
   "rewards_populated_count": 4656,
   "risks_populated_count": 5266,
   "groww_stock_cache": {
-    "fetched_at": "2026-06-04T22:28:10.707Z",
-    "expires_at": "2026-06-05T22:28:10.707Z",
+    "fetched_at": "2026-06-05T22:30:38.436Z",
+    "expires_at": "2026-06-06T22:30:38.436Z",
     "status": "fresh",
-    "age_days": 0.12,
+    "age_days": 0.1,
     "coverage": {
       "target_count": 5461,
       "screener_records_count": 4467,
@@ -57,150 +58,150 @@
       "fetched_count": 3977,
       "usable_count": 3977,
       "coverage_pct": 72.83,
-      "pe_usable_count": 3112,
-      "pe_coverage_pct": 56.99
+      "pe_usable_count": 3114,
+      "pe_coverage_pct": 57.02
     }
   },
   "groww_pe_cache": {
-    "fetched_at": "2026-06-04T22:28:10.707Z",
-    "expires_at": "2026-06-05T22:28:10.707Z",
+    "fetched_at": "2026-06-05T22:30:38.436Z",
+    "expires_at": "2026-06-06T22:30:38.436Z",
     "status": "fresh",
-    "age_days": 0.12,
+    "age_days": 0.1,
     "coverage": {
       "target_count": 5461,
       "screener_records_count": 4467,
       "screener_total_records": 5002,
       "mapped_count": 3977,
       "fetched_count": 3977,
-      "usable_count": 3112,
-      "coverage_pct": 56.99
+      "usable_count": 3114,
+      "coverage_pct": 57.02
     }
   },
   "endpoint_timing": {
     "graphql:CompanySummary": {
       "count": 5461,
       "failures": 0,
-      "bytes": 12109538,
-      "total_ms": 1915436,
-      "p50_ms": 308,
-      "p95_ms": 453,
+      "bytes": 12111280,
+      "total_ms": 1922065,
+      "p50_ms": 316,
+      "p95_ms": 443,
+      "parser_consumed": true
+    },
+    "graphql:getCompanyTimeSeries": {
+      "count": 5461,
+      "failures": 4,
+      "bytes": 146984295,
+      "total_ms": 2043993,
+      "p50_ms": 355,
+      "p95_ms": 477,
+      "parser_consumed": false
+    },
+    "graphql:getCompanyPeers": {
+      "count": 5461,
+      "failures": 2,
+      "bytes": 27256763,
+      "total_ms": 2114118,
+      "p50_ms": 371,
+      "p95_ms": 500,
+      "parser_consumed": true
+    },
+    "graphql:NarrativeValuationHistory": {
+      "count": 5461,
+      "failures": 1,
+      "bytes": 28468440,
+      "total_ms": 2383464,
+      "p50_ms": 411,
+      "p95_ms": 642,
       "parser_consumed": true
     },
     "graphql:getNarrativeValuation": {
       "count": 5461,
       "failures": 1,
-      "bytes": 14589970,
-      "total_ms": 2026045,
-      "p50_ms": 331,
-      "p95_ms": 534,
-      "parser_consumed": true
-    },
-    "graphql:getCompanyPeers": {
-      "count": 5461,
-      "failures": 1,
-      "bytes": 27229030,
-      "total_ms": 2153151,
-      "p50_ms": 369,
-      "p95_ms": 526,
-      "parser_consumed": true
-    },
-    "graphql:getCompanyTimeSeries": {
-      "count": 5461,
-      "failures": 1,
-      "bytes": 147065100,
-      "total_ms": 2066733,
-      "p50_ms": 351,
-      "p95_ms": 503,
-      "parser_consumed": false
-    },
-    "graphql:NarrativeValuationHistory": {
-      "count": 5461,
-      "failures": 0,
-      "bytes": 28465010,
-      "total_ms": 2452635,
-      "p50_ms": 412,
-      "p95_ms": 664,
+      "bytes": 14603875,
+      "total_ms": 2050377,
+      "p50_ms": 340,
+      "p95_ms": 521,
       "parser_consumed": true
     },
     "graphql:CompanyNarrativesWithHistogram": {
       "count": 5461,
       "failures": 1,
-      "bytes": 14051219,
-      "total_ms": 2271462,
-      "p50_ms": 378,
-      "p95_ms": 594,
+      "bytes": 14075257,
+      "total_ms": 2250795,
+      "p50_ms": 381,
+      "p95_ms": 579,
       "parser_consumed": true
     },
     "graphql:getCompanyDividends": {
       "count": 5461,
-      "failures": 0,
-      "bytes": 6331017,
-      "total_ms": 2817074,
-      "p50_ms": 490,
-      "p95_ms": 664,
+      "failures": 3,
+      "bytes": 6320171,
+      "total_ms": 2723689,
+      "p50_ms": 480,
+      "p95_ms": 619,
       "parser_consumed": true
     },
     "rest:ownership": {
       "count": 5461,
       "failures": 0,
       "bytes": 33180183,
-      "total_ms": 469532,
-      "p50_ms": 50,
-      "p95_ms": 186,
+      "total_ms": 465105,
+      "p50_ms": 65,
+      "p95_ms": 193,
       "parser_consumed": true
     },
     "rest:industry": {
       "count": 5461,
       "failures": 0,
-      "bytes": 315018443,
-      "total_ms": 499083,
-      "p50_ms": 54,
-      "p95_ms": 198,
+      "bytes": 315016995,
+      "total_ms": 511015,
+      "p50_ms": 70,
+      "p95_ms": 214,
       "parser_consumed": true
     },
     "rest:statements": {
       "count": 5461,
       "failures": 0,
-      "bytes": 387549205,
-      "total_ms": 531414,
-      "p50_ms": 57,
-      "p95_ms": 215,
+      "bytes": 387550084,
+      "total_ms": 553707,
+      "p50_ms": 73,
+      "p95_ms": 240,
       "parser_consumed": true
     },
     "rest:estimates": {
       "count": 5461,
       "failures": 0,
-      "bytes": 6321103,
-      "total_ms": 2010930,
-      "p50_ms": 317,
-      "p95_ms": 498,
-      "parser_consumed": false
-    },
-    "rest:price": {
-      "count": 5461,
-      "failures": 1,
-      "bytes": 42361950,
-      "total_ms": 3005921,
-      "p50_ms": 486,
-      "p95_ms": 812,
-      "parser_consumed": true
-    },
-    "rest:competitors": {
-      "count": 5461,
-      "failures": 3,
-      "bytes": 9677487,
-      "total_ms": 3222454,
-      "p50_ms": 528,
-      "p95_ms": 907,
+      "bytes": 6326686,
+      "total_ms": 2003714,
+      "p50_ms": 332,
+      "p95_ms": 503,
       "parser_consumed": false
     },
     "rest:dashboard_company": {
       "count": 5461,
       "failures": 1,
-      "bytes": 332311612,
-      "total_ms": 3206052,
-      "p50_ms": 526,
-      "p95_ms": 860,
+      "bytes": 332450776,
+      "total_ms": 3180394,
+      "p50_ms": 532,
+      "p95_ms": 748,
+      "parser_consumed": true
+    },
+    "rest:competitors": {
+      "count": 5461,
+      "failures": 1,
+      "bytes": 9687414,
+      "total_ms": 3181477,
+      "p50_ms": 533,
+      "p95_ms": 763,
+      "parser_consumed": false
+    },
+    "rest:price": {
+      "count": 5461,
+      "failures": 1,
+      "bytes": 42374976,
+      "total_ms": 3144528,
+      "p50_ms": 482,
+      "p95_ms": 681,
       "parser_consumed": true
     }
   },
@@ -212,7 +213,7 @@
     "raw_deep_checked": 5420,
     "raw_newer_than_deep": 0,
     "finding_count": 0,
-    "latest_price_as_of": "2026-06-04T00:00:00.000Z"
+    "latest_price_as_of": "2026-06-05T00:00:00.000Z"
   },
   "deep_files_scanned": 5575,
   "stamping_status": "success",
