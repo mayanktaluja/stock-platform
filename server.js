@@ -112,6 +112,7 @@ import {
 } from "./services/globalSearchIndex.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { filterPicksWithDeepDataFailOpen } from "./services/swsPicksResponse.js";
+import { getExperimentalForecastForTicker } from "./services/experimentalForecastOverlay.js";
 import * as usPicksDal from "./services/usPicksDal.js";
 import { makeRegionPicksDal } from "./services/regionPicksDal.js";
 import { enrichMarketCardReturns, normaliseMarketReturns } from "./services/marketReturnNormalizer.js";
@@ -8316,6 +8317,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     }
   })();
   const responseDeep = prepareSwsStockDeepForResponse(deep, card);
+  const experimentalForecastOverlay = getExperimentalForecastForTicker(ticker);
 
   res.json({
     ticker,
@@ -8328,6 +8330,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     // when on-demand-scored / not curated.
     section_memberships: sectionMemberships,
     fundamentals_fallback: fundFallback,
+    experimental_forecast_overlay: experimentalForecastOverlay,
   });
 });
 

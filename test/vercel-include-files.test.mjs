@@ -190,6 +190,8 @@ const REQUIRED_ROOT_FIXTURES = [
 ];
 
 const REQUIRED_NESTED_RUNTIME_FILES = [
+  "data/sws/chronos-forecast-latest.json",
+  "data/sws/chronos-forecast-health.json",
   "data/sectorOutlook/outlook-latest.json",
   "data/nse-fo/oi-deltas-latest.json",
   "data/risk-lab/picks-adjusted-latest.json",
@@ -207,6 +209,9 @@ const REQUIRED_NESTED_RUNTIME_FILES = [
 const LOCAL_ONLY_GENERATED_WORKSETS = [
   "data/sws/deep/20MICRONS.json",
   "data/sws-us/deep/AAPL.json",
+  "data/sws/chronos-ohlcv-cache/JSLL.NS.json",
+  "data/sws/chronos-model-cache/model.bin",
+  "data/sws/chronos-debug/JSLL.json",
   "data/sws/groww-stock-latest.json",
   "data/sectorOutlook/classified-news/RELIANCE.jsonl",
   "data/sectorOutlook/llm-theme-cache.json",
@@ -259,6 +264,9 @@ check("excludeFiles trims non-runtime trace bloat without hiding packed deep bri
   assert.ok(!isExcluded("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must stay bundled for lazy /tmp extraction");
   assert.ok(isExcluded("data/sws/deep/20MICRONS.json"), "loose India deep files should be excluded from Lambda trace bloat");
   assert.ok(isExcluded("data/sws-us/deep/AAPL.json"), "loose US deep files should be excluded from Lambda trace bloat");
+  assert.ok(isExcluded("data/sws/chronos-ohlcv-cache/JSLL.NS.json"), "Chronos OHLCV cache should be excluded from Lambda trace bloat");
+  assert.ok(!isExcluded("data/sws/chronos-forecast-latest.json"), "Chronos forecast latest must stay bundled");
+  assert.ok(!isExcluded("data/sws/chronos-forecast-health.json"), "Chronos forecast health must stay bundled");
   assert.ok(!isExcluded("data/sws-us/picks-latest.json"), "regional picks must stay bundled");
   assert.ok(isExcluded("test/e2e/stock-detail-modal.spec.mjs"), "tests should not be traced into the production Lambda");
 });
@@ -269,6 +277,11 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
     "data/sws-us/deep/**",
     "data/sws-kr/deep/**",
     "data/sws-tw/deep/**",
+    "data/sws/chronos-ohlcv-cache/**",
+    "data/sws/chronos-model-cache/**",
+    "data/sws/chronos-debug/**",
+    "**/__pycache__/**",
+    "**/*.pyc",
     "data/sectorOutlook/classified-news/**",
     "data/nse-fo/history/**",
   ]) {
@@ -277,6 +290,8 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
   assert.ok(isIgnored("data/sws/deep/20MICRONS.json"), "loose India deep files must not be uploaded to Vercel");
   assert.ok(isIgnored("data/sws-us/deep/AAPL.json"), "loose US deep files must not be uploaded to Vercel");
   assert.ok(!isIgnored("data/sws/deep.tar.gz"), "India deep tarball must remain deployable");
+  assert.ok(!isIgnored("data/sws/chronos-forecast-latest.json"), "Chronos forecast latest must remain deployable");
+  assert.ok(isIgnored("data/sws/chronos-debug/JSLL.json"), "Chronos debug traces must not be uploaded");
   assert.ok(!isIgnored("data/sws-us/deep-us.tar.gz"), "US deep tarball must remain deployable");
   assert.ok(!isIgnored("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must remain deployable");
   assert.ok(!isIgnored("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must remain deployable");

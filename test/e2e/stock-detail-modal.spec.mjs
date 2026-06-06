@@ -85,6 +85,7 @@ async function mockThinSwsStock(page, dataQuality, overrides = {}) {
         file_mtime: "2026-05-26T00:00:00.000Z",
         section_memberships: overrides.section_memberships || ["top_ranked_30_v3"],
         fundamentals_fallback: null,
+        experimental_forecast_overlay: overrides.experimental_forecast_overlay || null,
       }),
     }),
   );
@@ -175,6 +176,53 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(warning).toContainText("Snowflake score below is separate from source-data availability");
     await expect(warning).toContainText("Examples: Future: Revenue vs Market");
     await expect(warning).toContainText("Revenue vs Market");
+  });
+
+  test("renders experimental forecast overlay without changing the V4 score", async ({ page }) => {
+    await mockThinSwsStock(page, undefined, {
+      ticker: "CHRONOSTEST",
+      experimental_forecast_overlay: {
+        ticker: "CHRONOSTEST",
+        yahoo_symbol: "CHRONOSTEST.NS",
+        generated_at: "2026-06-06T01:30:00.000Z",
+        selected_model_id: "amazon/chronos-2",
+        input: { bar_count: 600, last_close: 100, frequency: "1d_trading_sessions" },
+        horizons: {
+          "1D": { trading_sessions: 1, median_price: 101, q10_price: 95, q90_price: 104, median_return_pct: 1, q10_return_pct: -5, q90_return_pct: 4 },
+          "7D": { trading_sessions: 5, median_price: 102, q10_price: 92, q90_price: 108, median_return_pct: 2, q10_return_pct: -8, q90_return_pct: 8 },
+          "30D": { trading_sessions: 21, median_price: 103, q10_price: 88, q90_price: 116, median_return_pct: 3, q10_return_pct: -12, q90_return_pct: 16 },
+          "3M": { trading_sessions: 63, median_price: 105, q10_price: 80, q90_price: 130, median_return_pct: 5, q10_return_pct: -20, q90_return_pct: 30 },
+          "1Y": { trading_sessions: 252, median_price: 118, q10_price: 55, q90_price: 210, median_return_pct: 18, q10_return_pct: -45, q90_return_pct: 110 },
+          "3Y": { trading_sessions: 756, median_price: 120, q10_price: 20, q90_price: 310, median_return_pct: 20, q10_return_pct: -80, q90_return_pct: 210 },
+        },
+        interpretation: {
+          label: "Long-term positive skew / very high uncertainty",
+          read: "Use tranche entry; do not chase.",
+          signal_strength: "LOW",
+        },
+      },
+    });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("CHRONOSTEST"));
+
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body.locator(".sws-modal-score .score-value")).toHaveText("41.0");
+    const overlay = body.locator('[data-testid="sws-modal-forecast-overlay"]');
+    await expect(overlay).toBeVisible();
+    await expect(overlay).toContainText("Experimental forecast context");
+    await expect(overlay).toContainText("Long-term positive skew");
+    await expect(overlay).toContainText("Does not change Starbhai score or analyzer action");
+    await expect(overlay.locator('[data-horizon-days="756"]')).toContainText("+20.0%");
+  });
+
+  test("does not render experimental forecast overlay when API omits it", async ({ page }) => {
+    await mockThinSwsStock(page, undefined, { ticker: "NOFORECAST" });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("NOFORECAST"));
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body.locator('[data-testid="sws-modal-forecast-overlay"]')).toHaveCount(0);
   });
 
   test("groups complete Snowflake missing-check names when matrix metadata is present", async ({ page }) => {

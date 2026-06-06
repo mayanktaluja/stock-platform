@@ -108,6 +108,11 @@ for (const f of ["data/sectorOutlook/outlook-latest.json"]) {
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
   assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
 }
+for (const f of ["data/sws/chronos-forecast-latest.json", "data/sws/chronos-forecast-health.json"]) {
+  assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
+  assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+  assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
+}
 for (const f of [
   "data/sws/universe.json",
   "data/sws/universe-meta.json",
@@ -337,6 +342,8 @@ const sectorOutlookIdx = refreshApi.indexOf("node scripts/refresh-sector-outlook
 const earningsBeatIdx = refreshApi.indexOf("node scripts/sws-fetch-earnings-beat.mjs");
 const narrateIdx = refreshApi.indexOf("node scripts/sws-narrate-picks.mjs");
 const stampIdx = refreshApi.indexOf("node scripts/sws-stamp-section-status.mjs");
+const chronosIdx = refreshApi.indexOf("node scripts/refresh-chronos-forecast.mjs");
+const loosePriceFreshnessIdx = refreshApi.indexOf("sws-price-freshness-gate.mjs --source loose");
 assert(
   "sws-refresh-api.sh refreshes/validates Groww stock cache before parser/scoring",
   growwPeIdx > -1 && parserIdx > growwPeIdx && scoringIdx > parserIdx,
@@ -357,6 +364,13 @@ assert(
     narrateIdx > earningsBeatIdx &&
     stampIdx > narrateIdx,
   { finalScoringIdx, earningsBeatIdx, narrateIdx, stampIdx },
+);
+assert(
+  "sws-refresh-api.sh runs Chronos after stamp and before the loose price freshness gate",
+  chronosIdx > stampIdx &&
+    loosePriceFreshnessIdx > chronosIdx &&
+    /Chronos forecast overlay failed[\s\S]*?non-fatal/.test(refreshApi),
+  { stampIdx, chronosIdx, loosePriceFreshnessIdx },
 );
 assert(
   "sws-nightly.sh does not run a late post-score Sector Outlook refresh",
@@ -397,6 +411,12 @@ assert(
   "sws-refresh-api.sh auto-PR stages deep.tar.gz but not loose deep files",
   /git add data\/sws\/deep\.tar\.gz/.test(refreshApi) &&
     !/git add data\/sws\/deep\/(?:\s|2>)/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh auto-PR stages deployable Chronos forecast artifacts",
+  /git add [^\n]*data\/sws\/chronos-forecast-latest\.json/.test(refreshApi) &&
+    /git add [^\n]*data\/sws\/chronos-forecast-health\.json/.test(refreshApi),
   null,
 );
 assert(

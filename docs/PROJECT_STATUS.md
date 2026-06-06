@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-05**
+**Last updated: 2026-06-07**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,16 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Chronos forecast overlay (June 2026)
+- **This PR** — India `best_fundamentals` stock modals can now show a cached,
+  experimental Chronos timing/risk overlay for up to 100 stocks. The refresh
+  stage runs offline after SWS scoring, selects `.NS` Yahoo OHLCV with `.BO`
+  fallback, calls a local Python Chronos worker (`amazon/chronos-2` primary,
+  Bolt fallback), and commits only compact `data/sws/chronos-forecast-*.json`
+  artifacts. The API hides stale digest mismatches, Vercel excludes model/OHLCV
+  caches, and the modal copy explicitly says the overlay does not change the
+  Starbhai score or analyzer action.
 
 ### V4-only score contract (June 2026)
 - **This PR** — SWS score truth is now V4-native across first-party market

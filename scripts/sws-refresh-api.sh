@@ -365,6 +365,17 @@ else
   echo "[refresh-api] stamp smoke check: ${STAMPED_COUNT} stocks have section_status"
 fi
 
+# ---------- 8b. Experimental Chronos forecast overlay ----------
+#
+# Best Fundamentals timing/risk context for the SWS modal. This is intentionally
+# non-fatal and request-path-free: production only reads the compact committed
+# JSON artifact, and stale/mismatched artifacts are hidden by the API validator.
+
+echo "[refresh-api] refreshing experimental Chronos forecast overlay..."
+if ! node scripts/refresh-chronos-forecast.mjs 2>&1 | tail -20 | sed 's/^/[chronos] /'; then
+  echo "[refresh-api] Chronos forecast overlay failed — non-fatal, preserving prior artifact"
+fi
+
 # ---------- 8c. Price freshness gate ----------
 
 PRICE_GATE_REPORT="data/sws/_sanity/price-freshness-inline.json"
@@ -670,7 +681,7 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json data/sws/chronos-forecast-latest.json data/sws/chronos-forecast-health.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the
