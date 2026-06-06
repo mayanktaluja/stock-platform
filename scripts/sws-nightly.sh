@@ -1286,6 +1286,8 @@ CHANGED_FILES=$(git status --short \
   data/sws/groww-pe-latest.json \
   data/sws/groww-pe-failed.json \
   data/sws/nse-event-calendar.json \
+  data/sws/chronos-forecast-latest.json \
+  data/sws/chronos-forecast-health.json \
   data/sws-us/deep-us.tar.gz \
   data/sws-kr/deep-kr.tar.gz \
   data/sws-tw/deep-tw.tar.gz \
@@ -1354,6 +1356,8 @@ git add data/sws/deep.tar.gz \
         data/sws/universe.json \
         data/sws/universe-meta.json \
         data/sws/nse-event-calendar.json \
+        data/sws/chronos-forecast-latest.json \
+        data/sws/chronos-forecast-health.json \
         data/sws-us/deep-us.tar.gz \
         data/sws-kr/deep-kr.tar.gz \
         data/sws-tw/deep-tw.tar.gz \

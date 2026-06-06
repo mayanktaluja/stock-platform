@@ -202,6 +202,7 @@ test.describe("US Picks tab", () => {
     expect(txt).not.toMatch(/Fundamentals \(v1\)/i);
     expect(txt).not.toMatch(/v2 fundamentals composite/i);
     expect(txt).not.toMatch(/v2 = fundamentals/i);
+    await expect(page.locator('#usModalBody [data-testid="sws-modal-forecast-overlay"]')).toHaveCount(0);
   });
 
   test("stock cards open the US modal through the visible click path", async ({ page }) => {

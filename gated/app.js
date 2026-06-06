@@ -13390,6 +13390,56 @@ function renderSnowflakeGapLabPanel(lab) {
     </div>`;
 }
 
+function renderExperimentalForecastOverlay(forecast, currency = "INR") {
+  if (!forecast || typeof forecast !== "object" || !forecast.horizons) return "";
+  const groups = [
+    ["Short term", ["1D", "7D", "30D"]],
+    ["Position horizon", ["3M", "1Y"]],
+    ["Long range", ["3Y"]],
+  ];
+  const fmtForecastPct = (v) => v == null || !Number.isFinite(Number(v))
+    ? "—"
+    : `${Number(v) >= 0 ? "+" : ""}${Number(v).toFixed(1)}%`;
+  const fmtForecastPrice = (v) => v == null || !Number.isFinite(Number(v))
+    ? "—"
+    : fmtBigMoney(Number(v), currency);
+  const body = groups.map(([group, labels]) => {
+    const cells = labels.map((label) => {
+      const h = forecast.horizons[label];
+      if (!h) return "";
+      const sessions = Number(h.trading_sessions);
+      const medianReturn = Number(h.median_return_pct);
+      const color = Number.isFinite(medianReturn) && medianReturn >= 0 ? "var(--green)" : "var(--red)";
+      return `
+        <div class="sws-stat-cell" data-horizon-days="${Number.isFinite(sessions) ? sessions : ""}">
+          <div class="stat-label">${escapeHtml(label)}</div>
+          <div class="stat-value" style="font-size:14px;color:${color};">${fmtForecastPct(h.median_return_pct)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">${fmtForecastPct(h.q10_return_pct)} to ${fmtForecastPct(h.q90_return_pct)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">median ${fmtForecastPrice(h.median_price)}</div>
+        </div>`;
+    }).join("");
+    if (!cells.trim()) return "";
+    return `
+      <div style="margin-top:10px;">
+        <div style="font-size:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0;margin-bottom:6px;">${escapeHtml(group)}</div>
+        <div class="sws-modal-grid">${cells}</div>
+      </div>`;
+  }).join("");
+  if (!body.trim()) return "";
+  const interpretation = forecast.interpretation || {};
+  const generated = forecast.generated_at ? String(forecast.generated_at).slice(0, 16).replace("T", " ") : "";
+  return `
+    <div class="sws-modal-section" data-testid="sws-modal-forecast-overlay" role="note" aria-label="Experimental forecast context">
+      <h4>Experimental forecast context <span style="font-size:10px;color:var(--text-muted);font-weight:500;">Chronos${generated ? ` · ${escapeHtml(generated)} UTC` : ""}</span></h4>
+      ${body}
+      <div style="margin-top:10px;padding:10px;border:1px solid var(--border);border-radius:6px;background:rgba(15,23,42,0.35);">
+        <div style="font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(interpretation.label || "Experimental forecast context")}</div>
+        <div style="font-size:11px;line-height:1.5;color:var(--text-secondary);margin-top:4px;">${escapeHtml(interpretation.read || "Treat this as timing and risk context only.")}</div>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Does not change Starbhai score or analyzer action.</div>
+    </div>`;
+}
+
 function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const { ticker, deep, card, surveillance, file_mtime, fundamentals_fallback } = data;
   // US/region endpoints return `in_sections`; India returns `section_memberships`.
@@ -13444,6 +13494,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
   const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality, ov.snowflake_check_matrix);
   const snowflakeGapLabHtml = renderSnowflakeGapLabPanel(card_.snowflake_gap_lab);
+  const experimentalForecastHtml = renderExperimentalForecastOverlay(data.experimental_forecast_overlay, cur);
 
   // Score breakdown bars — V4 only. If an older/slim artifact lacks the V4
   // component payload, suppress the section instead of showing stale V2 labels.
@@ -13927,6 +13978,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     })()}
 
     ${retsHtml}
+    ${experimentalForecastHtml}
     ${rewardsRisksHtml}
     ${catalystHtml}
     ${newsHtml}

@@ -135,6 +135,7 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
         expect(quick).toContain("SWS");
       }
       await expectTotalReturnsHasPercentValues(page.locator(`#${code}ModalBody`));
+      await expect(page.locator(`#${code}ModalBody [data-testid="sws-modal-forecast-overlay"]`)).toHaveCount(0);
       await page.evaluate((c) => window.closeRegionModal(c), code);
       await expect(modal).not.toHaveClass(/open/);
     });
