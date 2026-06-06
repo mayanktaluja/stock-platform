@@ -43,8 +43,26 @@ assert.deepEqual(
 
 assert.deepEqual(
   schedulesFor("/api/cron/refresh-earnings"),
-  ["0 4 * * *"],
-  "refresh-earnings should remain scheduled",
+  [],
+  "refresh-earnings is a no-op cache flush and should not be scheduled",
+);
+
+assert.deepEqual(
+  schedulesFor("/api/cron/refresh-fo-oi"),
+  ["30 13 * * 1-5", "15 14 * * 1-5", "0 15 * * 1-5"],
+  "F&O retry crons should remain scheduled for post-bhavcopy publication",
+);
+
+assert.deepEqual(
+  schedulesFor("/api/cron/snapshot-track-record"),
+  ["30 4 * * *"],
+  "Track Record snapshot cron stays until the local replacement is compared for 3 runs",
+);
+
+assert.deepEqual(
+  schedulesFor("/api/cron/resolve-forward-returns"),
+  ["0 5 * * *"],
+  "Track Record resolver cron stays until the local replacement is compared for 3 runs",
 );
 
 assert.ok(
