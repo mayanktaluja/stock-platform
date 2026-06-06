@@ -25,7 +25,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `PORT=${PORT} node server.js`,
+    command: `npm run build && PORT=${PORT} node server.js`,
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
