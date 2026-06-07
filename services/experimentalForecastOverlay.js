@@ -7,6 +7,8 @@ export const EXPERIMENTAL_FORECAST_SCHEMA_VERSION = "experimental-forecast-overl
 export const EXPERIMENTAL_FORECAST_FILE = "chronos-forecast-latest.json";
 export const EXPERIMENTAL_FORECAST_HEALTH_FILE = "chronos-forecast-health.json";
 export const FORECAST_SECTION_KEY = "best_fundamentals";
+export const FORECAST_SCOPE_BEST_FUNDAMENTALS = "best_fundamentals";
+export const FORECAST_SCOPE_ALL_SECTIONS = "all_sections";
 export const FORECAST_SECTION_LIMIT = 100;
 
 export const HORIZON_TRADING_SESSIONS = Object.freeze({
@@ -92,6 +94,74 @@ export function getBestFundamentalsUniverse(picks, limit = FORECAST_SECTION_LIMI
   return out;
 }
 
+function sectionTickerMap(picks) {
+  const sections = picks?.sections && typeof picks.sections === "object" ? picks.sections : {};
+  const out = {};
+  for (const [sectionKey, rows] of Object.entries(sections)) {
+    if (!Array.isArray(rows)) continue;
+    const seen = new Set();
+    const tickers = [];
+    for (const row of rows) {
+      const ticker = normalizeTicker(row?.ticker);
+      if (!ticker || seen.has(ticker)) continue;
+      seen.add(ticker);
+      tickers.push(ticker);
+    }
+    out[sectionKey] = tickers;
+  }
+  return out;
+}
+
+export function digestForecastSections(sectionTickers) {
+  const canonical = {};
+  for (const key of Object.keys(sectionTickers || {}).sort()) {
+    canonical[key] = Array.isArray(sectionTickers[key])
+      ? sectionTickers[key].map(normalizeTicker).filter(Boolean)
+      : [];
+  }
+  return crypto.createHash("sha256").update(JSON.stringify(canonical)).digest("hex");
+}
+
+export function getAllSectionsForecastUniverse(picks, limit = null) {
+  const sections = picks?.sections && typeof picks.sections === "object" ? picks.sections : {};
+  const seen = new Set();
+  const out = [];
+  for (const rows of Object.values(sections)) {
+    if (!Array.isArray(rows)) continue;
+    for (const row of rows) {
+      const ticker = normalizeTicker(row?.ticker);
+      if (!ticker || seen.has(ticker)) continue;
+      seen.add(ticker);
+      out.push({
+        ticker,
+        name: row?.name || ticker,
+        sector: row?.sector || null,
+      });
+      if (limit && out.length >= limit) return out;
+    }
+  }
+  return out;
+}
+
+export function getForecastUniverse(picks, { scope = FORECAST_SCOPE_BEST_FUNDAMENTALS, limit = FORECAST_SECTION_LIMIT } = {}) {
+  if (scope === FORECAST_SCOPE_ALL_SECTIONS) return getAllSectionsForecastUniverse(picks, limit);
+  const rows = Array.isArray(picks?.sections?.[scope]) ? picks.sections[scope] : [];
+  const seen = new Set();
+  const out = [];
+  for (const row of rows) {
+    const ticker = normalizeTicker(row?.ticker);
+    if (!ticker || seen.has(ticker)) continue;
+    seen.add(ticker);
+    out.push({
+      ticker,
+      name: row?.name || ticker,
+      sector: row?.sector || null,
+    });
+    if (limit && out.length >= limit) break;
+  }
+  return out;
+}
+
 export function digestForecastUniverse(tickers) {
   const normalized = (Array.isArray(tickers) ? tickers : [])
     .map((item) => typeof item === "string" ? normalizeTicker(item) : normalizeTicker(item?.ticker))
@@ -99,14 +169,21 @@ export function digestForecastUniverse(tickers) {
   return crypto.createHash("sha256").update(normalized.join("\n")).digest("hex");
 }
 
-export function buildCurrentForecastSource(picks) {
-  const universe = getBestFundamentalsUniverse(picks);
+export function buildCurrentForecastSource(picks, { scope = FORECAST_SCOPE_BEST_FUNDAMENTALS, limit = FORECAST_SECTION_LIMIT } = {}) {
+  const universe = getForecastUniverse(picks, { scope, limit });
+  const sections = sectionTickerMap(picks);
   return {
-    section: FORECAST_SECTION_KEY,
-    limit: FORECAST_SECTION_LIMIT,
+    scope,
+    section: scope === FORECAST_SCOPE_ALL_SECTIONS ? null : scope,
+    limit,
     scanned_at: picks?.scanned_at || null,
     tickers: universe.map((row) => row.ticker),
+    sections: scope === FORECAST_SCOPE_ALL_SECTIONS ? Object.keys(sections).filter((key) => sections[key].length) : [scope],
+    section_counts: scope === FORECAST_SCOPE_ALL_SECTIONS
+      ? Object.fromEntries(Object.entries(sections).map(([key, tickers]) => [key, tickers.length]))
+      : { [scope]: Array.isArray(picks?.sections?.[scope]) ? picks.sections[scope].length : 0 },
     ticker_digest: digestForecastUniverse(universe),
+    sections_digest: scope === FORECAST_SCOPE_ALL_SECTIONS ? digestForecastSections(sections) : null,
   };
 }
 
@@ -136,7 +213,7 @@ function finiteNumber(value) {
   return Number.isFinite(n) ? n : null;
 }
 
-function sanitizeHorizon(label, row) {
+function sanitizeHorizon(label, row, tradingSessions = HORIZON_TRADING_SESSIONS[label]) {
   if (!row || typeof row !== "object") return null;
   const medianReturnPct = finiteNumber(row.median_return_pct);
   const q10ReturnPct = finiteNumber(row.q10_return_pct);
@@ -144,7 +221,7 @@ function sanitizeHorizon(label, row) {
   if (medianReturnPct == null || q10ReturnPct == null || q90ReturnPct == null) return null;
   return {
     label,
-    trading_sessions: HORIZON_TRADING_SESSIONS[label],
+    trading_sessions: tradingSessions,
     median_price: finiteNumber(row.median_price),
     q10_price: finiteNumber(row.q10_price),
     q90_price: finiteNumber(row.q90_price),
@@ -154,15 +231,15 @@ function sanitizeHorizon(label, row) {
   };
 }
 
-function sanitizeForecastRow(row) {
+function sanitizeForecastRow(row, expectedHorizons = HORIZON_TRADING_SESSIONS) {
   if (!row || typeof row !== "object") return null;
   if (hasForbiddenContent(row)) return null;
   const ticker = normalizeTicker(row.ticker);
   if (!ticker || row.status !== "ok") return null;
 
   const horizons = {};
-  for (const label of Object.keys(HORIZON_TRADING_SESSIONS)) {
-    const horizon = sanitizeHorizon(label, row.horizons?.[label]);
+  for (const [label, sessions] of Object.entries(expectedHorizons)) {
+    const horizon = sanitizeHorizon(label, row.horizons?.[label], sessions);
     if (!horizon) return null;
     horizons[label] = horizon;
   }
@@ -207,16 +284,25 @@ export function validateForecastArtifact(artifact, picks) {
     return { ok: false, reason: "forbidden_content" };
   }
 
-  const currentSource = buildCurrentForecastSource(picks);
   const source = artifact.source || {};
-  if (source.section !== FORECAST_SECTION_KEY) return { ok: false, reason: "source_section" };
+  const scope = source.scope || source.section || FORECAST_SCOPE_BEST_FUNDAMENTALS;
+  const limit = source.limit === null ? null : (Number.isFinite(Number(source.limit)) ? Number(source.limit) : FORECAST_SECTION_LIMIT);
+  const currentSource = buildCurrentForecastSource(picks, { scope, limit });
+  if (![FORECAST_SCOPE_ALL_SECTIONS, FORECAST_SCOPE_BEST_FUNDAMENTALS, FORECAST_SECTION_KEY].includes(scope) && !Array.isArray(picks?.sections?.[scope])) {
+    return { ok: false, reason: "source_scope" };
+  }
+  if (source.section && source.section !== currentSource.section) return { ok: false, reason: "source_section" };
   if (source.scanned_at !== currentSource.scanned_at) return { ok: false, reason: "source_scanned_at" };
   if (source.ticker_digest !== currentSource.ticker_digest) return { ok: false, reason: "source_ticker_digest" };
+  if (source.sections_digest && source.sections_digest !== currentSource.sections_digest) {
+    return { ok: false, reason: "source_sections_digest" };
+  }
 
   const rows = artifact.forecasts && typeof artifact.forecasts === "object" ? artifact.forecasts : {};
+  const expectedHorizons = artifact.horizons && typeof artifact.horizons === "object" ? artifact.horizons : HORIZON_TRADING_SESSIONS;
   const forecasts = {};
   for (const ticker of currentSource.tickers) {
-    const sanitized = sanitizeForecastRow(rows[ticker]);
+    const sanitized = sanitizeForecastRow(rows[ticker], expectedHorizons);
     if (sanitized) forecasts[ticker] = sanitized;
   }
 

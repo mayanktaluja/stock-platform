@@ -16,10 +16,12 @@ import {
   EXPERIMENTAL_FORECAST_FILE,
   EXPERIMENTAL_FORECAST_HEALTH_FILE,
   EXPERIMENTAL_FORECAST_SCHEMA_VERSION,
+  FORECAST_SCOPE_BEST_FUNDAMENTALS,
+  FORECAST_SCOPE_ALL_SECTIONS,
   FORECAST_SECTION_LIMIT,
   HORIZON_TRADING_SESSIONS,
   buildCurrentForecastSource,
-  getBestFundamentalsUniverse,
+  getForecastUniverse,
 } from "../services/experimentalForecastOverlay.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -37,6 +39,8 @@ const WORKER_PATH = path.join(REPO_ROOT, "scripts", "forecasting", "chronos_work
 
 const DEFAULTS = {
   limit: FORECAST_SECTION_LIMIT,
+  scope: process.env.SWS_CHRONOS_SCOPE || FORECAST_SCOPE_BEST_FUNDAMENTALS,
+  horizons: HORIZON_TRADING_SESSIONS,
   concurrency: 4,
   minRows: 90,
   preferredRows: 128,
@@ -48,11 +52,35 @@ const DEFAULTS = {
   fallbackModel: process.env.SWS_CHRONOS_FALLBACK_MODEL || "amazon/chronos-bolt-tiny",
 };
 
+function parseHorizonList(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return HORIZON_TRADING_SESSIONS;
+  const out = {};
+  for (const part of raw.split(",")) {
+    const label = part.trim().toUpperCase();
+    if (!label) continue;
+    if (!Object.prototype.hasOwnProperty.call(HORIZON_TRADING_SESSIONS, label)) {
+      throw new Error(`Unknown Chronos horizon: ${label}`);
+    }
+    out[label] = HORIZON_TRADING_SESSIONS[label];
+  }
+  if (!Object.keys(out).length) throw new Error("At least one Chronos horizon is required");
+  return out;
+}
+
 export function parseArgs(argv = process.argv.slice(2)) {
   const opts = { ...DEFAULTS };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
-    if (a === "--limit") opts.limit = Math.max(1, Number(argv[++i]) || DEFAULTS.limit);
+    if (a === "--limit") {
+      const raw = String(argv[++i] || "").trim().toLowerCase();
+      opts.limit = raw === "0" || raw === "all" || raw === "none" ? null : Math.max(1, Number(raw) || DEFAULTS.limit);
+    }
+    else if (a === "--scope") {
+      const raw = String(argv[++i] || opts.scope).trim().toLowerCase().replace(/-/g, "_");
+      opts.scope = raw === "all" ? FORECAST_SCOPE_ALL_SECTIONS : raw;
+    }
+    else if (a === "--horizons") opts.horizons = parseHorizonList(argv[++i]);
     else if (a === "--concurrency") opts.concurrency = Math.max(1, Number(argv[++i]) || DEFAULTS.concurrency);
     else if (a === "--min-rows") opts.minRows = Math.max(2, Number(argv[++i]) || DEFAULTS.minRows);
     else if (a === "--cache-ttl-hours") opts.cacheTtlHours = Math.max(0, Number(argv[++i]) || 0);
@@ -62,7 +90,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     else if (a === "--fallback-model") opts.fallbackModel = String(argv[++i] || opts.fallbackModel);
     else if (a === "--preflight") opts.preflight = true;
     else if (a === "--help" || a === "-h") {
-      console.log("usage: node scripts/refresh-chronos-forecast.mjs [--limit 100] [--concurrency 4] [--max-fetches 100] [--timeout-seconds 3600] [--preflight]");
+      console.log("usage: node scripts/refresh-chronos-forecast.mjs [--scope best_fundamentals|all_sections|<section>] [--limit 100|all] [--horizons 1D,7D,30D,3M,1Y,3Y] [--concurrency 4] [--max-fetches 100] [--timeout-seconds 3600] [--preflight]");
       process.exit(0);
     } else {
       throw new Error(`Unknown argument: ${a}`);
@@ -179,8 +207,8 @@ async function fetchYahooBars(yf, yahooSymbol, opts) {
 async function buildInputSeries(opts) {
   const picks = readJson(PICKS_PATH);
   if (!picks) throw new Error(`missing ${PICKS_PATH}`);
-  const source = buildCurrentForecastSource(picks);
-  const universe = getBestFundamentalsUniverse(picks, opts.limit);
+  const source = buildCurrentForecastSource(picks, { scope: opts.scope, limit: opts.limit });
+  const universe = getForecastUniverse(picks, { scope: opts.scope, limit: opts.limit });
   const yf = new YahooFinance({ suppressNotices: ["yahooSurvey", "ripHistorical"] });
   const queue = universe.slice();
   const symbols = [];
@@ -292,7 +320,7 @@ function runPythonWorker(input, opts) {
   });
 }
 
-function buildArtifact({ source, workerOutput, skipped }) {
+function buildArtifact({ source, workerOutput, skipped, horizons }) {
   const rows = Array.isArray(workerOutput?.forecasts) ? workerOutput.forecasts : [];
   const forecasts = {};
   for (const row of rows) {
@@ -302,19 +330,25 @@ function buildArtifact({ source, workerOutput, skipped }) {
     schema_version: EXPERIMENTAL_FORECAST_SCHEMA_VERSION,
     generated_at: new Date().toISOString(),
     source: {
+      scope: source.scope,
       section: source.section,
       limit: source.limit,
       scanned_at: source.scanned_at,
       ticker_digest: source.ticker_digest,
+      sections_digest: source.sections_digest,
+      sections: source.sections,
+      section_counts: source.section_counts,
       tickers_count: source.tickers.length,
     },
     model: {
       primary_model_id: workerOutput?.primary_model_id || DEFAULTS.primaryModel,
       fallback_model_id: workerOutput?.fallback_model_id || DEFAULTS.fallbackModel,
+      selected_model_id: workerOutput?.selected_model_id || workerOutput?.primary_model_id || DEFAULTS.primaryModel,
+      fallback_reason: workerOutput?.fallback_reason || null,
       runtime_package: workerOutput?.runtime_package || "chronos-forecasting",
       runtime_version: workerOutput?.runtime_version || null,
     },
-    horizons: HORIZON_TRADING_SESSIONS,
+    horizons,
     forecasts,
     skipped_symbols: [
       ...skipped,
@@ -393,11 +427,12 @@ export async function refreshChronosForecast(opts = parseArgs()) {
     const workerInput = {
       schema_version: "chronos-worker-input-v1",
       generated_at: new Date().toISOString(),
-      horizons: HORIZON_TRADING_SESSIONS,
+      horizons: opts.horizons,
       symbols: input.symbols,
     };
+    console.error(`[chronos] scope=${input.source.scope} tickers=${input.source.tickers.length} inputs=${input.symbols.length} skipped_ohlcv=${input.skipped.length} horizons=${Object.keys(opts.horizons).join(",")}`);
     const workerOutput = await runPythonWorker(workerInput, opts);
-    const artifact = buildArtifact({ source: input.source, workerOutput, skipped: input.skipped });
+    const artifact = buildArtifact({ source: input.source, workerOutput, skipped: input.skipped, horizons: opts.horizons });
     writeJsonAtomic(OUT_PATH, artifact);
     writeHealth("ok", {
       source: artifact.source,

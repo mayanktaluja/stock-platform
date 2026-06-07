@@ -13,7 +13,6 @@ import importlib.metadata
 import json
 import math
 import sys
-from datetime import timedelta
 from typing import Any
 
 QUANTILES = [0.1, 0.5, 0.9]
@@ -79,21 +78,33 @@ def load_bolt(model_id: str, device: str | None):
 def context_frame(symbols: list[dict[str, Any]]) -> pd.DataFrame:
     import pandas as pd
 
-    rows: list[dict[str, Any]] = []
+    frames: list[pd.DataFrame] = []
     for item in symbols:
         ticker = item.get("ticker")
+        rows: list[dict[str, Any]] = []
         for bar in item.get("bars") or []:
             close = bar.get("close")
             date = bar.get("date")
             if ticker and date and close is not None and math.isfinite(float(close)):
                 rows.append({
-                    "id": ticker,
                     "timestamp": pd.Timestamp(date),
                     "target": float(close),
                 })
-    if not rows:
+        if not rows:
+            continue
+        frame = pd.DataFrame(rows).sort_values("timestamp")
+        frame = frame.drop_duplicates(subset=["timestamp"], keep="last")
+        frame = frame.set_index("timestamp")
+        full_index = pd.date_range(frame.index.min(), frame.index.max(), freq="B")
+        frame = frame.reindex(full_index).ffill().dropna(subset=["target"])
+        if len(frame) < 2:
+            continue
+        frame = frame.rename_axis("timestamp").reset_index()
+        frame["id"] = ticker
+        frames.append(frame[["id", "timestamp", "target"]])
+    if not frames:
         raise RuntimeError("no_valid_context_rows")
-    return pd.DataFrame(rows).sort_values(["id", "timestamp"])
+    return pd.concat(frames, ignore_index=True).sort_values(["id", "timestamp"])
 
 
 def fallback_predict_bolt(pipeline: Any, symbols: list[dict[str, Any]], prediction_length: int):
@@ -108,7 +119,7 @@ def fallback_predict_bolt(pipeline: Any, symbols: list[dict[str, Any]], predicti
             continue
         context = torch.tensor(closes, dtype=torch.float32)
         quantiles, _ = pipeline.predict_quantiles(
-            context=context,
+            inputs=context,
             prediction_length=prediction_length,
             quantile_levels=QUANTILES,
         )
@@ -119,7 +130,7 @@ def fallback_predict_bolt(pipeline: Any, symbols: list[dict[str, Any]], predicti
         rows = []
         for idx in range(prediction_length):
             rows.append({
-                "timestamp": last_date + timedelta(days=idx + 1),
+                "timestamp": last_date + pd.offsets.BDay(idx + 1),
                 "0.1": float(q[idx][0]),
                 "0.5": float(q[idx][1]),
                 "0.9": float(q[idx][2]),
@@ -223,6 +234,7 @@ def interpret(horizons: dict[str, Any], input_meta: dict[str, Any]) -> dict[str,
     y1 = horizons.get("1Y", {})
     y3 = horizons.get("3Y", {})
     m3 = horizons.get("3M", {})
+    has_3y = "3Y" in horizons
     ret_1y = float(y1.get("median_return_pct", 0))
     ret_3m = float(m3.get("median_return_pct", 0))
     band_1y = float(y1.get("q90_return_pct", 0)) - float(y1.get("q10_return_pct", 0))
@@ -235,7 +247,7 @@ def interpret(horizons: dict[str, Any], input_meta: dict[str, Any]) -> dict[str,
         label = "Near-term weak / flat long-range"
         read = "The forecast does not support rushing entry. Wait for stabilization or a better setup."
         strength = "LOW"
-    elif abs(float(y3.get("median_return_pct", 0))) < 8:
+    elif has_3y and abs(float(y3.get("median_return_pct", 0))) < 8:
         label = "Flat long-range / low conviction"
         read = "The model does not show a strong directional edge across the long range."
         strength = "LOW"
