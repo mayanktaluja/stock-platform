@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-06-05",
-  "fetchedAt": "2026-06-06T02:07:34.569Z",
+  "fetchedAt": "2026-06-07T02:56:52.021Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260605_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -285,17 +285,17 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
-        "underlying": "APLAPOLLO",
+        "underlying": "PRESTIGE",
         "instrumentType": "STF",
         "expiryCount": 3,
         "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 1831.4,
-        "underlyingPrice": 1822.6,
-        "oiTotal": 5720400,
-        "oiChangeTotal": -151550,
-        "volumeTotal": 2054,
-        "oiDeltaPct": -2.5809143470227096,
-        "priceDeltaPct": 0.7925151348376495,
+        "nearMonthSettle": 1387.1,
+        "underlyingPrice": 1381.1,
+        "oiTotal": 5763150,
+        "oiChangeTotal": -150750,
+        "volumeTotal": 1852,
+        "oiDeltaPct": -2.5490792877796378,
+        "priceDeltaPct": 1.4036113751005057,
         "volumeRatio": null,
         "volumeBucket": "unknown",
         "signal": "short_covering",
@@ -515,25 +515,6 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
-        "underlying": "PRESTIGE",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 1387.1,
-        "underlyingPrice": 1381.1,
-        "oiTotal": 5763150,
-        "oiChangeTotal": -150750,
-        "volumeTotal": 1852,
-        "oiDeltaPct": -2.5490792877796378,
-        "priceDeltaPct": 1.4036113751005057,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_covering",
-        "decoupled": false,
-        "score": 3,
-        "interpretation": "Shorts covering — OI falling as price recovers."
-      },
-      {
         "underlying": "TATASTEEL",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -589,6 +570,25 @@
         "decoupled": false,
         "score": 3,
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
+      },
+      {
+        "underlying": "CHOLAFIN",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 1509.6,
+        "underlyingPrice": 1503.2,
+        "oiTotal": 18117500,
+        "oiChangeTotal": 379375,
+        "volumeTotal": 6968,
+        "oiDeltaPct": 2.1387548007469785,
+        "priceDeltaPct": 1.1050833835643963,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 3,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ]
   }
