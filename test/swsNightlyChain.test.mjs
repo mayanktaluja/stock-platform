@@ -342,7 +342,8 @@ const sectorOutlookIdx = refreshApi.indexOf("node scripts/refresh-sector-outlook
 const earningsBeatIdx = refreshApi.indexOf("node scripts/sws-fetch-earnings-beat.mjs");
 const narrateIdx = refreshApi.indexOf("node scripts/sws-narrate-picks.mjs");
 const stampIdx = refreshApi.indexOf("node scripts/sws-stamp-section-status.mjs");
-const chronosIdx = refreshApi.indexOf("node scripts/refresh-chronos-forecast.mjs");
+const chronosCommand = "node scripts/refresh-chronos-forecast.mjs --scope all_sections --limit all --horizons 7D,30D,3M,1Y";
+const chronosIdx = refreshApi.indexOf(chronosCommand);
 const loosePriceFreshnessIdx = refreshApi.indexOf("sws-price-freshness-gate.mjs --source loose");
 assert(
   "sws-refresh-api.sh refreshes/validates Groww stock cache before parser/scoring",
@@ -366,7 +367,7 @@ assert(
   { finalScoringIdx, earningsBeatIdx, narrateIdx, stampIdx },
 );
 assert(
-  "sws-refresh-api.sh runs Chronos after stamp and before the loose price freshness gate",
+  "sws-refresh-api.sh runs all-section Chronos 7D/30D/3M/1Y after stamp and before the loose price freshness gate",
   chronosIdx > stampIdx &&
     loosePriceFreshnessIdx > chronosIdx &&
     /Chronos forecast overlay failed[\s\S]*?non-fatal/.test(refreshApi),

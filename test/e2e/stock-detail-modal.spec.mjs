@@ -213,7 +213,12 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(overlay).toContainText("Experimental forecast context");
     await expect(overlay).toContainText("Long-term positive skew");
     await expect(overlay).toContainText("Does not change Starbhai score or analyzer action");
-    await expect(overlay.locator('[data-horizon-days="756"]')).toContainText("+20.0%");
+    await expect(overlay.locator('[data-horizon-days="1"]')).toHaveCount(0);
+    await expect(overlay.locator('[data-horizon-days="5"]')).toContainText("+2.0%");
+    await expect(overlay.locator('[data-horizon-days="21"]')).toContainText("+3.0%");
+    await expect(overlay.locator('[data-horizon-days="63"]')).toContainText("+5.0%");
+    await expect(overlay.locator('[data-horizon-days="252"]')).toContainText("+18.0%");
+    await expect(overlay.locator('[data-horizon-days="756"]')).toHaveCount(0);
   });
 
   test("does not render experimental forecast overlay when API omits it", async ({ page }) => {
