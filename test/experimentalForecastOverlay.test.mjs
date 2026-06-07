@@ -5,9 +5,11 @@ import path from "node:path";
 import test from "node:test";
 import {
   EXPERIMENTAL_FORECAST_SCHEMA_VERSION,
+  FORECAST_SCOPE_ALL_SECTIONS,
   HORIZON_TRADING_SESSIONS,
   buildCurrentForecastSource,
   digestForecastUniverse,
+  getAllSectionsForecastUniverse,
   getBestFundamentalsUniverse,
   getExperimentalForecastForTicker,
   normalizeTicker,
@@ -18,6 +20,10 @@ function picksWith(count = 3) {
   return {
     scanned_at: "2026-06-06T00:51:11.114Z",
     sections: {
+      top_ranked_30_v4: [
+        { ticker: "JSLL", name: "Jeena Sikho", sector: "Healthcare" },
+        { ticker: "TMCV.NS", name: "Tata Motors CV", sector: "Autos" },
+      ],
       best_fundamentals: Array.from({ length: count }, (_, i) => ({
         ticker: i === 0 ? "JSLL" : `TEST${i}`,
         name: `Test ${i}`,
@@ -38,9 +44,9 @@ function horizon(returnPct) {
   };
 }
 
-function forecastRow(ticker = "JSLL") {
+function forecastRow(ticker = "JSLL", horizonLabels = Object.keys(HORIZON_TRADING_SESSIONS)) {
   const horizons = {};
-  for (const label of Object.keys(HORIZON_TRADING_SESSIONS)) horizons[label] = horizon(label === "1Y" ? 12 : 2);
+  for (const label of horizonLabels) horizons[label] = horizon(label === "1Y" ? 12 : 2);
   return {
     ticker,
     yahoo_symbol: `${ticker}.NS`,
@@ -68,15 +74,22 @@ function forecastRow(ticker = "JSLL") {
 }
 
 function artifactFor(picks, overrides = {}) {
-  const source = buildCurrentForecastSource(picks);
+  const scope = overrides.scope || undefined;
+  const limit = Object.prototype.hasOwnProperty.call(overrides, "limit") ? overrides.limit : undefined;
+  const source = buildCurrentForecastSource(picks, { scope, limit });
+  const horizonMap = overrides.horizons || HORIZON_TRADING_SESSIONS;
   return {
     schema_version: EXPERIMENTAL_FORECAST_SCHEMA_VERSION,
     generated_at: "2026-06-06T01:30:00.000Z",
     source: {
       section: source.section,
+      scope: source.scope,
       limit: source.limit,
       scanned_at: source.scanned_at,
       ticker_digest: source.ticker_digest,
+      sections_digest: source.sections_digest,
+      sections: source.sections,
+      section_counts: source.section_counts,
       tickers_count: source.tickers.length,
     },
     model: {
@@ -85,9 +98,10 @@ function artifactFor(picks, overrides = {}) {
       runtime_package: "chronos-forecasting",
       runtime_version: "2.2.2",
     },
-    horizons: HORIZON_TRADING_SESSIONS,
+    horizons: horizonMap,
     forecasts: {
-      JSLL: forecastRow("JSLL"),
+      JSLL: forecastRow("JSLL", Object.keys(horizonMap)),
+      TMCV: forecastRow("TMCV", Object.keys(horizonMap)),
     },
     skipped_symbols: [],
     ...overrides,
@@ -103,12 +117,33 @@ test("best fundamentals universe is capped and normalized", () => {
   assert.equal(digestForecastUniverse(universe), buildCurrentForecastSource(picks).ticker_digest);
 });
 
+test("all-sections universe dedupes across India sections", () => {
+  const picks = picksWith();
+  const universe = getAllSectionsForecastUniverse(picks);
+  assert.deepEqual(universe.slice(0, 2).map((row) => row.ticker), ["JSLL", "TMCV"]);
+  assert.equal(universe.filter((row) => row.ticker === "JSLL").length, 1);
+  const source = buildCurrentForecastSource(picks, { scope: FORECAST_SCOPE_ALL_SECTIONS, limit: null });
+  assert.equal(source.scope, FORECAST_SCOPE_ALL_SECTIONS);
+  assert.equal(source.section, null);
+  assert.ok(source.sections_digest);
+});
+
 test("valid artifact returns sanitized forecast rows", () => {
   const picks = picksWith();
   const result = validateForecastArtifact(artifactFor(picks), picks);
   assert.equal(result.ok, true);
   assert.equal(result.forecasts.JSLL.ticker, "JSLL");
   assert.equal(result.forecasts.JSLL.horizons["3Y"].trading_sessions, 756);
+});
+
+test("valid all-sections artifact may use a shorter horizon set", () => {
+  const picks = picksWith();
+  const horizons = { "1D": 1, "7D": 5, "30D": 21, "1Y": 252 };
+  const result = validateForecastArtifact(artifactFor(picks, { scope: FORECAST_SCOPE_ALL_SECTIONS, limit: null, horizons }), picks);
+  assert.equal(result.ok, true);
+  assert.equal(result.forecasts.JSLL.horizons["1Y"].trading_sessions, 252);
+  assert.equal(result.forecasts.JSLL.horizons["3Y"], undefined);
+  assert.equal(result.forecasts.TMCV.ticker, "TMCV");
 });
 
 test("digest mismatch rejects stale forecasts", () => {

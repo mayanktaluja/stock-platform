@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   normalizeAdjustedBars,
+  parseArgs,
   yahooSymbolCandidates,
 } from "../scripts/refresh-chronos-forecast.mjs";
 
@@ -21,4 +22,12 @@ test("adjusted OHLCV bars scale open/high/low with adjusted close", () => {
   assert.equal(bars[1].high, 55);
   assert.equal(bars[1].low, 45);
   assert.equal(bars[1].close, 50);
+});
+
+test("refresh args support all-section one-year manual runs", () => {
+  const opts = parseArgs(["--scope", "all", "--limit", "all", "--horizons", "1D,7D,30D,1Y", "--max-fetches", "5000"]);
+  assert.equal(opts.scope, "all_sections");
+  assert.equal(opts.limit, null);
+  assert.deepEqual(opts.horizons, { "1D": 1, "7D": 5, "30D": 21, "1Y": 252 });
+  assert.equal(opts.maxFetches, 5000);
 });
