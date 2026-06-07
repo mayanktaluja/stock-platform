@@ -367,12 +367,12 @@ fi
 
 # ---------- 8b. Experimental Chronos forecast overlay ----------
 #
-# Best Fundamentals timing/risk context for the SWS modal. This is intentionally
+# All-section timing/risk context for the SWS modal. This is intentionally
 # non-fatal and request-path-free: production only reads the compact committed
 # JSON artifact, and stale/mismatched artifacts are hidden by the API validator.
 
 echo "[refresh-api] refreshing experimental Chronos forecast overlay..."
-if ! node scripts/refresh-chronos-forecast.mjs 2>&1 | tail -20 | sed 's/^/[chronos] /'; then
+if ! node scripts/refresh-chronos-forecast.mjs --scope all_sections --limit all --horizons 7D,30D,3M,1Y 2>&1 | tail -20 | sed 's/^/[chronos] /'; then
   echo "[refresh-api] Chronos forecast overlay failed — non-fatal, preserving prior artifact"
 fi
 

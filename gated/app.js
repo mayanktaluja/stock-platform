@@ -13393,9 +13393,8 @@ function renderSnowflakeGapLabPanel(lab) {
 function renderExperimentalForecastOverlay(forecast, currency = "INR") {
   if (!forecast || typeof forecast !== "object" || !forecast.horizons) return "";
   const groups = [
-    ["Short term", ["1D", "7D", "30D"]],
-    ["Position horizon", ["3M", "1Y"]],
-    ["Long range", ["3Y"]],
+    ["Short term", ["7D", "30D", "3M"]],
+    ["Position horizon", ["1Y"]],
   ];
   const fmtForecastPct = (v) => v == null || !Number.isFinite(Number(v))
     ? "—"
