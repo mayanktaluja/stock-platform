@@ -137,6 +137,13 @@ try {
   assert.equal(cron.json.recipient_count, 1);
   assert.equal(cron.json.results[0].email, "mtaluja11@gmail.com");
 
+  const cronGet = await request(port, "GET", "/api/cron/sws-input-alerts/send", {
+    headers: { authorization: "Bearer test-cron-secret" },
+  });
+  assert.equal(cronGet.status, 200);
+  assert.equal(cronGet.json.dry_run, true);
+  assert.equal(cronGet.json.recipient_count, 1);
+
   console.log("swsInputAlertsApi tests passed");
 } finally {
   if (child && child.exitCode === null) child.kill("SIGTERM");

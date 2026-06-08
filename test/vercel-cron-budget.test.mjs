@@ -65,6 +65,12 @@ assert.deepEqual(
   "Track Record resolver cron stays until the local replacement is compared for 3 runs",
 );
 
+assert.deepEqual(
+  schedulesFor("/api/cron/sws-input-alerts/send"),
+  ["15 5 * * *"],
+  "SWS input alerts send after morning data/track crons and dedupe by SWS run",
+);
+
 assert.ok(
   crons.length < BEFORE_CPU_REDUCTION_CRON_COUNT,
   `expected cron count below ${BEFORE_CPU_REDUCTION_CRON_COUNT}, found ${crons.length}`,

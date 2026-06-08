@@ -5779,14 +5779,14 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
       appUrl: SWS_INPUT_ALERT_APP_URL,
     });
     const result = await sendMail({ to: "mtaluja11@gmail.com", ...email });
-    res.status(result.ok ? 200 : 502).json({ ok: result.ok, result, requested_by: me.email });
+    res.status(result.ok ? 200 : 502).json({ ok: result.ok, result, requested_by: req.user?.email || null });
   } catch (err) {
     console.error("[SWS-INPUT-ALERTS] sample email failed:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
-app.post("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
+app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
   if (!checkCronBearer(req, res)) return;
   if (!boolEnv("SWS_INPUT_ALERTS_ENABLED")) {
     return res.json({ ok: true, enabled: false, reason: "SWS_INPUT_ALERTS_ENABLED not set" });
