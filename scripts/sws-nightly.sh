@@ -1282,6 +1282,8 @@ CHANGED_FILES=$(git status --short \
   data/sws/universe.json \
   data/sws/universe-meta.json \
   data/sws/_sanity/_latest.json \
+  data/sws/alerts/input-signatures-latest.json \
+  data/sws/alerts/fundamental-changes-latest.json \
   data/sws/groww-stock-failed.json \
   data/sws/groww-pe-latest.json \
   data/sws/groww-pe-failed.json \
@@ -1350,6 +1352,8 @@ git add data/sws/deep.tar.gz \
         data/sws/v4-universe-stats.json \
         data/sws/v3-universe-stats.json \
         data/sws/_sanity/_latest.json \
+        data/sws/alerts/input-signatures-latest.json \
+        data/sws/alerts/fundamental-changes-latest.json \
         data/sws/groww-stock-failed.json \
         data/sws/groww-pe-latest.json \
         data/sws/groww-pe-failed.json \

@@ -117,6 +117,8 @@ for (const f of [
   "data/sws/universe.json",
   "data/sws/universe-meta.json",
   "data/sws/_sanity/_latest.json",
+  "data/sws/alerts/input-signatures-latest.json",
+  "data/sws/alerts/fundamental-changes-latest.json",
   "data/coverage/bse_equity_active.json",
   "data/risk-lab/picks-adjusted-latest.json",
   "data/risk-lab/quality-flags-latest.json",
@@ -128,6 +130,9 @@ for (const f of [
 ]) {
   assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+  if (f.startsWith("data/sws/alerts/")) {
+    assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
+  }
 }
 for (const f of [
   "data/sws/deep/",
@@ -344,6 +349,7 @@ const narrateIdx = refreshApi.indexOf("node scripts/sws-narrate-picks.mjs");
 const stampIdx = refreshApi.indexOf("node scripts/sws-stamp-section-status.mjs");
 const chronosCommand = "node scripts/refresh-chronos-forecast.mjs --scope all_sections --limit all --horizons 7D,30D,3M,1Y";
 const chronosIdx = refreshApi.indexOf(chronosCommand);
+const inputDiffIdx = refreshApi.indexOf("node scripts/sws-build-input-diff.mjs");
 const loosePriceFreshnessIdx = refreshApi.indexOf("sws-price-freshness-gate.mjs --source loose");
 assert(
   "sws-refresh-api.sh refreshes/validates Groww stock cache before parser/scoring",
@@ -372,6 +378,11 @@ assert(
     loosePriceFreshnessIdx > chronosIdx &&
     /Chronos forecast overlay failed[\s\S]*?non-fatal/.test(refreshApi),
   { stampIdx, chronosIdx, loosePriceFreshnessIdx },
+);
+assert(
+  "sws-refresh-api.sh builds input-diff artifacts after stamp and before loose price gate",
+  inputDiffIdx > stampIdx && inputDiffIdx > chronosIdx && loosePriceFreshnessIdx > inputDiffIdx,
+  { stampIdx, chronosIdx, inputDiffIdx, loosePriceFreshnessIdx },
 );
 assert(
   "sws-nightly.sh does not run a late post-score Sector Outlook refresh",
@@ -418,6 +429,12 @@ assert(
   "sws-refresh-api.sh auto-PR stages deployable Chronos forecast artifacts",
   /git add [^\n]*data\/sws\/chronos-forecast-latest\.json/.test(refreshApi) &&
     /git add [^\n]*data\/sws\/chronos-forecast-health\.json/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh auto-PR stages SWS input alert artifacts",
+  /git add .*data\/sws\/alerts\/input-signatures-latest\.json/.test(refreshApi) &&
+    /git add .*data\/sws\/alerts\/fundamental-changes-latest\.json/.test(refreshApi),
   null,
 );
 assert(
