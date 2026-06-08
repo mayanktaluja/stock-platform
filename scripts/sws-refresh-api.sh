@@ -365,6 +365,16 @@ else
   echo "[refresh-api] stamp smoke check: ${STAMPED_COUNT} stocks have section_status"
 fi
 
+# ---------- 8b. Build SWS input-diff artifacts ----------
+#
+# Runs after final scoring + post-narrate stamping so the alert signatures are
+# based on the same scored universe users see. The script reads the previously
+# committed signature before overwriting it, preventing a seed-score vs final-
+# score false diff.
+
+echo "[refresh-api] building SWS input-diff alert artifacts..."
+node scripts/sws-build-input-diff.mjs 2>&1 | sed 's/^/[input-diff] /'
+
 # ---------- 8c. Price freshness gate ----------
 
 PRICE_GATE_REPORT="data/sws/_sanity/price-freshness-inline.json"
@@ -665,7 +675,7 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/alerts/input-signatures-latest.json data/sws/alerts/fundamental-changes-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the

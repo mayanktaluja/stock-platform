@@ -202,6 +202,8 @@ const REQUIRED_NESTED_RUNTIME_FILES = [
   "data/strategy/multibagger-health-latest.json",
   "data/strategy/multibagger-portfolio.json",
   "data/disclosures/holdings.json",
+  "data/sws/alerts/input-signatures-latest.json",
+  "data/sws/alerts/fundamental-changes-latest.json",
 ];
 
 const LOCAL_ONLY_GENERATED_WORKSETS = [
@@ -277,6 +279,8 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
   assert.ok(isIgnored("data/sws/deep/20MICRONS.json"), "loose India deep files must not be uploaded to Vercel");
   assert.ok(isIgnored("data/sws-us/deep/AAPL.json"), "loose US deep files must not be uploaded to Vercel");
   assert.ok(!isIgnored("data/sws/deep.tar.gz"), "India deep tarball must remain deployable");
+  assert.ok(!isIgnored("data/sws/alerts/input-signatures-latest.json"), "SWS input signatures must remain deployable");
+  assert.ok(!isIgnored("data/sws/alerts/fundamental-changes-latest.json"), "SWS input changes must remain deployable");
   assert.ok(!isIgnored("data/sws-us/deep-us.tar.gz"), "US deep tarball must remain deployable");
   assert.ok(!isIgnored("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must remain deployable");
   assert.ok(!isIgnored("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must remain deployable");

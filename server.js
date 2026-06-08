@@ -5470,6 +5470,14 @@ function formatQuote(q) {
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { getPortfolioStorage } from "./portfolioStorage.js";
 import { getAnalyzerStorage } from "./analyzerStorage.js";
+import { getSwsInputAlertLedgerStorage } from "./swsInputAlertLedgerStorage.js";
+import {
+  buildPortfolioSwsInputAlerts,
+  buildSwsInputAlertEmail,
+  loadMarketWideSwsInputChanges,
+  normalizeSwsInputAlertPrefs,
+} from "./services/swsPortfolioInputAlerts.js";
+import { sendMail } from "./services/resendMailer.js";
 
 // Lazy @vercel/kv client for the portfolio response cache L2. Memoised
 // so we don't re-import on every request. Returns null when KV isn't
@@ -5508,6 +5516,237 @@ function userSub(req) {
   if (req.user?.sub) return req.user.sub;
   return AUTH_ENABLED ? null : "_local_dev";
 }
+
+const SWS_INPUT_ALERT_ARTIFACT = path.join(__dirname, "data", "sws", "alerts", "fundamental-changes-latest.json");
+const SWS_INPUT_ALERT_APP_URL = "https://starbhai-stock-platform.vercel.app/";
+
+function boolEnv(name) {
+  return ["1", "true", "yes", "on"].includes(String(process.env[name] || "").trim().toLowerCase());
+}
+
+function allowlistSetFromEnv(name) {
+  return new Set(
+    String(process.env[name] || "")
+      .split(",")
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean),
+  );
+}
+
+function readSwsInputAlertPrefs(userRecord) {
+  return normalizeSwsInputAlertPrefs(userRecord?.notificationPrefs?.swsInputAlerts || {});
+}
+
+async function updateSwsInputAlertPrefs(sub, prefs) {
+  const normalized = normalizeSwsInputAlertPrefs(prefs);
+  const userStore = getUserStorage();
+  return await userStore.update(sub, (existing) => ({
+    notificationPrefs: {
+      ...(existing?.notificationPrefs || {}),
+      swsInputAlerts: {
+        ...normalized,
+        updatedAt: new Date().toISOString(),
+      },
+    },
+  }));
+}
+
+async function requireAdminRequest(req, res) {
+  if (!AUTH_ENABLED) {
+    res.status(401).json({ error: "auth-disabled" });
+    return null;
+  }
+  const sub = req.user && req.user.sub;
+  if (!sub) {
+    res.status(401).json({ error: "unauthenticated" });
+    return null;
+  }
+  const me = await getUserStorage().read(sub);
+  if (!me || !computeIsAdmin(me.email)) {
+    res.status(403).json({ error: "forbidden" });
+    return null;
+  }
+  return me;
+}
+
+function checkCronBearer(req, res) {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    res.status(401).json({ error: "Unauthorized" });
+    return false;
+  }
+  if (!cronSecret && process.env.VERCEL) {
+    res.status(401).json({ error: "CRON_SECRET missing" });
+    return false;
+  }
+  return true;
+}
+
+async function buildCurrentUserSwsInputAlerts(sub) {
+  const market = loadMarketWideSwsInputChanges(SWS_INPUT_ALERT_ARTIFACT);
+  return await buildPortfolioSwsInputAlerts(sub, market, {
+    analyzerStore: getAnalyzerStorage(),
+    portfolioStore: getPortfolioStorage(),
+  });
+}
+
+app.get("/api/portfolio/sws-input-alerts", async (req, res) => {
+  try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const user = await getUserStorage().read(sub);
+    const prefs = readSwsInputAlertPrefs(user);
+    const result = await buildCurrentUserSwsInputAlerts(sub);
+    if (result.alerts.length > 0) {
+      await getSwsInputAlertLedgerStorage().appendEvents(sub, [{
+        type: "IN_APP_SEEN",
+        run_id: result.run_id,
+        digest: result.digest,
+        alert_count: result.alerts.length,
+      }]);
+    }
+    res.json({
+      prefs,
+      run_id: result.run_id,
+      alerts: prefs.inApp ? result.alerts : [],
+      suppressed_count: result.suppressed_count + (prefs.inApp ? 0 : result.alerts.length),
+      source: result.source,
+      holdings_count: result.holdings_count,
+    });
+  } catch (err) {
+    console.error("[SWS-INPUT-ALERTS] portfolio read failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/portfolio/sws-input-alerts/prefs", express.json(), async (req, res) => {
+  try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const updated = await updateSwsInputAlertPrefs(sub, {
+      inApp: req.body?.inApp,
+      email: req.body?.email,
+    });
+    res.json({ ok: true, prefs: readSwsInputAlertPrefs(updated) });
+  } catch (err) {
+    console.error("[SWS-INPUT-ALERTS] prefs update failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req, res) => {
+  try {
+    const me = await requireAdminRequest(req, res);
+    if (!me) return;
+    if (process.env.SWS_INPUT_ALERT_SAMPLE_SEND !== "1") {
+      return res.status(403).json({ error: "sample-send-disabled" });
+    }
+    const market = loadMarketWideSwsInputChanges(SWS_INPUT_ALERT_ARTIFACT);
+    const sampleAlerts = market.alerts.slice(0, 3);
+    const fallbackAlert = {
+      ticker: "SAMPLE",
+      name: "Sample Holding",
+      severity: "medium",
+      change_hash: "sample",
+      changes: [{ field: "snowflake.total", previous: 12, current: 16, severity: "medium" }],
+    };
+    const email = buildSwsInputAlertEmail({
+      alerts: sampleAlerts.length ? sampleAlerts : [fallbackAlert],
+      runId: market.run_id || new Date().toISOString(),
+      generatedAt: market.generated_at,
+      appUrl: SWS_INPUT_ALERT_APP_URL,
+    });
+    const result = await sendMail({ to: "mtaluja11@gmail.com", ...email });
+    res.status(result.ok ? 200 : 502).json({ ok: result.ok, result, requested_by: me.email });
+  } catch (err) {
+    console.error("[SWS-INPUT-ALERTS] sample email failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
+  if (!checkCronBearer(req, res)) return;
+  if (!boolEnv("SWS_INPUT_ALERTS_ENABLED")) {
+    return res.json({ ok: true, enabled: false, reason: "SWS_INPUT_ALERTS_ENABLED not set" });
+  }
+  try {
+    const market = loadMarketWideSwsInputChanges(SWS_INPUT_ALERT_ARTIFACT);
+    const userStore = getUserStorage();
+    const users = await userStore.list();
+    const allowlist = allowlistSetFromEnv("SWS_INPUT_ALERTS_ALLOWLIST");
+    const adminOnly = boolEnv("SWS_INPUT_ALERTS_ADMIN_ONLY");
+    const dryRun = boolEnv("SWS_INPUT_ALERTS_DRY_RUN");
+    const ledger = getSwsInputAlertLedgerStorage();
+    const results = [];
+
+    for (const user of users) {
+      const email = String(user?.email || "").trim().toLowerCase();
+      const isAdmin = computeIsAdmin(email);
+      const isAllowlisted = allowlist.has(email) || allowlist.has(String(user?.sub || ""));
+      if (adminOnly && !isAdmin) continue;
+
+      const prefs = readSwsInputAlertPrefs(user);
+      const rolloutEligible = isAdmin || isAllowlisted;
+      if (!prefs.email && !rolloutEligible) continue;
+
+      const portfolio = await buildPortfolioSwsInputAlerts(user.sub, market, {
+        analyzerStore: getAnalyzerStorage(),
+        portfolioStore: getPortfolioStorage(),
+      });
+      if (!portfolio.alerts.length) continue;
+      const alreadySent = await ledger.hasEvent(user.sub, {
+        type: "EMAIL_SENT",
+        run_id: portfolio.run_id,
+        digest: portfolio.digest,
+      });
+      if (alreadySent) {
+        results.push({ sub: user.sub, email, skipped: true, reason: "deduped" });
+        continue;
+      }
+
+      const emailBody = buildSwsInputAlertEmail({
+        alerts: portfolio.alerts,
+        runId: portfolio.run_id,
+        generatedAt: portfolio.generated_at,
+        appUrl: SWS_INPUT_ALERT_APP_URL,
+      });
+      const sendResult = await sendMail({ to: email, ...emailBody }, { dryRun });
+      if (sendResult.ok && !sendResult.skipped && !dryRun) {
+        await ledger.appendEvents(user.sub, [{
+          type: "EMAIL_SENT",
+          run_id: portfolio.run_id,
+          digest: portfolio.digest,
+          alert_count: portfolio.alerts.length,
+          email,
+          resend_id: sendResult.id || null,
+        }]);
+      }
+      results.push({
+        sub: user.sub,
+        email,
+        alert_count: portfolio.alerts.length,
+        sent: sendResult.ok && !sendResult.skipped && !dryRun,
+        dry_run: dryRun || !!sendResult.dry_run,
+        skipped: !!sendResult.skipped,
+        reason: sendResult.reason || null,
+        ok: sendResult.ok,
+      });
+    }
+
+    res.json({
+      ok: true,
+      enabled: true,
+      dry_run: dryRun,
+      run_id: market.run_id,
+      market_change_count: market.alerts.length,
+      recipient_count: results.filter((r) => r.sent || r.dry_run).length,
+      results,
+    });
+  } catch (err) {
+    console.error("[SWS-INPUT-ALERTS] cron send failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // ==================== WATCHLIST ====================
 // Uses the same dual-backend pattern as paperTradesStorage.js:
