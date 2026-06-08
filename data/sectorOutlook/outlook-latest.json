@@ -1,13 +1,293 @@
 {
   "schema_version": "sector-outlook-v1",
-  "generated_at": "2026-06-07T01:43:51.706Z",
+  "generated_at": "2026-06-08T01:14:08.586Z",
   "regime_at_generation": {
-    "regime": "CURRENCY_WEAKNESS",
-    "severity": 3,
-    "confidence": 0.8,
-    "generatedAt": "2026-06-06T18:30:16.598Z"
+    "regime": "OIL_SHOCK",
+    "severity": 2,
+    "confidence": 0.6,
+    "generatedAt": "2026-06-07T18:30:20.443Z"
   },
   "sectors": [
+    {
+      "sector": "Oil & Gas",
+      "n_tickers_total": 20,
+      "horizons": {
+        "3_12m": {
+          "horizon": "3_12m",
+          "bottom_up": {
+            "score": 0.45891923125917267,
+            "breadth_pct": 0.15000000000000002,
+            "n_tickers": 20,
+            "n_news": 90,
+            "catalyst_proximity_count": 4,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.11402360613575824
+              },
+              {
+                "theme": "ORDER_WINS",
+                "pct": 0.038832150730228714
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.0031413612565445027
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0.6666666666666666,
+            "regime": "OIL_SHOCK",
+            "reason": "Opec+ production quotas"
+          },
+          "cross_check": "STRONG",
+          "composite": 0.5627929489629196,
+          "outlook_label": "STRONG_TAILWIND",
+          "confidence": "MED",
+          "evidence_top5": [
+            {
+              "ticker": "DEEPINDS",
+              "date": "2026-05-17T06:06:04.000Z",
+              "title": "Policy Support For Gas Infrastructure Will Drive Long Term Contract Opportunities",
+              "theme": "ORDER_WINS",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "GESHIP",
+              "date": "2026-05-16T19:49:30.000Z",
+              "title": "Full year 2026 earnings: EPS exceeds analyst expectations while revenues lag behind",
+              "theme": "EARNINGS_MOVE",
+              "sign": -1,
+              "intensity": 2
+            },
+            {
+              "ticker": "HINDPETRO",
+              "date": "2026-05-14T11:28:06.000Z",
+              "title": "Full year 2026 earnings: EPS and revenues exceed analyst expectations",
+              "theme": "EARNINGS_MOVE",
+              "sign": 1,
+              "intensity": 2
+            }
+          ]
+        },
+        "12_24m": {
+          "horizon": "12_24m",
+          "bottom_up": {
+            "score": 0.7294596156295863,
+            "breadth_pct": 0.15000000000000002,
+            "n_tickers": 20,
+            "n_news": 90,
+            "catalyst_proximity_count": 4,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.09557959033709928
+              },
+              {
+                "theme": "ORDER_WINS",
+                "pct": 0.02406224166437035
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.009424083769633508
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0.6666666666666666,
+            "regime": "OIL_SHOCK",
+            "reason": "Opec+ production quotas"
+          },
+          "cross_check": "STRONG",
+          "composite": 0.6980631411481264,
+          "outlook_label": "STRONG_TAILWIND",
+          "confidence": "MED",
+          "evidence_top5": [
+            {
+              "ticker": "DEEPINDS",
+              "date": "2026-05-17T06:06:04.000Z",
+              "title": "Policy Support For Gas Infrastructure Will Drive Long Term Contract Opportunities",
+              "theme": "ORDER_WINS",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "GESHIP",
+              "date": "2026-05-16T19:49:30.000Z",
+              "title": "Full year 2026 earnings: EPS exceeds analyst expectations while revenues lag behind",
+              "theme": "EARNINGS_MOVE",
+              "sign": -1,
+              "intensity": 2
+            },
+            {
+              "ticker": "HINDPETRO",
+              "date": "2026-05-14T11:28:06.000Z",
+              "title": "Full year 2026 earnings: EPS and revenues exceed analyst expectations",
+              "theme": "EARNINGS_MOVE",
+              "sign": 1,
+              "intensity": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sector": "Automobile",
+      "n_tickers_total": 68,
+      "horizons": {
+        "3_12m": {
+          "horizon": "3_12m",
+          "bottom_up": {
+            "score": 0.7069889768684733,
+            "breadth_pct": 0.23529411764705885,
+            "n_tickers": 68,
+            "n_news": 352,
+            "catalyst_proximity_count": 16,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.1129282220798664
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.03834994367748251
+              },
+              {
+                "theme": "CAPACITY_CAPEX",
+                "pct": 0.004748815967523681
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0,
+            "regime": "OIL_SHOCK",
+            "reason": null
+          },
+          "cross_check": "NEUTRAL",
+          "composite": 0.35349448843423664,
+          "outlook_label": "TAILWIND",
+          "confidence": "MED",
+          "evidence_top5": [
+            {
+              "ticker": "AUTOIND",
+              "date": "2026-04-16T00:00:00.000Z",
+              "title": "MNSC Realty & Developers Pvt. Ltd. completed the acquisition of  44.78% in Autoline Industrial Parks Ltd from Autoline Industries Limited (NSEI:AUTOIND) and Autoline Design Software Limited for approximately INR 990 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "SETCO",
+              "date": "2026-03-29T00:00:00.000Z",
+              "title": "RSB Transmissions (I) Ltd. entered into Share Purchase and Subscription Agreement to acquire 41% stake in Setco Auto Systems Private Limited from Setco Automotive Limited (BSE:505075) for INR 2.6 billion.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "TVSMOTOR",
+              "date": "2026-05-18T00:00:00.000Z",
+              "title": "TVS Motor Company Limited (BSE:532343) agreed to acquire 4.90% stake in Jana Small Finance Bank Limited (NSEI:JSFB) from Jana Holdings Limited for INR 1.9 billion.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "APOLLOTYRE",
+              "date": "2026-05-23T02:20:07.000Z",
+              "title": "Statutory Profit Doesn't Reflect How Good Apollo Tyres' (NSE:APOLLOTYRE) Earnings Are",
+              "theme": "EARNINGS_MOVE",
+              "sign": 1,
+              "intensity": 2
+            },
+            {
+              "ticker": "APOLLOTYRE",
+              "date": "2026-05-15T11:31:35.000Z",
+              "title": "Full year 2026 earnings: EPS misses analyst expectations",
+              "theme": "EARNINGS_MOVE",
+              "sign": -1,
+              "intensity": 2
+            }
+          ]
+        },
+        "12_24m": {
+          "horizon": "12_24m",
+          "bottom_up": {
+            "score": 0.8758606407871848,
+            "breadth_pct": 0.23529411764705885,
+            "n_tickers": 68,
+            "n_news": 352,
+            "catalyst_proximity_count": 16,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.0887713683672588
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.04932509698989433
+              },
+              {
+                "theme": "CAPACITY_CAPEX",
+                "pct": 0.00799644790257104
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0,
+            "regime": "OIL_SHOCK",
+            "reason": null
+          },
+          "cross_check": "NEUTRAL",
+          "composite": 0.4379303203935924,
+          "outlook_label": "TAILWIND",
+          "confidence": "MED",
+          "evidence_top5": [
+            {
+              "ticker": "AUTOIND",
+              "date": "2026-04-16T00:00:00.000Z",
+              "title": "MNSC Realty & Developers Pvt. Ltd. completed the acquisition of  44.78% in Autoline Industrial Parks Ltd from Autoline Industries Limited (NSEI:AUTOIND) and Autoline Design Software Limited for approximately INR 990 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "SETCO",
+              "date": "2026-03-29T00:00:00.000Z",
+              "title": "RSB Transmissions (I) Ltd. entered into Share Purchase and Subscription Agreement to acquire 41% stake in Setco Auto Systems Private Limited from Setco Automotive Limited (BSE:505075) for INR 2.6 billion.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "TVSMOTOR",
+              "date": "2026-05-18T00:00:00.000Z",
+              "title": "TVS Motor Company Limited (BSE:532343) agreed to acquire 4.90% stake in Jana Small Finance Bank Limited (NSEI:JSFB) from Jana Holdings Limited for INR 1.9 billion.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "APOLLOTYRE",
+              "date": "2026-05-23T02:20:07.000Z",
+              "title": "Statutory Profit Doesn't Reflect How Good Apollo Tyres' (NSE:APOLLOTYRE) Earnings Are",
+              "theme": "EARNINGS_MOVE",
+              "sign": 1,
+              "intensity": 2
+            },
+            {
+              "ticker": "APOLLOTYRE",
+              "date": "2026-05-15T11:31:35.000Z",
+              "title": "Full year 2026 earnings: EPS misses analyst expectations",
+              "theme": "EARNINGS_MOVE",
+              "sign": -1,
+              "intensity": 2
+            }
+          ]
+        }
+      }
+    },
     {
       "sector": "NBFC",
       "n_tickers_total": 5,
@@ -23,21 +303,21 @@
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.21866238630283574
+                "pct": 0.21191919191919192
               },
               {
                 "theme": "MARGIN_MOVE",
-                "pct": 0.08776886035313002
+                "pct": 0.08545454545454546
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.006741573033707865
+                "pct": 0.006666666666666667
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -98,21 +378,21 @@
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.14932049224184057
+                "pct": 0.14727272727272728
               },
               {
                 "theme": "MARGIN_MOVE",
-                "pct": 0.07663991439272339
+                "pct": 0.07575757575757576
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.020224719101123594
+                "pct": 0.02
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -174,12 +454,12 @@
             "score": 0.6967461972110199,
             "breadth_pct": 0.25,
             "n_tickers": 8,
-            "n_news": 49,
+            "n_news": 48,
             "catalyst_proximity_count": 2,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.1481659849584378
+                "pct": 0.148844717990112
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -193,7 +473,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -233,12 +513,12 @@
             "score": 0.47871727548616544,
             "breadth_pct": 0.25,
             "n_tickers": 8,
-            "n_news": 49,
+            "n_news": 48,
             "catalyst_proximity_count": 2,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.1207217310990896
+                "pct": 0.1214004641307638
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -252,7 +532,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -289,162 +569,6 @@
       }
     },
     {
-      "sector": "Automobile",
-      "n_tickers_total": 68,
-      "horizons": {
-        "3_12m": {
-          "horizon": "3_12m",
-          "bottom_up": {
-            "score": 0.5869988189171838,
-            "breadth_pct": 0.23529411764705885,
-            "n_tickers": 68,
-            "n_news": 353,
-            "catalyst_proximity_count": 17,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.11650562770562771
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.0422279602750191
-              },
-              {
-                "theme": "CAPACITY_CAPEX",
-                "pct": 0.004716883116883117
-              }
-            ]
-          },
-          "top_down": {
-            "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": null
-          },
-          "cross_check": "NEUTRAL",
-          "composite": 0.2934994094585919,
-          "outlook_label": "TAILWIND",
-          "confidence": "MED",
-          "evidence_top5": [
-            {
-              "ticker": "AUTOIND",
-              "date": "2026-04-16T00:00:00.000Z",
-              "title": "MNSC Realty & Developers Pvt. Ltd. completed the acquisition of  44.78% in Autoline Industrial Parks Ltd from Autoline Industries Limited (NSEI:AUTOIND) and Autoline Design Software Limited for approximately INR 990 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "SETCO",
-              "date": "2026-03-29T00:00:00.000Z",
-              "title": "RSB Transmissions (I) Ltd. entered into Share Purchase and Subscription Agreement to acquire 41% stake in Setco Auto Systems Private Limited from Setco Automotive Limited (BSE:505075) for INR 2.6 billion.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "TVSMOTOR",
-              "date": "2026-05-18T00:00:00.000Z",
-              "title": "TVS Motor Company Limited (BSE:532343) agreed to acquire 4.90% stake in Jana Small Finance Bank Limited (NSEI:JSFB) from Jana Holdings Limited for INR 1.9 billion.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "APOLLOTYRE",
-              "date": "2026-05-23T02:20:07.000Z",
-              "title": "Statutory Profit Doesn't Reflect How Good Apollo Tyres' (NSE:APOLLOTYRE) Earnings Are",
-              "theme": "EARNINGS_MOVE",
-              "sign": 1,
-              "intensity": 2
-            },
-            {
-              "ticker": "APOLLOTYRE",
-              "date": "2026-05-15T11:31:35.000Z",
-              "title": "Full year 2026 earnings: EPS misses analyst expectations",
-              "theme": "EARNINGS_MOVE",
-              "sign": -1,
-              "intensity": 2
-            }
-          ]
-        },
-        "12_24m": {
-          "horizon": "12_24m",
-          "bottom_up": {
-            "score": 0.7883243459312017,
-            "breadth_pct": 0.23529411764705885,
-            "n_tickers": 68,
-            "n_news": 353,
-            "catalyst_proximity_count": 17,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.0902961038961039
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.049663254392666153
-              },
-              {
-                "theme": "CAPACITY_CAPEX",
-                "pct": 0.007916883116883117
-              }
-            ]
-          },
-          "top_down": {
-            "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": null
-          },
-          "cross_check": "NEUTRAL",
-          "composite": 0.39416217296560085,
-          "outlook_label": "TAILWIND",
-          "confidence": "MED",
-          "evidence_top5": [
-            {
-              "ticker": "AUTOIND",
-              "date": "2026-04-16T00:00:00.000Z",
-              "title": "MNSC Realty & Developers Pvt. Ltd. completed the acquisition of  44.78% in Autoline Industrial Parks Ltd from Autoline Industries Limited (NSEI:AUTOIND) and Autoline Design Software Limited for approximately INR 990 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "SETCO",
-              "date": "2026-03-29T00:00:00.000Z",
-              "title": "RSB Transmissions (I) Ltd. entered into Share Purchase and Subscription Agreement to acquire 41% stake in Setco Auto Systems Private Limited from Setco Automotive Limited (BSE:505075) for INR 2.6 billion.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "TVSMOTOR",
-              "date": "2026-05-18T00:00:00.000Z",
-              "title": "TVS Motor Company Limited (BSE:532343) agreed to acquire 4.90% stake in Jana Small Finance Bank Limited (NSEI:JSFB) from Jana Holdings Limited for INR 1.9 billion.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "APOLLOTYRE",
-              "date": "2026-05-23T02:20:07.000Z",
-              "title": "Statutory Profit Doesn't Reflect How Good Apollo Tyres' (NSE:APOLLOTYRE) Earnings Are",
-              "theme": "EARNINGS_MOVE",
-              "sign": 1,
-              "intensity": 2
-            },
-            {
-              "ticker": "APOLLOTYRE",
-              "date": "2026-05-15T11:31:35.000Z",
-              "title": "Full year 2026 earnings: EPS misses analyst expectations",
-              "theme": "EARNINGS_MOVE",
-              "sign": -1,
-              "intensity": 2
-            }
-          ]
-        }
-      }
-    },
-    {
       "sector": "Real Estate",
       "n_tickers_total": 3,
       "horizons": {
@@ -459,7 +583,7 @@
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.16802685037979154
+                "pct": 0.18191573926868043
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -473,7 +597,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -502,7 +626,7 @@
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.12238120473414592
+                "pct": 0.1251589825119237
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -516,7 +640,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -537,124 +661,312 @@
       }
     },
     {
-      "sector": "Oil & Gas",
-      "n_tickers_total": 20,
+      "sector": "IT Services",
+      "n_tickers_total": 103,
       "horizons": {
         "3_12m": {
           "horizon": "3_12m",
           "bottom_up": {
-            "score": 0.45891923125917267,
-            "breadth_pct": 0.15000000000000002,
-            "n_tickers": 20,
-            "n_news": 90,
-            "catalyst_proximity_count": 4,
+            "score": 0.5136055338795698,
+            "breadth_pct": 0.35922330097087374,
+            "n_tickers": 103,
+            "n_news": 598,
+            "catalyst_proximity_count": 28,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.11164477770875854
-              },
-              {
-                "theme": "ORDER_WINS",
-                "pct": 0.03794009007010383
+                "pct": 0.14352518591954988
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.0031413612565445027
+                "pct": 0.03415741851408195
+              },
+              {
+                "theme": "MARGIN_MOVE",
+                "pct": 0.007291961644182263
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
-          "composite": 0.22945961562958633,
+          "composite": 0.2568027669397849,
           "outlook_label": "TAILWIND",
           "confidence": "MED",
           "evidence_top5": [
             {
-              "ticker": "DEEPINDS",
-              "date": "2026-05-17T06:06:04.000Z",
-              "title": "Policy Support For Gas Infrastructure Will Drive Long Term Contract Opportunities",
+              "ticker": "CIGNITITEC",
+              "date": "2026-05-01T00:00:00.000Z",
+              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "COFORGE",
+              "date": "2026-05-06T06:05:44.000Z",
+              "title": "COFORGE: AI Offerings And Long Term Contract Wins Will Drive Repricing",
               "theme": "ORDER_WINS",
               "sign": 1,
               "intensity": 3
             },
             {
-              "ticker": "GESHIP",
-              "date": "2026-05-16T19:49:30.000Z",
-              "title": "Full year 2026 earnings: EPS exceeds analyst expectations while revenues lag behind",
-              "theme": "EARNINGS_MOVE",
-              "sign": -1,
-              "intensity": 2
+              "ticker": "COFORGE",
+              "date": "2026-05-01T00:00:00.000Z",
+              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
             },
             {
-              "ticker": "HINDPETRO",
-              "date": "2026-05-14T11:28:06.000Z",
-              "title": "Full year 2026 earnings: EPS and revenues exceed analyst expectations",
-              "theme": "EARNINGS_MOVE",
+              "ticker": "COFORGE",
+              "date": "2026-04-23T00:00:00.000Z",
+              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of Encora Digital LLC from Warburg Pincus LLC, Advent International, L.P and other minority shareholders.",
+              "theme": "M_AND_A",
               "sign": 1,
-              "intensity": 2
+              "intensity": 3
+            },
+            {
+              "ticker": "CTE",
+              "date": "2026-03-30T00:00:00.000Z",
+              "title": "AKIT IT Consulting Private Limited agreed to acquire RP Webapps Pvt. Ltd. from Cambridge Technology Enterprises Limited (BSE:532801) for INR 0.61 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
             }
           ]
         },
         "12_24m": {
           "horizon": "12_24m",
           "bottom_up": {
-            "score": 0.7294596156295863,
-            "breadth_pct": 0.15000000000000002,
-            "n_tickers": 20,
-            "n_news": 90,
-            "catalyst_proximity_count": 4,
+            "score": 0.5674562371531886,
+            "breadth_pct": 0.35922330097087374,
+            "n_tickers": 103,
+            "n_news": 598,
+            "catalyst_proximity_count": 28,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.09510382465169935
-              },
-              {
-                "theme": "ORDER_WINS",
-                "pct": 0.02388382953234537
+                "pct": 0.1163286501670901
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.009424083769633508
+                "pct": 0.05373589852065964
+              },
+              {
+                "theme": "MARGIN_MOVE",
+                "pct": 0.0074300930334441915
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
-          "composite": 0.36472980781479314,
+          "composite": 0.2837281185765943,
           "outlook_label": "TAILWIND",
           "confidence": "MED",
           "evidence_top5": [
             {
-              "ticker": "DEEPINDS",
-              "date": "2026-05-17T06:06:04.000Z",
-              "title": "Policy Support For Gas Infrastructure Will Drive Long Term Contract Opportunities",
+              "ticker": "CIGNITITEC",
+              "date": "2026-05-01T00:00:00.000Z",
+              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "COFORGE",
+              "date": "2026-05-06T06:05:44.000Z",
+              "title": "COFORGE: AI Offerings And Long Term Contract Wins Will Drive Repricing",
               "theme": "ORDER_WINS",
               "sign": 1,
               "intensity": 3
             },
             {
-              "ticker": "GESHIP",
-              "date": "2026-05-16T19:49:30.000Z",
-              "title": "Full year 2026 earnings: EPS exceeds analyst expectations while revenues lag behind",
-              "theme": "EARNINGS_MOVE",
-              "sign": -1,
-              "intensity": 2
+              "ticker": "COFORGE",
+              "date": "2026-05-01T00:00:00.000Z",
+              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
             },
             {
-              "ticker": "HINDPETRO",
-              "date": "2026-05-14T11:28:06.000Z",
-              "title": "Full year 2026 earnings: EPS and revenues exceed analyst expectations",
-              "theme": "EARNINGS_MOVE",
+              "ticker": "COFORGE",
+              "date": "2026-04-23T00:00:00.000Z",
+              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of Encora Digital LLC from Warburg Pincus LLC, Advent International, L.P and other minority shareholders.",
+              "theme": "M_AND_A",
               "sign": 1,
-              "intensity": 2
+              "intensity": 3
+            },
+            {
+              "ticker": "CTE",
+              "date": "2026-03-30T00:00:00.000Z",
+              "title": "AKIT IT Consulting Private Limited agreed to acquire RP Webapps Pvt. Ltd. from Cambridge Technology Enterprises Limited (BSE:532801) for INR 0.61 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sector": "Pharma",
+      "n_tickers_total": 155,
+      "horizons": {
+        "3_12m": {
+          "horizon": "3_12m",
+          "bottom_up": {
+            "score": 0.409371581225214,
+            "breadth_pct": 0.27272727272727276,
+            "n_tickers": 154,
+            "n_news": 757,
+            "catalyst_proximity_count": 40,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.14071309604855553
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.02602356607004419
+              },
+              {
+                "theme": "REGULATORY_EVENT",
+                "pct": 0.00039113428943937423
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0,
+            "regime": "OIL_SHOCK",
+            "reason": null
+          },
+          "cross_check": "NEUTRAL",
+          "composite": 0.204685790612607,
+          "outlook_label": "TAILWIND",
+          "confidence": "MED",
+          "evidence_top5": [
+            {
+              "ticker": "APOLLOHOSP",
+              "date": "2026-03-23T00:00:00.000Z",
+              "title": "Apollo Hospitals Enterprise Limited (NSEI:APOLLOHOSP) completed the acquisition of an additional 30.58% stake in Apollo Health and Lifestyle Limited from International Finance Corporation.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "BAJAJHCARE",
+              "date": "2026-03-17T00:00:00.000Z",
+              "title": "Bethany Pharmacare Private Limited signed deed of assignment and transfer to acquire Tarapur Facility of Bajaj HealthCare Limited (BSE:539872) for INR 25 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "CONCORDBIO",
+              "date": "2026-04-02T00:00:00.000Z",
+              "title": "Concord Biotech Limited (NSEI:CONCORDBIO) completed the acquisition of Celliimune Biotech Private Limited for 6.6 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "GUJTHEM",
+              "date": "2026-04-23T00:00:00.000Z",
+              "title": "Gujarat Themis Biosyn Limited (BSE:506879) signed an asset purchase agreement to acquire Global Anti-TB and Anti-Infective Portfolio from Sanofi (ENXTPA:SAN) for approximately €160 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "HCG",
+              "date": "2026-04-29T17:03:39.000Z",
+              "title": "HCG: Rights Issue And Vizag Stake Increase Will Support Future Upside",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            }
+          ]
+        },
+        "12_24m": {
+          "horizon": "12_24m",
+          "bottom_up": {
+            "score": 0.5730925926666928,
+            "breadth_pct": 0.27272727272727276,
+            "n_tickers": 154,
+            "n_news": 757,
+            "catalyst_proximity_count": 40,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.11492353839888202
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.037971040750837896
+              },
+              {
+                "theme": "REGULATORY_EVENT",
+                "pct": 0.0011734028683181225
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0,
+            "regime": "OIL_SHOCK",
+            "reason": null
+          },
+          "cross_check": "NEUTRAL",
+          "composite": 0.2865462963333464,
+          "outlook_label": "TAILWIND",
+          "confidence": "MED",
+          "evidence_top5": [
+            {
+              "ticker": "APOLLOHOSP",
+              "date": "2026-03-23T00:00:00.000Z",
+              "title": "Apollo Hospitals Enterprise Limited (NSEI:APOLLOHOSP) completed the acquisition of an additional 30.58% stake in Apollo Health and Lifestyle Limited from International Finance Corporation.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "BAJAJHCARE",
+              "date": "2026-03-17T00:00:00.000Z",
+              "title": "Bethany Pharmacare Private Limited signed deed of assignment and transfer to acquire Tarapur Facility of Bajaj HealthCare Limited (BSE:539872) for INR 25 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "CONCORDBIO",
+              "date": "2026-04-02T00:00:00.000Z",
+              "title": "Concord Biotech Limited (NSEI:CONCORDBIO) completed the acquisition of Celliimune Biotech Private Limited for 6.6 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "GUJTHEM",
+              "date": "2026-04-23T00:00:00.000Z",
+              "title": "Gujarat Themis Biosyn Limited (BSE:506879) signed an asset purchase agreement to acquire Global Anti-TB and Anti-Infective Portfolio from Sanofi (ENXTPA:SAN) for approximately €160 million.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "HCG",
+              "date": "2026-04-29T17:03:39.000Z",
+              "title": "HCG: Rights Issue And Vizag Stake Increase Will Support Future Upside",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
             }
           ]
         }
@@ -662,38 +974,38 @@
     },
     {
       "sector": "Capital Goods",
-      "n_tickers_total": 386,
+      "n_tickers_total": 383,
       "horizons": {
         "3_12m": {
           "horizon": "3_12m",
           "bottom_up": {
-            "score": 0.396719222602293,
-            "breadth_pct": 0.2257217847769034,
-            "n_tickers": 381,
-            "n_news": 1943,
-            "catalyst_proximity_count": 86,
+            "score": 0.3569750306801113,
+            "breadth_pct": 0.2275132275132275,
+            "n_tickers": 378,
+            "n_news": 1926,
+            "catalyst_proximity_count": 82,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.10875136018460235
+                "pct": 0.10826013643516286
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.01693562376739849
+                "pct": 0.017171664028085346
               },
               {
                 "theme": "CAPACITY_CAPEX",
-                "pct": 0.008267937906186093
+                "pct": 0.00457481881765758
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
-          "composite": 0.1983596113011465,
+          "composite": 0.17848751534005566,
           "outlook_label": "TAILWIND",
           "confidence": "MED",
           "evidence_top5": [
@@ -722,18 +1034,18 @@
               "intensity": 3
             },
             {
-              "ticker": "ESCORTS",
-              "date": "2026-05-24T19:03:35.000Z",
-              "title": "ESCORTS: New Greenfield Capacity And Higher Dividend Will Support Future Re Rating",
-              "theme": "CAPACITY_CAPEX",
+              "ticker": "EUROPRATIK",
+              "date": "2026-03-23T00:00:00.000Z",
+              "title": "Euro Pratik Sales Limited (NSEI: EUROPRATIK) agreed to acquire 51% stakes in Chawla Brothers Private Limited for INR 29.1 million.",
+              "theme": "M_AND_A",
               "sign": 1,
               "intensity": 3
             },
             {
-              "ticker": "ESCORTS",
-              "date": "2026-05-03T12:03:52.000Z",
-              "title": "ESCORTS: New Greenfield Capacity Expansion Will Support Future Earnings Re Rating",
-              "theme": "CAPACITY_CAPEX",
+              "ticker": "FORCEMOT",
+              "date": "2026-04-23T00:00:00.000Z",
+              "title": "Force Motors Limited (BSE:500033) completed the acquisition of Veera Tanneries Private Limited for INR 1.6 billion.",
+              "theme": "M_AND_A",
               "sign": 1,
               "intensity": 3
             }
@@ -742,33 +1054,33 @@
         "12_24m": {
           "horizon": "12_24m",
           "bottom_up": {
-            "score": 0.47153158899659064,
-            "breadth_pct": 0.2257217847769034,
-            "n_tickers": 381,
-            "n_news": 1943,
-            "catalyst_proximity_count": 86,
+            "score": 0.41987420771104594,
+            "breadth_pct": 0.2275132275132275,
+            "n_tickers": 378,
+            "n_news": 1926,
+            "catalyst_proximity_count": 82,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.08049225471288834
+                "pct": 0.08087987157406558
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.02358671066282608
+                "pct": 0.02394055778493091
               },
               {
                 "theme": "CAPACITY_CAPEX",
-                "pct": 0.00878222843818171
+                "pct": 0.004453341171535903
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
-          "composite": 0.23576579449829532,
+          "composite": 0.20993710385552297,
           "outlook_label": "TAILWIND",
           "confidence": "MED",
           "evidence_top5": [
@@ -797,18 +1109,18 @@
               "intensity": 3
             },
             {
-              "ticker": "ESCORTS",
-              "date": "2026-05-24T19:03:35.000Z",
-              "title": "ESCORTS: New Greenfield Capacity And Higher Dividend Will Support Future Re Rating",
-              "theme": "CAPACITY_CAPEX",
+              "ticker": "EUROPRATIK",
+              "date": "2026-03-23T00:00:00.000Z",
+              "title": "Euro Pratik Sales Limited (NSEI: EUROPRATIK) agreed to acquire 51% stakes in Chawla Brothers Private Limited for INR 29.1 million.",
+              "theme": "M_AND_A",
               "sign": 1,
               "intensity": 3
             },
             {
-              "ticker": "ESCORTS",
-              "date": "2026-05-03T12:03:52.000Z",
-              "title": "ESCORTS: New Greenfield Capacity Expansion Will Support Future Earnings Re Rating",
-              "theme": "CAPACITY_CAPEX",
+              "ticker": "FORCEMOT",
+              "date": "2026-04-23T00:00:00.000Z",
+              "title": "Force Motors Limited (BSE:500033) completed the acquisition of Veera Tanneries Private Limited for INR 1.6 billion.",
+              "theme": "M_AND_A",
               "sign": 1,
               "intensity": 3
             }
@@ -817,25 +1129,181 @@
       }
     },
     {
+      "sector": "FMCG",
+      "n_tickers_total": 390,
+      "horizons": {
+        "3_12m": {
+          "horizon": "3_12m",
+          "bottom_up": {
+            "score": 0.33266519285543805,
+            "breadth_pct": 0.12661498708010327,
+            "n_tickers": 387,
+            "n_news": 1447,
+            "catalyst_proximity_count": 52,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.08541865630154141
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.0057312499408950085
+              },
+              {
+                "theme": "CAPACITY_CAPEX",
+                "pct": 0.004372813334603301
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0,
+            "regime": "OIL_SHOCK",
+            "reason": null
+          },
+          "cross_check": "NEUTRAL",
+          "composite": 0.16633259642771903,
+          "outlook_label": "TAILWIND",
+          "confidence": "LOW",
+          "evidence_top5": [
+            {
+              "ticker": "BSE_544662",
+              "date": "2026-05-21T00:00:00.000Z",
+              "title": "Farmico International Private Limited completed the acquisition of 74.64% stake in Simandhar Impex Limited (BSE:544662) from a group of shareholders.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "KWIL",
+              "date": "2026-03-31T09:52:00.000Z",
+              "title": "Kwality Walls (India) Limited Announces Board Appointments, Effective 30 March, 2026",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "KWIL",
+              "date": "2026-03-30T00:00:00.000Z",
+              "title": "The Magnum Ice Cream Company N.V. (ENXTAM:MICC) completed the acquisition of 61.90% stake in Kwality Walls (India) Limited (NSEI:KWIL) from a group of shareholders.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "SPORTKING",
+              "date": "2026-05-24T07:04:21.000Z",
+              "title": "Solar Expansion And Greenfield Capacity Will Reshape Long Term Textile Earnings Profile",
+              "theme": "CAPACITY_CAPEX",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "ABCOTS",
+              "date": "2026-06-04T01:44:25.000Z",
+              "title": "Additional Considerations Required While Assessing A B Cotspin India's (NSE:ABCOTS) Strong Earnings",
+              "theme": "EARNINGS_MOVE",
+              "sign": 1,
+              "intensity": 2
+            }
+          ]
+        },
+        "12_24m": {
+          "horizon": "12_24m",
+          "bottom_up": {
+            "score": 0.4243108482003811,
+            "breadth_pct": 0.12661498708010327,
+            "n_tickers": 387,
+            "n_news": 1447,
+            "catalyst_proximity_count": 52,
+            "top_themes": [
+              {
+                "theme": "EARNINGS_MOVE",
+                "pct": 0.0633362482912411
+              },
+              {
+                "theme": "M_AND_A",
+                "pct": 0.009187757641409895
+              },
+              {
+                "theme": "CAPACITY_CAPEX",
+                "pct": 0.005112447822534773
+              }
+            ]
+          },
+          "top_down": {
+            "score": 0,
+            "regime": "OIL_SHOCK",
+            "reason": null
+          },
+          "cross_check": "NEUTRAL",
+          "composite": 0.21215542410019056,
+          "outlook_label": "TAILWIND",
+          "confidence": "LOW",
+          "evidence_top5": [
+            {
+              "ticker": "BSE_544662",
+              "date": "2026-05-21T00:00:00.000Z",
+              "title": "Farmico International Private Limited completed the acquisition of 74.64% stake in Simandhar Impex Limited (BSE:544662) from a group of shareholders.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "KWIL",
+              "date": "2026-03-31T09:52:00.000Z",
+              "title": "Kwality Walls (India) Limited Announces Board Appointments, Effective 30 March, 2026",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "KWIL",
+              "date": "2026-03-30T00:00:00.000Z",
+              "title": "The Magnum Ice Cream Company N.V. (ENXTAM:MICC) completed the acquisition of 61.90% stake in Kwality Walls (India) Limited (NSEI:KWIL) from a group of shareholders.",
+              "theme": "M_AND_A",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "SPORTKING",
+              "date": "2026-05-24T07:04:21.000Z",
+              "title": "Solar Expansion And Greenfield Capacity Will Reshape Long Term Textile Earnings Profile",
+              "theme": "CAPACITY_CAPEX",
+              "sign": 1,
+              "intensity": 3
+            },
+            {
+              "ticker": "ABCOTS",
+              "date": "2026-06-04T01:44:25.000Z",
+              "title": "Additional Considerations Required While Assessing A B Cotspin India's (NSE:ABCOTS) Strong Earnings",
+              "theme": "EARNINGS_MOVE",
+              "sign": 1,
+              "intensity": 2
+            }
+          ]
+        }
+      }
+    },
+    {
       "sector": "Retail",
-      "n_tickers_total": 57,
+      "n_tickers_total": 56,
       "horizons": {
         "3_12m": {
           "horizon": "3_12m",
           "bottom_up": {
             "score": 0.3051235789688145,
-            "breadth_pct": 0.2631578947368421,
-            "n_tickers": 57,
-            "n_news": 260,
+            "breadth_pct": 0.2678571428571428,
+            "n_tickers": 56,
+            "n_news": 258,
             "catalyst_proximity_count": 18,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.17739999229483674
+                "pct": 0.1820462208411284
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.00558836892321672
+                "pct": 0.005650505755144751
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -845,7 +1313,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -899,18 +1367,18 @@
           "horizon": "12_24m",
           "bottom_up": {
             "score": 0.3176319205489646,
-            "breadth_pct": 0.2631578947368421,
-            "n_tickers": 57,
-            "n_news": 260,
+            "breadth_pct": 0.2678571428571428,
+            "n_tickers": 56,
+            "n_news": 258,
             "catalyst_proximity_count": 18,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.13843092985378785
+                "pct": 0.14070990688186363
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.010427078600636073
+                "pct": 0.010568538542029996
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -920,7 +1388,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -974,24 +1442,24 @@
     },
     {
       "sector": "Media",
-      "n_tickers_total": 52,
+      "n_tickers_total": 51,
       "horizons": {
         "3_12m": {
           "horizon": "3_12m",
           "bottom_up": {
             "score": 0.2590136557181437,
-            "breadth_pct": 0.13461538461538464,
-            "n_tickers": 52,
-            "n_news": 209,
+            "breadth_pct": 0.13725490196078433,
+            "n_tickers": 51,
+            "n_news": 204,
             "catalyst_proximity_count": 5,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.06935286616375005
+                "pct": 0.0718189980740101
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.011274601686972821
+                "pct": 0.011555116895934858
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -1001,7 +1469,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -1055,18 +1523,18 @@
           "horizon": "12_24m",
           "bottom_up": {
             "score": 0.4395449783645478,
-            "breadth_pct": 0.13461538461538464,
-            "n_tickers": 52,
-            "n_news": 209,
+            "breadth_pct": 0.13725490196078433,
+            "n_tickers": 51,
+            "n_news": 204,
             "catalyst_proximity_count": 5,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.05512268194877626
+                "pct": 0.05672910712205018
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.017460168697282098
+                "pct": 0.017921164641292946
               },
               {
                 "theme": "CAPACITY_CAPEX",
@@ -1076,7 +1544,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -1130,38 +1598,38 @@
     },
     {
       "sector": "Power",
-      "n_tickers_total": 19,
+      "n_tickers_total": 18,
       "horizons": {
         "3_12m": {
           "horizon": "3_12m",
           "bottom_up": {
-            "score": 0.20117062040395606,
-            "breadth_pct": 0.3157894736842105,
-            "n_tickers": 19,
-            "n_news": 83,
+            "score": 0.16185573844930828,
+            "breadth_pct": 0.33333333333333337,
+            "n_tickers": 18,
+            "n_news": 71,
             "catalyst_proximity_count": 4,
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.11329734592892489
+                "pct": 0.13378375365130332
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.06789473684210526
+                "pct": 0.06512141280353201
               },
               {
-                "theme": "MARGIN_MOVE",
-                "pct": 0.0022222222222222222
+                "theme": "CAPACITY_CAPEX",
+                "pct": 0
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
-          "composite": 0.10058531020197803,
+          "composite": 0.08092786922465414,
           "outlook_label": "NEUTRAL",
           "confidence": "MED",
           "evidence_top5": [
@@ -1190,19 +1658,19 @@
               "intensity": 3
             },
             {
-              "ticker": "INDIGRID",
-              "date": "2026-03-10T00:00:00.000Z",
-              "title": "Indigrid Infrastructure Trust (BSE:540565) completed the acquisition of Gadag Transmission Limited from Renew Transmission Ventures Private Limited and KNI India AS.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
               "ticker": "BAJEL",
               "date": "2026-05-28T20:00:19.000Z",
               "title": "Full year 2026 earnings: EPS and revenues miss analyst expectations",
               "theme": "EARNINGS_MOVE",
               "sign": -1,
+              "intensity": 2
+            },
+            {
+              "ticker": "GIPCL",
+              "date": "2026-06-06T02:14:15.000Z",
+              "title": "Shareholders Shouldn’t Be Too Comfortable With Gujarat Industries Power's (NSE:GIPCL) Strong Earnings",
+              "theme": "EARNINGS_MOVE",
+              "sign": 1,
               "intensity": 2
             }
           ]
@@ -1210,33 +1678,33 @@
         "12_24m": {
           "horizon": "12_24m",
           "bottom_up": {
-            "score": 0.6074975752011902,
-            "breadth_pct": 0.3157894736842105,
-            "n_tickers": 19,
-            "n_news": 83,
+            "score": 0.5906703241717448,
+            "breadth_pct": 0.33333333333333337,
+            "n_tickers": 18,
+            "n_news": 71,
             "catalyst_proximity_count": 4,
             "top_themes": [
               {
                 "theme": "M_AND_A",
-                "pct": 0.12789473684210526
+                "pct": 0.12869757174392937
               },
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.07398110661268556
+                "pct": 0.08754654714919616
               },
               {
-                "theme": "MARGIN_MOVE",
-                "pct": 0.006666666666666667
+                "theme": "CAPACITY_CAPEX",
+                "pct": 0
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
-          "composite": 0.3037487876005951,
+          "composite": 0.2953351620858724,
           "outlook_label": "TAILWIND",
           "confidence": "MED",
           "evidence_top5": [
@@ -1265,176 +1733,20 @@
               "intensity": 3
             },
             {
-              "ticker": "INDIGRID",
-              "date": "2026-03-10T00:00:00.000Z",
-              "title": "Indigrid Infrastructure Trust (BSE:540565) completed the acquisition of Gadag Transmission Limited from Renew Transmission Ventures Private Limited and KNI India AS.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
               "ticker": "BAJEL",
               "date": "2026-05-28T20:00:19.000Z",
               "title": "Full year 2026 earnings: EPS and revenues miss analyst expectations",
               "theme": "EARNINGS_MOVE",
               "sign": -1,
               "intensity": 2
-            }
-          ]
-        }
-      }
-    },
-    {
-      "sector": "Pharma",
-      "n_tickers_total": 155,
-      "horizons": {
-        "3_12m": {
-          "horizon": "3_12m",
-          "bottom_up": {
-            "score": 0.409371581225214,
-            "breadth_pct": 0.27272727272727276,
-            "n_tickers": 154,
-            "n_news": 765,
-            "catalyst_proximity_count": 40,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.1396948644867146
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.025811782981771576
-              },
-              {
-                "theme": "REGULATORY_EVENT",
-                "pct": 0.0003883495145631068
-              }
-            ]
-          },
-          "top_down": {
-            "score": -0.3333333333333333,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": "Import costs rise"
-          },
-          "cross_check": "DIVERGENT",
-          "composite": 0.03801912394594034,
-          "outlook_label": "NEUTRAL",
-          "confidence": "LOW",
-          "evidence_top5": [
-            {
-              "ticker": "APOLLOHOSP",
-              "date": "2026-03-23T00:00:00.000Z",
-              "title": "Apollo Hospitals Enterprise Limited (NSEI:APOLLOHOSP) completed the acquisition of an additional 30.58% stake in Apollo Health and Lifestyle Limited from International Finance Corporation.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
             },
             {
-              "ticker": "BAJAJHCARE",
-              "date": "2026-03-17T00:00:00.000Z",
-              "title": "Bethany Pharmacare Private Limited signed deed of assignment and transfer to acquire Tarapur Facility of Bajaj HealthCare Limited (BSE:539872) for INR 25 million.",
-              "theme": "M_AND_A",
+              "ticker": "GIPCL",
+              "date": "2026-06-06T02:14:15.000Z",
+              "title": "Shareholders Shouldn’t Be Too Comfortable With Gujarat Industries Power's (NSE:GIPCL) Strong Earnings",
+              "theme": "EARNINGS_MOVE",
               "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "CONCORDBIO",
-              "date": "2026-04-02T00:00:00.000Z",
-              "title": "Concord Biotech Limited (NSEI:CONCORDBIO) completed the acquisition of Celliimune Biotech Private Limited for 6.6 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "GUJTHEM",
-              "date": "2026-04-23T00:00:00.000Z",
-              "title": "Gujarat Themis Biosyn Limited (BSE:506879) signed an asset purchase agreement to acquire Global Anti-TB and Anti-Infective Portfolio from Sanofi (ENXTPA:SAN) for approximately €160 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "HCG",
-              "date": "2026-04-29T17:03:39.000Z",
-              "title": "HCG: Rights Issue And Vizag Stake Increase Will Support Future Upside",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            }
-          ]
-        },
-        "12_24m": {
-          "horizon": "12_24m",
-          "bottom_up": {
-            "score": 0.5730925926666928,
-            "breadth_pct": 0.27272727272727276,
-            "n_tickers": 154,
-            "n_news": 765,
-            "catalyst_proximity_count": 40,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.1140328588283726
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.03767069079964624
-              },
-              {
-                "theme": "REGULATORY_EVENT",
-                "pct": 0.0011650485436893203
-              }
-            ]
-          },
-          "top_down": {
-            "score": -0.3333333333333333,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": "Import costs rise"
-          },
-          "cross_check": "DIVERGENT",
-          "composite": 0.11987962966667973,
-          "outlook_label": "NEUTRAL",
-          "confidence": "LOW",
-          "evidence_top5": [
-            {
-              "ticker": "APOLLOHOSP",
-              "date": "2026-03-23T00:00:00.000Z",
-              "title": "Apollo Hospitals Enterprise Limited (NSEI:APOLLOHOSP) completed the acquisition of an additional 30.58% stake in Apollo Health and Lifestyle Limited from International Finance Corporation.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "BAJAJHCARE",
-              "date": "2026-03-17T00:00:00.000Z",
-              "title": "Bethany Pharmacare Private Limited signed deed of assignment and transfer to acquire Tarapur Facility of Bajaj HealthCare Limited (BSE:539872) for INR 25 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "CONCORDBIO",
-              "date": "2026-04-02T00:00:00.000Z",
-              "title": "Concord Biotech Limited (NSEI:CONCORDBIO) completed the acquisition of Celliimune Biotech Private Limited for 6.6 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "GUJTHEM",
-              "date": "2026-04-23T00:00:00.000Z",
-              "title": "Gujarat Themis Biosyn Limited (BSE:506879) signed an asset purchase agreement to acquire Global Anti-TB and Anti-Infective Portfolio from Sanofi (ENXTPA:SAN) for approximately €160 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "HCG",
-              "date": "2026-04-29T17:03:39.000Z",
-              "title": "HCG: Rights Issue And Vizag Stake Increase Will Support Future Upside",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
+              "intensity": 2
             }
           ]
         }
@@ -1469,7 +1781,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -1503,7 +1815,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -1543,7 +1855,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -1577,7 +1889,7 @@
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -1585,318 +1897,6 @@
           "outlook_label": "NEUTRAL",
           "confidence": "LOW",
           "evidence_top5": []
-        }
-      }
-    },
-    {
-      "sector": "FMCG",
-      "n_tickers_total": 391,
-      "horizons": {
-        "3_12m": {
-          "horizon": "3_12m",
-          "bottom_up": {
-            "score": 0.31893045606017534,
-            "breadth_pct": 0.1208226221079691,
-            "n_tickers": 389,
-            "n_news": 1454,
-            "catalyst_proximity_count": 50,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.08186429986697985
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.005710325999141504
-              },
-              {
-                "theme": "CAPACITY_CAPEX",
-                "pct": 0.004355763261498918
-              }
-            ]
-          },
-          "top_down": {
-            "score": -0.3333333333333333,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": "Import costs rise"
-          },
-          "cross_check": "DIVERGENT",
-          "composite": -0.007201438636578988,
-          "outlook_label": "NEUTRAL",
-          "confidence": "LOW",
-          "evidence_top5": [
-            {
-              "ticker": "BSE_544662",
-              "date": "2026-05-21T00:00:00.000Z",
-              "title": "Farmico International Private Limited completed the acquisition of 74.64% stake in Simandhar Impex Limited (BSE:544662) from a group of shareholders.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "KWIL",
-              "date": "2026-03-31T09:52:00.000Z",
-              "title": "Kwality Walls (India) Limited Announces Board Appointments, Effective 30 March, 2026",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "KWIL",
-              "date": "2026-03-30T00:00:00.000Z",
-              "title": "The Magnum Ice Cream Company N.V. (ENXTAM:MICC) completed the acquisition of 61.90% stake in Kwality Walls (India) Limited (NSEI:KWIL) from a group of shareholders.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "SPORTKING",
-              "date": "2026-05-24T07:04:21.000Z",
-              "title": "Solar Expansion And Greenfield Capacity Will Reshape Long Term Textile Earnings Profile",
-              "theme": "CAPACITY_CAPEX",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "ABCOTS",
-              "date": "2026-06-04T01:44:25.000Z",
-              "title": "Additional Considerations Required While Assessing A B Cotspin India's (NSE:ABCOTS) Strong Earnings",
-              "theme": "EARNINGS_MOVE",
-              "sign": 1,
-              "intensity": 2
-            }
-          ]
-        },
-        "12_24m": {
-          "horizon": "12_24m",
-          "bottom_up": {
-            "score": 0.41518070923848005,
-            "breadth_pct": 0.1208226221079691,
-            "n_tickers": 389,
-            "n_news": 1454,
-            "catalyst_proximity_count": 50,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.06105156719773058
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.009159981247470134
-              },
-              {
-                "theme": "CAPACITY_CAPEX",
-                "pct": 0.005096293034542375
-              }
-            ]
-          },
-          "top_down": {
-            "score": -0.3333333333333333,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": "Import costs rise"
-          },
-          "cross_check": "DIVERGENT",
-          "composite": 0.04092368795257337,
-          "outlook_label": "NEUTRAL",
-          "confidence": "LOW",
-          "evidence_top5": [
-            {
-              "ticker": "BSE_544662",
-              "date": "2026-05-21T00:00:00.000Z",
-              "title": "Farmico International Private Limited completed the acquisition of 74.64% stake in Simandhar Impex Limited (BSE:544662) from a group of shareholders.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "KWIL",
-              "date": "2026-03-31T09:52:00.000Z",
-              "title": "Kwality Walls (India) Limited Announces Board Appointments, Effective 30 March, 2026",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "KWIL",
-              "date": "2026-03-30T00:00:00.000Z",
-              "title": "The Magnum Ice Cream Company N.V. (ENXTAM:MICC) completed the acquisition of 61.90% stake in Kwality Walls (India) Limited (NSEI:KWIL) from a group of shareholders.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "SPORTKING",
-              "date": "2026-05-24T07:04:21.000Z",
-              "title": "Solar Expansion And Greenfield Capacity Will Reshape Long Term Textile Earnings Profile",
-              "theme": "CAPACITY_CAPEX",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "ABCOTS",
-              "date": "2026-06-04T01:44:25.000Z",
-              "title": "Additional Considerations Required While Assessing A B Cotspin India's (NSE:ABCOTS) Strong Earnings",
-              "theme": "EARNINGS_MOVE",
-              "sign": 1,
-              "intensity": 2
-            }
-          ]
-        }
-      }
-    },
-    {
-      "sector": "IT Services",
-      "n_tickers_total": 104,
-      "horizons": {
-        "3_12m": {
-          "horizon": "3_12m",
-          "bottom_up": {
-            "score": 0.5075708419014553,
-            "breadth_pct": 0.34615384615384626,
-            "n_tickers": 104,
-            "n_news": 603,
-            "catalyst_proximity_count": 27,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.13731005520088557
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.03385708592556115
-              },
-              {
-                "theme": "MARGIN_MOVE",
-                "pct": 0.0072108547633445135
-              }
-            ]
-          },
-          "top_down": {
-            "score": -0.6666666666666666,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": "Weaker rupee hurts exports"
-          },
-          "cross_check": "DIVERGENT",
-          "composite": -0.07954791238260567,
-          "outlook_label": "NEUTRAL",
-          "confidence": "LOW",
-          "evidence_top5": [
-            {
-              "ticker": "CIGNITITEC",
-              "date": "2026-05-01T00:00:00.000Z",
-              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "COFORGE",
-              "date": "2026-05-06T06:05:44.000Z",
-              "title": "COFORGE: AI Offerings And Long Term Contract Wins Will Drive Repricing",
-              "theme": "ORDER_WINS",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "COFORGE",
-              "date": "2026-05-01T00:00:00.000Z",
-              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "COFORGE",
-              "date": "2026-04-23T00:00:00.000Z",
-              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of Encora Digital LLC from Warburg Pincus LLC, Advent International, L.P and other minority shareholders.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "CTE",
-              "date": "2026-03-30T00:00:00.000Z",
-              "title": "AKIT IT Consulting Private Limited agreed to acquire RP Webapps Pvt. Ltd. from Cambridge Technology Enterprises Limited (BSE:532801) for INR 0.61 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            }
-          ]
-        },
-        "12_24m": {
-          "horizon": "12_24m",
-          "bottom_up": {
-            "score": 0.5645989037340148,
-            "breadth_pct": 0.34615384615384626,
-            "n_tickers": 104,
-            "n_news": 603,
-            "catalyst_proximity_count": 27,
-            "top_themes": [
-              {
-                "theme": "EARNINGS_MOVE",
-                "pct": 0.11265761951396712
-              },
-              {
-                "theme": "M_AND_A",
-                "pct": 0.05326034596801378
-              },
-              {
-                "theme": "MARGIN_MOVE",
-                "pct": 0.007362509481862142
-              }
-            ]
-          },
-          "top_down": {
-            "score": -0.6666666666666666,
-            "regime": "CURRENCY_WEAKNESS",
-            "reason": "Weaker rupee hurts exports"
-          },
-          "cross_check": "DIVERGENT",
-          "composite": -0.051033881466325925,
-          "outlook_label": "NEUTRAL",
-          "confidence": "LOW",
-          "evidence_top5": [
-            {
-              "ticker": "CIGNITITEC",
-              "date": "2026-05-01T00:00:00.000Z",
-              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "COFORGE",
-              "date": "2026-05-06T06:05:44.000Z",
-              "title": "COFORGE: AI Offerings And Long Term Contract Wins Will Drive Repricing",
-              "theme": "ORDER_WINS",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "COFORGE",
-              "date": "2026-05-01T00:00:00.000Z",
-              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of remaining 45.51% stake in Cigniti Technologies Limited (BSE:534758).",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "COFORGE",
-              "date": "2026-04-23T00:00:00.000Z",
-              "title": "Coforge Limited (NSEI:COFORGE) completed the acquisition of Encora Digital LLC from Warburg Pincus LLC, Advent International, L.P and other minority shareholders.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            },
-            {
-              "ticker": "CTE",
-              "date": "2026-03-30T00:00:00.000Z",
-              "title": "AKIT IT Consulting Private Limited agreed to acquire RP Webapps Pvt. Ltd. from Cambridge Technology Enterprises Limited (BSE:532801) for INR 0.61 million.",
-              "theme": "M_AND_A",
-              "sign": 1,
-              "intensity": 3
-            }
-          ]
         }
       }
     },
@@ -1915,21 +1915,21 @@
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.07487426431246655
+                "pct": 0.07607057715713104
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.00862760834670947
+                "pct": 0.008606475633269065
               },
               {
                 "theme": "REGULATORY_EVENT",
-                "pct": 0.0011904761904761906
+                "pct": 0.001183431952662722
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -1974,21 +1974,21 @@
             "top_themes": [
               {
                 "theme": "EARNINGS_MOVE",
-                "pct": 0.03639807383627608
+                "pct": 0.036558440941698134
               },
               {
                 "theme": "M_AND_A",
-                "pct": 0.01577046548956661
+                "pct": 0.015707067349245395
               },
               {
                 "theme": "REGULATORY_EVENT",
-                "pct": 0.003571428571428571
+                "pct": 0.0035502958579881655
               }
             ]
           },
           "top_down": {
             "score": 0,
-            "regime": "CURRENCY_WEAKNESS",
+            "regime": "OIL_SHOCK",
             "reason": null
           },
           "cross_check": "NEUTRAL",
@@ -2029,10 +2029,10 @@
     "taxonomy_version": "sector-theme-v1",
     "synthesizer_version": "sector-outlook-synthesizer-v1",
     "orphaned_tickers": 786,
-    "total_entries": 17538,
+    "total_entries": 17366,
     "sector_count": 15,
-    "stale_tickers": 3433,
-    "elapsed_ms": 1559
+    "stale_tickers": 3441,
+    "elapsed_ms": 1683
   },
   "gate_met": false,
   "caveats": [
