@@ -86,12 +86,31 @@ export function formatChangeValue(value) {
   return JSON.stringify(value);
 }
 
+export function formatAlertStockLabel(alert) {
+  const ticker = canonicalSwsTicker(alert?.ticker);
+  const name = String(alert?.name || "").trim();
+  if (ticker && name && name.toUpperCase() !== ticker) return `${name} (${ticker})`;
+  return ticker || name || "Unknown stock";
+}
+
+export function formatAlertChangeSummary(change) {
+  const field = String(change?.field || "SWS input").trim();
+  return `${field} changed from ${formatChangeValue(change?.previous)} to ${formatChangeValue(change?.current)}`;
+}
+
 export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "https://starbhai-stock-platform.vercel.app/" }) {
-  const count = Array.isArray(alerts) ? alerts.length : 0;
-  const subject = `SWS inputs changed for ${count} portfolio holding(s)`;
+  const alertList = Array.isArray(alerts) ? alerts : [];
+  const count = alertList.length;
+  const stockLabels = alertList.map(formatAlertStockLabel);
+  const firstChange = alertList.flatMap((alert) => alert.changes || [])[0] || null;
+  const subject = count === 1
+    ? `SWS inputs changed for ${stockLabels[0]}`
+    : `SWS inputs changed for ${count} portfolio holding(s)`;
   const lines = [
     subject,
     "",
+    `${count === 1 ? "Affected stock" : "Affected stocks"}: ${stockLabels.join(", ") || "n/a"}`,
+    `What changed: ${firstChange ? formatAlertChangeSummary(firstChange) : "See stock details below."}`,
     `SWS refresh timestamp: ${runId || generatedAt || "unknown"}`,
     `Portfolio Analyzer: ${appUrl.replace(/\/$/, "")}/?tab=analyzer`,
     "",
@@ -99,10 +118,10 @@ export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "
     "",
   ];
 
-  for (const alert of alerts || []) {
-    lines.push(`${alert.ticker} — ${alert.name || alert.ticker} (${alert.severity || "medium"})`);
+  for (const alert of alertList) {
+    lines.push(`${formatAlertStockLabel(alert)} - ${alert.severity || "medium"} severity`);
     for (const change of (alert.changes || []).slice(0, 5)) {
-      lines.push(`- ${change.field}: ${formatChangeValue(change.previous)} -> ${formatChangeValue(change.current)}`);
+      lines.push(`- ${formatAlertChangeSummary(change)}`);
     }
     lines.push("");
   }
