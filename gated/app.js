@@ -8038,7 +8038,79 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       ${swsEscapeAttr(report.disclaimer || "")}
     </div>
   `;
+  renderSwsInputAlertsPanel(root).catch((err) => {
+    if (window.console && console.warn) console.warn("[analyzer] SWS input alerts failed:", err?.message);
+  });
 }
+
+async function renderSwsInputAlertsPanel(root) {
+  if (!root) return;
+  const mountId = "swsInputAlertsPanel";
+  root.querySelector(`#${mountId}`)?.remove();
+  root.insertAdjacentHTML("afterbegin", `<div id="${mountId}" style="margin-bottom:18px;"></div>`);
+  const mount = root.querySelector(`#${mountId}`);
+  if (!mount) return;
+  mount.innerHTML = `<div style="border:1px solid var(--border); border-radius:8px; padding:12px 14px; background:rgba(127,161,232,0.06); color:var(--text-muted); font-size:12px;">Checking SWS input changes...</div>`;
+  const res = await fetch("/api/portfolio/sws-input-alerts", { credentials: "same-origin" });
+  if (!res.ok) {
+    mount.innerHTML = "";
+    return;
+  }
+  const data = await res.json();
+  const prefs = data.prefs || { inApp: true, email: false };
+  const alerts = Array.isArray(data.alerts) ? data.alerts : [];
+  const rows = alerts.map((alert) => {
+    const first = Array.isArray(alert.changes) && alert.changes.length ? alert.changes[0] : null;
+    const metric = first ? swsEscapeAttr(first.field || "changed input") : "changed input";
+    const prev = first ? swsEscapeAttr(String(first.previous ?? "n/a")) : "n/a";
+    const cur = first ? swsEscapeAttr(String(first.current ?? "n/a")) : "n/a";
+    const severity = swsEscapeAttr(alert.severity || "medium");
+    return `<div data-sws-input-alert-row style="display:grid; grid-template-columns:110px 1fr 90px; gap:10px; align-items:start; padding:10px 0; border-top:1px solid var(--border-soft);">
+      <div style="font-family:var(--font-mono); font-size:12px; font-weight:700;">${swsEscapeAttr(alert.ticker || "")}</div>
+      <div>
+        <div style="font-size:13px; color:var(--text-primary); font-weight:600;">${swsEscapeAttr(alert.name || alert.ticker || "")}</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">${metric}: ${prev} -> ${cur}</div>
+      </div>
+      <div style="justify-self:end; font-size:10px; text-transform:uppercase; color:${severity === "high" ? "var(--red-soft)" : "var(--yellow)"}; font-weight:700;">${severity}</div>
+    </div>`;
+  }).join("");
+  mount.innerHTML = `
+    <section data-sws-input-alerts style="border:1px solid rgba(127,161,232,0.22); border-radius:8px; padding:14px 16px; background:rgba(127,161,232,0.06);">
+      <div style="display:flex; justify-content:space-between; gap:14px; align-items:center; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:14px; color:var(--text-primary); font-weight:700;">SWS input changes</div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${alerts.length ? `${alerts.length} holding${alerts.length === 1 ? "" : "s"} changed in run ${swsEscapeAttr(data.run_id || "")}` : "No portfolio holding input changes in the latest SWS run."}</div>
+        </div>
+        <label style="display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); cursor:pointer;">
+          <input id="swsInputAlertEmailToggle" type="checkbox" ${prefs.email ? "checked" : ""} style="accent-color:var(--gold);" />
+          Email digest
+        </label>
+      </div>
+      ${rows}
+    </section>
+  `;
+  const toggle = mount.querySelector("#swsInputAlertEmailToggle");
+  if (toggle) {
+    toggle.addEventListener("change", async () => {
+      toggle.disabled = true;
+      try {
+        const prefRes = await fetch("/api/portfolio/sws-input-alerts/prefs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ inApp: true, email: toggle.checked }),
+        });
+        if (!prefRes.ok) throw new Error("preference update failed");
+      } catch (err) {
+        toggle.checked = !toggle.checked;
+        if (window.console && console.warn) console.warn("[analyzer] SWS input alert prefs failed:", err?.message);
+      } finally {
+        toggle.disabled = false;
+      }
+    });
+  }
+}
+window.renderSwsInputAlertsPanel = renderSwsInputAlertsPanel;
 
 // V2 of the SWS analyzer report. Adds a plain-English hero card at the top
 // (1–2 sentences answering "what does this report say in 10 seconds?") and
@@ -8209,6 +8281,9 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       ${swsEscapeAttr(report.disclaimer || "")}
     </div>
   `;
+  renderSwsInputAlertsPanel(root).catch((err) => {
+    if (window.console && console.warn) console.warn("[analyzer] SWS input alerts failed:", err?.message);
+  });
 }
 
 // Small reusable "Not SEBI advice" chip for every decision surface. Keeps

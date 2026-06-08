@@ -65,6 +65,7 @@ function _mergeOnLogin(existing, sub, payload, now) {
     lastSeenAt: now,
     sessionCount: _seedSessionCount(existing) + 1,
     isAdmin: computeIsAdmin(payload.email || (existing && existing.email)),
+    notificationPrefs: existing?.notificationPrefs || {},
     loginEvents: [...priorEvents, event].slice(-MAX_LOGIN_EVENTS),
   };
 }
@@ -137,6 +138,17 @@ class FileUserStorage {
     return record;
   }
 
+  async update(sub, updater) {
+    if (!sub) throw new Error("update: sub is required");
+    const all = await this._readAll();
+    const existing = all[sub] || { sub, createdAt: Date.now() };
+    const patch = typeof updater === "function" ? updater(existing) : updater;
+    const next = { ...existing, ...(patch || {}), sub };
+    all[sub] = next;
+    await this._writeAll(all);
+    return next;
+  }
+
   async list() {
     const all = await this._readAll();
     return Object.values(all);
@@ -193,6 +205,20 @@ class KVUserStorage {
       console.warn("[USER:KV] touch write failed:", err.message);
     }
     return record;
+  }
+
+  async update(sub, updater) {
+    if (!sub) throw new Error("update: sub is required");
+    const existing = await this.read(sub) || { sub, createdAt: Date.now() };
+    const patch = typeof updater === "function" ? updater(existing) : updater;
+    const next = { ...existing, ...(patch || {}), sub };
+    try {
+      const kv = await this._getKV();
+      await kv.set(userKey(sub), next);
+    } catch (err) {
+      console.warn("[USER:KV] update write failed:", err.message);
+    }
+    return next;
   }
 
   async list() {
