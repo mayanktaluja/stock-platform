@@ -1,16 +1,16 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-08T04:13:45.708Z",
-  "today_iso": "2026-06-08",
+  "built_at": "2026-06-09T03:30:25.707Z",
+  "today_iso": "2026-06-09",
   "window_days": 60,
-  "upstream_event_count": 13,
-  "upstream_fetched_at": "2026-06-07T19:00:13.700Z",
-  "event_count": 4,
-  "recent_results_count": 856,
+  "upstream_event_count": 17,
+  "upstream_fetched_at": "2026-06-08T19:00:12.653Z",
+  "event_count": 5,
+  "recent_results_count": 752,
   "past_window_days": 14,
   "bucket_by_days": {
     "d0": 0,
-    "d1to3": 0,
+    "d1to3": 1,
     "d4to7": 1,
     "d8to14": 0,
     "d15to30": 0,
@@ -18,21 +18,25 @@
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 4,
+      "HIGH": 5,
       "MEDIUM": 0,
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 1,
-      "smooth": 0,
-      "lagging": 2,
-      "neutral": 1
+      "spike": 0,
+      "smooth": 2,
+      "lagging": 3,
+      "neutral": 0
     },
-    "sector_count": 3,
+    "sector_count": 4,
     "top_sectors": [
       {
         "sector": "Materials",
         "count": 2
+      },
+      {
+        "sector": "Energy",
+        "count": 1
       },
       {
         "sector": "Food, Beverage & Tobacco",
@@ -48,32 +52,32 @@
     "by_verdict": {
       "BEAT": 3,
       "INLINE": 1,
-      "MISS": 0,
+      "MISS": 1,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 59,
+    "avg_confidence_pct": 58,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 4,
+    "tradable_count": 5,
     "by_highlighted_branch": {
-      "RAISE": 2,
-      "MAINTAIN": 1,
-      "CUT": 1,
+      "RAISE": 5,
+      "MAINTAIN": 0,
+      "CUT": 0,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 4,
-    "classified": 4,
-    "cache_hits": 3,
+    "total": 5,
+    "classified": 5,
+    "cache_hits": 0,
     "llm_calls": 1,
-    "heuristic": 0,
+    "heuristic": 4,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 0,
+    "below_v3_floor": 4,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
