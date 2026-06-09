@@ -554,6 +554,7 @@ HEALTH_CRITICAL_FILES=(
   fundamentalsHistory.json
   data/nse-fo/oi-deltas-latest.json
   data/catalysts/earnings-watch-latest.json
+  data/catalysts/earnings-health.json
 )
 
 assert_health_critical_staged() {
@@ -583,8 +584,17 @@ restore_non_deployable_generated_worksets() {
   # These are local working sets or refresh caches. Prod either consumes their
   # packed/aggregated snapshot or uses KV-backed state, so leaving thousands of
   # tracked file edits after a successful publish only creates operator noise.
+  #
+  # NOTE: data/sws/deep/ is intentionally NOT in this list. It used to be —
+  # but `git clean -fd data/sws/deep` was nuking the fresh loose per-ticker
+  # briefs immediately after the API parser wrote them, leaving any in-process
+  # consumer (refresh-risk-lab.mjs, anything reading SWS briefs from disk) to
+  # read stale data from the prior run. Result: quality-flags-latest.json
+  # silently regressing to total_with_flags=0 for ~5 days before the dirty
+  # file was noticed in 2026-06-09's smoke. Prod still ships data/sws/deep.tar.gz
+  # (committed), the loose files are gitignored, so leaving them on disk
+  # is harmless and the only way downstream steps can read fresh briefs.
   local restore_paths=(
-    data/sws/deep
     data/sws/groww-stock-latest.json
     data/sectorOutlook/classified-news
     data/nse-fo/history
@@ -596,7 +606,7 @@ restore_non_deployable_generated_worksets() {
   )
   echo "[nightly] restoring non-deployable generated working sets before commit..."
   git restore -- "${restore_paths[@]}" 2>/dev/null || true
-  git clean -fd -- data/sws/deep data/sectorOutlook/classified-news data/nse-fo/history 2>/dev/null || true
+  git clean -fd -- data/sectorOutlook/classified-news data/nse-fo/history 2>/dev/null || true
 }
 
 run_sws_primary_branch() {
@@ -935,6 +945,24 @@ else
   echo "[sws-nightly] resolve-earnings-actuals.mjs (timeout 300s)"
   with_timeout 300 node scripts/resolve-earnings-actuals.mjs || \
     echo "[sws-nightly] resolve-earnings-actuals.mjs FAILED — continuing (non-fatal)"
+fi
+
+# Step 9a1: earnings-health-summary — daily rollup of pipeline state into
+# data/catalysts/earnings-health.json. Per CLAUDE.md this is meant to "surface
+# silent failures in any stage", but it had silently never been wired into the
+# nightly chain (file went 14 days stale 2026-05-26 → 2026-06-09 before the
+# smoke caught it). The script is correct + atomic; SLACK_WEBHOOK_URL gates
+# only the optional Slack post, never the JSON write. Treated as health-critical
+# (see HEALTH_CRITICAL_FILES) so any future regression fails the nightly loudly.
+if [ "${SWS_SKIP_EARNINGS_HEALTH:-0}" = "1" ]; then
+  echo "[sws-nightly] SKIP earnings-health-summary (SWS_SKIP_EARNINGS_HEALTH=1)"
+else
+  echo "[sws-nightly] earnings-health-summary.mjs (timeout 60s)"
+  with_timeout 60 node scripts/earnings-health-summary.mjs 2>&1 | sed 's/^/[earnings-health] /'
+  EH_EXIT=${PIPESTATUS[0]}
+  if [ "${EH_EXIT}" -ne 0 ]; then
+    echo "[sws-nightly] earnings-health-summary.mjs FAILED (exit ${EH_EXIT}) — continuing; HEALTH_CRITICAL gate will catch it if the JSON is stale"
+  fi
 fi
 
 # Step 9a2: Multibagger 5x strategy refresh — pure disk-to-disk join over

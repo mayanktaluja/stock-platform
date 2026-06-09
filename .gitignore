@@ -127,6 +127,9 @@ data/sws/api-queries.json
 data/sws/deep-api/
 data/sws/deep-api-parsed/
 data/sws/deep.scraper-backup/
+# Loose per-ticker deep briefs are working scratch; prod reads the committed
+# data/sws/deep.tar.gz tarball. Don't commit the unpacked dir.
+data/sws/deep/*.json
 
 # Coverage gap analysis — sitemap cache is ~530 MB of static SWS XML,
 # regenerable via scripts/sws-probe-availability.mjs --refresh.

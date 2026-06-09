@@ -180,7 +180,18 @@ assert(
 assert(
   "nightly cleanup restores tracked cache edits and removes untracked local cache files",
   /git restore -- "\$\{restore_paths\[@\]\}"/.test(nightly) &&
-    /git clean -fd -- data\/sws\/deep data\/sectorOutlook\/classified-news data\/nse-fo\/history/.test(nightly),
+    /git clean -fd -- data\/sectorOutlook\/classified-news data\/nse-fo\/history/.test(nightly),
+  null,
+);
+// 2026-06-09: data/sws/deep/ removed from both restore and clean lists.
+// The git restore was reverting fresh per-ticker briefs that downstream
+// consumers (refresh-risk-lab.mjs) need, silently degrading quality-flags-
+// latest.json to total_with_flags=0 for ~5 days. Tarball still ships;
+// loose files are gitignored so they stay local-only.
+assert(
+  "nightly cleanup intentionally does NOT touch data/sws/deep (post-2026-06-09 fix)",
+  !/git restore --[^\n]*data\/sws\/deep[\s"]/.test(nightly) &&
+    !/git clean -fd --[^\n]*data\/sws\/deep[\s"]/.test(nightly),
   null,
 );
 assert("data/sws/deep.tar.gz is staged in the git add list", gitAddBlock.includes("data/sws/deep.tar.gz"), null);
