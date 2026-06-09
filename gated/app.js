@@ -11773,6 +11773,11 @@ function renderPicks(data) {
       if (!matchesSector(it, picksFilters.sector)) return false;
       return pickMatchesSearch(it, picksSearchQuery);
     });
+    offSection.sort((a, b) => {
+      const au = a && typeof a.upside_pct === "number" ? a.upside_pct : -Infinity;
+      const bu = b && typeof b.upside_pct === "number" ? b.upside_pct : -Infinity;
+      return bu - au;
+    });
     if (offSection.length > 0) {
       offSectionCount = offSection.length;
       visibleSections.unshift({ section: PICKS_OFF_SECTION_DEF, items: offSection });
