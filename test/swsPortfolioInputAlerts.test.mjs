@@ -4,9 +4,11 @@
 
 import assert from "node:assert/strict";
 import {
+  formatAlertChangeSummary,
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
   canonicalizeHoldingTicker,
+  formatAlertStockLabel,
   normalizeSwsInputAlertPrefs,
 } from "../services/swsPortfolioInputAlerts.js";
 
@@ -45,10 +47,19 @@ assert.equal(fallback.source, "portfolio");
 assert.deepEqual(fallback.alerts.map((a) => a.ticker), ["INFY"]);
 
 const email = buildSwsInputAlertEmail({ alerts: analyzerFirst.alerts, runId: "run-1" });
-assert.equal(email.subject, "SWS inputs changed for 1 portfolio holding(s)");
-assert.match(email.text, /TCS/);
+assert.equal(email.subject, "SWS inputs changed for TCS");
+assert.match(email.text, /Affected stock: TCS/);
+assert.match(email.text, /What changed: snowflake\.total changed from 10 to 14/);
+assert.match(email.text, /- snowflake\.total changed from 10 to 14/);
+assert.match(email.html, /Affected stock: TCS/);
 assert.match(email.text, /Review the Starbhai score\/report/);
 assert.match(email.text, /no buy\/sell instruction/i);
 assert.doesNotMatch(email.text, /(buy|sell)\s+TCS/i);
+
+const multiEmail = buildSwsInputAlertEmail({ alerts: market.alerts, runId: "run-1" });
+assert.equal(multiEmail.subject, "SWS inputs changed for 2 portfolio holding(s)");
+assert.match(multiEmail.text, /Affected stocks: TCS, Infosys \(INFY\)/);
+assert.equal(formatAlertStockLabel({ ticker: "INFY", name: "Infosys" }), "Infosys (INFY)");
+assert.equal(formatAlertChangeSummary({ field: "forecast", previous: "old", current: "new" }), "forecast changed from old to new");
 
 console.log("swsPortfolioInputAlerts tests passed");
