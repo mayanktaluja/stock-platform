@@ -11165,7 +11165,7 @@ const PICKS_OFF_SECTION_DEF = {
   emoji: "🌐",
   label: "🌐 All SWS stocks (off-section matches)",
   chip_label: "Off-section",
-  subtitle: "Scored stocks that match your search but didn't make any curated section. Capped at 24 inline — refine your query or click through to SWS for the full pic.",
+  subtitle: "Scored stocks that match your filter / search but didn't make any curated section. Capped at 24 inline — refine your query or click through to SWS for the full pic.",
 };
 
 let picksStatusPollTimer = null;
@@ -11318,12 +11318,25 @@ function onPicksUniverseChange(value) {
   picksIndexFilter = picksFilters.universe;
   savePicksFilters();
   if (currentPicksData) renderPicks(currentPicksData);
+  ensureFilterUniverseLoaded();
 }
 
 // Sector dropdown handler — wired via inline onchange in index.html.
 function onPicksSectorChange(value) {
   picksFilters.sector = typeof value === "string" ? value : "all";
   savePicksFilters();
+  if (currentPicksData) renderPicks(currentPicksData);
+  ensureFilterUniverseLoaded();
+}
+
+// Off-section matches now surface on any active filter (not just search), so
+// when a filter narrows the view we need the lazy /api/sws-universe payload
+// loaded too. Mirrors the search-input pattern in onPicksSearchInput.
+async function ensureFilterUniverseLoaded() {
+  const filterActive = picksFilters.universe !== "all" || picksFilters.sector !== "all";
+  if (!filterActive) return;
+  if (swsScoredUniverse || swsUniverseLoadFailed) return;
+  await ensureUniverseLoaded();
   if (currentPicksData) renderPicks(currentPicksData);
 }
 
@@ -11481,6 +11494,10 @@ async function loadPicks() {
     renderPicks(data);
     metaEl.innerHTML = renderPicksMetaBanner(data);
     pollPicksStatusIfNeeded(data);
+    // If the user's persisted filter is non-default, off-section matches will
+    // want the lazy /api/sws-universe payload — kick that off on boot so a
+    // returning user doesn't have to toggle the dropdown to see it land.
+    ensureFilterUniverseLoaded();
   } catch (e) {
     containerEl.innerHTML = `<div style="padding:24px;color:var(--red);">Failed to load picks: ${e.message}</div>`;
     const banner = document.getElementById("picksCredibilityBanner");
@@ -11737,13 +11754,14 @@ function renderPicks(data) {
     for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
   }
 
-  updatePicksFilterSummary(shownTickers.size, totalTickers.size);
-
-  // Off-section matches: when search is active and the scored-universe index
-  // has loaded, surface any matching stock that ISN'T already shown above.
-  // Prepended so users see global hits before the curated buckets.
+  // Off-section matches: when search OR any filter is active and the
+  // scored-universe index has loaded, surface any matching stock that ISN'T
+  // already shown above. Prepended so users see global hits before the
+  // curated buckets. Without this, picking Sector=Semiconductors only shows
+  // the handful of semis that landed in curated buckets — the rest of the
+  // universe is hidden until the user happens to type something.
   let offSectionCount = 0;
-  if (picksSearchQuery && Array.isArray(swsScoredUniverse) && swsScoredUniverse.length) {
+  if ((picksSearchQuery || filterActive) && Array.isArray(swsScoredUniverse) && swsScoredUniverse.length) {
     const shown = new Set();
     for (const v of visibleSections) {
       for (const it of v.items) if (it && it.ticker) shown.add(it.ticker);
@@ -11759,8 +11777,11 @@ function renderPicks(data) {
       offSectionCount = offSection.length;
       visibleSections.unshift({ section: PICKS_OFF_SECTION_DEF, items: offSection });
       totalShown += offSection.length;
+      for (const it of offSection) if (it && it.ticker) shownTickers.add(it.ticker);
     }
   }
+
+  updatePicksFilterSummary(shownTickers.size, totalTickers.size);
 
   if (!totalShown && visibleSections.length === 0) {
     const uniLabel = ({
