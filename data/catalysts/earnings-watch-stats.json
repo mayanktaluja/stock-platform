@@ -1,16 +1,16 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-09T03:30:25.707Z",
-  "today_iso": "2026-06-09",
+  "built_at": "2026-06-10T03:10:25.241Z",
+  "today_iso": "2026-06-10",
   "window_days": 60,
-  "upstream_event_count": 17,
-  "upstream_fetched_at": "2026-06-08T19:00:12.653Z",
-  "event_count": 5,
-  "recent_results_count": 752,
+  "upstream_event_count": 19,
+  "upstream_fetched_at": "2026-06-09T19:00:10.377Z",
+  "event_count": 6,
+  "recent_results_count": 626,
   "past_window_days": 14,
   "bucket_by_days": {
     "d0": 0,
-    "d1to3": 1,
+    "d1to3": 2,
     "d4to7": 1,
     "d8to14": 0,
     "d15to30": 0,
@@ -18,21 +18,21 @@
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 5,
+      "HIGH": 6,
       "MEDIUM": 0,
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 0,
-      "smooth": 2,
+      "spike": 1,
+      "smooth": 1,
       "lagging": 3,
-      "neutral": 0
+      "neutral": 1
     },
     "sector_count": 4,
     "top_sectors": [
       {
         "sector": "Materials",
-        "count": 2
+        "count": 3
       },
       {
         "sector": "Energy",
@@ -52,29 +52,29 @@
     "by_verdict": {
       "BEAT": 3,
       "INLINE": 1,
-      "MISS": 1,
+      "MISS": 2,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 58,
+    "avg_confidence_pct": 61,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 5,
+    "tradable_count": 6,
     "by_highlighted_branch": {
-      "RAISE": 5,
-      "MAINTAIN": 0,
-      "CUT": 0,
+      "RAISE": 4,
+      "MAINTAIN": 1,
+      "CUT": 1,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 5,
-    "classified": 5,
-    "cache_hits": 0,
+    "total": 6,
+    "classified": 6,
+    "cache_hits": 1,
     "llm_calls": 1,
-    "heuristic": 4,
+    "heuristic": 5,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
     "below_v3_floor": 4,
