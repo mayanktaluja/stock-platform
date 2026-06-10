@@ -3,6 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- A1: theme + density boot. Runs synchronously before the stylesheet so
+       the resolved theme paints on the first frame (no flash of dark for a
+       light-mode user). Resolution order: stored choice > OS preference >
+       dark default. Density defaults to comfortable. CSP-safe (script-src
+       allows 'unsafe-inline'). -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      try {
+        var stored = localStorage.getItem('theme');
+        var theme = (stored === 'light' || stored === 'dark')
+          ? stored
+          : (window.matchMedia &&
+             window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light' : 'dark');
+        root.setAttribute('data-theme', theme);
+        root.setAttribute('data-density',
+          localStorage.getItem('density') === 'compact' ? 'compact' : 'comfortable');
+      } catch (e) {
+        root.setAttribute('data-theme', 'dark');
+        root.setAttribute('data-density', 'comfortable');
+      }
+      // Follow OS theme changes, but only while the user has no explicit choice.
+      try {
+        var mq = window.matchMedia('(prefers-color-scheme: light)');
+        var onChange = function (e) {
+          if (!localStorage.getItem('theme')) {
+            root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+          }
+        };
+        if (mq.addEventListener) mq.addEventListener('change', onChange);
+        else if (mq.addListener) mq.addListener(onChange);
+      } catch (e) {}
+    })();
+  </script>
+
   <title>Starbhai Stock Platform</title>
   <meta name="description" content="Professional Indian stock analysis platform — technical signals, fundamentals, macro regime awareness, and forward-return tracking.">
 
@@ -294,6 +331,127 @@
       --red-bright:           #ef4444;
       --red-glow:             #ff7a7a;
       --cyan-bright:          #5cc7e8;
+    }
+    /* @tokens-end */
+
+    /* @tokens-start — A1 light theme ("Editorial Paper").
+     * Same token NAMES as :root, AA-safe values on a warm-paper surface.
+     * Only colour-bearing tokens are redeclared; geometry/space/motion/type/
+     * z-index/opacity tokens are theme-agnostic and inherited from :root.
+     * Semantic green/red are darkened (the dark #2ECC71/#D64545 fail AA on
+     * white) while keeping meaning (green = gain). The cascade does the rest:
+     * every var(--token) rule + the A0 slate tokens flip automatically. */
+    [data-theme="light"] {
+      /* Surfaces — warm paper */
+      --bg-primary:           #FBFAF7;
+      --bg-secondary:         #F3F1EB;
+      --bg-card:              #FFFFFF;
+      --bg-card-hover:        #F6F4EE;
+      --bg-input:             #FFFFFF;
+      --bg-base:              #FFFFFF;
+      --bg-elevated:          #FFFFFF;
+      --bg-graphite:          #EEF0F4;
+      --bg-graphite-deep:     #E3E6EC;
+      --surface-slate:        #EEF1F6;
+      --surface-slate-panel:  #F1F3F7;
+      --surface-slate-deep:   #E7EAF0;
+
+      /* Borders — ink hairlines */
+      --border:               rgba(20, 22, 28, 0.12);
+      --border-soft:          rgba(20, 22, 28, 0.07);
+      --border-focus:         rgba(176, 122, 30, 0.55);
+      --border-graphite:      #D3D8E0;
+      --border-slate:         #D3D8E0;
+      --border-slate-blue:    #C1CAD9;
+      --border-slate-soft:    #E0E3EA;
+      --border-slate-raised:  #CFD4DD;
+
+      /* Text — dark ink hierarchy (AA on paper) */
+      --text-primary:         #1A1C22;
+      --text-secondary:       rgba(26, 28, 34, 0.80);
+      --text-muted:           rgba(26, 28, 34, 0.64);
+      --text-faint:           rgba(26, 28, 34, 0.52);
+      --text-slate-muted:     #4A5A74;
+      --text-slate:           #51607A;
+      --text-slate-light:     #5B6B86;
+      --text-on-light:        #1A1C22;
+      --text-ice:             #1A1C22;
+      --text-blue-light:      #1D4ED8;
+
+      /* Semantic — darkened for AA on white, meaning preserved */
+      --green:                #1A8F4C;
+      --green-soft:           #2FA862;
+      --green-bg:             rgba(26, 143, 76, 0.10);
+      --green-border:         rgba(26, 143, 76, 0.30);
+      --red:                  #C0392B;
+      --red-soft:             #D2543F;
+      --red-bg:               rgba(192, 57, 43, 0.10);
+      --red-border:           rgba(192, 57, 43, 0.30);
+      --positive-strong:      #15803D;
+      --positive:             #1A8F4C;
+      --positive-soft:        #2FA862;
+      --positive-faint:       rgba(26, 143, 76, 0.55);
+      --positive-bg-strong:   rgba(26, 143, 76, 0.16);
+      --positive-bg-soft:     rgba(26, 143, 76, 0.07);
+      --negative-strong:      #B91C1C;
+      --negative:             #C0392B;
+      --negative-soft:        #D2543F;
+      --negative-faint:       rgba(192, 57, 43, 0.55);
+      --negative-bg-strong:   rgba(192, 57, 43, 0.16);
+      --negative-bg-soft:     rgba(192, 57, 43, 0.07);
+      --positive-text:        #15803D;
+      --positive-text-soft:   #1A8F4C;
+      --positive-text-emerald:#047857;
+      --negative-text:        #B91C1C;
+      --negative-text-soft:   #C0392B;
+      --green-bright:         #15803D;
+      --green-mid:            #15803D;
+      --red-bright:           #C0392B;
+      --red-glow:             #D2543F;
+
+      /* Accents — darkened amber + AA blue/cyan/purple/orange */
+      --blue:                 #2F62C4;
+      --blue-bg:              rgba(47, 98, 196, 0.10);
+      --yellow:               #B07A1E;
+      --yellow-bg:            rgba(176, 122, 30, 0.12);
+      --gold:                 #B07A1E;
+      --gold-deep:            #976818;
+      --purple:               #6D5BC4;
+      --orange:               #C2410C;
+      --cyan:                 #1B7E96;
+      --accent-blue:          #2563EB;
+      --info:                 #2F62C4;
+      --info-text:            #1D4ED8;
+      --info-text-soft:       #2F62C4;
+      --warn:                 #B07A1E;
+      --warn-text:            #9A6700;
+      --severity-low:         #1B7E96;
+      --severity-med:         #C2410C;
+      --severity-high:        #C0392B;
+      --orange-bright:        #C2410C;
+      --yellow-bright:        #9A6700;
+      --gold-bright:          #9A6700;
+      --purple-bright:        #6D5BC4;
+      --cyan-bright:          #1B7E96;
+
+      /* Gradients — recomputed for light contrast */
+      --gradient-green: linear-gradient(135deg, #1A8F4C, #15803D);
+      --gradient-red:   linear-gradient(135deg, #C0392B, #A12B20);
+      --gradient-blue:  linear-gradient(135deg, #2F62C4, #2451A8);
+      --gradient-gold:  linear-gradient(135deg, #B07A1E, #976818);
+
+      /* Elevation — soft dark-on-light shadows; drop the inset white highlight */
+      --card-shadow:          0 0 0 1px rgba(20, 22, 28, 0.06);
+      --card-gradient:        linear-gradient(180deg, rgba(20, 22, 28, 0.02) 0%, transparent 100%);
+      --elev-1: 0 1px 2px rgba(20, 22, 28, .05), 0 1px 3px rgba(20, 22, 28, .08);
+      --elev-2: 0 2px 4px rgba(20, 22, 28, .05), 0 4px 8px rgba(20, 22, 28, .07);
+      --elev-3: 0 4px 8px rgba(20, 22, 28, .07), 0 8px 16px rgba(20, 22, 28, .10);
+      --elev-4: 0 8px 16px rgba(20, 22, 28, .09), 0 16px 24px rgba(20, 22, 28, .13);
+      --card-shadow-elevated:
+        0 4px 12px rgba(20, 22, 28, 0.10),
+        0 16px 32px -8px rgba(20, 22, 28, 0.14);
+      --gold-glow-20: rgba(176, 122, 30, 0.18);
+      --gold-glow-30: rgba(176, 122, 30, 0.28);
     }
     /* @tokens-end */
 

@@ -40,6 +40,12 @@ function normalize(s) {
 }
 
 test.describe("PR #3 design tokens resolve to their declared values", () => {
+  // EXPECTED_TOKENS pins the DARK ("Editorial Terminal") palette. Since A1
+  // added a [data-theme="light"] override, force dark so this guard asserts
+  // the dark brand values (light has its own AA-validated values, checked in
+  // theme-toggle.spec.mjs). Original intent unchanged.
+  test.use({ colorScheme: "dark" });
+
   test("every token in :root resolves at runtime", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
 
