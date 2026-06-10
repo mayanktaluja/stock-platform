@@ -5233,6 +5233,19 @@ function renderTrackSectionPerformance() {
   if (!grid) return;
   const payload = _trackSectionPerformanceCache;
   const windowPayload = _sectionPerformanceWindow(payload, _trackSectionPerformanceWindow);
+  // Panel-level honesty: whenever the panel is served in the illustrative
+  // ("latest_available") basis, every window is the trailing return of TODAY's
+  // top-ranked picks projected backward — survivorship-biased, not a realized
+  // forward track record. Render the disclaimer once, above the per-window grid,
+  // so it shows regardless of which (possibly empty) window is selected.
+  const disclaimerHost = document.getElementById("trackSectionPerformanceDisclaimer");
+  if (disclaimerHost) {
+    disclaimerHost.innerHTML = payload?.isHypothetical === true ? `
+      <div data-testid="track-section-performance-disclaimer" style="border:1px solid rgba(251,191,36,0.28);background:rgba(251,191,36,0.07);border-radius:8px;padding:11px 13px;margin-bottom:12px;font-size:11.5px;line-height:1.55;color:var(--text-secondary);">
+        <strong style="color:var(--gold);">Illustrative — not a realized track record.</strong>
+        These are the <strong>trailing returns of today's top-ranked picks</strong>, projected backward over each window — not returns from cohorts actually held since then. Today's picks rank highly partly <em>because</em> they already rose (survivorship), so this overstates a real strategy. Longer windows (<strong>3m, 1y</strong>) are pure hindsight backfills and make <strong>no</strong> outperformance claim. Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this panel switches to closed-trade mode automatically.
+      </div>` : "";
+  }
   const tabs = document.querySelectorAll("#trackSectionPerformanceWindowTabs button[data-window]");
   tabs.forEach((btn) => {
     const windowKey = btn.getAttribute("data-window");
@@ -5303,22 +5316,31 @@ function renderTrackSectionPerformance() {
   }
   grid.innerHTML = rowsForView.map((s, idx) => {
     const alpha = Number(s.alphaPct);
-    const colors = signedColorFor(alpha);
+    const isHindsight = s.hindsight === true;
+    // Hindsight backfills render in neutral gold, never the verified-green of a
+    // real outperformance, so the number can't be misread as a held result.
+    const colors = isHindsight ? { color: "var(--text-secondary)" } : signedColorFor(alpha);
     const name = _plainSectionLabel(s.label);
     const side = s.side === "SHORT" ? "SHORT" : "LONG";
-    const border = idx === 0 ? "rgba(224,176,96,0.42)" : "var(--border)";
+    const border = isHindsight ? "var(--border)" : (idx === 0 ? "rgba(224,176,96,0.42)" : "var(--border)");
     const cohort = _cohortLabel(s);
+    const hindsightChip = isHindsight
+      ? `<span data-testid="track-section-hindsight-badge" title="Trailing return of today's picks projected backward — survivorship-biased, not a held cohort." style="font-size:8px;font-weight:800;letter-spacing:0.06em;color:var(--gold);background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);border-radius:3px;padding:1px 5px;margin-left:6px;">HINDSIGHT</span>`
+      : "";
+    const benchLine = _sectionBenchmarkLine(cohort, s.sectionReturnPct, s.benchmarkReturnPct, { compact: true })
+      + (isHindsight ? " · trailing, not held" : "");
+    const statusLabel = isHindsight ? "hindsight" : _sectionPerformanceStatusLabel(s.status || windowPayload.sampleStatus);
     return `<div data-testid="track-section-performance-row" style="border:1px solid ${border};background:var(--panel);border-radius:8px;padding:12px;min-height:118px;">
       <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;">
         <div style="font-size:13px;font-weight:800;color:var(--text-primary);line-height:1.25;">${escapeHtml(name)}</div>
         <span style="font-size:9px;font-weight:800;letter-spacing:0.06em;color:${side === "SHORT" ? "#fca5a5" : "#86efac"};">${side}</span>
       </div>
-      <div data-testid="track-section-cohort-label" style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-top:7px;">${escapeHtml(cohort)}</div>
+      <div data-testid="track-section-cohort-label" style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-top:7px;">${escapeHtml(cohort)}${hindsightChip}</div>
       <div style="font-size:24px;font-weight:900;color:${colors.color};margin-top:8px;line-height:1;" data-testid="track-section-alpha">${_fmtSignedPct(alpha)}</div>
       <div style="font-size:11px;color:var(--text-muted);margin-top:7px;line-height:1.45;">
-        ${escapeHtml(_sectionBenchmarkLine(cohort, s.sectionReturnPct, s.benchmarkReturnPct, { compact: true }))}
+        ${escapeHtml(benchLine)}
       </div>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(_sectionPerformanceStatusLabel(s.status || windowPayload.sampleStatus))} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(statusLabel)} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
     </div>`;
   }).join("");
 }
@@ -6447,6 +6469,9 @@ function renderAnalyzerActionMixBar(snap) {
         ${segments}
       </div>
       ${residual ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">${residual}</div>` : ""}
+      <div data-testid="analyzer-action-validation-note" style="font-size:11px; color:var(--text-muted); line-height:1.55; margin-top:10px; padding:9px 12px; border:1px dashed rgba(148,163,184,0.28); border-radius:8px;">
+        <strong style="color:var(--text-secondary);">How to read these actions:</strong> the Reduce / Hold / Top-up / Exit calls and ₹ sizing are a rules-based restatement of each holding's SWS quality score and your position weight — <strong>not a tested strategy</strong>. They have never been backtested against whether acting on them beats simply holding. Treat them as a discussion prompt for your own diligence, not as instructions.
+      </div>
     </div>`;
 }
 
@@ -12821,15 +12846,30 @@ function renderRegionPicks(code) {
         <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
       </div>`;
   }
+  // Dormant regions (KR/TW) have no refresh cron — surface an honest "periodic
+  // snapshot, not a live feed" banner so stale scores aren't read as current.
+  let dormantBanner = "";
+  if (data.dormant) {
+    const ts = data.scanned_at ? new Date(data.scanned_at) : null;
+    const ageDays = ts ? Math.floor((Date.now() - ts.getTime()) / 86400000) : null;
+    const whenTxt = ts ? ts.toLocaleDateString() : "—";
+    const ageTxt = ageDays != null ? ` (${ageDays} day${ageDays === 1 ? "" : "s"} ago)` : "";
+    const note = data.refresh_note || "This market is refreshed occasionally — treat these scores as a periodic snapshot, not a live feed.";
+    dormantBanner = `
+      <div data-testid="region-dormant-banner" style="border:1px solid rgba(251,191,36,0.28);background:rgba(251,191,36,0.07);border-radius:8px;padding:11px 13px;margin-bottom:12px;font-size:12px;line-height:1.55;color:var(--text-secondary);">
+        <strong style="color:var(--gold);">Periodic snapshot — not actively maintained.</strong>
+        ${escapeHtml(note)} Last refreshed <strong style="color:var(--text-primary);">${escapeHtml(whenTxt)}</strong>${escapeHtml(ageTxt)}.
+      </div>`;
+  }
   if (!totalShown) {
-    container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
+    container.innerHTML = dormantBanner + `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
   } else {
     const chipNav = renderTabChipNav(visibleSections, {
       jumpOnclick: (k) => `jumpToRegionPicksSection('${code}','${k}')`,
       expandAllOnclick: `setAllRegionPicksCollapsed('${code}',false)`,
       collapseAllOnclick: `setAllRegionPicksCollapsed('${code}',true)`,
     });
-    container.innerHTML = chipNav + html;
+    container.innerHTML = dormantBanner + chipNav + html;
     refreshScrollRails(container);
   }
   const summary = document.getElementById(dom + "FilterSummary");

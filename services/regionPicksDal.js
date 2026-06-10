@@ -105,6 +105,8 @@ export function makeRegionPicksDal(code) {
     code,
     currencyIso: region.currencyIso,
     label: region.label,
+    dormant: region.dormant === true,
+    refreshNote: region.refreshNote || null,
     PATHS: {
       dataDir: DATA_DIR,
       panicStop: path.join(DATA_DIR, "panic-stop.flag"),

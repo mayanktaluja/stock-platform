@@ -53,6 +53,30 @@ test.describe("Analyzer action-mix chip", () => {
     });
   });
 
+  test("portfolio actions carry an honest 'not a tested strategy' validation note", async ({ page }) => {
+    await gotoApp(page, { tab: "analyzer" });
+    await page.locator("#analyzerFileInput").setInputFiles(FIXTURE);
+
+    const reportReady = await page
+      .waitForFunction(
+        () => {
+          const r = document.getElementById("analyzerReport");
+          return r && r.style.display !== "none";
+        },
+        null,
+        { timeout: 45_000 }
+      )
+      .then(() => true)
+      .catch(() => false);
+    test.skip(!reportReady, "analyzer report did not render in time — likely live-price dependency");
+
+    const note = page.locator('[data-testid="analyzer-action-validation-note"]');
+    await expect(note).toBeVisible({ timeout: 10_000 });
+    await expect(note).toContainText(/not a tested strategy/i);
+    await expect(note).toContainText(/rules-based restatement/i);
+    await expect(note).toContainText(/never been backtested/i);
+  });
+
   // Regression: a bar segment showing "TOP-UP 22" must open a modal that
   // lists all 22 top-up stocks, not just the rows in one sub-tier. The bug
   // was that openActionListModalForBucket mapped each bucket to a single

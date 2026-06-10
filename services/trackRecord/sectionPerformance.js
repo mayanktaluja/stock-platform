@@ -21,8 +21,15 @@ export const SECTION_PERFORMANCE_COHORT_SIZES = [3, 5, 10, 20];
 export const SECTION_PERFORMANCE_WINDOW_DEFINITIONS = {
   "7d": { label: "7d", returnKey: "7D", days: 7, enabled: true, spotlightLatest: true, spotlightResolved: true },
   "30d": { label: "30d", returnKey: "1M", days: 30, enabled: true, spotlightLatest: true, spotlightResolved: true },
-  "3m": { label: "3m", returnKey: "3M", days: 91, enabled: true, spotlightLatest: true, spotlightResolved: true },
-  "1y": { label: "1y", returnKey: "1Y", days: 365, enabled: true, spotlightLatest: false, spotlightResolved: true },
+  // hindsightInLatest: in "latest_available" mode the window return is the
+  // *trailing* return of today's top-ranked picks, not a held cohort. For the
+  // short windows that's a defensible recent-sample proxy; for the long ones
+  // (3m/1y) it is survivorship/look-ahead backfill — current winners projected
+  // backward. We keep them visible but strip their outperformance CLAIM so they
+  // can never be crowned as a realized track record until the resolved path has
+  // genuine held history.
+  "3m": { label: "3m", returnKey: "3M", days: 91, enabled: true, spotlightLatest: true, spotlightResolved: true, hindsightInLatest: true },
+  "1y": { label: "1y", returnKey: "1Y", days: 365, enabled: true, spotlightLatest: false, spotlightResolved: true, hindsightInLatest: true },
   "3y": {
     label: "3y",
     days: 1095,
@@ -592,7 +599,14 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
   const label = section.cohort_label || perf.cohort_label || cohortLabel(requestedCohortSize, actualCohortSize);
   const coveragePct = perf.coverage_pct;
   const side = section.side || perf.side || "LONG";
+  // A long window served in latest_available mode is a hindsight/trailing
+  // backfill of today's survivors — never an outperformance CLAIM. It stays
+  // visible (with a HINDSIGHT badge in the UI) but is barred from banners,
+  // spotlights and bestOverall so a backfilled number can't masquerade as a
+  // realized track record.
+  const isHindsightLatest = sampleStatus === "latest_available" && def.hindsightInLatest === true;
   const eligibleForBanner =
+    !isHindsightLatest &&
     perf.beat_benchmark === true &&
     Number.isFinite(perf.alpha_pct) &&
     perf.alpha_pct > 0 &&
@@ -614,6 +628,7 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
     cohortKey: section.cohort_key || perf.cohort_key || cohortKeyForConstituents(section.constituents),
     eligibleForBanner,
     spotlightEligible,
+    hindsight: isHindsightLatest,
     sampleSize: perf.n_with_return ?? section.constituents?.length ?? 0,
     coveragePct,
     weighting: `equal_${label.replace(/\s+/g, "_")}`,
@@ -623,9 +638,13 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
     underlyingReturnPct: perf.underlying_return_pct,
     benchmarkReturnPct: perf.benchmark_return_pct,
     alphaPct: perf.alpha_pct,
-    outperformed: perf.beat_benchmark === true,
+    // An outperformance claim requires real held history; a hindsight backfill
+    // never asserts it (the raw trailing return is still shown).
+    outperformed: perf.beat_benchmark === true && !isHindsightLatest,
     status: sampleStatus,
-    qualityFlags: perf.data_quality_flags || [],
+    qualityFlags: isHindsightLatest
+      ? uniqueFlags([...(perf.data_quality_flags || []), "hindsight_backfill"])
+      : (perf.data_quality_flags || []),
     constituents: (section.constituents || []).slice(0, requestedCohortSize).map((c) => ({
       rank: c.rank,
       ticker: c.ticker,
@@ -732,6 +751,12 @@ export function buildSectionPerformanceApiPayload(rows, opts = {}) {
   return {
     schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
     mode: sampleStatus,
+    // isHypothetical=true marks the whole panel as trailing returns of today's
+    // top-ranked picks (a current-cohort backfill), NOT a realized forward
+    // track record. The UI renders an explicit disclaimer in this mode. Flips
+    // to false automatically once the resolved (held-cohort) path has data.
+    basis: sampleStatus === "latest_available" ? "current_cohort_trailing" : sampleStatus,
+    isHypothetical: sampleStatus === "latest_available",
     cohorts,
     windows: windowPayloads,
     bestOverall: chooseBestWindowSection(overallCandidates),
