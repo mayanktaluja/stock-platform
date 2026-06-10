@@ -227,7 +227,18 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   const w1y = byWindow["1y"].sections.find((s) => s.type === "sws_best_buynow");
   assert("3m window uses the SWS 3M return key", w3m.underlyingReturnPct === 24.5 && w3m.alphaPct === 19.5, w3m);
   assert("1y window uses the SWS 1Y return key", w1y.underlyingReturnPct === 54.5 && w1y.alphaPct === 44.5, w1y);
-  assert("1y latest sample is not homepage spotlight eligible", w1y.spotlightEligible === false && payload.spotlightSection.window === "3m", { w1y, spotlight: payload.spotlightSection });
+  // 3m/1y in latest_available mode are trailing returns of TODAY's picks
+  // projected backward (survivorship/look-ahead), not held cohorts — so they
+  // are flagged hindsight, make no outperformance claim, and cannot be crowned.
+  assert("3m and 1y latest samples are flagged hindsight backfills", w3m.hindsight === true && w1y.hindsight === true, { w3m, w1y });
+  assert("hindsight backfills make no outperformance claim", w3m.outperformed === false && w1y.outperformed === false, { w3m, w1y });
+  assert("hindsight backfills are not banner/spotlight eligible", w3m.eligibleForBanner === false && w1y.eligibleForBanner === false && w1y.spotlightEligible === false, { w3m, w1y });
+  assert("hindsight backfill carries the hindsight_backfill quality flag", w3m.qualityFlags.includes("hindsight_backfill"), w3m);
+  // bestOverall may still surface as the best *relative* cohort, but a
+  // hindsight-only panel can never assert an outperformance claim or a
+  // homepage spotlight.
+  assert("hindsight-only panel makes no outperformance claim and no spotlight", payload.spotlightSection === null && payload.bestOverall.outperformed === false && payload.bestOverall.eligibleForBanner === false, payload);
+  assert("payload is marked hypothetical in latest_available mode", payload.isHypothetical === true && payload.basis === "current_cohort_trailing", payload);
 }
 
 // ──── 4e. Disabled 3y/5y windows are visible status payloads, not winners ────

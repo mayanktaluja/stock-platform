@@ -5301,24 +5301,44 @@ function renderTrackSectionPerformance() {
     grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(_trackSectionPerformanceCohort)} cohort rows for ${escapeHtml(_trackSectionPerformanceWindow)}.</div></div>`;
     return;
   }
-  grid.innerHTML = rowsForView.map((s, idx) => {
+  // Honest framing for the illustrative ("latest_available") basis: the whole
+  // panel is the trailing return of TODAY's top-ranked picks, not a realized
+  // forward track record. Long windows (3m/1y) are hindsight backfills and are
+  // flagged per-row. The panel flips to verified mode once the resolved
+  // (held-cohort) path has matured data. See trackRecord/sectionPerformance.js.
+  const isHypo = payload?.isHypothetical === true;
+  const disclaimerHTML = isHypo ? `
+    <div data-testid="track-section-performance-disclaimer" style="grid-column:1/-1;border:1px solid rgba(251,191,36,0.28);background:rgba(251,191,36,0.07);border-radius:8px;padding:11px 13px;font-size:11.5px;line-height:1.55;color:var(--text-secondary);">
+      <strong style="color:var(--gold);">Illustrative — not a realized track record.</strong>
+      These are the <strong>trailing returns of today's top-ranked picks</strong>, projected backward over each window — not returns from cohorts actually held since then. Today's picks rank highly partly <em>because</em> they already rose (survivorship), so this overstates a real strategy. Longer windows (<strong>3m, 1y</strong>) are pure hindsight backfills and make <strong>no</strong> outperformance claim. Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this panel switches to closed-trade mode automatically.
+    </div>` : "";
+  grid.innerHTML = disclaimerHTML + rowsForView.map((s, idx) => {
     const alpha = Number(s.alphaPct);
-    const colors = signedColorFor(alpha);
+    const isHindsight = s.hindsight === true;
+    // Hindsight backfills render in neutral gold, never the verified-green of a
+    // real outperformance, so the number can't be misread as a held result.
+    const colors = isHindsight ? { color: "var(--text-secondary)" } : signedColorFor(alpha);
     const name = _plainSectionLabel(s.label);
     const side = s.side === "SHORT" ? "SHORT" : "LONG";
-    const border = idx === 0 ? "rgba(224,176,96,0.42)" : "var(--border)";
+    const border = isHindsight ? "var(--border)" : (idx === 0 ? "rgba(224,176,96,0.42)" : "var(--border)");
     const cohort = _cohortLabel(s);
+    const hindsightChip = isHindsight
+      ? `<span data-testid="track-section-hindsight-badge" title="Trailing return of today's picks projected backward — survivorship-biased, not a held cohort." style="font-size:8px;font-weight:800;letter-spacing:0.06em;color:var(--gold);background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);border-radius:3px;padding:1px 5px;margin-left:6px;">HINDSIGHT</span>`
+      : "";
+    const benchLine = _sectionBenchmarkLine(cohort, s.sectionReturnPct, s.benchmarkReturnPct, { compact: true })
+      + (isHindsight ? " · trailing, not held" : "");
+    const statusLabel = isHindsight ? "hindsight" : _sectionPerformanceStatusLabel(s.status || windowPayload.sampleStatus);
     return `<div data-testid="track-section-performance-row" style="border:1px solid ${border};background:var(--panel);border-radius:8px;padding:12px;min-height:118px;">
       <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;">
         <div style="font-size:13px;font-weight:800;color:var(--text-primary);line-height:1.25;">${escapeHtml(name)}</div>
         <span style="font-size:9px;font-weight:800;letter-spacing:0.06em;color:${side === "SHORT" ? "#fca5a5" : "#86efac"};">${side}</span>
       </div>
-      <div data-testid="track-section-cohort-label" style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-top:7px;">${escapeHtml(cohort)}</div>
+      <div data-testid="track-section-cohort-label" style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-top:7px;">${escapeHtml(cohort)}${hindsightChip}</div>
       <div style="font-size:24px;font-weight:900;color:${colors.color};margin-top:8px;line-height:1;" data-testid="track-section-alpha">${_fmtSignedPct(alpha)}</div>
       <div style="font-size:11px;color:var(--text-muted);margin-top:7px;line-height:1.45;">
-        ${escapeHtml(_sectionBenchmarkLine(cohort, s.sectionReturnPct, s.benchmarkReturnPct, { compact: true }))}
+        ${escapeHtml(benchLine)}
       </div>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(_sectionPerformanceStatusLabel(s.status || windowPayload.sampleStatus))} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(statusLabel)} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
     </div>`;
   }).join("");
 }
