@@ -1206,13 +1206,15 @@ async function fetchQuote(symbol) {
     const timestamps = r.timestamp || [];
     const lastIdx = timestamps.length - 1;
 
-    // IMPORTANT: meta.chartPreviousClose is the close of the FIRST bar in the
-    // requested range (e.g. 5 days ago with range=5d), NOT yesterday's close.
-    // The true previous close is the second-to-last daily bar's close.
-    const prevClose =
-      lastIdx >= 1 && q.close?.[lastIdx - 1] != null
-        ? q.close[lastIdx - 1]
-        : meta.chartPreviousClose;
+    // IMPORTANT: meta.chartPreviousClose is the close of the bar BEFORE the
+    // requested window (e.g. range=5d → 5 days ago), NOT yesterday's close.
+    // Walk backwards from lastIdx-1 to find the most recent non-null daily
+    // close — handles market holidays where the preceding bar is null.
+    let prevClose = null;
+    for (let i = lastIdx - 1; i >= 0; i--) {
+      if (q.close?.[i] != null) { prevClose = q.close[i]; break; }
+    }
+    if (prevClose == null) prevClose = meta.chartPreviousClose;
 
     const currentPrice = meta.regularMarketPrice;
 
@@ -1240,6 +1242,39 @@ async function fetchQuote(symbol) {
     return quote;
   } catch (err) {
     console.error(`Quote error for ${symbol}:`, err.message);
+    return null;
+  }
+}
+
+/**
+ * Fetch a minimal index quote using range=1d so that chartPreviousClose is
+ * exactly the most-recent session's official close (not an N-day-ago candle).
+ * Used for the market-ticker Yahoo fallback where prevClose accuracy matters.
+ */
+async function fetchIndexQuote(symbol) {
+  try {
+    const url = `${YF_BASE}/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=5m&includePrePost=false`;
+    const res = await fetchWithRetry(url, { headers: YF_HEADERS }, { retries: 2, timeoutMs: 8000 });
+    if (!res?.ok) return null;
+    const data = await res.json();
+    const r = data.chart?.result?.[0];
+    if (!r) return null;
+    const meta = r.meta;
+    const prevClose = meta.chartPreviousClose;
+    const price = meta.regularMarketPrice;
+    return {
+      symbol: meta.symbol,
+      shortName: meta.shortName || meta.longName || meta.symbol,
+      price,
+      change: price - prevClose,
+      changePercent: prevClose ? ((price - prevClose) / prevClose) * 100 : 0,
+      dayHigh: meta.regularMarketDayHigh,
+      dayLow: meta.regularMarketDayLow,
+      previousClose: prevClose,
+      source: "yahoo",
+    };
+  } catch (err) {
+    console.error(`Index quote error for ${symbol}:`, err.message);
     return null;
   }
 }
@@ -3788,30 +3823,35 @@ async function buildMarketPayload() {
   // Fallback: Yahoo Finance for SENSEX (NSE doesn't serve BSE index)
   // and if NSE failed entirely
   if (indices.length === 0) {
+    // Use fetchIndexQuote (range=1d) so chartPreviousClose is the true
+    // previous-session close, not a stale N-day-ago candle. The range=5d
+    // fetchQuote misidentifies prevClose after market holidays because the
+    // preceding bar is null and falls back to the window-start close.
     const yahooSymbols = ["^NSEI", "^BSESN", "^NSEBANK"];
-    const quotes = await Promise.all(yahooSymbols.map((i) => fetchQuote(i)));
+    const quotes = await Promise.all(yahooSymbols.map((i) => fetchIndexQuote(i)));
     indices = quotes.filter(Boolean).map((q) => ({
       symbol: q.symbol,
-      name: q.shortName || q.longName,
-      price: q.regularMarketPrice,
-      change: q.regularMarketChange,
-      changePercent: q.regularMarketChangePercent,
-      dayHigh: q.regularMarketDayHigh,
-      dayLow: q.regularMarketDayLow,
-      previousClose: q.regularMarketPreviousClose,
+      name: q.shortName || q.longName || q.symbol,
+      price: q.price,
+      change: q.change,
+      changePercent: q.changePercent,
+      dayHigh: q.dayHigh,
+      dayLow: q.dayLow,
+      previousClose: q.previousClose,
       source: "yahoo",
     }));
   } else {
     // Also add SENSEX from Yahoo since NSE doesn't serve BSE indices
     try {
-      const sensex = await fetchQuote("^BSESN");
+      const sensex = await fetchIndexQuote("^BSESN");
       if (sensex) {
         indices.splice(1, 0, {
           symbol: "^BSESN",
           name: "SENSEX",
-          price: sensex.regularMarketPrice,
-          change: sensex.regularMarketChange,
-          changePercent: sensex.regularMarketChangePercent,
+          price: sensex.price,
+          change: sensex.change,
+          changePercent: sensex.changePercent,
+          previousClose: sensex.previousClose,
           source: "yahoo",
         });
       }

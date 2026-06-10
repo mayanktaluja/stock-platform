@@ -361,16 +361,30 @@ export async function fetchNifty50() {
   const indexRow = data.data.find((d) => d.symbol === "NIFTY 50") || {};
   const stocks = data.data.filter((d) => d.symbol !== "NIFTY 50");
 
+  const value = indexRow.lastPrice ?? data.metadata?.last;
+  const prevClose = indexRow.previousClose;
+  // The index summary row's `change` field is intraday-from-open, not
+  // from-prev-close. Recompute from previousClose so the ticker matches
+  // what every other platform shows (prev-close basis).
+  const change =
+    prevClose != null && value != null
+      ? value - prevClose
+      : (data.metadata?.change ?? indexRow.change);
+  const pChange =
+    prevClose != null && value != null && prevClose !== 0
+      ? ((value - prevClose) / prevClose) * 100
+      : (data.metadata?.percentChange ?? indexRow.pChange);
+
   return {
     indexData: {
       name: "NIFTY 50",
-      value: indexRow.lastPrice || data.metadata?.last,
-      change: indexRow.change || data.metadata?.change,
-      pChange: indexRow.pChange || data.metadata?.percentChange,
+      value,
+      change,
+      pChange,
       open: indexRow.open,
       dayHigh: indexRow.dayHigh,
       dayLow: indexRow.dayLow,
-      previousClose: indexRow.previousClose,
+      previousClose: prevClose,
       yearHigh: indexRow.yearHigh,
       yearLow: indexRow.yearLow,
     },
@@ -387,12 +401,23 @@ export async function fetchBankNifty() {
   if (!data || !data.data) return null;
 
   const indexRow = data.data.find((d) => d.symbol === "NIFTY BANK") || {};
+  const bnValue = indexRow.lastPrice ?? data.metadata?.last;
+  const bnPrevClose = indexRow.previousClose;
+  const bnChange =
+    bnPrevClose != null && bnValue != null
+      ? bnValue - bnPrevClose
+      : (data.metadata?.change ?? indexRow.change);
+  const bnPChange =
+    bnPrevClose != null && bnValue != null && bnPrevClose !== 0
+      ? ((bnValue - bnPrevClose) / bnPrevClose) * 100
+      : (data.metadata?.percentChange ?? indexRow.pChange);
   return {
     indexData: {
       name: "BANK NIFTY",
-      value: indexRow.lastPrice || data.metadata?.last,
-      change: indexRow.change || data.metadata?.change,
-      pChange: indexRow.pChange || data.metadata?.percentChange,
+      value: bnValue,
+      change: bnChange,
+      pChange: bnPChange,
+      previousClose: bnPrevClose,
     },
   };
 }
