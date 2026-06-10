@@ -14,6 +14,52 @@ export function normalizeSwsInputAlertPrefs(prefs = {}) {
   };
 }
 
+// Only these SWS inputs carry investor-facing signal. Everything else the diff
+// emits (statements.rewards/risks, snowflake.total, v4_score/v4_verdict,
+// snowflake.data_quality, fair-value metadata, fiscal.*, forecast.*) is noise
+// for the Portfolio Analyzer "SWS input changes" panel + email digest and is
+// dropped. The diff emits each snowflake pillar under both a canonical key and
+// a non-canonical alias (value/valuation, future/future_growth, …) — we
+// normalize aliases to the canonical label and dedupe so a pillar shows once.
+const SWS_PILLAR_CANONICAL = {
+  value: "value",
+  valuation: "value",
+  future: "future",
+  future_growth: "future",
+  past: "past",
+  past_performance: "past",
+  health: "health",
+  financial_health: "health",
+  dividend: "dividend",
+  dividends: "dividend",
+};
+const SWS_SIGNAL_FAIR_VALUE_FIELDS = new Set([
+  "fair_value.fair_value_inr",
+  "fair_value.upside_band",
+]);
+
+// Filter a change[] array down to the signal fields above, rewriting pillar
+// aliases to their canonical field and deduping by canonical field (first
+// occurrence wins). Returns a new array; input is not mutated.
+export function filterSignalChanges(changes) {
+  const out = [];
+  const seen = new Set();
+  for (const change of Array.isArray(changes) ? changes : []) {
+    const field = String(change?.field || "");
+    let canonicalField = null;
+    if (SWS_SIGNAL_FAIR_VALUE_FIELDS.has(field)) {
+      canonicalField = field;
+    } else if (field.startsWith("snowflake.")) {
+      const pillar = SWS_PILLAR_CANONICAL[field.slice("snowflake.".length)];
+      if (pillar) canonicalField = `snowflake.${pillar}`;
+    }
+    if (!canonicalField || seen.has(canonicalField)) continue;
+    seen.add(canonicalField);
+    out.push(canonicalField === field ? change : { ...change, field: canonicalField });
+  }
+  return out;
+}
+
 export function digestPortfolioChanges(alerts) {
   return createHash("sha256")
     .update(
@@ -67,7 +113,21 @@ export async function buildPortfolioSwsInputAlerts(sub, marketChanges, stores = 
     : Array.isArray(marketChanges?.changes)
       ? marketChanges.changes
       : [];
-  const alerts = changes.filter((change) => heldTickers.has(canonicalSwsTicker(change?.ticker)));
+  const heldAlerts = changes.filter((change) => heldTickers.has(canonicalSwsTicker(change?.ticker)));
+  // Filter each held alert's changes to signal fields, drop alerts left with
+  // nothing, and recompute alert-level severity + change_hash from the survivors
+  // so the digest (used for ledger dedup) reflects the filtered set.
+  const alerts = [];
+  for (const alert of heldAlerts) {
+    const filteredChanges = filterSignalChanges(alert.changes);
+    if (!filteredChanges.length) continue;
+    alerts.push({
+      ...alert,
+      severity: filteredChanges.some((c) => c.severity === "high") ? "high" : "medium",
+      change_hash: stableHash(filteredChanges),
+      changes: filteredChanges,
+    });
+  }
   return {
     run_id: marketChanges?.run_id || null,
     generated_at: marketChanges?.generated_at || null,

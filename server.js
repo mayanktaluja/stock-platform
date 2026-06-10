@@ -5655,6 +5655,7 @@ import { getSwsInputAlertLedgerStorage } from "./swsInputAlertLedgerStorage.js";
 import {
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
+  filterSignalChanges,
   loadMarketWideSwsInputChanges,
   normalizeSwsInputAlertPrefs,
 } from "./services/swsPortfolioInputAlerts.js";
@@ -5804,13 +5805,21 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
       return res.status(403).json({ error: "sample-send-disabled" });
     }
     const market = loadMarketWideSwsInputChanges(SWS_INPUT_ALERT_ARTIFACT);
-    const sampleAlerts = market.alerts.slice(0, 3);
+    // Mirror the per-user pipeline: only signal fields survive, so the sample
+    // email matches what real recipients get.
+    const sampleAlerts = market.alerts
+      .map((alert) => {
+        const changes = filterSignalChanges(alert.changes);
+        return changes.length ? { ...alert, changes } : null;
+      })
+      .filter(Boolean)
+      .slice(0, 3);
     const fallbackAlert = {
       ticker: "SAMPLE",
       name: "Sample Holding",
       severity: "medium",
       change_hash: "sample",
-      changes: [{ field: "snowflake.total", previous: 12, current: 16, severity: "medium" }],
+      changes: [{ field: "snowflake.future", previous: 4, current: 3, severity: "medium" }],
     };
     const email = buildSwsInputAlertEmail({
       alerts: sampleAlerts.length ? sampleAlerts : [fallbackAlert],
