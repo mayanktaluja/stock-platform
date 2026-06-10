@@ -6469,6 +6469,9 @@ function renderAnalyzerActionMixBar(snap) {
         ${segments}
       </div>
       ${residual ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">${residual}</div>` : ""}
+      <div data-testid="analyzer-action-validation-note" style="font-size:11px; color:var(--text-muted); line-height:1.55; margin-top:10px; padding:9px 12px; border:1px dashed rgba(148,163,184,0.28); border-radius:8px;">
+        <strong style="color:var(--text-secondary);">How to read these actions:</strong> the Reduce / Hold / Top-up / Exit calls and ₹ sizing are a rules-based restatement of each holding's SWS quality score and your position weight — <strong>not a tested strategy</strong>. They have never been backtested against whether acting on them beats simply holding. Treat them as a discussion prompt for your own diligence, not as instructions.
+      </div>
     </div>`;
 }
 
