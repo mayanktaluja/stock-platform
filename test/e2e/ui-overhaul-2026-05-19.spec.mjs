@@ -105,7 +105,10 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
   test("header search has accessible label", async ({ page }) => {
     await gotoApp(page);
     const search = page.locator("#searchInput");
-    await expect(search).toHaveAttribute("aria-label", /Search NSE/i);
+    // Label became multi-market ("Search stocks across markets") when US/KR/TW
+    // search shipped; the old /Search NSE/ assertion went stale. Assert the
+    // input simply HAS a meaningful search aria-label.
+    await expect(search).toHaveAttribute("aria-label", /Search stocks/i);
     // role=search wrapper exists
     await expect(page.locator('[role="search"] #searchInput')).toHaveCount(1);
   });
