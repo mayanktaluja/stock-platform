@@ -37,6 +37,11 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       expect(b.currency).toBe(cfg.currency);
       expect(Array.isArray(b.sections.top_ranked_30_v3)).toBe(true);
       expect(b.sections.avoid).toBeUndefined();
+      // KR/TW are dormant (no refresh cron) — the payload flags it so the UI can
+      // render a "periodic snapshot, not a live feed" banner.
+      expect(b.dormant).toBe(true);
+      expect(typeof b.refresh_note).toBe("string");
+      expect(b.refresh_note.length).toBeGreaterThan(0);
     });
 
     test(`GET /api/${code}-picks?limit=2&category=top_ranked_30_v3 paginates`, async ({ request }) => {

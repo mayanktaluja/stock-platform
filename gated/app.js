@@ -12843,15 +12843,30 @@ function renderRegionPicks(code) {
         <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
       </div>`;
   }
+  // Dormant regions (KR/TW) have no refresh cron — surface an honest "periodic
+  // snapshot, not a live feed" banner so stale scores aren't read as current.
+  let dormantBanner = "";
+  if (data.dormant) {
+    const ts = data.scanned_at ? new Date(data.scanned_at) : null;
+    const ageDays = ts ? Math.floor((Date.now() - ts.getTime()) / 86400000) : null;
+    const whenTxt = ts ? ts.toLocaleDateString() : "—";
+    const ageTxt = ageDays != null ? ` (${ageDays} day${ageDays === 1 ? "" : "s"} ago)` : "";
+    const note = data.refresh_note || "This market is refreshed occasionally — treat these scores as a periodic snapshot, not a live feed.";
+    dormantBanner = `
+      <div data-testid="region-dormant-banner" style="border:1px solid rgba(251,191,36,0.28);background:rgba(251,191,36,0.07);border-radius:8px;padding:11px 13px;margin-bottom:12px;font-size:12px;line-height:1.55;color:var(--text-secondary);">
+        <strong style="color:var(--gold);">Periodic snapshot — not actively maintained.</strong>
+        ${escapeHtml(note)} Last refreshed <strong style="color:var(--text-primary);">${escapeHtml(whenTxt)}</strong>${escapeHtml(ageTxt)}.
+      </div>`;
+  }
   if (!totalShown) {
-    container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
+    container.innerHTML = dormantBanner + `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
   } else {
     const chipNav = renderTabChipNav(visibleSections, {
       jumpOnclick: (k) => `jumpToRegionPicksSection('${code}','${k}')`,
       expandAllOnclick: `setAllRegionPicksCollapsed('${code}',false)`,
       collapseAllOnclick: `setAllRegionPicksCollapsed('${code}',true)`,
     });
-    container.innerHTML = chipNav + html;
+    container.innerHTML = dormantBanner + chipNav + html;
     refreshScrollRails(container);
   }
   const summary = document.getElementById(dom + "FilterSummary");

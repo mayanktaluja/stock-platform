@@ -112,6 +112,11 @@ export const REGIONS = {
     nseCalendar: false,
     avoidSection: false,
     expectedTotalApprox: 2760,
+    // Dormant: KR has no scheduled refresh cron (manual /sws-refresh-kr only) and
+    // is intentionally refreshed only occasionally. Surfaced to the UI so users
+    // know the leaderboard is a periodic snapshot, not a live feed.
+    dormant: true,
+    refreshNote: "Korea is refreshed occasionally (no daily cron) — treat these scores as a periodic snapshot, not a live feed.",
   },
 
   // ── Taiwan (TWSE + TPEx) ──
@@ -145,6 +150,11 @@ export const REGIONS = {
     nseCalendar: false,
     avoidSection: false,
     expectedTotalApprox: 2339,
+    // Dormant: TW has no scheduled refresh cron (manual /sws-refresh-tw only) and
+    // is intentionally refreshed only occasionally. Surfaced to the UI so users
+    // know the leaderboard is a periodic snapshot, not a live feed.
+    dormant: true,
+    refreshNote: "Taiwan is refreshed occasionally (no daily cron) — treat these scores as a periodic snapshot, not a live feed.",
   },
 };
 

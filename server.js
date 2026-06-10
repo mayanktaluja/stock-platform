@@ -8950,6 +8950,10 @@ function registerRegionPicksRoutes(app, dal) {
     data.last_refresh = dal.getLastRefresh();
     data.scan_progress = dal.getAllShardProgressApi();
     data.scan_status_hint = buildMarketScanStatusHint(data.scan_progress);
+    // Dormant regions (KR/TW) have no refresh cron — flag it so the UI can tell
+    // users the leaderboard is a periodic snapshot, not a live feed.
+    data.dormant = dal.dormant === true;
+    data.refresh_note = dal.refreshNote || null;
     stampMarketRows(data, prefix);
     res.json(data);
   });
