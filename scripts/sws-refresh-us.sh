@@ -14,12 +14,54 @@
 #   SHARD_MAX_RETRIES=N  per-shard crash retries (default 2)
 #   SWS_US_AUTO_PR=0     skip branch + commit + push + PR (default: on)
 #   SWS_US_AUTO_MERGE=0  leave the PR open instead of enabling auto-merge
+#   SWS_US_DETACH=1      re-exec detached via nohup and return immediately, so a
+#                        caller (the /sws-refresh-us skill, a human, any wrapper)
+#                        can fire off the multi-hour run with ONE command and not
+#                        bind it to the launching shell / chat turn. The child
+#                        runs the full pipeline and auto-ships on a clean run.
 #
 # Exit codes: 0 ok · 3 US panic flag set · 4 panic mid-scrape · 5 India scrape
 # co-running (refused) · non-zero from a phase is logged but non-fatal.
 
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
+
+# ---------- 0. Optional self-detach (fire-and-forget launch) ----------
+# A full US run is multi-hour, so binding it to the launching shell (or a chat
+# turn) is the historical reason it silently never ran — the launch step was
+# left to a human to paste. SWS_US_DETACH=1 makes the script own its own
+# backgrounding: it re-execs itself under nohup, clears the flag so the child
+# runs the pipeline (not another fork), streams to a timestamped log, and
+# returns 0 at once. Pre-flight refusals (co-run guard, panic flag) still apply
+# — they land in the child's first second of log; check it or /sws-status-us.
+if [ "${SWS_US_DETACH:-0}" = "1" ]; then
+  mkdir -p data/sws-us
+  # Refuse a duplicate launch. The detach path is a single fire-and-forget
+  # command, so a double fire (the skill run twice, or skill + a manual run)
+  # would otherwise have BOTH children reset the shard cursors and scrape the
+  # one shared SWS account at once — the ban-doubling the co-run guard exists to
+  # prevent but cannot here, since it deliberately skips the US-vs-US case. The
+  # later live-shard check races during the ~15s spawn window, so gate here in
+  # the parent. The detached child runs with SWS_US_DETACH=0 and never re-enters
+  # this block, so it can't false-positive on the (briefly still-alive) parent.
+  existing_us="$(pgrep -f 'sws-refresh-us\.sh' 2>/dev/null | grep -v "^$$\$" || true)"
+  if [ -n "${existing_us}" ]; then
+    echo "[refresh-us] a US refresh is already live (PID(s): $(echo ${existing_us})) — refusing duplicate launch." >&2
+    exit 5
+  fi
+  # Log to the stable path /sws-status-us already advertises, so the detached
+  # run is discoverable (the timestamped-log variant was unfindable).
+  detach_log="data/sws-us/full-refresh.log"
+  # cwd is the repo root (the cd above), and the script lives at a known path,
+  # so re-exec via the repo-relative path — robust no matter how $0 was spelt.
+  SWS_US_DETACH=0 nohup bash "scripts/$(basename "$0")" "$@" > "${detach_log}" 2>&1 &
+  detach_pid=$!
+  disown "${detach_pid}" 2>/dev/null || true
+  echo "[refresh-us] detached full run → PID ${detach_pid}"
+  echo "[refresh-us] log: ${detach_log}"
+  echo "[refresh-us] track with /sws-status-us — a clean full run auto-ships (PR + auto-merge)."
+  exit 0
+fi
 
 START_EPOCH=$(date +%s)
 DATA_DIR="data/sws-us"
