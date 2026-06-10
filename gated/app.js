@@ -5233,6 +5233,19 @@ function renderTrackSectionPerformance() {
   if (!grid) return;
   const payload = _trackSectionPerformanceCache;
   const windowPayload = _sectionPerformanceWindow(payload, _trackSectionPerformanceWindow);
+  // Panel-level honesty: whenever the panel is served in the illustrative
+  // ("latest_available") basis, every window is the trailing return of TODAY's
+  // top-ranked picks projected backward — survivorship-biased, not a realized
+  // forward track record. Render the disclaimer once, above the per-window grid,
+  // so it shows regardless of which (possibly empty) window is selected.
+  const disclaimerHost = document.getElementById("trackSectionPerformanceDisclaimer");
+  if (disclaimerHost) {
+    disclaimerHost.innerHTML = payload?.isHypothetical === true ? `
+      <div data-testid="track-section-performance-disclaimer" style="border:1px solid rgba(251,191,36,0.28);background:rgba(251,191,36,0.07);border-radius:8px;padding:11px 13px;margin-bottom:12px;font-size:11.5px;line-height:1.55;color:var(--text-secondary);">
+        <strong style="color:var(--gold);">Illustrative — not a realized track record.</strong>
+        These are the <strong>trailing returns of today's top-ranked picks</strong>, projected backward over each window — not returns from cohorts actually held since then. Today's picks rank highly partly <em>because</em> they already rose (survivorship), so this overstates a real strategy. Longer windows (<strong>3m, 1y</strong>) are pure hindsight backfills and make <strong>no</strong> outperformance claim. Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this panel switches to closed-trade mode automatically.
+      </div>` : "";
+  }
   const tabs = document.querySelectorAll("#trackSectionPerformanceWindowTabs button[data-window]");
   tabs.forEach((btn) => {
     const windowKey = btn.getAttribute("data-window");
@@ -5301,18 +5314,7 @@ function renderTrackSectionPerformance() {
     grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(_trackSectionPerformanceCohort)} cohort rows for ${escapeHtml(_trackSectionPerformanceWindow)}.</div></div>`;
     return;
   }
-  // Honest framing for the illustrative ("latest_available") basis: the whole
-  // panel is the trailing return of TODAY's top-ranked picks, not a realized
-  // forward track record. Long windows (3m/1y) are hindsight backfills and are
-  // flagged per-row. The panel flips to verified mode once the resolved
-  // (held-cohort) path has matured data. See trackRecord/sectionPerformance.js.
-  const isHypo = payload?.isHypothetical === true;
-  const disclaimerHTML = isHypo ? `
-    <div data-testid="track-section-performance-disclaimer" style="grid-column:1/-1;border:1px solid rgba(251,191,36,0.28);background:rgba(251,191,36,0.07);border-radius:8px;padding:11px 13px;font-size:11.5px;line-height:1.55;color:var(--text-secondary);">
-      <strong style="color:var(--gold);">Illustrative — not a realized track record.</strong>
-      These are the <strong>trailing returns of today's top-ranked picks</strong>, projected backward over each window — not returns from cohorts actually held since then. Today's picks rank highly partly <em>because</em> they already rose (survivorship), so this overstates a real strategy. Longer windows (<strong>3m, 1y</strong>) are pure hindsight backfills and make <strong>no</strong> outperformance claim. Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this panel switches to closed-trade mode automatically.
-    </div>` : "";
-  grid.innerHTML = disclaimerHTML + rowsForView.map((s, idx) => {
+  grid.innerHTML = rowsForView.map((s, idx) => {
     const alpha = Number(s.alphaPct);
     const isHindsight = s.hindsight === true;
     // Hindsight backfills render in neutral gold, never the verified-green of a

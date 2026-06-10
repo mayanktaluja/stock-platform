@@ -564,6 +564,70 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(panel.locator("#trackSectionPerformanceSummary")).toContainText(/top 20 cohorts/i);
   });
 
+  test("Track Record panel flags hindsight backfills and shows the illustrative-basis disclaimer", async ({ page }) => {
+    await page.route("**/api/track/section-performance?**", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "sws-section-performance-v1",
+          mode: "latest_available",
+          basis: "current_cohort_trailing",
+          isHypothetical: true,
+          cohorts: [3, 5, 10, 20],
+          generatedAt: "2026-06-10T00:00:00.000Z",
+          bestOverall: {
+            window: "30d", sampleStatus: "latest_available", label: "SWS - Best to Buy Now",
+            cohortLabel: "top 3", requestedCohortSize: 3, actualCohortSize: 3,
+            eligibleForBanner: true, hindsight: false, alphaPct: 6.8, sectionReturnPct: 3.1,
+            benchmarkReturnPct: -3.7, outperformed: true,
+          },
+          windows: [
+            { window: "7d", sampleStatus: "latest_available", benchmarkReturnPct: -1, bestSection: null, sections: [] },
+            { window: "30d", sampleStatus: "latest_available", benchmarkReturnPct: -3.7, bestSection: null, sections: [] },
+            {
+              window: "3m", label: "3m", enabled: true, sampleStatus: "latest_available",
+              benchmarkReturnPct: -4, fromDate: "2026-03-11", toDate: "2026-06-10",
+              bestSection: {
+                label: "SWS - Best to Buy Now", cohortLabel: "top 3", requestedCohortSize: 3, actualCohortSize: 3,
+                eligibleForBanner: false, hindsight: true, alphaPct: 28, sectionReturnPct: 24,
+                benchmarkReturnPct: -4, outperformed: false, status: "latest_available",
+              },
+              sections: [{
+                type: "sws_best_buynow", sectionKey: "best_to_buy_now", label: "SWS - Best to Buy Now",
+                side: "LONG", requestedCohortSize: 3, actualCohortSize: 3, cohortLabel: "top 3",
+                eligibleForBanner: false, hindsight: true, sampleSize: 3, coveragePct: 100,
+                sectionReturnPct: 24, benchmarkReturnPct: -4, alphaPct: 28, outperformed: false,
+                status: "latest_available", qualityFlags: ["hindsight_backfill"],
+                fromDate: "2026-03-11", toDate: "2026-06-10",
+              }],
+            },
+            { window: "1y", enabled: true, sampleStatus: "latest_available", benchmarkReturnPct: -6, bestSection: null, sections: [] },
+            { window: "3y", enabled: false, sampleStatus: "insufficient_history", disabledReason: "Waiting for 3 years of daily section snapshots before this can become a Track Record window.", bestSection: null, sections: [] },
+            { window: "5y", enabled: false, sampleStatus: "insufficient_history", disabledReason: "Waiting for 5 years of daily section snapshots before this can become a Track Record window.", bestSection: null, sections: [] },
+          ],
+        }),
+      });
+    });
+
+    await gotoApp(page);
+    await switchTab(page, "track");
+    const panel = page.locator("#trackSectionPerformancePanel");
+    await expect(panel).toBeVisible({ timeout: 10_000 });
+
+    // The illustrative-basis disclaimer is present whenever the panel is hypothetical.
+    const disclaimer = panel.locator('[data-testid="track-section-performance-disclaimer"]');
+    await expect(disclaimer).toBeVisible();
+    await expect(disclaimer).toContainText(/Illustrative — not a realized track record/i);
+    await expect(disclaimer).toContainText(/trailing returns of today's top-ranked picks/i);
+
+    // Selecting the 3m (hindsight) window flags the backfill explicitly.
+    await panel.locator('button[data-window="3m"]').click();
+    const row = panel.locator('[data-testid="track-section-performance-row"]').first();
+    await expect(row).toBeVisible({ timeout: 10_000 });
+    await expect(row.locator('[data-testid="track-section-hindsight-badge"]')).toContainText(/HINDSIGHT/);
+    await expect(row).toContainText(/trailing, not held/i);
+  });
+
   test("public Track Record APIs and UI exclude non-buy SWS buckets", async ({ page, request }) => {
     const retiredTypes = ["sws_upcoming_earnings", "sws_avoid"];
     const retiredLabels = /Upcoming Earnings|SWS - Avoid|SWS — Avoid|Avoid \(sell signal\)/;
