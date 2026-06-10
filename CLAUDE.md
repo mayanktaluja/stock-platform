@@ -201,13 +201,15 @@ Feeds the predictor's YoY-EPS-trajectory component. Universe is the curated
 before STALE ones (freshness); Yahoo calls are budget-capped (`--max-fetches`,
 default 1800) with overflow deferred to the next run. This is a ~30-min Yahoo
 job — **chained into `scripts/sws-nightly.sh` immediately before `refresh-
-earnings.mjs`** behind an 18h freshness gate (sws-nightly.sh:460-515), so the
+earnings.mjs`** behind an 18h freshness gate (sws-nightly.sh:896-929), so the
 predictor always reads a fresh trajectory file. Previously a standalone 04:00
 IST launchd job (`com.starbhai.sws-fundamentals-history`, wrapper
 `scripts/sws-fundamentals-history-nightly.sh`, plist
-`scripts/com.starbhai.sws-fundamentals-history.plist`) — that job is dormant
-after silently exiting 127 for 23 days when its script path moved. Never on a
-Vercel cron. `refresh-earnings.mjs` still logs a warning if
+`scripts/com.starbhai.sws-fundamentals-history.plist`) — that job went dormant
+2026-05-13 (silently exiting 127 for 23 days when its script path moved) and was
+**removed 2026-06-10**: plist + wrapper deleted, `sws-resume-nightly.sh` no
+longer references it, stale `data/sws/launchd-fh-*.log` cleared. The nightly
+chain is the only path now. Never on a Vercel cron. `refresh-earnings.mjs` still logs a warning if
 `fundamentalsHistory.json` goes >7 days stale as defence-in-depth. Manual
 corrections go in `data/fundamentals-history-overrides.json` (reapplied after
 every refresh).
