@@ -9,23 +9,28 @@
       Picks-vs-snapshots Fair-Value drift probe — Layer 3 telemetry of the
       fix planned in ~/.claude/plans/so-i-have-attached-virtual-sphinx.md.
 
-      Hits the local dev/staging server's /api/sws-picks every 15 min and
-      appends the response's `_meta.fv_drift_count` to a rolling 24h JSONL
-      under data/sws/health/. The nightly earnings-health-summary picks
-      that file up and surfaces the 24h peak; non-zero triggers a Slack
-      alert.
+      Computes /api/sws-picks' `_meta.fv_drift_count` IN-PROCESS off disk
+      every 15 min and appends it to a rolling 24h JSONL under
+      data/sws/health/. The nightly earnings-health-summary picks that file
+      up and surfaces the 24h peak; non-zero triggers a Slack alert.
 
-      Requires the local server to be running (port 3000). Probe fails
-      silently when it can't reach the server — runs at low priority and
-      never crashes the host. To enable:
+      No running server required — the probe reads picks-latest.json + the
+      per-ticker SWS snapshots straight off disk via swsDal (Postgres was
+      decommissioned 2026-05-19, so the DAL is disk-only). This is the fix
+      for the 2026-06-06 silent outage: the prior HTTP-against-localhost:3000
+      design produced zero telemetry for ~4 days whenever the dev server was
+      down, while flooding stderr with "fetch failed". Probe failures stay
+      silent (never crash the host) but log to stderr so a real outage
+      surfaces. To enable:
 
         cp scripts/com.starbhai.picks-fv-drift-probe.plist \
            ~/Library/LaunchAgents/
         launchctl load \
            ~/Library/LaunchAgents/com.starbhai.picks-fv-drift-probe.plist
 
-      To target production set PROBE_BASE_URL=https://starbhai-stock-platform.vercel.app
-      plus PROBE_COOKIE in the EnvironmentVariables block below.
+      To probe a live endpoint instead (e.g. production), add PROBE_BASE_URL
+      (=https://starbhai-stock-platform.vercel.app) plus PROBE_COOKIE for the
+      session gate to the EnvironmentVariables block below.
     -->
     <key>ProgramArguments</key>
     <array>
@@ -33,8 +38,9 @@
         <string>/Users/mayanktaluja/code/stock-platform/scripts/probe-picks-fv-drift.mjs</string>
     </array>
 
-    <!-- Every 15 minutes, 96 fires/day. Cheap (one HTTP call + one
-         file append). The 24h JSONL caps at ~96 lines on rotation. -->
+    <!-- Every 15 minutes, 96 fires/day. Cheap (one disk read of
+         picks-latest + the referenced snapshots + one file append).
+         The 24h JSONL caps at ~96 lines on rotation. -->
     <key>StartInterval</key>
     <integer>900</integer>
 
@@ -55,8 +61,8 @@
         <string>/Users/mayanktaluja</string>
         <key>LANG</key>
         <string>en_US.UTF-8</string>
-        <key>PROBE_BASE_URL</key>
-        <string>http://localhost:3000</string>
+        <!-- No PROBE_BASE_URL → disk mode (no server dependency). Add
+             PROBE_BASE_URL + PROBE_COOKIE here to probe a live endpoint. -->
     </dict>
 
     <key>RunAtLoad</key>
