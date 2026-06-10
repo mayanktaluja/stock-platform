@@ -91,3 +91,49 @@ test.describe("A1 theme boot", () => {
     expect(darkBg.toLowerCase()).toBe("#0b0c10");
   });
 });
+
+test.describe("A2 theme toggle button", () => {
+  // Direct navigation (not gotoApp) so the storage-clear doesn't wipe the
+  // choice we're asserting persists. Suite default colorScheme is dark.
+  test("click flips theme, aria-pressed, and persists across reload", async ({
+    page,
+  }) => {
+    await page.goto("/index.html");
+    expect(await themeAttr(page)).toBe("dark");
+
+    const btn = page.locator("#themeToggleBtn");
+    await expect(btn).toHaveAttribute("aria-pressed", "false");
+    await btn.click();
+
+    expect(await themeAttr(page)).toBe("light");
+    await expect(btn).toHaveAttribute("aria-pressed", "true");
+    await expect(btn).toHaveAttribute("aria-label", /dark theme/i);
+    expect(
+      await page.evaluate(() => localStorage.getItem("theme")),
+    ).toBe("light");
+    // meta theme-color tracks the theme (mobile browser chrome)
+    expect(
+      await page.evaluate(
+        () => document.querySelector('meta[name="theme-color"]').content,
+      ),
+    ).toBe("#FBFAF7");
+
+    // Survives reload via the boot script reading localStorage.
+    await page.reload();
+    expect(await themeAttr(page)).toBe("light");
+    await expect(page.locator("#themeToggleBtn")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+  });
+
+  test("toggle button is a ≥44px hit target on mobile", async ({ browser }) => {
+    const ctx = await browser.newContext({ viewport: { width: 375, height: 812 } });
+    const page = await ctx.newPage();
+    await page.goto("/index.html");
+    const box = await page.locator("#themeToggleBtn").boundingBox();
+    expect(box.width).toBeGreaterThanOrEqual(44);
+    expect(box.height).toBeGreaterThanOrEqual(44);
+    await ctx.close();
+  });
+});

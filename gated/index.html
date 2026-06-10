@@ -455,6 +455,20 @@
     }
     /* @tokens-end */
 
+    /* A2 — compact density. Overrides the spacing scale that padding/gap rules
+     * consume, tightening the whole UI for analyst-grade information density.
+     * Theme-agnostic (no colour), so it composes with either theme. Default
+     * (comfortable) inherits the :root scale unchanged. Per-surface row
+     * paddings are tuned further in Epic D. */
+    [data-density="compact"] {
+      --space-150: 9px;
+      --space-200: 12px;
+      --space-300: 18px;
+      --space-400: 24px;
+      --space-500: 30px;
+      --space-600: 36px;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     /* PR F1 — accessibility baseline.
@@ -797,6 +811,44 @@
       align-items: center;
       gap: 20px;
       white-space: nowrap;
+    }
+
+    /* A2 — theme + density toggle buttons */
+    .header-toggles { display: inline-flex; align-items: center; gap: 6px; }
+    .header-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-100);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      transition: color var(--dur-quick) var(--ease-standard),
+                  border-color var(--dur-quick) var(--ease-standard),
+                  background var(--dur-quick) var(--ease-standard),
+                  transform var(--dur-fast) var(--ease-spring);
+    }
+    .header-toggle:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: var(--yellow-bg);
+    }
+    .header-toggle:active { transform: scale(0.94); }
+    .header-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .header-toggle[aria-pressed="true"] {
+      color: var(--gold);
+      border-color: var(--border-focus);
+      background: var(--yellow-bg);
+    }
+    @media (max-width: 720px) {
+      /* WCAG 2.5.5 touch target on mobile */
+      .header-toggle { width: 44px; height: 44px; }
     }
 
     .market-status-pill {
@@ -4621,6 +4673,18 @@
           <div class="header-time" id="currentTime">--:--:-- --</div>
           <div class="header-date" id="currentDate">IST</div>
         </div>
+        <!-- A2 — theme + density toggles. aria-pressed reflects the active
+             alternative; labels/icons re-sync on click (see boot-ui script). -->
+        <div class="header-toggles">
+          <button type="button" class="header-toggle" id="themeToggleBtn"
+                  aria-label="Switch to light theme" aria-pressed="false" title="Toggle light / dark theme">
+            <span class="header-toggle-icon" aria-hidden="true">&#9790;</span>
+          </button>
+          <button type="button" class="header-toggle" id="densityToggleBtn"
+                  aria-label="Switch to compact density" aria-pressed="false" title="Toggle comfortable / compact density">
+            <span class="header-toggle-icon" aria-hidden="true">&#9776;</span>
+          </button>
+        </div>
         <!-- Legacy More menu shell. Public tabs now stay in #mainTabs; Users is
              revealed in the tab bar only for the hard-coded admin account. -->
         <div class="labs-menu" id="labsMenu" hidden>
@@ -4647,6 +4711,52 @@
       </div>
     </div>
   </header>
+
+  <!-- A2 — theme + density toggle wiring. Reads/writes the same data-* attrs
+       and localStorage keys the <head> boot script established, so state is
+       consistent across reloads. Kept inline (not in deferred app.js) so the
+       controls work even before the module bundle finishes loading. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      function syncTheme() {
+        var light = root.getAttribute("data-theme") === "light";
+        var btn = document.getElementById("themeToggleBtn");
+        if (btn) {
+          btn.setAttribute("aria-pressed", String(light));
+          btn.setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
+          var icon = btn.querySelector(".header-toggle-icon");
+          if (icon) icon.textContent = light ? "☀" : "☽"; // ☀ sun / ☽ moon
+        }
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", light ? "#FBFAF7" : "#0B0C10");
+      }
+      function syncDensity() {
+        var compact = root.getAttribute("data-density") === "compact";
+        var btn = document.getElementById("densityToggleBtn");
+        if (btn) {
+          btn.setAttribute("aria-pressed", String(compact));
+          btn.setAttribute("aria-label", compact ? "Switch to comfortable density" : "Switch to compact density");
+        }
+      }
+      var tBtn = document.getElementById("themeToggleBtn");
+      if (tBtn) tBtn.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        syncTheme();
+      });
+      var dBtn = document.getElementById("densityToggleBtn");
+      if (dBtn) dBtn.addEventListener("click", function () {
+        var next = root.getAttribute("data-density") === "compact" ? "comfortable" : "compact";
+        root.setAttribute("data-density", next);
+        try { localStorage.setItem("density", next); } catch (e) {}
+        syncDensity();
+      });
+      syncTheme();
+      syncDensity();
+    })();
+  </script>
 
   <!-- Market Ticker — aria-hidden because it scrolls + updates too rapidly
        for screen readers; a separate polite announcer (added in Phase 2) can
