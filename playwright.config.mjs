@@ -12,6 +12,15 @@ export default defineConfig({
   retries: 0,
   workers: 1,
   reporter: process.env.CI ? "github" : "list",
+  // C1: visual-regression tolerances. Sub-pixel AA + font hinting vary across
+  // environments, so allow a small ratio; real redesign diffs are far larger.
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.02,
+      animations: "disabled",
+      caret: "hide",
+    },
+  },
   use: {
     baseURL: BASE_URL,
     trace: "retain-on-failure",
