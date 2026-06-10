@@ -8060,34 +8060,41 @@ async function renderSwsInputAlertsPanel(root) {
   const prefs = data.prefs || { inApp: true, email: false };
   const alerts = Array.isArray(data.alerts) ? data.alerts : [];
   const rows = alerts.map((alert) => {
-    const first = Array.isArray(alert.changes) && alert.changes.length ? alert.changes[0] : null;
-    const metric = first ? swsEscapeAttr(first.field || "changed input") : "changed input";
-    const prev = first ? swsEscapeAttr(String(first.previous ?? "n/a")) : "n/a";
-    const cur = first ? swsEscapeAttr(String(first.current ?? "n/a")) : "n/a";
+    const changeLines = (Array.isArray(alert.changes) ? alert.changes : []).map((change) => {
+      const metric = swsEscapeAttr(change.field || "changed input");
+      const prev = swsEscapeAttr(String(change.previous ?? "n/a"));
+      const cur = swsEscapeAttr(String(change.current ?? "n/a"));
+      return `<div style="font-size:12px; color:var(--text-muted); margin-top:3px;">${metric}: ${prev} -> ${cur}</div>`;
+    }).join("");
     const severity = swsEscapeAttr(alert.severity || "medium");
     return `<div data-sws-input-alert-row style="display:grid; grid-template-columns:110px 1fr 90px; gap:10px; align-items:start; padding:10px 0; border-top:1px solid var(--border-soft);">
       <div style="font-family:var(--font-mono); font-size:12px; font-weight:700;">${swsEscapeAttr(alert.ticker || "")}</div>
       <div>
         <div style="font-size:13px; color:var(--text-primary); font-weight:600;">${swsEscapeAttr(alert.name || alert.ticker || "")}</div>
-        <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">${metric}: ${prev} -> ${cur}</div>
+        ${changeLines}
       </div>
       <div style="justify-self:end; font-size:10px; text-transform:uppercase; color:${severity === "high" ? "var(--red-soft)" : "var(--yellow)"}; font-weight:700;">${severity}</div>
     </div>`;
   }).join("");
+  const subtitle = alerts.length
+    ? `${alerts.length} holding${alerts.length === 1 ? "" : "s"} changed in run ${swsEscapeAttr(data.run_id || "")}`
+    : "No portfolio holding input changes in the latest SWS run.";
+  // Collapsed by default — mirrors the analyzer-tier-details pattern (chevron
+  // CSS lives in gated/index.html) while keeping the distinct blue alert card.
   mount.innerHTML = `
-    <section data-sws-input-alerts style="border:1px solid rgba(127,161,232,0.22); border-radius:8px; padding:14px 16px; background:rgba(127,161,232,0.06);">
-      <div style="display:flex; justify-content:space-between; gap:14px; align-items:center; flex-wrap:wrap;">
-        <div>
-          <div style="font-size:14px; color:var(--text-primary); font-weight:700;">SWS input changes</div>
-          <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${alerts.length ? `${alerts.length} holding${alerts.length === 1 ? "" : "s"} changed in run ${swsEscapeAttr(data.run_id || "")}` : "No portfolio holding input changes in the latest SWS run."}</div>
+    <details data-sws-input-alerts class="analyzer-tier-details" style="border:1px solid rgba(127,161,232,0.22); border-radius:8px; padding:14px 16px; background:rgba(127,161,232,0.06);">
+      <summary class="tx-title" style="cursor:pointer; list-style:none; font-size:14px; font-weight:700; color:var(--text-primary);">SWS input changes <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${alerts.length})</span></summary>
+      <div style="padding-top: var(--space-200);">
+        <div style="display:flex; justify-content:space-between; gap:14px; align-items:center; flex-wrap:wrap; margin-bottom:6px;">
+          <div style="font-size:12px; color:var(--text-muted);">${subtitle}</div>
+          <label style="display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); cursor:pointer;">
+            <input id="swsInputAlertEmailToggle" type="checkbox" ${prefs.email ? "checked" : ""} style="accent-color:var(--gold);" />
+            Email digest
+          </label>
         </div>
-        <label style="display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); cursor:pointer;">
-          <input id="swsInputAlertEmailToggle" type="checkbox" ${prefs.email ? "checked" : ""} style="accent-color:var(--gold);" />
-          Email digest
-        </label>
+        ${rows}
       </div>
-      ${rows}
-    </section>
+    </details>
   `;
   const toggle = mount.querySelector("#swsInputAlertEmailToggle");
   if (toggle) {
