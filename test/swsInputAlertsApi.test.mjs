@@ -60,16 +60,16 @@ try {
       {
         ticker: "TCS",
         name: "Tata Consultancy Services",
-        severity: "high",
+        severity: "medium",
         change_hash: "hash-tcs",
-        changes: [{ field: "snowflake.total", previous: 10, current: 16, severity: "high" }],
+        changes: [{ field: "snowflake.future", previous: 4, current: 3, severity: "medium" }],
       },
       {
         ticker: "INFY",
         name: "Infosys",
         severity: "medium",
         change_hash: "hash-infy",
-        changes: [{ field: "forecast", previous: "old", current: "new", severity: "medium" }],
+        changes: [{ field: "fair_value.fair_value_inr", previous: 100, current: 110, severity: "medium" }],
       },
     ],
   });

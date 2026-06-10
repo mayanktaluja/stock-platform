@@ -15,9 +15,9 @@ test.describe("Portfolio Analyzer — SWS input alerts", () => {
           alerts: [{
             ticker: "TCS",
             name: "Tata Consultancy Services",
-            severity: "high",
+            severity: "medium",
             change_hash: "tcs-alert",
-            changes: [{ field: "snowflake.total", previous: 12, current: 18, severity: "high" }],
+            changes: [{ field: "snowflake.future", previous: 4, current: 3, severity: "medium" }],
           }],
         }),
       });
@@ -45,10 +45,16 @@ test.describe("Portfolio Analyzer — SWS input alerts", () => {
     const panel = page.locator("#swsInputAlertE2ERoot [data-sws-input-alerts]");
     await expect(panel).toBeVisible();
     await expect(panel).toContainText("SWS input changes");
+    // Collapsed by default — the <details> starts closed.
+    expect(await panel.evaluate((el) => el.open)).toBe(false);
+    // textContent is present even while collapsed.
     await expect(panel).toContainText("TCS");
-    await expect(panel).toContainText("snowflake.total");
-    await expect(panel).toContainText("12 -> 18");
+    await expect(panel).toContainText("snowflake.future");
+    await expect(panel).toContainText("4 -> 3");
 
+    // Expand so the email toggle is actionable, then persist the preference.
+    await panel.locator("summary").click();
+    expect(await panel.evaluate((el) => el.open)).toBe(true);
     await page.locator("#swsInputAlertEmailToggle").check();
     await expect.poll(() => prefsPost).toEqual({ inApp: true, email: true });
   });
