@@ -116,18 +116,18 @@
 
   function colorForDelta(n) {
     const v = Number(n || 0);
-    if (v < -2) return "#ef4444";
-    if (v < 0) return "#f59e0b";
-    if (v > 2) return "#10b981";
-    if (v > 0) return "#84cc16";
+    if (v < -2) return "var(--red-bright)";
+    if (v < 0) return "var(--amber)";
+    if (v > 2) return "var(--emerald)";
+    if (v > 0) return "var(--lime)";
     return "var(--text-muted)";
   }
 
   function colorForQuality(verdict) {
     return {
-      HIGH: "#10b981",
-      MEDIUM: "#f59e0b",
-      LOW: "#ef4444",
+      HIGH: "var(--emerald)",
+      MEDIUM: "var(--amber)",
+      LOW: "var(--red-bright)",
       INSUFFICIENT_DATA: "var(--text-muted)",
     }[verdict] || "var(--text-muted)";
   }
@@ -211,7 +211,7 @@
         cursor: "pointer",
         textAlign: align || "left",
         userSelect: "none",
-        color: isActive ? "#60a5fa" : "var(--text-muted)",
+        color: isActive ? "var(--info-text)" : "var(--text-muted)",
       },
       onClick: (e) => {
         // Don't trigger sort if the user clicked the info bubble — that has
@@ -267,7 +267,7 @@
     const regimeAttrs = {
       style: {
         background: regime.regime === "CALM" ? "rgba(132,204,22,0.15)" : "rgba(239,68,68,0.15)",
-        color: regime.regime === "CALM" ? "#84cc16" : "#ef4444",
+        color: regime.regime === "CALM" ? "var(--lime)" : "var(--red-bright)",
         padding: "3px 10px",
         borderRadius: "12px",
         fontSize: "11px",
@@ -323,11 +323,11 @@
       ),
       el("div", { style: { display: "flex", gap: "16px", flexWrap: "wrap" } },
         statChip("Total stocks", s.total_stocks, null, "lab_total_stocks"),
-        statChip("Macro flagged", s.macro_flagged_count, "#f59e0b", "lab_macro_flagged"),
-        statChip("Macro vetoed", s.macro_vetoed_count, "#ef4444", "lab_macro_vetoed"),
-        statChip("Quality flagged", s.quality_flagged_count, "#f59e0b", "lab_quality_flagged"),
-        statChip("Quality vetoed", s.quality_vetoed_count, "#ef4444", "lab_quality_vetoed"),
-        statChip("Low quality", s.low_quality_count, "#ef4444", "lab_low_quality"),
+        statChip("Macro flagged", s.macro_flagged_count, "var(--amber)", "lab_macro_flagged"),
+        statChip("Macro vetoed", s.macro_vetoed_count, "var(--red-bright)", "lab_macro_vetoed"),
+        statChip("Quality flagged", s.quality_flagged_count, "var(--amber)", "lab_quality_flagged"),
+        statChip("Quality vetoed", s.quality_vetoed_count, "var(--red-bright)", "lab_quality_vetoed"),
+        statChip("Low quality", s.low_quality_count, "var(--red-bright)", "lab_low_quality"),
       ),
     );
   }
@@ -355,7 +355,7 @@
           style: {
             padding: "8px 16px",
             background: _activeLens === id ? "rgba(96,165,250,0.15)" : "transparent",
-            color: _activeLens === id ? "#60a5fa" : "var(--text-muted)",
+            color: _activeLens === id ? "var(--info-text)" : "var(--text-muted)",
             border: `1px solid ${_activeLens === id ? "rgba(96,165,250,0.35)" : "rgba(255,255,255,0.08)"}`,
             borderRadius: "6px",
             cursor: "pointer",
@@ -406,7 +406,7 @@
     }
     if (thesis.indeterminate) {
       root.appendChild(el("div", {
-        style: { padding: "16px", border: "1px solid #fbbf24", borderRadius: "8px", marginBottom: "16px", color: "#fbbf24" },
+        style: { padding: "16px", border: "1px solid var(--warn-text)", borderRadius: "8px", marginBottom: "16px", color: "var(--warn-text)" },
       }, `INDETERMINATE — ${thesis.reason || "no actionable scenarios"}`));
     }
     // Regime banner
@@ -421,14 +421,14 @@
       return node;
     };
     const regimeTermId = typeof regimeIdFromLabel === "function" ? regimeIdFromLabel(r.regime) : null;
-    const regimeValueAttrs = { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } };
+    const regimeValueAttrs = { style: { fontSize: "16px", fontWeight: "600", color: "var(--text-ice-soft)" } };
     if (regimeTermId && window.GLOSSARY && window.GLOSSARY[regimeTermId]) {
       regimeValueAttrs.className = "glossary-term";
       regimeValueAttrs["data-term-id"] = regimeTermId;
       regimeValueAttrs.style.cursor = "help";
     }
     root.appendChild(el("div", {
-      style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "rgba(15,20,34,0.5)", border: "1px solid #1a2233", borderRadius: "8px", marginBottom: "16px" },
+      style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "rgba(15,20,34,0.5)", border: "1px solid var(--bg-graphite)", borderRadius: "8px", marginBottom: "16px" },
     },
       el("div", null,
         thesisLabel("Current regime", null),
@@ -436,15 +436,15 @@
       ),
       el("div", null,
         thesisLabel("Severity", "regime_severity"),
-        el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.severity >= 4 ? "#f87171" : r.severity >= 3 ? "#fbbf24" : "#93c5fd" } }, String(r.severity ?? "—")),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.severity >= 4 ? "var(--negative-text)" : r.severity >= 3 ? "var(--warn-text)" : "var(--info-text-soft)" } }, String(r.severity ?? "—")),
       ),
       r.days_in_state != null ? el("div", null,
         thesisLabel("Days in state", "regime_days_in_state"),
-        el("div", { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } }, `${r.days_in_state}d`),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: "var(--text-ice-soft)" } }, `${r.days_in_state}d`),
       ) : null,
       r.confidence != null ? el("div", null,
         thesisLabel("Regime confidence", "regime_confidence"),
-        el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.confidence < 0.6 ? "#fbbf24" : "#86efac" } }, `${Math.round(r.confidence * 100)}%`),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.confidence < 0.6 ? "var(--warn-text)" : "var(--positive-text-soft)" } }, `${Math.round(r.confidence * 100)}%`),
       ) : null,
     ));
 
@@ -458,13 +458,13 @@
       });
       why.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px" } }, "Why this regime"));
       if (r.reasoning) {
-        why.appendChild(el("div", { style: { fontSize: "12px", color: "#cbd5e1", lineHeight: "1.5", marginBottom: r.key_events?.length ? "8px" : "0" } }, r.reasoning));
+        why.appendChild(el("div", { style: { fontSize: "12px", color: "var(--text-slate-light)", lineHeight: "1.5", marginBottom: r.key_events?.length ? "8px" : "0" } }, r.reasoning));
       }
       if (Array.isArray(r.key_events) && r.key_events.length > 0) {
         why.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.04em", marginBottom: "4px" } }, "Top headlines that drove the call:"));
         const ul = el("ul", { style: { margin: "0", padding: "0", listStyle: "none" } });
         for (const ev of r.key_events.slice(0, 5)) {
-          ul.appendChild(el("li", { style: { fontSize: "11px", color: "#cbd5e1", lineHeight: "1.4", marginBottom: "3px" } }, `▸ ${ev}`));
+          ul.appendChild(el("li", { style: { fontSize: "11px", color: "var(--text-slate-light)", lineHeight: "1.4", marginBottom: "3px" } }, `▸ ${ev}`));
         }
         why.appendChild(ul);
       }
@@ -481,7 +481,7 @@
 
     // Position-cap warning banner (SEBI Reg 16)
     const posCapBanner = el("div", {
-      style: { padding: "10px 14px", border: "1px dashed #fbbf24", borderRadius: "6px", marginBottom: "16px", fontSize: "11px", color: "#fbbf24", display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" },
+      style: { padding: "10px 14px", border: "1px dashed var(--warn-text)", borderRadius: "6px", marginBottom: "16px", fontSize: "11px", color: "var(--warn-text)", display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" },
     }, `⚠ Position-sizing cap: max ${thesis.position_cap_pct || 10}% of portfolio per thesis. Diversify across multiple theses; do not concentrate based on a single scenario.`);
     const posCapBubble = infoBubble("thesis_position_cap");
     if (posCapBubble) posCapBanner.appendChild(posCapBubble);
@@ -490,13 +490,13 @@
     // Per-branch cards
     const cardsWrap = el("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "12px" } });
     for (const b of (thesis.branches || [])) {
-      const probColor = b.probability >= 0.4 ? "#86efac" : b.probability >= 0.2 ? "#fbbf24" : "#cbd5e1";
+      const probColor = b.probability >= 0.4 ? "var(--positive-text-soft)" : b.probability >= 0.2 ? "var(--warn-text)" : "var(--text-slate-light)";
       const indFlag = b.indeterminate
-        ? el("span", { style: { fontSize: "9px", color: "#f87171", marginLeft: "6px", padding: "1px 5px", border: "1px solid #f87171", borderRadius: "3px" } }, "INDETERMINATE")
+        ? el("span", { style: { fontSize: "9px", color: "var(--negative-text)", marginLeft: "6px", padding: "1px 5px", border: "1px solid var(--negative-text)", borderRadius: "3px" } }, "INDETERMINATE")
         : null;
       const card = el("div", {
         "data-testid": `thesis-branch-${b.key}`,
-        style: { padding: "14px", border: "1px solid #1a2233", borderRadius: "8px", background: "rgba(15,20,34,0.6)" },
+        style: { padding: "14px", border: "1px solid var(--bg-graphite)", borderRadius: "8px", background: "rgba(15,20,34,0.6)" },
       });
       const branchTermId = `thesis_branch_${b.key}`;
       const branchKeyNode = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: "5px" } }, b.key);
@@ -508,7 +508,7 @@
       card.appendChild(el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginBottom: "10px" } },
         el("div", null,
           branchKeyNode,
-          el("div", { style: { fontSize: "13px", color: "#e2e8f0", fontWeight: "500" } }, b.label, indFlag),
+          el("div", { style: { fontSize: "13px", color: "var(--text-ice-soft)", fontWeight: "500" } }, b.label, indFlag),
         ),
         el("div", { style: { textAlign: "right" } },
           probNode,
@@ -518,7 +518,7 @@
       // Beneficiaries
       const ben = (b.beneficiaries || []).slice(0, 3);
       if (ben.length > 0) {
-        const benHeader = el("div", { style: { fontSize: "10px", color: "#86efac", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "▲ Beneficiaries");
+        const benHeader = el("div", { style: { fontSize: "10px", color: "var(--positive-text-soft)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "▲ Beneficiaries");
         const benBubble = infoBubble("thesis_beneficiaries");
         if (benBubble) benHeader.appendChild(benBubble);
         card.appendChild(benHeader);
@@ -527,7 +527,7 @@
           const labelLine = beneficiary.source === "analog"
             ? `${beneficiary.sector_label} — median ${beneficiary.expected_return_pct > 0 ? "+" : ""}${beneficiary.expected_return_pct}% (IQR ${beneficiary.p25}–${beneficiary.p75}%, n=${beneficiary.n_analogs})`
             : `${beneficiary.sector_label} — expected upside (template, no analog evidence)`;
-          benRow.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1" } }, labelLine));
+          benRow.appendChild(el("div", { style: { fontSize: "11px", color: "var(--text-slate-light)" } }, labelLine));
           const stocks = (beneficiary.stock_candidates?.stocks || []).slice(0, 3);
           if (stocks.length > 0) {
             const stockLine = stocks.map((s) => `${s.ticker} (v4 ${s.v4_score_100 || "?"})`).join(" · ");
@@ -539,7 +539,7 @@
       // Losers
       const los = (b.losers || []).slice(0, 3);
       if (los.length > 0) {
-        const losHeader = el("div", { style: { fontSize: "10px", color: "#fca5a5", letterSpacing: "0.05em", textTransform: "uppercase", marginTop: "6px", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "▼ Hit");
+        const losHeader = el("div", { style: { fontSize: "10px", color: "var(--negative-text-soft)", letterSpacing: "0.05em", textTransform: "uppercase", marginTop: "6px", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "▼ Hit");
         const losBubble = infoBubble("thesis_losers");
         if (losBubble) losHeader.appendChild(losBubble);
         card.appendChild(losHeader);
@@ -547,7 +547,7 @@
           const lossLine = loser.source === "analog"
             ? `${loser.sector_label} — median ${loser.expected_return_pct}% (IQR ${loser.p25}–${loser.p75}%, n=${loser.n_analogs})`
             : `${loser.sector_label} — expected downside (template, no analog evidence)`;
-          card.appendChild(el("div", { style: { padding: "4px 8px", background: "rgba(239,68,68,0.06)", borderRadius: "4px", fontSize: "11px", color: "#cbd5e1", marginBottom: "2px" } }, lossLine));
+          card.appendChild(el("div", { style: { padding: "4px 8px", background: "rgba(239,68,68,0.06)", borderRadius: "4px", fontSize: "11px", color: "var(--text-slate-light)", marginBottom: "2px" } }, lossLine));
         }
       }
 
@@ -569,15 +569,15 @@
         sum.style.textTransform = "uppercase";
         sum.textContent = `How this ${b.probability ? Math.round(b.probability * 100) + "%" : ""} was derived`;
         det.appendChild(sum);
-        const body = el("div", { style: { fontSize: "10.5px", color: "#cbd5e1", marginTop: "6px", lineHeight: "1.5" } });
+        const body = el("div", { style: { fontSize: "10.5px", color: "var(--text-slate-light)", marginTop: "6px", lineHeight: "1.5" } });
         // Math line
         if (b.reasoning.base_probability != null && b.reasoning.modulator_applied != null) {
           const product = b.reasoning.base_probability * b.reasoning.modulator_applied;
           body.appendChild(el("div", null,
             `base ${b.reasoning.base_probability.toFixed(2)} × modulator ${b.reasoning.modulator_applied.toFixed(2)} = `,
-            el("span", { style: { color: "#e2e8f0", fontWeight: "600" } }, product.toFixed(3)),
+            el("span", { style: { color: "var(--text-ice-soft)", fontWeight: "600" } }, product.toFixed(3)),
             " (normalised against other branches to ",
-            el("span", { style: { color: "#e2e8f0", fontWeight: "600" } }, `${Math.round((b.probability || 0) * 100)}%`),
+            el("span", { style: { color: "var(--text-ice-soft)", fontWeight: "600" } }, `${Math.round((b.probability || 0) * 100)}%`),
             ")",
           ));
         }
@@ -591,7 +591,7 @@
           body.appendChild(el("div", { style: { marginTop: "4px", color: "var(--text-muted)" } }, "Matched analogs:"));
           const ul = el("ul", { style: { margin: "0", padding: "0", listStyle: "none" } });
           for (const a of analogs) {
-            ul.appendChild(el("li", { style: { fontSize: "10px", color: "#cbd5e1", lineHeight: "1.35", marginLeft: "8px" } },
+            ul.appendChild(el("li", { style: { fontSize: "10px", color: "var(--text-slate-light)", lineHeight: "1.35", marginLeft: "8px" } },
               `• ${a.date || "?"}${a.label ? ` — ${a.label}` : ""}${a.severity != null ? ` (sev ${a.severity})` : ""}${a.source ? ` [${a.source}]` : ""}`,
             ));
           }
@@ -600,7 +600,7 @@
         // Analog warnings
         const warns = Array.isArray(b.reasoning.analog_warnings) ? b.reasoning.analog_warnings : [];
         if (warns.length > 0) {
-          body.appendChild(el("div", { style: { marginTop: "6px", padding: "4px 6px", border: "1px solid rgba(251,191,36,0.3)", borderRadius: "4px", background: "rgba(251,191,36,0.05)", color: "#fbbf24", fontSize: "9.5px" } },
+          body.appendChild(el("div", { style: { marginTop: "6px", padding: "4px 6px", border: "1px solid rgba(251,191,36,0.3)", borderRadius: "4px", background: "rgba(251,191,36,0.05)", color: "var(--warn-text)", fontSize: "9.5px" } },
             warns.map((w) => `⚠ ${w}`).join(" · "),
           ));
         }
@@ -616,7 +616,7 @@
     if (Array.isArray(thesis.upcoming_catalysts) && thesis.upcoming_catalysts.length > 0) {
       const cat = el("div", {
         "data-testid": "thesis-catalysts",
-        style: { marginTop: "16px", padding: "12px 14px", border: "1px solid #1a2233", borderRadius: "6px", background: "rgba(15,20,34,0.6)" },
+        style: { marginTop: "16px", padding: "12px 14px", border: "1px solid var(--bg-graphite)", borderRadius: "6px", background: "rgba(15,20,34,0.6)" },
       });
       const catHeader = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "Upcoming catalysts (next 30 days)");
       const catBubble = infoBubble("thesis_upcoming_catalysts");
@@ -628,7 +628,7 @@
           style: {
             padding: "4px 10px", borderRadius: "12px", fontSize: "10.5px",
             background: c.days_until <= 7 ? "rgba(248,113,113,0.12)" : c.days_until <= 14 ? "rgba(251,191,36,0.12)" : "rgba(96,165,250,0.10)",
-            color: c.days_until <= 7 ? "#fca5a5" : c.days_until <= 14 ? "#fbbf24" : "#93c5fd",
+            color: c.days_until <= 7 ? "var(--negative-text-soft)" : c.days_until <= 14 ? "var(--warn-text)" : "var(--info-text-soft)",
             border: `1px solid ${c.days_until <= 7 ? "rgba(248,113,113,0.3)" : c.days_until <= 14 ? "rgba(251,191,36,0.3)" : "rgba(96,165,250,0.25)"}`,
           },
         }, `${c.kind} · ${c.label} · in ${c.days_until}d`);
@@ -646,7 +646,7 @@
       if (cvBubble) cvHeader.appendChild(cvBubble);
       cv.appendChild(cvHeader);
       for (const c of thesis.caveats) {
-        cv.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1", marginBottom: "4px" } }, `• ${c}`));
+        cv.appendChild(el("div", { style: { fontSize: "11px", color: "var(--text-slate-light)", marginBottom: "4px" } }, `• ${c}`));
       }
       root.appendChild(cv);
     }
@@ -860,7 +860,7 @@
             padding: "8px 18px",
             background: "transparent",
             border: "1px solid rgba(96,165,250,0.4)",
-            color: "#60a5fa",
+            color: "var(--info-text)",
             borderRadius: "6px",
             cursor: "pointer",
             fontSize: "11px",
@@ -893,7 +893,7 @@
     const chips = [];
     if (_activeLens === "macro" || _activeLens === "combined") {
       if (s.macro_veto?.vetoed) {
-        chips.push(chip("MACRO VETO", "#ef4444", "macro_veto"));
+        chips.push(chip("MACRO VETO", "var(--red-bright)", "macro_veto"));
       }
       if (s.sector_used && s.macro_score_delta) {
         // Sector + delta chip is data, not a glossary term — no termId.
@@ -902,7 +902,7 @@
     }
     if (_activeLens === "quality" || _activeLens === "combined") {
       if (s.quality_veto?.vetoed) {
-        chips.push(chip("QUALITY VETO", "#ef4444", "quality_veto"));
+        chips.push(chip("QUALITY VETO", "var(--red-bright)", "quality_veto"));
       }
       if (s.quality_verdict && s.quality_verdict !== "HIGH") {
         chips.push(chip(s.quality_verdict, colorForQuality(s.quality_verdict), `quality_${String(s.quality_verdict).toLowerCase()}`));
@@ -932,7 +932,7 @@
     }
     const adjVerdictId = typeof verdictIdFromLabel === "function" ? verdictIdFromLabel(adjVerdict) : null;
     const adjVerdictAttrs = {
-      style: { color: adjVerdict?.includes("HOLD") || adjVerdict?.includes("VETO") ? "#ef4444" : "var(--text-primary)" },
+      style: { color: adjVerdict?.includes("HOLD") || adjVerdict?.includes("VETO") ? "var(--red-bright)" : "var(--text-primary)" },
     };
     if (adjVerdictId && window.GLOSSARY && window.GLOSSARY[adjVerdictId]) {
       adjVerdictAttrs.className = "glossary-term";
@@ -994,7 +994,7 @@
       "Risk Lab is experimental and does not affect production picks. ",
       el("a", {
         href: "#",
-        style: { color: "#60a5fa", marginLeft: "6px" },
+        style: { color: "var(--info-text)", marginLeft: "6px" },
         onClick: (e) => {
           e.preventDefault();
           try {
@@ -1067,7 +1067,7 @@
       if (root) {
         root.innerHTML = "";
         root.appendChild(el("div", { style: { padding: "30px", textAlign: "center" } },
-          el("div", { style: { fontSize: "14px", color: "#ef4444", marginBottom: "8px" } }, "Risk Lab unavailable"),
+          el("div", { style: { fontSize: "14px", color: "var(--red-bright)", marginBottom: "8px" } }, "Risk Lab unavailable"),
           el("div", { style: { fontSize: "12px", color: "var(--text-muted)" } }, err.message || String(err)),
         ));
       }

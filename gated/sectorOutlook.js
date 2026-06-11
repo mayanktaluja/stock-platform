@@ -6,17 +6,17 @@
 
 (function () {
   const LABEL_BADGE = {
-    STRONG_TAILWIND: { color: "#10b981", bg: "rgba(16,185,129,0.10)", border: "rgba(16,185,129,0.40)", text: "Strong tailwind" },
-    TAILWIND:        { color: "#34d399", bg: "rgba(52,211,153,0.10)", border: "rgba(52,211,153,0.35)", text: "Tailwind" },
-    NEUTRAL:         { color: "#9ca3af", bg: "rgba(156,163,175,0.10)", border: "rgba(156,163,175,0.30)", text: "Neutral" },
-    HEADWIND:        { color: "#fb923c", bg: "rgba(251,146,60,0.10)", border: "rgba(251,146,60,0.35)", text: "Headwind" },
-    STRONG_HEADWIND: { color: "#ef4444", bg: "rgba(239,68,68,0.10)", border: "rgba(239,68,68,0.40)", text: "Strong headwind" },
+    STRONG_TAILWIND: { color: "var(--emerald)", bg: "rgba(16,185,129,0.10)", border: "rgba(16,185,129,0.40)", text: "Strong tailwind" },
+    TAILWIND:        { color: "var(--positive-text-emerald)", bg: "rgba(52,211,153,0.10)", border: "rgba(52,211,153,0.35)", text: "Tailwind" },
+    NEUTRAL:         { color: "var(--text-gray)", bg: "rgba(156,163,175,0.10)", border: "rgba(156,163,175,0.30)", text: "Neutral" },
+    HEADWIND:        { color: "var(--orange-bright)", bg: "rgba(251,146,60,0.10)", border: "rgba(251,146,60,0.35)", text: "Headwind" },
+    STRONG_HEADWIND: { color: "var(--red-bright)", bg: "rgba(239,68,68,0.10)", border: "rgba(239,68,68,0.40)", text: "Strong headwind" },
   };
 
   const CONFIDENCE_DOT = {
-    HIGH: { color: "#34d399", text: "High" },
-    MED:  { color: "#fbbf24", text: "Medium" },
-    LOW:  { color: "#9ca3af", text: "Low" },
+    HIGH: { color: "var(--positive-text-emerald)", text: "High" },
+    MED:  { color: "var(--warn-text)", text: "Medium" },
+    LOW:  { color: "var(--text-gray)", text: "Low" },
   };
 
   const escapeHtml = (s) =>
@@ -58,10 +58,10 @@
       tally[l] = (tally[l] || 0) + 1;
     }
     const tiles = [
-      { value: tally.STRONG_TAILWIND + tally.TAILWIND, label: "Tailwind sectors", color: "#10b981", termId: "sector_tailwind" },
-      { value: tally.HEADWIND + tally.STRONG_HEADWIND, label: "Headwind sectors", color: "#ef4444", termId: "sector_headwind" },
-      { value: tally.NEUTRAL, label: "Neutral / divergent", color: "#9ca3af", termId: "sector_neutral" },
-      { value: regimeLabel, label: `Macro regime · severity ${regimeSeverity}`, color: "#a78bfa", termId: "macro_regime" },
+      { value: tally.STRONG_TAILWIND + tally.TAILWIND, label: "Tailwind sectors", color: "var(--emerald)", termId: "sector_tailwind" },
+      { value: tally.HEADWIND + tally.STRONG_HEADWIND, label: "Headwind sectors", color: "var(--red-bright)", termId: "sector_headwind" },
+      { value: tally.NEUTRAL, label: "Neutral / divergent", color: "var(--text-gray)", termId: "sector_neutral" },
+      { value: regimeLabel, label: `Macro regime · severity ${regimeSeverity}`, color: "var(--purple-bright)", termId: "macro_regime" },
       { value: ts, label: "Last refreshed", color: "var(--text-muted)" },
     ];
     return `
@@ -69,7 +69,7 @@
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">
             Sector Outlook
-            <span style="font-size:10px; font-weight:700; letter-spacing:0.06em; color:#a78bfa; background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:2px 8px; border-radius:8px; margin-left:10px; vertical-align:middle;">EXPERIMENTAL</span>
+            <span style="font-size:10px; font-weight:700; letter-spacing:0.06em; color:var(--purple-bright); background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:2px 8px; border-radius:8px; margin-left:10px; vertical-align:middle;">EXPERIMENTAL</span>
           </h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px; max-width:760px; line-height:1.55;">
             Indicative outlook for ~20 canonical Indian-equity sectors over two horizons (3–12 months, 12–24 months). Bottom-up news themes aggregated from SWS deep briefs, cross-checked against the current macro regime. Sector-level only — no specific stock recommendations.
@@ -101,7 +101,7 @@
         <td style="padding:10px 8px; font-weight:600;">${escapeHtml(sectorRow.sector)}</td>
         <td style="padding:10px 8px;">${labelBadge(label)}</td>
         <td style="padding:10px 8px;">${confidenceDot(conf)}</td>
-        <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:${composite > 0 ? "#34d399" : composite < 0 ? "#fb923c" : "var(--text-muted)"};">${FMT_NUM(composite, 2)}</td>
+        <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:${composite > 0 ? "var(--positive-text-emerald)" : composite < 0 ? "var(--orange-bright)" : "var(--text-muted)"};">${FMT_NUM(composite, 2)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:var(--text-muted);">${FMT_NUM(bottomUp, 2)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:var(--text-muted);">${FMT_NUM(topDown, 2)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:var(--text-muted);">${FMT_PCT(breadth)}</td>
@@ -191,7 +191,7 @@
       <div role="tablist" aria-label="Sector outlook horizon" style="display:flex; gap:8px; margin-bottom:16px;">
         ${tabs.map((t) => `
           <button type="button" class="sector-outlook-horizon-tab" data-horizon="${t.id}" aria-selected="${t.id === active}"
-            style="padding:6px 14px; border-radius:14px; font-size:12px; font-weight:500; border:1px solid ${t.id === active ? "rgba(167,139,250,0.4)" : "var(--bg-graphite)"}; background:${t.id === active ? "rgba(167,139,250,0.10)" : "transparent"}; color:${t.id === active ? "#a78bfa" : "var(--text-muted)"}; cursor:pointer;">
+            style="padding:6px 14px; border-radius:14px; font-size:12px; font-weight:500; border:1px solid ${t.id === active ? "rgba(167,139,250,0.4)" : "var(--bg-graphite)"}; background:${t.id === active ? "rgba(167,139,250,0.10)" : "transparent"}; color:${t.id === active ? "var(--purple-bright)" : "var(--text-muted)"}; cursor:pointer;">
             ${escapeHtml(t.label)}
           </button>`).join("")}
       </div>`;
@@ -208,7 +208,7 @@
           <p><strong>Top-down.</strong> Indian regulator + global wire RSS headlines (RBI, SEBI, Reuters, Bloomberg, Moneycontrol, Economic Times, etc.) are classified into one of 9 macro regimes with per-sector impact scores. The Sector Outlook reads only the CURRENT regime (v1 deliberately doesn&apos;t smooth across history).</p>
           <p><strong>Cross-check.</strong> The two signals combine into a composite. Same-sign agreement at high magnitude → STRONG cross-check + HIGH confidence. Sign disagreement → DIVERGENT cross-check + LOW confidence (we deliberately surface the disagreement rather than averaging it away).</p>
           <p><strong>What v1 does NOT do.</strong> No formal walk-forward backtest. No named stock recommendations within a sector. No 24-36 month horizon. The macro regime history is too thin for honest analog signal at multi-year scales — that&apos;s a v2 scope decision.</p>
-          ${caveats.length ? `<div style="margin-top:14px; padding:12px 14px; background:rgba(167,139,250,0.06); border:1px solid rgba(167,139,250,0.22); border-radius:6px; font-size:11px;"><strong style="color:#a78bfa;">Important caveats:</strong><ul style="margin:6px 0 0 0; padding-left:20px;">${caveats.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ul></div>` : ""}
+          ${caveats.length ? `<div style="margin-top:14px; padding:12px 14px; background:rgba(167,139,250,0.06); border:1px solid rgba(167,139,250,0.22); border-radius:6px; font-size:11px;"><strong style="color:var(--purple-bright);">Important caveats:</strong><ul style="margin:6px 0 0 0; padding-left:20px;">${caveats.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ul></div>` : ""}
           <p style="margin-top:18px; font-size:11px; color:var(--text-muted);">Audit: classifier ${escapeHtml(doc.audit?.taxonomy_version || "—")} · synthesizer ${escapeHtml(doc.audit?.synthesizer_version || "—")} · ${escapeHtml(doc.audit?.sector_count ?? 0)} sectors · ${escapeHtml(doc.audit?.orphaned_tickers ?? 0)} orphaned tickers (sector taxonomy drift canary).</p>
         </div>
       </details>`;
