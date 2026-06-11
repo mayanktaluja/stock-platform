@@ -14,7 +14,7 @@ const SEARCH_CLIENT_CACHE_MAX = 50;
 let watchlist = new Set(); // symbol set for quick lookup
 // The currently-shown tab id. NOTE: `currentView` is NOT this — it only ever
 // holds "dashboard"|"stock". switchTab() maintains _activeTab (+ window.__activeTab)
-// so the "More" menu, deep-link recovery, and popstate dedupe have a reliable signal.
+// so the Platform menu, deep-link recovery, and popstate dedupe have a reliable signal.
 let _activeTab = "picks";
 
 const MARKET_POLL_OPEN_MS = 5 * 60 * 1000;
@@ -142,7 +142,7 @@ telemetry.emit("page_load", { ua: navigator.userAgent.slice(0, 200) });
 
 // Reusable popover wiring: toggle [hidden] on the dropdown, mirror
 // aria-expanded on the trigger, close on outside-click + Escape. Returns an
-// { open, close } handle. Used by the legacy "More" menu; the avatar menu
+// { open, close } handle. Used by the Platform menu; the avatar menu
 // keeps its own (older) inline wiring untouched.
 function wireMenu(trigger, dropdown, wrapper) {
   if (!trigger || !dropdown || !wrapper) return { open() {}, close() {} };
@@ -278,6 +278,7 @@ const auth = {
 
     const usersTabBtn = document.getElementById("usersTabBtn");
     if (usersTabBtn) usersTabBtn.hidden = !window.__starbhai_isAdmin;
+    buildPlatformMenu();
     refreshScrollRails();
 
     // Deep-link recovery: boot ran before this async auth resolved, so a
@@ -292,7 +293,7 @@ const auth = {
         window.__enterTab(bootTab);
       }
     }
-    syncLabsActive(window.__activeTab || "picks");
+    syncPlatformMenuActive(window.__activeTab || "picks");
 
     const closeDropdown = () => {
       if (dropdown) dropdown.hidden = true;
@@ -327,6 +328,7 @@ const auth = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  initPlatformTheme();
   updateClock();
   setInterval(updateClock, 1000);
   // Ticker lives in the persistent header above the tabs, so it must load
@@ -348,6 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // the hash — auth.init's deep-link recovery enters the real tab once the
   // auth flags resolve. Avoids both a blank page and history pollution.
   const bootTab = resolveTabId(bootHash.tab || "picks");
+  initPlatformMenu();
   if (!reloadBoot && bootHash.tab && bootHash.tab !== bootTab && typeof history !== "undefined" && history.replaceState) {
     const symbolPart = bootHash.symbol ? `&symbol=${encodeURIComponent(bootHash.symbol)}` : "";
     history.replaceState(null, "", `${location.pathname}${location.search}#tab=${encodeURIComponent(bootTab)}${symbolPart}`);
@@ -789,6 +792,7 @@ function portfolioActionIdFromLabel(action) {
 }
 
 let _activeTooltipTermId = null;
+let _tooltipShownAt = 0;
 
 // UI/UX overhaul 2026-05-19 — Phase 3 "alive" interactivity.
 // A scoped MutationObserver that watches elements carrying a `data-num`
@@ -976,6 +980,7 @@ function attachGlossaryTooltips() {
     // tap-to-toggle still works.
     const id = target.getAttribute("data-term-id") || "__dyn__";
     if (_activeTooltipTermId === id) {
+      if (Date.now() - _tooltipShownAt < 180) return;
       hideTooltip();
     } else {
       showTooltip(target, id);
@@ -987,8 +992,13 @@ function attachGlossaryTooltips() {
     if (e.key === "Escape") hideTooltip();
   });
 
-  // Hide tooltip when scrolling (otherwise it floats out of place)
-  window.addEventListener("scroll", hideTooltip, { passive: true });
+  // Hide tooltip when scrolling (otherwise it floats out of place). Ignore
+  // the same frame as showTooltip() because Playwright/user click paths can
+  // scroll the trigger into view and then dispatch click, closing instantly.
+  window.addEventListener("scroll", () => {
+    if (Date.now() - _tooltipShownAt < 120) return;
+    hideTooltip();
+  }, { passive: true });
 }
 
 function showTooltip(triggerEl, termId) {
@@ -1038,6 +1048,7 @@ function showTooltip(triggerEl, termId) {
   tooltip.style.left = `${left}px`;
   tooltip.setAttribute("aria-hidden", "false");
   _activeTooltipTermId = termId;
+  _tooltipShownAt = Date.now();
 }
 
 function hideTooltip() {
@@ -2713,16 +2724,16 @@ async function switchTab(tab) {
   }
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
-  // Activate the matching bar button by EXACT tab id.
-  const activeBtn = Array.from(tabs).find(
-    (t) => t.getAttribute("onclick") === `switchTab('${tab}')`,
-  );
+  // Activate the matching bar button by tab identity, not by brittle inline
+  // onclick source. initPlatformMenu() annotates existing markup with
+  // data-tab; id / aria-controls stay as fallbacks for older HTML cuts.
+  const activeBtn = findTabButtonFor(tab, tabs);
   if (activeBtn) {
     activeBtn.classList.add("active");
     activeBtn.setAttribute("aria-selected", "true");
     keepRailItemVisible(activeBtn);
   }
-  syncLabsActive(tab);
+  syncPlatformMenuActive(tab);
   refreshScrollRails();
 
   const el = document.getElementById(config.elId);
@@ -2751,64 +2762,233 @@ async function switchTab(tab) {
   syncScanStatusPollers();
 }
 
-// ==================== LEGACY "MORE" MENU ====================
+// ==================== PLATFORM MENU ====================
 //
-// Kept as inert compatibility for older e2e helpers and active-state syncing.
-// Public tabs now stay in #mainTabs; Users is revealed in the tab bar only for
-// the owner/admin account, so auth.init() no longer shows this menu.
-const LABS_MENU_TABS = [
-  { id: "users",          label: "Users",          dot: null,      show: () => !!window.__starbhai_isAdmin },
-];
-const LABS_LABELS = Object.fromEntries(LABS_MENU_TABS.map((t) => [t.id, t.label]));
+// The header still ships the old labsMenu IDs/classes, so this code keeps those
+// hooks as the DOM contract while making the menu a real Platform switcher.
+// Items are derived from TAB_CONFIG and therefore share switchTab's guards
+// (Users admin-only, Sector Outlook localStorage-aware).
+const PLATFORM_THEME_KEY = "starbhaiTheme";
+const PLATFORM_THEME_META = {
+  dark:  { meta: "#0B0C10", label: "Dark mode",  icon: "☾", nextLabel: "Switch to light mode" },
+  light: { meta: "#F7F8FB", label: "Light mode", icon: "☀", nextLabel: "Switch to dark mode" },
+};
 
-// Inject the menu items the current user is allowed to see. Idempotent.
-function buildLabsMenu() {
-  const dropdown = document.getElementById("labsMenuDropdown");
-  if (!dropdown) return;
-  dropdown.replaceChildren();
-  for (const t of LABS_MENU_TABS) {
-    if (!t.show()) continue;
-    const item = document.createElement("button");
-    item.type = "button";
-    item.className = "labs-menu-item";
-    item.id = `labsItem_${t.id}`;
-    item.setAttribute("role", "menuitem");
-    item.dataset.tab = t.id;
-    if (t.dot) {
-      const dot = document.createElement("span");
-      dot.className = "labs-menu-item-dot";
-      dot.style.background = t.dot;
-      dot.setAttribute("aria-hidden", "true");
-      item.appendChild(dot);
-    }
-    item.appendChild(document.createTextNode(t.label));
-    item.addEventListener("click", (e) => {
-      e.stopPropagation();
-      window.switchTab(t.id);
-      if (window.__labsMenuCtl) window.__labsMenuCtl.close();
-    });
-    dropdown.appendChild(item);
+function normalizePlatformTheme(theme) {
+  return theme === "dark" ? "dark" : "light";
+}
+
+function inferTabIdFromButton(btn) {
+  if (!btn) return "";
+  const dataTab = normalizeTabId(btn.dataset?.tab || "");
+  if (TAB_CONFIG[dataTab]) return dataTab;
+  const controls = btn.getAttribute("aria-controls") || "";
+  for (const [id, cfg] of Object.entries(TAB_CONFIG)) {
+    if (cfg.elId === controls) return id;
+  }
+  const idMatch = String(btn.id || "").match(/^(.+)TabBtn$/);
+  if (idMatch && TAB_CONFIG[normalizeTabId(idMatch[1])]) return normalizeTabId(idMatch[1]);
+  const onclick = btn.getAttribute("onclick") || "";
+  const clickMatch = onclick.match(/switchTab\((['"])(.*?)\1\)/);
+  return clickMatch && TAB_CONFIG[normalizeTabId(clickMatch[2])] ? normalizeTabId(clickMatch[2]) : "";
+}
+
+function syncTabButtonMetadata(root = document) {
+  root.querySelectorAll?.("#mainTabs .tab").forEach((btn) => {
+    const tab = inferTabIdFromButton(btn);
+    if (tab) btn.dataset.tab = tab;
+  });
+}
+
+function findTabButtonFor(tab, tabNodeList) {
+  const cfg = TAB_CONFIG[tab];
+  const tabs = tabNodeList ? Array.from(tabNodeList) : Array.from(document.querySelectorAll("#mainTabs .tab"));
+  return tabs.find((btn) => btn.dataset?.tab === tab)
+    || tabs.find((btn) => btn.id === `${tab}TabBtn`)
+    || (cfg ? tabs.find((btn) => btn.getAttribute("aria-controls") === cfg.elId) : null)
+    || null;
+}
+
+function tabGuardAllows(cfg) {
+  try {
+    return !cfg.guard || cfg.guard();
+  } catch {
+    return false;
   }
 }
-window.buildLabsMenu = buildLabsMenu; // exposed for e2e
 
-// Reflect the active tab in the "More" menu: highlight the matching item, and
-// tint + relabel the trigger when the current tab lives in the dropdown (its
-// bar button is hidden, so the trigger is the only visible active affordance).
-function syncLabsActive(tab) {
+function getPlatformMenuTabs() {
+  syncTabButtonMetadata();
+  const ordered = [];
+  const seen = new Set();
+  document.querySelectorAll("#mainTabs .tab").forEach((btn) => {
+    const tab = inferTabIdFromButton(btn);
+    const cfg = TAB_CONFIG[tab];
+    if (!tab || !cfg || seen.has(tab) || !tabGuardAllows(cfg)) return;
+    ordered.push({ id: tab, label: cfg.label });
+    seen.add(tab);
+  });
+  return ordered;
+}
+
+function currentPlatformTheme() {
+  try {
+    const stored = window.localStorage.getItem(PLATFORM_THEME_KEY);
+    if (stored === "light" || stored === "dark") return stored;
+    const legacy = window.localStorage.getItem("starbhai-theme") || window.localStorage.getItem("theme");
+    if (legacy === "light" || legacy === "dark") return legacy;
+  } catch {}
+  return "light";
+}
+
+function updatePlatformThemeToggle() {
+  const btn = document.getElementById("platformThemeToggle");
+  if (!btn) return;
+  const theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+  const meta = PLATFORM_THEME_META[theme];
+  const icon = btn.querySelector("[data-platform-theme-icon]");
+  const label = btn.querySelector("[data-platform-theme-label]");
+  if (icon) icon.textContent = meta.icon;
+  if (label) label.textContent = meta.label;
+  btn.setAttribute("aria-label", meta.nextLabel);
+  btn.setAttribute("aria-checked", theme === "dark" ? "true" : "false");
+  btn.title = meta.nextLabel;
+  const state = btn.querySelector(".labs-menu-item-check");
+  if (state) state.textContent = theme === "dark" ? "On" : "Off";
+}
+
+function applyPlatformTheme(theme, opts = {}) {
+  const next = normalizePlatformTheme(theme);
+  document.documentElement.dataset.theme = next;
+  window.__starbhai_theme = next;
+  if (opts.persist !== false) {
+    try { window.localStorage.setItem(PLATFORM_THEME_KEY, next); } catch {}
+  }
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (themeColor) themeColor.setAttribute("content", PLATFORM_THEME_META[next].meta);
+  updatePlatformThemeToggle();
+}
+
+function initPlatformTheme() {
+  applyPlatformTheme(currentPlatformTheme(), { persist: false });
+}
+
+function togglePlatformTheme() {
+  const current = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+  applyPlatformTheme(current === "light" ? "dark" : "light");
+}
+
+window.setPlatformTheme = applyPlatformTheme;
+
+function createPlatformMenuItem(tab) {
+  const item = document.createElement("button");
+  item.type = "button";
+  item.className = "labs-menu-item";
+  item.id = `platformItem_${tab.id}`;
+  item.setAttribute("role", "menuitem");
+  item.dataset.tab = tab.id;
+  item.appendChild(document.createTextNode(tab.label || tab.id));
+  item.addEventListener("click", (e) => {
+    e.stopPropagation();
+    window.switchTab(tab.id);
+    if (window.__platformMenuCtl) window.__platformMenuCtl.close();
+  });
+  return item;
+}
+
+function createPlatformThemeItem() {
+  const item = document.createElement("button");
+  item.type = "button";
+  item.className = "labs-menu-item";
+  item.id = "platformThemeToggle";
+  item.setAttribute("role", "menuitemcheckbox");
+  const icon = document.createElement("span");
+  icon.className = "labs-menu-item-dot";
+  icon.dataset.platformThemeIcon = "true";
+  icon.setAttribute("aria-hidden", "true");
+  icon.style.width = "14px";
+  icon.style.height = "14px";
+  icon.style.borderRadius = "0";
+  icon.style.display = "inline-flex";
+  icon.style.alignItems = "center";
+  icon.style.justifyContent = "center";
+  icon.style.background = "transparent";
+  const label = document.createElement("span");
+  label.dataset.platformThemeLabel = "true";
+  const state = document.createElement("span");
+  state.className = "labs-menu-item-check";
+  state.style.marginLeft = "auto";
+  state.style.fontSize = "11px";
+  state.style.color = "var(--text-muted)";
+  item.append(icon, label, state);
+  item.addEventListener("click", (e) => {
+    e.stopPropagation();
+    togglePlatformTheme();
+  });
+  return item;
+}
+
+// Inject the current platform sections plus the local theme action. Idempotent.
+function buildPlatformMenu() {
+  const menu = document.getElementById("labsMenu");
+  const trigger = document.getElementById("labsMenuBtn");
+  const dropdown = document.getElementById("labsMenuDropdown");
+  if (!menu || !trigger || !dropdown) return;
+
+  menu.hidden = false;
+  trigger.setAttribute("aria-label", "Platform menu");
+  const labelEl = trigger.querySelector(".labs-menu-label");
+  if (labelEl) labelEl.textContent = "Platform";
+  dropdown.setAttribute("aria-label", "Platform sections");
+  dropdown.replaceChildren();
+
+  for (const tab of getPlatformMenuTabs()) {
+    dropdown.appendChild(createPlatformMenuItem(tab));
+  }
+  const divider = document.createElement("div");
+  divider.setAttribute("role", "separator");
+  divider.className = "labs-menu-separator";
+  dropdown.appendChild(divider);
+  dropdown.appendChild(createPlatformThemeItem());
+  updatePlatformThemeToggle();
+  syncPlatformMenuActive(window.__activeTab || _activeTab || "picks");
+}
+window.buildPlatformMenu = buildPlatformMenu;
+
+function syncPlatformMenuActive(tab) {
   let activeItem = null;
-  document.querySelectorAll(".labs-menu-item").forEach((it) => {
+  document.querySelectorAll(".labs-menu-item[data-tab]").forEach((it) => {
     const on = it.dataset.tab === tab;
-    it.setAttribute("aria-current", on ? "true" : "false");
+    if (on) it.setAttribute("aria-current", "page");
+    else it.removeAttribute("aria-current");
     if (on) activeItem = it;
   });
   const trigger = document.getElementById("labsMenuBtn");
   if (!trigger) return;
   trigger.classList.toggle("is-active", !!activeItem);
   const labelEl = trigger.querySelector(".labs-menu-label");
-  if (labelEl) labelEl.textContent = activeItem ? (LABS_LABELS[tab] || tab) : "More";
+  if (labelEl) labelEl.textContent = "Platform";
 }
-window.syncLabsActive = syncLabsActive;
+window.syncPlatformMenuActive = syncPlatformMenuActive;
+
+function initPlatformMenu() {
+  const menu = document.getElementById("labsMenu");
+  const trigger = document.getElementById("labsMenuBtn");
+  const dropdown = document.getElementById("labsMenuDropdown");
+  if (!menu || !trigger || !dropdown) return;
+  syncTabButtonMetadata();
+  if (!menu.__starbhaiPlatformMenuReady) {
+    window.__platformMenuCtl = wireMenu(trigger, dropdown, menu);
+    window.__labsMenuCtl = window.__platformMenuCtl;
+    menu.__starbhaiPlatformMenuReady = true;
+  }
+  buildPlatformMenu();
+}
+window.initPlatformMenu = initPlatformMenu;
+
+// Backward-compatible names for older e2e helpers.
+window.buildLabsMenu = buildPlatformMenu;
+window.syncLabsActive = syncPlatformMenuActive;
 
 // ==================== USERS (admin) ====================
 //

@@ -154,29 +154,29 @@
       { label: "Today", value: buckets.d0 || 0, accent: "#f87171" },
       { label: "Next 1–3d", value: buckets.d1to3 || 0, accent: "#fbbf24" },
       { label: "4–7d", value: buckets.d4to7 || 0, accent: "#facc15" },
-      { label: "8–14d", value: buckets.d8to14 || 0, accent: "#94a3b8" },
-      { label: "15–30d", value: buckets.d15to30 || 0, accent: "#94a3b8" },
-      { label: "31–60d", value: buckets.d31to60 || 0, accent: "#94a3b8" },
+      { label: "8–14d", value: buckets.d8to14 || 0, accent: "var(--text-muted)" },
+      { label: "15–30d", value: buckets.d15to30 || 0, accent: "var(--text-muted)" },
+      { label: "31–60d", value: buckets.d31to60 || 0, accent: "var(--text-muted)" },
       { label: "Total", value: stats.event_count || 0, accent: "#60a5fa" },
     ];
     const verdictCells = [
       { label: "Predicted BEAT", value: pred.BEAT || 0, accent: "#86efac", title: "Composite score ≥ 65 — model expects upside surprise" },
       { label: "INLINE", value: pred.INLINE || 0, accent: "#93c5fd", title: "Score 35–64 — balanced inputs, no clear directional edge" },
       { label: "MISS", value: pred.MISS || 0, accent: "#fca5a5", title: "Score < 35 — model expects downside surprise" },
-      { label: "INSUFFICIENT", value: pred.INSUFFICIENT_DATA || 0, accent: "#cbd5e1", title: "Data too thin to score — calendar fact only" },
+      { label: "INSUFFICIENT", value: pred.INSUFFICIENT_DATA || 0, accent: "var(--text-secondary)", title: "Data too thin to score — calendar fact only" },
       { label: "Avg confidence", value: avgConf != null ? `${avgConf}%` : "—", accent: "#fbbf24", title: "Mean confidence across scored verdicts. V1 cap 65%" },
     ];
     const qualityCells = [
       { label: "HIGH signal", value: dq.HIGH || 0, accent: "#86efac", title: "Full SWS upcoming-earnings reasoning attached" },
       { label: "MEDIUM", value: dq.MEDIUM || 0, accent: "#fbbf24", title: "SWS deep + sector + returns; no upcoming-earnings reasoning blob" },
-      { label: "LOW", value: dq.LOW || 0, accent: "#cbd5e1", title: "Calendar fact only — predictor returns INSUFFICIENT_DATA" },
+      { label: "LOW", value: dq.LOW || 0, accent: "var(--text-secondary)", title: "Calendar fact only — predictor returns INSUFFICIENT_DATA" },
       { label: "Pre-runup spike", value: runup.spike || 0, accent: "#fca5a5", title: "1M >10% AND >8%pts above sector — chase risk" },
       { label: "Smooth runup", value: runup.smooth || 0, accent: "#fbbf24", title: "3–8%pts above sector — informed-flow shape" },
       { label: "Lagging", value: runup.lagging || 0, accent: "#93c5fd", title: ">5%pts below sector — room to surprise on a beat" },
     ];
 
     const cellHtml = (c) => `
-      <div data-testid="${c.testId || ""}" title="${escHtml(c.title || "")}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; border-radius:8px; padding:8px 12px; min-width:90px;">
+      <div data-testid="${c.testId || ""}" title="${escHtml(c.title || "")}" style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:8px 12px; min-width:90px;">
         <div style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">${escHtml(c.label)}</div>
         <div style="font-size:18px; font-weight:600; color:${c.accent}; margin-top:2px;">${c.value}</div>
         ${c.sub ? `<div style="font-size:9px; color:var(--text-muted); margin-top:2px;">${escHtml(c.sub)}</div>` : ""}
@@ -342,18 +342,18 @@
         const dayLabel = fmtRelativeDate(m.event_iso_date, m.days_until);
         const sourceBadge =
           m.source === "recent"
-            ? `<span style="font-size:9px; color:#94a3b8; border:1px solid #2a3349; border-radius:5px; padding:1px 5px; letter-spacing:0.05em; text-transform:uppercase;">Past</span>`
+            ? `<span style="font-size:9px; color:var(--text-muted); border:1px solid var(--border); border-radius:5px; padding:1px 5px; letter-spacing:0.05em; text-transform:uppercase;">Past</span>`
             : "";
         return `
           <div class="earnings-symbol-suggestion" role="option" data-symbol="${escHtml(m.symbol)}" data-index="${i}" aria-selected="false"
-               style="display:flex; align-items:center; gap:10px; padding:8px 12px; cursor:pointer; border-bottom:1px solid rgba(42,51,73,0.4);">
+               style="display:flex; align-items:center; gap:10px; padding:8px 12px; cursor:pointer; border-bottom:1px solid var(--border-soft, var(--border));">
             <div style="flex:1; min-width:0;">
-              <div style="font-size:12px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(m.symbol)}</div>
+              <div style="font-size:12px; font-weight:600; color:var(--text-primary); letter-spacing:-0.01em;">${escHtml(m.symbol)}</div>
               <div style="font-size:11px; color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(m.company)}</div>
             </div>
             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0;">
               ${sourceBadge}
-              <span style="font-size:10px; color:#cbd5e1; font-weight:500;">${escHtml(dayLabel)}</span>
+              <span style="font-size:10px; color:var(--text-secondary); font-weight:500;">${escHtml(dayLabel)}</span>
             </div>
           </div>`;
       })
@@ -476,8 +476,8 @@
     }
     el.hidden = false;
     el.innerHTML = `
-      <div style="padding:18px 22px; border:1px dashed #2a3349; border-radius:10px; background:rgba(15,20,34,0.5); display:flex; flex-direction:column; gap:6px;">
-        <div style="font-size:13px; color:#e2e8f0; font-weight:500;">
+      <div style="padding:18px 22px; border:1px dashed var(--border); border-radius:10px; background:var(--bg-card); display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:13px; color:var(--text-primary); font-weight:500;">
           <span style="color:#fbbf24; font-weight:600;">${escHtml(query)}</span> — no earnings in the next ${escHtml(_earningsSnapshot?.window_days ?? 60)} days or status tracker past ${escHtml(_earningsSnapshot?.past_window_days ?? 14)} days.
         </div>
         <div style="font-size:12px; color:var(--text-muted);">
@@ -495,7 +495,7 @@
     el.innerHTML = `
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
         Within
-        <select id="earningsDaysFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+        <select id="earningsDaysFilter" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px;">
           <option value="0">today</option>
           <option value="3">3 days</option>
           <option value="7">7 days</option>
@@ -506,7 +506,7 @@
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
         Verdict
-        <select id="earningsVerdictFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+        <select id="earningsVerdictFilter" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px;">
           <option value="ALL" selected>all</option>
           <option value="BEAT">BEAT</option>
           <option value="INLINE">INLINE</option>
@@ -516,7 +516,7 @@
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
         Quality
-        <select id="earningsQualityFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+        <select id="earningsQualityFilter" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px;">
           <option value="ALL" selected>all</option>
           <option value="HIGH">HIGH only</option>
           <option value="HIGH+MEDIUM">HIGH + MEDIUM</option>
@@ -525,7 +525,7 @@
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
         Runup
-        <select id="earningsRunupFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+        <select id="earningsRunupFilter" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px;">
           <option value="ALL" selected>all</option>
           <option value="spike">spike (chase risk)</option>
           <option value="smooth">smooth (informed)</option>
@@ -535,18 +535,18 @@
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
         Sector
-        <select id="earningsSectorFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; max-width:180px;">
+        <select id="earningsSectorFilter" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; max-width:180px;">
           ${sectorOptions}
         </select>
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
         Symbol
         <div class="earnings-symbol-search" style="position:relative;">
-          <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE or 'tata'" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="earningsSymbolSuggestions" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; width:170px;" />
-          <div id="earningsSymbolSuggestions" role="listbox" aria-label="Matching stocks in upcoming or recent earnings" hidden style="position:absolute; top:100%; left:0; right:0; z-index:50; background:var(--panel,#0f1422); border:1px solid #2a3349; border-radius:6px; margin-top:4px; max-height:280px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.5);"></div>
+          <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE or 'tata'" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="earningsSymbolSuggestions" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; width:170px;" />
+          <div id="earningsSymbolSuggestions" role="listbox" aria-label="Matching stocks in upcoming or recent earnings" hidden style="position:absolute; top:100%; left:0; right:0; z-index:50; background:var(--bg-card); border:1px solid var(--border); border-radius:6px; margin-top:4px; max-height:280px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.5);"></div>
         </div>
       </label>
-      <button id="earningsClearFilters" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">Clear</button>
+      <button id="earningsClearFilters" style="background:transparent; color:var(--text-muted); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">Clear</button>
     `;
 
     // Wire events. We rely on the in-memory snapshot, so filter changes
@@ -707,7 +707,7 @@
         ? { bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.3)", color: "#86efac" }
         : quality === "MEDIUM"
           ? { bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.3)", color: "#fbbf24" }
-          : { bg: "rgba(148,163,184,0.12)", border: "rgba(148,163,184,0.25)", color: "#cbd5e1" };
+          : { bg: "rgba(148,163,184,0.12)", border: "rgba(148,163,184,0.25)", color: "var(--text-secondary)" };
     return `<span title="Signal quality tier (HIGH = full reasoning blob from SWS upcoming-earnings; MEDIUM = SWS deep + sector + returns; LOW = calendar-only)" style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; letter-spacing:0.05em; background:${tone.bg}; border:1px solid ${tone.border}; color:${tone.color};">${escHtml(quality)}</span>`;
   }
 
@@ -749,7 +749,7 @@
     if (typeof signals.upside_pct === "number") cells.push({ label: "FV", value: fmtSignedPct(signals.upside_pct), positive: signals.upside_pct >= 0 });
     if (cells.length === 0) return "";
     return `
-      <div style="display:flex; gap:10px; flex-wrap:wrap; padding-top:8px; border-top:1px dashed #1a2233;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; padding-top:8px; border-top:1px dashed var(--border);">
         ${cells.map((c) => `
           <div style="display:flex; flex-direction:column; min-width:46px;">
             <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">${escHtml(c.label)}</div>
@@ -770,7 +770,7 @@
       : "";
 
     return `
-      <div style="font-size:11px; color:#94a3b8; line-height:1.5; padding-top:8px; border-top:1px dashed #1a2233; display:flex; gap:8px; align-items:flex-start;">
+      <div style="font-size:11px; color:var(--text-muted); line-height:1.5; padding-top:8px; border-top:1px dashed var(--border); display:flex; gap:8px; align-items:flex-start;">
         ${verdictBadge ? `<div style="flex-shrink:0; padding-top:1px;">${verdictBadge}</div>` : ""}
         <div>${escHtml(oneLine || ct.text || "")}</div>
       </div>`;
@@ -790,7 +790,7 @@
         return { bg: "rgba(96,165,250,0.14)", border: "rgba(96,165,250,0.3)", color: "#93c5fd" };
       case "INSUFFICIENT_DATA":
       default:
-        return { bg: "rgba(148,163,184,0.12)", border: "rgba(148,163,184,0.25)", color: "#cbd5e1" };
+        return { bg: "rgba(148,163,184,0.12)", border: "rgba(148,163,184,0.25)", color: "var(--text-secondary)" };
     }
   }
 
@@ -829,7 +829,7 @@
       return `${cell.pct >= 0 ? "+" : ""}${cell.pct}%`;
     };
     return `
-      <div style="display:flex; gap:8px; padding-top:8px; border-top:1px dashed #1a2233; font-size:11px;">
+      <div style="display:flex; gap:8px; padding-top:8px; border-top:1px dashed var(--border); font-size:11px;">
         <div style="flex:1; min-width:0;">
           <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Bear</div>
           <div style="font-weight:600; color:#fca5a5;">${fmt(band.bear, "bear")}</div>
@@ -837,7 +837,7 @@
         </div>
         <div style="flex:1; min-width:0;">
           <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Base</div>
-          <div style="font-weight:600; color:#cbd5e1;">${fmt(band.base, "base")}</div>
+          <div style="font-weight:600; color:var(--text-secondary);">${fmt(band.base, "base")}</div>
           <div style="font-size:10px; color:var(--text-muted);">${pctLabel(band.base)}</div>
         </div>
         <div style="flex:1; min-width:0;">
@@ -851,7 +851,7 @@
   function renderRationaleHeadline(rationale) {
     if (!rationale?.headline) return "";
     return `
-      <div style="font-size:11.5px; color:#cbd5e1; line-height:1.45; padding-top:6px;">
+      <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.45; padding-top:6px;">
         ${escHtml(rationale.headline)}
       </div>`;
   }
@@ -897,7 +897,7 @@
              style="flex:1; height:6px; background:rgba(148,163,184,0.12); border-radius:3px; overflow:hidden;">
           <div style="width:${pct}%; height:100%; background:${fill};"></div>
         </div>
-        <span style="width:36px; flex-shrink:0; text-align:right; color:#cbd5e1;">${valLabel}/${max}</span>
+        <span style="width:36px; flex-shrink:0; text-align:right; color:var(--text-secondary);">${valLabel}/${max}</span>
       </div>`;
   }
 
@@ -910,12 +910,12 @@
     const comps = Array.isArray(prediction.components_by_impact) ? prediction.components_by_impact : [];
     const top3 = comps.slice(0, 3).map((c) => {
       const pts = Number(c.pts) || 0;
-      const tone = pts > 0 ? "#86efac" : pts < 0 ? "#fca5a5" : "#94a3b8";
+      const tone = pts > 0 ? "#86efac" : pts < 0 ? "#fca5a5" : "var(--text-muted)";
       const sign = pts > 0 ? "+" : "";
       const label = COMPONENT_LABELS[c.name] || c.name;
-      return `<div style="font-size:10.5px; line-height:1.5; color:#94a3b8;">
+      return `<div style="font-size:10.5px; line-height:1.5; color:var(--text-muted);">
         <span style="color:${tone}; font-weight:700;">${sign}${pts}</span>
-        <span style="color:#cbd5e1;"> ${escHtml(label)}</span> — ${escHtml(c.why || "")}
+        <span style="color:var(--text-secondary);"> ${escHtml(label)}</span> — ${escHtml(c.why || "")}
       </div>`;
     }).join("");
 
@@ -945,19 +945,19 @@
     const llm = signals.llm_signal;
     let llmHtml = "";
     if (llm && llm.bias) {
-      const biasTone = llm.bias === "lean_beat" ? "#86efac" : llm.bias === "lean_miss" ? "#fca5a5" : "#94a3b8";
+      const biasTone = llm.bias === "lean_beat" ? "#86efac" : llm.bias === "lean_miss" ? "#fca5a5" : "var(--text-muted)";
       const delta = Number(llm.confidence_delta_pct) || 0;
       llmHtml = `
         <div style="background:rgba(96,165,250,0.05); border:1px dashed rgba(96,165,250,0.3); border-radius:6px; padding:8px 10px;">
           <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
             <span style="font-size:9px; color:#93c5fd; letter-spacing:0.06em; text-transform:uppercase; font-weight:700;">AI qualitative read</span>
             <span title="Non-deterministic. A separate ±10-pt input — it does NOT alter the rationale paragraphs."
-                  style="font-size:8px; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:1px 5px;">non-deterministic · ${escHtml(llm.classifier_provider || "?")}</span>
+                  style="font-size:8px; color:var(--text-muted); border:1px solid var(--border); border-radius:6px; padding:1px 5px;">non-deterministic · ${escHtml(llm.classifier_provider || "?")}</span>
           </div>
-          <div style="font-size:10.5px; color:#cbd5e1; line-height:1.5;">
+          <div style="font-size:10.5px; color:var(--text-secondary); line-height:1.5;">
             <span style="color:${biasTone}; font-weight:700;">${escHtml(llm.bias)}</span>${delta ? ` (${delta > 0 ? "+" : ""}${delta})` : ""} — ${escHtml(llm.top_reason || "")}
           </div>
-          ${llm.top_risk ? `<div style="font-size:10px; color:#94a3b8; margin-top:3px;">Watch: ${escHtml(llm.top_risk)}</div>` : ""}
+          ${llm.top_risk ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">Watch: ${escHtml(llm.top_risk)}</div>` : ""}
         </div>`;
     }
 
@@ -975,7 +975,7 @@
       </div>`;
 
     return `
-      <details class="earnings-build-expander" onclick="event.stopPropagation()" style="border-top:1px dashed #1a2233; padding-top:8px; margin-top:2px;">
+      <details class="earnings-build-expander" onclick="event.stopPropagation()" style="border-top:1px dashed var(--border); padding-top:8px; margin-top:2px;">
         <summary style="cursor:pointer; font-size:10px; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase;">How this prediction was built</summary>
         <div style="margin-top:10px; display:flex; flex-direction:column; gap:12px;">
           <div style="display:flex; flex-direction:column; gap:4px;">
@@ -1002,7 +1002,7 @@
     if (positive.includes(cls)) return { color: "#86efac", bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.3)" };
     if (negative.includes(cls)) return { color: "#fca5a5", bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.3)" };
     if (informational.includes(cls)) return { color: "#93c5fd", bg: "rgba(96,165,250,0.1)", border: "rgba(96,165,250,0.25)" };
-    return { color: "#cbd5e1", bg: "rgba(148,163,184,0.1)", border: "rgba(148,163,184,0.2)" };
+    return { color: "var(--text-secondary)", bg: "rgba(148,163,184,0.1)", border: "rgba(148,163,184,0.2)" };
   }
 
   function renderAnnouncementPills(signals) {
@@ -1073,9 +1073,9 @@
 
     if (playbook.mode === "t1" && playbook.plan) {
       // Post-result variant — single resolved cell + gap-tactical.
-      const tone = playbook.plan.confidence === "HIGH" ? "#86efac" : playbook.plan.confidence === "MEDIUM" ? "#fbbf24" : "#cbd5e1";
+      const tone = playbook.plan.confidence === "HIGH" ? "#86efac" : playbook.plan.confidence === "MEDIUM" ? "#fbbf24" : "var(--text-secondary)";
       return `
-        <div style="background:rgba(15,20,34,0.6); border:1px solid #1a2233; border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:8px; flex-wrap:wrap;">
             <span style="color:${tone}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; font-size:10px;">${escHtml(playbook.cell_key || "")} · ${escHtml(playbook.plan.confidence || "")}</span>
             <div style="display:flex; gap:6px; align-items:center;">
@@ -1083,8 +1083,8 @@
               <span style="font-size:10px; color:var(--text-muted);">T+1 plan</span>
             </div>
           </div>
-          <div style="color:#e2e8f0; font-weight:500;">${escHtml(playbook.plan.stance || "")}</div>
-          ${playbook.tactical_note ? `<div style="color:#94a3b8; margin-top:4px;">${escHtml(playbook.tactical_note)}</div>` : ""}
+          <div style="color:var(--text-primary); font-weight:500;">${escHtml(playbook.plan.stance || "")}</div>
+          ${playbook.tactical_note ? `<div style="color:var(--text-muted); margin-top:4px;">${escHtml(playbook.tactical_note)}</div>` : ""}
         </div>`;
     }
 
@@ -1104,7 +1104,7 @@
       const highlightedBranch = branches.find((b) => b.is_highlighted) || branches[1] || null;
       const stanceLine = highlightedBranch?.plan?.stance || "Stance unresolved.";
       return `
-        <div style="background:rgba(15,20,34,0.5); border:1px solid #1a2233; border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
             <div style="display:flex; gap:5px;">${branches.map(branchChip).join("")}</div>
             <div style="display:flex; gap:6px; align-items:center;">
@@ -1112,7 +1112,7 @@
               <span style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">trading angle</span>
             </div>
           </div>
-          <div style="color:#cbd5e1;">
+          <div style="color:var(--text-secondary);">
             <span style="color:var(--text-muted); font-size:10px;">If ${escHtml(highlight || "MAINTAIN")}:</span>
             ${escHtml(stanceLine)}
           </div>
@@ -1179,9 +1179,9 @@
       case "TOP_PICK":   return "#86efac";
       case "STRONG":     return "#86efac";
       case "ACCEPTABLE": return "#93c5fd";
-      case "HOLD":       return "#cbd5e1";
+      case "HOLD":       return "var(--text-secondary)";
       case "AVOID":      return "#fca5a5";
-      default:           return "#cbd5e1";
+      default:           return "var(--text-secondary)";
     }
   }
 
@@ -1211,7 +1211,7 @@
     // > BOILERPLATE-ONLY (dim, deprioritised). Boilerplate-only never
     // claims "disagree" after PR 1 — it's the most muted variant.
     const isBoilerplateOnly = !disagrees && !hasHard && !hasMacro && boilerplateOnlyCount > 0;
-    const stripeColor = disagrees ? "#fbbf24" : isBoilerplateOnly ? "#64748b" : "#94a3b8";
+    const stripeColor = disagrees ? "#fbbf24" : isBoilerplateOnly ? "#64748b" : "var(--text-muted)";
     const accentBg = disagrees
       ? "rgba(251,191,36,0.06)"
       : isBoilerplateOnly
@@ -1248,15 +1248,15 @@
     // followed by heuristic top_reasons. Tag each reason source so users
     // can see boilerplate vs hard evidence vs LLM.
     const llmReasonLi = llmAuthoritative && llmCheck?.top_reason
-      ? `<li style="font-size:10.5px; color:#cbd5e1; line-height:1.45;"><span style="color:${stripeColor};">▸</span> <span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(96,165,250,0.18); color:#93c5fd; margin-right:4px;">LLM (${escHtml(llmProvider)})</span>${escHtml(String(llmCheck.top_reason))}</li>`
+      ? `<li style="font-size:10.5px; color:var(--text-secondary); line-height:1.45;"><span style="color:${stripeColor};">▸</span> <span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(96,165,250,0.18); color:#93c5fd; margin-right:4px;">LLM (${escHtml(llmProvider)})</span>${escHtml(String(llmCheck.top_reason))}</li>`
       : "";
     const topReasons = Array.isArray(labView.top_reasons) ? labView.top_reasons.slice(0, 3) : [];
     const heuristicReasonItems = topReasons.map((r) => {
       const isBoilerplate = r.is_boilerplate === true;
       const tag = isBoilerplate
-        ? '<span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(100,116,139,0.18); color:#94a3b8; margin-right:4px;">generic</span>'
+        ? '<span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(100,116,139,0.18); color:var(--text-muted); margin-right:4px;">generic</span>'
         : '<span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(34,197,94,0.16); color:#86efac; margin-right:4px;">evidence</span>';
-      return `<li style="font-size:10.5px; color:#cbd5e1; line-height:1.45;"><span style="color:${stripeColor};">▸</span> ${tag}${escHtml(
+      return `<li style="font-size:10.5px; color:var(--text-secondary); line-height:1.45;"><span style="color:${stripeColor};">▸</span> ${tag}${escHtml(
         String(r.summary || r.category || ""),
       )}</li>`;
     });
@@ -1276,7 +1276,7 @@
         : macroDelta
           ? ` — score Δ ${macroDelta > 0 ? "+" : ""}${escHtml(String(macroDelta))}`
           : "";
-      macroNote = `<div style="font-size:10.5px; color:#cbd5e1; margin-top:4px;">↪ Macro: ${macroBits.join(" ")}${tail}</div>`;
+      macroNote = `<div style="font-size:10.5px; color:var(--text-secondary); margin-top:4px;">↪ Macro: ${macroBits.join(" ")}${tail}</div>`;
     }
 
     // Discrimination diagnostic suffix — small but real signal to the user
@@ -1333,11 +1333,11 @@
     const safeClick = `if(typeof openStockDetailModal==='function'){openStockDetailModal('${escHtml(event.symbol)}','earnings');}`;
 
     return `
-      <div class="earnings-card" data-symbol="${escHtml(event.symbol)}" data-quality="${escHtml(signals?.data_quality || "UNKNOWN")}" data-verdict="${escHtml(prediction?.verdict || "")}" onclick="${safeClick}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; ${cardBorder} border-radius:10px; padding:16px 18px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:10px;">
+      <div class="earnings-card" data-symbol="${escHtml(event.symbol)}" data-quality="${escHtml(signals?.data_quality || "UNKNOWN")}" data-verdict="${escHtml(prediction?.verdict || "")}" onclick="${safeClick}" style="background:var(--bg-card); border:1px solid var(--border); ${cardBorder} border-radius:10px; padding:16px 18px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:10px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
           <div style="min-width:0; flex:1;">
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-              <span style="font-size:16px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(event.symbol)}</span>
+              <span style="font-size:16px; font-weight:600; color:var(--text-primary); letter-spacing:-0.01em;">${escHtml(event.symbol)}</span>
               ${fq ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${fq}</span>` : ""}
               ${verdictBadge}
               ${dqBadge}
@@ -1379,7 +1379,7 @@
         return;
       }
       el.innerHTML = `
-        <div style="padding:40px; text-align:center; color:var(--text-muted); border:1px dashed #2a3349; border-radius:10px;">
+        <div style="padding:40px; text-align:center; color:var(--text-muted); border:1px dashed var(--border); border-radius:10px;">
           <div style="font-size:14px; font-weight:500; margin-bottom:6px;">No upcoming results in this window.</div>
           <div style="font-size:12px;">Try widening the days filter or clearing the symbol search.</div>
         </div>`;
@@ -1413,9 +1413,9 @@
         : date !== defaultOpen;
       html += `
         <div data-earnings-date="${escHtml(date)}" data-collapsed="${isCollapsed ? "1" : "0"}" style="margin-bottom:18px;">
-          <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; cursor:pointer; user-select:none;">
+          <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); cursor:pointer; user-select:none;">
             <span class="earnings-date-caret" style="font-size:11px; color:var(--text-muted); width:10px; display:inline-block;">${isCollapsed ? "▸" : "▾"}</span>
-            <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(long)}</span>
+            <span style="font-size:13px; font-weight:600; color:var(--text-primary); letter-spacing:-0.01em;">${escHtml(long)}</span>
             <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">${escHtml(rel)} · ${items.length} ${items.length === 1 ? "result" : "results"}</span>
           </div>
           <div class="earnings-date-body" style="${isCollapsed ? "display:none;" : "display:grid;"} grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
@@ -1486,7 +1486,7 @@
         ? `<span title="Predicted verdict matched actual outcome" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(34,197,94,0.18); border:1px solid rgba(34,197,94,0.4); color:#86efac; font-size:10px; font-weight:700; letter-spacing:0.06em;">✓ HIT</span>`
         : acc === "miss"
           ? `<span title="Predicted verdict did not match actual outcome" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; font-size:10px; font-weight:700; letter-spacing:0.06em;">✗ MISS</span>`
-          : `<span title="Actual result not resolved yet" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(148,163,184,0.12); border:1px solid rgba(148,163,184,0.25); color:#cbd5e1; font-size:10px; font-weight:700; letter-spacing:0.06em;">PENDING</span>`;
+          : `<span title="Actual result not resolved yet" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(148,163,184,0.12); border:1px solid rgba(148,163,184,0.25); color:var(--text-secondary); font-size:10px; font-weight:700; letter-spacing:0.06em;">PENDING</span>`;
 
     const conf = typeof row.confidence_pct === "number" ? `${row.confidence_pct}%` : "—";
     const closeStr =
@@ -1498,7 +1498,7 @@
       gapPct == null
         ? null
         : `${gapPct >= 0 ? "+" : ""}${gapPct.toFixed(2)}%`;
-    const gapColor = gapPct == null ? "#cbd5e1" : gapPct >= 0 ? "#86efac" : "#fca5a5";
+    const gapColor = gapPct == null ? "var(--text-secondary)" : gapPct >= 0 ? "#86efac" : "#fca5a5";
 
     const safeClick = `if(typeof openStockDetailModal==='function'){openStockDetailModal('${escHtml(row.symbol)}','earnings');}`;
     const fq = row.fiscal_quarter ? escHtml(row.fiscal_quarter) : "";
@@ -1510,11 +1510,11 @@
       : "";
 
     return `
-      <div class="earnings-recent-card" data-symbol="${escHtml(row.symbol)}" data-accuracy="${escHtml(acc || "")}" onclick="${safeClick}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; border-top:2px solid ${actualTone.border}; border-radius:10px; padding:14px 16px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:9px;">
+      <div class="earnings-recent-card" data-symbol="${escHtml(row.symbol)}" data-accuracy="${escHtml(acc || "")}" onclick="${safeClick}" style="background:var(--bg-card); border:1px solid var(--border); border-top:2px solid ${actualTone.border}; border-radius:10px; padding:14px 16px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:9px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
           <div style="min-width:0; flex:1;">
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-              <span style="font-size:15px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(row.symbol)}</span>
+              <span style="font-size:15px; font-weight:600; color:var(--text-primary); letter-spacing:-0.01em;">${escHtml(row.symbol)}</span>
               ${fq ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${fq}</span>` : ""}
               ${accBadge}
             </div>
@@ -1539,7 +1539,7 @@
         ${
           closeStr || gapStr
             ? `<div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted);">
-                ${closeStr ? `<div><span style="opacity:0.7;">T+1 close</span> <span style="color:#e2e8f0; font-weight:500;">${escHtml(closeStr)}</span></div>` : ""}
+                ${closeStr ? `<div><span style="opacity:0.7;">T+1 close</span> <span style="color:var(--text-primary); font-weight:500;">${escHtml(closeStr)}</span></div>` : ""}
                 ${gapStr ? `<div><span style="opacity:0.7;">T+1 gap</span> <span style="color:${gapColor}; font-weight:500;">${escHtml(gapStr)}</span></div>` : ""}
               </div>`
             : ""
@@ -1589,9 +1589,9 @@
     const isCollapsed = loadRecentResultsCollapsed();
     el.setAttribute("data-collapsed", isCollapsed ? "1" : "0");
     el.innerHTML = `
-      <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; flex-wrap:wrap; cursor:pointer; user-select:none;">
+      <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); flex-wrap:wrap; cursor:pointer; user-select:none;">
         <span class="earnings-date-caret" style="font-size:11px; color:var(--text-muted); width:10px; display:inline-block;">${isCollapsed ? "▸" : "▾"}</span>
-        <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">Recent / status tracker</span>
+        <span style="font-size:13px; font-weight:600; color:var(--text-primary); letter-spacing:-0.01em;">Recent / status tracker</span>
         <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">past ${pastWindow}d · ${resolved} resolved · ${pending} pending</span>
         ${accuracyChip}
         ${llmPill}
@@ -1646,7 +1646,7 @@
           grid.innerHTML = `
             <div style="padding:40px; text-align:center; color:var(--text-muted); border:1px dashed #f59e0b; border-radius:10px; background:rgba(245,158,11,0.04);">
               <div style="font-size:14px; font-weight:500; color:#fbbf24; margin-bottom:6px;">Earnings snapshot not generated yet.</div>
-              <div style="font-size:12px;">Run <code style="background:#0b1020; padding:2px 6px; border-radius:4px;">node scripts/refresh-earnings.mjs</code> locally and commit the resulting JSON.</div>
+              <div style="font-size:12px;">Run <code style="background:var(--bg-card); padding:2px 6px; border-radius:4px;">node scripts/refresh-earnings.mjs</code> locally and commit the resulting JSON.</div>
             </div>`;
         }
         if (meta) meta.textContent = "Snapshot missing — run refresh script.";
@@ -1696,12 +1696,12 @@
       .earnings-day-pill--today { background:rgba(239,68,68,0.15); color:#fca5a5; border:1px solid rgba(239,68,68,0.3); }
       .earnings-day-pill--soon { background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); }
       .earnings-day-pill--this-week { background:rgba(250,204,21,0.12); color:#facc15; border:1px solid rgba(250,204,21,0.28); }
-      .earnings-day-pill--later { background:rgba(148,163,184,0.12); color:#cbd5e1; border:1px solid rgba(148,163,184,0.25); }
-      .earnings-day-pill--past { background:rgba(71,85,105,0.18); color:#94a3b8; border:1px solid rgba(71,85,105,0.35); }
-      .earnings-day-pill--unknown { background:rgba(148,163,184,0.08); color:#94a3b8; border:1px solid rgba(148,163,184,0.18); }
-      .earnings-card:hover { transform:translateY(-1px); border-color:#2a3349; }
-      .earnings-recent-card:hover { transform:translateY(-1px); border-color:#2a3349; }
-      .earnings-build-expander summary:hover { color:#cbd5e1; }
+      .earnings-day-pill--later { background:rgba(148,163,184,0.12); color:var(--text-secondary); border:1px solid rgba(148,163,184,0.25); }
+      .earnings-day-pill--past { background:rgba(71,85,105,0.18); color:var(--text-muted); border:1px solid rgba(71,85,105,0.35); }
+      .earnings-day-pill--unknown { background:rgba(148,163,184,0.08); color:var(--text-muted); border:1px solid rgba(148,163,184,0.18); }
+      .earnings-card:hover { transform:translateY(-1px); border-color:var(--border); }
+      .earnings-recent-card:hover { transform:translateY(-1px); border-color:var(--border); }
+      .earnings-build-expander summary:hover { color:var(--text-secondary); }
       .earnings-build-expander summary:focus-visible { outline:2px solid #60a5fa; outline-offset:2px; border-radius:3px; }
     `;
     const style = document.createElement("style");
@@ -1733,7 +1733,7 @@
     if (!prediction || prediction.verdict === "INSUFFICIENT_DATA") {
       return `<div style="background:rgba(148,163,184,0.1); border:1px solid rgba(148,163,184,0.2); padding:12px 16px; border-radius:8px;">
         <div style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">Predicted outcome</div>
-        <div style="font-size:18px; font-weight:600; color:#cbd5e1; margin-top:4px;">INSUFFICIENT DATA</div>
+        <div style="font-size:18px; font-weight:600; color:var(--text-secondary); margin-top:4px;">INSUFFICIENT DATA</div>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Calendar event only — too thin to score.</div>
       </div>`;
     }
@@ -1751,10 +1751,10 @@
   function renderModalRationaleParagraphs(rationale) {
     if (!rationale || !Array.isArray(rationale.paragraphs)) return "";
     const paras = rationale.paragraphs
-      .map((p, i) => `<p style="margin:0 0 ${i < rationale.paragraphs.length - 1 ? "10px" : "0"}; font-size:13px; line-height:1.55; color:#cbd5e1;">${escHtml(p)}</p>`)
+      .map((p, i) => `<p style="margin:0 0 ${i < rationale.paragraphs.length - 1 ? "10px" : "0"}; font-size:13px; line-height:1.55; color:var(--text-secondary);">${escHtml(p)}</p>`)
       .join("");
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-top:12px;">
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-top:12px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">Reasoning</div>
         ${paras}
       </div>`;
@@ -1790,18 +1790,18 @@
             <span style="font-size:11px; font-weight:700; color:${tone.color}; letter-spacing:0.06em;">IF ${escHtml(b.guidance)}${isOn ? " · highlighted" : ""}</span>
             <span style="font-size:10px; color:var(--text-muted);">${escHtml(plan.confidence || "")} · ${escHtml(plan.time_horizon || "")}</span>
           </div>
-          <div style="font-size:12px; color:#e2e8f0; font-weight:500; margin-bottom:6px;">${escHtml(plan.label || "")}</div>
-          <div style="font-size:11.5px; color:#94a3b8; line-height:1.5;"><strong style="color:#cbd5e1;">Stance:</strong> ${escHtml(plan.stance || "")}</div>
-          ${plan.entry ? `<div style="font-size:11.5px; color:#94a3b8; line-height:1.5; margin-top:4px;"><strong style="color:#cbd5e1;">Entry:</strong> ${escHtml(plan.entry)}</div>` : ""}
-          ${plan.stoploss ? `<div style="font-size:11.5px; color:#94a3b8; line-height:1.5; margin-top:4px;"><strong style="color:#cbd5e1;">Stop:</strong> ${escHtml(plan.stoploss)}</div>` : ""}
-          ${plan.target ? `<div style="font-size:11.5px; color:#94a3b8; line-height:1.5; margin-top:4px;"><strong style="color:#cbd5e1;">Target:</strong> ${escHtml(plan.target)}</div>` : ""}
+          <div style="font-size:12px; color:var(--text-primary); font-weight:500; margin-bottom:6px;">${escHtml(plan.label || "")}</div>
+          <div style="font-size:11.5px; color:var(--text-muted); line-height:1.5;"><strong style="color:var(--text-secondary);">Stance:</strong> ${escHtml(plan.stance || "")}</div>
+          ${plan.entry ? `<div style="font-size:11.5px; color:var(--text-muted); line-height:1.5; margin-top:4px;"><strong style="color:var(--text-secondary);">Entry:</strong> ${escHtml(plan.entry)}</div>` : ""}
+          ${plan.stoploss ? `<div style="font-size:11.5px; color:var(--text-muted); line-height:1.5; margin-top:4px;"><strong style="color:var(--text-secondary);">Stop:</strong> ${escHtml(plan.stoploss)}</div>` : ""}
+          ${plan.target ? `<div style="font-size:11.5px; color:var(--text-muted); line-height:1.5; margin-top:4px;"><strong style="color:var(--text-secondary);">Target:</strong> ${escHtml(plan.target)}</div>` : ""}
         </div>`;
     }).join("");
 
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-top:12px;">
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-top:12px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">Trading playbook — three guidance scenarios</div>
-        <div style="font-size:12px; color:#cbd5e1; line-height:1.5; margin-bottom:10px;">${escHtml(playbook.headline || "")}</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:10px;">${escHtml(playbook.headline || "")}</div>
         <div style="display:flex; flex-direction:column; gap:8px;">${branchHtml}</div>
       </div>`;
   }
@@ -1812,18 +1812,18 @@
     const rows = recent.slice(0, 6).map((a) => {
       const tone = classificationTone(a.classification || "OTHER");
       return `
-        <div style="display:flex; gap:10px; padding:8px 0; border-bottom:1px dashed #1a2233;">
+        <div style="display:flex; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border);">
           <div style="flex-shrink:0; padding-top:1px;">
             <span style="display:inline-block; padding:2px 7px; border-radius:8px; font-size:9px; font-weight:600; letter-spacing:0.05em; background:${tone.bg}; color:${tone.color}; border:1px solid ${tone.border};">${escHtml(a.classification || "OTHER")}</span>
           </div>
           <div style="min-width:0; flex:1;">
-            <div style="font-size:11.5px; color:#cbd5e1; line-height:1.5;">${escHtml(a.subject || "(no subject)")}</div>
+            <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.5;">${escHtml(a.subject || "(no subject)")}</div>
             <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${escHtml(a.announced_at_iso || "")}${a.pdf_url ? ` · <a href="${escHtml(a.pdf_url)}" target="_blank" rel="noopener" style="color:#60a5fa; text-decoration:none;">PDF ↗</a>` : ""}</div>
           </div>
         </div>`;
     }).join("");
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-top:12px;">
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-top:12px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px;">Recent corporate announcements</div>
         ${rows}
       </div>`;
@@ -1838,17 +1838,17 @@
       return `
         <tr>
           <td style="padding:6px 8px; font-size:11px; color:var(--text-muted);">${escHtml(d.date_iso || "")}</td>
-          <td style="padding:6px 8px; font-size:11px; color:#cbd5e1;">${escHtml(d.kind)}</td>
+          <td style="padding:6px 8px; font-size:11px; color:var(--text-secondary);">${escHtml(d.kind)}</td>
           <td style="padding:6px 8px; font-size:11px; font-weight:600; color:${sideColor};">${escHtml(d.side)}</td>
-          <td style="padding:6px 8px; font-size:11px; color:#cbd5e1;">${escHtml(d.client_name || "—")}</td>
-          <td style="padding:6px 8px; font-size:11px; color:#cbd5e1; text-align:right;">${notional}</td>
+          <td style="padding:6px 8px; font-size:11px; color:var(--text-secondary);">${escHtml(d.client_name || "—")}</td>
+          <td style="padding:6px 8px; font-size:11px; color:var(--text-secondary); text-align:right;">${notional}</td>
         </tr>`;
     }).join("");
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-top:12px; overflow-x:auto;">
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-top:12px; overflow-x:auto;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px;">Bulk / block deals — last 7 days</div>
         <table style="width:100%; border-collapse:collapse;">
-          <thead><tr style="border-bottom:1px solid #1a2233;">
+          <thead><tr style="border-bottom:1px solid var(--border);">
             <th style="padding:6px 8px; font-size:9px; color:var(--text-muted); text-align:left; letter-spacing:0.05em; text-transform:uppercase; font-weight:600;">Date</th>
             <th style="padding:6px 8px; font-size:9px; color:var(--text-muted); text-align:left; letter-spacing:0.05em; text-transform:uppercase; font-weight:600;">Type</th>
             <th style="padding:6px 8px; font-size:9px; color:var(--text-muted); text-align:left; letter-spacing:0.05em; text-transform:uppercase; font-weight:600;">Side</th>
@@ -1869,7 +1869,7 @@
     if (prediction && prediction.verdict) {
       const v = prediction.verdict;
       const conf = Number.isFinite(prediction.confidence_pct) ? `${Math.round(prediction.confidence_pct)}%` : null;
-      const verdictColor = v === "BEAT" ? "#86efac" : v === "MISS" ? "#fca5a5" : "#cbd5e1";
+      const verdictColor = v === "BEAT" ? "#86efac" : v === "MISS" ? "#fca5a5" : "var(--text-secondary)";
       predictionFrag = `
         <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px;">
           <strong style="color:${verdictColor}; font-weight:700; letter-spacing:0.02em;">${escHtml(v)}</strong>
@@ -1897,7 +1897,7 @@
       bandFrag = `
         <span style="display:inline-flex; gap:10px; align-items:center;">
           ${cell("Bear", priceBand.bear, "#fca5a5")}
-          ${cell("Base", priceBand.base, "#cbd5e1")}
+          ${cell("Base", priceBand.base, "var(--text-secondary)")}
           ${cell("Bull", priceBand.bull, "#86efac")}
         </span>`;
     }
@@ -1905,7 +1905,7 @@
     return `
       <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:6px;">
         ${predictionFrag}
-        ${bandFrag ? `<span style="color:#1a2233;">•</span>${bandFrag}` : ""}
+        ${bandFrag ? `<span style="color:var(--border);">•</span>${bandFrag}` : ""}
       </div>`;
   }
 
@@ -1940,7 +1940,7 @@
                   <span id="modalAnalyzerStance" style="display:inline-flex;"></span>
                   <span data-earnings-toggle-hint style="font-size:10px; color:var(--text-muted); font-style:italic;">click to ${isOpen ? "collapse" : "expand"}</span>
                 </div>
-                <div style="font-size:13px; color:#cbd5e1; margin-top:4px;">${escHtml(fiscal_quarter || "next result")} · ${escHtml(dayLabel)} (${escHtml(fmtIsoToLong(event_iso_date))})</div>
+                <div style="font-size:13px; color:var(--text-secondary); margin-top:4px;">${escHtml(fiscal_quarter || "next result")} · ${escHtml(dayLabel)} (${escHtml(fmtIsoToLong(event_iso_date))})</div>
                 ${summaryStrip}
               </div>
               <div style="font-size:10px; color:var(--text-muted); max-width:240px; text-align:right; line-height:1.4;">

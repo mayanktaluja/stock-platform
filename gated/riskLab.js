@@ -303,8 +303,8 @@
       {
         style: {
           padding: "16px 18px",
-          background: "rgba(20,30,50,0.6)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          background: "var(--bg-card)",
+          border: "1px solid var(--border)",
           borderRadius: "10px",
           marginBottom: "18px",
           display: "flex",
@@ -356,7 +356,7 @@
             padding: "8px 16px",
             background: _activeLens === id ? "rgba(96,165,250,0.15)" : "transparent",
             color: _activeLens === id ? "#60a5fa" : "var(--text-muted)",
-            border: `1px solid ${_activeLens === id ? "rgba(96,165,250,0.35)" : "rgba(255,255,255,0.08)"}`,
+            border: `1px solid ${_activeLens === id ? "rgba(96,165,250,0.35)" : "var(--border)"}`,
             borderRadius: "6px",
             cursor: "pointer",
             fontSize: "12px",
@@ -421,14 +421,14 @@
       return node;
     };
     const regimeTermId = typeof regimeIdFromLabel === "function" ? regimeIdFromLabel(r.regime) : null;
-    const regimeValueAttrs = { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } };
+    const regimeValueAttrs = { style: { fontSize: "16px", fontWeight: "600", color: "var(--text-primary)" } };
     if (regimeTermId && window.GLOSSARY && window.GLOSSARY[regimeTermId]) {
       regimeValueAttrs.className = "glossary-term";
       regimeValueAttrs["data-term-id"] = regimeTermId;
       regimeValueAttrs.style.cursor = "help";
     }
     root.appendChild(el("div", {
-      style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "rgba(15,20,34,0.5)", border: "1px solid #1a2233", borderRadius: "8px", marginBottom: "16px" },
+      style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "8px", marginBottom: "16px" },
     },
       el("div", null,
         thesisLabel("Current regime", null),
@@ -440,7 +440,7 @@
       ),
       r.days_in_state != null ? el("div", null,
         thesisLabel("Days in state", "regime_days_in_state"),
-        el("div", { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } }, `${r.days_in_state}d`),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: "var(--text-primary)" } }, `${r.days_in_state}d`),
       ) : null,
       r.confidence != null ? el("div", null,
         thesisLabel("Regime confidence", "regime_confidence"),
@@ -454,17 +454,17 @@
     if (r.reasoning || (Array.isArray(r.key_events) && r.key_events.length > 0)) {
       const why = el("div", {
         "data-testid": "thesis-why-regime",
-        style: { padding: "12px 14px", border: "1px solid rgba(96,165,250,0.25)", borderRadius: "8px", marginBottom: "16px", background: "rgba(15,20,34,0.5)" },
+        style: { padding: "12px 14px", border: "1px solid rgba(96,165,250,0.25)", borderRadius: "8px", marginBottom: "16px", background: "var(--bg-card)" },
       });
       why.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px" } }, "Why this regime"));
       if (r.reasoning) {
-        why.appendChild(el("div", { style: { fontSize: "12px", color: "#cbd5e1", lineHeight: "1.5", marginBottom: r.key_events?.length ? "8px" : "0" } }, r.reasoning));
+        why.appendChild(el("div", { style: { fontSize: "12px", color: "var(--text-secondary)", lineHeight: "1.5", marginBottom: r.key_events?.length ? "8px" : "0" } }, r.reasoning));
       }
       if (Array.isArray(r.key_events) && r.key_events.length > 0) {
         why.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.04em", marginBottom: "4px" } }, "Top headlines that drove the call:"));
         const ul = el("ul", { style: { margin: "0", padding: "0", listStyle: "none" } });
         for (const ev of r.key_events.slice(0, 5)) {
-          ul.appendChild(el("li", { style: { fontSize: "11px", color: "#cbd5e1", lineHeight: "1.4", marginBottom: "3px" } }, `▸ ${ev}`));
+          ul.appendChild(el("li", { style: { fontSize: "11px", color: "var(--text-secondary)", lineHeight: "1.4", marginBottom: "3px" } }, `▸ ${ev}`));
         }
         why.appendChild(ul);
       }
@@ -490,13 +490,13 @@
     // Per-branch cards
     const cardsWrap = el("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "12px" } });
     for (const b of (thesis.branches || [])) {
-      const probColor = b.probability >= 0.4 ? "#86efac" : b.probability >= 0.2 ? "#fbbf24" : "#cbd5e1";
+      const probColor = b.probability >= 0.4 ? "#86efac" : b.probability >= 0.2 ? "#fbbf24" : "var(--text-secondary)";
       const indFlag = b.indeterminate
         ? el("span", { style: { fontSize: "9px", color: "#f87171", marginLeft: "6px", padding: "1px 5px", border: "1px solid #f87171", borderRadius: "3px" } }, "INDETERMINATE")
         : null;
       const card = el("div", {
         "data-testid": `thesis-branch-${b.key}`,
-        style: { padding: "14px", border: "1px solid #1a2233", borderRadius: "8px", background: "rgba(15,20,34,0.6)" },
+        style: { padding: "14px", border: "1px solid var(--border)", borderRadius: "8px", background: "var(--bg-card)" },
       });
       const branchTermId = `thesis_branch_${b.key}`;
       const branchKeyNode = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: "5px" } }, b.key);
@@ -508,7 +508,7 @@
       card.appendChild(el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginBottom: "10px" } },
         el("div", null,
           branchKeyNode,
-          el("div", { style: { fontSize: "13px", color: "#e2e8f0", fontWeight: "500" } }, b.label, indFlag),
+          el("div", { style: { fontSize: "13px", color: "var(--text-primary)", fontWeight: "500" } }, b.label, indFlag),
         ),
         el("div", { style: { textAlign: "right" } },
           probNode,
@@ -527,7 +527,7 @@
           const labelLine = beneficiary.source === "analog"
             ? `${beneficiary.sector_label} — median ${beneficiary.expected_return_pct > 0 ? "+" : ""}${beneficiary.expected_return_pct}% (IQR ${beneficiary.p25}–${beneficiary.p75}%, n=${beneficiary.n_analogs})`
             : `${beneficiary.sector_label} — expected upside (template, no analog evidence)`;
-          benRow.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1" } }, labelLine));
+          benRow.appendChild(el("div", { style: { fontSize: "11px", color: "var(--text-secondary)" } }, labelLine));
           const stocks = (beneficiary.stock_candidates?.stocks || []).slice(0, 3);
           if (stocks.length > 0) {
             const stockLine = stocks.map((s) => `${s.ticker} (v4 ${s.v4_score_100 || "?"})`).join(" · ");
@@ -547,7 +547,7 @@
           const lossLine = loser.source === "analog"
             ? `${loser.sector_label} — median ${loser.expected_return_pct}% (IQR ${loser.p25}–${loser.p75}%, n=${loser.n_analogs})`
             : `${loser.sector_label} — expected downside (template, no analog evidence)`;
-          card.appendChild(el("div", { style: { padding: "4px 8px", background: "rgba(239,68,68,0.06)", borderRadius: "4px", fontSize: "11px", color: "#cbd5e1", marginBottom: "2px" } }, lossLine));
+          card.appendChild(el("div", { style: { padding: "4px 8px", background: "rgba(239,68,68,0.06)", borderRadius: "4px", fontSize: "11px", color: "var(--text-secondary)", marginBottom: "2px" } }, lossLine));
         }
       }
 
@@ -569,15 +569,15 @@
         sum.style.textTransform = "uppercase";
         sum.textContent = `How this ${b.probability ? Math.round(b.probability * 100) + "%" : ""} was derived`;
         det.appendChild(sum);
-        const body = el("div", { style: { fontSize: "10.5px", color: "#cbd5e1", marginTop: "6px", lineHeight: "1.5" } });
+        const body = el("div", { style: { fontSize: "10.5px", color: "var(--text-secondary)", marginTop: "6px", lineHeight: "1.5" } });
         // Math line
         if (b.reasoning.base_probability != null && b.reasoning.modulator_applied != null) {
           const product = b.reasoning.base_probability * b.reasoning.modulator_applied;
           body.appendChild(el("div", null,
             `base ${b.reasoning.base_probability.toFixed(2)} × modulator ${b.reasoning.modulator_applied.toFixed(2)} = `,
-            el("span", { style: { color: "#e2e8f0", fontWeight: "600" } }, product.toFixed(3)),
+            el("span", { style: { color: "var(--text-primary)", fontWeight: "600" } }, product.toFixed(3)),
             " (normalised against other branches to ",
-            el("span", { style: { color: "#e2e8f0", fontWeight: "600" } }, `${Math.round((b.probability || 0) * 100)}%`),
+            el("span", { style: { color: "var(--text-primary)", fontWeight: "600" } }, `${Math.round((b.probability || 0) * 100)}%`),
             ")",
           ));
         }
@@ -591,7 +591,7 @@
           body.appendChild(el("div", { style: { marginTop: "4px", color: "var(--text-muted)" } }, "Matched analogs:"));
           const ul = el("ul", { style: { margin: "0", padding: "0", listStyle: "none" } });
           for (const a of analogs) {
-            ul.appendChild(el("li", { style: { fontSize: "10px", color: "#cbd5e1", lineHeight: "1.35", marginLeft: "8px" } },
+            ul.appendChild(el("li", { style: { fontSize: "10px", color: "var(--text-secondary)", lineHeight: "1.35", marginLeft: "8px" } },
               `• ${a.date || "?"}${a.label ? ` — ${a.label}` : ""}${a.severity != null ? ` (sev ${a.severity})` : ""}${a.source ? ` [${a.source}]` : ""}`,
             ));
           }
@@ -616,7 +616,7 @@
     if (Array.isArray(thesis.upcoming_catalysts) && thesis.upcoming_catalysts.length > 0) {
       const cat = el("div", {
         "data-testid": "thesis-catalysts",
-        style: { marginTop: "16px", padding: "12px 14px", border: "1px solid #1a2233", borderRadius: "6px", background: "rgba(15,20,34,0.6)" },
+        style: { marginTop: "16px", padding: "12px 14px", border: "1px solid var(--border)", borderRadius: "6px", background: "var(--bg-card)" },
       });
       const catHeader = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "Upcoming catalysts (next 30 days)");
       const catBubble = infoBubble("thesis_upcoming_catalysts");
@@ -640,13 +640,13 @@
 
     // SEBI Reg 16 caveats
     if (thesis.caveats?.length > 0) {
-      const cv = el("div", { "data-testid": "thesis-caveats", style: { marginTop: "16px", padding: "12px 14px", border: "1px solid rgba(148,163,184,0.3)", borderRadius: "6px", background: "rgba(15,20,34,0.4)" } });
+      const cv = el("div", { "data-testid": "thesis-caveats", style: { marginTop: "16px", padding: "12px 14px", border: "1px solid rgba(148,163,184,0.3)", borderRadius: "6px", background: "var(--bg-card)" } });
       const cvHeader = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "SEBI Reg 16 caveats");
       const cvBubble = infoBubble("thesis_sebi_reg16");
       if (cvBubble) cvHeader.appendChild(cvBubble);
       cv.appendChild(cvHeader);
       for (const c of thesis.caveats) {
-        cv.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1", marginBottom: "4px" } }, `• ${c}`));
+        cv.appendChild(el("div", { style: { fontSize: "11px", color: "var(--text-secondary)", marginBottom: "4px" } }, `• ${c}`));
       }
       root.appendChild(cv);
     }
@@ -658,7 +658,7 @@
       const a = thesis.audit;
       const auditFooter = el("div", {
         "data-testid": "thesis-audit",
-        style: { marginTop: "12px", padding: "8px 12px", borderRadius: "6px", background: "rgba(15,20,34,0.3)", fontSize: "9.5px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: "1.45" },
+        style: { marginTop: "12px", padding: "8px 12px", borderRadius: "6px", background: "var(--bg-elevated, var(--bg-card))", fontSize: "9.5px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: "1.45" },
       });
       const parts = [];
       if (a.thesis_schema) parts.push(`schema: ${a.thesis_schema}`);
@@ -698,14 +698,14 @@
       if (list.length === 0) {
         return el(
           "div",
-          { style: { padding: "14px 16px", background: "rgba(20,30,50,0.4)", borderRadius: "8px", flex: "1" } },
+          { style: { padding: "14px 16px", background: "var(--bg-card)", borderRadius: "8px", flex: "1" } },
           titleNode,
           el("div", { style: { fontSize: "11px", color: "var(--text-muted)" } }, "No notable cases in current snapshot."),
         );
       }
       return el(
         "div",
-        { style: { padding: "14px 16px", background: "rgba(20,30,50,0.4)", borderRadius: "8px", flex: "1" } },
+        { style: { padding: "14px 16px", background: "var(--bg-card)", borderRadius: "8px", flex: "1" } },
         titleNode,
         el("div", { style: { fontSize: "11px", color: "var(--text-muted)", marginBottom: "10px" } }, subtitle),
         ...list.map((s) => el(
@@ -799,8 +799,8 @@
         boxSizing: "border-box",
         padding: "8px 12px",
         marginBottom: "10px",
-        background: "rgba(15,20,34,0.6)",
-        border: "1px solid rgba(255,255,255,0.08)",
+        background: "var(--bg-card)",
+        border: "1px solid var(--border)",
         borderRadius: "6px",
         color: "var(--text-primary)",
         fontSize: "12px",
@@ -827,7 +827,7 @@
           gridTemplateColumns: "100px 120px 80px 80px 100px 1fr",
           gap: "8px",
           padding: "10px 12px",
-          background: "rgba(20,30,50,0.6)",
+          background: "var(--bg-card)",
           borderRadius: "6px",
           marginBottom: "4px",
           fontSize: "10px",
@@ -949,7 +949,7 @@
           gridTemplateColumns: "100px 120px 80px 80px 100px 1fr",
           gap: "8px",
           padding: "10px 12px",
-          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          borderBottom: "1px solid var(--border-soft, var(--border))",
           fontSize: "12px",
           alignItems: "center",
         },
@@ -990,7 +990,7 @@
   function renderUserToggle() {
     return el(
       "div",
-      { style: { marginTop: "24px", paddingTop: "16px", borderTop: "1px solid rgba(255,255,255,0.06)", fontSize: "11px", color: "var(--text-muted)" } },
+      { style: { marginTop: "24px", paddingTop: "16px", borderTop: "1px solid var(--border)", fontSize: "11px", color: "var(--text-muted)" } },
       "Risk Lab is experimental and does not affect production picks. ",
       el("a", {
         href: "#",

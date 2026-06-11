@@ -9,6 +9,16 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("PR #2 PWA manifest", () => {
+  let cachedManifest;
+
+  async function loadManifest(request) {
+    if (cachedManifest) return cachedManifest;
+    const r = await request.get("/manifest.webmanifest");
+    expect(r.status()).toBe(200);
+    cachedManifest = JSON.parse(await r.text());
+    return cachedManifest;
+  }
+
   test("/manifest.webmanifest serves with manifest content-type", async ({
     request,
   }) => {
@@ -25,10 +35,7 @@ test.describe("PR #2 PWA manifest", () => {
   test("manifest validates as JSON with required PWA fields", async ({
     request,
   }) => {
-    const r = await request.get("/manifest.webmanifest");
-    const body = await r.text();
-    let manifest;
-    expect(() => (manifest = JSON.parse(body))).not.toThrow();
+    const manifest = await loadManifest(request);
 
     // PWA-required fields per W3C App Manifest spec
     expect(manifest.name, "name required").toBeTruthy();
@@ -38,9 +45,13 @@ test.describe("PR #2 PWA manifest", () => {
       /^(standalone|fullscreen|minimal-ui|browser)$/,
     );
 
-    // Theme + background colours match the brand
-    expect(manifest.theme_color).toBe("#0B0C10");
-    expect(manifest.background_color).toBe("#0B0C10");
+    // Install shell starts light; runtime theme is controlled by the Platform
+    // menu and may update the page's meta theme-color after boot.
+    expect(manifest.theme_color).toBe("#F7F8FB");
+    expect(manifest.background_color).toBe("#F7F8FB");
+    expect(manifest.scope).toBe("/");
+    expect(manifest.start_url).toBe("/index.html");
+    expect(manifest.lang).toBe("en-IN");
 
     // Must carry ≥ 192 + 512 px icons (Chrome PWA install prompt baseline)
     expect(manifest.icons).toBeInstanceOf(Array);
@@ -78,9 +89,24 @@ test.describe("PR #2 PWA manifest", () => {
     expect(href).toBe("/manifest.webmanifest");
   });
 
+  test("manifest theme matches the static app shell theme metadata", async ({
+    request,
+  }) => {
+    const manifest = await loadManifest(request);
+    const shell = await request.get("/index.html");
+    expect(shell.status()).toBe(200);
+    const html = await shell.text();
+    const metaTheme = html.match(
+      /<meta\s+name="theme-color"\s+content="([^"]+)"/,
+    )?.[1];
+
+    expect(metaTheme, "static /index.html theme-color").toBe(
+      manifest.theme_color,
+    );
+  });
+
   test("manifest icon URLs all resolve 200", async ({ request }) => {
-    const r = await request.get("/manifest.webmanifest");
-    const manifest = JSON.parse(await r.text());
+    const manifest = await loadManifest(request);
     for (const icon of manifest.icons) {
       const iconRes = await request.get(icon.src);
       expect(

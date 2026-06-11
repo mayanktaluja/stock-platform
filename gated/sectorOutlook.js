@@ -65,7 +65,7 @@
       { value: ts, label: "Last refreshed", color: "var(--text-muted)" },
     ];
     return `
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--border);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">
             Sector Outlook
@@ -78,7 +78,7 @@
       </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px; margin-bottom:24px;">
         ${tiles.map((t) => `
-          <div style="padding:14px 16px; background:var(--bg-secondary); border-radius:8px;">
+          <div style="padding:14px 16px; background:var(--bg-elevated, var(--bg-card)); border-radius:8px;">
             <div style="font-size:22px; font-weight:600; color:${t.color}; font-variant-numeric:tabular-nums;">${escapeHtml(t.value)}</div>
             <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${escapeHtml(t.label)}${t.termId ? infoIcon(t.termId) : ""}</div>
           </div>`).join("")}
@@ -97,7 +97,7 @@
     const topThemes = (h.bottom_up?.top_themes || []).slice(0, 2);
     const topThemesStr = topThemes.map((t) => `${escapeHtml(t.theme.replace(/_/g, " "))} ${FMT_PCT(t.pct)}`).join(", ") || "—";
     return `
-      <tr data-sector="${escapeHtml(sectorRow.sector)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)">
+      <tr data-sector="${escapeHtml(sectorRow.sector)}" style="border-bottom:1px solid var(--border); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)">
         <td style="padding:10px 8px; font-weight:600;">${escapeHtml(sectorRow.sector)}</td>
         <td style="padding:10px 8px;">${labelBadge(label)}</td>
         <td style="padding:10px 8px;">${confidenceDot(conf)}</td>
@@ -117,7 +117,7 @@
     const tdRegime = h.top_down?.regime || "";
     const topThemes = h.bottom_up?.top_themes || [];
     return `
-      <tr data-drilldown-for="${escapeHtml(sectorRow.sector)}" style="display:none; background:var(--bg-secondary);">
+      <tr data-drilldown-for="${escapeHtml(sectorRow.sector)}" style="display:none; background:var(--bg-elevated, var(--bg-card));">
         <td colspan="9" style="padding:18px 24px;">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1100px;">
             <div>
@@ -165,7 +165,7 @@
       <div style="overflow-x:auto; margin-bottom:24px;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;">
           <thead>
-            <tr style="border-bottom:2px solid var(--bg-graphite); color:var(--text-muted); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;">
+            <tr style="border-bottom:2px solid var(--border); color:var(--text-muted); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;">
               <th style="padding:10px 8px; text-align:left;">Sector</th>
               <th style="padding:10px 8px; text-align:left;">Outlook${infoIcon("sector_outlook_label")}</th>
               <th style="padding:10px 8px; text-align:left;">Confidence${infoIcon("sector_outlook_confidence")}</th>
@@ -191,7 +191,7 @@
       <div role="tablist" aria-label="Sector outlook horizon" style="display:flex; gap:8px; margin-bottom:16px;">
         ${tabs.map((t) => `
           <button type="button" class="sector-outlook-horizon-tab" data-horizon="${t.id}" aria-selected="${t.id === active}"
-            style="padding:6px 14px; border-radius:14px; font-size:12px; font-weight:500; border:1px solid ${t.id === active ? "rgba(167,139,250,0.4)" : "var(--bg-graphite)"}; background:${t.id === active ? "rgba(167,139,250,0.10)" : "transparent"}; color:${t.id === active ? "#a78bfa" : "var(--text-muted)"}; cursor:pointer;">
+            style="padding:6px 14px; border-radius:14px; font-size:12px; font-weight:500; border:1px solid ${t.id === active ? "rgba(167,139,250,0.4)" : "var(--border)"}; background:${t.id === active ? "rgba(167,139,250,0.10)" : "transparent"}; color:${t.id === active ? "#a78bfa" : "var(--text-muted)"}; cursor:pointer;">
             ${escapeHtml(t.label)}
           </button>`).join("")}
       </div>`;
@@ -200,7 +200,7 @@
   function renderMethodologySection(doc) {
     const caveats = doc.caveats || [];
     return `
-      <details style="margin-top:24px; background:var(--bg-secondary); border-radius:8px; padding:14px 20px;">
+      <details style="margin-top:24px; background:var(--bg-elevated, var(--bg-card)); border-radius:8px; padding:14px 20px;">
         <summary style="font-size:13px; font-weight:600; cursor:pointer; color:var(--text-primary);">Methodology · How we compute this</summary>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.7; padding-top:12px; max-width:800px;">
           <p><strong>Inputs.</strong> Per-stock news arrays from SWS deep briefs (data/sws/deep/&lt;TICKER&gt;.json:news[]), with the current macro regime classification (data/macroRegime.json) as the cross-check signal.</p>
@@ -216,7 +216,7 @@
 
   function renderBacktestPanel(doc) {
     return `
-      <details style="margin-top:14px; background:var(--bg-secondary); border-radius:8px; padding:14px 20px;">
+      <details style="margin-top:14px; background:var(--bg-elevated, var(--bg-card)); border-radius:8px; padding:14px 20px;">
         <summary style="font-size:13px; font-weight:600; cursor:pointer; color:var(--text-primary);">Backtest status</summary>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; padding-top:12px; max-width:800px;">
           <p><strong>EXPERIMENTAL — no formal backtest gate in v1.</strong></p>

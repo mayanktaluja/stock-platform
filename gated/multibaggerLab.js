@@ -117,8 +117,8 @@ function renderStrategySection(data) {
   const s = data.strategy;
   if (!s) return "";
   return `
-    <section data-section="strategy" data-test="multibagger-strategy" style="margin-bottom:24px; border:1px solid var(--bg-graphite); border-radius:8px; overflow:hidden;">
-      <div style="padding:14px 16px; background:var(--bg-graphite);">
+    <section data-section="strategy" data-test="multibagger-strategy" style="margin-bottom:24px; border:1px solid var(--border); border-radius:8px; overflow:hidden;">
+      <div style="padding:14px 16px; background:var(--bg-elevated, var(--bg-card));">
         <h3 style="margin:0; font-size:14px; font-weight:600;">Strategy &amp; reasoning</h3>
         <p style="margin:4px 0 0; font-size:12px; color:var(--text-muted);">${escapeHtml(s.headline || "")}</p>
       </div>
@@ -153,7 +153,7 @@ function renderStrategySection(data) {
 
 function renderActionsSection(data) {
   return `
-    <section data-section="actions" style="padding:16px; background:var(--bg-graphite); border-radius:8px; margin-bottom:24px;">
+    <section data-section="actions" style="padding:16px; background:var(--bg-card); border-radius:8px; margin-bottom:24px;">
       <h3 style="margin:0 0 12px; font-size:14px; font-weight:600;">Today's Action</h3>
       <div style="color:var(--text-muted); font-size:13px;" data-test="multibagger-action-empty">
         No actions today. Pipeline contains ${data.verdicts?.five_x_count || 0} 5X_CANDIDATE and ${data.verdicts?.high_conviction_count || 0} HIGH_CONVICTION names. Open positions: ${data.portfolio_summary?.open_positions ?? 0}.
@@ -168,7 +168,7 @@ function renderPortfolioSection(data) {
     return `
       <section data-section="portfolio" style="margin-bottom:24px;">
         <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">Model portfolio</h3>
-        <div data-test="multibagger-portfolio-empty" style="color:var(--text-muted); font-size:13px; padding:14px; background:var(--bg-graphite); border-radius:6px;">
+        <div data-test="multibagger-portfolio-empty" style="color:var(--text-muted); font-size:13px; padding:14px; background:var(--bg-card); border-radius:6px;">
           No positions yet. Open ${data.portfolio_summary?.starting_capital_inr ? fmtInr(data.portfolio_summary.starting_capital_inr) : "₹1L"} cash; ready to deploy on the first BUY action.
         </div>
       </section>
@@ -199,7 +199,7 @@ function renderPipelineSection(data) {
       <td style="padding:6px 8px; color:var(--text-muted); font-size:12px;">${escapeHtml(c.sector || "—")}</td>
       <td style="padding:6px 8px; text-align:right; font-weight:500;">${(c.score_0_100 ?? 0).toFixed(1)}</td>
       <td style="padding:6px 8px; text-align:right; font-size:11px;">
-        <span data-test="verdict-pill" style="padding:2px 6px; border-radius:4px; background:${verdictColor(c.verdict)}; color:white;">${escapeHtml(c.verdict || "—")}</span>
+        <span data-test="verdict-pill" style="padding:2px 6px; border-radius:4px; background:${verdictColor(c.verdict)}; color:var(--text-primary);">${escapeHtml(c.verdict || "—")}</span>
       </td>
     </tr>
     <tr data-test="candidate-rationale-row">
@@ -210,7 +210,7 @@ function renderPipelineSection(data) {
     <section data-section="pipeline" style="margin-bottom:24px;">
       <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">5x Candidate pipeline (top ${Math.min(cands.length, 20)})</h3>
       <table data-test="multibagger-candidate-table" style="width:100%; border-collapse:collapse; font-size:12px;">
-        <thead><tr style="border-bottom:1px solid var(--bg-graphite);">
+        <thead><tr style="border-bottom:1px solid var(--border);">
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">#</th>
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Ticker</th>
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Sector</th>
@@ -261,7 +261,7 @@ function renderCatalystSection(data) {
     `;
   }
   const rows = slate.map((s) => `
-    <li style="padding:6px 0; border-bottom:1px solid var(--bg-graphite); font-size:13px;">
+    <li style="padding:6px 0; border-bottom:1px solid var(--border); font-size:13px;">
       <strong>${escapeHtml(s.symbol || s.ticker)}</strong>
       <span style="color:var(--text-muted); font-size:11px; margin-left:8px;">${escapeHtml(s.type)}</span>
     </li>

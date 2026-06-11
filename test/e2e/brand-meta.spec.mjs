@@ -26,9 +26,7 @@ const SHARED_TWITTER = {
 };
 
 const SHARED_THEME = {
-  "theme-color": "#0B0C10",
   "apple-mobile-web-app-capable": "yes",
-  "apple-mobile-web-app-status-bar-style": "black-translucent",
   "apple-mobile-web-app-title": "Starbhai",
 };
 
@@ -38,30 +36,42 @@ const PAGES = [
     url: "/index.html",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/",
     expectOgTitle: /Starbhai/,
+    expectThemeColor: "#F7F8FB",
+    expectAppleStatus: "default",
+    expectColorScheme: "light dark",
   },
   {
     name: "login (signed-out)",
     url: "/login.html",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/login.html",
     expectOgTitle: /Starbhai/,
+    expectThemeColor: "#F7F8FB",
+    expectAppleStatus: "default",
+    expectColorScheme: "light dark",
   },
   {
     name: "methodology",
     url: "/methodology",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/methodology.html",
     expectOgTitle: /Methodology/,
+    expectThemeColor: "#0B0C10",
+    expectAppleStatus: "black-translucent",
   },
   {
     name: "charter",
     url: "/legal/charter",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/legal/charter",
     expectOgTitle: /Charter/,
+    expectThemeColor: "#0B0C10",
+    expectAppleStatus: "black-translucent",
   },
   {
     name: "grievance",
     url: "/legal/grievance",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/legal/grievance",
     expectOgTitle: /Grievance/,
+    expectThemeColor: "#0B0C10",
+    expectAppleStatus: "black-translucent",
   },
 ];
 
@@ -118,6 +128,45 @@ test.describe("PR #1 brand metadata", () => {
       // Shared theme / Apple assertions
       for (const [key, expected] of Object.entries(SHARED_THEME)) {
         expect(await getMeta(page, "name", key), `${key}`).toBe(expected);
+      }
+      expect(await getMeta(page, "name", "theme-color"), "theme-color").toBe(
+        p.expectThemeColor,
+      );
+      expect(
+        await getMeta(page, "name", "apple-mobile-web-app-status-bar-style"),
+        "apple-mobile-web-app-status-bar-style",
+      ).toBe(p.expectAppleStatus);
+      if (p.expectColorScheme) {
+        expect(await getMeta(page, "name", "color-scheme"), "color-scheme").toBe(
+          p.expectColorScheme,
+        );
+      }
+
+      const appleIconHref = await page.evaluate(() =>
+        document.head
+          .querySelector('link[rel="apple-touch-icon"]')
+          ?.getAttribute("href"),
+      );
+      expect(appleIconHref, "apple touch icon").toBe("/favicon-180.png");
+
+      if (p.url === "/index.html" || p.url === "/login.html") {
+        const manifestHref = await page.evaluate(() =>
+          document.head
+            .querySelector('link[rel="manifest"]')
+            ?.getAttribute("href"),
+        );
+        expect(manifestHref, "manifest link").toBe("/manifest.webmanifest");
+      }
+
+      if (p.url === "/index.html") {
+        const tokenTheme = await page.evaluate(() =>
+          getComputedStyle(document.documentElement)
+            .getPropertyValue("--bg-primary")
+            .trim(),
+        );
+        expect(tokenTheme, "theme-color must match --bg-primary").toBe(
+          p.expectThemeColor,
+        );
       }
     });
   }
