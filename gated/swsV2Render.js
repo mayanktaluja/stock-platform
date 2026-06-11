@@ -25,7 +25,7 @@
       const base = originalRenderSWSTierA(tier);
       const wipes = tier?.sector_wipeouts || [];
       if (wipes.length === 0) return base;
-      const banner = `<div style="margin-bottom:12px; padding:10px 14px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.35); border-radius:6px; font-size:12px; color:#fde047;">
+      const banner = `<div style="margin-bottom:12px; padding:10px 14px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.35); border-radius:6px; font-size:12px; color:var(--yellow-bright);">
         <strong>⚠ Sector-wipeout warning:</strong>
         ${wipes.map((w) => `${escapeHtml(w.sector)} (${w.affected_tickers.join(", ")})`).join("; ")}
         — these reductions would leave your portfolio with zero exposure to the named sector. Consider partial trim or rotate within sector.

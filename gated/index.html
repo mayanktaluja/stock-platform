@@ -3,6 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- A1: theme + density boot. Runs synchronously before the stylesheet so
+       the resolved theme paints on the first frame (no flash of dark for a
+       light-mode user). Resolution order: stored choice > OS preference >
+       dark default. Density defaults to comfortable. CSP-safe (script-src
+       allows 'unsafe-inline'). -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      try {
+        var stored = localStorage.getItem('theme');
+        var theme = (stored === 'light' || stored === 'dark')
+          ? stored
+          : (window.matchMedia &&
+             window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light' : 'dark');
+        root.setAttribute('data-theme', theme);
+        root.setAttribute('data-density',
+          localStorage.getItem('density') === 'compact' ? 'compact' : 'comfortable');
+      } catch (e) {
+        root.setAttribute('data-theme', 'dark');
+        root.setAttribute('data-density', 'comfortable');
+      }
+      // Follow OS theme changes, but only while the user has no explicit choice.
+      try {
+        var mq = window.matchMedia('(prefers-color-scheme: light)');
+        var onChange = function (e) {
+          if (!localStorage.getItem('theme')) {
+            root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+          }
+        };
+        if (mq.addEventListener) mq.addEventListener('change', onChange);
+        else if (mq.addListener) mq.addListener(onChange);
+      } catch (e) {}
+    })();
+  </script>
+
   <title>Starbhai Stock Platform</title>
   <meta name="description" content="Professional Indian stock analysis platform — technical signals, fundamentals, macro regime awareness, and forward-return tracking.">
 
@@ -53,6 +90,9 @@
        Geist (sans, UI), JetBrains Mono (tabular numbers). Replaces Inter. -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* @tokens-start — color tokens live here + in [data-theme="light"] below.
+     * The no-raw-hex guard strips everything between @tokens-start/@tokens-end,
+     * so token declarations may hold literal hex; nothing else outside may. */
     :root {
       /* Phase 8B: Editorial Terminal palette.
        * Warmer graphite background, hairline borders, single amber accent,
@@ -258,6 +298,251 @@
         0 16px 32px -8px rgba(0, 0, 0, 0.45);
       --gold-glow-20: rgba(224, 176, 96, 0.20);
       --gold-glow-30: rgba(224, 176, 96, 0.30);
+
+      /* ============================================================
+       * A0 — slate surfaces/borders + bright signal tokens.
+       * Replaces the 46 raw-hex sites that lived OUTSIDE :root. Dark
+       * values are 1:1 with the old hex (#2a3548 folded into #2a3550 —
+       * sub-perceptual ΔB=2). Light-theme values are set in the
+       * [data-theme="light"] block (A1). New code references these vars.
+       * ============================================================ */
+      --white:                #ffffff;
+      --bg-base:              #0a0e17;  /* deepest app bg */
+      --bg-elevated:          #0a0f1c;  /* elevated panel bg */
+      --surface-slate:        #151c2a;
+      --surface-slate-panel:  #1f2937;
+      --surface-slate-deep:   #161b27;
+      --border-slate:         #2a3550;
+      --border-slate-blue:    #2f4068;
+      --border-slate-soft:    #1a2238;
+      --border-slate-raised:  #1f2c45;
+      --text-slate-muted:     #3d5068;
+      --text-slate:           #94a3b8;
+      --text-slate-light:     #cbd5e1;
+      --text-on-light:        #1e2736;  /* dark text on gold/light chips */
+      --text-ice:             #f1f5f9;
+      --text-blue-light:      #bfdbfe;
+      --orange-bright:        #fb923c;
+      --yellow-bright:        #fde047;
+      --gold-bright:          #F8BF44;
+      --purple-bright:        #a78bfa;
+      --green-bright:         #22c55e;
+      --green-mid:            #5cb85c;
+      --red-bright:           #ef4444;
+      --red-glow:             #ff7a7a;
+      --cyan-bright:          #5cc7e8;
+
+      /* ============================================================
+       * D2 — full app.js sweep tokens. Every remaining raw hex in the
+       * render layer maps 1:1 onto these (dark values identical RGB),
+       * so the entire app themes. Light values in the block below.
+       * ============================================================ */
+      --surface-navy:          #0f172a;
+      --surface-ink:           #111827;
+      --surface-ink-deep:      #0b1220;
+      --slate-mid:             #3a4358;
+      --text-gray:             #9ca3af;
+      --text-gray-light:       #e5e7eb;
+      --text-gray-deep:        #64748b;
+      --yellow-deep:           #eab308;
+      --amber:                 #f59e0b;
+      --amber-a40:             #f59e0b66;
+      --amber-a13:             #f59e0b22;
+      --amber-pale:            #fde68a;
+      --orange-mid:            #f97316;
+      --orange-pale:           #fdba74;
+      --gold-soft:             #f5c542;
+      --gold-tan:              #C8A06A;
+      --green-deep:            #16a34a;
+      --emerald:               #10b981;
+      --positive-text-pale:    #bbf7d0;
+      --positive-text-mint:    #a7f3d0;
+      --positive-text-spring:  #94e2a8;
+      --negative-text-pale:    #fecaca;
+      --sky:                   #38bdf8;
+      --blue-strong:           #3b82f6;
+      --cyan-deep:             #06b6d4;
+      --indigo-soft:           #a5b4fc;
+      --pink:                  #ec4899;
+      --lime:                  #84cc16;
+      /* D4-D7 satellite-module sweep */
+      --text-ice-soft:         #e2e8f0;
+      --yellow-mid:            #facc15;
+      /* Frosted-glass sticky surfaces (header, chip-nav) */
+      --bg-frost:              rgba(11, 12, 16, 0.85);
+      --bg-frost-deep:         rgba(11, 12, 16, 0.92);
+    }
+    /* @tokens-end */
+
+    /* @tokens-start — A1 light theme ("Editorial Paper").
+     * Same token NAMES as :root, AA-safe values on a warm-paper surface.
+     * Only colour-bearing tokens are redeclared; geometry/space/motion/type/
+     * z-index/opacity tokens are theme-agnostic and inherited from :root.
+     * Semantic green/red are darkened (the dark #2ECC71/#D64545 fail AA on
+     * white) while keeping meaning (green = gain). The cascade does the rest:
+     * every var(--token) rule + the A0 slate tokens flip automatically. */
+    [data-theme="light"] {
+      /* Surfaces — warm paper */
+      --bg-primary:           #FBFAF7;
+      --bg-secondary:         #F3F1EB;
+      --bg-card:              #FFFFFF;
+      --bg-card-hover:        #F6F4EE;
+      --bg-input:             #FFFFFF;
+      --bg-base:              #FFFFFF;
+      --bg-elevated:          #FFFFFF;
+      --bg-graphite:          #EEF0F4;
+      --bg-graphite-deep:     #E3E6EC;
+      --surface-slate:        #EEF1F6;
+      --surface-slate-panel:  #F1F3F7;
+      --surface-slate-deep:   #E7EAF0;
+
+      /* Borders — ink hairlines */
+      --border:               rgba(20, 22, 28, 0.12);
+      --border-soft:          rgba(20, 22, 28, 0.07);
+      --border-focus:         rgba(176, 122, 30, 0.55);
+      --border-graphite:      #D3D8E0;
+      --border-slate:         #D3D8E0;
+      --border-slate-blue:    #C1CAD9;
+      --border-slate-soft:    #E0E3EA;
+      --border-slate-raised:  #CFD4DD;
+
+      /* Text — dark ink hierarchy (AA on paper) */
+      --text-primary:         #1A1C22;
+      --text-secondary:       rgba(26, 28, 34, 0.80);
+      --text-muted:           rgba(26, 28, 34, 0.64);
+      --text-faint:           rgba(26, 28, 34, 0.52);
+      --text-slate-muted:     #4A5A74;
+      --text-slate:           #51607A;
+      --text-slate-light:     #5B6B86;
+      --text-on-light:        #1A1C22;
+      --text-ice:             #1A1C22;
+      --text-blue-light:      #1D4ED8;
+
+      /* Semantic — darkened for AA on white, meaning preserved */
+      --green:                #1A8F4C;
+      --green-soft:           #2FA862;
+      --green-bg:             rgba(26, 143, 76, 0.10);
+      --green-border:         rgba(26, 143, 76, 0.30);
+      --red:                  #C0392B;
+      --red-soft:             #D2543F;
+      --red-bg:               rgba(192, 57, 43, 0.10);
+      --red-border:           rgba(192, 57, 43, 0.30);
+      --positive-strong:      #15803D;
+      --positive:             #1A8F4C;
+      --positive-soft:        #2FA862;
+      --positive-faint:       rgba(26, 143, 76, 0.55);
+      --positive-bg-strong:   rgba(26, 143, 76, 0.16);
+      --positive-bg-soft:     rgba(26, 143, 76, 0.07);
+      --negative-strong:      #B91C1C;
+      --negative:             #C0392B;
+      --negative-soft:        #D2543F;
+      --negative-faint:       rgba(192, 57, 43, 0.55);
+      --negative-bg-strong:   rgba(192, 57, 43, 0.16);
+      --negative-bg-soft:     rgba(192, 57, 43, 0.07);
+      --positive-text:        #15803D;
+      --positive-text-soft:   #1A8F4C;
+      --positive-text-emerald:#047857;
+      --negative-text:        #B91C1C;
+      --negative-text-soft:   #C0392B;
+      --green-bright:         #15803D;
+      --green-mid:            #15803D;
+      --red-bright:           #C0392B;
+      --red-glow:             #D2543F;
+
+      /* Accents — darkened amber + AA blue/cyan/purple/orange */
+      --blue:                 #2F62C4;
+      --blue-bg:              rgba(47, 98, 196, 0.10);
+      --yellow:               #B07A1E;
+      --yellow-bg:            rgba(176, 122, 30, 0.12);
+      --gold:                 #B07A1E;
+      --gold-deep:            #976818;
+      --purple:               #6D5BC4;
+      --orange:               #C2410C;
+      --cyan:                 #1B7E96;
+      --accent-blue:          #2563EB;
+      --info:                 #2F62C4;
+      --info-text:            #1D4ED8;
+      --info-text-soft:       #2F62C4;
+      --warn:                 #B07A1E;
+      --warn-text:            #9A6700;
+      --severity-low:         #1B7E96;
+      --severity-med:         #C2410C;
+      --severity-high:        #C0392B;
+      --orange-bright:        #C2410C;
+      --yellow-bright:        #9A6700;
+      --gold-bright:          #9A6700;
+      --purple-bright:        #6D5BC4;
+      --cyan-bright:          #1B7E96;
+
+      /* Gradients — recomputed for light contrast */
+      --gradient-green: linear-gradient(135deg, #1A8F4C, #15803D);
+      --gradient-red:   linear-gradient(135deg, #C0392B, #A12B20);
+      --gradient-blue:  linear-gradient(135deg, #2F62C4, #2451A8);
+      --gradient-gold:  linear-gradient(135deg, #B07A1E, #976818);
+
+      /* Elevation — soft dark-on-light shadows; drop the inset white highlight */
+      --card-shadow:          0 0 0 1px rgba(20, 22, 28, 0.06);
+      --card-gradient:        linear-gradient(180deg, rgba(20, 22, 28, 0.02) 0%, transparent 100%);
+      --elev-1: 0 1px 2px rgba(20, 22, 28, .05), 0 1px 3px rgba(20, 22, 28, .08);
+      --elev-2: 0 2px 4px rgba(20, 22, 28, .05), 0 4px 8px rgba(20, 22, 28, .07);
+      --elev-3: 0 4px 8px rgba(20, 22, 28, .07), 0 8px 16px rgba(20, 22, 28, .10);
+      --elev-4: 0 8px 16px rgba(20, 22, 28, .09), 0 16px 24px rgba(20, 22, 28, .13);
+      --card-shadow-elevated:
+        0 4px 12px rgba(20, 22, 28, 0.10),
+        0 16px 32px -8px rgba(20, 22, 28, 0.14);
+      --gold-glow-20: rgba(176, 122, 30, 0.18);
+      --gold-glow-30: rgba(176, 122, 30, 0.28);
+
+      /* D2 sweep tokens — light values. Pastel signal text darkens to its
+       * ~600/700-weight counterpart (AA on paper); dark panel surfaces flip
+       * to pale cool greys; borders to hairline slate. */
+      --surface-navy:          #EDF0F5;
+      --surface-ink:           #EFF1F5;
+      --surface-ink-deep:      #E9EDF3;
+      --slate-mid:             #B9C1CE;
+      --text-gray:             #4B5563;
+      --text-gray-light:       #374151;
+      --text-gray-deep:        #475569;
+      --yellow-deep:           #A16207;
+      --amber:                 #B45309;
+      --amber-a40:             #B4530966;
+      --amber-a13:             #B4530922;
+      --amber-pale:            #92400E;
+      --orange-mid:            #C2410C;
+      --orange-pale:           #9A3412;
+      --gold-soft:             #9A6700;
+      --gold-tan:              #8A6420;
+      --green-deep:            #15803D;
+      --emerald:               #047857;
+      --positive-text-pale:    #15803D;
+      --positive-text-mint:    #047857;
+      --positive-text-spring:  #1A8F4C;
+      --negative-text-pale:    #B91C1C;
+      --sky:                   #0369A1;
+      --blue-strong:           #1D4ED8;
+      --cyan-deep:             #0E7490;
+      --indigo-soft:           #4338CA;
+      --pink:                  #BE185D;
+      --lime:                  #4D7C0F;
+      --text-ice-soft:         #25324A;
+      --yellow-mid:            #A16207;
+      --bg-frost:              rgba(251, 250, 247, 0.85);
+      --bg-frost-deep:         rgba(251, 250, 247, 0.92);
+    }
+    /* @tokens-end */
+
+    /* A2 — compact density. Overrides the spacing scale that padding/gap rules
+     * consume, tightening the whole UI for analyst-grade information density.
+     * Theme-agnostic (no colour), so it composes with either theme. Default
+     * (comfortable) inherits the :root scale unchanged. Per-surface row
+     * paddings are tuned further in Epic D. */
+    [data-density="compact"] {
+      --space-150: 9px;
+      --space-200: 12px;
+      --space-300: 18px;
+      --space-400: 24px;
+      --space-500: 30px;
+      --space-600: 36px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -421,6 +706,13 @@
       display: block;
       font-family: var(--font-sans);
     }
+    /* E2 — chart dot hover affordance: visible dot grows under the pointer
+       (the transparent sibling ring is the real hit target). */
+    .track-dot { cursor: pointer; }
+    .track-dot .track-dot-vis { transition: r var(--dur-quick) var(--ease-standard); }
+    @media (hover: hover) and (pointer: fine) {
+      .track-dot:hover .track-dot-vis { r: 5.5; }
+    }
     .track-chart-wrap {
       padding: 18px 0;
     }
@@ -503,7 +795,7 @@
 
     /* Phase 8B: Editorial Terminal header */
     .header {
-      background: rgba(11, 12, 16, 0.85);
+      background: var(--bg-frost);
       backdrop-filter: blur(12px) saturate(1.2);
       -webkit-backdrop-filter: blur(12px) saturate(1.2);
       border-bottom: 1px solid var(--border);
@@ -566,8 +858,8 @@
     .header-search {
       width: 100%;
       padding: 9px 16px 9px 40px;
-      background: #151c2a;
-      border: 1px solid #2a3548;
+      background: var(--surface-slate);
+      border: 1px solid var(--border-slate);
       border-radius: 8px;
       color: var(--text-primary);
       font-size: 14px;
@@ -581,7 +873,7 @@
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
     }
 
-    .header-search::placeholder { color: #3d5068; }
+    .header-search::placeholder { color: var(--text-slate-muted); }
 
     .header-search-wrap {
       position: relative;
@@ -593,7 +885,7 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 14px;
-      color: #3d5068;
+      color: var(--text-slate-muted);
       pointer-events: none;
     }
 
@@ -602,6 +894,44 @@
       align-items: center;
       gap: 20px;
       white-space: nowrap;
+    }
+
+    /* A2 — theme + density toggle buttons */
+    .header-toggles { display: inline-flex; align-items: center; gap: 6px; }
+    .header-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-100);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      transition: color var(--dur-quick) var(--ease-standard),
+                  border-color var(--dur-quick) var(--ease-standard),
+                  background var(--dur-quick) var(--ease-standard),
+                  transform var(--dur-fast) var(--ease-spring);
+    }
+    .header-toggle:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: var(--yellow-bg);
+    }
+    .header-toggle:active { transform: scale(0.94); }
+    .header-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .header-toggle[aria-pressed="true"] {
+      color: var(--gold);
+      border-color: var(--border-focus);
+      background: var(--yellow-bg);
+    }
+    @media (max-width: 720px) {
+      /* WCAG 2.5.5 touch target on mobile */
+      .header-toggle { width: 44px; height: 44px; }
     }
 
     .market-status-pill {
@@ -689,7 +1019,7 @@
       top: calc(100% + 8px);
       right: 0;
       min-width: 220px;
-      background: #13151C;
+      background: var(--bg-card);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 8px;
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
@@ -964,7 +1294,7 @@
     }
 
     .ticker-sep {
-      color: #1e2736;
+      color: var(--text-on-light);
       margin: 0 8px;
     }
 
@@ -1030,7 +1360,7 @@
     .analyzer-section-title {
       font-size: 15px;
       font-weight: 800;
-      color: #bfdbfe;
+      color: var(--text-blue-light);
       letter-spacing: 0;
     }
     .analyzer-section-copy {
@@ -1070,7 +1400,7 @@
       padding: 8px 0;
     }
     .analyzer-priority-row {
-      border-top: 1px solid #1a2238;
+      border-top: 1px solid var(--border-slate-soft);
       font-size: 12px;
       padding: 9px 0;
     }
@@ -1719,7 +2049,7 @@
       flex-shrink: 0;
     }
 
-    .section-accent.buynow   { background: #22c55e; }
+    .section-accent.buynow   { background: var(--green-bright); }
     .section-accent.intraday { background: var(--blue); }
     .section-accent.midterm  { background: var(--green); }
     .section-accent.volume   { background: var(--yellow); }
@@ -1995,7 +2325,7 @@
       max-height: 360px;
       overflow-y: auto;
       padding: 14px 16px;
-      background: linear-gradient(180deg, #1f2937 0%, #161b27 100%);
+      background: linear-gradient(180deg, var(--surface-slate-panel) 0%, var(--surface-slate-deep) 100%);
       border: 1px solid rgba(251, 191, 36, 0.28);
       border-radius: 12px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
@@ -2035,13 +2365,13 @@
     #starbhaiTooltip .tip-short {
       font-size: 12px;
       font-weight: 600;
-      color: #f1f5f9;
+      color: var(--text-ice);
       margin-bottom: 8px;
       line-height: 1.45;
     }
     #starbhaiTooltip .tip-full {
       font-size: 12px;
-      color: #cbd5e1;
+      color: var(--text-slate-light);
       line-height: 1.55;
     }
     #starbhaiTooltip::before {
@@ -2051,7 +2381,7 @@
       left: 14px;
       width: 12px;
       height: 12px;
-      background: #1f2937;
+      background: var(--surface-slate-panel);
       border-left: 1px solid rgba(251, 191, 36, 0.28);
       border-top: 1px solid rgba(251, 191, 36, 0.28);
       transform: rotate(45deg);
@@ -2182,6 +2512,25 @@
     .tx-loss.with-glyph::before { content: "▼ "; font-size: 0.85em; opacity: 0.9; }
     .tx-flat { color: var(--text-muted); }
     .tx-flat.with-glyph::before { content: "◆ "; font-size: 0.85em; opacity: 0.7; }
+
+    /* D1 — .u-* colour/surface utilities. One declaration each, mirroring
+     * tokens, so render functions can drop style="color:#hex" for a class.
+     * Epic D migrates surfaces onto these incrementally. */
+    .u-text-primary   { color: var(--text-primary); }
+    .u-text-secondary { color: var(--text-secondary); }
+    .u-text-muted     { color: var(--text-muted); }
+    .u-text-positive  { color: var(--positive-text); }
+    .u-text-negative  { color: var(--negative-text); }
+    .u-text-info      { color: var(--info-text); }
+    .u-text-warn      { color: var(--warn-text); }
+    .u-text-slate     { color: var(--text-slate); }
+    .u-bg-card        { background: var(--bg-card); }
+    .u-bg-elevated    { background: var(--bg-elevated); }
+    .u-bg-graphite    { background: var(--bg-graphite); }
+    .u-bg-positive    { background: var(--positive-bg-soft); }
+    .u-bg-negative    { background: var(--negative-bg-soft); }
+    .u-border         { border: 1px solid var(--border); }
+    .u-border-slate   { border: 1px solid var(--border-slate); }
 
     /* Honor reduced-motion */
     @media (prefers-reduced-motion: reduce) {
@@ -2482,9 +2831,9 @@
       margin-bottom: 8px;
     }
     .signal-explosive { background: rgba(245,158,11,0.2); color: var(--warn-text); border: 1px solid rgba(245,158,11,0.4); }
-    .signal-very-high { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
+    .signal-very-high { background: rgba(249,115,22,0.15); color: var(--orange-bright); border: 1px solid rgba(249,115,22,0.3); }
     .signal-high { background: rgba(59,130,246,0.15); color: var(--info-text); }
-    .signal-moderate { background: rgba(100,116,139,0.15); color: #94a3b8; }
+    .signal-moderate { background: rgba(100,116,139,0.15); color: var(--text-slate); }
 
     .stock-card-targets {
       font-family: 'JetBrains Mono', monospace;
@@ -2540,6 +2889,34 @@
     .skeleton-bar.tall { height: 18px; width: 60%; }
     .skeleton-bar.med  { width: 80%; }
     .skeleton-bar.short { width: 45%; }
+    /* D1 — pick-card-shaped skeleton (matches .sws-pick-card geometry so the
+       loading grid doesn't reflow when real cards land). Reuses shimmer. */
+    .skeleton-pick-card {
+      padding: var(--pick-card-pad, 14px);
+      border: 1px solid var(--bg-graphite);
+      border-radius: 6px;
+      background: var(--bg-elevated, var(--bg-graphite-deep));
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 120px;
+    }
+    /* D2 — analyzer holding-row skeleton (matches the report row geometry). */
+    .skeleton-holding-row {
+      display: grid;
+      grid-template-columns: 1.6fr 90px 90px 100px 100px;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--bg-graphite);
+      border-radius: 6px;
+      background: var(--surface-navy);
+      margin-top: 6px;
+    }
+    /* D2 — analyzer report row hover (mirrors the picks-card affordance). */
+    @media (hover: hover) and (pointer: fine) {
+      #analyzerReport tbody tr:hover { background: var(--bg-card-hover); }
+    }
     @keyframes shimmer {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -2938,7 +3315,7 @@
       padding: 3px 8px;
       background: rgba(248, 191, 68, 0.12);
       border: 1px solid rgba(248, 191, 68, 0.35);
-      color: #F8BF44;
+      color: var(--gold-bright);
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.04em;
@@ -3087,20 +3464,37 @@
     }
     .sws-modal-backdrop.open { display: flex; }
     .sws-modal {
-      background: var(--bg-base, #0a0e17);
-      border: 1px solid #2a3550;
+      background: var(--bg-base);
+      border: 1px solid var(--border-slate);
       border-radius: 10px;
       width: 100%;
       max-width: 920px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
       position: relative;
     }
+    /* E3 — modal enter choreography. The backdrop used to snap (display:none
+       → flex). Animate the dialog in with a settle (fade + 8px rise + scale)
+       and fade the backdrop, both on the .open frame only — close stays
+       instant so Esc feels immediate. Fully disabled under reduced motion
+       via the global prefers-reduced-motion zeroing. */
+    @media (prefers-reduced-motion: no-preference) {
+      .sws-modal-backdrop.open { animation: modal-backdrop-enter var(--dur-normal) var(--ease-enter) both; }
+      .sws-modal-backdrop.open .sws-modal { animation: modal-enter var(--dur-deliberate) var(--ease-enter) both; }
+    }
+    @keyframes modal-backdrop-enter {
+      from { background: rgba(0, 0, 0, 0); backdrop-filter: blur(0px); }
+      to   { background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(3px); }
+    }
+    @keyframes modal-enter {
+      from { opacity: 0; transform: translateY(8px) scale(0.985); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
     .sws-modal-close {
       position: absolute;
       top: 12px;
       right: 14px;
       background: transparent;
-      border: 1px solid #2a3550;
+      border: 1px solid var(--border-slate);
       color: var(--text-muted);
       width: 30px;
       height: 30px;
@@ -3200,7 +3594,7 @@
       line-height: 1.5;
     }
     .sws-modal-data-warning strong {
-      color: #fde047;
+      color: var(--yellow-bright);
       font-weight: 700;
     }
     .sws-modal-data-warning .warning-meta {
@@ -3375,12 +3769,12 @@
       color: var(--text-primary);
       padding: 6px 8px;
       background: var(--bg-graphite-deep);
-      border-left: 3px solid #2a3550;
+      border-left: 3px solid var(--border-slate);
       border-radius: 0 4px 4px 0;
       margin-bottom: 6px;
     }
-    .sws-bullet-list.rewards li { border-left-color: var(--green, #22c55e); }
-    .sws-bullet-list.risks li { border-left-color: var(--red, #ef4444); }
+    .sws-bullet-list.rewards li { border-left-color: var(--green); }
+    .sws-bullet-list.risks li { border-left-color: var(--red); }
     .sws-modal-bar {
       display: flex;
       align-items: center;
@@ -3402,10 +3796,10 @@
     }
     .sws-modal-bar .bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--accent-blue), #5cb85c);
+      background: linear-gradient(90deg, var(--accent-blue), var(--green-mid));
       border-radius: 4px;
     }
-    .sws-modal-bar .bar-fill.negative { background: linear-gradient(90deg, #ef4444, #ff7a7a); }
+    .sws-modal-bar .bar-fill.negative { background: linear-gradient(90deg, var(--red-bright), var(--red-glow)); }
     .sws-modal-bar .bar-value {
       flex: 0 0 50px;
       text-align: right;
@@ -3437,7 +3831,7 @@
       letter-spacing: 0.05em;
       background: rgba(250, 204, 21, 0.10);
       border: 1px solid rgba(250, 204, 21, 0.32);
-      color: #fde047;
+      color: var(--yellow-bright);
       text-transform: uppercase;
       margin-left: 8px;
       cursor: help;
@@ -3501,7 +3895,7 @@
     }
     .sws-q-result-badge.beat   { background: rgba(34, 197, 94, 0.15);  border: 1px solid rgba(34, 197, 94, 0.4);  color: var(--positive-text-soft); }
     .sws-q-result-badge.miss   { background: rgba(239, 68, 68, 0.15);  border: 1px solid rgba(239, 68, 68, 0.4);  color: var(--negative-text-soft); }
-    .sws-q-result-badge.inline { background: rgba(148, 163, 184, 0.15); border: 1px solid rgba(148, 163, 184, 0.35); color: #cbd5e1; }
+    .sws-q-result-badge.inline { background: rgba(148, 163, 184, 0.15); border: 1px solid rgba(148, 163, 184, 0.35); color: var(--text-slate-light); }
     .sws-freshness-pill {
       display: inline-block;
       font-size: 9px;
@@ -3547,7 +3941,7 @@
     }
     .sws-pick-section-hero {
       padding: 18px 16px 8px;
-      border: 1px solid #1f2c45;
+      border: 1px solid var(--border-slate-raised);
       border-radius: 10px;
       background: linear-gradient(180deg, rgba(74,144,226,0.04), rgba(74,144,226,0));
       margin-bottom: 24px;
@@ -3579,7 +3973,7 @@
     .sws-pick-section-warning {
       font-size: 11px;
       font-weight: 700;
-      color: var(--warning, #fbbf24);
+      color: var(--warn-text);
       background: rgba(251,191,36,0.10);
       border: 1px solid rgba(251,191,36,0.38);
       border-radius: 10px;
@@ -3652,7 +4046,7 @@
       gap: 12px;
       padding: 10px 0;
       margin-bottom: 14px;
-      background: rgba(11, 12, 16, 0.92);
+      background: var(--bg-frost-deep);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border-soft, var(--bg-graphite));
@@ -3689,7 +4083,7 @@
       flex-shrink: 0;
     }
     .sws-pick-chip:hover {
-      border-color: #2f4068;
+      border-color: var(--border-slate-blue);
       color: var(--text-primary);
     }
     .sws-pick-chip.active {
@@ -3727,7 +4121,7 @@
       transition: all 0.12s ease;
     }
     .sws-pick-chip-action:hover {
-      border-color: #2f4068;
+      border-color: var(--border-slate-blue);
       color: var(--text-primary);
     }
     @media (max-width: 720px) {
@@ -3774,7 +4168,7 @@
     .sws-pick-filter-select {
       appearance: none;
       -webkit-appearance: none;
-      background: var(--bg-elevated, #0a0f1c);
+      background: var(--bg-elevated);
       border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 6px;
       color: var(--text-primary);
@@ -3786,7 +4180,7 @@
       background-position: right 10px center;
       transition: border-color 0.12s, box-shadow 0.12s;
     }
-    .sws-pick-filter-select:hover { border-color: #2f4068; }
+    .sws-pick-filter-select:hover { border-color: var(--border-slate-blue); }
     .sws-pick-filter-select:focus {
       outline: none;
       border-color: var(--blue, var(--accent-blue));
@@ -3886,10 +4280,10 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: linear-gradient(90deg, var(--blue, var(--accent-blue)) 0%, var(--cyan, #5cc7e8) 50%, var(--blue, var(--accent-blue)) 100%);
+      background: linear-gradient(90deg, var(--blue, var(--accent-blue)) 0%, var(--cyan) 50%, var(--blue, var(--accent-blue)) 100%);
       background-size: 200% 100%;
       animation: shimmer 1.4s ease-in-out infinite;
-      color: #fff;
+      color: var(--white);
       padding: 8px 16px;
       font-size: 12px;
       font-weight: 600;
@@ -3904,8 +4298,12 @@
     /* Make the SWS pick cards clickable — visual affordance */
     .sws-pick-card {
       cursor: pointer;
-      transition: border-color 0.12s, transform 0.12s;
-      padding: 14px;
+      transition: border-color var(--dur-quick) var(--ease-standard),
+                  transform var(--dur-quick) var(--ease-standard),
+                  box-shadow var(--dur-quick) var(--ease-standard),
+                  background var(--dur-quick) var(--ease-standard);
+      /* density-aware: comfortable keeps the legacy 14px; compact tightens */
+      padding: var(--pick-card-pad, 14px);
       border: 1px solid var(--bg-graphite);
       border-radius: 6px;
       background: var(--bg-elevated, var(--bg-graphite-deep));
@@ -3916,7 +4314,15 @@
       content-visibility: auto;
       contain-intrinsic-size: 600px 400px;
     }
-    .sws-pick-card:hover { border-color: #2f4068 !important; transform: translateY(-1px); }
+    @media (hover: hover) and (pointer: fine) {
+      .sws-pick-card:hover {
+        border-color: var(--border-slate-blue) !important;
+        transform: translateY(-1px);
+        box-shadow: var(--elev-2);
+        background: var(--bg-card-hover);
+      }
+    }
+    [data-density="compact"] .sws-pick-card { --pick-card-pad: 10px; }
     .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, var(--accent-blue)); outline-offset: 2px; }
     .sws-pick-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .sws-pick-card-id { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; }
@@ -4426,6 +4832,18 @@
           <div class="header-time" id="currentTime">--:--:-- --</div>
           <div class="header-date" id="currentDate">IST</div>
         </div>
+        <!-- A2 — theme + density toggles. aria-pressed reflects the active
+             alternative; labels/icons re-sync on click (see boot-ui script). -->
+        <div class="header-toggles">
+          <button type="button" class="header-toggle" id="themeToggleBtn"
+                  aria-label="Switch to light theme" aria-pressed="false" title="Toggle light / dark theme">
+            <span class="header-toggle-icon" aria-hidden="true">&#9790;</span>
+          </button>
+          <button type="button" class="header-toggle" id="densityToggleBtn"
+                  aria-label="Switch to compact density" aria-pressed="false" title="Toggle comfortable / compact density">
+            <span class="header-toggle-icon" aria-hidden="true">&#9776;</span>
+          </button>
+        </div>
         <!-- Legacy More menu shell. Public tabs now stay in #mainTabs; Users is
              revealed in the tab bar only for the hard-coded admin account. -->
         <div class="labs-menu" id="labsMenu" hidden>
@@ -4452,6 +4870,52 @@
       </div>
     </div>
   </header>
+
+  <!-- A2 — theme + density toggle wiring. Reads/writes the same data-* attrs
+       and localStorage keys the <head> boot script established, so state is
+       consistent across reloads. Kept inline (not in deferred app.js) so the
+       controls work even before the module bundle finishes loading. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      function syncTheme() {
+        var light = root.getAttribute("data-theme") === "light";
+        var btn = document.getElementById("themeToggleBtn");
+        if (btn) {
+          btn.setAttribute("aria-pressed", String(light));
+          btn.setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
+          var icon = btn.querySelector(".header-toggle-icon");
+          if (icon) icon.textContent = light ? "☀" : "☽"; // ☀ sun / ☽ moon
+        }
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", light ? "#FBFAF7" : "#0B0C10");
+      }
+      function syncDensity() {
+        var compact = root.getAttribute("data-density") === "compact";
+        var btn = document.getElementById("densityToggleBtn");
+        if (btn) {
+          btn.setAttribute("aria-pressed", String(compact));
+          btn.setAttribute("aria-label", compact ? "Switch to comfortable density" : "Switch to compact density");
+        }
+      }
+      var tBtn = document.getElementById("themeToggleBtn");
+      if (tBtn) tBtn.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        syncTheme();
+      });
+      var dBtn = document.getElementById("densityToggleBtn");
+      if (dBtn) dBtn.addEventListener("click", function () {
+        var next = root.getAttribute("data-density") === "compact" ? "comfortable" : "compact";
+        root.setAttribute("data-density", next);
+        try { localStorage.setItem("density", next); } catch (e) {}
+        syncDensity();
+      });
+      syncTheme();
+      syncDensity();
+    })();
+  </script>
 
   <!-- Market Ticker — aria-hidden because it scrolls + updates too rapidly
        for screen readers; a separate polite announcer (added in Phase 2) can
@@ -4485,7 +4949,7 @@
       background: linear-gradient(90deg, rgba(224,176,96,0.10), rgba(224,176,96,0.04));
       border: 1px solid rgba(224,176,96,0.35);
       border-radius: 8px;
-      color: #E0B060;
+      color: var(--gold);
       font-size: 13px;
       line-height: 1.5;
     "></div>
@@ -4508,11 +4972,11 @@
       <button class="tab" id="twPicksTabBtn" role="tab" aria-selected="false" aria-controls="twPicksTab" onclick="switchTab('twPicks')">Taiwan Market</button>
       <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" aria-controls="earningsTab" onclick="switchTab('earnings')">Earnings Watch</button>
       <!-- Risk Lab (experimental) — macro/geopolitical + earnings-quality overlay on existing picks/predictions. Hidden when localStorage.riskLabEnabled === "false". -->
-      <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" aria-controls="riskLabTab" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#fbbf24; box-shadow:0 0 0 2px rgba(251,191,36,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Risk Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#fbbf24; background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
+      <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" aria-controls="riskLabTab" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--warn-text); box-shadow:0 0 0 2px rgba(251,191,36,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Risk Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:var(--warn-text); background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
       <!-- 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L net in 12 months. Open to every signed-in user. -->
-      <button class="tab" id="multibaggerLabTabBtn" role="tab" aria-selected="false" aria-controls="multibaggerLabTab" onclick="switchTab('multibaggerLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#a78bfa; box-shadow:0 0 0 2px rgba(167,139,250,0.18);" aria-hidden="true"></span>5x Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#a78bfa; background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
+      <button class="tab" id="multibaggerLabTabBtn" role="tab" aria-selected="false" aria-controls="multibaggerLabTab" onclick="switchTab('multibaggerLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--purple-bright); box-shadow:0 0 0 2px rgba(167,139,250,0.18);" aria-hidden="true"></span>5x Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:var(--purple-bright); background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
       <!-- Sector Outlook (experimental) — bottom-up SWS news theme aggregation × current macro regime. Sector-level only; no named stock recommendations in v1. Hidden when localStorage.sectorOutlookEnabled_v1 === "false". -->
-      <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#a78bfa; box-shadow:0 0 0 2px rgba(167,139,250,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Sector Outlook<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#a78bfa; background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
+      <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--purple-bright); box-shadow:0 0 0 2px rgba(167,139,250,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Sector Outlook<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:var(--purple-bright); background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
       <button class="tab" id="trackTabBtn" role="tab" aria-selected="false" aria-controls="trackTab" onclick="switchTab('track')">Track Record</button>
       </div>
       <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll platform tabs right" hidden>&rsaquo;</button>
@@ -4865,7 +5329,7 @@
             <strong style="color:var(--text);">Upstox XLSX</strong>.
           </div>
           <input type="file" id="analyzerFileInput" accept=".xlsx,.csv" style="display:none;" />
-          <button id="analyzerBrowseBtn" type="button" style="background:var(--accent); color:#fff; border:0; padding:10px 24px; border-radius:8px; font-weight:600; cursor:pointer;">
+          <button id="analyzerBrowseBtn" type="button" style="background:var(--accent); color:var(--white); border:0; padding:10px 24px; border-radius:8px; font-weight:600; cursor:pointer;">
             Choose file
           </button>
           <div style="margin-top:16px; font-size:11px; color:var(--text-muted);">

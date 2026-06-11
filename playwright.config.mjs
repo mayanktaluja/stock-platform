@@ -12,11 +12,27 @@ export default defineConfig({
   retries: 0,
   workers: 1,
   reporter: process.env.CI ? "github" : "list",
+  // C1: visual-regression tolerances. Sub-pixel AA + font hinting vary across
+  // environments, so allow a small ratio; real redesign diffs are far larger.
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.02,
+      animations: "disabled",
+      caret: "hide",
+    },
+  },
   use: {
     baseURL: BASE_URL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     viewport: { width: 1280, height: 800 },
+    // A1: the app gained a light theme (resolves stored > OS > dark). Pin the
+    // suite default to dark so the existing specs keep validating the dark
+    // palette they were written against — Chromium's default emulation is
+    // 'light', which would otherwise silently flip every spec to the new,
+    // less-tested theme. Light is covered explicitly (theme-toggle.spec.mjs;
+    // axe runs both themes in F1). Specs needing light override per-context.
+    colorScheme: "dark",
   },
   projects: [
     {

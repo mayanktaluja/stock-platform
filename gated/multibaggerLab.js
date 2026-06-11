@@ -54,7 +54,7 @@ async function loadMultibaggerLab() {
     const fs = document.getElementById("multibaggerLabBacktestStatus");
     if (fs) fs.textContent = "not yet (needs 9mo forward archive)";
   } catch (err) {
-    target.innerHTML = `<div style="padding:24px; color:#fca5a5; background:rgba(220,38,38,0.08); border-radius:6px;">Failed to load 5x Lab: ${escapeHtml(err.message)}</div>`;
+    target.innerHTML = `<div style="padding:24px; color:var(--negative-text-soft); background:rgba(220,38,38,0.08); border-radius:6px;">Failed to load 5x Lab: ${escapeHtml(err.message)}</div>`;
   }
 }
 
@@ -94,7 +94,7 @@ function renderTrajectorySection(data) {
       </div>
       <div>
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Gross required${infoIcon("mb_gross_required")}</div>
-        <div style="font-size:24px; font-weight:500; color:#fbbf24;">~₹6.0L</div>
+        <div style="font-size:24px; font-weight:500; color:var(--warn-text);">~₹6.0L</div>
         <div style="font-size:11px; color:var(--text-muted);">After STCG churn (6x gross)</div>
       </div>
       <div>
@@ -124,26 +124,26 @@ function renderStrategySection(data) {
       </div>
       <div style="padding:8px 16px 16px;">
         <details open style="margin-top:10px;">
-          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">How stocks are picked</summary>
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:var(--purple-bright);">How stocks are picked</summary>
           ${bulletList(s.how_stocks_are_picked)}
         </details>
         <details style="margin-top:10px;">
-          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">How sectors are picked</summary>
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:var(--purple-bright);">How sectors are picked</summary>
           ${bulletList(s.how_sectors_are_picked)}
         </details>
         <details style="margin-top:10px;">
-          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">What gets removed (hard gates)</summary>
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:var(--purple-bright);">What gets removed (hard gates)</summary>
           ${bulletList(s.what_gets_removed)}
         </details>
         <details style="margin-top:10px;">
-          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">The 5x mechanism</summary>
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:var(--purple-bright);">The 5x mechanism</summary>
           ${bulletList(s.the_5x_mechanism)}
         </details>
         <details style="margin-top:10px;">
-          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#f87171;">Pre-mortem — how this fails</summary>
-          ${bulletList(s.pre_mortem, "#fca5a5")}
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:var(--negative-text);">Pre-mortem — how this fails</summary>
+          ${bulletList(s.pre_mortem, "var(--negative-text-soft)")}
         </details>
-        <div data-test="multibagger-honest-note" style="margin-top:14px; padding:10px 12px; background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.25); border-radius:6px; font-size:12px; color:#fca5a5; line-height:1.5;">
+        <div data-test="multibagger-honest-note" style="margin-top:14px; padding:10px 12px; background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.25); border-radius:6px; font-size:12px; color:var(--negative-text-soft); line-height:1.5;">
           ${escapeHtml(s.honest_note || "")}
         </div>
       </div>
@@ -230,12 +230,12 @@ function renderCandidateRationale(c) {
   const bear = (r.bear_case || []).map((t) => `<li style="margin-bottom:3px;">${escapeHtml(t)}</li>`).join("");
   return `
     <details style="font-size:12px;">
-      <summary style="cursor:pointer; color:#a78bfa; font-size:11px;">Why this pick + bear case</summary>
+      <summary style="cursor:pointer; color:var(--purple-bright); font-size:11px;">Why this pick + bear case</summary>
       <div style="padding:8px 0 4px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#34d399; margin-bottom:2px;">Bull case${infoIcon("mb_bull_case")}</div>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--positive-text-emerald); margin-bottom:2px;">Bull case${infoIcon("mb_bull_case")}</div>
         <ul style="margin:0 0 8px; padding-left:18px; color:var(--text-secondary); line-height:1.5;">${why || "<li>Composite score across 12 factors.</li>"}</ul>
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#f87171; margin-bottom:2px;">Bear case${infoIcon("mb_bear_case")}</div>
-        <ul style="margin:0 0 8px; padding-left:18px; color:#fca5a5; line-height:1.5;">${bear}</ul>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--negative-text); margin-bottom:2px;">Bear case${infoIcon("mb_bear_case")}</div>
+        <ul style="margin:0 0 8px; padding-left:18px; color:var(--negative-text-soft); line-height:1.5;">${bear}</ul>
         <div style="font-size:11px; color:var(--text-muted); font-style:italic;">${escapeHtml(r.target_multiple_rationale || "")}${r.target_multiple_rationale ? infoIcon("mb_target_multiple") : ""}</div>
       </div>
     </details>
@@ -243,11 +243,11 @@ function renderCandidateRationale(c) {
 }
 
 function verdictColor(v) {
-  return v === "5X_CANDIDATE" ? "#a78bfa"
-       : v === "HIGH_CONVICTION" ? "#34d399"
-       : v === "WATCH" ? "#fbbf24"
-       : v === "HARD_REJECT" ? "#f87171"
-       : "#64748b";
+  return v === "5X_CANDIDATE" ? "var(--purple-bright)"
+       : v === "HIGH_CONVICTION" ? "var(--positive-text-emerald)"
+       : v === "WATCH" ? "var(--warn-text)"
+       : v === "HARD_REJECT" ? "var(--negative-text)"
+       : "var(--text-gray-deep)";
 }
 
 function renderCatalystSection(data) {
@@ -279,7 +279,7 @@ function renderHealthSection(data) {
   if (!alerts.length) {
     return `<section data-section="health" data-test="multibagger-health-clean" style="font-size:11px; color:var(--text-muted);">Health: clean · no alerts.</section>`;
   }
-  const rows = alerts.map((a) => `<li style="font-size:11px; color:#fbbf24;">${escapeHtml(a)}</li>`).join("");
+  const rows = alerts.map((a) => `<li style="font-size:11px; color:var(--warn-text);">${escapeHtml(a)}</li>`).join("");
   return `
     <section data-section="health" style="margin-top:8px;">
       <h3 style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">Health alerts</h3>

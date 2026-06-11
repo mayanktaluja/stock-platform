@@ -491,7 +491,7 @@ async function loadSnapshotHealth() {
       return `${label} (${days} old)`;
     });
     chips.push(`
-      <div style="color:#E0B060; padding:2px 0;">
+      <div style="color:var(--gold); padding:2px 0;">
         <span style="font-weight:600;">⚠ Stale data:</span>
         <span style="opacity:0.9;"> ${parts.join(" · ")}</span>
         <span style="opacity:0.7;margin-left:8px;font-size:11px;">Values may not reflect today's market — underlying refresh has not run.</span>
@@ -561,7 +561,7 @@ async function loadLlmSignalBanner() {
     : `${sharePct != null ? sharePct + "%" : "most"} of events fell back to keyword matching (LLM provider rate-limited or erroring)`;
 
   const chip = `
-    <div data-testid="llm-signal-heuristic-banner" style="color:#C8A06A; padding:2px 0;">
+    <div data-testid="llm-signal-heuristic-banner" style="color:var(--gold-tan); padding:2px 0;">
       <span style="font-weight:600;">ℹ Earnings LLM signal — heuristic fallback active.</span>
       <span style="opacity:0.75;font-size:11px;margin-left:6px;">
         ${reason}; predictions still ship but qualitative signal is deterministic-only.
@@ -1218,10 +1218,78 @@ async function loadMarketData() {
 
 // ==================== SEARCH ====================
 
+// E1 — command mode for the global search. Typing ">" flips the search box
+// into a command palette: navigate to any visible tab, toggle theme/density,
+// open the shortcuts cheatsheet. Reuses the existing #searchResults listbox
+// + .search-result-item affordances; command rows are additive DOM
+// (data-cmd / data-testid="cmdk-command") so stock-search contracts hold.
+function _commandPaletteEntries() {
+  const cmds = [];
+  for (const [id, cfg] of Object.entries(TAB_CONFIG)) {
+    const btn = document.getElementById(`${id}TabBtn`);
+    if (btn && btn.offsetParent === null) continue; // hidden (admin/guarded)
+    cmds.push({ id: `tab:${id}`, label: `Go to ${cfg.label}`, run: () => switchTab(id) });
+  }
+  const light = document.documentElement.getAttribute("data-theme") === "light";
+  cmds.push({
+    id: "theme",
+    label: light ? "Switch to dark theme" : "Switch to light theme",
+    run: () => document.getElementById("themeToggleBtn")?.click(),
+  });
+  const compact = document.documentElement.getAttribute("data-density") === "compact";
+  cmds.push({
+    id: "density",
+    label: compact ? "Switch to comfortable density" : "Switch to compact density",
+    run: () => document.getElementById("densityToggleBtn")?.click(),
+  });
+  cmds.push({
+    id: "shortcuts",
+    label: "Show keyboard shortcuts",
+    run: () => document.getElementById("shortcutsModal")?.classList.add("open"),
+  });
+  return cmds;
+}
+
+function renderCommandPalette(query) {
+  const q = query.toLowerCase();
+  const matches = _commandPaletteEntries().filter((c) =>
+    c.label.toLowerCase().includes(q),
+  );
+  if (matches.length === 0) {
+    searchResults.innerHTML = `<div style="padding:12px 16px;color:var(--text-muted);font-size:13px;">No matching commands</div>`;
+  } else {
+    searchResults.innerHTML = matches
+      .map(
+        (c) => `
+      <div class="search-result-item" role="option" tabindex="0"
+           data-cmd="${c.id}" data-testid="cmdk-command">
+        <span aria-hidden="true" style="color:var(--gold);font-weight:700;margin-right:8px;">&rsaquo;</span>${escapeHtml(c.label)}
+      </div>`,
+      )
+      .join("");
+  }
+  searchResults.classList.add("active");
+}
+
+function runPaletteCommand(cmdId) {
+  const cmd = _commandPaletteEntries().find((c) => c.id === cmdId);
+  searchResults.classList.remove("active");
+  searchInput.value = "";
+  if (cmd) cmd.run();
+}
+
 function setupSearch() {
   searchInput.addEventListener("input", (e) => {
-    const query = e.target.value.trim();
+    const raw = e.target.value;
+    const query = raw.trim();
     if (searchTimeout) clearTimeout(searchTimeout);
+
+    // E1: ">" prefix = command mode (no debounce — the list is local).
+    if (query.startsWith(">")) {
+      if (searchAbortController) searchAbortController.abort();
+      renderCommandPalette(query.slice(1).trim());
+      return;
+    }
 
     // Single-char queries match 200+ stocks and burn cache for no real signal.
     if (query.length < 2) {
@@ -1250,11 +1318,21 @@ function setupSearch() {
       searchResults.classList.remove("active");
       searchInput.blur();
     }
+    // E1: Enter in command mode runs the top match without needing to Tab
+    // into the listbox first.
+    if (e.key === "Enter" && searchInput.value.trim().startsWith(">")) {
+      const first = searchResults.querySelector("[data-cmd]");
+      if (first) {
+        e.preventDefault();
+        runPaletteCommand(first.dataset.cmd);
+      }
+    }
   });
 
   searchResults.addEventListener("click", (e) => {
     const item = e.target.closest(".search-result-item");
     if (!item) return;
+    if (item.dataset.cmd) return runPaletteCommand(item.dataset.cmd);
     openGlobalSearchResult({
       market: item.dataset.market || "india",
       ticker: item.dataset.ticker || item.dataset.symbol || "",
@@ -1267,6 +1345,7 @@ function setupSearch() {
     const item = e.target.closest(".search-result-item");
     if (!item) return;
     e.preventDefault();
+    if (item.dataset.cmd) return runPaletteCommand(item.dataset.cmd);
     openGlobalSearchResult({
       market: item.dataset.market || "india",
       ticker: item.dataset.ticker || item.dataset.symbol || "",
@@ -1473,6 +1552,16 @@ function surveillanceBanner(surveillance) {
  * @param {object} [opts]  - { size: number, title: string }
  * @returns {string} Inline SVG markup (for html-string-based rendering).
  */
+// D1: snowflake score-band → themeable token. Replaces the hardcoded
+// var(--positive-text-emerald)/var(--warn-text)/var(--negative-text) so the hexagon flips correctly in light mode.
+// Thresholds match the legacy strokeColor logic (3.5 / 2.5).
+function snowflakeBandColor(score) {
+  if (score == null || Number.isNaN(score)) return "var(--text-slate)";
+  if (score >= 3.5) return "var(--positive-text-emerald)";
+  if (score >= 2.5) return "var(--warn-text)";
+  return "var(--negative-text)";
+}
+
 function renderSnowflakeHexagon(pillars, opts = {}) {
   if (!pillars) return '';
   const size = opts.size || 340;
@@ -1502,13 +1591,13 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
   // Axis spokes
   const axisLines = order.map((_, i) => {
     const p = outerVertex(i);
-    return `<line x1="${center}" y1="${center}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(255,255,255,0.06)" stroke-width="1" />`;
+    return `<line x1="${center}" y1="${center}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" style="stroke:var(--border)" stroke-width="1" />`;
   }).join('');
 
   // Reference rings at 1/2/3/4/5
   const rings = [1, 2, 3, 4, 5].map(lvl => {
     const pts = order.map((_, i) => pointAt(lvl, i)).map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-    return `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1" />`;
+    return `<polygon points="${pts}" fill="none" style="stroke:var(--border)" stroke-width="1" />`;
   }).join('');
 
   // Amber "average" threshold at score=3
@@ -1522,10 +1611,13 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
 
   const defined = scores.filter(s => s != null);
   const avg = defined.length ? defined.reduce((a, b) => a + b, 0) / defined.length : 0;
-  const strokeColor = avg >= 3.5 ? '#34d399' : avg >= 2.5 ? '#fbbf24' : '#f87171';
+  // D1: band colour comes from snowflakeBandColor() (a var(--token) string) so
+  // the hexagon themes correctly. var() doesn't resolve in SVG presentation
+  // ATTRIBUTES, so colours go through style="" instead of fill=/stroke=.
+  const strokeColor = snowflakeBandColor(avg);
   const fillColor   = avg >= 3.5 ? 'rgba(52,211,153,0.22)' : avg >= 2.5 ? 'rgba(251,191,36,0.18)' : 'rgba(248,113,113,0.18)';
 
-  const dataPolygon = `<polygon points="${dataPtsStr}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="2" stroke-linejoin="round" />`;
+  const dataPolygon = `<polygon points="${dataPtsStr}" style="fill:${fillColor};stroke:${strokeColor}" stroke-width="2" stroke-linejoin="round" />`;
 
   // Pillar scores are floats (e.g. 2.4444) — format to 1 decimal for display.
   const fmt = (n) => (n == null ? 'N/A' : (Math.round(n * 10) / 10).toFixed(1));
@@ -1536,7 +1628,7 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
     if (sc == null) return '';
     const p = dataPts[i];
     const tipText = `${labels[k]}: ${fmt(sc)}/5 (${pillars[k]?.grade || ''})`;
-    return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="${strokeColor}" stroke="#0f1319" stroke-width="1.5"><title>${tipText}</title></circle>`;
+    return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" style="fill:${strokeColor};stroke:var(--bg-card)" stroke-width="1.5"><title>${tipText}</title></circle>`;
   }).join('');
 
   // Axis labels (pillar name + score/grade), positioned just outside the max ring
@@ -1547,8 +1639,8 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
     const grade = pillars[k]?.grade || '';
     const scoreText = isNA ? 'N/A' : `${fmt(sc)}/5`;
     const subLine = isNA ? 'no data' : grade;
-    const mainColor = isNA ? '#64748b' : '#e2e8f0';
-    const subColor  = isNA ? '#475569' : '#94a3b8';
+    const mainColor = isNA ? 'var(--text-slate)' : 'var(--text-ice)';
+    const subColor  = isNA ? 'var(--text-slate-muted)' : 'var(--text-slate)';
 
     // Anchor + dy tweaked so labels don't overlap the polygon
     const anchor = outer.x < center - 8 ? 'end' : outer.x > center + 8 ? 'start' : 'middle';
@@ -1562,8 +1654,8 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
       : `${labels[k]}: ${fmt(sc)}/5 — ${grade}`;
 
     return `
-      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy1).toFixed(1)}" text-anchor="${anchor}" fill="${mainColor}" font-size="12" font-weight="600" font-family="system-ui,-apple-system,sans-serif"><title>${tip}</title>${labels[k]} <tspan fill="${subColor}" font-weight="500">${scoreText}</tspan></text>
-      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy2).toFixed(1)}" text-anchor="${anchor}" fill="${subColor}" font-size="10.5" font-family="system-ui,-apple-system,sans-serif">${subLine}</text>
+      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy1).toFixed(1)}" text-anchor="${anchor}" style="fill:${mainColor}" font-size="12" font-weight="600" font-family="system-ui,-apple-system,sans-serif"><title>${tip}</title>${labels[k]} <tspan style="fill:${subColor}" font-weight="500">${scoreText}</tspan></text>
+      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy2).toFixed(1)}" text-anchor="${anchor}" style="fill:${subColor}" font-size="10.5" font-family="system-ui,-apple-system,sans-serif">${subLine}</text>
     `;
   }).join('');
 
@@ -1613,7 +1705,7 @@ function renderSnowflakePillarList(pillars) {
     const grade = p.grade || '';
     const topSig = (p.signals && p.signals[0]) ? p.signals[0] : '';
     const isNA = sc == null;
-    const color = isNA ? '#64748b' : (sc >= 4 ? '#34d399' : sc >= 3 ? '#94e2a8' : sc >= 2 ? '#fbbf24' : '#f87171');
+    const color = isNA ? 'var(--text-gray-deep)' : (sc >= 4 ? 'var(--positive-text-emerald)' : sc >= 3 ? 'var(--positive-text-spring)' : sc >= 2 ? 'var(--warn-text)' : 'var(--negative-text)');
     const bar = isNA ? 0 : (sc / 5) * 100;
     return `
       <div style="display:grid;grid-template-columns:84px 42px 1fr;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;">
@@ -1662,12 +1754,12 @@ function renderLongTermNarrative(longTerm) {
   const n = longTerm?.narrative;
   if (!n) return "";
 
-  const confColor = n.confidence === "HIGH"   ? "rgba(52,211,153,0.15);color:#34d399"
-                  : n.confidence === "LOW"    ? "rgba(239,68,68,0.15);color:#ef4444"
-                  : "rgba(245,158,11,0.15);color:#f59e0b";
+  const confColor = n.confidence === "HIGH"   ? "rgba(52,211,153,0.15);color:var(--positive-text-emerald)"
+                  : n.confidence === "LOW"    ? "rgba(239,68,68,0.15);color:var(--red-bright)"
+                  : "rgba(245,158,11,0.15);color:var(--amber)";
 
   const flagPills = (longTerm.qualityFlags || []).map((f) =>
-    `<span style="display:inline-block;padding:2px 8px;border-radius:4px;margin-right:4px;font-size:10px;background:rgba(245,158,11,0.12);color:#f59e0b;">${escapeHtml(f.replace(/_/g, " "))}</span>`
+    `<span style="display:inline-block;padding:2px 8px;border-radius:4px;margin-right:4px;font-size:10px;background:rgba(245,158,11,0.12);color:var(--amber);">${escapeHtml(f.replace(/_/g, " "))}</span>`
   ).join("");
 
   const bullets = (arr) =>
@@ -1678,10 +1770,10 @@ function renderLongTermNarrative(longTerm) {
     ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
          <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Recent News (last 30 days)</div>
          ${newsItems.slice(0, 3).map((it) => {
-           const sentColor = it.sentiment === "POSITIVE" ? "#34d399"
-                           : it.sentiment === "NEGATIVE" ? "#ef4444" : "var(--text-muted)";
+           const sentColor = it.sentiment === "POSITIVE" ? "var(--positive-text-emerald)"
+                           : it.sentiment === "NEGATIVE" ? "var(--red-bright)" : "var(--text-muted)";
            const matBadge = it.materiality === "MATERIAL"
-             ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;background:rgba(96,165,250,0.18);color:#60a5fa;margin-right:6px;">MATERIAL</span>`
+             ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;background:rgba(96,165,250,0.18);color:var(--info-text);margin-right:6px;">MATERIAL</span>`
              : "";
            return `<div style="font-size:11px;line-height:1.5;margin-bottom:6px;">
              ${matBadge}
@@ -1810,10 +1902,10 @@ function renderStockDetail(data) {
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <div class="rec-score" title="Includes technical, news sentiment and fundamentals — answers 'what does the market think of this stock right now?'">Market view: ${displayScore}/100${infoIcon('combined_score')}</div>
             ${showScannerScore ? `
-              <div class="rec-score" style="border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08);color:#34d399;" title="This is the score the Buy Now scanner uses (50% Technical + 50% Fundamentals, with the quality guardrail applied). Matches the number shown on the scanner card.">Scanner: ${scannerScoreVal}/100</div>
+              <div class="rec-score" style="border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08);color:var(--positive-text-emerald);" title="This is the score the Buy Now scanner uses (50% Technical + 50% Fundamentals, with the quality guardrail applied). Matches the number shown on the scanner card.">Scanner: ${scannerScoreVal}/100</div>
             ` : ''}
             ${scoresDiffer ? `
-              <div class="rec-score" style="border-color:rgba(96,165,250,0.3);background:rgba(96,165,250,0.08);color:#60a5fa;" title="Excludes news sentiment to give a stabler read for position decisions. This is the number the Portfolio tab uses.">Portfolio basis: ${portfolioBasisScore}/100</div>
+              <div class="rec-score" style="border-color:rgba(96,165,250,0.3);background:rgba(96,165,250,0.08);color:var(--info-text);" title="Excludes news sentiment to give a stabler read for position decisions. This is the number the Portfolio tab uses.">Portfolio basis: ${portfolioBasisScore}/100</div>
             ` : ''}
           </div>
         </div>
@@ -1821,7 +1913,7 @@ function renderStockDetail(data) {
         <div class="rec-urgency">${displayUrgency}</div>
         ${scoresDiffer ? `
           <div style="margin-top:10px;padding:8px 12px;background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.15);border-radius:6px;font-size:12px;color:var(--text-secondary);line-height:1.5;">
-            <strong style="color:#60a5fa;">Why two scores?</strong>
+            <strong style="color:var(--info-text);">Why two scores?</strong>
             &nbsp;Market view (${displayScore}) includes news sentiment. Portfolio basis (${portfolioBasisScore}) excludes news because it's too noisy for position-sizing decisions.
             ${portfolioBasisScore < displayScore
               ? "The news sentiment is lifting this stock's score — treat with caution."
@@ -1949,7 +2041,7 @@ function renderStockDetail(data) {
             if (!v2?.pillars) return '';
             const naCount = Object.values(v2.pillars).filter(p => p.score == null).length;
             const modeTag = scorerMode === 'v2-primary'
-              ? `<span style="background:rgba(52,211,153,0.12);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600;">V2 (authoritative)</span>`
+              ? `<span style="background:rgba(52,211,153,0.12);color:var(--positive-text-emerald);padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600;">V2 (authoritative)</span>`
               : scorerMode === 'v2-shadow'
                 ? `<span style="background:rgba(96,165,250,0.12);color:var(--blue);padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600;">V2 (shadow)</span>`
                 : '';
@@ -1960,7 +2052,7 @@ function renderStockDetail(data) {
                     <div style="font-size:13px;font-weight:700;color:var(--text-secondary);letter-spacing:0.3px;text-transform:uppercase;">Snowflake${infoIcon('snowflake_hexagon') || ''}</div>
                     <div style="font-size:11.5px;color:var(--text-muted);margin-top:2px;">
                       Six-pillar fundamental profile · ${v2.sectorKind || 'sector-adapted'} weights
-                      ${naCount ? ` · <span style="color:#fbbf24;">${naCount} pillar${naCount === 1 ? '' : 's'} N/A</span>` : ''}
+                      ${naCount ? ` · <span style="color:var(--warn-text);">${naCount} pillar${naCount === 1 ? '' : 's'} N/A</span>` : ''}
                     </div>
                   </div>
                   ${modeTag}
@@ -2021,7 +2113,7 @@ function renderStockDetail(data) {
           ` : ""}
           ${midTerm.trailingStop ? `
             <div style="margin-top:8px;padding:6px 10px;background:${midTerm.trailingStop.triggered ? 'rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25)' : 'rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2)'};border-radius:6px;font-size:11px;color:var(--text-muted);">
-              <span style="color:${midTerm.trailingStop.triggered ? 'var(--red)' : '#34d399'};font-weight:700;">&#8593; Trailing Stop: &#8377;${formatNumber(midTerm.trailingStop.currentLevel)}</span>
+              <span style="color:${midTerm.trailingStop.triggered ? 'var(--red)' : 'var(--positive-text-emerald)'};font-weight:700;">&#8593; Trailing Stop: &#8377;${formatNumber(midTerm.trailingStop.currentLevel)}</span>
               (from peak &#8377;${formatNumber(midTerm.trailingStop.highestClose)}) &mdash; <em>${midTerm.trailingStop.explanation}</em>
             </div>
           ` : ""}
@@ -2038,10 +2130,10 @@ function renderStockDetail(data) {
       const fmtRatio = (v) => v != null ? v.toFixed(2) : "—";
       const verdictBadge = longTerm.fundamentalVerdict
         ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;margin-left:8px;${
-            longTerm.fundamentalVerdict === "DEEP_VALUE" ? "background:rgba(52,211,153,0.15);color:#34d399;" :
-            longTerm.fundamentalVerdict === "QUALITY_GROWTH" ? "background:rgba(96,165,250,0.15);color:#60a5fa;" :
-            longTerm.fundamentalVerdict === "OVERVALUED" ? "background:rgba(239,68,68,0.15);color:#ef4444;" :
-            "background:rgba(245,158,11,0.15);color:#f59e0b;"
+            longTerm.fundamentalVerdict === "DEEP_VALUE" ? "background:rgba(52,211,153,0.15);color:var(--positive-text-emerald);" :
+            longTerm.fundamentalVerdict === "QUALITY_GROWTH" ? "background:rgba(96,165,250,0.15);color:var(--info-text);" :
+            longTerm.fundamentalVerdict === "OVERVALUED" ? "background:rgba(239,68,68,0.15);color:var(--red-bright);" :
+            "background:rgba(245,158,11,0.15);color:var(--amber);"
           }">${longTerm.fundamentalVerdict.replace("_", " ")}</span>`
         : "";
 
@@ -2431,7 +2523,7 @@ function renderDivergenceBadge(stock) {
   if (!stock?.combinedDivergence) return "";
   const spread = stock.combinedDivergenceSpread != null ? stock.combinedDivergenceSpread : "—";
   const tip = `Divergent signals: spread ${spread} between Tech (${stock.score ?? "—"}), Fund (${stock.fundamentalScore ?? "—"}), SWS (${stock.swsScore ?? "—"}). Alpha-rich or trap-rich — verify before acting.`;
-  return `<span class="divergence-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b66;font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">&#9888; Divergent</span>`;
+  return `<span class="divergence-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:var(--amber-a13);color:var(--amber);border:1px solid var(--amber-a40);font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">&#9888; Divergent</span>`;
 }
 
 // SEBI IA Reg 2013 §15(4): warn the user when a recommendation is for a
@@ -2443,15 +2535,15 @@ function renderPortfolioChip(stock) {
   const w = Number(stock.currentWeight);
   if (!Number.isFinite(w)) return "";
   const after = stock.concentrationAfterTopUp;
-  let color = "var(--blue, #38bdf8)";
+  let color = "var(--blue, var(--sky))";
   let bg = "rgba(56,189,248,0.12)";
   let border = "rgba(56,189,248,0.32)";
   let prefix = "ALREADY HELD";
   if (w >= 10) {
-    color = "#f87171"; bg = "rgba(248,113,113,0.12)"; border = "rgba(248,113,113,0.4)";
+    color = "var(--negative-text)"; bg = "rgba(248,113,113,0.12)"; border = "rgba(248,113,113,0.4)";
     prefix = "OVERWEIGHT";
   } else if (w >= 7) {
-    color = "#fbbf24"; bg = "rgba(251,191,36,0.12)"; border = "rgba(251,191,36,0.36)";
+    color = "var(--warn-text)"; bg = "rgba(251,191,36,0.12)"; border = "rgba(251,191,36,0.36)";
     prefix = "ALREADY HELD";
   }
   const tip = `${prefix}: this name is ${w.toFixed(2)}% of your cost-basis book.${
@@ -2516,7 +2608,7 @@ function renderSebiDisclosure(stock, type) {
   return `
     <details class="sebi-disclosure" onclick="event.stopPropagation()" style="margin-top:10px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.015);">
       <summary style="cursor:pointer;list-style:none;padding:8px 12px;font-size:11px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:8px;">
-        <span style="font-family:'JetBrains Mono',monospace;color:var(--gold,#fbbf24);">METHOD</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--gold,var(--warn-text));">METHOD</span>
         <span>Methodology &amp; risk parameters</span>
         <span style="margin-left:auto;font-weight:400;color:var(--text-muted);">${band} conviction · v=${methodVersion}</span>
       </summary>
@@ -2531,10 +2623,10 @@ function renderSebiDisclosure(stock, type) {
         ${stock?.timingObservation ? `
         <div><strong style="color:var(--text-secondary);">Today the right day?</strong> <strong style="color:${
           stock.timingObservation.verdict === "Yes" ? "var(--green)" :
-          stock.timingObservation.verdict === "Yes-not-urgent" ? "var(--blue, #38bdf8)" :
-          stock.timingObservation.verdict === "Soft-no" ? "var(--gold, #fbbf24)" :
-          stock.timingObservation.verdict === "Wait-for-open" ? "var(--blue, #38bdf8)" :
-          stock.timingObservation.verdict === "No" ? "#f87171" : "var(--text-muted)"
+          stock.timingObservation.verdict === "Yes-not-urgent" ? "var(--blue, var(--sky))" :
+          stock.timingObservation.verdict === "Soft-no" ? "var(--gold, var(--warn-text))" :
+          stock.timingObservation.verdict === "Wait-for-open" ? "var(--blue, var(--sky))" :
+          stock.timingObservation.verdict === "No" ? "var(--negative-text)" : "var(--text-muted)"
         };">${escapeHtml(stock.timingObservation.verdict)}</strong>${
           stock.timingObservation.window ? ` · ${escapeHtml(stock.timingObservation.window)}` : ""
         } — ${escapeHtml(stock.timingObservation.reason)}</div>
@@ -2877,16 +2969,16 @@ function _renderUsersTable(users) {
     const lastSeenAt = u.lastSeenAt || u.lastLoginAt;
     const open = _usersExpanded.has(u.sub);
     const adminBadge = u.isAdmin
-      ? '<span style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;">ADMIN</span>'
+      ? '<span style="background:rgba(34,197,94,0.15);color:var(--positive-text);border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;">ADMIN</span>'
       : "";
     const avatar = u.picture
-      ? `<div style="width:32px;height:32px;border-radius:50%;background:#1a2233;overflow:hidden;display:inline-block;vertical-align:middle;">
+      ? `<div style="width:32px;height:32px;border-radius:50%;background:var(--bg-graphite);overflow:hidden;display:inline-block;vertical-align:middle;">
            <img src="${_escHtml(u.picture)}" alt=""
                 style="width:100%;height:100%;object-fit:cover;display:block;"
                 referrerpolicy="no-referrer"
                 onerror="this.style.display='none'">
          </div>`
-      : '<div style="width:32px;height:32px;border-radius:50%;background:#1a2233;display:inline-block;vertical-align:middle;"></div>';
+      : '<div style="width:32px;height:32px;border-radius:50%;background:var(--bg-graphite);display:inline-block;vertical-align:middle;"></div>';
 
     let drilldown = "";
     if (open) {
@@ -2905,7 +2997,7 @@ function _renderUsersTable(users) {
               <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Visit log (most recent first)</div>
               <table style="width:100%;border-collapse:collapse;font-size:12px;">
                 <thead>
-                  <tr style="text-align:left;color:var(--text-muted);border-bottom:1px solid #1a2233;">
+                  <tr style="text-align:left;color:var(--text-muted);border-bottom:1px solid var(--bg-graphite);">
                     <th style="padding:6px 12px;font-weight:500;">When (IST)</th>
                     <th style="padding:6px 12px;font-weight:500;">IP</th>
                     <th style="padding:6px 12px;font-weight:500;">Device</th>
@@ -2922,11 +3014,11 @@ function _renderUsersTable(users) {
     const portfolioCell = u.hasPortfolio
       ? `<a href="/api/admin/users/${encodeURIComponent(u.sub)}/portfolio.xlsx" download
             onclick="event.stopPropagation()"
-            style="color:#60a5fa;text-decoration:underline;font-size:12px;">XLSX</a>`
+            style="color:var(--info-text);text-decoration:underline;font-size:12px;">XLSX</a>`
       : '<span style="color:var(--text-muted);font-size:12px;">—</span>';
 
     return `
-      <tr style="cursor:pointer;border-bottom:1px solid #1a2233;" onclick="_toggleUserRow('${_escHtml(u.sub)}')">
+      <tr style="cursor:pointer;border-bottom:1px solid var(--bg-graphite);" onclick="_toggleUserRow('${_escHtml(u.sub)}')">
         <td style="padding:10px 12px;">${avatar}</td>
         <td style="padding:10px 12px;">
           <div style="font-weight:500;">${_escHtml(u.name || "—")}</div>
@@ -2946,7 +3038,7 @@ function _renderUsersTable(users) {
   return `
     <table style="width:100%;border-collapse:collapse;font-size:13px;">
       <thead>
-        <tr style="text-align:left;color:var(--text-muted);border-bottom:1px solid #1a2233;">
+        <tr style="text-align:left;color:var(--text-muted);border-bottom:1px solid var(--bg-graphite);">
           <th style="padding:10px 12px;font-weight:500;width:48px;"></th>
           <th style="padding:10px 12px;font-weight:500;">User</th>
           <th style="padding:10px 12px;font-weight:500;width:80px;">Role</th>
@@ -2983,13 +3075,13 @@ async function loadUsersList(opts = {}) {
   }
 
   if (!opts.silent) {
-    container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading users…</div></div>';
+    container.innerHTML = buildLoading('Loading users…');
     if (meta) meta.textContent = "Loading…";
   }
   try {
     const res = await fetch("/api/admin/users", { credentials: "same-origin" });
     if (res.status === 403) {
-      container.innerHTML = '<div style="padding:24px;text-align:center;color:#f87171;">Access denied. This view is admin-only.</div>';
+      container.innerHTML = '<div style="padding:24px;text-align:center;color:var(--negative-text);">Access denied. This view is admin-only.</div>';
       if (meta) meta.textContent = "";
       return;
     }
@@ -2999,7 +3091,7 @@ async function loadUsersList(opts = {}) {
     container.innerHTML = _renderUsersTable(_usersCache);
     if (meta) meta.textContent = `${data.count} user${data.count === 1 ? "" : "s"} • click a row to see their visit log`;
   } catch (err) {
-    container.innerHTML = `<div style="padding:24px;text-align:center;color:#f87171;">Failed to load users: ${_escHtml(err.message || err)}</div>`;
+    container.innerHTML = `<div style="padding:24px;text-align:center;color:var(--negative-text);">Failed to load users: ${_escHtml(err.message || err)}</div>`;
     if (meta) meta.textContent = "";
   }
 }
@@ -3094,7 +3186,7 @@ async function loadPortfolio(forceBust = false) {
       const mfPos = (ms.totalPnl || 0) >= 0;
 
       mfEl.innerHTML = `
-        <div style="padding-top:24px;border-top:1px solid #1a2233;">
+        <div style="padding-top:24px;border-top:1px solid var(--bg-graphite);">
           <div class="section-title" style="margin-bottom:16px;">Mutual Funds (${data.mutualFunds.length})</div>
 
           <div class="grid-4" style="margin-bottom:20px;">
@@ -3168,23 +3260,23 @@ async function loadPortfolio(forceBust = false) {
 // concrete CSS values used in the cards. Keeping this in one place so the
 // colour scheme is consistent across the health banner and per-holding cards.
 const ACTION_COLORS = {
-  "dark-red":   { bg: "rgba(220,38,38,0.12)",  border: "rgba(220,38,38,0.35)",  text: "#ef4444", glow: "rgba(220,38,38,0.15)" },
-  "red":        { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.30)",  text: "#ef4444", glow: "rgba(239,68,68,0.12)" },
-  "orange":     { bg: "rgba(249,115,22,0.12)", border: "rgba(249,115,22,0.35)", text: "#f97316", glow: "rgba(249,115,22,0.12)" },
-  "yellow":     { bg: "rgba(234,179,8,0.12)",  border: "rgba(234,179,8,0.35)",  text: "#eab308", glow: "rgba(234,179,8,0.12)" },
-  "blue":       { bg: "rgba(59,130,246,0.08)", border: "rgba(59,130,246,0.22)", text: "#60a5fa", glow: "rgba(59,130,246,0.08)" },
-  "green":      { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.35)",  text: "#22c55e", glow: "rgba(34,197,94,0.12)" },
-  "dark-green": { bg: "rgba(22,163,74,0.15)",  border: "rgba(22,163,74,0.45)",  text: "#16a34a", glow: "rgba(22,163,74,0.15)" },
-  "gray":       { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.25)",text: "#9ca3af", glow: "rgba(107,114,128,0.08)" },
+  "dark-red":   { bg: "rgba(220,38,38,0.12)",  border: "rgba(220,38,38,0.35)",  text: "var(--red-bright)", glow: "rgba(220,38,38,0.15)" },
+  "red":        { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.30)",  text: "var(--red-bright)", glow: "rgba(239,68,68,0.12)" },
+  "orange":     { bg: "rgba(249,115,22,0.12)", border: "rgba(249,115,22,0.35)", text: "var(--orange-mid)", glow: "rgba(249,115,22,0.12)" },
+  "yellow":     { bg: "rgba(234,179,8,0.12)",  border: "rgba(234,179,8,0.35)",  text: "var(--yellow-deep)", glow: "rgba(234,179,8,0.12)" },
+  "blue":       { bg: "rgba(59,130,246,0.08)", border: "rgba(59,130,246,0.22)", text: "var(--info-text)", glow: "rgba(59,130,246,0.08)" },
+  "green":      { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.35)",  text: "var(--green-bright)", glow: "rgba(34,197,94,0.12)" },
+  "dark-green": { bg: "rgba(22,163,74,0.15)",  border: "rgba(22,163,74,0.45)",  text: "var(--green-deep)", glow: "rgba(22,163,74,0.15)" },
+  "gray":       { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.25)",text: "var(--text-gray)", glow: "rgba(107,114,128,0.08)" },
 };
 
 // Verdict colors for the health score banner
 const HEALTH_VERDICT_COLORS = {
-  HEALTHY:            { text: "#22c55e", bg: "rgba(34,197,94,0.10)",  label: "HEALTHY" },
-  GOOD:               { text: "#60a5fa", bg: "rgba(59,130,246,0.10)", label: "GOOD" },
-  NEEDS_ATTENTION:    { text: "#eab308", bg: "rgba(234,179,8,0.10)",  label: "NEEDS ATTENTION" },
-  AT_RISK:            { text: "#ef4444", bg: "rgba(239,68,68,0.10)",  label: "AT RISK" },
-  INSUFFICIENT_DATA:  { text: "#9ca3af", bg: "rgba(107,114,128,0.08)",label: "INSUFFICIENT DATA" },
+  HEALTHY:            { text: "var(--green-bright)", bg: "rgba(34,197,94,0.10)",  label: "HEALTHY" },
+  GOOD:               { text: "var(--info-text)", bg: "rgba(59,130,246,0.10)", label: "GOOD" },
+  NEEDS_ATTENTION:    { text: "var(--yellow-deep)", bg: "rgba(234,179,8,0.10)",  label: "NEEDS ATTENTION" },
+  AT_RISK:            { text: "var(--red-bright)", bg: "rgba(239,68,68,0.10)",  label: "AT RISK" },
+  INSUFFICIENT_DATA:  { text: "var(--text-gray)", bg: "rgba(107,114,128,0.08)",label: "INSUFFICIENT DATA" },
 };
 
 /**
@@ -3218,7 +3310,7 @@ function renderHealthAndActionsBanner(intel) {
 
   // Inline macro exposure chip (shown only when regime is active)
   const macroChip = macroExp !== 0
-    ? `<div style="font-size:10px;color:${macroExp > 0 ? '#22c55e' : '#ef4444'};margin-top:6px;font-weight:700;">Macro: ${macroExp > 0 ? '+' : ''}${macroExp} ${macroExp > 0 ? 'tailwind' : 'headwind'}</div>`
+    ? `<div style="font-size:10px;color:${macroExp > 0 ? 'var(--green-bright)' : 'var(--red-bright)'};margin-top:6px;font-weight:700;">Macro: ${macroExp > 0 ? '+' : ''}${macroExp} ${macroExp > 0 ? 'tailwind' : 'headwind'}</div>`
     : "";
 
   return `
@@ -3242,7 +3334,7 @@ function renderHealthAndActionsBanner(intel) {
         ${urgent.length === 0 ? `
           <div style="display:flex;align-items:center;gap:10px;">
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;">Urgent Actions</div>
-            <span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(34,197,94,0.12);color:#22c55e;font-weight:700;">NONE</span>
+            <span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(34,197,94,0.12);color:var(--green-bright);font-weight:700;">NONE</span>
           </div>
           <div style="font-size:14px;color:var(--text-secondary);margin-top:10px;">
             ✓ Your portfolio is on track. No positions need attention this week.
@@ -3250,7 +3342,7 @@ function renderHealthAndActionsBanner(intel) {
         ` : `
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;">Urgent Actions</div>
-            <span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(234,179,8,0.15);color:#eab308;font-weight:700;">${urgent.length} NEED REVIEW</span>
+            <span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(234,179,8,0.15);color:var(--yellow-deep);font-weight:700;">${urgent.length} NEED REVIEW</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             ${topUrgent.map((u) => {
@@ -3290,9 +3382,9 @@ function renderSectorAllocation(sectorAllocation) {
   // Find the max for bar scaling (so the biggest sector uses 100% of the bar width)
   const maxWeight = Math.max(...sectorAllocation.map((s) => s.weight));
   const flagColor = (flag) =>
-    flag === "overconcentrated" ? "#ef4444" :
-    flag === "moderate"         ? "#eab308" :
-                                  "#22c55e";
+    flag === "overconcentrated" ? "var(--red-bright)" :
+    flag === "moderate"         ? "var(--yellow-deep)" :
+                                  "var(--green-bright)";
 
   const rows = sectorAllocation.slice(0, 10).map((s) => {
     const barPct = (s.weight / maxWeight) * 100;
@@ -3350,15 +3442,15 @@ function renderTopMovers(topWinners, topLosers) {
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;margin-bottom:12px;">Top Contributors</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
         <div>
-          <div style="font-size:10px;color:#22c55e;font-weight:700;margin-bottom:6px;letter-spacing:0.4px;">WINNERS</div>
+          <div style="font-size:10px;color:var(--green-bright);font-weight:700;margin-bottom:6px;letter-spacing:0.4px;">WINNERS</div>
           <div style="display:flex;flex-direction:column;gap:5px;">
-            ${topWinners.length > 0 ? topWinners.map(w => row(w, "#22c55e")).join("") : '<div style="font-size:11px;color:var(--text-muted);padding:8px;">None yet</div>'}
+            ${topWinners.length > 0 ? topWinners.map(w => row(w, "var(--green-bright)")).join("") : '<div style="font-size:11px;color:var(--text-muted);padding:8px;">None yet</div>'}
           </div>
         </div>
         <div>
-          <div style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:6px;letter-spacing:0.4px;">DETRACTORS</div>
+          <div style="font-size:10px;color:var(--red-bright);font-weight:700;margin-bottom:6px;letter-spacing:0.4px;">DETRACTORS</div>
           <div style="display:flex;flex-direction:column;gap:5px;">
-            ${topLosers.length > 0 ? topLosers.map(l => row(l, "#ef4444")).join("") : '<div style="font-size:11px;color:var(--text-muted);padding:8px;">None</div>'}
+            ${topLosers.length > 0 ? topLosers.map(l => row(l, "var(--red-bright)")).join("") : '<div style="font-size:11px;color:var(--text-muted);padding:8px;">None</div>'}
           </div>
         </div>
       </div>
@@ -3395,7 +3487,7 @@ function renderPortfolioAnalyticsRow(intel) {
 // P0.4 (2026-05-16) — see computeSellTrigger() in portfolioIntelligence.js.
 function renderSellTrigger(sellTrigger) {
   if (!sellTrigger || sellTrigger.stopPriceInr == null) return "";
-  const sev = sellTrigger.severity === "tight" ? "#ef4444" : "#fb923c";
+  const sev = sellTrigger.severity === "tight" ? "var(--red-bright)" : "var(--orange-bright)";
   const pct = sellTrigger.pctFromCurrent;
   const pctLabel = pct >= 0
     ? `+${pct.toFixed(1)}%`
@@ -3415,10 +3507,10 @@ function renderSellTrigger(sellTrigger) {
 function renderRecoveryInfo(recoveryMath) {
   if (!recoveryMath) return "";
   const probColors = {
-    "very_low":  "#ef4444",
-    "low":       "#f97316",
-    "moderate":  "#eab308",
-    "high":      "#22c55e",
+    "very_low":  "var(--red-bright)",
+    "low":       "var(--orange-mid)",
+    "moderate":  "var(--yellow-deep)",
+    "high":      "var(--green-bright)",
   };
   const probLabels = {
     "very_low":  "very low",
@@ -3426,7 +3518,7 @@ function renderRecoveryInfo(recoveryMath) {
     "moderate":  "moderate",
     "high":      "high",
   };
-  const col = probColors[recoveryMath.recoveryProbability] || "#9ca3af";
+  const col = probColors[recoveryMath.recoveryProbability] || "var(--text-gray)";
   const lbl = probLabels[recoveryMath.recoveryProbability] || recoveryMath.recoveryProbability;
 
   return `
@@ -3435,7 +3527,7 @@ function renderRecoveryInfo(recoveryMath) {
       <div style="text-align:right;">
         <span style="font-family:'JetBrains Mono',monospace;font-weight:700;">₹${formatNumber(recoveryMath.breakEvenPrice)}</span>
         <span style="color:var(--text-muted);">&nbsp;·&nbsp;</span>
-        <span style="font-family:'JetBrains Mono',monospace;color:#ef4444;font-weight:700;">+${recoveryMath.upsideNeededPct.toFixed(0)}%</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--red-bright);font-weight:700;">+${recoveryMath.upsideNeededPct.toFixed(0)}%</span>
         <span style="color:var(--text-muted);">&nbsp;needed · </span>
         <span style="color:${col};font-weight:700;text-transform:uppercase;">${lbl}</span>
       </div>
@@ -3449,10 +3541,10 @@ function renderRecoveryInfo(recoveryMath) {
 function renderPositionSizing(sizing) {
   if (!sizing || sizing.status === "no_data") return "";
   const statusColors = {
-    "overweight":          "#ef4444",
-    "slightly_overweight": "#eab308",
-    "underweight":         "#60a5fa",
-    "appropriate":         "#22c55e",
+    "overweight":          "var(--red-bright)",
+    "slightly_overweight": "var(--yellow-deep)",
+    "underweight":         "var(--info-text)",
+    "appropriate":         "var(--green-bright)",
   };
   const statusLabels = {
     "overweight":          "OVERWEIGHT",
@@ -3460,7 +3552,7 @@ function renderPositionSizing(sizing) {
     "underweight":         "ROOM TO ADD",
     "appropriate":         "SIZED RIGHT",
   };
-  const col = statusColors[sizing.status] || "#9ca3af";
+  const col = statusColors[sizing.status] || "var(--text-gray)";
   const lbl = statusLabels[sizing.status] || sizing.status;
   return `
     <span style="font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;background:${col}22;color:${col};letter-spacing:0.3px;">${lbl} · target ${sizing.targetRange}</span>
@@ -3486,7 +3578,7 @@ function renderCatalyst(catalysts) {
     <div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.22);border-radius:6px;font-size:11px;">
       <span>${icon}</span>
       <span style="color:var(--text-muted);">${label}:</span>
-      <span style="font-weight:700;color:#60a5fa;font-family:'JetBrains Mono',monospace;">${escapeHtml(next.date)}</span>
+      <span style="font-weight:700;color:var(--info-text);font-family:'JetBrains Mono',monospace;">${escapeHtml(next.date)}</span>
     </div>`;
 }
 
@@ -3499,13 +3591,13 @@ function renderMacroRow(intel) {
   if (!intel) return "";
   if (intel.macroWarning) {
     return `
-      <div style="display:flex;align-items:flex-start;gap:6px;padding:6px 10px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;font-size:11px;color:#fca5a5;line-height:1.4;">
+      <div style="display:flex;align-items:flex-start;gap:6px;padding:6px 10px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;font-size:11px;color:var(--negative-text-soft);line-height:1.4;">
         ${escapeHtml(intel.macroWarning)}
       </div>`;
   }
   if (intel.macroTailwind) {
     return `
-      <div style="display:flex;align-items:flex-start;gap:6px;padding:6px 10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:6px;font-size:11px;color:#86efac;line-height:1.4;">
+      <div style="display:flex;align-items:flex-start;gap:6px;padding:6px 10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:6px;font-size:11px;color:var(--positive-text-soft);line-height:1.4;">
         ${escapeHtml(intel.macroTailwind)}
       </div>`;
   }
@@ -3541,7 +3633,7 @@ function renderPortfolioHoldingCard(h) {
 
   const scoreBar = (score, label) => {
     if (score == null) return `<div style="font-size:10px;color:var(--text-muted);"><strong>${label}:</strong> N/A</div>`;
-    const barColor = score >= 70 ? "#22c55e" : score >= 50 ? "#eab308" : score >= 35 ? "#f97316" : "#ef4444";
+    const barColor = score >= 70 ? "var(--green-bright)" : score >= 50 ? "var(--yellow-deep)" : score >= 35 ? "var(--orange-mid)" : "var(--red-bright)";
     return `
       <div style="display:flex;align-items:center;gap:6px;font-size:10px;">
         <span style="color:var(--text-muted);font-weight:600;min-width:32px;">${label}</span>
@@ -3554,7 +3646,7 @@ function renderPortfolioHoldingCard(h) {
 
   // Position weight bar
   const weight = intel.positionWeight ?? 0;
-  const weightColor = weight >= 15 ? "#eab308" : weight >= 10 ? "#60a5fa" : "var(--text-muted)";
+  const weightColor = weight >= 15 ? "var(--yellow-deep)" : weight >= 10 ? "var(--info-text)" : "var(--text-muted)";
 
   return `
     <div class="portfolio-card" onclick="openStockDetailModal('${h.symbol}','portfolio')" style="
@@ -4002,6 +4094,31 @@ function timeAgo(dateStr) {
   return date.toLocaleDateString("en-IN");
 }
 
+// ==================== B — shared loading-state builders ====================
+// One source of truth for the spinner block that was copy-pasted across 8
+// loaders, plus a skeleton builder matching real card geometry so loading
+// grids don't reflow when data lands. Output of buildLoading() is
+// byte-identical to the legacy literal for a given label.
+function buildLoading(label) {
+  return `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">${label}</div></div>`;
+}
+
+function buildSkeleton(variant, count = 6) {
+  const bars =
+    '<div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar short"></div>';
+  if (variant === "pick-card") {
+    return `<div class="skeleton-cards" aria-hidden="true" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;">${
+      `<div class="skeleton-pick-card">${bars}</div>`.repeat(count)
+    }</div>`;
+  }
+  if (variant === "holding-row") {
+    return `<div aria-hidden="true">${
+      `<div class="skeleton-holding-row"><div class="skeleton-bar med"></div><div class="skeleton-bar short"></div><div class="skeleton-bar short"></div><div class="skeleton-bar short"></div><div class="skeleton-bar short"></div></div>`.repeat(count)
+    }</div>`;
+  }
+  return `<div class="skeleton-card" aria-hidden="true">${bars}</div>`;
+}
+
 function escapeHtml(str) {
   if (str == null) return "";
   return String(str).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
@@ -4021,14 +4138,14 @@ function getRecClass(rec) {
 }
 
 function getRecColor(rec) {
-  if (!rec) return "#64748b";
+  if (!rec) return "var(--text-gray-deep)";
   const r = rec.toUpperCase();
-  if (r.includes("STRONG BUY")) return "#10b981";
-  if (r.includes("BUY")) return "#34d399";
-  if (r === "HOLD") return "#f59e0b";
-  if (r.includes("STRONG SELL")) return "#ef4444";
-  if (r.includes("SELL")) return "#f87171";
-  return "#94a3b8";
+  if (r.includes("STRONG BUY")) return "var(--emerald)";
+  if (r.includes("BUY")) return "var(--positive-text-emerald)";
+  if (r === "HOLD") return "var(--amber)";
+  if (r.includes("STRONG SELL")) return "var(--red-bright)";
+  if (r.includes("SELL")) return "var(--negative-text)";
+  return "var(--text-slate)";
 }
 
 function getSignalBadgeClass(signal) {
@@ -4096,7 +4213,7 @@ function _trackTypeLabel(type) {
   if (TRACK_TYPE_LABELS[type]) return escapeHtml(TRACK_TYPE_LABELS[type]);
   if (LEGACY_TRACK_TYPE_LABELS[type]) {
     return escapeHtml(LEGACY_TRACK_TYPE_LABELS[type]) +
-      ` <span style="display:inline-block;margin-left:6px;padding:1px 5px;border-radius:3px;background:rgba(160,160,160,0.15);color:#94a3b8;font-size:9px;font-weight:700;letter-spacing:0.4px;">LEGACY</span>`;
+      ` <span style="display:inline-block;margin-left:6px;padding:1px 5px;border-radius:3px;background:rgba(160,160,160,0.15);color:var(--text-slate);font-size:9px;font-weight:700;letter-spacing:0.4px;">LEGACY</span>`;
   }
   return escapeHtml(type);
 }
@@ -4393,13 +4510,13 @@ async function loadTrackRecord(forceBust = false) {
     const perf = data.performance || {};
     document.getElementById("trackTotalPicks").textContent = perf.total ?? 0;
     document.getElementById("trackWinRate").innerHTML = perf.winRate != null
-      ? `<span style="color:${perf.winRate >= 50 ? '#22c55e' : '#ef4444'};">${perf.winRate}%</span>`
+      ? `<span style="color:${perf.winRate >= 50 ? 'var(--green-bright)' : 'var(--red-bright)'};">${perf.winRate}%</span>`
       : "—";
     document.getElementById("trackAvgReturn").innerHTML = perf.avgReturn != null
       ? `<span class="${perf.avgReturn >= 0 ? 'positive' : 'negative'}">${perf.avgReturn >= 0 ? '+' : ''}${perf.avgReturn}%</span>`
       : "—";
     document.getElementById("trackBeatsNifty").innerHTML = perf.beatsNiftyRate != null
-      ? `<span style="color:${perf.beatsNiftyRate >= 55 ? '#22c55e' : perf.beatsNiftyRate >= 45 ? '#eab308' : '#ef4444'};">${perf.beatsNiftyRate}%</span>`
+      ? `<span style="color:${perf.beatsNiftyRate >= 55 ? 'var(--green-bright)' : perf.beatsNiftyRate >= 45 ? 'var(--yellow-deep)' : 'var(--red-bright)'};">${perf.beatsNiftyRate}%</span>`
       : "—";
 
     // PR T5 — new hero tile values. signedColorFor on alpha/beat-Nifty so
@@ -4584,7 +4701,7 @@ function renderTrackChart(trades) {
   const niftyPath = niftySeries.map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(" ");
 
   // Gold (picks) vs Muted gray (Nifty)
-  const colorPicks = "#E0B060";
+  const colorPicks = "var(--gold)";
   const colorNifty = "rgba(237, 237, 237, 0.45)";
 
   // Month labels — show every Nth to avoid overlap
@@ -4620,8 +4737,11 @@ function renderTrackChart(trades) {
   }).join("");
 
   // Data points
-  const pickDots = pickSeries.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="3.5" fill="${colorPicks}" />`).join("");
-  const niftyDots = niftySeries.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="2.5" fill="${colorNifty}" />`).join("");
+  // E2: dots carry native <title> tooltips (month, avg %, n) and an enlarged
+  // transparent hit ring so hover/tap targets aren't 3px. CSS bumps the
+  // visible radius on hover (.track-dot). Native titles = zero JS, SR-safe.
+  const pickDots = pickSeries.map((v, i) => `<g class="track-dot"><circle cx="${xAt(i)}" cy="${yAt(v)}" r="10" fill="transparent" /><circle class="track-dot-vis" cx="${xAt(i)}" cy="${yAt(v)}" r="3.5" fill="${colorPicks}" /><title>${months[i]} — picks avg ${v != null ? v.toFixed(1) : "—"}% (n=${countSeries[i]})</title></g>`).join("");
+  const niftyDots = niftySeries.map((v, i) => `<g class="track-dot"><circle cx="${xAt(i)}" cy="${yAt(v)}" r="9" fill="transparent" /><circle class="track-dot-vis" cx="${xAt(i)}" cy="${yAt(v)}" r="2.5" fill="${colorNifty}" /><title>${months[i]} — Nifty 50 avg ${v != null ? v.toFixed(1) : "—"}%</title></g>`).join("");
 
   section.style.display = "block";
   container.innerHTML = `
@@ -4684,16 +4804,16 @@ function renderTrackBreakdown(groupMap, title, subtitle, labelMap = null) {
       const label = labelMap?.[key] || key;
       const isShort = TRACK_SHORT_TYPES.has(key);
       // For short types, "win" means avg return is NEGATIVE — flip the colour
-      const winColor = perf.winRate >= 55 ? "#22c55e" : perf.winRate >= 45 ? "#eab308" : "#ef4444";
+      const winColor = perf.winRate >= 55 ? "var(--green-bright)" : perf.winRate >= 45 ? "var(--yellow-deep)" : "var(--red-bright)";
       const beatsColor = perf.beatsNiftyRate == null
         ? "var(--text-muted)"
-        : perf.beatsNiftyRate >= 55 ? "#22c55e"
-        : perf.beatsNiftyRate >= 45 ? "#eab308" : "#ef4444";
+        : perf.beatsNiftyRate >= 55 ? "var(--green-bright)"
+        : perf.beatsNiftyRate >= 45 ? "var(--yellow-deep)" : "var(--red-bright)";
       const avgColor = isShort
-        ? (perf.avgReturn <= 0 ? "#22c55e" : "#ef4444")
-        : (perf.avgReturn >= 0 ? "#22c55e" : "#ef4444");
+        ? (perf.avgReturn <= 0 ? "var(--green-bright)" : "var(--red-bright)")
+        : (perf.avgReturn >= 0 ? "var(--green-bright)" : "var(--red-bright)");
       const shortBadge = isShort
-        ? `<span title="Sell signal — win = pick under-performed Nifty 50" style="display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;background:rgba(239,68,68,0.15);color:#fca5a5;font-size:9px;font-weight:800;letter-spacing:0.4px;">SELL SIGNAL</span>`
+        ? `<span title="Sell signal — win = pick under-performed Nifty 50" style="display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;background:rgba(239,68,68,0.15);color:var(--negative-text-soft);font-size:9px;font-weight:800;letter-spacing:0.4px;">SELL SIGNAL</span>`
         : "";
       return `
         <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:14px;align-items:center;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);font-size:12px;">
@@ -4834,7 +4954,7 @@ function _trackSparkline(values, opts = {}) {
   if (!Array.isArray(values) || values.length < 2) return "";
   const w = opts.width || 80;
   const h = opts.height || 20;
-  const stroke = opts.stroke || "#60a5fa";
+  const stroke = opts.stroke || "var(--info-text)";
   let min = Math.min(...values);
   let max = Math.max(...values);
   if (min === max) { min -= 1; max += 1; }
@@ -4856,7 +4976,7 @@ function _scorecardCellsHTML(scorecardByHorizon, primaryHorizon) {
   if (horizons.length === 1 && horizons[0] === "t1") {
     const c = scorecardByHorizon.t1;
     const hr = c.hit_rate_pct;
-    const colour = hr == null ? "var(--text-muted)" : hr >= 55 ? "#22c55e" : hr >= 45 ? "#eab308" : "#ef4444";
+    const colour = hr == null ? "var(--text-muted)" : hr >= 55 ? "var(--green-bright)" : hr >= 45 ? "var(--yellow-deep)" : "var(--red-bright)";
     return `<div style="display:flex; gap:8px; align-items:baseline; padding:6px 0; font-size:12px;">
       <span style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">T+1 Hit-Rate</span>
       <span style="color:${colour}; font-weight:700; font-size:16px;">${hr != null ? hr + "%" : "—"}</span>
@@ -4870,10 +4990,10 @@ function _scorecardCellsHTML(scorecardByHorizon, primaryHorizon) {
       const isPrimary = h === primaryHorizon;
       const hr = c.hit_rate_pct;
       const ma = c.mean_alpha_pct;
-      const hrColour = hr == null ? "var(--text-muted)" : hr >= 55 ? "#22c55e" : hr >= 45 ? "#eab308" : "#ef4444";
-      const maColour = ma == null ? "var(--text-muted)" : ma > 0 ? "#22c55e" : "#ef4444";
+      const hrColour = hr == null ? "var(--text-muted)" : hr >= 55 ? "var(--green-bright)" : hr >= 45 ? "var(--yellow-deep)" : "var(--red-bright)";
+      const maColour = ma == null ? "var(--text-muted)" : ma > 0 ? "var(--green-bright)" : "var(--red-bright)";
       const bg = isPrimary ? "rgba(96,165,250,0.08)" : "transparent";
-      const border = isPrimary ? "1px solid rgba(96,165,250,0.3)" : "1px solid #1a2233";
+      const border = isPrimary ? "1px solid rgba(96,165,250,0.3)" : "1px solid var(--bg-graphite)";
       return `<div style="background:${bg}; border:${border}; border-radius:6px; padding:6px 4px; text-align:center;">
         <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">${h}</div>
         <div style="color:${hrColour}; font-weight:700; font-size:14px; margin-top:2px;">${hr != null ? hr + "%" : "—"}</div>
@@ -4885,7 +5005,7 @@ function _scorecardCellsHTML(scorecardByHorizon, primaryHorizon) {
 }
 
 function _sectionCardHTML(section, primaryHorizon) {
-  const sideColour = section.side === "SHORT" ? "#ef4444" : "#22c55e";
+  const sideColour = section.side === "SHORT" ? "var(--red-bright)" : "var(--green-bright)";
   const sideBg = section.side === "SHORT" ? "rgba(239,68,68,0.12)" : "rgba(34,197,94,0.12)";
   // The horizon picked for the sparkline matches the user-selected horizon
   // for stock sections; earnings sections fall back to t1.
@@ -4895,7 +5015,7 @@ function _sectionCardHTML(section, primaryHorizon) {
   // Top-10 chips
   const chips = (section.latest_top10 || []).slice(0, 10).map((p) => {
     const sym = (p.symbol || "").replace(/\.NS$/, "");
-    return `<span onclick="openStockDetailModal('${escapeHtml(p.symbol)}','track')" style="display:inline-block; padding:2px 7px; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.25); border-radius:4px; color:#93c5fd; font-size:11px; font-weight:600; cursor:pointer; margin:2px 3px 2px 0;">${escapeHtml(sym)}</span>`;
+    return `<span onclick="openStockDetailModal('${escapeHtml(p.symbol)}','track')" style="display:inline-block; padding:2px 7px; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.25); border-radius:4px; color:var(--info-text-soft); font-size:11px; font-weight:600; cursor:pointer; margin:2px 3px 2px 0;">${escapeHtml(sym)}</span>`;
   }).join("");
 
   // SEBI 10/10 — D2: dynamic tooltip body for the ⓘ next to the title.
@@ -4905,12 +5025,12 @@ function _sectionCardHTML(section, primaryHorizon) {
   const snapshotDate = section.latest_top10?.[0]?.dateKey || "no snapshot yet";
   const nTracked = (section.latest_top10 || []).length;
   const sideExplain = section.side === "SHORT"
-    ? `<strong style="color:#fca5a5;">Side: SHORT</strong> — a "win" here means the pick under-performed its benchmark, as predicted.`
-    : `<strong style="color:#86efac;">Side: LONG</strong> — a "win" here means the pick beat its benchmark.`;
+    ? `<strong style="color:var(--negative-text-soft);">Side: SHORT</strong> — a "win" here means the pick under-performed its benchmark, as predicted.`
+    : `<strong style="color:var(--positive-text-soft);">Side: LONG</strong> — a "win" here means the pick beat its benchmark.`;
   const stockListItems = (section.latest_top10 || []).slice(0, 10).map((p, i) => {
     const sym = escapeHtml((p.symbol || "").replace(/\.NS$/, ""));
     const sector = p.sector ? ` · <span style="color: var(--text-muted);">${escapeHtml(p.sector.slice(0, 20))}</span>` : "";
-    return `<div style="padding: 2px 0; font-size: 11px;"><span style="color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 10px;">${String(i + 1).padStart(2, " ")}.</span> <strong style="color: #93c5fd;">${sym}</strong>${sector}</div>`;
+    return `<div style="padding: 2px 0; font-size: 11px;"><span style="color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 10px;">${String(i + 1).padStart(2, " ")}.</span> <strong style="color: var(--info-text-soft);">${sym}</strong>${sector}</div>`;
   }).join("");
   const tipBody = `
     <div style="padding: 12px 14px;">
@@ -4935,9 +5055,9 @@ function _sectionCardHTML(section, primaryHorizon) {
   const rm = section.risk_metrics || {};
   const fmtRm = (v, suffix = "") =>
     v == null ? '<span style="color: var(--text-muted);">—</span>' :
-    `<span style="color: ${v >= 0 ? '#86efac' : '#fca5a5'};">${v >= 0 ? '+' : ''}${v}${suffix}</span>`;
+    `<span style="color: ${v >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${v >= 0 ? '+' : ''}${v}${suffix}</span>`;
   const riskRow = `
-    <div style="display:flex; gap:14px; padding: 4px 0; font-size: 10px; color: var(--text-muted); border-top: 1px solid #1a2233; border-bottom: 1px solid #1a2233;">
+    <div style="display:flex; gap:14px; padding: 4px 0; font-size: 10px; color: var(--text-muted); border-top: 1px solid var(--bg-graphite); border-bottom: 1px solid var(--bg-graphite);">
       <div>Sharpe: <strong>${fmtRm(rm.sharpe)}</strong></div>
       <div>Sortino: <strong>${fmtRm(rm.sortino)}</strong></div>
       <div>Max DD: <strong>${fmtRm(rm.max_drawdown_pct, "%")}</strong></div>
@@ -4949,10 +5069,10 @@ function _sectionCardHTML(section, primaryHorizon) {
     <div style="font-size:10px; color:var(--text-muted);">
       Snapshot: <strong style="color: var(--text-secondary);">${escapeHtml(snapshotDate)}</strong>
       · n=${nTracked} tracked
-      · cum α (${sparkHorizon}): ${cumPct != null ? `<span style="color:${cumPct >= 0 ? '#22c55e' : '#ef4444'}; font-weight:600;">${cumPct >= 0 ? '+' : ''}${cumPct}%</span>` : "—"}
+      · cum α (${sparkHorizon}): ${cumPct != null ? `<span style="color:${cumPct >= 0 ? 'var(--green-bright)' : 'var(--red-bright)'}; font-weight:600;">${cumPct >= 0 ? '+' : ''}${cumPct}%</span>` : "—"}
     </div>`;
 
-  return `<div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+  return `<div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:8px;">
     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
       <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3; display:flex; align-items:center; gap:6px;">
         <span>${escapeHtml(section.label)}</span>
@@ -4961,7 +5081,7 @@ function _sectionCardHTML(section, primaryHorizon) {
       <span style="display:inline-block; padding:2px 7px; border-radius:4px; background:${sideBg}; color:${sideColour}; font-size:9px; font-weight:800; letter-spacing:0.06em;">${section.side}</span>
     </div>
     ${subLine}
-    <div style="border-top:1px solid #1a2233; padding-top:6px; min-height:44px;">${chips || '<span style="font-size:11px; color:var(--text-muted);">No latest snapshot</span>'}</div>
+    <div style="border-top:1px solid var(--bg-graphite); padding-top:6px; min-height:44px;">${chips || '<span style="font-size:11px; color:var(--text-muted);">No latest snapshot</span>'}</div>
     ${riskRow}
     ${_scorecardCellsHTML(section.scorecard_by_horizon, primaryHorizon)}
   </div>`;
@@ -5333,7 +5453,7 @@ function renderTrackSectionPerformance() {
     return `<div data-testid="track-section-performance-row" style="border:1px solid ${border};background:var(--panel);border-radius:8px;padding:12px;min-height:118px;">
       <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;">
         <div style="font-size:13px;font-weight:800;color:var(--text-primary);line-height:1.25;">${escapeHtml(name)}</div>
-        <span style="font-size:9px;font-weight:800;letter-spacing:0.06em;color:${side === "SHORT" ? "#fca5a5" : "#86efac"};">${side}</span>
+        <span style="font-size:9px;font-weight:800;letter-spacing:0.06em;color:${side === "SHORT" ? "var(--negative-text-soft)" : "var(--positive-text-soft)"};">${side}</span>
       </div>
       <div data-testid="track-section-cohort-label" style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-top:7px;">${escapeHtml(cohort)}${hindsightChip}</div>
       <div style="font-size:24px;font-weight:900;color:${colors.color};margin-top:8px;line-height:1;" data-testid="track-section-alpha">${_fmtSignedPct(alpha)}</div>
@@ -5362,7 +5482,7 @@ window.__trackSetSectionPerformanceCohort = function(cohortKey) {
 async function loadTrackSectionPerformance(forceBust = false) {
   const grid = document.getElementById("trackSectionPerformanceGrid");
   if (grid) {
-    grid.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading section alpha horizons…</div></div>`;
+    grid.innerHTML = buildLoading(`Loading section alpha horizons…`);
   }
   try {
     const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
@@ -6048,7 +6168,7 @@ function inr(n) {
 
 function pctColor(n) {
   if (n == null) return "var(--text-muted)";
-  return n >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
+  return n >= 0 ? "var(--green, var(--green-bright))" : "var(--red, var(--red-bright))";
 }
 
 // PR F1 — magnitude-keyed colour + glyph + screen-reader label.
@@ -6205,21 +6325,21 @@ function renderVerdictPill(verdict) {
 }
 
 const ANALYZER_ACTION_COLORS = {
-  CUT_LOSS:     { bg: "rgba(220,38,38,0.15)",  border: "rgba(220,38,38,0.5)",  text: "#fca5a5" },
+  CUT_LOSS:     { bg: "rgba(220,38,38,0.15)",  border: "rgba(220,38,38,0.5)",  text: "var(--negative-text-soft)" },
   // REVIEW_GOVERNANCE shares the dark-red palette with CUT_LOSS but uses a
   // slightly deeper border so a "Review — governance red flag" badge stays
   // visually distinct from a drawdown-driven review. Fires when the daily
   // governance refresh detects pledge ≥25% or pledge QoQ Δ > 5pp on a
   // holding — see portfolioIntelligence.js Priority 0.
-  REVIEW_GOVERNANCE: { bg: "rgba(180,30,30,0.18)", border: "rgba(180,30,30,0.7)", text: "#fecaca" },
-  SELL:         { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.4)",  text: "#f87171" },
-  BOOK_PROFIT:  { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
-  TRIM:         { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
-  HOLD:         { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.3)", text: "#93c5fd" },
-  ADD:          { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",  text: "#86efac" },
-  STRONG_ADD:   { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "#bbf7d0" },
-  AVERAGE_DOWN: { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",  text: "#86efac" },
-  NO_DATA:      { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
+  REVIEW_GOVERNANCE: { bg: "rgba(180,30,30,0.18)", border: "rgba(180,30,30,0.7)", text: "var(--negative-text-pale)" },
+  SELL:         { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.4)",  text: "var(--negative-text)" },
+  BOOK_PROFIT:  { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "var(--yellow-bright)" },
+  TRIM:         { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "var(--yellow-bright)" },
+  HOLD:         { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.3)", text: "var(--info-text-soft)" },
+  ADD:          { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",  text: "var(--positive-text-soft)" },
+  STRONG_ADD:   { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "var(--positive-text-pale)" },
+  AVERAGE_DOWN: { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",  text: "var(--positive-text-soft)" },
+  NO_DATA:      { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "var(--text-gray)" },
 };
 
 function actionBadge(action, displayAction) {
@@ -6239,34 +6359,34 @@ function actionBadge(action, displayAction) {
 // deeper red for bigger reductions, deeper green for bigger top-ups.
 const SWS_ACTION_COLORS = {
   // Legacy labels (kept for v1 compatibility + when SWS_LADDER_V2=0)
-  "EXIT":              { bg: "rgba(220,38,38,0.18)", border: "rgba(220,38,38,0.55)", text: "#fca5a5" },
-  "Reduction-50%":     { bg: "rgba(239,68,68,0.14)", border: "rgba(239,68,68,0.45)", text: "#f87171" },
-  "Reduction-25-33%":  { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
-  "HOLD":              { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.35)", text: "#93c5fd" },
-  "Top-up-modest":     { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",   text: "#86efac" },
-  "Top-up":            { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",   text: "#86efac" },
-  "STRONG Top-up":     { bg: "rgba(34,197,94,0.25)",  border: "rgba(34,197,94,0.7)",   text: "#bbf7d0" },
+  "EXIT":              { bg: "rgba(220,38,38,0.18)", border: "rgba(220,38,38,0.55)", text: "var(--negative-text-soft)" },
+  "Reduction-50%":     { bg: "rgba(239,68,68,0.14)", border: "rgba(239,68,68,0.45)", text: "var(--negative-text)" },
+  "Reduction-25-33%":  { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "var(--yellow-bright)" },
+  "HOLD":              { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.35)", text: "var(--info-text-soft)" },
+  "Top-up-modest":     { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",   text: "var(--positive-text-soft)" },
+  "Top-up":            { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",   text: "var(--positive-text-soft)" },
+  "STRONG Top-up":     { bg: "rgba(34,197,94,0.25)",  border: "rgba(34,197,94,0.7)",   text: "var(--positive-text-pale)" },
   // Ladder-v2 reductions (deeper red as trim % rises; staged exit is amber)
-  "EXIT-now":          { bg: "rgba(220,38,38,0.22)", border: "rgba(220,38,38,0.65)", text: "#fca5a5" },
-  "EXIT-staged":       { bg: "rgba(234,88,12,0.16)", border: "rgba(234,88,12,0.5)",  text: "#fdba74" },
-  "Reduction-66%":     { bg: "rgba(220,38,38,0.16)", border: "rgba(220,38,38,0.55)", text: "#fca5a5" },
-  "Reduction-33%":     { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
-  "Reduction-25%":     { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "#fde68a" },
+  "EXIT-now":          { bg: "rgba(220,38,38,0.22)", border: "rgba(220,38,38,0.65)", text: "var(--negative-text-soft)" },
+  "EXIT-staged":       { bg: "rgba(234,88,12,0.16)", border: "rgba(234,88,12,0.5)",  text: "var(--orange-pale)" },
+  "Reduction-66%":     { bg: "rgba(220,38,38,0.16)", border: "rgba(220,38,38,0.55)", text: "var(--negative-text-soft)" },
+  "Reduction-33%":     { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "var(--yellow-bright)" },
+  "Reduction-25%":     { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "var(--amber-pale)" },
   // Ladder-v2 top-ups (deeper green as add % rises)
-  "Top-up-25%":        { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)", text: "#86efac" },
-  "Top-up-33%":        { bg: "rgba(34,197,94,0.14)",  border: "rgba(34,197,94,0.45)", text: "#86efac" },
-  "Top-up-50%":        { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "#86efac" },
-  "Top-up-100%":       { bg: "rgba(34,197,94,0.28)",  border: "rgba(34,197,94,0.75)", text: "#bbf7d0" },
+  "Top-up-25%":        { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)", text: "var(--positive-text-soft)" },
+  "Top-up-33%":        { bg: "rgba(34,197,94,0.14)",  border: "rgba(34,197,94,0.45)", text: "var(--positive-text-soft)" },
+  "Top-up-50%":        { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "var(--positive-text-soft)" },
+  "Top-up-100%":       { bg: "rgba(34,197,94,0.28)",  border: "rgba(34,197,94,0.75)", text: "var(--positive-text-pale)" },
   // Bucket rollups — used by the Action Mix bar's per-segment modal
   // (renderAnalyzerActionMixBar → openActionListModalForBucket). The badge
   // inside the modal header shows the bucket name; each row inside still
   // renders its own sub-tier badge. Colours mirror the lightest shade of
   // each family so the rollup reads as "all of the above".
   // ("Top-up" bucket reuses the existing legacy "Top-up" entry above.)
-  "Reduce":            { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "#fde68a" },
-  "Hold":              { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "#93c5fd" },
-  "Exit":              { bg: "rgba(239,68,68,0.14)",  border: "rgba(239,68,68,0.45)",  text: "#fca5a5" },
-  "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
+  "Reduce":            { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "var(--amber-pale)" },
+  "Hold":              { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "var(--info-text-soft)" },
+  "Exit":              { bg: "rgba(239,68,68,0.14)",  border: "rgba(239,68,68,0.45)",  text: "var(--negative-text-soft)" },
+  "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "var(--text-gray)" },
 };
 
 function swsActionBadge(action, displayLabel) {
@@ -6277,15 +6397,15 @@ function swsActionBadge(action, displayLabel) {
 function swsTimingBadge(timing) {
   if (!timing || timing.verdict === "n/a") return "";
   const colors = {
-    "Yes":            { bg: "rgba(34,197,94,0.10)",  text: "#86efac" },
-    "Yes-not-urgent": { bg: "rgba(59,130,246,0.10)", text: "#93c5fd" },
-    "Soft-no":        { bg: "rgba(250,204,21,0.10)", text: "#fde047" },
-    "No":             { bg: "rgba(239,68,68,0.10)",  text: "#f87171" },
+    "Yes":            { bg: "rgba(34,197,94,0.10)",  text: "var(--positive-text-soft)" },
+    "Yes-not-urgent": { bg: "rgba(59,130,246,0.10)", text: "var(--info-text-soft)" },
+    "Soft-no":        { bg: "rgba(250,204,21,0.10)", text: "var(--yellow-bright)" },
+    "No":             { bg: "rgba(239,68,68,0.10)",  text: "var(--negative-text)" },
     // PR-3 — additional verdict from the timingObservation module:
     // "Wait-for-open" fires when NSE is closed / pre-open / post-close
     // and any non-HOLD action is queued. Coloured neutral (slate) so it
     // reads "informational" rather than red/green.
-    "Wait-for-open":  { bg: "rgba(148,163,184,0.10)", text: "#cbd5e1" },
+    "Wait-for-open":  { bg: "rgba(148,163,184,0.10)", text: "var(--text-slate-light)" },
   };
   const c = colors[timing.verdict] || colors["Yes-not-urgent"];
   const window = timing.window ? ` · ${timing.window}` : "";
@@ -6326,7 +6446,7 @@ function swsRenderBrokerReconciliationChip(banner) {
     ? (pnl / invested) * 100
     : null;
   const pnlColor = Number.isFinite(pnl)
-    ? (pnl >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)")
+    ? (pnl >= 0 ? "var(--green, var(--green-bright))" : "var(--red, var(--red-bright))")
     : "var(--text-muted)";
   const parts = [];
   if (Number.isFinite(invested)) parts.push(`Invested <strong>${inr(invested)}</strong>`);
@@ -6345,7 +6465,7 @@ function swsRenderBrokerReconciliationChip(banner) {
   return `
     <div style="margin: -6px 0 18px; padding: 10px 14px; background: rgba(148,163,184,0.06); border: 1px dashed rgba(148,163,184,0.25); border-radius: 8px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
       <span style="font-weight: 600; color: var(--text);">${heading}:</span>
-      <span style="display:inline-flex; gap: 14px; flex-wrap: wrap;">${parts.join("<span style=\"color:#3a4358;\">·</span>")}</span>
+      <span style="display:inline-flex; gap: 14px; flex-wrap: wrap;">${parts.join("<span style=\"color:var(--slate-mid);\">·</span>")}</span>
       <span style="margin-left:auto; font-size:11px; color:var(--text-muted); font-style:italic;">SWS hero trio above uses live prices, so totals can differ.</span>
     </div>
   `;
@@ -6361,7 +6481,7 @@ function swsSnowflakeMini(snow) {
     { k: "Div", v: snow.dividends },
   ];
   return `<div style="display:inline-flex; gap:4px; align-items:center;">
-    ${cells.map(c => `<span title="${c.k} ${c.v}/6" style="display:inline-block; min-width:18px; padding:1px 4px; background:rgba(59,130,246,${0.05 + (c.v || 0) * 0.04}); border:1px solid rgba(59,130,246,${0.15 + (c.v || 0) * 0.05}); border-radius:3px; font-size:10px; font-weight:700; text-align:center; color:#93c5fd;">${c.v ?? "—"}</span>`).join("")}
+    ${cells.map(c => `<span title="${c.k} ${c.v}/6" style="display:inline-block; min-width:18px; padding:1px 4px; background:rgba(59,130,246,${0.05 + (c.v || 0) * 0.04}); border:1px solid rgba(59,130,246,${0.15 + (c.v || 0) * 0.05}); border-radius:3px; font-size:10px; font-weight:700; text-align:center; color:var(--info-text-soft);">${c.v ?? "—"}</span>`).join("")}
     <span style="margin-left:6px; font-size:11px; color:var(--text-muted);">${snow.total ?? "—"}/30</span>
   </div>`;
 }
@@ -6495,23 +6615,23 @@ window.openActionListModalForBucket = function openActionListModalForBucket(slug
 };
 
 function swsKpiCard(label, valueHtml) {
-  return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:12px 14px;">
+  return `<div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:12px 14px;">
     <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">${label}</div>
     <div style="font-size:18px; font-weight:700;">${valueHtml}</div>
   </div>`;
 }
 
 const HEALTH_VERDICT_PALETTE = {
-  HEALTHY:         { color: "#22c55e", label: "HEALTHY" },
-  GOOD:            { color: "#60a5fa", label: "GOOD" },
-  NEEDS_ATTENTION: { color: "#fbbf24", label: "NEEDS ATTENTION" },
-  AT_RISK:         { color: "#fb923c", label: "AT RISK" },
-  CRITICAL:        { color: "#ef4444", label: "CRITICAL" },
+  HEALTHY:         { color: "var(--green-bright)", label: "HEALTHY" },
+  GOOD:            { color: "var(--info-text)", label: "GOOD" },
+  NEEDS_ATTENTION: { color: "var(--warn-text)", label: "NEEDS ATTENTION" },
+  AT_RISK:         { color: "var(--orange-bright)", label: "AT RISK" },
+  CRITICAL:        { color: "var(--red-bright)", label: "CRITICAL" },
 };
 
 function renderPortfolioHealthHero(ph) {
   if (!ph || !Number.isFinite(ph.score)) return "";
-  const color = ph.color || "#60a5fa";
+  const color = ph.color || "var(--info-text)";
   const score = ph.score;
   const grade = ph.grade || "—";
   const band = ph.band || "";
@@ -6528,21 +6648,21 @@ function renderPortfolioHealthHero(ph) {
     <circle cx="46" cy="46" r="38" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round"
       stroke-dasharray="${C}" stroke-dashoffset="${offset}"
       transform="rotate(-90 46 46)"></circle>
-    <text x="46" y="49" text-anchor="middle" dominant-baseline="middle" style="font-size:24px; font-weight:700; fill:var(--text-primary, #EDEDED);">${score}</text>
+    <text x="46" y="49" text-anchor="middle" dominant-baseline="middle" style="font-size:24px; font-weight:700; fill:var(--text-primary, var(--text-primary));">${score}</text>
     <text x="46" y="68" text-anchor="middle" dominant-baseline="middle" style="font-size:10px; fill:var(--text-muted); letter-spacing:0.5px;">/ 100</text>
   </svg>`;
 
   const driverItem = (d) =>
     `<div style="display:flex; align-items:center; gap:6px; font-size:12px; line-height:1.6;">
-      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#22c55e;"></span>
-      <span style="color:var(--text-primary, #EDEDED); flex:1;">${swsEscapeAttr(d.label)}</span>
-      <span style="color:#86efac; font-weight:700; font-size:11px;">+${(+d.delta).toFixed(1)}</span>
+      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green-bright);"></span>
+      <span style="color:var(--text-primary, var(--text-primary)); flex:1;">${swsEscapeAttr(d.label)}</span>
+      <span style="color:var(--positive-text-soft); font-weight:700; font-size:11px;">+${(+d.delta).toFixed(1)}</span>
     </div>`;
   const dragItem = (d) =>
     `<div style="display:flex; align-items:center; gap:6px; font-size:12px; line-height:1.6;">
-      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#ef4444;"></span>
-      <span style="color:var(--text-primary, #EDEDED); flex:1;">${swsEscapeAttr(d.label)}</span>
-      <span style="color:#fca5a5; font-weight:700; font-size:11px;">${(+d.delta).toFixed(1)}</span>
+      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--red-bright);"></span>
+      <span style="color:var(--text-primary, var(--text-primary)); flex:1;">${swsEscapeAttr(d.label)}</span>
+      <span style="color:var(--negative-text-soft); font-weight:700; font-size:11px;">${(+d.delta).toFixed(1)}</span>
     </div>`;
 
   const driversHtml = (ph.topDrivers || []).length
@@ -6569,7 +6689,7 @@ function renderPortfolioHealthHero(ph) {
   if (Array.isArray(ph.caps) && ph.caps.length > 0) {
     const lowest = ph.caps.slice().sort((a, b) => a.capValue - b.capValue)[0];
     const reasonText = swsEscapeAttr(lowest.reason || "Hard cap applied");
-    capsHtml = `<div style="margin-top:6px; padding:4px 9px; border-radius:4px; background:rgba(251,146,60,0.10); color:#fb923c; font-size:10px; font-weight:600; letter-spacing:0.3px; max-width:180px; line-height:1.35;" title="${reasonText}">Capped at ${lowest.capValue}: ${reasonText}</div>`;
+    capsHtml = `<div style="margin-top:6px; padding:4px 9px; border-radius:4px; background:rgba(251,146,60,0.10); color:var(--orange-bright); font-size:10px; font-weight:600; letter-spacing:0.3px; max-width:180px; line-height:1.35;" title="${reasonText}">Capped at ${lowest.capValue}: ${reasonText}</div>`;
   }
 
   // Component breakdown — single-line monospace audit trail so users can
@@ -6583,7 +6703,7 @@ function renderPortfolioHealthHero(ph) {
     </div>`;
   }
 
-  return `<div class="ph-hero" style="background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid #2a3349; border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
+  return `<div class="ph-hero" style="background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid var(--border-graphite); border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
     <div title="${note}" style="display:flex; flex-direction:column; align-items:center; min-width:120px; cursor:help;">
       ${ring}
       <div style="margin-top:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:center;">
@@ -6630,16 +6750,16 @@ function swsHoldingRow(h) {
     ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">target/post ${h.positionWeight ?? "—"}% → ${h.postTradeWeight}%</div>`
     : "";
   const blocked = Array.isArray(h.blockedReasons) && h.blockedReasons.length
-    ? `<div style="font-size:10px; color:#fde047; margin-top:3px;">${swsEscapeAttr(h.blockedReasons[0])}</div>`
+    ? `<div style="font-size:10px; color:var(--yellow-bright); margin-top:3px;">${swsEscapeAttr(h.blockedReasons[0])}</div>`
     : "";
   const evidence = h.reductionEvidence || sws.reduction_evidence || null;
   const evidenceChip = evidence?.status
-    ? `<div style="font-size:10px; color:${evidence.status === 'confirmed' ? '#86efac' : evidence.status === 'coverage_watch' ? '#fca5a5' : '#fde047'}; margin-top:3px;">${swsEscapeAttr(String(evidence.status).replace(/_/g, " "))}${evidence.decisionConfidence ? ` · ${swsEscapeAttr(evidence.decisionConfidence)}` : ""}</div>`
+    ? `<div style="font-size:10px; color:${evidence.status === 'confirmed' ? 'var(--positive-text-soft)' : evidence.status === 'coverage_watch' ? 'var(--negative-text-soft)' : 'var(--yellow-bright)'}; margin-top:3px;">${swsEscapeAttr(String(evidence.status).replace(/_/g, " "))}${evidence.decisionConfidence ? ` · ${swsEscapeAttr(evidence.decisionConfidence)}` : ""}</div>`
     : "";
   const capChip = h.marketCapBucket || sws.market_cap_bucket
     ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${swsEscapeAttr(h.marketCapBucket || sws.market_cap_bucket)} cap</div>`
     : "";
-  return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
+  return `<tr style="border-top:1px solid var(--border-graphite); cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
@@ -6655,7 +6775,7 @@ function swsHoldingRow(h) {
       <div style="font-size:10px; color:var(--text-muted);">${pos} of book</div>
     </td>
     <td style="padding:10px 12px; text-align:right; color:${pctColor(pnlPct)}; font-weight:600;">${pnlPct != null ? (pnlPct >= 0 ? "+" : "") + pnlPct + "%" : "—"}</td>
-    <td style="padding:10px 12px; text-align:right; color:#86efac; font-weight:600;">${h.notionalTradeValue != null ? inr(h.notionalTradeValue) : h.freedRupees != null ? inr(h.freedRupees) : "—"}</td>
+    <td style="padding:10px 12px; text-align:right; color:var(--positive-text-soft); font-weight:600;">${h.notionalTradeValue != null ? inr(h.notionalTradeValue) : h.freedRupees != null ? inr(h.freedRupees) : "—"}</td>
     <td style="padding:10px 12px;">${swsTimingBadge(h.timing)}</td>
   </tr>`;
 }
@@ -6664,11 +6784,11 @@ function swsHoldingRow(h) {
 // row dot and the expanded card badge. HIGH/LOW edges are green/red,
 // MEDIUM is muted; MEDIUM-HIGH/MEDIUM-LOW lean toward their endpoints.
 const SWS_CONVICTION_COLORS = {
-  HIGH:          { bg: "rgba(34,197,94,0.18)",   border: "rgba(34,197,94,0.6)",   text: "#86efac" },
-  "MEDIUM-HIGH": { bg: "rgba(34,197,94,0.10)",   border: "rgba(34,197,94,0.4)",   text: "#86efac" },
-  MEDIUM:        { bg: "rgba(148,163,184,0.10)", border: "rgba(148,163,184,0.4)", text: "#cbd5e1" },
-  "MEDIUM-LOW":  { bg: "rgba(250,204,21,0.10)",  border: "rgba(250,204,21,0.4)",  text: "#fde047" },
-  LOW:           { bg: "rgba(239,68,68,0.10)",   border: "rgba(239,68,68,0.4)",   text: "#fca5a5" },
+  HIGH:          { bg: "rgba(34,197,94,0.18)",   border: "rgba(34,197,94,0.6)",   text: "var(--positive-text-soft)" },
+  "MEDIUM-HIGH": { bg: "rgba(34,197,94,0.10)",   border: "rgba(34,197,94,0.4)",   text: "var(--positive-text-soft)" },
+  MEDIUM:        { bg: "rgba(148,163,184,0.10)", border: "rgba(148,163,184,0.4)", text: "var(--text-slate-light)" },
+  "MEDIUM-LOW":  { bg: "rgba(250,204,21,0.10)",  border: "rgba(250,204,21,0.4)",  text: "var(--yellow-bright)" },
+  LOW:           { bg: "rgba(239,68,68,0.10)",   border: "rgba(239,68,68,0.4)",   text: "var(--negative-text-soft)" },
 };
 
 // Conviction badge with net layer delta. Pulls from v2_recommendation
@@ -6692,7 +6812,7 @@ function swsTopPeerChip(holding) {
   const tk = swsEscapeAttr(top.ticker);
   const why = swsEscapeAttr(top.why || "");
   return `<div style="margin-top:8px; padding:6px 10px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:5px; font-size:11px; cursor:pointer;" onclick="openStockDetailModal('${tk}','peer-rotation')" title="Same-sector peer with higher v4 — consider as rotation candidate">
-    <strong style="color:#93c5fd;">↻ Peer: ${tk}</strong> <span style="color:var(--text-muted);">— ${why}</span>
+    <strong style="color:var(--info-text-soft);">↻ Peer: ${tk}</strong> <span style="color:var(--text-muted);">— ${why}</span>
   </div>`;
 }
 
@@ -6704,7 +6824,7 @@ function swsSurveillanceChip(surv) {
   const isGsm = surv.list === "GSM";
   const bg = isGsm ? "rgba(220,38,38,0.18)" : "rgba(234,88,12,0.16)";
   const border = isGsm ? "rgba(220,38,38,0.5)" : "rgba(234,88,12,0.5)";
-  const color = isGsm ? "#fca5a5" : "#fdba74";
+  const color = isGsm ? "var(--negative-text-soft)" : "var(--orange-pale)";
   const label = `${surv.list}${surv.stage ? `-${surv.stage}` : ""}${surv.timeframe ? ` · ${surv.timeframe}` : ""}`;
   const tooltip = isGsm
     ? "NSE Graded Surveillance Measure — regulatory caution / restricted trading"
@@ -6730,14 +6850,14 @@ function swsSnowflakeFull(snow) {
       const intensity = score / 6;
       const bg = `rgba(59,130,246,${0.08 + intensity * 0.18})`;
       const border = `rgba(59,130,246,${0.2 + intensity * 0.35})`;
-      const color = score >= 4 ? "#bfdbfe" : score >= 2 ? "#93c5fd" : "#64748b";
+      const color = score >= 4 ? "var(--text-blue-light)" : score >= 2 ? "var(--info-text-soft)" : "var(--text-gray-deep)";
       return `<div style="background:${bg}; border:1px solid ${border}; border-radius:6px; padding:8px 6px; text-align:center;">
         <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:2px;">${a.k}</div>
         <div style="font-size:18px; font-weight:700; color:${color}; line-height:1.1;">${a.v ?? "—"}<span style="font-size:10px; color:var(--text-muted); font-weight:500;">/6</span></div>
       </div>`;
     }).join("")}
   </div>
-  <div style="text-align:center; margin-top:6px; font-size:11px; color:var(--text-muted);">Snowflake total <strong style="color:#93c5fd;">${snow.total ?? "—"}/30</strong></div>`;
+  <div style="text-align:center; margin-top:6px; font-size:11px; color:var(--text-muted);">Snowflake total <strong style="color:var(--info-text-soft);">${snow.total ?? "—"}/30</strong></div>`;
 }
 
 // Catalyst calendar — renders pending earnings + analyst PT actions +
@@ -6762,7 +6882,7 @@ function swsCatalystCalendar(catalyst) {
   }
   if (items.length === 0) return "";
   return `<div style="margin-top:10px; padding:8px 10px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.15); border-radius:5px; font-size:11px;">
-    <div style="font-weight:700; color:#93c5fd; margin-bottom:4px; letter-spacing:0.3px;">Catalysts</div>
+    <div style="font-weight:700; color:var(--info-text-soft); margin-bottom:4px; letter-spacing:0.3px;">Catalysts</div>
     <div style="display:flex; flex-direction:column; gap:3px; line-height:1.5;">${items.join("")}</div>
   </div>`;
 }
@@ -6773,7 +6893,7 @@ function swsPeerSubstitutes(peer) {
   if (!peer || !peer.available || !Array.isArray(peer.peers) || peer.peers.length === 0) return "";
   const peers = peer.peers.slice(0, 2);
   return `<div style="margin-top:10px; padding:8px 10px; background:rgba(34,197,94,0.05); border:1px solid rgba(34,197,94,0.15); border-radius:5px; font-size:11px;">
-    <div style="font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">Peer substitutes (same sector, higher v4)</div>
+    <div style="font-weight:700; color:var(--positive-text-soft); margin-bottom:4px; letter-spacing:0.3px;">Peer substitutes (same sector, higher v4)</div>
     <div style="display:flex; flex-direction:column; gap:4px;">
       ${peers.map((p) => `<div>
         <strong>${swsEscapeAttr(p.ticker)}</strong>
@@ -6790,7 +6910,7 @@ function swsExitPlanDetails(plan) {
   const upside = plan.upsideBand ?? plan.upsideReference?.value ?? plan.target;
   const trigger = plan.trigger || {};
   const state = trigger.state || "CLEAR";
-  const stateColor = state === "REVIEW" ? "#fca5a5" : state === "WATCH" ? "#fde047" : "#93c5fd";
+  const stateColor = state === "REVIEW" ? "var(--negative-text-soft)" : state === "WATCH" ? "var(--yellow-bright)" : "var(--info-text-soft)";
   const caveats = Array.isArray(plan.caveats) ? plan.caveats.slice(0, 3) : [];
   const reasons = Array.isArray(trigger.reasons) ? trigger.reasons.slice(0, 3) : [];
   const trailing = plan.trailingStop;
@@ -6798,9 +6918,9 @@ function swsExitPlanDetails(plan) {
   const upsideMeta = plan.upsideReference?.source ? `${plan.upsideReference.source} / ${plan.upsideReference.confidence || "low"}` : "";
   return `<details data-exit-plan-detail style="margin-top:10px; padding:9px 10px; background:rgba(147,197,253,0.05); border:1px solid rgba(147,197,253,0.16); border-radius:5px; font-size:11px;">
     <summary style="cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
-      <div style="font-weight:800; color:#bfdbfe; letter-spacing:0.3px;">Technical levels ▾</div>
+      <div style="font-weight:800; color:var(--text-blue-light); letter-spacing:0.3px;">Technical levels ▾</div>
       <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-        <span style="border:1px solid rgba(147,197,253,0.28); border-radius:999px; padding:2px 7px; color:#bfdbfe;">${swsEscapeAttr(plan.intentLabel || "Holding")}</span>
+        <span style="border:1px solid rgba(147,197,253,0.28); border-radius:999px; padding:2px 7px; color:var(--text-blue-light);">${swsEscapeAttr(plan.intentLabel || "Holding")}</span>
         <span style="border:1px solid ${stateColor}; border-radius:999px; padding:2px 7px; color:${stateColor}; font-weight:800;">${swsEscapeAttr(state)}</span>
       </div>
     </summary>
@@ -6809,11 +6929,11 @@ function swsExitPlanDetails(plan) {
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(145px, 1fr)); gap:8px; margin-top:9px;">
         <div><span style="color:var(--text-muted);">Support:</span> <strong>${support != null ? inr(support) : "—"}</strong>${supportMeta ? `<div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(supportMeta)}</div>` : ""}</div>
         <div><span style="color:var(--text-muted);">Upside band:</span> <strong>${upside != null ? inr(upside) : "—"}</strong>${upsideMeta ? `<div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(upsideMeta)}</div>` : ""}</div>
-        <div><span style="color:var(--text-muted);">Profit-zone:</span> <strong style="color:${plan.profitZone?.inZone ? '#86efac' : 'var(--text)'};">${plan.profitZone?.inZone ? "Review" : "Clear"}</strong></div>
+        <div><span style="color:var(--text-muted);">Profit-zone:</span> <strong style="color:${plan.profitZone?.inZone ? 'var(--positive-text-soft)' : 'var(--text)'};">${plan.profitZone?.inZone ? "Review" : "Clear"}</strong></div>
         <div><span style="color:var(--text-muted);">Trailing:</span> <strong>${trailing ? (trailing.activated ? `Active ${trailing.currentLevel ? inr(trailing.currentLevel) : ""}` : `Above ${trailing.activationLevel ? inr(trailing.activationLevel) : "reference"}`) : "Not available"}</strong></div>
       </div>
       ${reasons.length ? `<div style="margin-top:8px; color:var(--text-muted); line-height:1.45;">${reasons.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div>` : ""}
-      ${caveats.length ? `<div style="margin-top:8px; color:#fde047; line-height:1.45;">${caveats.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div>` : ""}
+      ${caveats.length ? `<div style="margin-top:8px; color:var(--yellow-bright); line-height:1.45;">${caveats.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div>` : ""}
     </div>
   </details>`;
 }
@@ -6825,7 +6945,7 @@ function swsAuditTrailDetails(audit) {
   const versions = audit.versions || {};
   const versionLine = Object.entries(versions).map(([k, v]) => `${k}=${v}`).join(" · ");
   const citations = Array.isArray(audit.citations) ? audit.citations : [];
-  return `<details style="margin-top:10px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid #1f2937; border-radius:5px; font-size:11px;">
+  return `<details style="margin-top:10px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--surface-slate-panel); border-radius:5px; font-size:11px;">
     <summary style="cursor:pointer; font-weight:700; color:var(--text-muted); letter-spacing:0.3px;">Audit trail (decision reproducibility)</summary>
     <div style="margin-top:6px;">
       <div style="font-weight:700; color:var(--text-muted); margin-bottom:3px; font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">Decision path</div>
@@ -6841,13 +6961,13 @@ function swsAuditTrailDetails(audit) {
 function swsValuationReviewDetails(review) {
   if (!review || !review.bucket) return "";
   const bucketLabel = String(review.bucket).replace(/_/g, " ");
-  const tone = review.recommendation === "rebalance_candidate" ? "#fde047" : review.recommendation === "review_only" ? "#93c5fd" : "var(--text-muted)";
+  const tone = review.recommendation === "rebalance_candidate" ? "var(--yellow-bright)" : review.recommendation === "review_only" ? "var(--info-text-soft)" : "var(--text-muted)";
   const hard = Array.isArray(review.hardPortfolioReasons) && review.hardPortfolioReasons.length
-    ? `<div style="margin-top:5px; color:#fde047;">Trigger: ${swsEscapeAttr(review.hardPortfolioReasons.join(", "))}</div>`
+    ? `<div style="margin-top:5px; color:var(--yellow-bright);">Trigger: ${swsEscapeAttr(review.hardPortfolioReasons.join(", "))}</div>`
     : "";
   return `<div style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.16); border-radius:5px;">
     <strong style="color:${tone};">Valuation review:</strong> ${swsEscapeAttr(bucketLabel)}
-    ${review.upside_pct != null ? `<span style="color:${review.upside_pct >= 0 ? '#86efac' : '#fca5a5'};"> · ${review.upside_pct >= 0 ? '+' : ''}${Number(review.upside_pct).toFixed(1)}% to FV</span>` : ""}
+    ${review.upside_pct != null ? `<span style="color:${review.upside_pct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};"> · ${review.upside_pct >= 0 ? '+' : ''}${Number(review.upside_pct).toFixed(1)}% to FV</span>` : ""}
     <div style="margin-top:5px;">${swsEscapeAttr(review.rationale || "")}</div>
     ${hard}
   </div>`;
@@ -6855,9 +6975,9 @@ function swsValuationReviewDetails(review) {
 
 function swsNewsSignalDetails(signal) {
   if (!signal || !signal.available) return "";
-  const color = signal.signal < 0 ? "#fca5a5" : signal.signal > 0 ? "#86efac" : "var(--text-muted)";
+  const color = signal.signal < 0 ? "var(--negative-text-soft)" : signal.signal > 0 ? "var(--positive-text-soft)" : "var(--text-muted)";
   const evidence = Array.isArray(signal.evidence) ? signal.evidence.slice(0, 3) : [];
-  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(255,255,255,0.025); border:1px solid #1f2937; border-radius:5px;">
+  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(255,255,255,0.025); border:1px solid var(--surface-slate-panel); border-radius:5px;">
     <summary style="cursor:pointer; list-style:none; color:${color}; font-weight:800;">SWS news evidence ▾</summary>
     <div style="margin-top:7px; line-height:1.45;">${swsEscapeAttr(signal.summary || "News is evidence only.")}</div>
     ${evidence.length ? `<div style="margin-top:7px; display:flex; flex-direction:column; gap:5px;">${evidence.map((row) => `
@@ -6874,7 +6994,7 @@ function swsReductionEvidenceDetails(evidence) {
   const counter = Array.isArray(evidence.counterEvidence) ? evidence.counterEvidence.slice(0, 4) : [];
   const blocked = Array.isArray(evidence.blockedReasons) ? evidence.blockedReasons.slice(0, 4) : [];
   const data = evidence.dataQuality || {};
-  const color = evidence.status === "confirmed" ? "#86efac" : evidence.status === "coverage_watch" ? "#fca5a5" : "#fde047";
+  const color = evidence.status === "confirmed" ? "var(--positive-text-soft)" : evidence.status === "coverage_watch" ? "var(--negative-text-soft)" : "var(--yellow-bright)";
   return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(250,204,21,0.035); border:1px solid rgba(250,204,21,0.18); border-radius:5px;">
     <summary style="cursor:pointer; list-style:none; color:${color}; font-weight:800;">Decision evidence · ${swsEscapeAttr(String(evidence.status).replace(/_/g, " "))} ▾</summary>
     <div style="margin-top:7px; display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:8px;">
@@ -6883,9 +7003,9 @@ function swsReductionEvidenceDetails(evidence) {
       <div><span style="color:var(--text-muted);">Freshness:</span> <strong style="color:var(--text);">${data.dataAgeHours != null ? `${Number(data.dataAgeHours).toFixed(0)}h` : "—"}</strong></div>
       <div><span style="color:var(--text-muted);">Cap bucket:</span> <strong style="color:var(--text);">${swsEscapeAttr(evidence.marketCapBucket || "unknown")}</strong></div>
     </div>
-    ${decisive.length ? `<div style="margin-top:8px;"><strong style="color:#bfdbfe;">Decisive evidence</strong><div style="margin-top:4px; line-height:1.45;">${decisive.map((r) => `• ${swsEscapeAttr(r.summary || r.type || "")}`).join("<br>")}</div></div>` : ""}
-    ${counter.length ? `<div style="margin-top:8px;"><strong style="color:#86efac;">Counter-evidence</strong><div style="margin-top:4px; line-height:1.45;">${counter.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
-    ${blocked.length ? `<div style="margin-top:8px;"><strong style="color:#fde047;">Blocked / review reasons</strong><div style="margin-top:4px; line-height:1.45;">${blocked.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
+    ${decisive.length ? `<div style="margin-top:8px;"><strong style="color:var(--text-blue-light);">Decisive evidence</strong><div style="margin-top:4px; line-height:1.45;">${decisive.map((r) => `• ${swsEscapeAttr(r.summary || r.type || "")}`).join("<br>")}</div></div>` : ""}
+    ${counter.length ? `<div style="margin-top:8px;"><strong style="color:var(--positive-text-soft);">Counter-evidence</strong><div style="margin-top:4px; line-height:1.45;">${counter.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
+    ${blocked.length ? `<div style="margin-top:8px;"><strong style="color:var(--yellow-bright);">Blocked / review reasons</strong><div style="margin-top:4px; line-height:1.45;">${blocked.map((r) => `• ${swsEscapeAttr(r)}`).join("<br>")}</div></div>` : ""}
   </details>`;
 }
 
@@ -6899,7 +7019,7 @@ function swsReasonRow(h) {
     ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">
         AnalystConsensus FV <strong style="color:var(--text);">₹${Number(ov.fair_value_inr).toFixed(0)}</strong> vs current
         <strong style="color:var(--text);">₹${Number(ov.current_price_inr).toFixed(0)}</strong>
-        ${ov.upside_pct != null ? `<span style="color:${ov.upside_pct >= 0 ? '#86efac' : '#f87171'};"> · ${ov.upside_pct >= 0 ? '+' : ''}${ov.upside_pct.toFixed(1)}% to FV</span>` : ""}
+        ${ov.upside_pct != null ? `<span style="color:${ov.upside_pct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text)'};"> · ${ov.upside_pct >= 0 ? '+' : ''}${ov.upside_pct.toFixed(1)}% to FV</span>` : ""}
       </div>`
     : "";
 
@@ -6907,7 +7027,7 @@ function swsReasonRow(h) {
     ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong style="color:var(--text);">Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>`
     : "";
 
-  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid #1f2937; border-radius:6px; padding:10px 14px;">
+  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid var(--surface-slate-panel); border-radius:6px; padding:10px 14px;">
     <summary style="cursor:pointer; font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <strong style="color:var(--text);">${tk}</strong>
       <span>· why this action</span>
@@ -6936,15 +7056,15 @@ function renderSWSTierA(tier) {
   if (!tier || !tier.rows || tier.rows.length === 0) {
     return `<div style="margin-bottom:18px;">
       <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Tier A · Reductions</div>
-      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No reductions flagged — every covered holding scored ≥ FAIR_VALUE.</div>
+      <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No reductions flagged — every covered holding scored ≥ FAIR_VALUE.</div>
     </div>`;
   }
   return `<div style="margin-bottom:22px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; gap:12px; flex-wrap:wrap;">
       <div style="font-size:14px; font-weight:700;">Tier A · Reductions <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${tier.rows.length})</span></div>
-      <div style="font-size:12px; color:var(--text-muted);">Notional reduction value <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
+      <div style="font-size:12px; color:var(--text-muted);">Notional reduction value <strong style="color:var(--positive-text-soft);">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
     </div>
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+    <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
         <thead>
           <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
@@ -7026,7 +7146,7 @@ function renderSWSEarningsCalendar(report) {
     if (isFuture) {
       showDate = new Date(ms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
       showDays = days === 0 ? "today" : `${days}d`;
-      daysColor = days <= 7 ? "#fbbf24" : "var(--text-muted)";
+      daysColor = days <= 7 ? "var(--warn-text)" : "var(--text-muted)";
     } else if (isPast) {
       const iso = new Date(ms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
       showDate = `${iso} <span style="color:var(--text-muted); font-size:11px;">(past)</span>`;
@@ -7069,7 +7189,7 @@ function renderSWSEarningsCalendar(report) {
       if (Number.isFinite(hms)) {
         const hds = new Date(hms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
         const daysLeft = div.days_until_hold_by;
-        const colorH = Number.isFinite(daysLeft) && daysLeft >= 0 && daysLeft <= 7 ? "#fbbf24" : "var(--text)";
+        const colorH = Number.isFinite(daysLeft) && daysLeft >= 0 && daysLeft <= 7 ? "var(--warn-text)" : "var(--text)";
         const dpsTag = Number.isFinite(div.dps)
           ? ` <span style="color:var(--text-muted); font-size:11px;">(₹${Number(div.dps).toFixed(2)})</span>`
           : "";
@@ -7078,8 +7198,8 @@ function renderSWSEarningsCalendar(report) {
     }
 
     const trOpen = tickerCell
-      ? `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity}; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(tickerCell)} detail" onclick="openStockDetailModal('${escapeHtml(tickerCell)}','analyzer-earnings')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
-      : `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity};">`;
+      ? `<tr style="border-bottom:1px solid var(--border-slate-soft); opacity:${rowOpacity}; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(tickerCell)} detail" onclick="openStockDetailModal('${escapeHtml(tickerCell)}','analyzer-earnings')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
+      : `<tr style="border-bottom:1px solid var(--border-slate-soft); opacity:${rowOpacity};">`;
     return `${trOpen}
       <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
       <td style="padding:10px 12px;">
@@ -7098,7 +7218,7 @@ function renderSWSEarningsCalendar(report) {
   return `<details class="analyzer-tier-details" style="margin-top: var(--space-200);">
     <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Upcoming results calendar <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
     <div style="padding-top: var(--space-200);">
-      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+      <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings sorted ascending by next result date">
           <thead>
             <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
@@ -7166,7 +7286,7 @@ function renderSWSDividendCalendar(report) {
         const daysCell = Number.isFinite(daysLeft)
           ? (daysLeft === 0 ? "today" : daysLeft > 0 ? `${daysLeft}d` : `${Math.abs(daysLeft)}d ago`)
           : "—";
-        const daysColor = Number.isFinite(daysLeft) && daysLeft >= 0 && daysLeft <= 7 ? "#fbbf24" : "var(--text-muted)";
+        const daysColor = Number.isFinite(daysLeft) && daysLeft >= 0 && daysLeft <= 7 ? "var(--warn-text)" : "var(--text-muted)";
 
         const qtyCell = qty != null ? String(qty) : "—";
         const dpsCell = dps != null ? `₹${dps.toFixed(2)}` : "—";
@@ -7182,8 +7302,8 @@ function renderSWSDividendCalendar(report) {
           : "";
 
         const trOpen = ticker
-          ? `<tr style="border-bottom:1px solid #1a2238; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(ticker)} detail" onclick="openStockDetailModal('${escapeHtml(ticker)}','analyzer-dividends')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
-          : `<tr style="border-bottom:1px solid #1a2238;">`;
+          ? `<tr style="border-bottom:1px solid var(--border-slate-soft); cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(ticker)} detail" onclick="openStockDetailModal('${escapeHtml(ticker)}','analyzer-dividends')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
+          : `<tr style="border-bottom:1px solid var(--border-slate-soft);">`;
         return `${trOpen}
           <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
           <td style="padding:10px 12px;">
@@ -7202,7 +7322,7 @@ function renderSWSDividendCalendar(report) {
 
   const body = rows.length === 0
     ? `<div style="padding: var(--space-200); color:var(--text-muted); font-size:13px;">No upcoming dividends in the next ~30 days for your holdings. We'll surface them here automatically when companies declare ex-dates.</div>`
-    : `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+    : `<div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings with upcoming ex-dividend dates, sorted ascending">
           <thead>
             <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
@@ -7272,8 +7392,8 @@ function renderSWSAwaitingDividendSection(report) {
           ? ` <span title="${div.other_awaiting_count} additional awaiting dividend item(s)" style="color:var(--text-muted); font-size:10px;">+${div.other_awaiting_count}</span>`
           : "";
         const trOpen = ticker
-          ? `<tr style="border-bottom:1px solid #1a2238; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(ticker)} detail" onclick="openStockDetailModal('${escapeHtml(ticker)}','analyzer-awaiting-dividends')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
-          : `<tr style="border-bottom:1px solid #1a2238;">`;
+          ? `<tr style="border-bottom:1px solid var(--border-slate-soft); cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(ticker)} detail" onclick="openStockDetailModal('${escapeHtml(ticker)}','analyzer-awaiting-dividends')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
+          : `<tr style="border-bottom:1px solid var(--border-slate-soft);">`;
         return `${trOpen}
           <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
           <td style="padding:10px 12px;">
@@ -7291,7 +7411,7 @@ function renderSWSAwaitingDividendSection(report) {
 
   const body = rows.length === 0
     ? `<div style="padding: var(--space-200); color:var(--text-muted); font-size:13px;">No held stocks currently have recommended dividends awaiting a confirmed ex-date.</div>`
-    : `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+    : `<div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings with recommended dividends awaiting ex-date">
           <thead>
             <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
@@ -7328,16 +7448,16 @@ function swsBasketRow(r) {
     upside = `<span class="tx-num" style="color:${sc.color};" aria-label="${sc.srLabel} to fair value"><span aria-hidden="true">${sc.glyph}</span> ${r.upside_pct >= 0 ? "+" : ""}${r.upside_pct.toFixed(1)}%</span>`;
   }
   const sourceTag = r.source === "holding"
-    ? `<span title="In-portfolio top-up" style="font-size:9px; padding:1px 6px; background:rgba(34,197,94,0.12); color:#86efac; border-radius:3px; letter-spacing:0.3px;">HELD</span>`
-    : `<span title="Outside-portfolio fresh pick" style="font-size:9px; padding:1px 6px; background:rgba(59,130,246,0.12); color:#93c5fd; border-radius:3px; letter-spacing:0.3px;">FRESH</span>`;
+    ? `<span title="In-portfolio top-up" style="font-size:9px; padding:1px 6px; background:rgba(34,197,94,0.12); color:var(--positive-text-soft); border-radius:3px; letter-spacing:0.3px;">HELD</span>`
+    : `<span title="Outside-portfolio fresh pick" style="font-size:9px; padding:1px 6px; background:rgba(59,130,246,0.12); color:var(--info-text-soft); border-radius:3px; letter-spacing:0.3px;">FRESH</span>`;
   const gapTag = r.gapType === "missing"
-    ? `<span title="Fills missing sector exposure" style="font-size:9px; padding:1px 6px; background:rgba(251,191,36,0.14); color:#fbbf24; border-radius:3px; letter-spacing:0.3px;">GAP</span>`
+    ? `<span title="Fills missing sector exposure" style="font-size:9px; padding:1px 6px; background:rgba(251,191,36,0.14); color:var(--warn-text); border-radius:3px; letter-spacing:0.3px;">GAP</span>`
     : r.gapType === "underweight"
-    ? `<span title="Underweight sector — room to add" style="font-size:9px; padding:1px 6px; background:rgba(167,139,250,0.14); color:#a78bfa; border-radius:3px; letter-spacing:0.3px;">UNDER</span>`
+    ? `<span title="Underweight sector — room to add" style="font-size:9px; padding:1px 6px; background:rgba(167,139,250,0.14); color:var(--purple-bright); border-radius:3px; letter-spacing:0.3px;">UNDER</span>`
     : "";
   const suggested = `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Candidate only · not funded in today's plan unless shown above</div>`;
-  const whyFit = r.whyFit ? `<div style="margin-top:3px; font-size:11px; color:#a5b4fc; font-style:italic; line-height:1.35;">${swsEscapeAttr(r.whyFit)}</div>` : "";
-  return `<div style="padding:10px 14px; border-bottom:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${r.ticker}','mf-overlap')">
+  const whyFit = r.whyFit ? `<div style="margin-top:3px; font-size:11px; color:var(--indigo-soft); font-style:italic; line-height:1.35;">${swsEscapeAttr(r.whyFit)}</div>` : "";
+  return `<div style="padding:10px 14px; border-bottom:1px solid var(--border-slate-soft); cursor:pointer;" onclick="openStockDetailModal('${r.ticker}','mf-overlap')">
     <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px;">
       <div style="display:flex; align-items:center; gap:8px;">
         <strong style="font-size:13px;">${r.ticker}</strong>
@@ -7360,8 +7480,8 @@ function swsBasketRow(r) {
 }
 
 function swsBasketCard(title, criteria, rows, accentColor) {
-  return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; overflow:hidden;">
-    <div style="padding:12px 14px; border-bottom:1px solid #2a3349; background:rgba(0,0,0,0.15);">
+  return `<div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:10px; overflow:hidden;">
+    <div style="padding:12px 14px; border-bottom:1px solid var(--border-graphite); background:rgba(0,0,0,0.15);">
       <div style="font-size:13px; font-weight:700; color:${accentColor};">${title} <span style="color:var(--text-muted); font-weight:500;">(${rows.length})</span></div>
       <div style="font-size:10px; color:var(--text-muted); margin-top:3px; letter-spacing:0.2px;">${criteria}</div>
     </div>
@@ -7383,10 +7503,10 @@ function renderSWSSectorGapSpotlight(gaps, tailwindSummary) {
     : `Your sector mix is healthy — no structural gap to fill right now.`;
 
   // Tailwind sector chips (top 3 missing-or-underweight + tailwind sectors).
-  const twChips = tw.length === 0 ? "" : `<div style="padding:10px 14px; border-bottom:1px solid #1a2238; display:flex; flex-wrap:wrap; gap:6px; align-items:center; background:rgba(251,191,36,0.04);">
+  const twChips = tw.length === 0 ? "" : `<div style="padding:10px 14px; border-bottom:1px solid var(--border-slate-soft); display:flex; flex-wrap:wrap; gap:6px; align-items:center; background:rgba(251,191,36,0.04);">
     <span style="font-size:10px; color:var(--text-muted); letter-spacing:0.4px; text-transform:uppercase; font-weight:700; margin-right:4px;">Tailwind sectors</span>
     ${tw.map((t) => {
-      const cls = t.gapType === "missing" ? "background:rgba(251,191,36,0.15); color:#fbbf24;" : t.gapType === "underweight" ? "background:rgba(167,139,250,0.15); color:#a78bfa;" : "background:rgba(34,197,94,0.12); color:#86efac;";
+      const cls = t.gapType === "missing" ? "background:rgba(251,191,36,0.15); color:var(--warn-text);" : t.gapType === "underweight" ? "background:rgba(167,139,250,0.15); color:var(--purple-bright);" : "background:rgba(34,197,94,0.12); color:var(--positive-text-soft);";
       const tip = (t.evidence || []).map((e) => e.reason).join(" · ");
       return `<span title="${swsEscapeAttr(tip)}" style="font-size:10px; padding:2px 8px; border-radius:4px; ${cls}">${swsEscapeAttr(t.sector)} · ${t.gapType === "missing" ? "0%" : t.currentPct + "%"}</span>`;
     }).join("")}
@@ -7397,8 +7517,8 @@ function renderSWSSectorGapSpotlight(gaps, tailwindSummary) {
     : rows.map(swsBasketRow).join("");
 
   return `<div style="background:var(--panel); border:1px solid rgba(251,191,36,0.35); border-radius:10px; overflow:hidden; box-shadow:0 0 0 1px rgba(251,191,36,0.08); margin-bottom:14px;">
-    <div style="padding:12px 14px; border-bottom:1px solid #2a3349; background:rgba(251,191,36,0.06);">
-      <div style="font-size:13px; font-weight:700; color:#fbbf24;">★ Sector Gap Spotlight <span style="color:var(--text-muted); font-weight:500;">(${rows.length})</span></div>
+    <div style="padding:12px 14px; border-bottom:1px solid var(--border-graphite); background:rgba(251,191,36,0.06);">
+      <div style="font-size:13px; font-weight:700; color:var(--warn-text);">★ Sector Gap Spotlight <span style="color:var(--text-muted); font-weight:500;">(${rows.length})</span></div>
       <div style="font-size:10px; color:var(--text-muted); margin-top:3px; letter-spacing:0.2px;">${subtitle}</div>
     </div>
     ${twChips}
@@ -7417,7 +7537,7 @@ function renderSWSTierB(baskets) {
   if (def.length === 0 && grw.length === 0 && core.length === 0 && gaps.length === 0) {
     return `<div style="margin-bottom:22px;">
       <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Eligible but unfunded add candidates</div>
-      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No qualifying add candidates in current snapshot. Picks-latest may need refresh.</div>
+      <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No qualifying add candidates in current snapshot. Picks-latest may need refresh.</div>
     </div>`;
   }
   const perfectFitFloorCopy = "v4 ≥47 · Snowflake ≥16 · Upside ≥8% · sector-fit gated";
@@ -7428,9 +7548,9 @@ function renderSWSTierB(baskets) {
     </div>
     ${renderSWSSectorGapSpotlight(gaps, tw)}
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
-      ${swsBasketCard("Defensive", "Health ≥4 · Div ≥2 · Beta &lt;0.9 · perfect-fit floor", def, "#86efac")}
-      ${swsBasketCard("Growth", "v4 verdict STRONG/TOP_PICK or Future ≥4 · perfect-fit floor", grw, "#93c5fd")}
-      ${swsBasketCard("Shared Core", "Passes both filters · top 3", core, "#fde047")}
+      ${swsBasketCard("Defensive", "Health ≥4 · Div ≥2 · Beta &lt;0.9 · perfect-fit floor", def, "var(--positive-text-soft)")}
+      ${swsBasketCard("Growth", "v4 verdict STRONG/TOP_PICK or Future ≥4 · perfect-fit floor", grw, "var(--info-text-soft)")}
+      ${swsBasketCard("Shared Core", "Passes both filters · top 3", core, "var(--yellow-bright)")}
     </div>
   </div>`;
 }
@@ -7440,10 +7560,10 @@ function renderSWSTierC(tier) {
   if (rows.length === 0) return "";
   return `<div style="margin-bottom:22px;">
     <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span></div>
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
+    <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:6px 0;">
       ${rows.map((h, i) => {
         const sws = h.sws || {};
-        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
+        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid var(--border-slate-soft)' : 'none'}; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
           <div>
             <strong style="font-size:13px;">${sws.ticker}</strong>
             <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
@@ -7464,11 +7584,11 @@ function renderSWSTierD(tier) {
   if (rows.length === 0) return "";
   return `<div style="margin-bottom:22px;">
     <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier D · Watch <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span></div>
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
+    <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:6px 0;">
       ${rows.map((h, i) => {
         const sws = h.sws || {};
         const tk = sws.ticker || h.symbol || "—";
-        return `<div style="padding:10px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'};">
+        return `<div style="padding:10px 14px; border-top:${i > 0 ? '1px solid var(--border-slate-soft)' : 'none'};">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
             <div>
               <strong style="font-size:13px;">${tk}</strong>
@@ -7476,7 +7596,7 @@ function renderSWSTierD(tier) {
             </div>
             <div style="font-size:11px; color:var(--text-muted);">${h.swsCovered === false ? '<span style="padding:2px 6px; background:rgba(107,114,128,0.15); border-radius:3px;">No SWS data</span>' : `v4 ${sws.v4_score ?? "—"}`}</div>
           </div>
-          <div style="margin-top:4px; font-size:11px; color:#fde047;">${swsEscapeAttr(h.watchReason || "")}</div>
+          <div style="margin-top:4px; font-size:11px; color:var(--yellow-bright);">${swsEscapeAttr(h.watchReason || "")}</div>
         </div>`;
       }).join("")}
     </div>
@@ -7487,7 +7607,7 @@ function renderSWSSectorOverlay(rows) {
   if (!rows || rows.length === 0) return "";
   return `<div style="margin-bottom:22px;">
     <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Sector overlay</div>
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+    <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:12px;">
         <thead>
           <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
@@ -7499,7 +7619,7 @@ function renderSWSSectorOverlay(rows) {
           </tr>
         </thead>
         <tbody>
-          ${rows.map(s => `<tr style="border-top:1px solid #1a2238;">
+          ${rows.map(s => `<tr style="border-top:1px solid var(--border-slate-soft);">
             <td style="padding:8px 12px; font-weight:600;">${swsEscapeAttr(s.sector)}</td>
             <td style="padding:8px 12px; text-align:right; font-weight:600;">${s.pct}%</td>
             <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgSnowflake ?? "—"}</td>
@@ -7517,8 +7637,8 @@ function renderSWSMfSection(mfPositions) {
   if (mfPositions.source === "saved-portfolio" && !mfPositions.enriched) {
     return `<div style="margin-bottom:22px;">
       <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Mutual funds <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(saved-portfolio reference)</span></div>
-      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
-        ${(mfPositions.holdings || []).map((m, i) => `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; gap:10px; font-size:12px;">
+      <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:6px 0;">
+        ${(mfPositions.holdings || []).map((m, i) => `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid var(--border-slate-soft)' : 'none'}; display:flex; justify-content:space-between; gap:10px; font-size:12px;">
           <div>
             <strong>${swsEscapeAttr(m.name || "—")}</strong>
             <span style="color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(m.category || "")}</span>
@@ -7528,7 +7648,7 @@ function renderSWSMfSection(mfPositions) {
             <span style="color:${pctColor(m.pnlPercent)};">${m.pnlPercent != null ? (m.pnlPercent >= 0 ? "+" : "") + m.pnlPercent.toFixed(1) + "%" : "—"}</span>
           </div>
         </div>`).join("")}
-        <div style="padding:10px 14px; border-top:1px solid #1a2238; font-size:11px; color:var(--text-muted); font-style:italic;">${swsEscapeAttr(mfPositions.note || "")}</div>
+        <div style="padding:10px 14px; border-top:1px solid var(--border-slate-soft); font-size:11px; color:var(--text-muted); font-style:italic;">${swsEscapeAttr(mfPositions.note || "")}</div>
       </div>
     </div>`;
   }
@@ -7542,18 +7662,18 @@ function renderSWSOutsidePicks(picks) {
   const total = (picks.growth?.length || 0) + (picks.defensive?.length || 0);
   if (total === 0) return "";
   const triggerLine = (picks.triggerReasons || []).join(" · ");
-  const renderColumn = (rows, title, color) => `<div style="background:rgba(0,0,0,0.18); border:1px solid #2a3349; border-radius:8px; padding:12px 14px;">
+  const renderColumn = (rows, title, color) => `<div style="background:rgba(0,0,0,0.18); border:1px solid var(--border-graphite); border-radius:8px; padding:12px 14px;">
     <div style="font-size:12px; font-weight:700; color:${color}; margin-bottom:8px; letter-spacing:0.3px;">${title} (${rows.length})</div>
     ${rows.length === 0
       ? `<div style="font-size:11px; color:var(--text-muted);">No qualifying picks in current snapshot.</div>`
-      : rows.map((r) => `<div style="padding:8px 0; border-top:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(r.ticker)}','outside-pick')">
+      : rows.map((r) => `<div style="padding:8px 0; border-top:1px solid var(--border-slate-soft); cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(r.ticker)}','outside-pick')">
         <div style="display:flex; justify-content:space-between; gap:8px; align-items:baseline;">
           <strong style="font-size:13px;">${swsEscapeAttr(r.ticker)}</strong>
           <span style="font-size:11px; color:var(--text-muted);">v4 ${r.v4_score ?? "—"}</span>
         </div>
         <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
           <span>${swsEscapeAttr(r.sector || "—")}</span>
-          ${r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? '#86efac' : '#f87171'};">FV ${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : ""}
+          ${r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text)'};">FV ${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : ""}
           <span style="color:var(--text-muted);">candidate only</span>
         </div>
       </div>`).join("")
@@ -7569,8 +7689,8 @@ function renderSWSOutsidePicks(picks) {
       <div title="${swsEscapeAttr(picks.methodology)}" style="font-size:11px; color:var(--text-muted); font-style:italic; cursor:help;">methodology ⓘ</div>
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
-      ${renderColumn(picks.defensive || [], "Defensive (quality_growth + deep_value)", "#86efac")}
-      ${renderColumn(picks.growth || [], "Growth (top-ranked + smallcap gems)", "#93c5fd")}
+      ${renderColumn(picks.defensive || [], "Defensive (quality_growth + deep_value)", "var(--positive-text-soft)")}
+      ${renderColumn(picks.growth || [], "Growth (top-ranked + smallcap gems)", "var(--info-text-soft)")}
     </div>
   </div>`;
 }
@@ -7592,7 +7712,7 @@ function swsRenderBackdatedNotice(report) {
     <div style="background:rgba(250,204,21,0.06); border:1px solid rgba(250,204,21,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px; display:flex; align-items:flex-start; gap:12px;">
       <div style="font-size:18px; line-height:1;">⏪</div>
       <div>
-        <div style="font-size:13px; font-weight:700; color:#fde047;">Backdated upload</div>
+        <div style="font-size:13px; font-weight:700; color:var(--yellow-bright);">Backdated upload</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px; line-height:1.55;">
           This statement is dated <strong>${swsEscapeAttr(backAs)}</strong>, before your last review on <strong>${swsEscapeAttr(latestAs)}</strong>.
           Showing analysis only — your recommendation history was <em>not</em> updated.
@@ -7618,7 +7738,7 @@ function swsRenderMemoryHeader(report) {
     const tone = isPartial ? "yellow" : "green";
     const bg = tone === "green" ? "rgba(34,197,94,0.06)" : "rgba(250,204,21,0.05)";
     const border = tone === "green" ? "rgba(34,197,94,0.35)" : "rgba(250,204,21,0.30)";
-    const accent = tone === "green" ? "#86efac" : "#fde047";
+    const accent = tone === "green" ? "var(--positive-text-soft)" : "var(--yellow-bright)";
     const glyph = isPartial ? "◑" : (isOver ? "✓✓" : "✓");
     const rawSym = a.symbol || a.isin || "—";
     const sym = swsEscapeAttr(rawSym.replace?.(/\.NS$/, "") || rawSym);
@@ -7652,7 +7772,7 @@ function swsRenderMemoryHeader(report) {
     const flaggedHuman = swsFormatDateShort(r.originalAsOf);
     return `
       <span title="First flagged on ${swsEscapeAttr(r.originalAsOf || "")}. Condition still triggers."
-            style="display:inline-flex; align-items:center; gap:6px; background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.30); border-radius:14px; padding:4px 10px; font-size:11px; color:#bfdbfe; line-height:1.3;">
+            style="display:inline-flex; align-items:center; gap:6px; background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.30); border-radius:14px; padding:4px 10px; font-size:11px; color:var(--text-blue-light); line-height:1.3;">
         <strong>${sym}</strong>
         <span style="color:var(--text-muted);">${orig}</span>
         <span style="color:var(--text-muted);">· flagged ${flaggedHuman}${reviews}</span>
@@ -7698,7 +7818,7 @@ function swsRenderMemoryHeader(report) {
     const remainLabel = daysRemaining != null ? ` · ${daysRemaining}d remaining` : "";
     return `
       <span title="Executed ${swsEscapeAttr(r.executedAction || "")} on ${swsEscapeAttr(r.executedOn || "")}. Cooldown until ${swsEscapeAttr(r.cooldownUntil || "")}. Re-fires only if V3 drops ≥5pts, severity rises ≥10pp, or new surveillance."
-            style="display:inline-flex; align-items:center; gap:6px; background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.30); border-radius:14px; padding:4px 10px; font-size:11px; color:#bbf7d0; line-height:1.3;">
+            style="display:inline-flex; align-items:center; gap:6px; background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.30); border-radius:14px; padding:4px 10px; font-size:11px; color:var(--positive-text-pale); line-height:1.3;">
         <strong>${sym}</strong>
         <span style="color:var(--text-muted);">${execAction}</span>
         <span style="color:var(--text-muted);">· executed ${execDate}${remainLabel}</span>
@@ -7728,7 +7848,7 @@ function swsRenderMemoryHeader(report) {
       details[open] > summary .sws-pending-chevron { transform: rotate(90deg); }
       summary::-webkit-details-marker { display: none; }
     </style>
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+    <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       ${ackBlock}
       ${pendingBlock}
       ${cooldownBlock}
@@ -7746,7 +7866,7 @@ function swsRenderFreedCapitalBanner(report) {
     <div style="background:linear-gradient(135deg, rgba(34,197,94,0.10), rgba(96,165,250,0.04)); border:1px solid rgba(34,197,94,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
         <div style="flex:1; min-width:200px;">
-          <div style="font-size:14px; font-weight:700; color:#86efac;">${total} freed since your last review</div>
+          <div style="font-size:14px; font-weight:700; color:var(--positive-text-soft);">${total} freed since your last review</div>
           <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">
             From ${count} executed action${count === 1 ? "" : "s"}. This is confirmed freed capital; if deployed today it appears inside Today's funded plan, not in raw candidate lists.
           </div>
@@ -7771,12 +7891,12 @@ function renderSWSConstructionPlan(plan) {
   const buyRows = fundedBuys.length === 0
     ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">${reasons.length ? reasons.map(swsEscapeAttr).join(" · ") : "No funded buys today."}</div>`
     : fundedBuys.map((t) => `
-      <div data-funded-buy-row style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:9px 0; border-top:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(t.ticker)}','construction-plan')">
+      <div data-funded-buy-row style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:9px 0; border-top:1px solid var(--border-slate-soft); cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(t.ticker)}','construction-plan')">
         <div>
           <div style="font-size:13px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:var(--text-muted); font-weight:500;">${swsEscapeAttr(t.source || "")}</span></div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(t.reason || "")}</div>
         </div>
-        <div class="tx-num" data-funded-trade-rupees="${Number(t.tradeRupees) || 0}" style="font-size:13px; font-weight:800; color:#86efac; text-align:right;">${inr(t.tradeRupees || 0)}</div>
+        <div class="tx-num" data-funded-trade-rupees="${Number(t.tradeRupees) || 0}" style="font-size:13px; font-weight:800; color:var(--positive-text-soft); text-align:right;">${inr(t.tradeRupees || 0)}</div>
       </div>
     `).join("");
 
@@ -7797,8 +7917,8 @@ function renderSWSConstructionPlan(plan) {
   const sellRows = fundedSells.length === 0
     ? `<div style="padding:10px 0; font-size:12px; color:var(--text-muted);">No suggested reduction or exit-thesis rows in this pass.</div>`
     : Object.entries(groupedSells).map(([group, rows]) => `
-      <div style="border-top:1px solid #1a2238; padding-top:7px; margin-top:5px;">
-        <div style="font-size:10px; color:#fde047; text-transform:uppercase; letter-spacing:0.5px; font-weight:800;">${swsEscapeAttr(group)} (${rows.length})</div>
+      <div style="border-top:1px solid var(--border-slate-soft); padding-top:7px; margin-top:5px;">
+        <div style="font-size:10px; color:var(--yellow-bright); text-transform:uppercase; letter-spacing:0.5px; font-weight:800;">${swsEscapeAttr(group)} (${rows.length})</div>
         ${rows.slice(0, 6).map((t) => {
           const ev = t.reductionEvidence || {};
           const decisive = Array.isArray(ev.decisiveEvidence) && ev.decisiveEvidence[0]?.summary
@@ -7806,11 +7926,11 @@ function renderSWSConstructionPlan(plan) {
             : t.reasonFamily || t.rawAction || "";
           return `<div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:8px 0; border-top:1px solid rgba(26,34,56,0.75);">
             <div>
-              <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:#fca5a5;">${swsEscapeAttr(t.displayActionIntent || t.rawAction || "")}</span></div>
+              <div style="font-size:12px; font-weight:700;">${swsEscapeAttr(t.ticker || "—")} <span style="font-size:10px; color:var(--negative-text-soft);">${swsEscapeAttr(t.displayActionIntent || t.rawAction || "")}</span></div>
               <div style="font-size:11px; color:var(--text-muted);">notional only · not reusable until confirmed${t.postTradeWeight != null ? ` · post ${swsEscapeAttr(String(t.postTradeWeight))}%` : ""}</div>
               <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(decisive)}${t.marketCapBucket ? ` · ${swsEscapeAttr(t.marketCapBucket)} cap` : ""}</div>
             </div>
-            <div class="tx-num" style="font-size:12px; color:#fca5a5; font-weight:700;">${inr(t.tradeRupees || 0)}</div>
+            <div class="tx-num" style="font-size:12px; color:var(--negative-text-soft); font-weight:700;">${inr(t.tradeRupees || 0)}</div>
           </div>`;
         }).join("")}
       </div>
@@ -7819,7 +7939,7 @@ function renderSWSConstructionPlan(plan) {
   const candidateRows = candidates.length === 0
     ? `<div style="padding:8px 0; font-size:11px; color:var(--text-muted);">No unfunded add candidates cleared the construction gates.</div>`
     : candidates.map((c) => `
-      <div style="display:flex; justify-content:space-between; gap:10px; padding:7px 0; border-top:1px solid #1a2238; font-size:11px;">
+      <div style="display:flex; justify-content:space-between; gap:10px; padding:7px 0; border-top:1px solid var(--border-slate-soft); font-size:11px;">
         <span><strong>${swsEscapeAttr(c.ticker || "—")}</strong> · ${swsEscapeAttr(c.valuation_band || "—")} · v4 ${c.v4_score ?? "—"}</span>
         <span style="color:var(--text-muted); text-align:right;">${swsEscapeAttr((c.unfundedReasons || ["budget/cap gated"])[0])}</span>
       </div>
@@ -7832,7 +7952,7 @@ function renderSWSConstructionPlan(plan) {
         || (Array.isArray(t.blockedReasons) && t.blockedReasons[0])
         || ev.intent
         || "review only";
-      return `<div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:7px 0; border-top:1px solid #1a2238; font-size:11px;">
+      return `<div style="display:grid; grid-template-columns:minmax(90px, 1fr) auto; gap:10px; padding:7px 0; border-top:1px solid var(--border-slate-soft); font-size:11px;">
         <span><strong>${swsEscapeAttr(t.ticker || "—")}</strong> · ${swsEscapeAttr(String(ev.status || "review_only").replace(/_/g, " "))}${t.marketCapBucket ? ` · ${swsEscapeAttr(t.marketCapBucket)} cap` : ""}</span>
         <span style="color:var(--text-muted); text-align:right;">${swsEscapeAttr(reason)}</span>
       </div>`;
@@ -7844,21 +7964,21 @@ function renderSWSConstructionPlan(plan) {
         <div>
           <div class="analyzer-section-title">Today's plan</div>
           <div class="analyzer-section-copy">Fresh cash plus confirmed freed capital only. Same-run reductions stay notional until confirmed.</div>
-          ${sleeve?.warning ? `<div style="font-size:11px; color:#fde047; margin-top:5px;">${swsEscapeAttr(sleeve.warning)}</div>` : ""}
+          ${sleeve?.warning ? `<div style="font-size:11px; color:var(--yellow-bright); margin-top:5px;">${swsEscapeAttr(sleeve.warning)}</div>` : ""}
         </div>
         <div class="analyzer-compact-ledger">
-          <span>Available <strong data-funded-available-capital style="color:#e5e7eb;">${inr(ledger.availableBuyCapital || 0)}</strong></span>
-          <span>Buys <strong data-funded-buy-total style="color:#86efac;">${inr(ledger.deployedBuyCapital || 0)}</strong></span>
-          <span>Left cash <strong style="color:#fde047;">${inr(ledger.leftoverCash || 0)}</strong></span>
+          <span>Available <strong data-funded-available-capital style="color:var(--text-gray-light);">${inr(ledger.availableBuyCapital || 0)}</strong></span>
+          <span>Buys <strong data-funded-buy-total style="color:var(--positive-text-soft);">${inr(ledger.deployedBuyCapital || 0)}</strong></span>
+          <span>Left cash <strong style="color:var(--yellow-bright);">${inr(ledger.leftoverCash || 0)}</strong></span>
         </div>
       </div>
       <div class="analyzer-evidence-grid">
         <div>
-          <div style="font-size:11px; color:#86efac; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded buys (${fundedBuys.length})</div>
+          <div style="font-size:11px; color:var(--positive-text-soft); font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Funded buys (${fundedBuys.length})</div>
           ${buyRows}
         </div>
         <div>
-          <div style="font-size:11px; color:#fca5a5; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Notional reductions (${fundedSells.length})</div>
+          <div style="font-size:11px; color:var(--negative-text-soft); font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Notional reductions (${fundedSells.length})</div>
           ${sellRows}
         </div>
       </div>
@@ -7882,14 +8002,14 @@ function renderAnalyzerExitPlanSummary(summary) {
   const profitZone = Number(summary.profitZoneCount) || 0;
   const highVol = Number(summary.highVolatilityCount) || 0;
   const stat = (label, value, color) => `
-    <div style="min-width:120px; flex:1; background:rgba(255,255,255,0.03); border:1px solid #1f2937; border-radius:8px; padding:10px 12px;">
+    <div style="min-width:120px; flex:1; background:rgba(255,255,255,0.03); border:1px solid var(--surface-slate-panel); border-radius:8px; padding:10px 12px;">
       <div style="font-size:20px; font-weight:800; color:${color}; line-height:1;">${value}</div>
       <div style="font-size:11px; color:var(--text-muted); margin-top:5px;">${label}</div>
     </div>`;
   const rowHtml = rows.length === 0
     ? `<div style="font-size:12px; color:var(--text-muted); padding-top:8px;">No active review rows from available support and upside references.</div>`
     : rows.map((r) => {
-        const stateColor = r.state === "REVIEW" ? "#fca5a5" : r.state === "WATCH" ? "#fde047" : "#93c5fd";
+        const stateColor = r.state === "REVIEW" ? "var(--negative-text-soft)" : r.state === "WATCH" ? "var(--yellow-bright)" : "var(--info-text-soft)";
         return `<div class="analyzer-priority-row" data-exit-plan-summary-row>
           <div><strong>${swsEscapeAttr(r.symbol || "—")}</strong><div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(r.intentLabel || "")}</div></div>
           <div style="color:${stateColor}; font-weight:800;">${swsEscapeAttr(r.state || "CLEAR")}</div>
@@ -7899,16 +8019,16 @@ function renderAnalyzerExitPlanSummary(summary) {
         </div>`;
       }).join("");
   const compactCounts = `
-    <span style="color:#fca5a5;">Review ${active}</span>
-    <span style="color:#fde047;">Watch ${watch}</span>
-    <span style="color:#86efac;">Profit-zone ${profitZone}</span>
-    <span style="color:#bfdbfe;">High-vol ${highVol}</span>`;
+    <span style="color:var(--negative-text-soft);">Review ${active}</span>
+    <span style="color:var(--yellow-bright);">Watch ${watch}</span>
+    <span style="color:var(--positive-text-soft);">Profit-zone ${profitZone}</span>
+    <span style="color:var(--text-blue-light);">High-vol ${highVol}</span>`;
   return `
     <details class="analyzer-tier-details" data-exit-plan-summary style="margin-top: var(--space-200); margin-bottom:18px;">
       <summary class="tx-title" style="cursor:pointer; padding:10px 0; border-bottom:1px solid var(--border); list-style:none;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
           <div>
-            <div style="font-size:15px; font-weight:800; color:#bfdbfe;">Technical levels &amp; review triggers</div>
+            <div style="font-size:15px; font-weight:800; color:var(--text-blue-light);">Technical levels &amp; review triggers</div>
             <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"} · analytical reference, not trade instructions</div>
           </div>
           <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:11px; font-weight:700; text-align:right;">${compactCounts}</div>
@@ -7922,10 +8042,10 @@ function renderAnalyzerExitPlanSummary(summary) {
         <div style="font-size:11px; color:var(--text-muted);">${summary.totalWithPlan} covered holding${summary.totalWithPlan === 1 ? "" : "s"}</div>
       </div>
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-        ${stat("Review", active, active ? "#fca5a5" : "#93c5fd")}
-        ${stat("Watch", watch, watch ? "#fde047" : "#93c5fd")}
-        ${stat("Profit-zone", profitZone, profitZone ? "#86efac" : "#93c5fd")}
-        ${stat("High-volatility", highVol, highVol ? "#fca5a5" : "#93c5fd")}
+        ${stat("Review", active, active ? "var(--negative-text-soft)" : "var(--info-text-soft)")}
+        ${stat("Watch", watch, watch ? "var(--yellow-bright)" : "var(--info-text-soft)")}
+        ${stat("Profit-zone", profitZone, profitZone ? "var(--positive-text-soft)" : "var(--info-text-soft)")}
+        ${stat("High-volatility", highVol, highVol ? "var(--negative-text-soft)" : "var(--info-text-soft)")}
       </div>
       <div style="margin-top:14px;">
         <div style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">Priority technical rows (${rows.length})</div>
@@ -7992,12 +8112,12 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
   root.innerHTML = `
     <div style="background:linear-gradient(135deg, rgba(59,130,246,0.08), rgba(34,197,94,0.04)); border:1px solid rgba(59,130,246,0.25); border-radius:10px; padding:14px 18px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
       <div>
-        <div style="font-size:14px; font-weight:700; color:#93c5fd;">${banner.engine || "SWS Engine (Beta)"}</div>
+        <div style="font-size:14px; font-weight:700; color:var(--info-text-soft);">${banner.engine || "SWS Engine (Beta)"}</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
           Your portfolio: <span title="When you uploaded this holdings statement">${yourPortfolioAt}</span> · SWS data: <span title="When the SWS universe scan last refreshed">${swsScannedAt}</span> · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
         </div>
       </div>
-      <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
+      <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid var(--border-graphite); color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
 
     ${swsRenderBackdatedNotice(report)}
@@ -8059,7 +8179,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${renderSWSAwaitingDividendSection(report)}
     ${renderSWSDividendCalendar(report)}
 
-    <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
+    <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:var(--yellow-bright); line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
     </div>
   `;
@@ -8224,7 +8344,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     heroSentences.push(`<span style="color:var(--text-muted); font-size:12px;">${breakdownParts.join(" · ")}.</span>`);
   }
   const heroBlock = heroSentences.length > 0
-    ? `<div style="margin-bottom:18px; padding:14px 16px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 8px 8px 0; font-size:14px; line-height:1.6; color:var(--text);">
+    ? `<div style="margin-bottom:18px; padding:14px 16px; background:rgba(96,165,250,0.05); border-left:3px solid var(--info-text); border-radius:0 8px 8px 0; font-size:14px; line-height:1.6; color:var(--text);">
         ${heroSentences.map((s) => `<div style="margin-bottom:4px;">${s}</div>`).join("")}
         <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Click any section below for the detailed evidence.</div>
        </div>`
@@ -8233,12 +8353,12 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   root.innerHTML = `
     <div style="background:linear-gradient(135deg, rgba(59,130,246,0.08), rgba(34,197,94,0.04)); border:1px solid rgba(59,130,246,0.25); border-radius:10px; padding:14px 18px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
       <div>
-        <div style="font-size:14px; font-weight:700; color:#93c5fd;">${banner.engine || "SWS Engine (Beta)"}</div>
+        <div style="font-size:14px; font-weight:700; color:var(--info-text-soft);">${banner.engine || "SWS Engine (Beta)"}</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
           Your portfolio: <span title="When you uploaded this holdings statement">${yourPortfolioAt}</span> · SWS data: <span title="When the SWS universe scan last refreshed">${swsScannedAt}</span> · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
         </div>
       </div>
-      <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
+      <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid var(--border-graphite); color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
 
     ${swsRenderBackdatedNotice(report)}
@@ -8309,7 +8429,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${renderSWSAwaitingDividendSection(report)}
     ${renderSWSDividendCalendar(report)}
 
-    <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
+    <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:var(--yellow-bright); line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
     </div>
   `;
@@ -8329,8 +8449,8 @@ function notAdviceChip(mode = "default") {
   // distinction so the disclaimer isn't just footer-only.
   const text = "Educational only";
   const style = mode === "inline"
-    ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(250,204,21,0.10); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.25); text-transform:uppercase; vertical-align:middle;"
-    : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(250,204,21,0.08); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.2); text-transform:uppercase;";
+    ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(250,204,21,0.10); color:var(--yellow-bright); letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.25); text-transform:uppercase; vertical-align:middle;"
+    : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(250,204,21,0.08); color:var(--yellow-bright); letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.2); text-transform:uppercase;";
   return `<span style="${style}">${text}</span>`;
 }
 
@@ -8346,8 +8466,8 @@ function freshnessBadge(report) {
     : `${Math.floor(ageMin / 60)}h ago`;
   const asOf = report.asOfDate ? ` · statement as of ${report.asOfDate}` : "";
   const bench = report.benchmark ? ` · benchmark ${report.benchmark.replace("^NSEI", "Nifty 50")}` : "";
-  return `<span style="display:inline-flex; gap:6px; align-items:center; font-size:11px; color:var(--text-muted); padding:3px 8px; border-radius:4px; background:#111827; border:1px solid #1a2233;">
-    <span style="width:6px; height:6px; background:#86efac; border-radius:50%; box-shadow:0 0 6px #86efac;"></span>
+  return `<span style="display:inline-flex; gap:6px; align-items:center; font-size:11px; color:var(--text-muted); padding:3px 8px; border-radius:4px; background:var(--surface-ink); border:1px solid var(--bg-graphite);">
+    <span style="width:6px; height:6px; background:var(--positive-text-soft); border-radius:50%; box-shadow:0 0 6px var(--positive-text-soft);"></span>
     Quotes ${label}${asOf}${bench}
   </span>`;
 }
@@ -8361,30 +8481,30 @@ function renderAnalyzerSummary(report, elapsedMs) {
   const pnlColor = pctColor(s.totalPnLPct);
   const hasHealth = h && h.score != null;
   const healthColor = !hasHealth ? "var(--text-muted)"
-    : h.score >= 70 ? "var(--green, #22c55e)"
-    : h.score >= 50 ? "#fde047" : "#fca5a5";
+    : h.score >= 70 ? "var(--green, var(--green-bright))"
+    : h.score >= 50 ? "var(--yellow-bright)" : "var(--negative-text-soft)";
 
   const sectorBars = sectors.map((s) =>
     `<div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; font-size:12px;">
       <span style="color:var(--text-muted);">${s.sector}</span>
       <span style="font-weight:600;">${s.pct.toFixed(1)}%</span>
     </div>
-    <div style="height:6px; background:#1a2233; border-radius:3px; overflow:hidden; margin-bottom:6px;">
+    <div style="height:6px; background:var(--bg-graphite); border-radius:3px; overflow:hidden; margin-bottom:6px;">
       <div style="width:${Math.min(100, s.pct)}%; height:100%; background:var(--accent);"></div>
     </div>`,
   ).join("");
 
   el.innerHTML = `
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:16px;">
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Invested</div>
         <div style="font-size:22px; font-weight:700;">${inr(s.totalInvested)}</div>
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Current Value</div>
         <div style="font-size:22px; font-weight:700;">${inr(s.totalCurrent)}</div>
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">P&amp;L${s.xirrAnnualPct != null ? ` · XIRR ${s.xirrAnnualPct >= 0 ? "+" : ""}${s.xirrAnnualPct.toFixed(1)}%/yr` : ""}</div>
         <div style="font-size:22px; font-weight:700; color:${pnlColor};">
           ${s.totalPnL >= 0 ? "+" : ""}${inr(s.totalPnL)}
@@ -8394,7 +8514,7 @@ function renderAnalyzerSummary(report, elapsedMs) {
           ? `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;" title="${s.xirrBasis || ''}">Annualised via XIRR over actual purchase dates</div>`
           : `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Upload includes purchase dates → XIRR annualised return</div>`}
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Portfolio Health</div>
         <div style="font-size:22px; font-weight:700; color:${healthColor};">${hasHealth ? h.score : "—"}<span style="font-size:14px; color:var(--text-muted);">/100</span></div>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
@@ -8404,18 +8524,18 @@ function renderAnalyzerSummary(report, elapsedMs) {
     </div>
 
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Sector allocation</div>
         ${sectorBars || '<div style="font-size:12px; color:var(--text-muted);">No sector data.</div>'}
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Quality mix (by value)</div>
         ${Object.entries(report.verdictMix.value)
           .filter(([, v]) => v > 0)
           .sort(([, a], [, b]) => b - a)
           .map(([k, v]) => {
             const pct = s.totalCurrent > 0 ? (v / s.totalCurrent) * 100 : 0;
-            const color = { DEEP_VALUE: "#22c55e", QUALITY_GROWTH: "#86efac", FAIR_VALUE: "#93c5fd", FULLY_VALUED: "#fde047", OVERVALUED: "#fca5a5", UNRATED: "#9ca3af" }[k] || "#9ca3af";
+            const color = { DEEP_VALUE: "var(--green-bright)", QUALITY_GROWTH: "var(--positive-text-soft)", FAIR_VALUE: "var(--info-text-soft)", FULLY_VALUED: "var(--yellow-bright)", OVERVALUED: "var(--negative-text-soft)", UNRATED: "var(--text-gray)" }[k] || "var(--text-gray)";
             return `<div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; padding:4px 0;">
               <span style="color:${color};">${k.replace("_", " ")}</span>
               <span style="font-weight:600;">${pct.toFixed(1)}%</span>
@@ -8457,7 +8577,7 @@ function renderRebalanceTable(report) {
   const maxAbsDelta = Math.max(...sorted.map((t) => Math.abs(t.deltaPct)));
 
   return `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:16px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-top:16px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
         <div>
           <div style="font-size:14px; font-weight:700;">Rebalance diagnostic — equal-risk-contribution target</div>
@@ -8468,7 +8588,7 @@ function renderRebalanceTable(report) {
       <div style="overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:12px;">
           <thead>
-            <tr style="color:var(--text-muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #1a2233;">
+            <tr style="color:var(--text-muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--bg-graphite);">
               <th style="text-align:left; padding:8px 4px;">Symbol</th>
               <th style="text-align:right; padding:8px 4px;">Current %</th>
               <th style="text-align:right; padding:8px 4px;">Target %</th>
@@ -8481,9 +8601,9 @@ function renderRebalanceTable(report) {
             ${sorted.map((t) => {
               const isOver = t.deltaPct < 0; // over-weight → negative delta
               const color = Math.abs(t.deltaPct) < 2 ? "var(--text-muted)"
-                : isOver ? "#fca5a5" : "#86efac";
+                : isOver ? "var(--negative-text-soft)" : "var(--positive-text-soft)";
               const barPct = maxAbsDelta > 0 ? (Math.abs(t.deltaPct) / maxAbsDelta) * 100 : 0;
-              return `<tr style="border-bottom:1px solid #111827;">
+              return `<tr style="border-bottom:1px solid var(--surface-ink);">
                 <td style="padding:8px 4px; font-family:'JetBrains Mono',monospace; font-weight:600;">${t.symbol.replace(".NS", "")}</td>
                 <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace;">${t.currentWeight.toFixed(1)}%</td>
                 <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:var(--text-muted);">${t.targetWeight.toFixed(1)}%</td>
@@ -8491,9 +8611,9 @@ function renderRebalanceTable(report) {
                 <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:${color};">${isOver ? "" : "+"}${inr(t.deltaValue)}</td>
                 <td style="padding:8px 4px;">
                   <div style="display:flex; align-items:center; gap:4px;">
-                    <div style="flex:1; background:#0b1220; height:6px; border-radius:3px; overflow:hidden; position:relative;">
+                    <div style="flex:1; background:var(--surface-ink-deep); height:6px; border-radius:3px; overflow:hidden; position:relative;">
                       <div style="position:absolute; left:${isOver ? `${50 - barPct / 2}%` : "50%"}; width:${barPct / 2}%; height:100%; background:${color}; border-radius:3px;"></div>
-                      <div style="position:absolute; left:50%; top:0; bottom:0; width:1px; background:#1a2233;"></div>
+                      <div style="position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--bg-graphite);"></div>
                     </div>
                   </div>
                 </td>
@@ -8527,24 +8647,24 @@ function renderAnalyzerRiskBlock(report) {
 
   // Color helpers
   const betaColor = beta == null ? "var(--text-muted)"
-    : beta > 1.25 ? "#fca5a5"
-    : beta > 1.0  ? "#fde047"
-    : "#86efac";
+    : beta > 1.25 ? "var(--negative-text-soft)"
+    : beta > 1.0  ? "var(--yellow-bright)"
+    : "var(--positive-text-soft)";
   const volColor = (vol == null || benchVol == null) ? "var(--text-muted)"
-    : vol > benchVol * 1.2 ? "#fca5a5"
-    : vol < benchVol * 0.8 ? "#86efac"
-    : "#fde047";
+    : vol > benchVol * 1.2 ? "var(--negative-text-soft)"
+    : vol < benchVol * 0.8 ? "var(--positive-text-soft)"
+    : "var(--yellow-bright)";
   const sharpeColor = sharpe == null ? "var(--text-muted)"
-    : sharpe > 1 ? "#86efac"
-    : sharpe > 0 ? "#fde047"
-    : "#fca5a5";
+    : sharpe > 1 ? "var(--positive-text-soft)"
+    : sharpe > 0 ? "var(--yellow-bright)"
+    : "var(--negative-text-soft)";
 
   const fmtPct = (v, withSign = false) => v == null ? "—" : `${withSign && v >= 0 ? "+" : ""}${v.toFixed(v >= 10 || v <= -10 ? 0 : 1)}%`;
   const fmtNum = (v) => v == null ? "—" : v.toFixed(2);
 
   // Confidence chip — surfaces when n is small so the user knows to discount
   const confBand = r?.confidence || (r?.sampleDays >= 252 ? "high" : r?.sampleDays >= 126 ? "medium" : "low");
-  const confColor = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[confBand] || "var(--text-muted)";
+  const confColor = { high: "var(--positive-text-soft)", medium: "var(--yellow-bright)", low: "var(--negative-text-soft)" }[confBand] || "var(--text-muted)";
   const confChip = r?.sampleDays != null
     ? `<span style="font-size:10px; color:${confColor}; background:${confColor}22; padding:3px 8px; border-radius:4px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;" title="Confidence level for beta/Sharpe/VaR estimates based on ${r.sampleDays} daily observations. Below 252 days (1 trading year), standard errors widen.">Confidence: ${confBand}</span>`
     : "";
@@ -8557,45 +8677,45 @@ function renderAnalyzerRiskBlock(report) {
 
   // Risk card
   const riskCard = r ? `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:12px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-bottom:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">Risk profile (vs. Nifty 50, last ${r.sampleDays} trading days)</div>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">${confChip}${notAdviceChip()}</div>
       </div>
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Weighted beta</div>
           <div style="font-size:20px; font-weight:700; color:${betaColor};">${fmtNum(beta)}</div>
           ${betaBand}
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Annualised volatility</div>
           <div style="font-size:20px; font-weight:700; color:${volColor};">${fmtPct(vol)}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVol)}</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Sharpe (rf=6.5%)</div>
           <div style="font-size:20px; font-weight:700; color:${sharpeColor};">${fmtNum(sharpe)}</div>
           ${sharpeBand}
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Max drawdown (1y)</div>
-          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(maxDD)}</div>
+          <div style="font-size:20px; font-weight:700; color:var(--negative-text-soft);">${fmtPct(maxDD)}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Peak-to-trough</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">95% daily VaR</div>
-          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(var95)}</div>
+          <div style="font-size:20px; font-weight:700; color:var(--negative-text-soft);">${fmtPct(var95)}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVar95)}</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Avg pairwise corr.</div>
           <div style="font-size:20px; font-weight:700;">${fmtNum(avgCorr)}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">1 = all move together</div>
         </div>
       </div>
       ${r.interpretation ? `
-        <div style="margin-top:12px; padding:10px 12px; background:rgba(147,197,253,0.05); border-left:2px solid #60a5fa; border-radius:3px; font-size:12px; line-height:1.55;">
+        <div style="margin-top:12px; padding:10px 12px; background:rgba(147,197,253,0.05); border-left:2px solid var(--info-text); border-radius:3px; font-size:12px; line-height:1.55;">
           ${r.interpretation}
         </div>` : ""}
     </div>` : "";
@@ -8608,12 +8728,12 @@ function renderAnalyzerRiskBlock(report) {
     const pct = t.projectedLossPct;
     const amt = t.projectedLossAmount;
     const purePct = t.projectedLossPctPureBeta;
-    const color = pct < -25 ? "#fca5a5" : pct < -15 ? "#fde047" : "#93c5fd";
+    const color = pct < -25 ? "var(--negative-text-soft)" : pct < -15 ? "var(--yellow-bright)" : "var(--info-text-soft)";
     const dispersionDelta = purePct != null && pct != null
       ? `<div style="color:var(--text-muted); font-size:10px;">Pure-β: ${fmtPct(purePct, true)} (sector adds ${(pct - purePct).toFixed(1)}pp)</div>`
       : "";
     return `
-      <div style="display:grid; grid-template-columns: 1fr 120px 140px 140px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid #1a2233; font-size:13px;">
+      <div style="display:grid; grid-template-columns: 1fr 120px 140px 140px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--bg-graphite); font-size:13px;">
         <div>${t.name}</div>
         <div style="color:var(--text-muted); font-size:12px;">Nifty ${fmtPct(t.marketShockPct, true)}</div>
         <div>
@@ -8625,7 +8745,7 @@ function renderAnalyzerRiskBlock(report) {
   }).join("");
 
   const stressCard = tests.length ? `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">Stress tests (β × sector-dispersion multiplier)</div>
         ${notAdviceChip()}
@@ -8642,20 +8762,20 @@ function renderAnalyzerRiskBlock(report) {
   // Currency exposure card
   const cx = report.currencyExposure;
   const currencyCard = cx ? `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:12px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-top:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">Currency exposure</div>
         ${notAdviceChip()}
       </div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">INR-exposed</div>
           <div style="font-size:20px; font-weight:700;">${cx.inrExposurePct.toFixed(1)}%</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Full INR-denominated earnings</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">USD-earning hedge</div>
-          <div style="font-size:20px; font-weight:700; color:#86efac;">${cx.usdEarningPct.toFixed(1)}%</div>
+          <div style="font-size:20px; font-weight:700; color:var(--positive-text-soft);">${cx.usdEarningPct.toFixed(1)}%</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">IT Services + Pharma (${inr(cx.usdEarningValue)})</div>
         </div>
       </div>
@@ -8672,7 +8792,7 @@ function renderAnalyzerPortfolioActions(report) {
     el.innerHTML = "";
     return;
   }
-  const sevColor = { high: "#fca5a5", medium: "#fde047", low: "#93c5fd" };
+  const sevColor = { high: "var(--negative-text-soft)", medium: "var(--yellow-bright)", low: "var(--info-text-soft)" };
   const items = report.portfolioLevelActions.map((a) => `
     <div style="padding:10px 14px; margin-bottom:8px; background:rgba(${a.severity === 'high' ? '239,68,68' : a.severity === 'medium' ? '250,204,21' : '59,130,246'},0.08); border-left:3px solid ${sevColor[a.severity]}; border-radius:4px;">
       <div style="font-size:12px; color:${sevColor[a.severity]}; font-weight:600; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.4px;">${a.type.replace(/-/g, " ")}</div>
@@ -8680,7 +8800,7 @@ function renderAnalyzerPortfolioActions(report) {
     </div>
   `).join("");
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">Portfolio-level recommendations</div>
         ${notAdviceChip()}
@@ -8700,17 +8820,17 @@ function renderAnalyzerPortfolioActions(report) {
 // signal before deciding what to relay to clients.
 
 const MF_ACTION_PALETTE = {
-  EXIT:        { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.5)",  text: "#fca5a5", verb: "Candidate exit" },
-  SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.5)", text: "#93c5fd", verb: "Candidate switch" },
-  CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.5)", text: "#d8b4fe", verb: "Candidate consolidate" },
-  ADD:         { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.5)",  text: "#86efac", verb: "Candidate add" },
-  HOLD:        { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.35)",text: "#cbd5e1", verb: "Hold" },
+  EXIT:        { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.5)",  text: "var(--negative-text-soft)", verb: "Candidate exit" },
+  SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.5)", text: "var(--info-text-soft)", verb: "Candidate switch" },
+  CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.5)", text: "var(--purple-soft)", verb: "Candidate consolidate" },
+  ADD:         { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.5)",  text: "var(--positive-text-soft)", verb: "Candidate add" },
+  HOLD:        { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.35)",text: "var(--text-slate-light)", verb: "Hold" },
 };
 
 const MF_CONFIDENCE_PALETTE = {
-  HIGH:   { bg: "rgba(34,197,94,0.10)", text: "#86efac" },
-  MEDIUM: { bg: "rgba(250,204,21,0.10)", text: "#fde047" },
-  LOW:    { bg: "rgba(107,114,128,0.10)", text: "#cbd5e1" },
+  HIGH:   { bg: "rgba(34,197,94,0.10)", text: "var(--positive-text-soft)" },
+  MEDIUM: { bg: "rgba(250,204,21,0.10)", text: "var(--yellow-bright)" },
+  LOW:    { bg: "rgba(107,114,128,0.10)", text: "var(--text-slate-light)" },
 };
 
 // Priority 3: tiny chip rendered next to the action badge when a position
@@ -8719,10 +8839,10 @@ const MF_CONFIDENCE_PALETTE = {
 function riskAlignmentChip(alignment) {
   if (!alignment || alignment === "ALIGNED") return "";
   if (alignment === "TOO_AGGRESSIVE") {
-    return `<span title="More aggressive than your risk profile" style="display:inline-block; padding:3px 10px; border-radius:4px; background:rgba(239,68,68,0.10); border:1px solid rgba(239,68,68,0.35); color:#fca5a5; font-size:10px; font-weight:700; letter-spacing:0.4px;">TOO AGGRESSIVE FOR PROFILE</span>`;
+    return `<span title="More aggressive than your risk profile" style="display:inline-block; padding:3px 10px; border-radius:4px; background:rgba(239,68,68,0.10); border:1px solid rgba(239,68,68,0.35); color:var(--negative-text-soft); font-size:10px; font-weight:700; letter-spacing:0.4px;">TOO AGGRESSIVE FOR PROFILE</span>`;
   }
   if (alignment === "TOO_CONSERVATIVE") {
-    return `<span title="More conservative than your risk profile" style="display:inline-block; padding:3px 10px; border-radius:4px; background:rgba(59,130,246,0.10); border:1px solid rgba(59,130,246,0.35); color:#93c5fd; font-size:10px; font-weight:700; letter-spacing:0.4px;">CONSERVATIVE FOR PROFILE</span>`;
+    return `<span title="More conservative than your risk profile" style="display:inline-block; padding:3px 10px; border-radius:4px; background:rgba(59,130,246,0.10); border:1px solid rgba(59,130,246,0.35); color:var(--info-text-soft); font-size:10px; font-weight:700; letter-spacing:0.4px;">CONSERVATIVE FOR PROFILE</span>`;
   }
   return "";
 }
@@ -8769,12 +8889,12 @@ async function renderAnalyzerRiskProfile(rpBlock) {
 
   if (present) {
     const bucketColor = {
-      CONSERVATIVE: "#60a5fa",
-      MODERATE:     "#a78bfa",
-      AGGRESSIVE:   "#f97316",
-    }[rpBlock.bucket] || "#94a3b8";
+      CONSERVATIVE: "var(--info-text)",
+      MODERATE:     "var(--purple-bright)",
+      AGGRESSIVE:   "var(--orange-mid)",
+    }[rpBlock.bucket] || "var(--text-slate)";
     el.innerHTML = `
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
         <div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:4px;">Risk Profile</div>
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
@@ -8786,7 +8906,7 @@ async function renderAnalyzerRiskProfile(rpBlock) {
             </span>
           </div>
         </div>
-        <button id="analyzerRiskProfileEdit" type="button" style="background:transparent; border:1px solid #1a2233; color:var(--text-muted); border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer;">Retake survey</button>
+        <button id="analyzerRiskProfileEdit" type="button" style="background:transparent; border:1px solid var(--bg-graphite); color:var(--text-muted); border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer;">Retake survey</button>
       </div>`;
     document.getElementById("analyzerRiskProfileEdit")?.addEventListener("click", async () => {
       // Soft-clear and re-render the survey form
@@ -8799,7 +8919,7 @@ async function renderAnalyzerRiskProfile(rpBlock) {
   // No profile yet → render the inline survey form
   if (!Array.isArray(questions) || questions.length === 0) {
     el.innerHTML = `
-      <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.4); border-radius:10px; padding:14px 18px; color:#fde68a; font-size:13px;">
+      <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.4); border-radius:10px; padding:14px 18px; color:var(--amber-pale); font-size:13px;">
         Risk-profile questionnaire unavailable. Recommendations will use the default MODERATE profile.
       </div>`;
     return;
@@ -8811,7 +8931,7 @@ async function renderAnalyzerRiskProfile(rpBlock) {
       ${q.helper ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${q.helper}</div>` : ""}
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         ${q.options.map((o) => `
-          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
+          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
             <input type="radio" name="rp_${q.id}" value="${o.value}" style="margin:0;" />
             ${o.label}
           </label>
@@ -8825,7 +8945,7 @@ async function renderAnalyzerRiskProfile(rpBlock) {
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
-            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:var(--negative-text-soft); text-transform:uppercase; letter-spacing:0.4px;">required</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
             SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
@@ -8834,7 +8954,7 @@ async function renderAnalyzerRiskProfile(rpBlock) {
       </div>
       <div id="analyzerRiskProfileForm">${questionsHtml}</div>
       <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
-        <button id="analyzerRiskProfileSubmit" type="button" style="background:#16a34a; color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; re-run</button>
+        <button id="analyzerRiskProfileSubmit" type="button" style="background:var(--green-deep); color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; re-run</button>
         <span id="analyzerRiskProfileStatus" style="font-size:11px; color:var(--text-muted);"></span>
       </div>
     </div>`;
@@ -8850,7 +8970,7 @@ async function renderAnalyzerRiskProfile(rpBlock) {
     }
     if (missing > 0) {
       status.textContent = `Please answer all ${questions.length} questions (${missing} remaining).`;
-      status.style.color = "#fca5a5";
+      status.style.color = "var(--negative-text-soft)";
       return;
     }
     status.textContent = "Saving…";
@@ -8864,7 +8984,7 @@ async function renderAnalyzerRiskProfile(rpBlock) {
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || "save failed");
       status.textContent = `Saved → ${j.riskProfile.bucket}. Re-running analysis…`;
-      status.style.color = "#86efac";
+      status.style.color = "var(--positive-text-soft)";
       // Re-render this card immediately so the user sees the bucket chip
       renderAnalyzerRiskProfile({ present: true, bucket: j.riskProfile.bucket, score: j.riskProfile.score });
       // And tell the user to re-upload to get fully personalised analysis.
@@ -8873,13 +8993,13 @@ async function renderAnalyzerRiskProfile(rpBlock) {
       const allocEl = document.getElementById("analyzerAssetAllocation");
       if (allocEl) {
         allocEl.insertAdjacentHTML("afterbegin", `
-          <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#86efac;">
+          <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:var(--positive-text-soft);">
             ✓ Profile saved. Re-upload your holdings file (or re-run the analyser) to refresh allocation targets and per-fund alignment chips.
           </div>`);
       }
     } catch (err) {
       status.textContent = `Save failed: ${err.message}`;
-      status.style.color = "#fca5a5";
+      status.style.color = "var(--negative-text-soft)";
     }
   });
 }
@@ -8924,7 +9044,7 @@ async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) 
   }
 
   if (!Array.isArray(questions) || questions.length === 0) {
-    gate.innerHTML = `<div style="color:#fca5a5; padding:18px; background:var(--panel); border:1px solid rgba(239,68,68,0.4); border-radius:10px;">Risk-profile questionnaire unavailable; please reload.</div>`;
+    gate.innerHTML = `<div style="color:var(--negative-text-soft); padding:18px; background:var(--panel); border:1px solid rgba(239,68,68,0.4); border-radius:10px;">Risk-profile questionnaire unavailable; please reload.</div>`;
     return;
   }
 
@@ -8934,7 +9054,7 @@ async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) 
       ${q.helper ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${q.helper}</div>` : ""}
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         ${q.options.map((o) => `
-          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
+          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
             <input type="radio" name="rpgate_${q.id}" value="${o.value}" style="margin:0;" />
             ${o.label}
           </label>
@@ -8948,7 +9068,7 @@ async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) 
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
-            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:var(--negative-text-soft); text-transform:uppercase; letter-spacing:0.4px;">required</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
             SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
@@ -8957,7 +9077,7 @@ async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) 
       </div>
       <div id="riskProfileGateForm">${questionsHtml}</div>
       <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
-        <button id="riskProfileGateSubmit" type="button" style="background:#16a34a; color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; continue</button>
+        <button id="riskProfileGateSubmit" type="button" style="background:var(--green-deep); color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; continue</button>
         <span id="riskProfileGateStatus" style="font-size:11px; color:var(--text-muted);"></span>
       </div>
     </div>`;
@@ -8975,7 +9095,7 @@ async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) 
     }
     if (missing > 0) {
       status.textContent = `Please answer all ${questions.length} questions (${missing} remaining).`;
-      status.style.color = "#fca5a5";
+      status.style.color = "var(--negative-text-soft)";
       return;
     }
     status.textContent = "Saving…";
@@ -8989,7 +9109,7 @@ async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) 
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || "save failed");
       status.textContent = `Saved → ${j.riskProfile.bucket}. Continuing…`;
-      status.style.color = "#86efac";
+      status.style.color = "var(--positive-text-soft)";
       gate.remove();
       if (upload) upload.style.display = "";
       if (typeof onComplete === "function") {
@@ -8997,7 +9117,7 @@ async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) 
       }
     } catch (err) {
       status.textContent = `Save failed: ${err.message}`;
-      status.style.color = "#fca5a5";
+      status.style.color = "var(--negative-text-soft)";
     }
   });
 }
@@ -9021,17 +9141,17 @@ function renderAnalyzerAssetAllocation(alloc, rpBlock) {
     : `default MODERATE profile (complete the survey above for personalised targets)`;
 
   const VERDICT_PALETTE = {
-    OK:       { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)",  text: "#86efac", label: "On target" },
-    REDUCE:   { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.35)",  text: "#fca5a5", label: "Reduce" },
-    INCREASE: { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "#93c5fd", label: "Increase" },
-    ADD_NEW:  { bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.35)", text: "#d8b4fe", label: "Add new" },
+    OK:       { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)",  text: "var(--positive-text-soft)", label: "On target" },
+    REDUCE:   { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.35)",  text: "var(--negative-text-soft)", label: "Reduce" },
+    INCREASE: { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "var(--info-text-soft)", label: "Increase" },
+    ADD_NEW:  { bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.35)", text: "var(--purple-soft)", label: "Add new" },
   };
 
   // Stacked bar — % of book per bucket, ordered by current weight desc
   const barSegments = alloc.buckets
     .filter((b) => b.currentPct > 0)
     .map((b, i) => {
-      const colors = ["#3b82f6", "#a78bfa", "#f97316", "#10b981", "#f59e0b", "#ec4899", "#06b6d4", "#84cc16"];
+      const colors = ["var(--blue-strong)", "var(--purple-bright)", "var(--orange-mid)", "var(--emerald)", "var(--amber)", "var(--pink)", "var(--cyan-deep)", "var(--lime)"];
       const c = colors[i % colors.length];
       return `<div title="${b.label} ${b.currentPct}%" style="flex:0 0 ${b.currentPct}%; background:${c}; height:100%;"></div>`;
     }).join("");
@@ -9041,7 +9161,7 @@ function renderAnalyzerAssetAllocation(alloc, rpBlock) {
     const gapStr = b.gapPp >= 0 ? `+${b.gapPp}pp` : `${b.gapPp}pp`;
     const gapColor = b.verdict === "OK" ? "var(--text-muted)" : pal.text;
     return `
-      <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; align-items:center; padding:10px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; margin-top:6px;">
+      <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; align-items:center; padding:10px 12px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:6px; margin-top:6px;">
         <div>
           <div style="font-size:13px; color:var(--text); font-weight:600;">${b.label}</div>
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${b.risk} risk</div>
@@ -9057,13 +9177,13 @@ function renderAnalyzerAssetAllocation(alloc, rpBlock) {
 
   const flagsHtml = (alloc.summary?.concentrationFlags || []).map((f) => `
     <div style="display:flex; gap:8px; align-items:flex-start; padding:8px 12px; background:rgba(239,68,68,0.08); border-left:3px solid rgba(239,68,68,0.5); border-radius:0 6px 6px 0; margin-top:6px;">
-      <span style="color:#fca5a5; font-weight:700; flex-shrink:0;">!</span>
+      <span style="color:var(--negative-text-soft); font-weight:700; flex-shrink:0;">!</span>
       <span style="font-size:12px; color:var(--text); line-height:1.5;">${f}</span>
     </div>`).join("");
 
   const summary = alloc.summary || {};
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
@@ -9075,14 +9195,14 @@ function renderAnalyzerAssetAllocation(alloc, rpBlock) {
           </div>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          ${summary.equityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.equityPct}%</strong> equity</span>` : ""}
-          ${summary.debtPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.debtPct}%</strong> debt</span>` : `<span style="font-size:11px; padding:4px 10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.35); border-radius:4px; color:#fca5a5;"><strong>0%</strong> debt</span>`}
-          ${summary.hybridPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.hybridPct}%</strong> hybrid</span>` : ""}
-          ${summary.commodityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.commodityPct}%</strong> gold</span>` : ""}
+          ${summary.equityPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.equityPct}%</strong> equity</span>` : ""}
+          ${summary.debtPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.debtPct}%</strong> debt</span>` : `<span style="font-size:11px; padding:4px 10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.35); border-radius:4px; color:var(--negative-text-soft);"><strong>0%</strong> debt</span>`}
+          ${summary.hybridPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.hybridPct}%</strong> hybrid</span>` : ""}
+          ${summary.commodityPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.commodityPct}%</strong> gold</span>` : ""}
         </div>
       </div>
 
-      <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; background:#0f172a; margin-top:14px; border:1px solid #1a2233;">
+      <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; background:var(--surface-navy); margin-top:14px; border:1px solid var(--bg-graphite);">
         ${barSegments || '<div style="flex:1;"></div>'}
       </div>
 
@@ -9095,7 +9215,7 @@ function renderAnalyzerAssetAllocation(alloc, rpBlock) {
 
       ${flagsHtml ? `
         <div style="margin-top:14px;">
-          <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Concentration flags</div>
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--negative-text-soft); margin-bottom:6px;">Concentration flags</div>
           ${flagsHtml}
         </div>` : ""}
     </div>`;
@@ -9130,7 +9250,7 @@ function renderAnalyzerMfPositions(block) {
   const overlap = block.overlap || {};
   const overlapNote = overlap.duplicateFolioCount > 0 || (overlap.overweightCategories || []).length > 0
     ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px;">
-         Book hygiene: ${overlap.duplicateFolioCount > 0 ? `<strong style="color:#d8b4fe;">${overlap.duplicateFolioCount} duplicate folio(s)</strong>` : ""}${overlap.duplicateFolioCount > 0 && overlap.overweightCategories.length > 0 ? " · " : ""}${overlap.overweightCategories.length > 0 ? `<strong style="color:#fde047;">${overlap.overweightCategories.length} category(s) with 2+ funds</strong>` : ""}.
+         Book hygiene: ${overlap.duplicateFolioCount > 0 ? `<strong style="color:var(--purple-soft);">${overlap.duplicateFolioCount} duplicate folio(s)</strong>` : ""}${overlap.duplicateFolioCount > 0 && overlap.overweightCategories.length > 0 ? " · " : ""}${overlap.overweightCategories.length > 0 ? `<strong style="color:var(--yellow-bright);">${overlap.overweightCategories.length} category(s) with 2+ funds</strong>` : ""}.
        </div>`
     : "";
 
@@ -9140,20 +9260,20 @@ function renderAnalyzerMfPositions(block) {
   const opportunities = summary.opportunities || [];
   const summaryRow = (concerns.length > 0 || opportunities.length > 0) ? `
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;">
-      <div style="background:#0f172a; border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:10px 12px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Top concerns</div>
+      <div style="background:var(--surface-navy); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--negative-text-soft); margin-bottom:6px;">Top concerns</div>
         ${concerns.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No material concerns flagged.</div>'
           : concerns.map((c) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${c.detail}</div>`).join("")}
       </div>
-      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.25); border-radius:6px; padding:10px 12px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#86efac; margin-bottom:6px;">Top switch opportunities</div>
+      <div style="background:var(--surface-navy); border:1px solid rgba(34,197,94,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--positive-text-soft); margin-bottom:6px;">Top switch opportunities</div>
         ${opportunities.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No SWITCH candidates above the noise floor.</div>'
-          : opportunities.map((o) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${o.from.name?.slice(0,32)} → ${o.to?.slice(0,32)} <strong style="color:#86efac;">+${o.deltaPp}pp</strong></div>`).join("")}
+          : opportunities.map((o) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${o.from.name?.slice(0,32)} → ${o.to?.slice(0,32)} <strong style="color:var(--positive-text-soft);">+${o.deltaPp}pp</strong></div>`).join("")}
       </div>
     </div>` : "";
 
   const header = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:16px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-bottom:16px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
         <div>
           <div style="font-size:14px; font-weight:700; display:flex; align-items:center; gap:10px;">
@@ -9200,27 +9320,27 @@ function renderMfPositionCard(position, idx) {
   const perfLine = Number.isFinite(perf.trailingXirrPct)
     ? `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">
          <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">${sourceLabel}:</span>
-         <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
-         ${Number.isFinite(perf.vsCategoryPp) ? `· vs ${perf.categoryKey || 'category'} benchmark ${perf.categoryBenchmarkPct}% <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">(${perf.vsCategoryPp >= 0 ? "+" : ""}${perf.vsCategoryPp}pp)</strong>` : ""}
+         <strong style="color:${perf.vsCategoryPp >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
+         ${Number.isFinite(perf.vsCategoryPp) ? `· vs ${perf.categoryKey || 'category'} benchmark ${perf.categoryBenchmarkPct}% <strong style="color:${perf.vsCategoryPp >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">(${perf.vsCategoryPp >= 0 ? "+" : ""}${perf.vsCategoryPp}pp)</strong>` : ""}
        </div>`
     : `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">No published XIRR or AMFI match available.</div>`;
 
   // Multi-window metrics row — appears when AMFI ingestion produced metrics
   const m = factors.metrics;
   const multiWindowLine = m ? `
-    <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); margin-top:8px; padding:8px 12px; background:#0f172a; border-radius:6px; border:1px solid #1a2233;">
-      ${Number.isFinite(m.cagr1yPct) ? `<span>1y <strong style="color:${m.cagr1yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr1yPct}%</strong></span>` : ""}
-      ${Number.isFinite(m.cagr3yPct) ? `<span>3y <strong style="color:${m.cagr3yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr3yPct}%</strong></span>` : ""}
-      ${Number.isFinite(m.cagr5yPct) ? `<span>5y <strong style="color:${m.cagr5yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr5yPct}%</strong></span>` : ""}
+    <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); margin-top:8px; padding:8px 12px; background:var(--surface-navy); border-radius:6px; border:1px solid var(--bg-graphite);">
+      ${Number.isFinite(m.cagr1yPct) ? `<span>1y <strong style="color:${m.cagr1yPct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${m.cagr1yPct}%</strong></span>` : ""}
+      ${Number.isFinite(m.cagr3yPct) ? `<span>3y <strong style="color:${m.cagr3yPct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${m.cagr3yPct}%</strong></span>` : ""}
+      ${Number.isFinite(m.cagr5yPct) ? `<span>5y <strong style="color:${m.cagr5yPct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${m.cagr5yPct}%</strong></span>` : ""}
       ${Number.isFinite(m.sharpe3y) ? `<span>Sharpe(3y) <strong style="color:var(--text);">${m.sharpe3y}</strong></span>` : ""}
       ${Number.isFinite(m.annualVolPct) ? `<span>Vol <strong style="color:var(--text);">${m.annualVolPct}%</strong></span>` : ""}
-      ${Number.isFinite(m.maxDrawdownPct) ? `<span>Max DD <strong style="color:#fca5a5;">${m.maxDrawdownPct}%</strong></span>` : ""}
+      ${Number.isFinite(m.maxDrawdownPct) ? `<span>Max DD <strong style="color:var(--negative-text-soft);">${m.maxDrawdownPct}%</strong></span>` : ""}
       ${factors.amfi?.schemeCode ? `<span style="opacity:0.6;">AMFI #${factors.amfi.schemeCode}${factors.amfi.matchType === "isin" ? " · ISIN match" : factors.amfi.score ? ` · name match ${factors.amfi.score}` : ""}</span>` : ""}
     </div>` : "";
 
   // Reason chips
   const reasonsHtml = (rec.reasons || []).map((r) => `
-    <div style="background:#0f172a; border-left:3px solid ${palette.border}; padding:8px 12px; margin-top:6px; border-radius:0 6px 6px 0;">
+    <div style="background:var(--surface-navy); border-left:3px solid ${palette.border}; padding:8px 12px; margin-top:6px; border-radius:0 6px 6px 0;">
       <div style="font-size:11px; font-weight:700; color:${palette.text}; letter-spacing:0.3px; text-transform:uppercase; margin-bottom:2px;">${r.label}</div>
       <div style="font-size:12px; color:var(--text-muted); line-height:1.45;">${r.detail}</div>
     </div>
@@ -9229,7 +9349,7 @@ function renderMfPositionCard(position, idx) {
   // Peer compare (top 3)
   const peers = rec.peerCandidates || [];
   const peersHtml = peers.length > 0 ? `
-    <div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--bg-graphite);">
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Peer compare (same SEBI category)</div>
       ${peers.map((c, i) => {
         // Live AMFI peers carry richer metrics (3y CAGR + Sharpe) but no
@@ -9239,12 +9359,12 @@ function renderMfPositionCard(position, idx) {
           ? `5y ${c.approxXirr5yPct}%${Number.isFinite(c.cagr3yPct) ? ` · 3y ${c.cagr3yPct}%` : ""}${Number.isFinite(c.sharpe3y) ? ` · Sharpe ${c.sharpe3y}` : ""} · ${c.amc || "AMC"}`
           : `5y ${c.approxXirr5yPct}%${c.expenseRatioPct ? ` · TER ${c.expenseRatioPct}%` : ""}${c.categoryRank5y ? ` · rank #${c.categoryRank5y}` : ""}${c.lockInMonths ? ` · ${c.lockInMonths}mo lock` : ""}`;
         return `
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-bottom:${i < peers.length-1 ? '1px solid #1a2233' : '0'};">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-bottom:${i < peers.length-1 ? '1px solid var(--bg-graphite)' : '0'};">
           <div style="flex:1; min-width:0;">
             <div style="font-size:12px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.name}</div>
             <div style="font-size:10px; color:var(--text-muted); margin-top:1px;">${meta}</div>
           </div>
-          ${Number.isFinite(c.deltaPp) ? `<div style="font-size:13px; font-weight:700; color:${c.deltaPp > 0 ? '#86efac' : '#fca5a5'};">${c.deltaPp > 0 ? "+" : ""}${c.deltaPp}pp</div>` : ""}
+          ${Number.isFinite(c.deltaPp) ? `<div style="font-size:13px; font-weight:700; color:${c.deltaPp > 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${c.deltaPp > 0 ? "+" : ""}${c.deltaPp}pp</div>` : ""}
         </div>
       `;}).join("")}
     </div>
@@ -9252,7 +9372,7 @@ function renderMfPositionCard(position, idx) {
 
   // Consolidate target
   const consolidateNote = rec.consolidateTo ? `
-    <div style="margin-top:10px; padding:8px 12px; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.3); border-radius:6px; font-size:12px; color:#d8b4fe;">
+    <div style="margin-top:10px; padding:8px 12px; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.3); border-radius:6px; font-size:12px; color:var(--purple-soft);">
       Consolidate into folio <strong>${rec.consolidateTo.folio}</strong> (largest sibling holding the same scheme).
     </div>` : "";
 
@@ -9263,7 +9383,7 @@ function renderMfPositionCard(position, idx) {
   const newsHtml = renderMfNewsBlock(news);
 
   return `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:16px; margin-bottom:12px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:16px; margin-bottom:12px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
         <div style="flex:1; min-width:240px;">
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
@@ -9300,12 +9420,12 @@ function renderMfPositionCard(position, idx) {
 // and CONTEXT items as muted grey. Each item links to the source so
 // the SEBI-RA can verify before relaying anything to a client.
 const NEWS_MATERIALITY_PALETTE = {
-  MATERIAL: { dot: "#fca5a5", label: "Material" },
-  CONTEXT:  { dot: "#94a3b8", label: "Context" },
+  MATERIAL: { dot: "var(--negative-text-soft)", label: "Material" },
+  CONTEXT:  { dot: "var(--text-slate)", label: "Context" },
 };
 const NEWS_SENTIMENT_TEXT = {
-  POSITIVE: { color: "#86efac", icon: "▲" },
-  NEGATIVE: { color: "#fca5a5", icon: "▼" },
+  POSITIVE: { color: "var(--positive-text-soft)", icon: "▲" },
+  NEGATIVE: { color: "var(--negative-text-soft)", icon: "▼" },
   NEUTRAL:  { color: "var(--text-muted)", icon: "·" },
 };
 function fmtNewsDate(s) {
@@ -9320,7 +9440,7 @@ function fmtNewsDate(s) {
   return d.toISOString().slice(0, 10);
 }
 function renderMfNewsBlock(news) {
-  const header = `<div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
+  const header = `<div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--bg-graphite);">
     <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">News (last 30d) · classified by GPT-5</div>`;
   if (!news || !Array.isArray(news.items) || news.items.length === 0) {
     const note = news?.note || "no recent material news";
@@ -9330,9 +9450,9 @@ function renderMfNewsBlock(news) {
   const rows = news.items.map((it) => {
     const mat = NEWS_MATERIALITY_PALETTE[it.materiality] || NEWS_MATERIALITY_PALETTE.CONTEXT;
     const sent = NEWS_SENTIMENT_TEXT[it.sentiment] || NEWS_SENTIMENT_TEXT.NEUTRAL;
-    const eventLabel = it.eventKind && it.eventKind !== "OTHER" ? `<span style="font-size:9px; padding:1px 6px; background:rgba(168,85,247,0.10); border:1px solid rgba(168,85,247,0.25); border-radius:3px; color:#d8b4fe; letter-spacing:0.3px; text-transform:uppercase;">${it.eventKind.replace(/_/g," ")}</span>` : "";
+    const eventLabel = it.eventKind && it.eventKind !== "OTHER" ? `<span style="font-size:9px; padding:1px 6px; background:rgba(168,85,247,0.10); border:1px solid rgba(168,85,247,0.25); border-radius:3px; color:var(--purple-soft); letter-spacing:0.3px; text-transform:uppercase;">${it.eventKind.replace(/_/g," ")}</span>` : "";
     return `
-      <div style="display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--bg-graphite);">
         <span style="color:${mat.dot}; font-size:14px; line-height:1.3;">●</span>
         <div style="flex:1; min-width:0;">
           <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:2px;">
@@ -9385,11 +9505,11 @@ const OPTIMIZER_PRESET_TOOLTIPS = {
 
 function moveTypeBadge(type) {
   const palette = {
-    EXIT:        { bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.4)", text: "#fca5a5" },
-    TRIM:        { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
-    SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.4)", text: "#93c5fd" },
-    ADD:         { bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.4)", text: "#86efac" },
-    CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.4)", text: "#d8b4fe" },
+    EXIT:        { bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.4)", text: "var(--negative-text-soft)" },
+    TRIM:        { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "var(--yellow-bright)" },
+    SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.4)", text: "var(--info-text-soft)" },
+    ADD:         { bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.4)", text: "var(--positive-text-soft)" },
+    CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.4)", text: "var(--purple-soft)" },
   };
   const c = palette[type] || palette.SWITCH;
   // Observational labels only — never imperative ("Sell", "Buy").
@@ -9409,7 +9529,7 @@ function renderAnalyzerOptimizer(optimizer) {
 
   if (!optimizer) {
     el.innerHTML = `
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:14px; font-weight:700; margin-bottom:8px;">XIRR Optimizer</div>
         <div style="font-size:12px; color:var(--text-muted);">
           Optimizer block unavailable for this portfolio (likely an empty book or no investible holdings).
@@ -9433,8 +9553,8 @@ function renderAnalyzerOptimizer(optimizer) {
   const presetChips = Object.keys(OPTIMIZER_PRESET_LABELS).map((key) => {
     const active = key === _optimizerState.preset;
     const bg = active ? "var(--accent)" : "transparent";
-    const color = active ? "#fff" : "var(--text)";
-    const border = active ? "var(--accent)" : "#2a3349";
+    const color = active ? "var(--white)" : "var(--text)";
+    const border = active ? "var(--accent)" : "var(--border-graphite)";
     return `<button type="button"
       onclick="applyOptimizerPreset('${key}')"
       title="${OPTIMIZER_PRESET_TOOLTIPS[key]}"
@@ -9446,8 +9566,8 @@ function renderAnalyzerOptimizer(optimizer) {
   const slabChips = [5, 20, 30].map((s) => {
     const active = s === _optimizerState.taxSlabPct;
     const bg = active ? "var(--accent)" : "transparent";
-    const color = active ? "#fff" : "var(--text)";
-    const border = active ? "var(--accent)" : "#2a3349";
+    const color = active ? "var(--white)" : "var(--text)";
+    const border = active ? "var(--accent)" : "var(--border-graphite)";
     return `<button type="button"
       onclick="applyOptimizerTaxSlab(${s})"
       style="background:${bg}; color:${color}; border:1px solid ${border}; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:600; cursor:pointer;">
@@ -9457,11 +9577,11 @@ function renderAnalyzerOptimizer(optimizer) {
 
   const moves = Array.isArray(optimizer.moves) ? optimizer.moves : [];
   const moveCards = moves.length === 0
-    ? `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:12px; color:#86efac;">
+    ? `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:12px; color:var(--positive-text-soft);">
         No positive-uplift moves at the current preset / noise floor — your book is at or near its mathematically-derived optimum given the constraints.
       </div>`
     : moves.map((m, idx) => {
-        const upliftColor = (m.estUpliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
+        const upliftColor = (m.estUpliftBps || 0) >= 0 ? "var(--green, var(--green-bright))" : "var(--red, var(--red-bright))";
         const conservativeNote = Number.isFinite(m.estUpliftBpsConservative)
           ? `<span style="color:var(--text-muted); font-weight:500; margin-left:8px;">(conservative band: ${m.estUpliftBpsConservative >= 0 ? "+" : ""}${m.estUpliftBpsConservative.toFixed(0)} bps)</span>`
           : "";
@@ -9471,12 +9591,12 @@ function renderAnalyzerOptimizer(optimizer) {
              </div>`
           : "";
         const blocked = m.blocking
-          ? `<div style="font-size:11px; color:#fca5a5; margin-top:6px; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:4px; display:inline-block;">
+          ? `<div style="font-size:11px; color:var(--negative-text-soft); margin-top:6px; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:4px; display:inline-block;">
                Blocked: ${m.blocking.reason || m.blocking.type || "constraint"}
              </div>`
           : "";
         return `
-          <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-bottom:10px;">
+          <div style="background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-bottom:10px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
               <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                 <span style="font-size:12px; font-weight:700; color:var(--text-muted);">#${idx + 1}</span>
@@ -9494,10 +9614,10 @@ function renderAnalyzerOptimizer(optimizer) {
               ${m.rationale || "—"}
             </div>
             ${switchTo}
-            <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:1px solid #1a2233;">
+            <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:1px solid var(--bg-graphite);">
               <span>Gross proceeds: <strong style="color:var(--text);">${inr(m.grossProceedsRupees)}</strong></span>
-              <span>Tax cost: <strong style="color:#fca5a5;">${inr(m.taxCostRupees)}</strong></span>
-              <span>Net redeployable: <strong style="color:#86efac;">${inr(m.netRedeployableRupees)}</strong></span>
+              <span>Tax cost: <strong style="color:var(--negative-text-soft);">${inr(m.taxCostRupees)}</strong></span>
+              <span>Net redeployable: <strong style="color:var(--positive-text-soft);">${inr(m.netRedeployableRupees)}</strong></span>
             </div>
             ${blocked}
             ${m.compliance ? `<div style="font-size:10px; color:var(--text-muted); margin-top:6px; font-style:italic;">${m.compliance}</div>` : ""}
@@ -9510,7 +9630,7 @@ function renderAnalyzerOptimizer(optimizer) {
       <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Constraints binding</div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         ${constraints.map((c) => `
-          <span style="display:inline-block; font-size:11px; padding:4px 10px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.3); border-radius:4px; color:#fde047;">
+          <span style="display:inline-block; font-size:11px; padding:4px 10px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.3); border-radius:4px; color:var(--yellow-bright);">
             ${c.type === "ELSS_LOCK_IN"
               ? `ELSS lock-in: ${c.instrument || ""}${c.until ? " until " + c.until : ""}`
               : c.type === "FY_LTCG_BUDGET"
@@ -9556,19 +9676,19 @@ function renderAnalyzerOptimizer(optimizer) {
 
   const heroCard = `
     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px;">
-      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+      <div style="background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px;">
         <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Current XIRR</div>
         <div style="font-size:24px; font-weight:700; margin-top:4px;">${Number.isFinite(currentPct) ? currentPct.toFixed(2) + "%" : "—"}</div>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Confidence: ${optimizer.currentXirrConfidence || "—"}</div>
       </div>
-      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.3); border-radius:8px; padding:14px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:#86efac;">Projected XIRR</div>
-        <div style="font-size:24px; font-weight:700; margin-top:4px; color:#bbf7d0;">${Number.isFinite(projectedPct) ? projectedPct.toFixed(2) + "%" : "—"}</div>
+      <div style="background:var(--surface-navy); border:1px solid rgba(34,197,94,0.3); border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--positive-text-soft);">Projected XIRR</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:var(--positive-text-pale);">${Number.isFinite(projectedPct) ? projectedPct.toFixed(2) + "%" : "—"}</div>
         ${conservativeText}
       </div>
-      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+      <div style="background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px;">
         <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Uplift</div>
-        <div style="font-size:24px; font-weight:700; margin-top:4px; color:${(upliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)"};">
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:${(upliftBps || 0) >= 0 ? "var(--green, var(--green-bright))" : "var(--red, var(--red-bright))"};">
           ${(upliftBps || 0) >= 0 ? "+" : ""}${(upliftBps || 0).toFixed(0)} bps
         </div>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${moves.length} candidate move${moves.length === 1 ? "" : "s"}</div>
@@ -9576,7 +9696,7 @@ function renderAnalyzerOptimizer(optimizer) {
     </div>`;
 
   const controls = `
-    <div style="display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start; margin-bottom:18px; padding:14px; background:#0f172a; border:1px solid #1a2233; border-radius:8px;">
+    <div style="display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start; margin-bottom:18px; padding:14px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px;">
       <div>
         <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:6px;">Preset</div>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">${presetChips}</div>
@@ -9588,7 +9708,7 @@ function renderAnalyzerOptimizer(optimizer) {
     </div>`;
 
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       ${header}
       ${heroCard}
       ${controls}
@@ -9645,13 +9765,13 @@ async function _refreshOptimizer(statusText) {
 function renderAnalyzerUrgent(report) {
   const el = document.getElementById("analyzerUrgent");
   if (!report.urgentActions || report.urgentActions.length === 0) {
-    el.innerHTML = `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:13px; color:#86efac;">
+    el.innerHTML = `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:13px; color:var(--positive-text-soft);">
       No urgent per-stock actions flagged. Every holding is in HOLD range.
     </div>`;
     return;
   }
   const rows = report.urgentActions.slice(0, 10).map((h) => `
-    <div style="display:grid; grid-template-columns: 120px 1fr 160px 100px 120px; gap:12px; align-items:center; padding:10px 14px; border-bottom:1px solid #1a2233; font-size:13px;">
+    <div style="display:grid; grid-template-columns: 120px 1fr 160px 100px 120px; gap:12px; align-items:center; padding:10px 14px; border-bottom:1px solid var(--bg-graphite); font-size:13px;">
       <div style="font-weight:700;">${h.symbol.replace(".NS", "")}</div>
       <div style="color:var(--text-muted); font-size:12px;">${h.name}</div>
       <div>${actionBadge(h.action, h.displayAction)}</div>
@@ -9660,7 +9780,7 @@ function renderAnalyzerUrgent(report) {
     </div>
   `).join("");
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">Urgent actions (top ${Math.min(10, report.urgentActions.length)})</div>
         ${notAdviceChip()}
@@ -9677,7 +9797,7 @@ function renderAnalyzerHoldings(report) {
   const el = document.getElementById("analyzerHoldings");
   const cards = report.holdings.map((h, idx) => renderHoldingCard(h, idx === 0)).join("");
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="font-size:14px; font-weight:700;">Per-holding deep dive (${report.holdings.length})</div>
@@ -9696,8 +9816,8 @@ function renderHoldingCard(h, defaultOpen) {
   const pnlStr = `${h.pnlPercent >= 0 ? "+" : ""}${(h.pnlPercent || 0).toFixed(1)}%`;
   const flagsSection = h.redFlags && h.redFlags.length
     ? `<div style="margin:14px 0;">
-        <div style="font-size:12px; font-weight:700; color:#fca5a5; margin-bottom:6px;">&#9888; Red flags</div>
-        ${h.redFlags.map((f) => `<div style="font-size:12px; padding:6px 10px; margin-bottom:4px; background:rgba(${f.severity === 'high' ? '239,68,68' : '250,204,21'},0.08); border-left:2px solid ${f.severity === 'high' ? '#fca5a5' : '#fde047'}; border-radius:3px;">${f.message}</div>`).join("")}
+        <div style="font-size:12px; font-weight:700; color:var(--negative-text-soft); margin-bottom:6px;">&#9888; Red flags</div>
+        ${h.redFlags.map((f) => `<div style="font-size:12px; padding:6px 10px; margin-bottom:4px; background:rgba(${f.severity === 'high' ? '239,68,68' : '250,204,21'},0.08); border-left:2px solid ${f.severity === 'high' ? 'var(--negative-text-soft)' : 'var(--yellow-bright)'}; border-radius:3px;">${f.message}</div>`).join("")}
       </div>` : "";
   const ep = h.exitPlan || {};
   // Renamed section from "Exit plan" → "Technical levels" with an explicit
@@ -9706,15 +9826,15 @@ function renderHoldingCard(h, defaultOpen) {
   // frames them as market-structure observations, not commands.
   const exitSection = (ep.supportLevel || ep.stopLoss || ep.target || ep.upsideBand || ep.trailingStop)
     ? `<details style="margin:14px 0;">
-        <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:#111827; border-radius:6px; font-size:13px; font-weight:700; color:#93c5fd; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+        <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:var(--surface-ink); border-radius:6px; font-size:13px; font-weight:700; color:var(--info-text-soft); display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
           <span>Technical levels ▾</span>
           <span style="font-size:10px; color:var(--text-muted); font-style:italic; font-weight:400;">analytical reference — not trade instructions</span>
         </summary>
-        <div style="padding:12px 14px; background:#111827; border-top:1px solid #1a2233; border-radius:0 0 6px 6px; margin-top:-2px;">
+        <div style="padding:12px 14px; background:var(--surface-ink); border-top:1px solid var(--bg-graphite); border-radius:0 0 6px 6px; margin-top:-2px;">
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:12px;">
           ${(ep.supportLevel ?? ep.stopLoss) != null ? `<div><span style="color:var(--text-muted);">Support:</span> <strong>₹${ep.supportLevel ?? ep.stopLoss}</strong></div>` : ""}
           ${(ep.upsideBand ?? ep.target) != null ? `<div><span style="color:var(--text-muted);">Upside band:</span> <strong>₹${ep.upsideBand ?? ep.target}</strong></div>` : ""}
-          ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trailing support:</span> ${ep.trailingStop.activated ? `<strong style="color:#86efac;">active @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
+          ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trailing support:</span> ${ep.trailingStop.activated ? `<strong style="color:var(--positive-text-soft);">active @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
           ${(h.longTermReference ?? h.longTermTarget) ? `<div><span style="color:var(--text-muted);">52W high reference:</span> <strong>₹${h.longTermReference ?? h.longTermTarget}</strong></div>` : ""}
           </div>
           ${ep.slConfirmationRule ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">${ep.slConfirmationRule}</div>` : ""}
@@ -9723,13 +9843,13 @@ function renderHoldingCard(h, defaultOpen) {
       </details>` : "";
 
   const outlookSection = h.outlook
-    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+    ? `<div style="margin:14px 0; padding:12px 14px; background:var(--surface-ink); border-radius:6px;">
         <div style="font-size:12px; font-weight:700; margin-bottom:8px;">Outlook</div>
         <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; font-size:12px;">
           ${["shortTerm", "midTerm", "longTerm"].map((k) => {
             const o = h.outlook[k];
             const arrow = o.direction === "up" ? "↑" : o.direction === "down" ? "↓" : "→";
-            const color = o.direction === "up" ? "#86efac" : o.direction === "down" ? "#fca5a5" : "#9ca3af";
+            const color = o.direction === "up" ? "var(--positive-text-soft)" : o.direction === "down" ? "var(--negative-text-soft)" : "var(--text-gray)";
             return `<div>
               <div style="color:var(--text-muted); font-size:10px; text-transform:uppercase;">${o.horizon}</div>
               <div style="color:${color}; font-weight:700; font-size:13px;">${arrow} ${o.direction.toUpperCase()}</div>
@@ -9741,7 +9861,7 @@ function renderHoldingCard(h, defaultOpen) {
 
   const taxSection = h.taxNote
     ? `<div style="margin:14px 0; padding:10px 14px; background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.2); border-radius:6px; font-size:12px;">
-        <div style="font-weight:700; color:#fde047; margin-bottom:4px;">Tax note${h.purchaseDate ? ` <span style="font-weight:500; color:var(--text-muted);">· purchased ${h.purchaseDate}</span>` : ""}</div>
+        <div style="font-weight:700; color:var(--yellow-bright); margin-bottom:4px;">Tax note${h.purchaseDate ? ` <span style="font-weight:500; color:var(--text-muted);">· purchased ${h.purchaseDate}</span>` : ""}</div>
         <div>${h.taxNote.summary}</div>
         ${h.taxNote.holdingPeriod ? `<div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.holdingPeriod}</div>` : ""}
         <div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.detail}</div>
@@ -9752,10 +9872,10 @@ function renderHoldingCard(h, defaultOpen) {
         // Liquidity badge: tells the investor at a glance how long a full
         // position unwind would take at 20% of median daily value.
         const liqColor = {
-          good:  "#86efac",
-          fair:  "#a7f3d0",
-          watch: "#fde047",
-          poor:  "#fca5a5",
+          good:  "var(--positive-text-soft)",
+          fair:  "var(--positive-text-mint)",
+          watch: "var(--yellow-bright)",
+          poor:  "var(--negative-text-soft)",
         }[h.risk.liquidityBand] || "var(--text-muted)";
         const liqLabel = h.risk.daysToExit != null
           ? `<div><span style="color:var(--text-muted);">Days to exit:</span> <strong style="color:${liqColor};">${h.risk.daysToExit}</strong><span style="color:var(--text-muted);font-size:10px;"> (20% ADV rule)</span></div>`
@@ -9764,11 +9884,11 @@ function renderHoldingCard(h, defaultOpen) {
           ? (() => {
               const n = h.risk.sampleSize;
               const band = n >= 252 ? "high" : n >= 126 ? "medium" : "low";
-              const c = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[band];
+              const c = { high: "var(--positive-text-soft)", medium: "var(--yellow-bright)", low: "var(--negative-text-soft)" }[band];
               return `<span style="font-size:10px; color:${c}; background:${c}22; padding:2px 6px; border-radius:3px; font-weight:700; letter-spacing:0.3px; text-transform:uppercase;" title="${n} daily observations used — beta/vol/VaR estimates carry wider error bands with fewer samples.">conf: ${band}</span>`;
             })()
           : "";
-        return `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+        return `<div style="margin:14px 0; padding:12px 14px; background:var(--surface-ink); border-radius:6px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px;">
             <div style="font-size:12px; font-weight:700;">Risk profile</div>
             ${sampleChip}
@@ -9776,15 +9896,15 @@ function renderHoldingCard(h, defaultOpen) {
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:10px; font-size:12px;">
             ${h.risk.beta != null ? `<div><span style="color:var(--text-muted);">Beta:</span> <strong>${h.risk.beta.toFixed(2)}</strong></div>` : ""}
             ${h.risk.annualizedVolatility != null ? `<div><span style="color:var(--text-muted);">Vol (ann.):</span> <strong>${h.risk.annualizedVolatility.toFixed(1)}%</strong></div>` : ""}
-            ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y):</span> <strong style="color:#fca5a5;">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
-            ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR:</span> <strong style="color:#fca5a5;">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
+            ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y):</span> <strong style="color:var(--negative-text-soft);">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
+            ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR:</span> <strong style="color:var(--negative-text-soft);">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
             ${liqLabel}
           </div>
         </div>`;
       })()
     : "";
 
-  return `<details${openAttr} style="border:1px solid #1a2233; border-radius:8px; margin-bottom:8px; background:#0b1220;">
+  return `<details${openAttr} style="border:1px solid var(--bg-graphite); border-radius:8px; margin-bottom:8px; background:var(--surface-ink-deep);">
     <summary style="cursor:pointer; padding:12px 16px; list-style:none; display:grid; grid-template-columns: 140px 1fr 130px 120px 110px 60px; gap:12px; align-items:center; font-size:13px;">
       <div style="font-weight:700;">${h.symbol.replace(".NS", "")}</div>
       <div style="color:var(--text-muted); font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${h.name}</div>
@@ -9793,7 +9913,7 @@ function renderHoldingCard(h, defaultOpen) {
       <div style="font-size:11px; color:var(--text-muted);">${(h.positionWeight || 0).toFixed(1)}% wt</div>
       <div style="font-size:11px; text-align:right;">${h.combinedScore != null ? h.combinedScore + "/100" : "—"}</div>
     </summary>
-    <div style="padding:4px 16px 16px; border-top:1px solid #1a2233;">
+    <div style="padding:4px 16px 16px; border-top:1px solid var(--bg-graphite);">
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:10px 0; font-size:12px;">
         <div><span style="color:var(--text-muted);">Qty:</span> ${h.quantity}</div>
         <div><span style="color:var(--text-muted);">Avg:</span> ₹${h.avgPrice}</div>
@@ -9802,14 +9922,14 @@ function renderHoldingCard(h, defaultOpen) {
         <div><span style="color:var(--text-muted);">Value:</span> ${inr(h.currentValue)}</div>
         <div><span style="color:var(--text-muted);">P&amp;L:</span> <span style="color:${pnlC};">${h.pnlAmount >= 0 ? "+" : ""}${inr(h.pnlAmount)}</span></div>
       </div>
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:4px 0 10px; font-size:12px; border-top:1px solid #1a2233;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:4px 0 10px; font-size:12px; border-top:1px solid var(--bg-graphite);">
         <div><span style="color:var(--text-muted);">Tech:</span> ${h.technicalScore ?? "—"}</div>
         <div><span style="color:var(--text-muted);">Fund:</span> ${h.fundamentalScore ?? "—"}</div>
         <div><span style="color:var(--text-muted);">Verdict:</span> ${h.fundamentalVerdict ? h.fundamentalVerdict.replace("_", " ") : "—"}</div>
         <div><span style="color:var(--text-muted);">Signal:</span> ${h.recommendation || "—"}</div>
         <div><span style="color:var(--text-muted);">Sector:</span> ${h.sector}</div>
       </div>
-      <div style="margin:12px 0; padding:12px 14px; background:#111827; border-radius:6px; font-size:13px;">
+      <div style="margin:12px 0; padding:12px 14px; background:var(--surface-ink); border-radius:6px; font-size:13px;">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
           <div style="font-weight:700;">Why ${h.displayAction || h.action}</div>
           ${notAdviceChip("inline")}
@@ -9837,12 +9957,12 @@ function renderAnalyzerUnmatched(report) {
   // listed with the reason we didn't score them.
   const typePill = (t) => {
     const map = {
-      mf:      { label: "MF",     bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.3)", color: "#d8b4fe" },
-      etf:     { label: "ETF",    bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.3)", color: "#93c5fd" },
-      bond:    { label: "BOND",   bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.3)", color: "#fde047" },
-      fno:     { label: "F&O",    bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.3)",  color: "#fca5a5" },
-      unknown: { label: "UNKNOWN",bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.3)",color: "#9ca3af" },
-      equity:  { label: "EQUITY", bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.3)",  color: "#86efac" },
+      mf:      { label: "MF",     bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.3)", color: "var(--purple-soft)" },
+      etf:     { label: "ETF",    bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.3)", color: "var(--info-text-soft)" },
+      bond:    { label: "BOND",   bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.3)", color: "var(--yellow-bright)" },
+      fno:     { label: "F&O",    bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.3)",  color: "var(--negative-text-soft)" },
+      unknown: { label: "UNKNOWN",bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.3)",color: "var(--text-gray)" },
+      equity:  { label: "EQUITY", bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.3)",  color: "var(--positive-text-soft)" },
     };
     const s = map[t] || map.unknown;
     return `<span style="display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; border-radius:3px; background:${s.bg}; color:${s.color}; border:1px solid ${s.border}; letter-spacing:0.4px;">${s.label}</span>`;
@@ -9853,7 +9973,7 @@ function renderAnalyzerUnmatched(report) {
     const avg = Number.isFinite(u.avgPrice) ? `₹${u.avgPrice}` : "—";
     const val = Number.isFinite(u.quantity) && Number.isFinite(u.avgPrice) ? inr(u.quantity * u.avgPrice) : "—";
     return `
-      <div style="display:grid; grid-template-columns: 80px 1fr 140px 100px 100px 100px; gap:12px; padding:10px 14px; border-bottom:1px solid #1a2233; font-size:12px; align-items:center;">
+      <div style="display:grid; grid-template-columns: 80px 1fr 140px 100px 100px 100px; gap:12px; padding:10px 14px; border-bottom:1px solid var(--bg-graphite); font-size:12px; align-items:center;">
         <div>${typePill(u.instrumentType || "unknown")}</div>
         <div>
           <div>${u.rawName}</div>
@@ -9867,7 +9987,7 @@ function renderAnalyzerUnmatched(report) {
   }).join("");
 
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="font-size:14px; font-weight:700; margin-bottom:6px;">Not analysed (${report.unmatched.length})</div>
       <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px; line-height:1.5;">
         These rows are in your book but out of scope for the equity scoring engine. Each one shows why — mutual funds and ETFs need a different model, F&O is a trading vehicle, and some equities fall outside the Nifty 500 universe we track.
@@ -9886,7 +10006,7 @@ function renderAnalyzerDisclaimer(report) {
   el.innerHTML = `
     <div style="font-size:11px; color:var(--text-muted); padding:14px 16px; background:rgba(239,68,68,0.03); border:1px solid rgba(239,68,68,0.15); border-radius:6px; line-height:1.6;">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
-        <strong style="color:#fca5a5; font-size:12px;">Disclaimer &amp; data limitations</strong>
+        <strong style="color:var(--negative-text-soft); font-size:12px;">Disclaimer &amp; data limitations</strong>
         <span style="font-size:10px; color:var(--text-muted);">Generated ${generated}</span>
       </div>
       <div style="margin-bottom:8px;">${report.disclaimer}</div>
@@ -9935,8 +10055,8 @@ function renderAnalyzerSummaryV2(report, elapsedMs) {
   const pnlColor = pctColor(s.totalPnLPct);
   const hasHealth = h && h.score != null;
   const healthColor = !hasHealth ? "var(--text-muted)"
-    : h.score >= 70 ? "var(--green, #22c55e)"
-    : h.score >= 50 ? "#fde047" : "#fca5a5";
+    : h.score >= 70 ? "var(--green, var(--green-bright))"
+    : h.score >= 50 ? "var(--yellow-bright)" : "var(--negative-text-soft)";
   const verdict = _v2HealthVerdict(hasHealth ? h.score : null);
 
   const sectorBars = sectors.map((s) =>
@@ -9944,13 +10064,13 @@ function renderAnalyzerSummaryV2(report, elapsedMs) {
       <span style="color:var(--text-muted);">${s.sector}</span>
       <span style="font-weight:600;">${s.pct.toFixed(1)}%</span>
     </div>
-    <div style="height:6px; background:#1a2233; border-radius:3px; overflow:hidden; margin-bottom:6px;">
+    <div style="height:6px; background:var(--bg-graphite); border-radius:3px; overflow:hidden; margin-bottom:6px;">
       <div style="width:${Math.min(100, s.pct)}%; height:100%; background:var(--accent);"></div>
     </div>`,
   ).join("");
 
   const heroLine = hasHealth
-    ? `<div style="font-size:14px; font-weight:600; color:var(--text); margin-bottom:14px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; line-height:1.5;">
+    ? `<div style="font-size:14px; font-weight:600; color:var(--text); margin-bottom:14px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid var(--info-text); border-radius:0 6px 6px 0; line-height:1.5;">
         ${verdict.lead}
        </div>`
     : "";
@@ -9958,15 +10078,15 @@ function renderAnalyzerSummaryV2(report, elapsedMs) {
   el.innerHTML = `
     ${heroLine}
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:16px;">
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Money put in</div>
         <div style="font-size:22px; font-weight:700;">${inr(s.totalInvested)}</div>
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">What it's worth today</div>
         <div style="font-size:22px; font-weight:700;">${inr(s.totalCurrent)}</div>
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">P&amp;L${s.xirrAnnualPct != null ? ` · XIRR ${s.xirrAnnualPct >= 0 ? "+" : ""}${s.xirrAnnualPct.toFixed(1)}%/yr` : ""}</div>
         <div style="font-size:22px; font-weight:700; color:${pnlColor};">
           ${s.totalPnL >= 0 ? "+" : ""}${inr(s.totalPnL)}
@@ -9976,7 +10096,7 @@ function renderAnalyzerSummaryV2(report, elapsedMs) {
           ? `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;" title="${s.xirrBasis || ''}">Annualised via XIRR over actual purchase dates</div>`
           : `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Upload includes purchase dates → XIRR annualised return</div>`}
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Portfolio Health ${infoIcon("health_score")}</div>
         <div style="font-size:22px; font-weight:700; color:${healthColor};">${hasHealth ? h.score : "—"}<span style="font-size:14px; color:var(--text-muted);">/100</span> <span style="font-size:13px; color:${healthColor}; font-weight:600;">· ${verdict.word}</span></div>
         ${hasHealth ? `
@@ -9990,18 +10110,18 @@ function renderAnalyzerSummaryV2(report, elapsedMs) {
     </div>
 
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Sector allocation</div>
         ${sectorBars || '<div style="font-size:12px; color:var(--text-muted);">No sector data.</div>'}
       </div>
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Quality mix (by value)</div>
         ${Object.entries(report.verdictMix.value)
           .filter(([, v]) => v > 0)
           .sort(([, a], [, b]) => b - a)
           .map(([k, v]) => {
             const pct = s.totalCurrent > 0 ? (v / s.totalCurrent) * 100 : 0;
-            const color = { DEEP_VALUE: "#22c55e", QUALITY_GROWTH: "#86efac", FAIR_VALUE: "#93c5fd", FULLY_VALUED: "#fde047", OVERVALUED: "#fca5a5", UNRATED: "#9ca3af" }[k] || "#9ca3af";
+            const color = { DEEP_VALUE: "var(--green-bright)", QUALITY_GROWTH: "var(--positive-text-soft)", FAIR_VALUE: "var(--info-text-soft)", FULLY_VALUED: "var(--yellow-bright)", OVERVALUED: "var(--negative-text-soft)", UNRATED: "var(--text-gray)" }[k] || "var(--text-gray)";
             return `<div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; padding:4px 0;">
               <span style="color:${color};">${k.replace("_", " ")}</span>
               <span style="font-weight:600;">${pct.toFixed(1)}%</span>
@@ -10029,7 +10149,7 @@ function renderRebalanceTableV2(report) {
   const maxAbsDelta = Math.max(...sorted.map((t) => Math.abs(t.deltaPct)));
 
   return `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:16px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-top:16px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
         <div style="flex:1; min-width:240px;">
           <div style="font-size:14px; font-weight:700;">Rebalance preview</div>
@@ -10042,7 +10162,7 @@ function renderRebalanceTableV2(report) {
       <div style="overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:12px;">
           <thead>
-            <tr style="color:var(--text-muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #1a2233;">
+            <tr style="color:var(--text-muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--bg-graphite);">
               <th style="text-align:left; padding:8px 4px;">Symbol</th>
               <th style="text-align:right; padding:8px 4px;">Current %</th>
               <th style="text-align:right; padding:8px 4px;">Target %</th>
@@ -10055,9 +10175,9 @@ function renderRebalanceTableV2(report) {
             ${sorted.map((t) => {
               const isOver = t.deltaPct < 0;
               const color = Math.abs(t.deltaPct) < 2 ? "var(--text-muted)"
-                : isOver ? "#fca5a5" : "#86efac";
+                : isOver ? "var(--negative-text-soft)" : "var(--positive-text-soft)";
               const barPct = maxAbsDelta > 0 ? (Math.abs(t.deltaPct) / maxAbsDelta) * 100 : 0;
-              return `<tr style="border-bottom:1px solid #111827;">
+              return `<tr style="border-bottom:1px solid var(--surface-ink);">
                 <td style="padding:8px 4px; font-family:'JetBrains Mono',monospace; font-weight:600;">${t.symbol.replace(".NS", "")}</td>
                 <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace;">${t.currentWeight.toFixed(1)}%</td>
                 <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:var(--text-muted);">${t.targetWeight.toFixed(1)}%</td>
@@ -10065,9 +10185,9 @@ function renderRebalanceTableV2(report) {
                 <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:${color};">${isOver ? "" : "+"}${inr(t.deltaValue)}</td>
                 <td style="padding:8px 4px;">
                   <div style="display:flex; align-items:center; gap:4px;">
-                    <div style="flex:1; background:#0b1220; height:6px; border-radius:3px; overflow:hidden; position:relative;">
+                    <div style="flex:1; background:var(--surface-ink-deep); height:6px; border-radius:3px; overflow:hidden; position:relative;">
                       <div style="position:absolute; left:${isOver ? `${50 - barPct / 2}%` : "50%"}; width:${barPct / 2}%; height:100%; background:${color}; border-radius:3px;"></div>
-                      <div style="position:absolute; left:50%; top:0; bottom:0; width:1px; background:#1a2233;"></div>
+                      <div style="position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--bg-graphite);"></div>
                     </div>
                   </div>
                 </td>
@@ -10105,23 +10225,23 @@ function renderAnalyzerRiskBlockV2(report) {
   const avgCorr = r?.avgCorrelation;
 
   const betaColor = beta == null ? "var(--text-muted)"
-    : beta > 1.25 ? "#fca5a5"
-    : beta > 1.0  ? "#fde047"
-    : "#86efac";
+    : beta > 1.25 ? "var(--negative-text-soft)"
+    : beta > 1.0  ? "var(--yellow-bright)"
+    : "var(--positive-text-soft)";
   const volColor = (vol == null || benchVol == null) ? "var(--text-muted)"
-    : vol > benchVol * 1.2 ? "#fca5a5"
-    : vol < benchVol * 0.8 ? "#86efac"
-    : "#fde047";
+    : vol > benchVol * 1.2 ? "var(--negative-text-soft)"
+    : vol < benchVol * 0.8 ? "var(--positive-text-soft)"
+    : "var(--yellow-bright)";
   const sharpeColor = sharpe == null ? "var(--text-muted)"
-    : sharpe > 1 ? "#86efac"
-    : sharpe > 0 ? "#fde047"
-    : "#fca5a5";
+    : sharpe > 1 ? "var(--positive-text-soft)"
+    : sharpe > 0 ? "var(--yellow-bright)"
+    : "var(--negative-text-soft)";
 
   const fmtPct = (v, withSign = false) => v == null ? "—" : `${withSign && v >= 0 ? "+" : ""}${v.toFixed(v >= 10 || v <= -10 ? 0 : 1)}%`;
   const fmtNum = (v) => v == null ? "—" : v.toFixed(2);
 
   const confBand = r?.confidence || (r?.sampleDays >= 252 ? "high" : r?.sampleDays >= 126 ? "medium" : "low");
-  const confColor = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[confBand] || "var(--text-muted)";
+  const confColor = { high: "var(--positive-text-soft)", medium: "var(--yellow-bright)", low: "var(--negative-text-soft)" }[confBand] || "var(--text-muted)";
   const confChip = r?.sampleDays != null
     ? `<span style="font-size:10px; color:${confColor}; background:${confColor}22; padding:3px 8px; border-radius:4px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;" title="Confidence based on ${r.sampleDays} daily observations.">Confidence: ${confBand}</span>`
     : "";
@@ -10139,41 +10259,41 @@ function renderAnalyzerRiskBlockV2(report) {
   if (betaLine) heroLines.push(betaLine);
   if (varLine) heroLines.push(varLine);
   const heroBlock = heroLines.length
-    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
+    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid var(--info-text); border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
         ${heroLines.map((l) => `<div>${l}</div>`).join("")}
        </div>` : "";
 
   const riskCard = r ? `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:12px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-bottom:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">How risky is your book?</div>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">${notAdviceChip()}</div>
       </div>
       ${heroBlock}
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Market sensitivity (beta) ${infoIcon("beta_metric")}</div>
           <div style="font-size:20px; font-weight:700; color:${betaColor};">${fmtNum(beta)}</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">How much it swings (volatility) ${infoIcon("volatility")}</div>
           <div style="font-size:20px; font-weight:700; color:${volColor};">${fmtPct(vol)}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVol)}</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Return per unit of risk (Sharpe) ${infoIcon("sharpe")}</div>
           <div style="font-size:20px; font-weight:700; color:${sharpeColor};">${fmtNum(sharpe)}</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Worst peak-to-trough drop (1y) ${infoIcon("max_drawdown")}</div>
-          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(maxDD)}</div>
+          <div style="font-size:20px; font-weight:700; color:var(--negative-text-soft);">${fmtPct(maxDD)}</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Worst-day loss (1-in-20) ${infoIcon("var95")}</div>
-          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(var95)}</div>
+          <div style="font-size:20px; font-weight:700; color:var(--negative-text-soft);">${fmtPct(var95)}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVar95)}</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">How together your stocks move ${infoIcon("pairwise_correlation")}</div>
           <div style="font-size:20px; font-weight:700;">${fmtNum(avgCorr)}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">1 = all move together</div>
@@ -10186,7 +10306,7 @@ function renderAnalyzerRiskBlockV2(report) {
           <div style="margin-top:6px;">Beta band: ${betaBand}</div>
           <div style="margin-top:2px;">Sharpe band: ${sharpeBand}</div>
           <div style="margin-top:2px;">Vs. Nifty 50, last ${r.sampleDays} trading days. ${r.methodology || ""}</div>
-          ${r.interpretation ? `<div style="margin-top:6px; padding:8px 10px; background:rgba(147,197,253,0.05); border-left:2px solid #60a5fa; border-radius:3px; color:var(--text);">${r.interpretation}</div>` : ""}
+          ${r.interpretation ? `<div style="margin-top:6px; padding:8px 10px; background:rgba(147,197,253,0.05); border-left:2px solid var(--info-text); border-radius:3px; color:var(--text);">${r.interpretation}</div>` : ""}
         </div>
       </details>
     </div>` : "";
@@ -10194,16 +10314,16 @@ function renderAnalyzerRiskBlockV2(report) {
   // Stress hero — find the most-severe scenario for the lead line
   const largest = tests.reduce((a, b) => (Math.abs(b.projectedLossPct ?? 0) > Math.abs(a?.projectedLossPct ?? 0) ? b : a), null);
   const stressHero = largest && Number.isFinite(largest.marketShockPct) && Number.isFinite(largest.projectedLossAmount)
-    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(252,165,165,0.05); border-left:3px solid #fca5a5; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
+    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(252,165,165,0.05); border-left:3px solid var(--negative-text-soft); border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
         If the Nifty drops <strong>${Math.abs(largest.marketShockPct).toFixed(0)}%</strong>, you'd likely lose around <strong>${inr(Math.abs(largest.projectedLossAmount))}</strong> (${largest.projectedLossPct.toFixed(1)}% of book).
        </div>` : "";
 
   const rows = tests.map((t) => {
     const pct = t.projectedLossPct;
     const amt = t.projectedLossAmount;
-    const color = pct < -25 ? "#fca5a5" : pct < -15 ? "#fde047" : "#93c5fd";
+    const color = pct < -25 ? "var(--negative-text-soft)" : pct < -15 ? "var(--yellow-bright)" : "var(--info-text-soft)";
     return `
-      <div style="display:grid; grid-template-columns: 1fr 120px 100px 140px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid #1a2233; font-size:13px;">
+      <div style="display:grid; grid-template-columns: 1fr 120px 100px 140px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--bg-graphite); font-size:13px;">
         <div>${t.name}</div>
         <div style="color:var(--text-muted); font-size:12px;">Nifty ${fmtPct(t.marketShockPct, true)}</div>
         <div style="color:${color}; font-weight:700;">${fmtPct(pct, true)}</div>
@@ -10224,7 +10344,7 @@ function renderAnalyzerRiskBlockV2(report) {
   }).join("");
 
   const stressCard = tests.length ? `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">What happens if the market crashes?</div>
         ${notAdviceChip()}
@@ -10248,26 +10368,26 @@ function renderAnalyzerRiskBlockV2(report) {
   // Currency
   const cx = report.currencyExposure;
   const currencyHero = cx
-    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(134,239,172,0.05); border-left:3px solid #86efac; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
+    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(134,239,172,0.05); border-left:3px solid var(--positive-text-soft); border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
         About <strong>${cx.usdEarningPct.toFixed(1)}%</strong> of your earnings are USD-linked (IT + Pharma) — that's a natural hedge if the rupee weakens.
        </div>` : "";
 
   const currencyCard = cx ? `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:12px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-top:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">Rupee vs dollar split</div>
         ${notAdviceChip()}
       </div>
       ${currencyHero}
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Rupee earners</div>
           <div style="font-size:20px; font-weight:700;">${cx.inrExposurePct.toFixed(1)}%</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Full INR-denominated earnings</div>
         </div>
-        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+        <div style="padding:12px; background:var(--surface-ink-deep); border:1px solid var(--bg-graphite); border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Dollar earners</div>
-          <div style="font-size:20px; font-weight:700; color:#86efac;">${cx.usdEarningPct.toFixed(1)}%</div>
+          <div style="font-size:20px; font-weight:700; color:var(--positive-text-soft);">${cx.usdEarningPct.toFixed(1)}%</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">IT Services + Pharma (${inr(cx.usdEarningValue)})</div>
         </div>
       </div>
@@ -10306,12 +10426,12 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
 
   if (present) {
     const bucketColor = {
-      CONSERVATIVE: "#60a5fa",
-      MODERATE:     "#a78bfa",
-      AGGRESSIVE:   "#f97316",
-    }[rpBlock.bucket] || "#94a3b8";
+      CONSERVATIVE: "var(--info-text)",
+      MODERATE:     "var(--purple-bright)",
+      AGGRESSIVE:   "var(--orange-mid)",
+    }[rpBlock.bucket] || "var(--text-slate)";
     el.innerHTML = `
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:14px 18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:14px 18px;">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
           <div>
             <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:4px;">Risk Profile</div>
@@ -10324,7 +10444,7 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
               You're a <strong>${rpBlock.bucket}</strong> investor. Your portfolio is being measured against ${rpBlock.bucket.toLowerCase()}-aligned targets.
             </div>
           </div>
-          <button id="analyzerRiskProfileEdit" type="button" style="background:transparent; border:1px solid #1a2233; color:var(--text-muted); border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer;">Retake survey</button>
+          <button id="analyzerRiskProfileEdit" type="button" style="background:transparent; border:1px solid var(--bg-graphite); color:var(--text-muted); border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer;">Retake survey</button>
         </div>
         <details style="margin-top:10px;">
           <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Methodology ▾</summary>
@@ -10343,7 +10463,7 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
   // Unset path — identical to V1
   if (!Array.isArray(questions) || questions.length === 0) {
     el.innerHTML = `
-      <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.4); border-radius:10px; padding:14px 18px; color:#fde68a; font-size:13px;">
+      <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.4); border-radius:10px; padding:14px 18px; color:var(--amber-pale); font-size:13px;">
         Risk-profile questionnaire unavailable. Recommendations will use the default MODERATE profile.
       </div>`;
     return;
@@ -10355,7 +10475,7 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
       ${q.helper ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${q.helper}</div>` : ""}
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         ${q.options.map((o) => `
-          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
+          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
             <input type="radio" name="rp_${q.id}" value="${o.value}" style="margin:0;" />
             ${o.label}
           </label>
@@ -10369,7 +10489,7 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
-            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:var(--negative-text-soft); text-transform:uppercase; letter-spacing:0.4px;">required</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
             SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
@@ -10378,7 +10498,7 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
       </div>
       <div id="analyzerRiskProfileForm">${questionsHtml}</div>
       <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
-        <button id="analyzerRiskProfileSubmit" type="button" style="background:#16a34a; color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; re-run</button>
+        <button id="analyzerRiskProfileSubmit" type="button" style="background:var(--green-deep); color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; re-run</button>
         <span id="analyzerRiskProfileStatus" style="font-size:11px; color:var(--text-muted);"></span>
       </div>
     </div>`;
@@ -10394,7 +10514,7 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
     }
     if (missing > 0) {
       status.textContent = `Please answer all ${questions.length} questions (${missing} remaining).`;
-      status.style.color = "#fca5a5";
+      status.style.color = "var(--negative-text-soft)";
       return;
     }
     status.textContent = "Saving…";
@@ -10408,18 +10528,18 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || "save failed");
       status.textContent = `Saved → ${j.riskProfile.bucket}. Re-running analysis…`;
-      status.style.color = "#86efac";
+      status.style.color = "var(--positive-text-soft)";
       renderAnalyzerRiskProfileV2({ present: true, bucket: j.riskProfile.bucket, score: j.riskProfile.score });
       const allocEl = document.getElementById("analyzerAssetAllocation");
       if (allocEl) {
         allocEl.insertAdjacentHTML("afterbegin", `
-          <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#86efac;">
+          <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:var(--positive-text-soft);">
             ✓ Profile saved. Re-upload your holdings file (or re-run the analyser) to refresh allocation targets and per-fund alignment chips.
           </div>`);
       }
     } catch (err) {
       status.textContent = `Save failed: ${err.message}`;
-      status.style.color = "#fca5a5";
+      status.style.color = "var(--negative-text-soft)";
     }
   });
 }
@@ -10437,10 +10557,10 @@ function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
     : `default MODERATE profile (complete the survey above for personalised targets)`;
 
   const VERDICT_PALETTE = {
-    OK:       { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)",  text: "#86efac", label: "On target" },
-    REDUCE:   { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.35)",  text: "#fca5a5", label: "Reduce" },
-    INCREASE: { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "#93c5fd", label: "Increase" },
-    ADD_NEW:  { bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.35)", text: "#d8b4fe", label: "Add new" },
+    OK:       { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)",  text: "var(--positive-text-soft)", label: "On target" },
+    REDUCE:   { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.35)",  text: "var(--negative-text-soft)", label: "Reduce" },
+    INCREASE: { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "var(--info-text-soft)", label: "Increase" },
+    ADD_NEW:  { bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.35)", text: "var(--purple-soft)", label: "Add new" },
   };
 
   // Hero copy
@@ -10454,12 +10574,12 @@ function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
     const direction = worst.verdict === "REDUCE" ? "over-weight" : "under-weight";
     heroLine = `You're <strong>${direction}</strong> in <strong>${worst.label}</strong> — target is ${worst.targetPct}%, you have ${worst.currentPct}%.`;
   }
-  const heroBlock = `<div style="margin-top:8px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">${heroLine}</div>`;
+  const heroBlock = `<div style="margin-top:8px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid var(--info-text); border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">${heroLine}</div>`;
 
   const barSegments = alloc.buckets
     .filter((b) => b.currentPct > 0)
     .map((b, i) => {
-      const colors = ["#3b82f6", "#a78bfa", "#f97316", "#10b981", "#f59e0b", "#ec4899", "#06b6d4", "#84cc16"];
+      const colors = ["var(--blue-strong)", "var(--purple-bright)", "var(--orange-mid)", "var(--emerald)", "var(--amber)", "var(--pink)", "var(--cyan-deep)", "var(--lime)"];
       const c = colors[i % colors.length];
       return `<div title="${b.label} ${b.currentPct}%" style="flex:0 0 ${b.currentPct}%; background:${c}; height:100%;"></div>`;
     }).join("");
@@ -10469,7 +10589,7 @@ function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
     const gapStr = b.gapPp >= 0 ? `+${b.gapPp}pp` : `${b.gapPp}pp`;
     const gapColor = b.verdict === "OK" ? "var(--text-muted)" : pal.text;
     return `
-      <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; align-items:center; padding:10px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; margin-top:6px;">
+      <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; align-items:center; padding:10px 12px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:6px; margin-top:6px;">
         <div>
           <div style="font-size:13px; color:var(--text); font-weight:600;">${b.label}</div>
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${b.risk} risk</div>
@@ -10485,13 +10605,13 @@ function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
 
   const flagsHtml = (alloc.summary?.concentrationFlags || []).map((f) => `
     <div style="display:flex; gap:8px; align-items:flex-start; padding:8px 12px; background:rgba(239,68,68,0.08); border-left:3px solid rgba(239,68,68,0.5); border-radius:0 6px 6px 0; margin-top:6px;">
-      <span style="color:#fca5a5; font-weight:700; flex-shrink:0;">!</span>
+      <span style="color:var(--negative-text-soft); font-weight:700; flex-shrink:0;">!</span>
       <span style="font-size:12px; color:var(--text); line-height:1.5;">${f}</span>
     </div>`).join("");
 
   const summary = alloc.summary || {};
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
         <div style="flex:1; min-width:240px;">
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
@@ -10501,14 +10621,14 @@ function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
           ${heroBlock}
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          ${summary.equityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.equityPct}%</strong> equity</span>` : ""}
-          ${summary.debtPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.debtPct}%</strong> debt</span>` : `<span style="font-size:11px; padding:4px 10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.35); border-radius:4px; color:#fca5a5;"><strong>0%</strong> debt</span>`}
-          ${summary.hybridPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.hybridPct}%</strong> hybrid</span>` : ""}
-          ${summary.commodityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.commodityPct}%</strong> gold</span>` : ""}
+          ${summary.equityPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.equityPct}%</strong> equity</span>` : ""}
+          ${summary.debtPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.debtPct}%</strong> debt</span>` : `<span style="font-size:11px; padding:4px 10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.35); border-radius:4px; color:var(--negative-text-soft);"><strong>0%</strong> debt</span>`}
+          ${summary.hybridPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.hybridPct}%</strong> hybrid</span>` : ""}
+          ${summary.commodityPct ? `<span style="font-size:11px; padding:4px 10px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:4px;"><strong>${summary.commodityPct}%</strong> gold</span>` : ""}
         </div>
       </div>
 
-      <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; background:#0f172a; margin-top:14px; border:1px solid #1a2233;">
+      <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; background:var(--surface-navy); margin-top:14px; border:1px solid var(--bg-graphite);">
         ${barSegments || '<div style="flex:1;"></div>'}
       </div>
 
@@ -10521,7 +10641,7 @@ function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
 
       ${flagsHtml ? `
         <div style="margin-top:14px;">
-          <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Concentration flags</div>
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--negative-text-soft); margin-bottom:6px;">Concentration flags</div>
           ${flagsHtml}
         </div>` : ""}
 
@@ -10535,11 +10655,11 @@ function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
 }
 
 const MF_ACTION_PALETTE_V2 = {
-  EXIT:        { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.5)",  text: "#fca5a5", verb: "Consider exiting" },
-  SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.5)", text: "#93c5fd", verb: "Consider switching" },
-  CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.5)", text: "#d8b4fe", verb: "Consider consolidating" },
-  ADD:         { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.5)",  text: "#86efac", verb: "Consider adding" },
-  HOLD:        { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.35)",text: "#cbd5e1", verb: "Hold" },
+  EXIT:        { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.5)",  text: "var(--negative-text-soft)", verb: "Consider exiting" },
+  SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.5)", text: "var(--info-text-soft)", verb: "Consider switching" },
+  CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.5)", text: "var(--purple-soft)", verb: "Consider consolidating" },
+  ADD:         { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.5)",  text: "var(--positive-text-soft)", verb: "Consider adding" },
+  HOLD:        { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.35)",text: "var(--text-slate-light)", verb: "Hold" },
 };
 
 function mfActionBadgeV2(action) {
@@ -10587,8 +10707,8 @@ function renderAnalyzerMfPositionsV2(block) {
     ? `<details style="margin-top:10px;">
         <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Book hygiene details ▾</summary>
         <div style="font-size:11px; color:var(--text-muted); margin-top:6px; padding-left:6px; line-height:1.6;">
-          ${overlap.duplicateFolioCount > 0 ? `<div><strong style="color:#d8b4fe;">${overlap.duplicateFolioCount} duplicate folio(s)</strong> — same scheme split across multiple folios; consolidating reduces tracking overhead.</div>` : ""}
-          ${(overlap.overweightCategories || []).length > 0 ? `<div><strong style="color:#fde047;">${overlap.overweightCategories.length} category(s) with 2+ funds</strong> — overlap of holdings expected; check the per-fund peer compare to spot the weakest of each set.</div>` : ""}
+          ${overlap.duplicateFolioCount > 0 ? `<div><strong style="color:var(--purple-soft);">${overlap.duplicateFolioCount} duplicate folio(s)</strong> — same scheme split across multiple folios; consolidating reduces tracking overhead.</div>` : ""}
+          ${(overlap.overweightCategories || []).length > 0 ? `<div><strong style="color:var(--yellow-bright);">${overlap.overweightCategories.length} category(s) with 2+ funds</strong> — overlap of holdings expected; check the per-fund peer compare to spot the weakest of each set.</div>` : ""}
         </div>
        </details>`
     : "";
@@ -10598,20 +10718,20 @@ function renderAnalyzerMfPositionsV2(block) {
   const opportunities = summary.opportunities || [];
   const summaryRow = (concerns.length > 0 || opportunities.length > 0) ? `
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;">
-      <div style="background:#0f172a; border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:10px 12px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Top concerns</div>
+      <div style="background:var(--surface-navy); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--negative-text-soft); margin-bottom:6px;">Top concerns</div>
         ${concerns.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No material concerns flagged.</div>'
           : concerns.map((c) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${c.detail}</div>`).join("")}
       </div>
-      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.25); border-radius:6px; padding:10px 12px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#86efac; margin-bottom:6px;">Top switch opportunities</div>
+      <div style="background:var(--surface-navy); border:1px solid rgba(34,197,94,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--positive-text-soft); margin-bottom:6px;">Top switch opportunities</div>
         ${opportunities.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No SWITCH candidates above the noise floor.</div>'
-          : opportunities.map((o) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${o.from.name?.slice(0,32)} → ${o.to?.slice(0,32)} <strong style="color:#86efac;">+${o.deltaPp}pp</strong></div>`).join("")}
+          : opportunities.map((o) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${o.from.name?.slice(0,32)} → ${o.to?.slice(0,32)} <strong style="color:var(--positive-text-soft);">+${o.deltaPp}pp</strong></div>`).join("")}
       </div>
     </div>` : "";
 
   const header = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:16px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px; margin-bottom:16px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
         <div>
           <div style="font-size:14px; font-weight:700; display:flex; align-items:center; gap:10px;">
@@ -10655,8 +10775,8 @@ function renderMfPositionCardV2(position, idx) {
   const perfLine = Number.isFinite(perf.trailingXirrPct)
     ? `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">
          <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">${sourceLabel}:</span>
-         <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
-         ${Number.isFinite(perf.vsCategoryPp) ? `· vs ${perf.categoryKey || 'category'} benchmark ${perf.categoryBenchmarkPct}% <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">(${perf.vsCategoryPp >= 0 ? "+" : ""}${perf.vsCategoryPp}pp)</strong>` : ""}
+         <strong style="color:${perf.vsCategoryPp >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
+         ${Number.isFinite(perf.vsCategoryPp) ? `· vs ${perf.categoryKey || 'category'} benchmark ${perf.categoryBenchmarkPct}% <strong style="color:${perf.vsCategoryPp >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">(${perf.vsCategoryPp >= 0 ? "+" : ""}${perf.vsCategoryPp}pp)</strong>` : ""}
        </div>`
     : `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">No published XIRR or AMFI match available.</div>`;
 
@@ -10665,27 +10785,27 @@ function renderMfPositionCardV2(position, idx) {
   const multiWindowDetails = hasMultiWindow ? `
     <details style="margin-top:8px;">
       <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Show metrics ▾</summary>
-      <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); margin-top:6px; padding:8px 12px; background:#0f172a; border-radius:6px; border:1px solid #1a2233;">
-        ${Number.isFinite(m.cagr1yPct) ? `<span>1y <strong style="color:${m.cagr1yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr1yPct}%</strong></span>` : ""}
-        ${Number.isFinite(m.cagr3yPct) ? `<span>3y <strong style="color:${m.cagr3yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr3yPct}%</strong></span>` : ""}
-        ${Number.isFinite(m.cagr5yPct) ? `<span>5y <strong style="color:${m.cagr5yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr5yPct}%</strong></span>` : ""}
+      <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); margin-top:6px; padding:8px 12px; background:var(--surface-navy); border-radius:6px; border:1px solid var(--bg-graphite);">
+        ${Number.isFinite(m.cagr1yPct) ? `<span>1y <strong style="color:${m.cagr1yPct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${m.cagr1yPct}%</strong></span>` : ""}
+        ${Number.isFinite(m.cagr3yPct) ? `<span>3y <strong style="color:${m.cagr3yPct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${m.cagr3yPct}%</strong></span>` : ""}
+        ${Number.isFinite(m.cagr5yPct) ? `<span>5y <strong style="color:${m.cagr5yPct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${m.cagr5yPct}%</strong></span>` : ""}
         ${Number.isFinite(m.sharpe3y) ? `<span>Sharpe(3y) ${infoIcon("sharpe")} <strong style="color:var(--text);">${m.sharpe3y}</strong></span>` : ""}
         ${Number.isFinite(m.annualVolPct) ? `<span>Vol <strong style="color:var(--text);">${m.annualVolPct}%</strong></span>` : ""}
-        ${Number.isFinite(m.maxDrawdownPct) ? `<span>Max DD <strong style="color:#fca5a5;">${m.maxDrawdownPct}%</strong></span>` : ""}
+        ${Number.isFinite(m.maxDrawdownPct) ? `<span>Max DD <strong style="color:var(--negative-text-soft);">${m.maxDrawdownPct}%</strong></span>` : ""}
         ${factors.amfi?.schemeCode ? `<span style="opacity:0.6;">AMFI #${factors.amfi.schemeCode}${factors.amfi.matchType === "isin" ? " · ISIN match" : factors.amfi.score ? ` · name match ${factors.amfi.score}` : ""}</span>` : ""}
       </div>
     </details>` : "";
 
   const reasons = rec.reasons || [];
   const leadReason = reasons.length > 0
-    ? `<div style="font-size:13px; color:var(--text); margin-top:10px; padding:10px 12px; background:rgba(96,165,250,0.04); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0;">
+    ? `<div style="font-size:13px; color:var(--text); margin-top:10px; padding:10px 12px; background:rgba(96,165,250,0.04); border-left:3px solid var(--info-text); border-radius:0 6px 6px 0;">
         <strong style="color:${palette.text}; text-transform:uppercase; letter-spacing:0.3px; font-size:11px;">${reasons[0].label}:</strong>
         <span style="line-height:1.5;"> ${reasons[0].detail}</span>
        </div>`
     : "";
   const remainingReasons = reasons.slice(1);
   const reasonsHtml = remainingReasons.map((r) => `
-    <div style="background:#0f172a; border-left:3px solid ${palette.border}; padding:8px 12px; margin-top:6px; border-radius:0 6px 6px 0;">
+    <div style="background:var(--surface-navy); border-left:3px solid ${palette.border}; padding:8px 12px; margin-top:6px; border-radius:0 6px 6px 0;">
       <div style="font-size:11px; font-weight:700; color:${palette.text}; letter-spacing:0.3px; text-transform:uppercase; margin-bottom:2px;">${r.label}</div>
       <div style="font-size:12px; color:var(--text-muted); line-height:1.45;">${r.detail}</div>
     </div>
@@ -10693,26 +10813,26 @@ function renderMfPositionCardV2(position, idx) {
 
   const peers = rec.peerCandidates || [];
   const peersHtml = peers.length > 0 ? `
-    <div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--bg-graphite);">
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Peer compare (same SEBI category)</div>
       ${peers.map((c, i) => {
         const meta = c.source === "amfi_live"
           ? `5y ${c.approxXirr5yPct}%${Number.isFinite(c.cagr3yPct) ? ` · 3y ${c.cagr3yPct}%` : ""}${Number.isFinite(c.sharpe3y) ? ` · Sharpe ${c.sharpe3y}` : ""} · ${c.amc || "AMC"}`
           : `5y ${c.approxXirr5yPct}%${c.expenseRatioPct ? ` · TER ${c.expenseRatioPct}%` : ""}${c.categoryRank5y ? ` · rank #${c.categoryRank5y}` : ""}${c.lockInMonths ? ` · ${c.lockInMonths}mo lock` : ""}`;
         return `
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-bottom:${i < peers.length-1 ? '1px solid #1a2233' : '0'};">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-bottom:${i < peers.length-1 ? '1px solid var(--bg-graphite)' : '0'};">
           <div style="flex:1; min-width:0;">
             <div style="font-size:12px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.name}</div>
             <div style="font-size:10px; color:var(--text-muted); margin-top:1px;">${meta}</div>
           </div>
-          ${Number.isFinite(c.deltaPp) ? `<div style="font-size:13px; font-weight:700; color:${c.deltaPp > 0 ? '#86efac' : '#fca5a5'};">${c.deltaPp > 0 ? "+" : ""}${c.deltaPp}pp</div>` : ""}
+          ${Number.isFinite(c.deltaPp) ? `<div style="font-size:13px; font-weight:700; color:${c.deltaPp > 0 ? 'var(--positive-text-soft)' : 'var(--negative-text-soft)'};">${c.deltaPp > 0 ? "+" : ""}${c.deltaPp}pp</div>` : ""}
         </div>
       `;}).join("")}
     </div>
   ` : "";
 
   const consolidateNote = rec.consolidateTo ? `
-    <div style="margin-top:10px; padding:8px 12px; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.3); border-radius:6px; font-size:12px; color:#d8b4fe;">
+    <div style="margin-top:10px; padding:8px 12px; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.3); border-radius:6px; font-size:12px; color:var(--purple-soft);">
       Consolidate into folio <strong>${rec.consolidateTo.folio}</strong> (largest sibling holding the same scheme).
     </div>` : "";
 
@@ -10720,7 +10840,7 @@ function renderMfPositionCardV2(position, idx) {
   const newsHtml = renderMfNewsBlock(news);
 
   return `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:16px; margin-bottom:12px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:16px; margin-bottom:12px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
         <div style="flex:1; min-width:240px;">
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
@@ -10757,7 +10877,7 @@ function renderAnalyzerOptimizerV2(optimizer) {
 
   if (!optimizer) {
     el.innerHTML = `
-      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
         <div style="font-size:14px; font-weight:700; margin-bottom:8px;">Where could your returns improve?</div>
         <div style="font-size:12px; color:var(--text-muted);">
           Optimizer block unavailable for this portfolio (likely an empty book or no investible holdings).
@@ -10788,13 +10908,13 @@ function renderAnalyzerOptimizerV2(optimizer) {
     const sign = (upliftBps || 0) >= 0 ? "+" : "";
     return `Switching the <strong>${moves.length}</strong> position${moves.length === 1 ? "" : "s"} below could lift your annualised return from <strong>${currentPct.toFixed(2)}%</strong> to <strong>${projectedPct.toFixed(2)}%</strong> — about <strong>${sign}${(upliftBps || 0).toFixed(0)} basis points</strong> more per year.`;
   })();
-  const heroBlock = `<div style="margin-top:6px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">${heroLine}</div>`;
+  const heroBlock = `<div style="margin-top:6px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid var(--info-text); border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">${heroLine}</div>`;
 
   const presetChips = Object.keys(OPTIMIZER_PRESET_LABELS).map((key) => {
     const active = key === _optimizerState.preset;
     const bg = active ? "var(--accent)" : "transparent";
-    const color = active ? "#fff" : "var(--text)";
-    const border = active ? "var(--accent)" : "#2a3349";
+    const color = active ? "var(--white)" : "var(--text)";
+    const border = active ? "var(--accent)" : "var(--border-graphite)";
     return `<button type="button"
       onclick="applyOptimizerPreset('${key}')"
       title="${OPTIMIZER_PRESET_TOOLTIPS[key]}"
@@ -10806,8 +10926,8 @@ function renderAnalyzerOptimizerV2(optimizer) {
   const slabChips = [5, 20, 30].map((s) => {
     const active = s === _optimizerState.taxSlabPct;
     const bg = active ? "var(--accent)" : "transparent";
-    const color = active ? "#fff" : "var(--text)";
-    const border = active ? "var(--accent)" : "#2a3349";
+    const color = active ? "var(--white)" : "var(--text)";
+    const border = active ? "var(--accent)" : "var(--border-graphite)";
     return `<button type="button"
       onclick="applyOptimizerTaxSlab(${s})"
       style="background:${bg}; color:${color}; border:1px solid ${border}; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:600; cursor:pointer;">
@@ -10816,23 +10936,23 @@ function renderAnalyzerOptimizerV2(optimizer) {
   }).join("");
 
   const moveCards = moves.length === 0
-    ? `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:12px; color:#86efac;">
+    ? `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:12px; color:var(--positive-text-soft);">
         No positive-uplift moves at the current preset / noise floor — your book is at or near its mathematically-derived optimum given the constraints.
       </div>`
     : moves.map((m, idx) => {
-        const upliftColor = (m.estUpliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
+        const upliftColor = (m.estUpliftBps || 0) >= 0 ? "var(--green, var(--green-bright))" : "var(--red, var(--red-bright))";
         const switchTo = Array.isArray(m.redeployTo) && m.redeployTo.length > 0
           ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">
                Redeploy to: ${m.redeployTo.map((c) => `<strong style="color:var(--text);">${c.name}</strong>${c.allocPct != null ? ` (${c.allocPct}%)` : ""}`).join(" · ")}
              </div>`
           : "";
         const blocked = m.blocking
-          ? `<div style="font-size:11px; color:#fca5a5; margin-top:6px; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:4px; display:inline-block;">
+          ? `<div style="font-size:11px; color:var(--negative-text-soft); margin-top:6px; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:4px; display:inline-block;">
                Blocked: ${m.blocking.reason || m.blocking.type || "constraint"}
              </div>`
           : "";
         return `
-          <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-bottom:10px;">
+          <div style="background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-bottom:10px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
               <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                 <span style="font-size:12px; font-weight:700; color:var(--text-muted);">#${idx + 1}</span>
@@ -10849,10 +10969,10 @@ function renderAnalyzerOptimizerV2(optimizer) {
               ${m.rationale || "—"}
             </div>
             ${switchTo}
-            <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:1px solid #1a2233;">
+            <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:1px solid var(--bg-graphite);">
               <span>Cash from selling: <strong style="color:var(--text);">${inr(m.grossProceedsRupees)}</strong></span>
-              <span>Tax owed: <strong style="color:#fca5a5;">${inr(m.taxCostRupees)}</strong></span>
-              <span>Cash to reinvest: <strong style="color:#86efac;">${inr(m.netRedeployableRupees)}</strong></span>
+              <span>Tax owed: <strong style="color:var(--negative-text-soft);">${inr(m.taxCostRupees)}</strong></span>
+              <span>Cash to reinvest: <strong style="color:var(--positive-text-soft);">${inr(m.netRedeployableRupees)}</strong></span>
             </div>
             ${blocked}
             ${m.compliance ? `<div style="font-size:10px; color:var(--text-muted); margin-top:6px; font-style:italic;">${m.compliance}</div>` : ""}
@@ -10868,7 +10988,7 @@ function renderAnalyzerOptimizerV2(optimizer) {
       <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Constraints binding</div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         ${constraints.map((c) => `
-          <span style="display:inline-block; font-size:11px; padding:4px 10px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.3); border-radius:4px; color:#fde047;">
+          <span style="display:inline-block; font-size:11px; padding:4px 10px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.3); border-radius:4px; color:var(--yellow-bright);">
             ${c.type === "ELSS_LOCK_IN"
               ? `ELSS lock-in: ${c.instrument || ""}${c.until ? " until " + c.until : ""}`
               : c.type === "FY_LTCG_BUDGET"
@@ -10917,18 +11037,18 @@ function renderAnalyzerOptimizerV2(optimizer) {
 
   const heroCard = `
     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px;">
-      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+      <div style="background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px;">
         <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Current XIRR</div>
         <div style="font-size:24px; font-weight:700; margin-top:4px;">${Number.isFinite(currentPct) ? currentPct.toFixed(2) + "%" : "—"}</div>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Confidence: ${optimizer.currentXirrConfidence || "—"} ${infoIcon("data_confidence")}</div>
       </div>
-      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.3); border-radius:8px; padding:14px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:#86efac;">Projected XIRR</div>
-        <div style="font-size:24px; font-weight:700; margin-top:4px; color:#bbf7d0;">${Number.isFinite(projectedPct) ? projectedPct.toFixed(2) + "%" : "—"}</div>
+      <div style="background:var(--surface-navy); border:1px solid rgba(34,197,94,0.3); border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--positive-text-soft);">Projected XIRR</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:var(--positive-text-pale);">${Number.isFinite(projectedPct) ? projectedPct.toFixed(2) + "%" : "—"}</div>
       </div>
-      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+      <div style="background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px;">
         <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Uplift</div>
-        <div style="font-size:24px; font-weight:700; margin-top:4px; color:${(upliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)"};">
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:${(upliftBps || 0) >= 0 ? "var(--green, var(--green-bright))" : "var(--red, var(--red-bright))"};">
           ${(upliftBps || 0) >= 0 ? "+" : ""}${(upliftBps || 0).toFixed(0)} bps
         </div>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${moves.length} candidate move${moves.length === 1 ? "" : "s"}</div>
@@ -10936,7 +11056,7 @@ function renderAnalyzerOptimizerV2(optimizer) {
     </div>`;
 
   const controls = `
-    <div style="display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start; margin-bottom:18px; padding:14px; background:#0f172a; border:1px solid #1a2233; border-radius:8px;">
+    <div style="display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start; margin-bottom:18px; padding:14px; background:var(--surface-navy); border:1px solid var(--bg-graphite); border-radius:8px;">
       <div>
         <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:6px;">Preset</div>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">${presetChips}</div>
@@ -10948,7 +11068,7 @@ function renderAnalyzerOptimizerV2(optimizer) {
     </div>`;
 
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       ${header}
       ${heroCard}
       ${controls}
@@ -10964,7 +11084,7 @@ function renderAnalyzerHoldingsV2(report) {
   const el = document.getElementById("analyzerHoldings");
   const cards = report.holdings.map((h, idx) => renderHoldingCardV2(h, idx === 0)).join("");
   el.innerHTML = `
-    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+    <div style="background:var(--panel); border:1px solid var(--bg-graphite); border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="font-size:14px; font-weight:700;">Per-holding deep dive (${report.holdings.length})</div>
@@ -10983,23 +11103,23 @@ function renderHoldingCardV2(h, defaultOpen) {
   const pnlStr = `${h.pnlPercent >= 0 ? "+" : ""}${(h.pnlPercent || 0).toFixed(1)}%`;
   const flagsSection = h.redFlags && h.redFlags.length
     ? `<div style="margin:14px 0;">
-        <div style="font-size:12px; font-weight:700; color:#fca5a5; margin-bottom:6px;">&#9888; Red flags</div>
-        ${h.redFlags.map((f) => `<div style="font-size:12px; padding:6px 10px; margin-bottom:4px; background:rgba(${f.severity === 'high' ? '239,68,68' : '250,204,21'},0.08); border-left:2px solid ${f.severity === 'high' ? '#fca5a5' : '#fde047'}; border-radius:3px;">${f.message}</div>`).join("")}
+        <div style="font-size:12px; font-weight:700; color:var(--negative-text-soft); margin-bottom:6px;">&#9888; Red flags</div>
+        ${h.redFlags.map((f) => `<div style="font-size:12px; padding:6px 10px; margin-bottom:4px; background:rgba(${f.severity === 'high' ? '239,68,68' : '250,204,21'},0.08); border-left:2px solid ${f.severity === 'high' ? 'var(--negative-text-soft)' : 'var(--yellow-bright)'}; border-radius:3px;">${f.message}</div>`).join("")}
       </div>` : "";
 
   const ep = h.exitPlan || {};
   const hasTechnicalLevels = ep.supportLevel || ep.stopLoss || ep.target || ep.upsideBand || ep.trailingStop;
   const exitDetails = hasTechnicalLevels
     ? `<details style="margin:14px 0;">
-        <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:#111827; border-radius:6px; font-size:13px; font-weight:700; color:#93c5fd; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+        <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:var(--surface-ink); border-radius:6px; font-size:13px; font-weight:700; color:var(--info-text-soft); display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
           <span>Technical levels ▾</span>
           <span style="font-size:10px; color:var(--text-muted); font-style:italic; font-weight:400;">analytical reference — not trade instructions</span>
         </summary>
-        <div style="padding:12px 14px; background:#111827; border-top:1px solid #1a2233; border-radius:0 0 6px 6px; margin-top:-2px;">
+        <div style="padding:12px 14px; background:var(--surface-ink); border-top:1px solid var(--bg-graphite); border-radius:0 0 6px 6px; margin-top:-2px;">
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:12px;">
             ${(ep.supportLevel ?? ep.stopLoss) != null ? `<div><span style="color:var(--text-muted);">Support:</span> <strong>₹${ep.supportLevel ?? ep.stopLoss}</strong></div>` : ""}
             ${(ep.upsideBand ?? ep.target) != null ? `<div><span style="color:var(--text-muted);">Upside band:</span> <strong>₹${ep.upsideBand ?? ep.target}</strong></div>` : ""}
-            ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trailing support:</span> ${ep.trailingStop.activated ? `<strong style="color:#86efac;">active @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
+            ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trailing support:</span> ${ep.trailingStop.activated ? `<strong style="color:var(--positive-text-soft);">active @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
             ${(h.longTermReference ?? h.longTermTarget) ? `<div><span style="color:var(--text-muted);">52W high reference:</span> <strong>₹${h.longTermReference ?? h.longTermTarget}</strong></div>` : ""}
           </div>
           ${ep.slConfirmationRule ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">${ep.slConfirmationRule}</div>` : ""}
@@ -11008,13 +11128,13 @@ function renderHoldingCardV2(h, defaultOpen) {
       </details>` : "";
 
   const outlookSection = h.outlook
-    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+    ? `<div style="margin:14px 0; padding:12px 14px; background:var(--surface-ink); border-radius:6px;">
         <div style="font-size:12px; font-weight:700; margin-bottom:8px;">Outlook</div>
         <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; font-size:12px;">
           ${["shortTerm", "midTerm", "longTerm"].map((k) => {
             const o = h.outlook[k];
             const arrow = o.direction === "up" ? "↑" : o.direction === "down" ? "↓" : "→";
-            const color = o.direction === "up" ? "#86efac" : o.direction === "down" ? "#fca5a5" : "#9ca3af";
+            const color = o.direction === "up" ? "var(--positive-text-soft)" : o.direction === "down" ? "var(--negative-text-soft)" : "var(--text-gray)";
             return `<div>
               <div style="color:var(--text-muted); font-size:10px; text-transform:uppercase;">${o.horizon}</div>
               <div style="color:${color}; font-weight:700; font-size:13px;">${arrow} ${o.direction.toUpperCase()}</div>
@@ -11026,7 +11146,7 @@ function renderHoldingCardV2(h, defaultOpen) {
 
   const taxSection = h.taxNote
     ? `<div style="margin:14px 0; padding:10px 14px; background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.2); border-radius:6px; font-size:12px;">
-        <div style="font-weight:700; color:#fde047; margin-bottom:4px;">Tax note${h.purchaseDate ? ` <span style="font-weight:500; color:var(--text-muted);">· purchased ${h.purchaseDate}</span>` : ""}</div>
+        <div style="font-weight:700; color:var(--yellow-bright); margin-bottom:4px;">Tax note${h.purchaseDate ? ` <span style="font-weight:500; color:var(--text-muted);">· purchased ${h.purchaseDate}</span>` : ""}</div>
         <div>${h.taxNote.summary}</div>
         ${h.taxNote.holdingPeriod ? `<div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.holdingPeriod}</div>` : ""}
         <div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.detail}</div>
@@ -11036,10 +11156,10 @@ function renderHoldingCardV2(h, defaultOpen) {
   const riskDetails = hasRiskMetrics
     ? (() => {
         const liqColor = {
-          good:  "#86efac",
-          fair:  "#a7f3d0",
-          watch: "#fde047",
-          poor:  "#fca5a5",
+          good:  "var(--positive-text-soft)",
+          fair:  "var(--positive-text-mint)",
+          watch: "var(--yellow-bright)",
+          poor:  "var(--negative-text-soft)",
         }[h.risk.liquidityBand] || "var(--text-muted)";
         const liqLabel = h.risk.daysToExit != null
           ? `<div><span style="color:var(--text-muted);">Days to exit:</span> <strong style="color:${liqColor};">${h.risk.daysToExit}</strong><span style="color:var(--text-muted);font-size:10px;"> (20% ADV rule)</span></div>`
@@ -11048,23 +11168,23 @@ function renderHoldingCardV2(h, defaultOpen) {
           ? (() => {
               const n = h.risk.sampleSize;
               const band = n >= 252 ? "high" : n >= 126 ? "medium" : "low";
-              const c = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[band];
+              const c = { high: "var(--positive-text-soft)", medium: "var(--yellow-bright)", low: "var(--negative-text-soft)" }[band];
               return `<span style="font-size:10px; color:${c}; background:${c}22; padding:2px 6px; border-radius:3px; font-weight:700; letter-spacing:0.3px; text-transform:uppercase;" title="${n} daily observations used.">conf: ${band}</span>`;
             })()
           : "";
         return `<details style="margin:14px 0;">
-          <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:#111827; border-radius:6px; font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:var(--surface-ink); border-radius:6px; font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
             <span>Risk numbers ▾</span>
             ${sampleChip}
           </summary>
-          <div style="padding:12px 14px; background:#111827; border-top:1px solid #1a2233; border-radius:0 0 6px 6px; margin-top:-2px;">
+          <div style="padding:12px 14px; background:var(--surface-ink); border-top:1px solid var(--bg-graphite); border-radius:0 0 6px 6px; margin-top:-2px;">
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; font-size:12px;">
               ${h.risk.beta != null ? `<div><span style="color:var(--text-muted);">Beta ${infoIcon("beta_metric")}:</span> <strong>${h.risk.beta.toFixed(2)}</strong></div>` : ""}
               ${h.risk.annualizedVolatility != null ? `<div><span style="color:var(--text-muted);">Vol (ann.) ${infoIcon("volatility")}:</span> <strong>${h.risk.annualizedVolatility.toFixed(1)}%</strong></div>` : ""}
-              ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y) ${infoIcon("max_drawdown")}:</span> <strong style="color:#fca5a5;">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
-              ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR ${infoIcon("var95")}:</span> <strong style="color:#fca5a5;">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
+              ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y) ${infoIcon("max_drawdown")}:</span> <strong style="color:var(--negative-text-soft);">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
+              ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR ${infoIcon("var95")}:</span> <strong style="color:var(--negative-text-soft);">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
               ${liqLabel}
-              <div style="grid-column:1/-1; padding-top:8px; margin-top:6px; border-top:1px solid #1a2233; display:flex; gap:14px; flex-wrap:wrap; font-size:12px;">
+              <div style="grid-column:1/-1; padding-top:8px; margin-top:6px; border-top:1px solid var(--bg-graphite); display:flex; gap:14px; flex-wrap:wrap; font-size:12px;">
                 <div><span style="color:var(--text-muted);">Tech:</span> ${h.technicalScore ?? "—"}</div>
                 <div><span style="color:var(--text-muted);">Combined ${infoIcon("combined_score")}:</span> ${h.combinedScore != null ? h.combinedScore + "/100" : "—"}</div>
               </div>
@@ -11074,7 +11194,7 @@ function renderHoldingCardV2(h, defaultOpen) {
       })()
     : "";
 
-  return `<details${openAttr} style="border:1px solid #1a2233; border-radius:8px; margin-bottom:8px; background:#0b1220;">
+  return `<details${openAttr} style="border:1px solid var(--bg-graphite); border-radius:8px; margin-bottom:8px; background:var(--surface-ink-deep);">
     <summary style="cursor:pointer; padding:12px 16px; list-style:none; display:grid; grid-template-columns: 140px 1fr 130px 120px 110px 60px; gap:12px; align-items:center; font-size:13px;">
       <div style="font-weight:700;">${h.symbol.replace(".NS", "")}</div>
       <div style="color:var(--text-muted); font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${h.name}</div>
@@ -11083,7 +11203,7 @@ function renderHoldingCardV2(h, defaultOpen) {
       <div style="font-size:11px; color:var(--text-muted);">${(h.positionWeight || 0).toFixed(1)}% wt</div>
       <div style="font-size:11px; text-align:right;">${h.combinedScore != null ? h.combinedScore + "/100" : "—"}</div>
     </summary>
-    <div style="padding:4px 16px 16px; border-top:1px solid #1a2233;">
+    <div style="padding:4px 16px 16px; border-top:1px solid var(--bg-graphite);">
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:10px 0; font-size:12px;">
         <div><span style="color:var(--text-muted);">Qty:</span> ${h.quantity}</div>
         <div><span style="color:var(--text-muted);">Avg:</span> ₹${h.avgPrice}</div>
@@ -11092,13 +11212,13 @@ function renderHoldingCardV2(h, defaultOpen) {
         <div><span style="color:var(--text-muted);">Value:</span> ${inr(h.currentValue)}</div>
         <div><span style="color:var(--text-muted);">P&amp;L:</span> <span style="color:${pnlC};">${h.pnlAmount >= 0 ? "+" : ""}${inr(h.pnlAmount)}</span></div>
       </div>
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:4px 0 10px; font-size:12px; border-top:1px solid #1a2233;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:4px 0 10px; font-size:12px; border-top:1px solid var(--bg-graphite);">
         <div><span style="color:var(--text-muted);">Fund:</span> ${h.fundamentalScore ?? "—"}</div>
         <div><span style="color:var(--text-muted);">Verdict:</span> ${h.fundamentalVerdict ? h.fundamentalVerdict.replace("_", " ") : "—"}</div>
         <div><span style="color:var(--text-muted);">Signal:</span> ${h.recommendation || "—"}</div>
         <div><span style="color:var(--text-muted);">Sector:</span> ${h.sector}</div>
       </div>
-      <div style="margin:12px 0; padding:12px 14px; background:#111827; border-radius:6px; font-size:13px;">
+      <div style="margin:12px 0; padding:12px 14px; background:var(--surface-ink); border-radius:6px; font-size:13px;">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
           <div style="font-weight:700;">Why ${h.displayAction || h.action}</div>
           ${notAdviceChip("inline")}
@@ -11478,7 +11598,7 @@ function renderPicksMetaBanner(data) {
     ? `Last data refresh: <strong style="color:${color};">${timeAgo(dataStamp)}</strong> · ${new Date(dataStamp).toLocaleString()}${stale ? ' · <span style="color:var(--red);">stale, run /sws-refresh-api</span>' : ""}`
     : "Refresh time unknown";
   const inFlightLine = inFlight
-    ? `<br><span style="color:var(--accent, #4a90e2);">⟳ Refresh in progress — shard 1: ${shards[0]?.today_count || 0} · shard 2: ${shards[1]?.today_count || 0} · shard 3: ${shards[2]?.today_count || 0} stocks today</span>`
+    ? `<br><span style="color:var(--accent, var(--accent-blue));">⟳ Refresh in progress — shard 1: ${shards[0]?.today_count || 0} · shard 2: ${shards[1]?.today_count || 0} · shard 3: ${shards[2]?.today_count || 0} stocks today</span>`
     : "";
   // Stamping-failure banner — last-refresh.json carries `stamping_status` from
   // scripts/sws-refresh-api.sh. When set to "failed", the section_status field
@@ -11502,7 +11622,7 @@ async function loadPicks() {
   // the response is applied after fetch (see further down in this function).
   hydratePicksFilterDropdowns(true);
   setPicksLoadingBanner(true);
-  containerEl.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading picks…</div></div>`;
+  containerEl.innerHTML = buildSkeleton("pick-card", 9);
 
   try {
     const res = await fetch("/api/sws-picks-summary");
@@ -11541,7 +11661,7 @@ async function loadPicks() {
 
 function renderPicksEmptyState() {
   return `
-    <div style="padding:32px; border:1px dashed #2a3550; border-radius:8px; text-align:center;">
+    <div style="padding:32px; border:1px dashed var(--border-slate); border-radius:8px; text-align:center;">
       <h3 style="margin-top:0;color:var(--text-primary);">No SWS scan data available</h3>
       <p style="color:var(--text-muted); margin:12px 0 20px 0; max-width:680px; margin-left:auto; margin-right:auto;">
         Run the SWS refresh pipeline from the CLI to populate this tab.
@@ -11994,11 +12114,11 @@ function renderPicksSearchStatus(totalShown, offSectionCount) {
 // matches the verdict label below it.
 function pickScoreColor(score) {
   if (score == null) return "var(--text-muted)";
-  if (score >= 60) return "var(--gold, #f5c542)";
-  if (score >= 45) return "var(--green, #22c55e)";
-  if (score >= 30) return "var(--cyan, #4a90e2)";
+  if (score >= 60) return "var(--gold, var(--gold-soft))";
+  if (score >= 45) return "var(--green, var(--green-bright))";
+  if (score >= 30) return "var(--cyan, var(--accent-blue))";
   if (score >= 22) return "var(--text-muted)";
-  return "var(--red, #ef4444)";
+  return "var(--red, var(--red-bright))";
 }
 
 // V4 verdicts are RANK-based (top ~8% = TOP_PICK), so colour by the verdict
@@ -12007,8 +12127,8 @@ function pickScoreColor(score) {
 function pickScoreColorV4(score, verdict) {
   if (score == null) return "var(--text-muted)";
   return {
-    TOP_PICK: "var(--gold, #f5c542)", STRONG: "var(--green, #22c55e)",
-    ACCEPTABLE: "var(--cyan, #4a90e2)", WATCH: "var(--text-muted)", AVOID: "var(--red, #ef4444)",
+    TOP_PICK: "var(--gold, var(--gold-soft))", STRONG: "var(--green, var(--green-bright))",
+    ACCEPTABLE: "var(--cyan, var(--accent-blue))", WATCH: "var(--text-muted)", AVOID: "var(--red, var(--red-bright))",
   }[verdict] || "var(--text-muted)";
 }
 
@@ -12290,7 +12410,7 @@ async function loadUSPicks() {
   const container = document.getElementById("usPicksContainer");
   const meta = document.getElementById("usPicksMeta");
   if (!container) return;
-  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading US Market…</div></div>`;
+  container.innerHTML = buildLoading(`Loading US Market…`);
   try {
     const res = await fetch("/api/us-picks");
     if (res.status === 404) {
@@ -12687,7 +12807,7 @@ async function openUSModal(ticker) {
   const backdrop = document.getElementById("usModalBackdrop");
   const body = document.getElementById("usModalBody");
   if (!backdrop || !body) return;
-  body.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(ticker)}…</div></div>`;
+  body.innerHTML = buildLoading(`Loading ${escapeHtml(ticker)}…`);
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
   try {
@@ -12762,7 +12882,7 @@ async function loadRegionPicks(code) {
   const meta = document.getElementById(dom + "Meta");
   if (!container || !ui) return;
   const marketLabel = `${ui.label} Market`;
-  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(marketLabel)}…</div></div>`;
+  container.innerHTML = buildLoading(`Loading ${escapeHtml(marketLabel)}…`);
   try {
     const res = await fetch(`/api/${code}-picks`);
     if (res.status === 404) {
@@ -13005,7 +13125,7 @@ async function openRegionModal(code, ticker) {
   const backdrop = document.getElementById(code + "ModalBackdrop");
   const body = document.getElementById(code + "ModalBody");
   if (!backdrop || !body) return;
-  body.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(ticker)}…</div></div>`;
+  body.innerHTML = buildLoading(`Loading ${escapeHtml(ticker)}…`);
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
   try {
@@ -13299,7 +13419,7 @@ function openActionListModal(action) {
 
   const tableHtml = rows.length === 0
     ? `<div style="padding:30px 16px; text-align:center; font-size:13px; color:var(--text-muted);">No stocks under this action.</div>`
-    : `<div style="overflow-x:auto; border:1px solid #2a3349; border-radius:8px; background:var(--panel);">
+    : `<div style="overflow-x:auto; border:1px solid var(--border-graphite); border-radius:8px; background:var(--panel);">
          <table style="width:100%; border-collapse:collapse; font-size:13px;">
            <thead>
              <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
@@ -13723,7 +13843,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
               <div class="stat-label">${lbl}</div>
               <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
                 <div class="stat-value" style="color:${col};">${score ?? "—"}<span style="font-size:10px;color:var(--text-muted);">/6</span></div>
-                <div style="flex:1;height:4px;background:#1a2233;border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${col};"></div></div>
+                <div style="flex:1;height:4px;background:var(--bg-graphite);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${col};"></div></div>
               </div>
             </div>`;
         }).join("")}
@@ -13999,7 +14119,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
               ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(34,197,94,0.12);color:var(--green);text-transform:uppercase;letter-spacing:0.5px;">groww</span>`
               : n.type === "event"
               ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(34,211,238,0.12);color:var(--cyan);text-transform:uppercase;letter-spacing:0.5px;">${escapeHtml(n.keyDevTypeId || "event")}</span>`
-              : `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(251,191,36,0.12);color:#fbbf24;text-transform:uppercase;letter-spacing:0.5px;">brief</span>`;
+              : `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(251,191,36,0.12);color:var(--warn-text);text-transform:uppercase;letter-spacing:0.5px;">brief</span>`;
             return `<li style="margin:6px 0;">
               <span style="color:var(--text-muted);font-size:10px;margin-right:6px;">${escapeHtml(date)}</span>
               ${typeBadge}
@@ -14256,7 +14376,7 @@ async function openStockDetailModal(symbolOrTicker, sourceTab) {
 }
 
 function renderLiveOnlySkeleton(ticker, sourceTab) {
-  const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:#60a5fa;margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
+  const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:var(--info-text);margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
   return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
@@ -14309,7 +14429,7 @@ function renderLiveOnlyModal(ticker, data, sourceTab) {
   const news = (data.news || []).slice(0, 5);
 
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${Number(v).toLocaleString("en-IN")}`;
-  const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:#60a5fa;margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
+  const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:var(--info-text);margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
 
   const survBadge = surv ? `<span class="sws-surveillance-badge" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${escapeHtml(surv.list)}</span>` : "";
 
