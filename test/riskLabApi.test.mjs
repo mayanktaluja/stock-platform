@@ -49,7 +49,8 @@ async function bootServer(extraEnv = {}) {
   });
   // Wait until /api/risk-lab/regime-context responds (lab API is always
   // available regardless of which other tabs/routes happen to need DB init)
-  const timeoutMs = Number(process.env.RISK_LAB_API_BOOT_TIMEOUT_MS || 30000);
+  const defaultTimeoutMs = process.env.CI ? 60000 : 30000;
+  const timeoutMs = Number(process.env.RISK_LAB_API_BOOT_TIMEOUT_MS || defaultTimeoutMs);
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     try {
