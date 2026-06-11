@@ -8240,7 +8240,7 @@ async function renderSwsInputAlertsPanel(root) {
     return;
   }
   const data = await res.json();
-  const prefs = data.prefs || { inApp: true, email: false };
+  const prefs = data.prefs || { inApp: true, email: true };
   const alerts = Array.isArray(data.alerts) ? data.alerts : [];
   const rows = alerts.map((alert) => {
     const changeLines = (Array.isArray(alert.changes) ? alert.changes : []).map((change) => {
@@ -8262,6 +8262,7 @@ async function renderSwsInputAlertsPanel(root) {
   const subtitle = alerts.length
     ? `${alerts.length} holding${alerts.length === 1 ? "" : "s"} changed in run ${swsEscapeAttr(data.run_id || "")}`
     : "No portfolio holding input changes in the latest SWS run.";
+  const emailEnabled = prefs.email !== false;
   // Collapsed by default — mirrors the analyzer-tier-details pattern (chevron
   // CSS lives in gated/index.html) while keeping the distinct blue alert card.
   mount.innerHTML = `
@@ -8270,10 +8271,13 @@ async function renderSwsInputAlertsPanel(root) {
       <div style="padding-top: var(--space-200);">
         <div style="display:flex; justify-content:space-between; gap:14px; align-items:center; flex-wrap:wrap; margin-bottom:6px;">
           <div style="font-size:12px; color:var(--text-muted);">${subtitle}</div>
-          <label style="display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); cursor:pointer;">
-            <input id="swsInputAlertEmailToggle" type="checkbox" ${prefs.email ? "checked" : ""} style="accent-color:var(--gold);" />
-            Email digest
-          </label>
+          <button id="swsInputAlertEmailToggle" type="button" role="switch" aria-checked="${emailEnabled ? "true" : "false"}" style="display:inline-flex; align-items:center; gap:8px; min-height:30px; border:1px solid ${emailEnabled ? "rgba(250,204,21,0.55)" : "var(--border)"}; border-radius:999px; padding:4px 6px 4px 10px; background:${emailEnabled ? "rgba(250,204,21,0.10)" : "rgba(148,163,184,0.08)"}; color:var(--text-muted); cursor:pointer;">
+            <span style="font-size:12px; font-weight:600; color:var(--text-primary);">Email alerts</span>
+            <span data-sws-input-alert-switch-track style="position:relative; display:inline-block; width:34px; height:18px; border-radius:999px; background:${emailEnabled ? "var(--gold)" : "rgba(148,163,184,0.35)"};">
+              <span data-sws-input-alert-switch-thumb style="position:absolute; top:2px; left:${emailEnabled ? "18px" : "2px"}; width:14px; height:14px; border-radius:999px; background:#111827;"></span>
+            </span>
+            <span data-sws-input-alert-switch-state style="min-width:18px; font-size:11px; font-weight:700; color:${emailEnabled ? "var(--gold)" : "var(--text-muted)"};">${emailEnabled ? "On" : "Off"}</span>
+          </button>
         </div>
         ${rows}
       </div>
@@ -8281,18 +8285,36 @@ async function renderSwsInputAlertsPanel(root) {
   `;
   const toggle = mount.querySelector("#swsInputAlertEmailToggle");
   if (toggle) {
-    toggle.addEventListener("change", async () => {
+    let currentEmailEnabled = emailEnabled;
+    const paintEmailSwitch = (enabled) => {
+      const track = toggle.querySelector("[data-sws-input-alert-switch-track]");
+      const thumb = toggle.querySelector("[data-sws-input-alert-switch-thumb]");
+      const state = toggle.querySelector("[data-sws-input-alert-switch-state]");
+      toggle.setAttribute("aria-checked", enabled ? "true" : "false");
+      toggle.style.borderColor = enabled ? "rgba(250,204,21,0.55)" : "var(--border)";
+      toggle.style.background = enabled ? "rgba(250,204,21,0.10)" : "rgba(148,163,184,0.08)";
+      if (track) track.style.background = enabled ? "var(--gold)" : "rgba(148,163,184,0.35)";
+      if (thumb) thumb.style.left = enabled ? "18px" : "2px";
+      if (state) {
+        state.textContent = enabled ? "On" : "Off";
+        state.style.color = enabled ? "var(--gold)" : "var(--text-muted)";
+      }
+    };
+    toggle.addEventListener("click", async () => {
+      const nextEmailEnabled = !currentEmailEnabled;
       toggle.disabled = true;
+      paintEmailSwitch(nextEmailEnabled);
       try {
         const prefRes = await fetch("/api/portfolio/sws-input-alerts/prefs", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "same-origin",
-          body: JSON.stringify({ inApp: true, email: toggle.checked }),
+          body: JSON.stringify({ inApp: true, email: nextEmailEnabled }),
         });
         if (!prefRes.ok) throw new Error("preference update failed");
+        currentEmailEnabled = nextEmailEnabled;
       } catch (err) {
-        toggle.checked = !toggle.checked;
+        paintEmailSwitch(currentEmailEnabled);
         if (window.console && console.warn) console.warn("[analyzer] SWS input alert prefs failed:", err?.message);
       } finally {
         toggle.disabled = false;

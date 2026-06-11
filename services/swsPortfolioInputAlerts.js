@@ -4,13 +4,13 @@ import { canonicalSwsTicker, stableHash } from "./swsInputSnapshot.js";
 
 export const DEFAULT_SWS_INPUT_ALERT_PREFS = Object.freeze({
   inApp: true,
-  email: false,
+  email: true,
 });
 
 export function normalizeSwsInputAlertPrefs(prefs = {}) {
   return {
     inApp: prefs.inApp !== false,
-    email: prefs.email === true,
+    email: prefs.email !== false,
   };
 }
 
@@ -37,6 +37,18 @@ const SWS_SIGNAL_FAIR_VALUE_FIELDS = new Set([
   "fair_value.fair_value_inr",
   "fair_value.upside_band",
 ]);
+const FAIR_VALUE_MATERIALITY_THRESHOLD = 0.02;
+
+function finiteNumber(value) {
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+export function isMaterialFairValueChange(change) {
+  const previous = finiteNumber(change?.previous);
+  const current = finiteNumber(change?.current);
+  if (previous === null || current === null || previous === 0) return true;
+  return Math.abs(current - previous) / Math.abs(previous) > FAIR_VALUE_MATERIALITY_THRESHOLD;
+}
 
 // Filter a change[] array down to the signal fields above, rewriting pillar
 // aliases to their canonical field and deduping by canonical field (first
@@ -54,10 +66,22 @@ export function filterSignalChanges(changes) {
       if (pillar) canonicalField = `snowflake.${pillar}`;
     }
     if (!canonicalField || seen.has(canonicalField)) continue;
+    if (canonicalField === "fair_value.fair_value_inr" && !isMaterialFairValueChange(change)) continue;
     seen.add(canonicalField);
     out.push(canonicalField === field ? change : { ...change, field: canonicalField });
   }
   return out;
+}
+
+export function normalizeSwsInputAlert(alert) {
+  const changes = filterSignalChanges(alert?.changes);
+  if (!changes.length) return null;
+  return {
+    ...alert,
+    severity: changes.some((c) => c.severity === "high") ? "high" : "medium",
+    change_hash: stableHash(changes),
+    changes,
+  };
 }
 
 export function digestPortfolioChanges(alerts) {
@@ -117,24 +141,14 @@ export async function buildPortfolioSwsInputAlerts(sub, marketChanges, stores = 
   // Filter each held alert's changes to signal fields, drop alerts left with
   // nothing, and recompute alert-level severity + change_hash from the survivors
   // so the digest (used for ledger dedup) reflects the filtered set.
-  const alerts = [];
-  for (const alert of heldAlerts) {
-    const filteredChanges = filterSignalChanges(alert.changes);
-    if (!filteredChanges.length) continue;
-    alerts.push({
-      ...alert,
-      severity: filteredChanges.some((c) => c.severity === "high") ? "high" : "medium",
-      change_hash: stableHash(filteredChanges),
-      changes: filteredChanges,
-    });
-  }
+  const alerts = heldAlerts.map(normalizeSwsInputAlert).filter(Boolean);
   return {
     run_id: marketChanges?.run_id || null,
     generated_at: marketChanges?.generated_at || null,
     source,
     holdings_count: holdings.length,
     alerts,
-    suppressed_count: Math.max(0, changes.length - alerts.length),
+    suppressed_count: Math.max(0, heldAlerts.length - alerts.length),
     digest: digestPortfolioChanges(alerts),
   };
 }
@@ -146,6 +160,42 @@ export function formatChangeValue(value) {
   return JSON.stringify(value);
 }
 
+export function formatAlertFieldLabel(field) {
+  const labels = {
+    "fair_value.fair_value_inr": "Fair value",
+    "fair_value.upside_band": "Upside band",
+    "snowflake.value": "Value",
+    "snowflake.future": "Future growth",
+    "snowflake.past": "Past performance",
+    "snowflake.health": "Financial health",
+    "snowflake.dividend": "Dividend",
+  };
+  return labels[String(field || "")] || String(field || "SWS input");
+}
+
+function formatInrValue(value) {
+  const n = finiteNumber(value);
+  if (n === null) return formatChangeValue(value);
+  const rounded = Math.round(n * 100) / 100;
+  return `INR ${Number.isInteger(rounded) ? rounded.toLocaleString("en-IN") : rounded.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+}
+
+export function formatAlertChangeValue(change, side) {
+  const value = side === "previous" ? change?.previous : change?.current;
+  if (String(change?.field || "") === "fair_value.fair_value_inr") return formatInrValue(value);
+  return formatChangeValue(value);
+}
+
+export function formatAlertChangeDelta(change) {
+  if (String(change?.field || "") !== "fair_value.fair_value_inr") return "";
+  const previous = finiteNumber(change?.previous);
+  const current = finiteNumber(change?.current);
+  if (previous === null || current === null || previous === 0) return "Availability change";
+  const pct = ((current - previous) / Math.abs(previous)) * 100;
+  const sign = pct > 0 ? "+" : "";
+  return `${sign}${(Math.round(pct * 100) / 100).toFixed(2)}%`;
+}
+
 export function formatAlertStockLabel(alert) {
   const ticker = canonicalSwsTicker(alert?.ticker);
   const name = String(alert?.name || "").trim();
@@ -154,27 +204,27 @@ export function formatAlertStockLabel(alert) {
 }
 
 export function formatAlertChangeSummary(change) {
-  const field = String(change?.field || "SWS input").trim();
-  return `${field} changed from ${formatChangeValue(change?.previous)} to ${formatChangeValue(change?.current)}`;
+  const field = formatAlertFieldLabel(change?.field);
+  const delta = formatAlertChangeDelta(change);
+  const suffix = delta ? ` (${delta})` : "";
+  return `${field} changed from ${formatAlertChangeValue(change, "previous")} to ${formatAlertChangeValue(change, "current")}${suffix}`;
 }
 
 export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "https://starbhai-stock-platform.vercel.app/" }) {
   const alertList = Array.isArray(alerts) ? alerts : [];
   const count = alertList.length;
   const stockLabels = alertList.map(formatAlertStockLabel);
-  const firstChange = alertList.flatMap((alert) => alert.changes || [])[0] || null;
   const subject = count === 1
     ? `SWS inputs changed for ${stockLabels[0]}`
     : `SWS inputs changed for ${count} portfolio holding(s)`;
+  const analyzerUrl = `${appUrl.replace(/\/$/, "")}/?tab=analyzer`;
+  const timestamp = runId || generatedAt || "unknown";
   const lines = [
     subject,
     "",
     `${count === 1 ? "Affected stock" : "Affected stocks"}: ${stockLabels.join(", ") || "n/a"}`,
-    `What changed: ${firstChange ? formatAlertChangeSummary(firstChange) : "See stock details below."}`,
-    `SWS refresh timestamp: ${runId || generatedAt || "unknown"}`,
-    `Portfolio Analyzer: ${appUrl.replace(/\/$/, "")}/?tab=analyzer`,
-    "",
-    "Review the Starbhai score/report before taking any decision. This email contains no buy/sell instruction.",
+    `SWS refresh timestamp: ${timestamp}`,
+    `Portfolio Analyzer: ${analyzerUrl}`,
     "",
   ];
 
@@ -186,17 +236,74 @@ export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "
     lines.push("");
   }
 
+  lines.push("Review the Starbhai score/report before taking any decision. This email contains no buy/sell instruction.");
   lines.push("Preferences: open Portfolio Analyzer in Starbhai to turn SWS input alert emails off.");
   const text = lines.join("\n");
-  const html = text
-    .split("\n")
-    .map((line) => {
-      if (!line) return "<br>";
-      if (line.startsWith("- ")) return `<div>${escapeHtml(line)}</div>`;
-      return `<p>${escapeHtml(line)}</p>`;
-    })
-    .join("\n");
+  const html = buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl });
   return { subject, text, html };
+}
+
+function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl }) {
+  const rows = [];
+  for (const alert of alertList) {
+    const stock = formatAlertStockLabel(alert);
+    const severity = `${alert.severity || "medium"} severity`;
+    for (const change of (alert.changes || []).slice(0, 5)) {
+      rows.push(`
+        <tr>
+          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#111827;font-weight:700;">${escapeHtml(stock)}</td>
+          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:12px;color:${alert.severity === "high" ? "#b91c1c" : "#92400e"};">${escapeHtml(severity)}</td>
+          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatAlertFieldLabel(change.field))}</td>
+          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatAlertChangeValue(change, "previous"))}</td>
+          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatAlertChangeValue(change, "current"))}</td>
+          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatAlertChangeDelta(change) || "-")}</td>
+        </tr>`);
+    }
+  }
+  const bodyRows = rows.length
+    ? rows.join("\n")
+    : `<tr><td colspan="6" style="padding:14px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#6b7280;">No material portfolio holding input changes.</td></tr>`;
+  return `
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;background:#f8fafc;">
+  <tr>
+    <td align="center" style="padding:24px 12px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:720px;border-collapse:collapse;background:#ffffff;border:1px solid #e5e7eb;">
+        <tr>
+          <td style="padding:20px 20px 12px;font-family:Arial,sans-serif;">
+            <div style="font-size:18px;font-weight:700;color:#111827;">${escapeHtml(subject)}</div>
+            <div style="font-size:13px;color:#6b7280;margin-top:6px;">SWS refresh timestamp: ${escapeHtml(timestamp)}</div>
+            <div style="font-size:13px;color:#6b7280;margin-top:6px;"><a href="${escapeAttr(analyzerUrl)}" style="color:#2563eb;text-decoration:underline;">Open Portfolio Analyzer</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:0 20px 16px;">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;border:1px solid #e5e7eb;">
+              <thead>
+                <tr>
+                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Stock</th>
+                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Severity</th>
+                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Signal</th>
+                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Previous</th>
+                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Current</th>
+                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Change</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${bodyRows}
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:16px 20px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:12px;color:#6b7280;">
+            Review the Starbhai score/report before taking any decision. This email contains no buy/sell instruction.
+            <br>Preferences: open Portfolio Analyzer in Starbhai to turn SWS input alert emails off.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`.trim();
 }
 
 function escapeHtml(s) {
@@ -205,4 +312,8 @@ function escapeHtml(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function escapeAttr(s) {
+  return escapeHtml(s).replace(/'/g, "&#39;");
 }

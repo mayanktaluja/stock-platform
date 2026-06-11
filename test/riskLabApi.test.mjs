@@ -37,6 +37,11 @@ if (!existsSync(PICKS_FILE)) {
 // fake credentials. Use the same env-shape the playwright harness uses.
 async function bootServer(extraEnv = {}) {
   const port = nextPort++;
+  const output = [];
+  const collect = (chunk) => {
+    output.push(String(chunk));
+    if (output.length > 80) output.shift();
+  };
   const proc = spawn("node", ["server.js"], {
     env: {
       ...process.env,
@@ -46,6 +51,15 @@ async function bootServer(extraEnv = {}) {
       ...extraEnv,
     },
     stdio: ["ignore", "pipe", "pipe"],
+  });
+  proc.stdout.on("data", collect);
+  proc.stderr.on("data", collect);
+  let exitInfo = null;
+  const exited = new Promise((resolve) => {
+    proc.once("exit", (code, signal) => {
+      exitInfo = { code, signal };
+      resolve(exitInfo);
+    });
   });
   // Wait until /api/risk-lab/regime-context responds (lab API is always
   // available regardless of which other tabs/routes happen to need DB init)
@@ -59,17 +73,30 @@ async function bootServer(extraEnv = {}) {
         return { proc, port };
       }
     } catch {}
+    if (exitInfo) {
+      throw new Error(
+        `server exited before boot on port ${port}: ${JSON.stringify(exitInfo)}\n${output.join("").trim()}`
+      );
+    }
     await new Promise((r) => setTimeout(r, 200));
   }
   proc.kill();
-  throw new Error(`server failed to boot within ${Math.round(timeoutMs / 1000)}s`);
+  await Promise.race([exited, new Promise((r) => setTimeout(r, 2000))]);
+  throw new Error(
+    `server failed to boot within ${Math.round(timeoutMs / 1000)}s on port ${port}\n${output.join("").trim()}`
+  );
 }
 
 async function safeKill(server) {
   if (!server?.proc || server.proc.killed) return;
   server.proc.kill();
-  // Give it a moment to release the port
-  await new Promise((r) => setTimeout(r, 200));
+  await new Promise((resolve) => {
+    const timeout = setTimeout(resolve, 5000);
+    server.proc.once("exit", () => {
+      clearTimeout(timeout);
+      resolve();
+    });
+  });
 }
 
 console.log("riskLabApi: testing default-enabled state");

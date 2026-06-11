@@ -5655,8 +5655,8 @@ import { getSwsInputAlertLedgerStorage } from "./swsInputAlertLedgerStorage.js";
 import {
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
-  filterSignalChanges,
   loadMarketWideSwsInputChanges,
+  normalizeSwsInputAlert,
   normalizeSwsInputAlertPrefs,
 } from "./services/swsPortfolioInputAlerts.js";
 import { sendMail } from "./services/resendMailer.js";
@@ -5704,15 +5704,6 @@ const SWS_INPUT_ALERT_APP_URL = "https://starbhai-stock-platform.vercel.app/";
 
 function boolEnv(name) {
   return ["1", "true", "yes", "on"].includes(String(process.env[name] || "").trim().toLowerCase());
-}
-
-function allowlistSetFromEnv(name) {
-  return new Set(
-    String(process.env[name] || "")
-      .split(",")
-      .map((s) => s.trim().toLowerCase())
-      .filter(Boolean),
-  );
 }
 
 function readSwsInputAlertPrefs(userRecord) {
@@ -5808,10 +5799,7 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
     // Mirror the per-user pipeline: only signal fields survive, so the sample
     // email matches what real recipients get.
     const sampleAlerts = market.alerts
-      .map((alert) => {
-        const changes = filterSignalChanges(alert.changes);
-        return changes.length ? { ...alert, changes } : null;
-      })
+      .map(normalizeSwsInputAlert)
       .filter(Boolean)
       .slice(0, 3);
     const fallbackAlert = {
@@ -5844,32 +5832,26 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
     const market = loadMarketWideSwsInputChanges(SWS_INPUT_ALERT_ARTIFACT);
     const userStore = getUserStorage();
     const users = await userStore.list();
-    const allowlist = allowlistSetFromEnv("SWS_INPUT_ALERTS_ALLOWLIST");
-    const adminOnly = boolEnv("SWS_INPUT_ALERTS_ADMIN_ONLY");
     const dryRun = boolEnv("SWS_INPUT_ALERTS_DRY_RUN");
     const ledger = getSwsInputAlertLedgerStorage();
     const results = [];
 
     for (const user of users) {
       const email = String(user?.email || "").trim().toLowerCase();
-      const isAdmin = computeIsAdmin(email);
-      const isAllowlisted = allowlist.has(email) || allowlist.has(String(user?.sub || ""));
-      if (adminOnly && !isAdmin) continue;
-
       const prefs = readSwsInputAlertPrefs(user);
-      const rolloutEligible = isAdmin || isAllowlisted;
-      if (!prefs.email && !rolloutEligible) continue;
+      if (!prefs.email) continue;
 
       const portfolio = await buildPortfolioSwsInputAlerts(user.sub, market, {
         analyzerStore: getAnalyzerStorage(),
         portfolioStore: getPortfolioStorage(),
       });
+      if (!portfolio.holdings_count) continue;
       if (!portfolio.alerts.length) continue;
       const alreadySent = await ledger.hasEvent(user.sub, {
         type: "EMAIL_SENT",
         run_id: portfolio.run_id,
         digest: portfolio.digest,
-      });
+      }) || (typeof ledger.hasEmailSentForRun === "function" && await ledger.hasEmailSentForRun(user.sub, portfolio.run_id));
       if (alreadySent) {
         results.push({ sub: user.sub, email, skipped: true, reason: "deduped" });
         continue;
@@ -5901,6 +5883,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
         skipped: !!sendResult.skipped,
         reason: sendResult.reason || null,
         ok: sendResult.ok,
+        ...(sendResult.dry_run && sendResult.payload ? { payload: sendResult.payload } : {}),
       });
     }
 

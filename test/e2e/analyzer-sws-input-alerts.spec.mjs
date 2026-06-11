@@ -55,7 +55,10 @@ test.describe("Portfolio Analyzer — SWS input alerts", () => {
     // Expand so the email toggle is actionable, then persist the preference.
     await panel.locator("summary").click();
     expect(await panel.evaluate((el) => el.open)).toBe(true);
-    await page.locator("#swsInputAlertEmailToggle").check();
+    const emailSwitch = page.getByRole("switch", { name: /email alerts/i });
+    await expect(emailSwitch).toHaveAttribute("aria-checked", "false");
+    await emailSwitch.click();
+    await expect(emailSwitch).toHaveAttribute("aria-checked", "true");
     await expect.poll(() => prefsPost).toEqual({ inApp: true, email: true });
   });
 });
