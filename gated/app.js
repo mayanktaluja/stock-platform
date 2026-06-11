@@ -1473,6 +1473,16 @@ function surveillanceBanner(surveillance) {
  * @param {object} [opts]  - { size: number, title: string }
  * @returns {string} Inline SVG markup (for html-string-based rendering).
  */
+// D1: snowflake score-band → themeable token. Replaces the hardcoded
+// #34d399/#fbbf24/#f87171 so the hexagon flips correctly in light mode.
+// Thresholds match the legacy strokeColor logic (3.5 / 2.5).
+function snowflakeBandColor(score) {
+  if (score == null || Number.isNaN(score)) return "var(--text-slate)";
+  if (score >= 3.5) return "var(--positive-text-emerald)";
+  if (score >= 2.5) return "var(--warn-text)";
+  return "var(--negative-text)";
+}
+
 function renderSnowflakeHexagon(pillars, opts = {}) {
   if (!pillars) return '';
   const size = opts.size || 340;
@@ -1502,13 +1512,13 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
   // Axis spokes
   const axisLines = order.map((_, i) => {
     const p = outerVertex(i);
-    return `<line x1="${center}" y1="${center}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(255,255,255,0.06)" stroke-width="1" />`;
+    return `<line x1="${center}" y1="${center}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" style="stroke:var(--border)" stroke-width="1" />`;
   }).join('');
 
   // Reference rings at 1/2/3/4/5
   const rings = [1, 2, 3, 4, 5].map(lvl => {
     const pts = order.map((_, i) => pointAt(lvl, i)).map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-    return `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1" />`;
+    return `<polygon points="${pts}" fill="none" style="stroke:var(--border)" stroke-width="1" />`;
   }).join('');
 
   // Amber "average" threshold at score=3
@@ -1522,10 +1532,13 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
 
   const defined = scores.filter(s => s != null);
   const avg = defined.length ? defined.reduce((a, b) => a + b, 0) / defined.length : 0;
-  const strokeColor = avg >= 3.5 ? '#34d399' : avg >= 2.5 ? '#fbbf24' : '#f87171';
+  // D1: band colour comes from snowflakeBandColor() (a var(--token) string) so
+  // the hexagon themes correctly. var() doesn't resolve in SVG presentation
+  // ATTRIBUTES, so colours go through style="" instead of fill=/stroke=.
+  const strokeColor = snowflakeBandColor(avg);
   const fillColor   = avg >= 3.5 ? 'rgba(52,211,153,0.22)' : avg >= 2.5 ? 'rgba(251,191,36,0.18)' : 'rgba(248,113,113,0.18)';
 
-  const dataPolygon = `<polygon points="${dataPtsStr}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="2" stroke-linejoin="round" />`;
+  const dataPolygon = `<polygon points="${dataPtsStr}" style="fill:${fillColor};stroke:${strokeColor}" stroke-width="2" stroke-linejoin="round" />`;
 
   // Pillar scores are floats (e.g. 2.4444) — format to 1 decimal for display.
   const fmt = (n) => (n == null ? 'N/A' : (Math.round(n * 10) / 10).toFixed(1));
@@ -1536,7 +1549,7 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
     if (sc == null) return '';
     const p = dataPts[i];
     const tipText = `${labels[k]}: ${fmt(sc)}/5 (${pillars[k]?.grade || ''})`;
-    return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="${strokeColor}" stroke="#0f1319" stroke-width="1.5"><title>${tipText}</title></circle>`;
+    return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" style="fill:${strokeColor};stroke:var(--bg-card)" stroke-width="1.5"><title>${tipText}</title></circle>`;
   }).join('');
 
   // Axis labels (pillar name + score/grade), positioned just outside the max ring
@@ -1547,8 +1560,8 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
     const grade = pillars[k]?.grade || '';
     const scoreText = isNA ? 'N/A' : `${fmt(sc)}/5`;
     const subLine = isNA ? 'no data' : grade;
-    const mainColor = isNA ? '#64748b' : '#e2e8f0';
-    const subColor  = isNA ? '#475569' : '#94a3b8';
+    const mainColor = isNA ? 'var(--text-slate)' : 'var(--text-ice)';
+    const subColor  = isNA ? 'var(--text-slate-muted)' : 'var(--text-slate)';
 
     // Anchor + dy tweaked so labels don't overlap the polygon
     const anchor = outer.x < center - 8 ? 'end' : outer.x > center + 8 ? 'start' : 'middle';
@@ -1562,8 +1575,8 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
       : `${labels[k]}: ${fmt(sc)}/5 — ${grade}`;
 
     return `
-      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy1).toFixed(1)}" text-anchor="${anchor}" fill="${mainColor}" font-size="12" font-weight="600" font-family="system-ui,-apple-system,sans-serif"><title>${tip}</title>${labels[k]} <tspan fill="${subColor}" font-weight="500">${scoreText}</tspan></text>
-      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy2).toFixed(1)}" text-anchor="${anchor}" fill="${subColor}" font-size="10.5" font-family="system-ui,-apple-system,sans-serif">${subLine}</text>
+      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy1).toFixed(1)}" text-anchor="${anchor}" style="fill:${mainColor}" font-size="12" font-weight="600" font-family="system-ui,-apple-system,sans-serif"><title>${tip}</title>${labels[k]} <tspan style="fill:${subColor}" font-weight="500">${scoreText}</tspan></text>
+      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy2).toFixed(1)}" text-anchor="${anchor}" style="fill:${subColor}" font-size="10.5" font-family="system-ui,-apple-system,sans-serif">${subLine}</text>
     `;
   }).join('');
 

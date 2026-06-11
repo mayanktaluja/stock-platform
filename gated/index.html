@@ -2430,6 +2430,25 @@
     .tx-flat { color: var(--text-muted); }
     .tx-flat.with-glyph::before { content: "◆ "; font-size: 0.85em; opacity: 0.7; }
 
+    /* D1 — .u-* colour/surface utilities. One declaration each, mirroring
+     * tokens, so render functions can drop style="color:#hex" for a class.
+     * Epic D migrates surfaces onto these incrementally. */
+    .u-text-primary   { color: var(--text-primary); }
+    .u-text-secondary { color: var(--text-secondary); }
+    .u-text-muted     { color: var(--text-muted); }
+    .u-text-positive  { color: var(--positive-text); }
+    .u-text-negative  { color: var(--negative-text); }
+    .u-text-info      { color: var(--info-text); }
+    .u-text-warn      { color: var(--warn-text); }
+    .u-text-slate     { color: var(--text-slate); }
+    .u-bg-card        { background: var(--bg-card); }
+    .u-bg-elevated    { background: var(--bg-elevated); }
+    .u-bg-graphite    { background: var(--bg-graphite); }
+    .u-bg-positive    { background: var(--positive-bg-soft); }
+    .u-bg-negative    { background: var(--negative-bg-soft); }
+    .u-border         { border: 1px solid var(--border); }
+    .u-border-slate   { border: 1px solid var(--border-slate); }
+
     /* Honor reduced-motion */
     @media (prefers-reduced-motion: reduce) {
       .btn { transition: none; }
@@ -2787,6 +2806,18 @@
     .skeleton-bar.tall { height: 18px; width: 60%; }
     .skeleton-bar.med  { width: 80%; }
     .skeleton-bar.short { width: 45%; }
+    /* D1 — pick-card-shaped skeleton (matches .sws-pick-card geometry so the
+       loading grid doesn't reflow when real cards land). Reuses shimmer. */
+    .skeleton-pick-card {
+      padding: var(--pick-card-pad, 14px);
+      border: 1px solid var(--bg-graphite);
+      border-radius: 6px;
+      background: var(--bg-elevated, var(--bg-graphite-deep));
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 120px;
+    }
     @keyframes shimmer {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -4151,8 +4182,12 @@
     /* Make the SWS pick cards clickable — visual affordance */
     .sws-pick-card {
       cursor: pointer;
-      transition: border-color 0.12s, transform 0.12s;
-      padding: 14px;
+      transition: border-color var(--dur-quick) var(--ease-standard),
+                  transform var(--dur-quick) var(--ease-standard),
+                  box-shadow var(--dur-quick) var(--ease-standard),
+                  background var(--dur-quick) var(--ease-standard);
+      /* density-aware: comfortable keeps the legacy 14px; compact tightens */
+      padding: var(--pick-card-pad, 14px);
       border: 1px solid var(--bg-graphite);
       border-radius: 6px;
       background: var(--bg-elevated, var(--bg-graphite-deep));
@@ -4163,7 +4198,15 @@
       content-visibility: auto;
       contain-intrinsic-size: 600px 400px;
     }
-    .sws-pick-card:hover { border-color: var(--border-slate-blue) !important; transform: translateY(-1px); }
+    @media (hover: hover) and (pointer: fine) {
+      .sws-pick-card:hover {
+        border-color: var(--border-slate-blue) !important;
+        transform: translateY(-1px);
+        box-shadow: var(--elev-2);
+        background: var(--bg-card-hover);
+      }
+    }
+    [data-density="compact"] .sws-pick-card { --pick-card-pad: 10px; }
     .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, var(--accent-blue)); outline-offset: 2px; }
     .sws-pick-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .sws-pick-card-id { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; }
