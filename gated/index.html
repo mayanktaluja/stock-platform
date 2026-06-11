@@ -3465,6 +3465,23 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
       position: relative;
     }
+    /* E3 — modal enter choreography. The backdrop used to snap (display:none
+       → flex). Animate the dialog in with a settle (fade + 8px rise + scale)
+       and fade the backdrop, both on the .open frame only — close stays
+       instant so Esc feels immediate. Fully disabled under reduced motion
+       via the global prefers-reduced-motion zeroing. */
+    @media (prefers-reduced-motion: no-preference) {
+      .sws-modal-backdrop.open { animation: modal-backdrop-enter var(--dur-normal) var(--ease-enter) both; }
+      .sws-modal-backdrop.open .sws-modal { animation: modal-enter var(--dur-deliberate) var(--ease-enter) both; }
+    }
+    @keyframes modal-backdrop-enter {
+      from { background: rgba(0, 0, 0, 0); backdrop-filter: blur(0px); }
+      to   { background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(3px); }
+    }
+    @keyframes modal-enter {
+      from { opacity: 0; transform: translateY(8px) scale(0.985); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
     .sws-modal-close {
       position: absolute;
       top: 12px;
