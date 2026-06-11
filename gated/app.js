@@ -1249,7 +1249,7 @@ function _commandPaletteEntries() {
   cmds.push({
     id: "density",
     label: compact ? "Switch to comfortable density" : "Switch to compact density",
-    run: () => document.getElementById("densityToggleBtn")?.click(),
+    run: () => window.togglePlatformDensity?.(),
   });
   cmds.push({
     id: "shortcuts",
@@ -2936,8 +2936,6 @@ function syncLabsActive(tab) {
   const trigger = document.getElementById("labsMenuBtn");
   if (!trigger) return;
   trigger.classList.toggle("is-active", !!activeItem);
-  const labelEl = trigger.querySelector(".labs-menu-label");
-  if (labelEl) labelEl.textContent = "Platform";
   syncPlatformThemeToggle();
 }
 window.syncLabsActive = syncLabsActive;

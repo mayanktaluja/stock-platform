@@ -66,12 +66,14 @@ test.describe("Platform menu + starbhai theme", () => {
       return {
         scrollWidth: document.documentElement.scrollWidth,
         width: window.innerWidth,
+        densityButtons: document.querySelectorAll("#densityToggleBtn").length,
         menu,
         platformBtn,
         bottomNav,
       };
     });
     expect(result.scrollWidth).toBeLessThanOrEqual(result.width + 1);
+    expect(result.densityButtons).toBe(0);
     expect(result.platformBtn.left).toBeGreaterThanOrEqual(0);
     expect(result.platformBtn.right).toBeLessThanOrEqual(result.width);
     expect(result.menu.left).toBeGreaterThanOrEqual(0);

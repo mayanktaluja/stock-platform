@@ -52,6 +52,9 @@ test.describe("Platform sections menu", () => {
   test("normal user: public platform sections are in the menu and Users stays hidden", async ({ page }) => {
     await gotoApp(page);
     await expect(page.locator("#picksTab")).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator("#densityToggleBtn")).toHaveCount(0);
+    await expect(page.locator("#labsMenuBtn")).toHaveAccessibleName("Platform menu");
+    await expect(page.locator("#labsMenuBtn")).not.toContainText("Platform");
 
     await openPlatformMenu(page);
     for (const label of PUBLIC_MENU_LABELS) {
