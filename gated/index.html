@@ -882,7 +882,7 @@
       white-space: nowrap;
     }
 
-    /* A2 — theme + density toggle buttons */
+    /* A2 — header utility buttons */
     .header-toggles { display: inline-flex; align-items: center; gap: 6px; }
     .header-toggle {
       display: inline-flex;
@@ -1014,12 +1014,18 @@
     }
     .user-menu-dropdown[hidden] { display: none; }
 
-    /* Legacy "More" menu shell. Mirrors .user-menu positioning;
+    /* Platform menu shell. Mirrors .user-menu positioning;
        reuses .user-menu-dropdown for the panel chrome. */
     .labs-menu { position: relative; }
     .labs-menu[hidden] { display: none; }
-    .labs-menu-trigger { gap: 6px; }
-    .labs-menu-glyph { font-size: 13px; line-height: 1; }
+    .labs-menu-trigger {
+      width: 34px;
+      min-width: 34px;
+      height: 34px;
+      padding: 0;
+      justify-content: center;
+    }
+    .labs-menu-glyph { font-size: 15px; line-height: 1; }
     .labs-menu-trigger.is-active { color: var(--gold); border-color: var(--gold); background: var(--yellow-bg); }
 
     .labs-menu-dropdown {
@@ -1045,7 +1051,13 @@
       background: var(--border);
     }
 
-    @media (max-width: 720px) { .labs-menu-label { display: none; } }
+    @media (max-width: 720px) {
+      .labs-menu-trigger {
+        width: 44px;
+        min-width: 44px;
+        height: 44px;
+      }
+    }
     @media (max-width: 480px) {
       .logo-text { display: none; }
       .header-center { min-width: 0; }
@@ -4838,16 +4850,12 @@
           <div class="header-time" id="currentTime">--:--:-- --</div>
           <div class="header-date" id="currentDate">IST</div>
         </div>
-        <!-- A2 — theme + density toggles. aria-pressed reflects the active
-             alternative; labels/icons re-sync on click (see boot-ui script). -->
+        <!-- A2 — theme toggle. aria-pressed reflects the active alternative;
+             labels/icons re-sync on click (see boot-ui script). -->
         <div class="header-toggles">
           <button type="button" class="header-toggle" id="themeToggleBtn"
                   aria-label="Switch to light theme" aria-pressed="false" title="Toggle light / dark theme">
             <span class="header-toggle-icon" aria-hidden="true">&#9790;</span>
-          </button>
-          <button type="button" class="header-toggle" id="densityToggleBtn"
-                  aria-label="Switch to compact density" aria-pressed="false" title="Toggle comfortable / compact density">
-            <span class="header-toggle-icon" aria-hidden="true">&#9776;</span>
           </button>
         </div>
         <!-- Platform menu duplicates tab navigation for quick access and as a
@@ -4856,7 +4864,6 @@
           <button class="btn btn--ghost btn--sm labs-menu-trigger" id="labsMenuBtn"
                   aria-label="Platform menu" aria-haspopup="menu" aria-expanded="false" type="button">
             <span class="labs-menu-glyph" aria-hidden="true">&#9776;</span>
-            <span class="labs-menu-label">Platform</span>
           </button>
           <div class="labs-menu-dropdown user-menu-dropdown" id="labsMenuDropdown" hidden
                role="menu" aria-label="Platform sections"></div>
@@ -4877,7 +4884,7 @@
     </div>
   </header>
 
-  <!-- A2 — theme + density toggle wiring. Reads/writes the same data-* attrs
+  <!-- A2 — theme wiring + density helper. Reads/writes the same data-* attrs
        and localStorage keys the <head> boot script established, so state is
        consistent across reloads. Kept inline (not in deferred app.js) so the
        controls work even before the module bundle finishes loading. -->
@@ -4897,14 +4904,14 @@
         if (meta) meta.setAttribute("content", light ? "#FBFAF7" : "#0B0C10");
         if (typeof window.syncPlatformThemeToggle === "function") window.syncPlatformThemeToggle();
       }
-      function syncDensity() {
-        var compact = root.getAttribute("data-density") === "compact";
-        var btn = document.getElementById("densityToggleBtn");
-        if (btn) {
-          btn.setAttribute("aria-pressed", String(compact));
-          btn.setAttribute("aria-label", compact ? "Switch to comfortable density" : "Switch to compact density");
-        }
+      function setDensity(next) {
+        root.setAttribute("data-density", next === "compact" ? "compact" : "comfortable");
+        try { localStorage.setItem("density", root.getAttribute("data-density")); } catch (e) {}
       }
+      window.togglePlatformDensity = function () {
+        var next = root.getAttribute("data-density") === "compact" ? "comfortable" : "compact";
+        setDensity(next);
+      };
       var tBtn = document.getElementById("themeToggleBtn");
       if (tBtn) tBtn.addEventListener("click", function () {
         var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
@@ -4915,15 +4922,7 @@
         } catch (e) {}
         syncTheme();
       });
-      var dBtn = document.getElementById("densityToggleBtn");
-      if (dBtn) dBtn.addEventListener("click", function () {
-        var next = root.getAttribute("data-density") === "compact" ? "comfortable" : "compact";
-        root.setAttribute("data-density", next);
-        try { localStorage.setItem("density", next); } catch (e) {}
-        syncDensity();
-      });
       syncTheme();
-      syncDensity();
     })();
   </script>
 

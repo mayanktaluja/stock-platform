@@ -1,8 +1,7 @@
-// A2: comfortable / compact density toggle.
+// A2: comfortable / compact density mode.
 //
-// The header density toggle flips [data-density] on <html>, persists it, and
-// overrides the spacing-scale tokens so the UI tightens. Default is
-// comfortable (inherits the :root scale unchanged).
+// Density no longer has a visible header button; the mode still persists via
+// localStorage and can be toggled by command surfaces.
 
 import { test, expect } from "@playwright/test";
 
@@ -24,17 +23,14 @@ test.describe("A2 density toggle", () => {
     expect(await spaceToken(page)).toBe("24px"); // :root --space-300
   });
 
-  test("click flips to compact, tightens spacing, persists across reload", async ({
+  test("runtime helper flips to compact, tightens spacing, persists across reload", async ({
     page,
   }) => {
     await page.goto("/index.html");
-    const btn = page.locator("#densityToggleBtn");
-    await expect(btn).toHaveAttribute("aria-pressed", "false");
+    await expect(page.locator("#densityToggleBtn")).toHaveCount(0);
 
-    await btn.click();
+    await page.evaluate(() => window.togglePlatformDensity());
     expect(await densityAttr(page)).toBe("compact");
-    await expect(btn).toHaveAttribute("aria-pressed", "true");
-    await expect(btn).toHaveAttribute("aria-label", /comfortable/i);
     expect(await spaceToken(page)).toBe("18px"); // compact --space-300
     expect(await page.evaluate(() => localStorage.getItem("density"))).toBe(
       "compact",
@@ -50,7 +46,7 @@ test.describe("A2 density toggle", () => {
     const ctx = await browser.newContext({ colorScheme: "light" });
     const page = await ctx.newPage();
     await page.goto("/index.html");
-    await page.locator("#densityToggleBtn").click();
+    await page.evaluate(() => window.togglePlatformDensity());
     expect(await densityAttr(page)).toBe("compact");
     expect(
       await page.evaluate(() =>
