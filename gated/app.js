@@ -3075,7 +3075,7 @@ async function loadUsersList(opts = {}) {
   }
 
   if (!opts.silent) {
-    container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading users…</div></div>';
+    container.innerHTML = buildLoading('Loading users…');
     if (meta) meta.textContent = "Loading…";
   }
   try {
@@ -4092,6 +4092,31 @@ function timeAgo(dateStr) {
   if (diffHours < 24) return `${diffHours}h ago`;
   if (diffDays < 7) return `${diffDays}d ago`;
   return date.toLocaleDateString("en-IN");
+}
+
+// ==================== B — shared loading-state builders ====================
+// One source of truth for the spinner block that was copy-pasted across 8
+// loaders, plus a skeleton builder matching real card geometry so loading
+// grids don't reflow when data lands. Output of buildLoading() is
+// byte-identical to the legacy literal for a given label.
+function buildLoading(label) {
+  return `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">${label}</div></div>`;
+}
+
+function buildSkeleton(variant, count = 6) {
+  const bars =
+    '<div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar short"></div>';
+  if (variant === "pick-card") {
+    return `<div class="skeleton-cards" aria-hidden="true" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;">${
+      `<div class="skeleton-pick-card">${bars}</div>`.repeat(count)
+    }</div>`;
+  }
+  if (variant === "holding-row") {
+    return `<div aria-hidden="true">${
+      `<div class="skeleton-holding-row"><div class="skeleton-bar med"></div><div class="skeleton-bar short"></div><div class="skeleton-bar short"></div><div class="skeleton-bar short"></div><div class="skeleton-bar short"></div></div>`.repeat(count)
+    }</div>`;
+  }
+  return `<div class="skeleton-card" aria-hidden="true">${bars}</div>`;
 }
 
 function escapeHtml(str) {
@@ -5457,7 +5482,7 @@ window.__trackSetSectionPerformanceCohort = function(cohortKey) {
 async function loadTrackSectionPerformance(forceBust = false) {
   const grid = document.getElementById("trackSectionPerformanceGrid");
   if (grid) {
-    grid.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading section alpha horizons…</div></div>`;
+    grid.innerHTML = buildLoading(`Loading section alpha horizons…`);
   }
   try {
     const url = `/api/track/section-performance?windows=${TRACK_SECTION_FETCH_WINDOWS}&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
@@ -11597,7 +11622,7 @@ async function loadPicks() {
   // the response is applied after fetch (see further down in this function).
   hydratePicksFilterDropdowns(true);
   setPicksLoadingBanner(true);
-  containerEl.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading picks…</div></div>`;
+  containerEl.innerHTML = buildSkeleton("pick-card", 9);
 
   try {
     const res = await fetch("/api/sws-picks-summary");
@@ -12385,7 +12410,7 @@ async function loadUSPicks() {
   const container = document.getElementById("usPicksContainer");
   const meta = document.getElementById("usPicksMeta");
   if (!container) return;
-  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading US Market…</div></div>`;
+  container.innerHTML = buildLoading(`Loading US Market…`);
   try {
     const res = await fetch("/api/us-picks");
     if (res.status === 404) {
@@ -12782,7 +12807,7 @@ async function openUSModal(ticker) {
   const backdrop = document.getElementById("usModalBackdrop");
   const body = document.getElementById("usModalBody");
   if (!backdrop || !body) return;
-  body.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(ticker)}…</div></div>`;
+  body.innerHTML = buildLoading(`Loading ${escapeHtml(ticker)}…`);
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
   try {
@@ -12857,7 +12882,7 @@ async function loadRegionPicks(code) {
   const meta = document.getElementById(dom + "Meta");
   if (!container || !ui) return;
   const marketLabel = `${ui.label} Market`;
-  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(marketLabel)}…</div></div>`;
+  container.innerHTML = buildLoading(`Loading ${escapeHtml(marketLabel)}…`);
   try {
     const res = await fetch(`/api/${code}-picks`);
     if (res.status === 404) {
@@ -13100,7 +13125,7 @@ async function openRegionModal(code, ticker) {
   const backdrop = document.getElementById(code + "ModalBackdrop");
   const body = document.getElementById(code + "ModalBody");
   if (!backdrop || !body) return;
-  body.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(ticker)}…</div></div>`;
+  body.innerHTML = buildLoading(`Loading ${escapeHtml(ticker)}…`);
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
   try {
