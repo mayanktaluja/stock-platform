@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-07**
+**Last updated: 2026-06-11**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,16 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Platform menu + theme shell (June 2026)
+- **This PR** — The app shell now defaults to light mode regardless of OS
+  preference, with dark mode persisted through `localStorage.starbhaiTheme`.
+  The top-right legacy Labs/More control has been replaced by a working
+  Platform menu generated from the same tab guards as `switchTab`, including
+  admin-only Users visibility, Sector Outlook opt-out handling, keyboard and
+  outside-click dismissal, active `aria-current` sync, and an in-menu
+  light/dark switch. App-shell metadata and the manifest now use the light
+  default while the dark palette remains available behind `[data-theme=dark]`.
 
 ### Chronos forecast overlay (June 2026)
 - **This PR** — India `best_fundamentals` stock modals can now show a cached,

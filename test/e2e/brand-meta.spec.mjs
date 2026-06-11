@@ -26,9 +26,9 @@ const SHARED_TWITTER = {
 };
 
 const SHARED_THEME = {
-  "theme-color": "#0B0C10",
+  "theme-color": "#FBFAF7",
   "apple-mobile-web-app-capable": "yes",
-  "apple-mobile-web-app-status-bar-style": "black-translucent",
+  "apple-mobile-web-app-status-bar-style": "default",
   "apple-mobile-web-app-title": "Starbhai",
 };
 
@@ -38,30 +38,40 @@ const PAGES = [
     url: "/index.html",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/",
     expectOgTitle: /Starbhai/,
+    expectThemeColor: "#FBFAF7",
+    expectStatusBar: "default",
   },
   {
     name: "login (signed-out)",
     url: "/login.html",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/login.html",
     expectOgTitle: /Starbhai/,
+    expectThemeColor: "#FBFAF7",
+    expectStatusBar: "default",
   },
   {
     name: "methodology",
     url: "/methodology",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/methodology.html",
     expectOgTitle: /Methodology/,
+    expectThemeColor: "#0B0C10",
+    expectStatusBar: "black-translucent",
   },
   {
     name: "charter",
     url: "/legal/charter",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/legal/charter",
     expectOgTitle: /Charter/,
+    expectThemeColor: "#0B0C10",
+    expectStatusBar: "black-translucent",
   },
   {
     name: "grievance",
     url: "/legal/grievance",
     expectOgUrl: "https://starbhai-stock-platform.vercel.app/legal/grievance",
     expectOgTitle: /Grievance/,
+    expectThemeColor: "#0B0C10",
+    expectStatusBar: "black-translucent",
   },
 ];
 
@@ -115,9 +125,14 @@ test.describe("PR #1 brand metadata", () => {
         expect(await getMeta(page, "name", key), `${key}`).toBe(expected);
       }
 
-      // Shared theme / Apple assertions
+      // Shared theme / Apple assertions. The app shell and login are the
+      // light-default product surfaces; static docs/legal pages retain their
+      // dark metadata until their own redesign.
       for (const [key, expected] of Object.entries(SHARED_THEME)) {
-        expect(await getMeta(page, "name", key), `${key}`).toBe(expected);
+        const resolved = key === "theme-color"
+          ? p.expectThemeColor
+          : (key === "apple-mobile-web-app-status-bar-style" ? p.expectStatusBar : expected);
+        expect(await getMeta(page, "name", key), `${key}`).toBe(resolved);
       }
     });
   }

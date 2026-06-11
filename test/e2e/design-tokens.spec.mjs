@@ -47,6 +47,9 @@ test.describe("PR #3 design tokens resolve to their declared values", () => {
   test.use({ colorScheme: "dark" });
 
   test("every token in :root resolves at runtime", async ({ page }) => {
+    await page.addInitScript(() => {
+      try { localStorage.setItem("starbhaiTheme", "dark"); } catch (e) {}
+    });
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
 
     const resolved = await page.evaluate((names) => {
@@ -74,6 +77,9 @@ test.describe("PR #3 design tokens resolve to their declared values", () => {
     // styled element should have its computed background match
     // var(--bg-graphite). We pick a header chip because it was the most
     // common consumer of the legacy #1a2233.
+    await page.addInitScript(() => {
+      try { localStorage.setItem("starbhaiTheme", "dark"); } catch (e) {}
+    });
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
     // Wait for the SPA to render so the chips exist
     await page

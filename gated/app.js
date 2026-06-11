@@ -278,6 +278,7 @@ const auth = {
 
     const usersTabBtn = document.getElementById("usersTabBtn");
     if (usersTabBtn) usersTabBtn.hidden = !window.__starbhai_isAdmin;
+    buildLabsMenu();
     refreshScrollRails();
 
     // Deep-link recovery: boot ran before this async auth resolved, so a
@@ -329,6 +330,14 @@ const auth = {
 document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
+  const labsMenu = document.getElementById("labsMenu");
+  const labsTrigger = document.getElementById("labsMenuBtn");
+  const labsDropdown = document.getElementById("labsMenuDropdown");
+  if (labsMenu && labsTrigger && labsDropdown) {
+    labsMenu.hidden = false;
+    buildLabsMenu();
+    window.__labsMenuCtl = wireMenu(labsTrigger, labsDropdown, labsMenu);
+  }
   // Ticker lives in the persistent header above the tabs, so it must load
   // independently of whichever tab the user lands on. The scheduler below
   // pauses while hidden and backs off when NSE is closed or status is unknown.
@@ -2805,10 +2814,14 @@ async function switchTab(tab) {
   }
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
-  // Activate the matching bar button by EXACT tab id.
-  const activeBtn = Array.from(tabs).find(
-    (t) => t.getAttribute("onclick") === `switchTab('${tab}')`,
-  );
+  // Activate the matching bar button by stable id / panel wiring. Avoid
+  // brittle exact inline-onclick string matching; menu and tab rail can now
+  // sync from the resolved tab id.
+  const activeBtn = document.getElementById(`${tab}TabBtn`) ||
+    Array.from(tabs).find((t) =>
+      t.dataset.tab === tab ||
+      t.getAttribute("aria-controls") === config.elId,
+    );
   if (activeBtn) {
     activeBtn.classList.add("active");
     activeBtn.setAttribute("aria-selected", "true");
@@ -2843,36 +2856,44 @@ async function switchTab(tab) {
   syncScanStatusPollers();
 }
 
-// ==================== LEGACY "MORE" MENU ====================
+// ==================== PLATFORM MENU ====================
 //
-// Kept as inert compatibility for older e2e helpers and active-state syncing.
-// Public tabs now stay in #mainTabs; Users is revealed in the tab bar only for
-// the owner/admin account, so auth.init() no longer shows this menu.
-const LABS_MENU_TABS = [
-  { id: "users",          label: "Users",          dot: null,      show: () => !!window.__starbhai_isAdmin },
-];
-const LABS_LABELS = Object.fromEntries(LABS_MENU_TABS.map((t) => [t.id, t.label]));
+// Top-right quick navigation. It duplicates the visible tab rail using the
+// same guards as switchTab; account actions stay avatar-only.
+function platformMenuTabs() {
+  const buttons = Array.from(document.querySelectorAll("#mainTabs .tab"));
+  return buttons
+    .map((btn) => {
+      const id = btn.id?.replace(/TabBtn$/, "");
+      const cfg = TAB_CONFIG[id];
+      if (!id || !cfg) return null;
+      if (cfg.guard && !cfg.guard()) return null;
+      return { id, label: cfg.label || btn.textContent.trim() || id };
+    })
+    .filter(Boolean);
+}
 
-// Inject the menu items the current user is allowed to see. Idempotent.
+function syncPlatformThemeToggle() {
+  const item = document.getElementById("platformThemeToggle");
+  if (!item) return;
+  const light = document.documentElement.getAttribute("data-theme") === "light";
+  item.setAttribute("aria-checked", String(!light));
+  item.textContent = light ? "Switch to dark theme" : "Switch to light theme";
+}
+window.syncPlatformThemeToggle = syncPlatformThemeToggle;
+
 function buildLabsMenu() {
   const dropdown = document.getElementById("labsMenuDropdown");
   if (!dropdown) return;
   dropdown.replaceChildren();
-  for (const t of LABS_MENU_TABS) {
-    if (!t.show()) continue;
+
+  for (const t of platformMenuTabs()) {
     const item = document.createElement("button");
     item.type = "button";
     item.className = "labs-menu-item";
-    item.id = `labsItem_${t.id}`;
+    item.id = `platformItem_${t.id}`;
     item.setAttribute("role", "menuitem");
     item.dataset.tab = t.id;
-    if (t.dot) {
-      const dot = document.createElement("span");
-      dot.className = "labs-menu-item-dot";
-      dot.style.background = t.dot;
-      dot.setAttribute("aria-hidden", "true");
-      item.appendChild(dot);
-    }
     item.appendChild(document.createTextNode(t.label));
     item.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -2881,24 +2902,43 @@ function buildLabsMenu() {
     });
     dropdown.appendChild(item);
   }
-}
-window.buildLabsMenu = buildLabsMenu; // exposed for e2e
 
-// Reflect the active tab in the "More" menu: highlight the matching item, and
-// tint + relabel the trigger when the current tab lives in the dropdown (its
-// bar button is hidden, so the trigger is the only visible active affordance).
+  const divider = document.createElement("div");
+  divider.className = "labs-menu-divider";
+  divider.setAttribute("role", "separator");
+  dropdown.appendChild(divider);
+
+  const themeItem = document.createElement("button");
+  themeItem.type = "button";
+  themeItem.className = "labs-menu-item";
+  themeItem.id = "platformThemeToggle";
+  themeItem.setAttribute("role", "menuitemcheckbox");
+  themeItem.addEventListener("click", (e) => {
+    e.stopPropagation();
+    document.getElementById("themeToggleBtn")?.click();
+    syncPlatformThemeToggle();
+  });
+  dropdown.appendChild(themeItem);
+  syncPlatformThemeToggle();
+  syncLabsActive(window.__activeTab || "picks");
+}
+window.buildLabsMenu = buildLabsMenu; // exposed for e2e/back-compat
+
+// Reflect the active tab in the Platform menu.
 function syncLabsActive(tab) {
   let activeItem = null;
   document.querySelectorAll(".labs-menu-item").forEach((it) => {
     const on = it.dataset.tab === tab;
-    it.setAttribute("aria-current", on ? "true" : "false");
+    if (on) it.setAttribute("aria-current", "page");
+    else it.removeAttribute("aria-current");
     if (on) activeItem = it;
   });
   const trigger = document.getElementById("labsMenuBtn");
   if (!trigger) return;
   trigger.classList.toggle("is-active", !!activeItem);
   const labelEl = trigger.querySelector(".labs-menu-label");
-  if (labelEl) labelEl.textContent = activeItem ? (LABS_LABELS[tab] || tab) : "More";
+  if (labelEl) labelEl.textContent = "Platform";
+  syncPlatformThemeToggle();
 }
 window.syncLabsActive = syncLabsActive;
 

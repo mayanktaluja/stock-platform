@@ -39,8 +39,8 @@ test.describe("PR #2 PWA manifest", () => {
     );
 
     // Theme + background colours match the brand
-    expect(manifest.theme_color).toBe("#0B0C10");
-    expect(manifest.background_color).toBe("#0B0C10");
+    expect(manifest.theme_color).toBe("#FBFAF7");
+    expect(manifest.background_color).toBe("#FBFAF7");
 
     // Must carry ≥ 192 + 512 px icons (Chrome PWA install prompt baseline)
     expect(manifest.icons).toBeInstanceOf(Array);

@@ -1,7 +1,7 @@
 // A1: light/dark theme boot + token flip.
 //
 // Covers the FOUC-safe boot script in <head>: it must set data-theme on
-// <html> synchronously, resolving stored choice > OS preference > dark, and
+// <html> synchronously, resolving stored choice > light default, and
 // the [data-theme="light"] token block must actually flip the cascade.
 //
 // Navigates directly to /index.html (NOT gotoApp) because gotoApp clears
@@ -31,11 +31,11 @@ test.describe("A1 theme boot", () => {
     await ctx.close();
   });
 
-  test("OS dark + no stored choice → dark", async ({ browser }) => {
+  test("OS dark + no stored choice → light", async ({ browser }) => {
     const ctx = await browser.newContext({ colorScheme: "dark" });
     const page = await ctx.newPage();
     await page.goto("/index.html");
-    expect(await themeAttr(page)).toBe("dark");
+    expect(await themeAttr(page)).toBe("light");
     await ctx.close();
   });
 
@@ -45,11 +45,11 @@ test.describe("A1 theme boot", () => {
     // Seed the stored choice before the boot script runs.
     await page.addInitScript(() => {
       try {
-        localStorage.setItem("theme", "light");
+        localStorage.setItem("starbhaiTheme", "dark");
       } catch (e) {}
     });
     await page.goto("/index.html");
-    expect(await themeAttr(page)).toBe("light");
+    expect(await themeAttr(page)).toBe("dark");
     await ctx.close();
   });
 
@@ -58,7 +58,7 @@ test.describe("A1 theme boot", () => {
     // because the boot script is synchronous in <head>.
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
     const t = await themeAttr(page);
-    expect(["light", "dark"]).toContain(t);
+    expect(t).toBe("light");
     // density default also applied early
     expect(await page.evaluate(() =>
       document.documentElement.getAttribute("data-density"),
@@ -68,6 +68,9 @@ test.describe("A1 theme boot", () => {
   test("light tokens actually flip the cascade", async ({ browser }) => {
     const dark = await browser.newContext({ colorScheme: "dark" });
     const dp = await dark.newPage();
+    await dp.addInitScript(() => {
+      try { localStorage.setItem("starbhaiTheme", "dark"); } catch (e) {}
+    });
     await dp.goto("/index.html");
     const darkBg = await token(dp, "--bg-primary");
     const darkText = await token(dp, "--text-primary");
@@ -99,31 +102,31 @@ test.describe("A2 theme toggle button", () => {
     page,
   }) => {
     await page.goto("/index.html");
-    expect(await themeAttr(page)).toBe("dark");
+    expect(await themeAttr(page)).toBe("light");
 
     const btn = page.locator("#themeToggleBtn");
-    await expect(btn).toHaveAttribute("aria-pressed", "false");
+    await expect(btn).toHaveAttribute("aria-pressed", "true");
     await btn.click();
 
-    expect(await themeAttr(page)).toBe("light");
-    await expect(btn).toHaveAttribute("aria-pressed", "true");
-    await expect(btn).toHaveAttribute("aria-label", /dark theme/i);
+    expect(await themeAttr(page)).toBe("dark");
+    await expect(btn).toHaveAttribute("aria-pressed", "false");
+    await expect(btn).toHaveAttribute("aria-label", /light theme/i);
     expect(
-      await page.evaluate(() => localStorage.getItem("theme")),
-    ).toBe("light");
+      await page.evaluate(() => localStorage.getItem("starbhaiTheme")),
+    ).toBe("dark");
     // meta theme-color tracks the theme (mobile browser chrome)
     expect(
       await page.evaluate(
         () => document.querySelector('meta[name="theme-color"]').content,
       ),
-    ).toBe("#FBFAF7");
+    ).toBe("#0B0C10");
 
     // Survives reload via the boot script reading localStorage.
     await page.reload();
-    expect(await themeAttr(page)).toBe("light");
+    expect(await themeAttr(page)).toBe("dark");
     await expect(page.locator("#themeToggleBtn")).toHaveAttribute(
       "aria-pressed",
-      "true",
+      "false",
     );
   });
 
