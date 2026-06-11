@@ -331,6 +331,40 @@
       --red-bright:           #ef4444;
       --red-glow:             #ff7a7a;
       --cyan-bright:          #5cc7e8;
+
+      /* ============================================================
+       * D2 — full app.js sweep tokens. Every remaining raw hex in the
+       * render layer maps 1:1 onto these (dark values identical RGB),
+       * so the entire app themes. Light values in the block below.
+       * ============================================================ */
+      --surface-navy:          #0f172a;
+      --surface-ink:           #111827;
+      --surface-ink-deep:      #0b1220;
+      --slate-mid:             #3a4358;
+      --text-gray:             #9ca3af;
+      --text-gray-light:       #e5e7eb;
+      --text-gray-deep:        #64748b;
+      --yellow-deep:           #eab308;
+      --amber:                 #f59e0b;
+      --amber-a40:             #f59e0b66;
+      --amber-a13:             #f59e0b22;
+      --amber-pale:            #fde68a;
+      --orange-mid:            #f97316;
+      --orange-pale:           #fdba74;
+      --gold-soft:             #f5c542;
+      --gold-tan:              #C8A06A;
+      --green-deep:            #16a34a;
+      --emerald:               #10b981;
+      --positive-text-pale:    #bbf7d0;
+      --positive-text-mint:    #a7f3d0;
+      --positive-text-spring:  #94e2a8;
+      --negative-text-pale:    #fecaca;
+      --sky:                   #38bdf8;
+      --blue-strong:           #3b82f6;
+      --cyan-deep:             #06b6d4;
+      --indigo-soft:           #a5b4fc;
+      --pink:                  #ec4899;
+      --lime:                  #84cc16;
     }
     /* @tokens-end */
 
@@ -452,6 +486,38 @@
         0 16px 32px -8px rgba(20, 22, 28, 0.14);
       --gold-glow-20: rgba(176, 122, 30, 0.18);
       --gold-glow-30: rgba(176, 122, 30, 0.28);
+
+      /* D2 sweep tokens — light values. Pastel signal text darkens to its
+       * ~600/700-weight counterpart (AA on paper); dark panel surfaces flip
+       * to pale cool greys; borders to hairline slate. */
+      --surface-navy:          #EDF0F5;
+      --surface-ink:           #EFF1F5;
+      --surface-ink-deep:      #E9EDF3;
+      --slate-mid:             #B9C1CE;
+      --text-gray:             #4B5563;
+      --text-gray-light:       #374151;
+      --text-gray-deep:        #475569;
+      --yellow-deep:           #A16207;
+      --amber:                 #B45309;
+      --amber-a40:             #B4530966;
+      --amber-a13:             #B4530922;
+      --amber-pale:            #92400E;
+      --orange-mid:            #C2410C;
+      --orange-pale:           #9A3412;
+      --gold-soft:             #9A6700;
+      --gold-tan:              #8A6420;
+      --green-deep:            #15803D;
+      --emerald:               #047857;
+      --positive-text-pale:    #15803D;
+      --positive-text-mint:    #047857;
+      --positive-text-spring:  #1A8F4C;
+      --negative-text-pale:    #B91C1C;
+      --sky:                   #0369A1;
+      --blue-strong:           #1D4ED8;
+      --cyan-deep:             #0E7490;
+      --indigo-soft:           #4338CA;
+      --pink:                  #BE185D;
+      --lime:                  #4D7C0F;
     }
     /* @tokens-end */
 
@@ -2817,6 +2883,22 @@
       flex-direction: column;
       gap: 10px;
       min-height: 120px;
+    }
+    /* D2 — analyzer holding-row skeleton (matches the report row geometry). */
+    .skeleton-holding-row {
+      display: grid;
+      grid-template-columns: 1.6fr 90px 90px 100px 100px;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--bg-graphite);
+      border-radius: 6px;
+      background: var(--surface-navy);
+      margin-top: 6px;
+    }
+    /* D2 — analyzer report row hover (mirrors the picks-card affordance). */
+    @media (hover: hover) and (pointer: fine) {
+      #analyzerReport tbody tr:hover { background: var(--bg-card-hover); }
     }
     @keyframes shimmer {
       0%   { background-position: 200% 0; }
