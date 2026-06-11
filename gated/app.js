@@ -1218,10 +1218,78 @@ async function loadMarketData() {
 
 // ==================== SEARCH ====================
 
+// E1 — command mode for the global search. Typing ">" flips the search box
+// into a command palette: navigate to any visible tab, toggle theme/density,
+// open the shortcuts cheatsheet. Reuses the existing #searchResults listbox
+// + .search-result-item affordances; command rows are additive DOM
+// (data-cmd / data-testid="cmdk-command") so stock-search contracts hold.
+function _commandPaletteEntries() {
+  const cmds = [];
+  for (const [id, cfg] of Object.entries(TAB_CONFIG)) {
+    const btn = document.getElementById(`${id}TabBtn`);
+    if (btn && btn.offsetParent === null) continue; // hidden (admin/guarded)
+    cmds.push({ id: `tab:${id}`, label: `Go to ${cfg.label}`, run: () => switchTab(id) });
+  }
+  const light = document.documentElement.getAttribute("data-theme") === "light";
+  cmds.push({
+    id: "theme",
+    label: light ? "Switch to dark theme" : "Switch to light theme",
+    run: () => document.getElementById("themeToggleBtn")?.click(),
+  });
+  const compact = document.documentElement.getAttribute("data-density") === "compact";
+  cmds.push({
+    id: "density",
+    label: compact ? "Switch to comfortable density" : "Switch to compact density",
+    run: () => document.getElementById("densityToggleBtn")?.click(),
+  });
+  cmds.push({
+    id: "shortcuts",
+    label: "Show keyboard shortcuts",
+    run: () => document.getElementById("shortcutsModal")?.classList.add("open"),
+  });
+  return cmds;
+}
+
+function renderCommandPalette(query) {
+  const q = query.toLowerCase();
+  const matches = _commandPaletteEntries().filter((c) =>
+    c.label.toLowerCase().includes(q),
+  );
+  if (matches.length === 0) {
+    searchResults.innerHTML = `<div style="padding:12px 16px;color:var(--text-muted);font-size:13px;">No matching commands</div>`;
+  } else {
+    searchResults.innerHTML = matches
+      .map(
+        (c) => `
+      <div class="search-result-item" role="option" tabindex="0"
+           data-cmd="${c.id}" data-testid="cmdk-command">
+        <span aria-hidden="true" style="color:var(--gold);font-weight:700;margin-right:8px;">&rsaquo;</span>${escapeHtml(c.label)}
+      </div>`,
+      )
+      .join("");
+  }
+  searchResults.classList.add("active");
+}
+
+function runPaletteCommand(cmdId) {
+  const cmd = _commandPaletteEntries().find((c) => c.id === cmdId);
+  searchResults.classList.remove("active");
+  searchInput.value = "";
+  if (cmd) cmd.run();
+}
+
 function setupSearch() {
   searchInput.addEventListener("input", (e) => {
-    const query = e.target.value.trim();
+    const raw = e.target.value;
+    const query = raw.trim();
     if (searchTimeout) clearTimeout(searchTimeout);
+
+    // E1: ">" prefix = command mode (no debounce — the list is local).
+    if (query.startsWith(">")) {
+      if (searchAbortController) searchAbortController.abort();
+      renderCommandPalette(query.slice(1).trim());
+      return;
+    }
 
     // Single-char queries match 200+ stocks and burn cache for no real signal.
     if (query.length < 2) {
@@ -1250,11 +1318,21 @@ function setupSearch() {
       searchResults.classList.remove("active");
       searchInput.blur();
     }
+    // E1: Enter in command mode runs the top match without needing to Tab
+    // into the listbox first.
+    if (e.key === "Enter" && searchInput.value.trim().startsWith(">")) {
+      const first = searchResults.querySelector("[data-cmd]");
+      if (first) {
+        e.preventDefault();
+        runPaletteCommand(first.dataset.cmd);
+      }
+    }
   });
 
   searchResults.addEventListener("click", (e) => {
     const item = e.target.closest(".search-result-item");
     if (!item) return;
+    if (item.dataset.cmd) return runPaletteCommand(item.dataset.cmd);
     openGlobalSearchResult({
       market: item.dataset.market || "india",
       ticker: item.dataset.ticker || item.dataset.symbol || "",
@@ -1267,6 +1345,7 @@ function setupSearch() {
     const item = e.target.closest(".search-result-item");
     if (!item) return;
     e.preventDefault();
+    if (item.dataset.cmd) return runPaletteCommand(item.dataset.cmd);
     openGlobalSearchResult({
       market: item.dataset.market || "india",
       ticker: item.dataset.ticker || item.dataset.symbol || "",
