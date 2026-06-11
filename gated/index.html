@@ -368,6 +368,9 @@
       /* D4-D7 satellite-module sweep */
       --text-ice-soft:         #e2e8f0;
       --yellow-mid:            #facc15;
+      /* Frosted-glass sticky surfaces (header, chip-nav) */
+      --bg-frost:              rgba(11, 12, 16, 0.85);
+      --bg-frost-deep:         rgba(11, 12, 16, 0.92);
     }
     /* @tokens-end */
 
@@ -523,6 +526,8 @@
       --lime:                  #4D7C0F;
       --text-ice-soft:         #25324A;
       --yellow-mid:            #A16207;
+      --bg-frost:              rgba(251, 250, 247, 0.85);
+      --bg-frost-deep:         rgba(251, 250, 247, 0.92);
     }
     /* @tokens-end */
 
@@ -783,7 +788,7 @@
 
     /* Phase 8B: Editorial Terminal header */
     .header {
-      background: rgba(11, 12, 16, 0.85);
+      background: var(--bg-frost);
       backdrop-filter: blur(12px) saturate(1.2);
       -webkit-backdrop-filter: blur(12px) saturate(1.2);
       border-bottom: 1px solid var(--border);
@@ -4017,7 +4022,7 @@
       gap: 12px;
       padding: 10px 0;
       margin-bottom: 14px;
-      background: rgba(11, 12, 16, 0.92);
+      background: var(--bg-frost-deep);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border-soft, var(--bg-graphite));
