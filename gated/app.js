@@ -4633,8 +4633,11 @@ function renderTrackChart(trades) {
   }).join("");
 
   // Data points
-  const pickDots = pickSeries.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="3.5" fill="${colorPicks}" />`).join("");
-  const niftyDots = niftySeries.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="2.5" fill="${colorNifty}" />`).join("");
+  // E2: dots carry native <title> tooltips (month, avg %, n) and an enlarged
+  // transparent hit ring so hover/tap targets aren't 3px. CSS bumps the
+  // visible radius on hover (.track-dot). Native titles = zero JS, SR-safe.
+  const pickDots = pickSeries.map((v, i) => `<g class="track-dot"><circle cx="${xAt(i)}" cy="${yAt(v)}" r="10" fill="transparent" /><circle class="track-dot-vis" cx="${xAt(i)}" cy="${yAt(v)}" r="3.5" fill="${colorPicks}" /><title>${months[i]} — picks avg ${v != null ? v.toFixed(1) : "—"}% (n=${countSeries[i]})</title></g>`).join("");
+  const niftyDots = niftySeries.map((v, i) => `<g class="track-dot"><circle cx="${xAt(i)}" cy="${yAt(v)}" r="9" fill="transparent" /><circle class="track-dot-vis" cx="${xAt(i)}" cy="${yAt(v)}" r="2.5" fill="${colorNifty}" /><title>${months[i]} — Nifty 50 avg ${v != null ? v.toFixed(1) : "—"}%</title></g>`).join("");
 
   section.style.display = "block";
   container.innerHTML = `

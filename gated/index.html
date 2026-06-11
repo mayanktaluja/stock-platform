@@ -706,6 +706,13 @@
       display: block;
       font-family: var(--font-sans);
     }
+    /* E2 — chart dot hover affordance: visible dot grows under the pointer
+       (the transparent sibling ring is the real hit target). */
+    .track-dot { cursor: pointer; }
+    .track-dot .track-dot-vis { transition: r var(--dur-quick) var(--ease-standard); }
+    @media (hover: hover) and (pointer: fine) {
+      .track-dot:hover .track-dot-vis { r: 5.5; }
+    }
     .track-chart-wrap {
       padding: 18px 0;
     }
