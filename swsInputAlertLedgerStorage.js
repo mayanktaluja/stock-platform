@@ -70,6 +70,12 @@ class FileSwsInputAlertLedgerStorage {
     const entry = await this.read(sub);
     return entry.events.some((e) => e.type === type && e.run_id === run_id && e.digest === digest);
   }
+
+  async hasEmailSentForRun(sub, run_id) {
+    if (!run_id) return false;
+    const entry = await this.read(sub);
+    return entry.events.some((e) => e.type === "EMAIL_SENT" && e.run_id === run_id);
+  }
 }
 
 class KVSwsInputAlertLedgerStorage {
@@ -119,6 +125,12 @@ class KVSwsInputAlertLedgerStorage {
   async hasEvent(sub, criteria) {
     const entry = await this.read(sub);
     return entry.events.some((e) => e.type === criteria.type && e.run_id === criteria.run_id && e.digest === criteria.digest);
+  }
+
+  async hasEmailSentForRun(sub, run_id) {
+    if (!run_id) return false;
+    const entry = await this.read(sub);
+    return entry.events.some((e) => e.type === "EMAIL_SENT" && e.run_id === run_id);
   }
 }
 

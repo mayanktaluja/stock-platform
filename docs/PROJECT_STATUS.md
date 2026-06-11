@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-11**
+**Last updated: 2026-06-12**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,16 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Portfolio SWS input alert rollout (June 2026)
+- **This PR** — SWS portfolio input-change emails now roll out to every signed-in
+  user with uploaded Analyzer/Portfolio holdings, defaulting email alerts on
+  while preserving an explicit Portfolio Analyzer opt-out. The send cron now
+  loads each user's holdings before delivery, skips users without uploaded
+  portfolios or material held-stock changes, and keeps same-run dedupe stable
+  even when alert digest semantics change. Alert emails use a structured
+  Gmail-safe table, suppress sub-2% fair-value-only moves, and keep the raw
+  nightly diff artifact exhaustive for audit/debugging.
 
 ### Platform menu + theme shell (June 2026)
 - **This PR** — The app shell now defaults to light mode regardless of OS

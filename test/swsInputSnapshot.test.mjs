@@ -22,7 +22,7 @@ function writeJson(file, value) {
   fs.writeFileSync(file, JSON.stringify(value, null, 2));
 }
 
-function writeFixture({ score = 55, upside = 20, total = 12, rewards = ["A", "B"], price = 100 } = {}) {
+function writeFixture({ score = 55, upside = 20, total = 12, rewards = ["A", "B"], price = 100, fairValue = 120 } = {}) {
   writeJson(scoredPath, {
     generated_at: "2026-06-08T00:00:00.000Z",
     scored_count: 1,
@@ -33,7 +33,7 @@ function writeFixture({ score = 55, upside = 20, total = 12, rewards = ["A", "B"
       v4_score_100: score,
       v4_verdict: score >= 59 ? "TOP_PICK" : "STRONG",
       snowflake_total: total,
-      fair_value_inr: 120,
+      fair_value_inr: fairValue,
       upside_pct: upside,
       current_price_inr: price,
       fair_value_confidence: "HIGH",
@@ -47,7 +47,7 @@ function writeFixture({ score = 55, upside = 20, total = 12, rewards = ["A", "B"
       snowflake: { value: 4, future: 2, past: 3, health: 4, dividend: 1 },
       snowflake_total: total,
       snowflake_data_quality: { insufficient: false, insufficient_count: 0, checked_count: 30, affected_pillars: [] },
-      fair_value_inr: 120,
+      fair_value_inr: fairValue,
       upside_pct: upside,
       rewards,
       risks: ["Risk A"],
@@ -69,6 +69,15 @@ try {
     diffInputSignatures(first, priceOnly).change_count,
     0,
     "price/momentum score/upside and array ordering alone must not alert",
+  );
+
+  writeFixture({ fairValue: 121.2 });
+  const tinyFvMove = buildInputSignatures({ scoredUniversePath: scoredPath, deepDir, lastRefreshPath, generatedAt: "2026-06-08T00:03:30.000Z" });
+  const tinyFvDiff = diffInputSignatures(first, tinyFvMove);
+  assert.equal(tinyFvDiff.change_count, 1, "raw snapshot diff remains exhaustive for sub-2% FV moves");
+  assert.ok(
+    tinyFvDiff.changes[0].changes.some((c) => c.field === "fair_value.fair_value_inr" && c.previous === 120 && c.current === 121.2),
+    "raw diff records the exact FV input movement before portfolio alert filtering",
   );
 
   writeFixture({ total: 16, score: 66, upside: 60 });
