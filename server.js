@@ -5659,7 +5659,7 @@ import {
   normalizeSwsInputAlert,
   normalizeSwsInputAlertPrefs,
 } from "./services/swsPortfolioInputAlerts.js";
-import { sendMail, validateBulkMailerConfig } from "./services/resendMailer.js";
+import { mailProvider, sendMail, validateBulkMailerConfig } from "./services/resendMailer.js";
 
 // Lazy @vercel/kv client for the portfolio response cache L2. Memoised
 // so we don't re-import on every request. Returns null when KV isn't
@@ -5697,6 +5697,10 @@ async function savePortfolio(sub, data) {
 function userSub(req) {
   if (req.user?.sub) return req.user.sub;
   return AUTH_ENABLED ? null : "_local_dev";
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const SWS_INPUT_ALERT_ARTIFACT = path.join(__dirname, "data", "sws", "alerts", "fundamental-changes-latest.json");
@@ -5856,6 +5860,8 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
       }
     }
     const ledger = getSwsInputAlertLedgerStorage();
+    const activeMailProvider = mailProvider();
+    const gmailDelayMs = Math.max(0, Number(process.env.SWS_INPUT_ALERT_GMAIL_DELAY_MS || 750) || 0);
     const results = [];
     const counts = {
       eligible: 0,
@@ -5932,7 +5938,9 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
             digest: portfolio.digest,
             alert_count: portfolio.alerts.length,
             email,
+            provider: sendResult.provider || activeMailProvider,
             resend_id: sendResult.id || null,
+            message_id: sendResult.id || null,
           }]);
           counts.sent++;
         } else if (dryRun || sendResult.dry_run) {
@@ -5947,10 +5955,12 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
             digest: portfolio.digest,
             alert_count: portfolio.alerts.length,
             email,
+            provider: sendResult.provider || activeMailProvider,
             status: sendResult.status || null,
             reason: sendResult.reason || "send_failed",
             error: sendResult.error || null,
             resend_id: sendResult.id || null,
+            message_id: sendResult.id || null,
           }]);
         }
         results.push({
@@ -5964,9 +5974,11 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           status: sendResult.status || null,
           reason: sendResult.reason || null,
           error: sendResult.error || null,
+          provider: sendResult.provider || activeMailProvider,
           ok: sendResult.ok,
           ...(sendResult.dry_run && sendResult.payload ? { payload: sendResult.payload } : {}),
         });
+        if (!dryRun && activeMailProvider === "gmail" && gmailDelayMs > 0) await sleep(gmailDelayMs);
       } catch (err) {
         counts.failed++;
         if (portfolio?.run_id && portfolio?.digest && user?.sub) {
