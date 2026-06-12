@@ -11,8 +11,11 @@
 
 import assert from "node:assert/strict";
 import {
+  classifySwsInputAlertImpact,
+  classifySwsInputChangeImpact,
   formatAlertChangeSummary,
   formatAlertFieldLabel,
+  formatAlertImpactLabel,
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
   canonicalizeHoldingTicker,
@@ -113,6 +116,47 @@ assert.deepEqual(normalizeSwsInputAlertPrefs({}), { inApp: true, email: true });
 assert.deepEqual(normalizeSwsInputAlertPrefs({ email: false }), { inApp: true, email: false });
 assert.deepEqual(normalizeSwsInputAlertPrefs({ inApp: false, email: true }), { inApp: false, email: true });
 
+// --- impact classification -------------------------------------------------
+
+assert.equal(
+  classifySwsInputChangeImpact({ field: "snowflake.value", previous: 1, current: 3 }),
+  "positive",
+  "higher snowflake pillar is positive",
+);
+assert.equal(
+  classifySwsInputChangeImpact({ field: "snowflake.future", previous: 4, current: 3 }),
+  "negative",
+  "lower snowflake pillar is negative",
+);
+assert.equal(
+  classifySwsInputChangeImpact({ field: "fair_value.fair_value_inr", previous: 100, current: 110 }),
+  "positive",
+  "higher finite fair value is positive",
+);
+assert.equal(
+  classifySwsInputChangeImpact({ field: "fair_value.fair_value_inr", previous: 100, current: null }),
+  "changed",
+  "fair value availability loss is not forced into positive/negative",
+);
+assert.equal(
+  classifySwsInputChangeImpact({ field: "fair_value.upside_band", previous: "DISCOUNT", current: "FAIR" }),
+  "negative",
+  "discount to fair is less attractive",
+);
+assert.equal(
+  classifySwsInputChangeImpact({ field: "fair_value.upside_band", previous: "VERY_EXPENSIVE", current: "FAIR" }),
+  "positive",
+  "very expensive to fair is more attractive",
+);
+assert.equal(
+  classifySwsInputAlertImpact([
+    { field: "snowflake.value", previous: 2, current: 3 },
+    { field: "snowflake.future", previous: 4, current: 3 },
+  ]),
+  "mixed",
+);
+assert.equal(formatAlertImpactLabel("positive"), "Positive");
+
 // --- buildPortfolioSwsInputAlerts integration -----------------------------
 
 const market = {
@@ -201,15 +245,21 @@ assert.deepEqual(fallback.alerts[0].changes.map((c) => c.field), ["fair_value.fa
 const email = buildSwsInputAlertEmail({ alerts: analyzerFirst.alerts, runId: "run-1" });
 assert.equal(email.subject, "SWS inputs changed for TCS");
 assert.match(email.text, /Affected stock: TCS/);
-assert.match(email.text, /- Future growth changed from 4 to 3/);
+assert.match(email.text, /TCS - Negative impact/);
+assert.match(email.text, /- Negative impact: Future growth changed from 4 to 3/);
 assert.doesNotMatch(email.text, /statements\./, "no noise fields leak into the email");
 assert.doesNotMatch(email.text, /Alembic/, "sub-threshold FV alert does not leak into email text");
 assert.match(email.html, /SWS inputs changed for TCS/);
 assert.match(email.html, /<table role="presentation"/);
 assert.match(email.html, />Stock</);
+assert.match(email.html, />Impact</);
 assert.match(email.html, />Signal</);
+assert.doesNotMatch(email.html, />Severity</);
 assert.match(email.html, /Future growth/);
+assert.match(email.html, /Negative/);
+assert.match(email.html, /#fee2e2/);
 assert.doesNotMatch(email.html, /snowflake\.future/, "developer field labels do not leak into email HTML");
+assert.doesNotMatch(email.html, /medium severity/i, "email does not repeat raw diff severity");
 assert.match(email.text, /Review the Starbhai score\/report/);
 assert.match(email.text, /no buy\/sell instruction/i);
 assert.doesNotMatch(email.text, /(buy|sell)\s+TCS/i);
@@ -221,9 +271,24 @@ const multiEmail = buildSwsInputAlertEmail({
 assert.equal(multiEmail.subject, "SWS inputs changed for 2 portfolio holding(s)");
 assert.match(multiEmail.text, /Affected stocks: TCS, Infosys \(INFY\)/);
 assert.match(multiEmail.text, /Fair value changed from INR 100 to INR 110 \(\+10\.00%\)/);
+assert.match(multiEmail.text, /Infosys \(INFY\) - Positive impact/);
 assert.match(multiEmail.html, /Fair value/);
 assert.match(multiEmail.html, /INR 100/);
 assert.match(multiEmail.html, /\+10\.00%/);
+assert.match(multiEmail.html, /Positive/);
+assert.match(multiEmail.html, /#dcfce7/);
+
+const changedEmail = buildSwsInputAlertEmail({
+  alerts: [{
+    ticker: "NULLFV",
+    name: "Null Fair Value",
+    changes: [{ field: "fair_value.fair_value_inr", previous: null, current: 120 }],
+  }],
+  runId: "run-1",
+});
+assert.match(changedEmail.text, /Changed impact: Fair value changed from n\/a to INR 120 \(Availability change\)/);
+assert.match(changedEmail.html, /Changed/);
+
 assert.equal(formatAlertStockLabel({ ticker: "INFY", name: "Infosys" }), "Infosys (INFY)");
 assert.equal(
   formatAlertChangeSummary({ field: "snowflake.future", previous: 4, current: 3 }),

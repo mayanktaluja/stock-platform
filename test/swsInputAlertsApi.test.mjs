@@ -51,6 +51,42 @@ async function waitForServer(child) {
 
 const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [CHANGES, backup(CHANGES)]]);
 let child;
+async function startServer(envOverrides = {}) {
+  child = spawn(process.execPath, ["server.js"], {
+    cwd: ROOT,
+    env: {
+      ...process.env,
+      NODE_ENV: "test",
+      PORT: String(PORT),
+      STARBHAI_SESSION_SECRET: "",
+      GOOGLE_CLIENT_ID: "",
+      GOOGLE_CLIENT_SECRET: "",
+      GOOGLE_OAUTH_REDIRECT_URI: "",
+      KV_REST_API_URL: "",
+      KV_REST_API_TOKEN: "",
+      CRON_SECRET: "test-cron-secret",
+      SWS_MAIL_FROM: "Starbhai <alerts@example.com>",
+      SWS_INPUT_ALERTS_ENABLED: "1",
+      SWS_INPUT_ALERTS_DRY_RUN: "1",
+      SWS_INPUT_ALERT_SAMPLE_SEND: "1",
+      ...envOverrides,
+    },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  await waitForServer(child);
+  return PORT;
+}
+
+async function stopServer() {
+  if (!child || child.exitCode !== null) return;
+  await new Promise((resolve) => {
+    child.once("exit", resolve);
+    child.kill("SIGTERM");
+    setTimeout(resolve, 2000);
+  });
+  child = null;
+}
+
 try {
   writeJson(CHANGES, {
     schema_version: 1,
@@ -131,28 +167,7 @@ try {
   });
   fs.rmSync(LEDGER, { force: true });
 
-  child = spawn(process.execPath, ["server.js"], {
-    cwd: ROOT,
-    env: {
-      ...process.env,
-      NODE_ENV: "test",
-      PORT: String(PORT),
-      STARBHAI_SESSION_SECRET: "",
-      GOOGLE_CLIENT_ID: "",
-      GOOGLE_CLIENT_SECRET: "",
-      GOOGLE_OAUTH_REDIRECT_URI: "",
-      KV_REST_API_URL: "",
-      KV_REST_API_TOKEN: "",
-      CRON_SECRET: "test-cron-secret",
-      SWS_MAIL_FROM: "Starbhai <alerts@example.com>",
-      SWS_INPUT_ALERTS_ENABLED: "1",
-      SWS_INPUT_ALERTS_DRY_RUN: "1",
-      SWS_INPUT_ALERT_SAMPLE_SEND: "1",
-    },
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  await waitForServer(child);
-  const port = PORT;
+  const port = await startServer();
 
   const alerts = await request(port, "GET", "/api/portfolio/sws-input-alerts");
   assert.equal(alerts.status, 200);
@@ -177,6 +192,16 @@ try {
   assert.equal(cron.status, 200);
   assert.equal(cron.json.dry_run, true);
   assert.equal(cron.json.recipient_count, 2);
+  assert.deepEqual(cron.json.counts, {
+    eligible: 2,
+    sent: 0,
+    failed: 0,
+    deduped: 0,
+    dry_run: 2,
+    no_holdings: 1,
+    no_alerts: 0,
+    skipped: 1,
+  });
   const cronByEmail = new Map(cron.json.results.map((r) => [r.email, r]));
   assert.ok(cronByEmail.has("mtaluja11@gmail.com"), "admin/local user receives alert");
   assert.ok(cronByEmail.has("portfolio-reader@example.com"), "portfolio user with no prefs is enabled by default");
@@ -218,6 +243,7 @@ try {
   });
   assert.equal(dedupedCron.status, 200);
   assert.equal(dedupedCron.json.recipient_count, 0);
+  assert.equal(dedupedCron.json.counts.deduped, 2);
   assert.equal(dedupedCron.json.results.length, 2);
   assert.ok(dedupedCron.json.results.every((r) => r.skipped === true && r.reason === "deduped"));
 
@@ -228,8 +254,56 @@ try {
   assert.equal(cronGet.json.dry_run, true);
   assert.equal(cronGet.json.recipient_count, 0);
 
+  const missingRunIdFixture = JSON.parse(fs.readFileSync(CHANGES, "utf-8"));
+  missingRunIdFixture.run_id = null;
+  writeJson(CHANGES, missingRunIdFixture);
+  const missingRunIdCron = await request(port, "POST", "/api/cron/sws-input-alerts/send", {
+    headers: { authorization: "Bearer test-cron-secret" },
+  });
+  assert.equal(missingRunIdCron.status, 200);
+  assert.equal(missingRunIdCron.json.ok, false);
+  assert.equal(missingRunIdCron.json.counts.failed, 2);
+  assert.equal(missingRunIdCron.json.recipient_count, 0);
+  assert.ok(missingRunIdCron.json.results.every((r) => r.reason === "missing_dedupe_key"));
+  missingRunIdFixture.run_id = "run-api-test";
+  writeJson(CHANGES, missingRunIdFixture);
+
+  await stopServer();
+  writeJson(USERS, {
+    _local_dev: {
+      sub: "_local_dev",
+      email: "not-an-email",
+      notificationPrefs: { swsInputAlerts: { inApp: true, email: true } },
+    },
+    user_default_on: {
+      sub: "user_default_on",
+      email: "also-not-an-email",
+      notificationPrefs: {},
+    },
+  });
+  fs.rmSync(LEDGER, { force: true });
+  await startServer({
+    SWS_INPUT_ALERTS_DRY_RUN: "0",
+    RESEND_API_KEY: "test-resend-key",
+    SWS_MAIL_FROM: "Starbhai <alerts@example.com>",
+  });
+  const failingCron = await request(PORT, "POST", "/api/cron/sws-input-alerts/send", {
+    headers: { authorization: "Bearer test-cron-secret" },
+  });
+  assert.equal(failingCron.status, 200);
+  assert.equal(failingCron.json.ok, false);
+  assert.equal(failingCron.json.partial_failure, true);
+  assert.equal(failingCron.json.counts.eligible, 2);
+  assert.equal(failingCron.json.counts.failed, 2);
+  assert.equal(failingCron.json.results.length, 2);
+  assert.ok(failingCron.json.results.every((r) => r.failed === true && r.reason === "invalid_message"));
+  const failedLedger = JSON.parse(fs.readFileSync(LEDGER, "utf-8"));
+  assert.equal(failedLedger._local_dev.events[0].type, "EMAIL_FAILED");
+  assert.equal(failedLedger.user_default_on.events[0].type, "EMAIL_FAILED");
+  assert.notEqual(failedLedger._local_dev.events[0].id, failedLedger.user_default_on.events[0].id);
+
   console.log("swsInputAlertsApi tests passed");
 } finally {
-  if (child && child.exitCode === null) child.kill("SIGTERM");
+  await stopServer();
   for (const [file, prior] of priors.entries()) restore(file, prior);
 }
