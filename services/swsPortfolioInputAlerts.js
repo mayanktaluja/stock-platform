@@ -38,6 +38,13 @@ const SWS_SIGNAL_FAIR_VALUE_FIELDS = new Set([
   "fair_value.upside_band",
 ]);
 const FAIR_VALUE_MATERIALITY_THRESHOLD = 0.02;
+const UPSIDE_BAND_RANK = Object.freeze({
+  VERY_EXPENSIVE: 0,
+  EXPENSIVE: 1,
+  FAIR: 2,
+  DISCOUNT: 3,
+  DEEP_DISCOUNT: 4,
+});
 
 function finiteNumber(value) {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
@@ -196,6 +203,66 @@ export function formatAlertChangeDelta(change) {
   return `${sign}${(Math.round(pct * 100) / 100).toFixed(2)}%`;
 }
 
+export function classifySwsInputChangeImpact(change) {
+  const field = String(change?.field || "");
+  if (field.startsWith("snowflake.")) {
+    const previous = finiteNumber(change?.previous);
+    const current = finiteNumber(change?.current);
+    if (previous === null || current === null) return "changed";
+    if (current > previous) return "positive";
+    if (current < previous) return "negative";
+    return "neutral";
+  }
+  if (field === "fair_value.fair_value_inr") {
+    const previous = finiteNumber(change?.previous);
+    const current = finiteNumber(change?.current);
+    if (previous === null || current === null || previous <= 0) return "changed";
+    if (current > previous) return "positive";
+    if (current < previous) return "negative";
+    return "neutral";
+  }
+  if (field === "fair_value.upside_band") {
+    const previous = UPSIDE_BAND_RANK[String(change?.previous || "").toUpperCase()];
+    const current = UPSIDE_BAND_RANK[String(change?.current || "").toUpperCase()];
+    if (!Number.isFinite(previous) || !Number.isFinite(current)) return "changed";
+    if (current > previous) return "positive";
+    if (current < previous) return "negative";
+    return "neutral";
+  }
+  return "changed";
+}
+
+export function classifySwsInputAlertImpact(changes) {
+  const impacts = new Set((Array.isArray(changes) ? changes : []).map(classifySwsInputChangeImpact));
+  if (impacts.has("positive") && impacts.has("negative")) return "mixed";
+  if (impacts.has("negative")) return "negative";
+  if (impacts.has("positive")) return "positive";
+  if (impacts.has("changed")) return "changed";
+  return "neutral";
+}
+
+export function formatAlertImpactLabel(impact) {
+  const labels = {
+    positive: "Positive",
+    negative: "Negative",
+    mixed: "Mixed",
+    neutral: "Neutral",
+    changed: "Changed",
+  };
+  return labels[String(impact || "").toLowerCase()] || "Changed";
+}
+
+function impactStyle(impact) {
+  const styles = {
+    positive: { color: "#166534", bg: "#dcfce7", border: "#86efac" },
+    negative: { color: "#991b1b", bg: "#fee2e2", border: "#fca5a5" },
+    mixed: { color: "#854d0e", bg: "#fef3c7", border: "#fcd34d" },
+    neutral: { color: "#374151", bg: "#f3f4f6", border: "#d1d5db" },
+    changed: { color: "#374151", bg: "#f3f4f6", border: "#d1d5db" },
+  };
+  return styles[String(impact || "").toLowerCase()] || styles.changed;
+}
+
 export function formatAlertStockLabel(alert) {
   const ticker = canonicalSwsTicker(alert?.ticker);
   const name = String(alert?.name || "").trim();
@@ -229,9 +296,9 @@ export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "
   ];
 
   for (const alert of alertList) {
-    lines.push(`${formatAlertStockLabel(alert)} - ${alert.severity || "medium"} severity`);
+    lines.push(`${formatAlertStockLabel(alert)} - ${formatAlertImpactLabel(classifySwsInputAlertImpact(alert.changes))} impact`);
     for (const change of (alert.changes || []).slice(0, 5)) {
-      lines.push(`- ${formatAlertChangeSummary(change)}`);
+      lines.push(`- ${formatAlertImpactLabel(classifySwsInputChangeImpact(change))} impact: ${formatAlertChangeSummary(change)}`);
     }
     lines.push("");
   }
@@ -247,12 +314,13 @@ function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUr
   const rows = [];
   for (const alert of alertList) {
     const stock = formatAlertStockLabel(alert);
-    const severity = `${alert.severity || "medium"} severity`;
     for (const change of (alert.changes || []).slice(0, 5)) {
+      const impact = classifySwsInputChangeImpact(change);
+      const style = impactStyle(impact);
       rows.push(`
         <tr>
           <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#111827;font-weight:700;">${escapeHtml(stock)}</td>
-          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:12px;color:${alert.severity === "high" ? "#b91c1c" : "#92400e"};">${escapeHtml(severity)}</td>
+          <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:12px;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;border:1px solid ${style.border};background:${style.bg};color:${style.color};font-weight:700;">${escapeHtml(formatAlertImpactLabel(impact))}</span></td>
           <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatAlertFieldLabel(change.field))}</td>
           <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatAlertChangeValue(change, "previous"))}</td>
           <td style="padding:10px 12px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatAlertChangeValue(change, "current"))}</td>
@@ -281,7 +349,7 @@ function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUr
               <thead>
                 <tr>
                   <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Stock</th>
-                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Severity</th>
+                  <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Impact</th>
                   <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Signal</th>
                   <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Previous</th>
                   <th align="left" style="padding:10px 12px;background:#f3f4f6;font-family:Arial,sans-serif;font-size:12px;color:#374151;">Current</th>

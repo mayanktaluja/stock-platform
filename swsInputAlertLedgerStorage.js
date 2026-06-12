@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,9 +8,11 @@ const LEDGER_PATH = path.join(__dirname, "sws-input-alert-ledger.json");
 const ledgerKey = (sub) => `sws-input-alert-ledger:${sub}`;
 const SCHEMA_VERSION = 1;
 
-export function swsInputAlertEventId({ sub, run_id, digest, type }) {
+export function swsInputAlertEventId({ sub, run_id, digest, type, attempt_id }) {
+  const parts = [sub, run_id, digest, type];
+  if (type === "EMAIL_FAILED") parts.push(attempt_id);
   return createHash("sha256")
-    .update([sub, run_id, digest, type].map((v) => String(v || "")).join("|"))
+    .update(parts.map((v) => String(v || "")).join("|"))
     .digest("hex")
     .slice(0, 24);
 }
@@ -25,6 +27,18 @@ function normalizeEntry(sub, entry) {
     sub,
     schemaVersion: entry.schemaVersion || SCHEMA_VERSION,
     events: Array.isArray(entry.events) ? entry.events : [],
+  };
+}
+
+function prepareEvent(sub, event) {
+  const at = event.at || new Date().toISOString();
+  const attempt_id = event.type === "EMAIL_FAILED"
+    ? event.attempt_id || `${at}:${randomUUID()}`
+    : event.attempt_id;
+  const normalized = { ...event, ...(attempt_id ? { attempt_id } : {}), sub, at };
+  return {
+    ...normalized,
+    id: event.id || swsInputAlertEventId({ ...normalized, sub }),
   };
 }
 
@@ -55,10 +69,10 @@ class FileSwsInputAlertLedgerStorage {
     let appended = 0;
     for (const event of Array.isArray(newEvents) ? newEvents : []) {
       if (!event?.type || !event?.run_id || !event?.digest) continue;
-      const id = event.id || swsInputAlertEventId({ ...event, sub });
-      if (ids.has(id)) continue;
-      ids.add(id);
-      cur.events.push({ ...event, id, sub, at: event.at || new Date().toISOString() });
+      const prepared = prepareEvent(sub, event);
+      if (ids.has(prepared.id)) continue;
+      ids.add(prepared.id);
+      cur.events.push(prepared);
       appended++;
     }
     all[sub] = { schemaVersion: SCHEMA_VERSION, events: cur.events.slice(-500) };
@@ -90,14 +104,9 @@ class KVSwsInputAlertLedgerStorage {
 
   async read(sub) {
     if (!sub) return empty(null);
-    try {
-      const kv = await this._getKV();
-      const data = await kv.get(ledgerKey(sub));
-      return normalizeEntry(sub, typeof data === "string" ? JSON.parse(data) : data);
-    } catch (err) {
-      console.warn("[SWS-INPUT-ALERT-LEDGER:KV] read failed:", err.message);
-      return empty(sub);
-    }
+    const kv = await this._getKV();
+    const data = await kv.get(ledgerKey(sub));
+    return normalizeEntry(sub, typeof data === "string" ? JSON.parse(data) : data);
   }
 
   async appendEvents(sub, newEvents) {
@@ -107,18 +116,14 @@ class KVSwsInputAlertLedgerStorage {
     let appended = 0;
     for (const event of Array.isArray(newEvents) ? newEvents : []) {
       if (!event?.type || !event?.run_id || !event?.digest) continue;
-      const id = event.id || swsInputAlertEventId({ ...event, sub });
-      if (ids.has(id)) continue;
-      ids.add(id);
-      cur.events.push({ ...event, id, sub, at: event.at || new Date().toISOString() });
+      const prepared = prepareEvent(sub, event);
+      if (ids.has(prepared.id)) continue;
+      ids.add(prepared.id);
+      cur.events.push(prepared);
       appended++;
     }
-    try {
-      const kv = await this._getKV();
-      await kv.set(ledgerKey(sub), { schemaVersion: SCHEMA_VERSION, events: cur.events.slice(-500) });
-    } catch (err) {
-      console.warn("[SWS-INPUT-ALERT-LEDGER:KV] write failed:", err.message);
-    }
+    const kv = await this._getKV();
+    await kv.set(ledgerKey(sub), { schemaVersion: SCHEMA_VERSION, events: cur.events.slice(-500) });
     return { appended, total: cur.events.length };
   }
 
