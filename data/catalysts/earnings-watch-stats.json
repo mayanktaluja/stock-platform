@@ -1,16 +1,16 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-10T03:10:25.241Z",
-  "today_iso": "2026-06-10",
+  "built_at": "2026-06-12T03:59:56.149Z",
+  "today_iso": "2026-06-12",
   "window_days": 60,
-  "upstream_event_count": 19,
-  "upstream_fetched_at": "2026-06-09T19:00:10.377Z",
+  "upstream_event_count": 20,
+  "upstream_fetched_at": "2026-06-11T19:00:11.208Z",
   "event_count": 6,
-  "recent_results_count": 626,
+  "recent_results_count": 332,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 0,
-    "d1to3": 2,
+    "d0": 1,
+    "d1to3": 1,
     "d4to7": 1,
     "d8to14": 0,
     "d15to30": 0,
@@ -23,10 +23,10 @@
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 1,
+      "spike": 0,
       "smooth": 1,
-      "lagging": 3,
-      "neutral": 1
+      "lagging": 2,
+      "neutral": 3
     },
     "sector_count": 4,
     "top_sectors": [
@@ -35,11 +35,11 @@
         "count": 3
       },
       {
-        "sector": "Energy",
+        "sector": "Food, Beverage & Tobacco",
         "count": 1
       },
       {
-        "sector": "Food, Beverage & Tobacco",
+        "sector": "Diversified Financials",
         "count": 1
       },
       {
@@ -55,16 +55,16 @@
       "MISS": 2,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 61,
+    "avg_confidence_pct": 58,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
     "tradable_count": 6,
     "by_highlighted_branch": {
-      "RAISE": 4,
-      "MAINTAIN": 1,
-      "CUT": 1,
+      "RAISE": 3,
+      "MAINTAIN": 3,
+      "CUT": 0,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
@@ -74,7 +74,7 @@
     "classified": 6,
     "cache_hits": 1,
     "llm_calls": 1,
-    "heuristic": 5,
+    "heuristic": 4,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
     "below_v3_floor": 4,
