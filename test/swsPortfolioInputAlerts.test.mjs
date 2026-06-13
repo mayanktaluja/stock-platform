@@ -23,6 +23,7 @@ import {
   filterSignalChanges,
   formatAlertStockLabel,
   isMaterialFairValueChange,
+  normalizeReductionHighlights,
   normalizeSwsInputAlertPrefs,
 } from "../services/swsPortfolioInputAlerts.js";
 import { stableHash } from "../services/swsInputSnapshot.js";
@@ -263,6 +264,30 @@ assert.doesNotMatch(email.html, /medium severity/i, "email does not repeat raw d
 assert.match(email.text, /Review the Starbhai score\/report/);
 assert.match(email.text, /no buy\/sell instruction/i);
 assert.doesNotMatch(email.text, /(buy|sell)\s+TCS/i);
+
+const reductionEmail = buildSwsInputAlertEmail({
+  alerts: analyzerFirst.alerts,
+  runId: "run-1",
+  reductionHighlights: [{
+    ticker: "TCS",
+    name: "TCS",
+    action: "Reduction-50%",
+    tradeRupees: 99_000,
+    reasons: ["Engine emitted Reduction-50% after evidence gate.", "SWS data is stale; verify price/FV before acting."],
+  }],
+});
+assert.match(reductionEmail.text, /Portfolio Analyzer reduction review/);
+assert.ok(
+  reductionEmail.text.indexOf("Portfolio Analyzer reduction review") < reductionEmail.text.indexOf("TCS - Negative impact"),
+  "reduction review renders before the SWS input-change detail",
+);
+assert.match(reductionEmail.text, /TCS - Reduction-50% review; estimated trim amount INR 99,000/);
+assert.match(reductionEmail.text, /Please open Starbhai and verify before acting/);
+assert.doesNotMatch(reductionEmail.text, /sell\s+TCS/i, "reduction highlight avoids direct trade instruction language");
+assert.match(reductionEmail.html, /Portfolio Analyzer reduction review/);
+assert.match(reductionEmail.html, /Analyzer action/);
+assert.match(reductionEmail.html, /INR 99,000/);
+assert.equal(normalizeReductionHighlights([{ ticker: "TCS" }]).length, 0, "missing action is not renderable as a reduction highlight");
 
 const multiEmail = buildSwsInputAlertEmail({
   alerts: [analyzerFirst.alerts[0], fallback.alerts[0]],

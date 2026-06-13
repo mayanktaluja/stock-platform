@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-12**
+**Last updated: 2026-06-13**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -34,6 +34,13 @@ experimental surface area and nightly refresh load.
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
 ### Portfolio SWS input alert rollout (June 2026)
+- **This PR** — SWS portfolio input-change emails now prepend a Portfolio
+  Analyzer reduction-review block when an alert-affected holding newly enters a
+  confirmed reduction/exit from the analyzer construction plan. The cron reuses
+  the saved-portfolio analyzer rerun path, records lightweight
+  `PORTFOLIO_ACTION_STATE` baselines in the SWS alert ledger on live passes,
+  avoids repeat highlights for continuing reductions, and keeps failed sends
+  retryable by writing only `EMAIL_FAILED`.
 - **This PR** — SWS portfolio input-change emails now roll out to every signed-in
   user with uploaded Analyzer/Portfolio holdings, defaulting email alerts on
   while preserving an explicit Portfolio Analyzer opt-out. The send cron now

@@ -13,6 +13,7 @@ const PORT = 4138;
 const USERS = path.join(ROOT, "users.json");
 const ANALYZER = path.join(ROOT, "analyzer-last.json");
 const LEDGER = path.join(ROOT, "sws-input-alert-ledger.json");
+const PORTFOLIO_HISTORY = path.join(ROOT, "portfolio-history.json");
 const ALERT_DIR = path.join(ROOT, "data", "sws", "alerts");
 const CHANGES = path.join(ALERT_DIR, "fundamental-changes-latest.json");
 
@@ -49,7 +50,7 @@ async function waitForServer(child) {
   throw new Error(`server did not start:\n${out}`);
 }
 
-const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [CHANGES, backup(CHANGES)]]);
+const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [PORTFOLIO_HISTORY, backup(PORTFOLIO_HISTORY)], [CHANGES, backup(CHANGES)]]);
 let child;
 async function startServer(envOverrides = {}) {
   child = spawn(process.execPath, ["server.js"], {
@@ -108,6 +109,13 @@ try {
         changes: [{ field: "fair_value.fair_value_inr", previous: 100, current: 110, severity: "medium" }],
       },
       {
+        ticker: "NTPC",
+        name: "NTPC",
+        severity: "medium",
+        change_hash: "hash-ntpc",
+        changes: [{ field: "snowflake.value", previous: 4, current: 2, severity: "medium" }],
+      },
+      {
         ticker: "ALEMBICLTD",
         name: "Alembic Limited",
         severity: "medium",
@@ -134,7 +142,10 @@ try {
     },
     user_default_on: {
       sub: "user_default_on",
-      holdings: [{ symbol: "INFY.NS", quantity: 1, avgPrice: 100 }],
+      holdings: [
+        { symbol: "INFY.NS", quantity: 1, avgPrice: 100 },
+        { symbol: "NTPC.NS", quantity: 100, avgPrice: 100 },
+      ],
       uploadedAt: "2026-06-08T00:00:00.000Z",
     },
     user_opted_out: {
@@ -211,6 +222,12 @@ try {
   assert.match(cronByEmail.get("mtaluja11@gmail.com").payload.html, /<table role="presentation"/);
   assert.match(cronByEmail.get("mtaluja11@gmail.com").payload.html, /Future growth/);
   assert.doesNotMatch(cronByEmail.get("mtaluja11@gmail.com").payload.html, /ALEMBICLTD/);
+  assert.match(cronByEmail.get("portfolio-reader@example.com").payload.text, /Portfolio Analyzer reduction review/);
+  assert.match(cronByEmail.get("portfolio-reader@example.com").payload.text, /NTPC[^\n]*Reduction-/);
+  assert.match(cronByEmail.get("portfolio-reader@example.com").payload.text, /Please open Starbhai and verify before acting/);
+  assert.doesNotMatch(cronByEmail.get("portfolio-reader@example.com").payload.text, /sell\s+NTPC/i);
+  assert.match(cronByEmail.get("portfolio-reader@example.com").payload.html, /Portfolio Analyzer reduction review/);
+  assert.equal(cronByEmail.get("portfolio-reader@example.com").reduction_highlight_count, 1);
 
   writeJson(LEDGER, {
     _local_dev: {
@@ -270,6 +287,37 @@ try {
 
   await stopServer();
   writeJson(USERS, {
+    baseline_user: {
+      sub: "baseline_user",
+      email: "baseline@example.com",
+      notificationPrefs: {},
+    },
+  });
+  writeJson(ANALYZER, {
+    baseline_user: {
+      sub: "baseline_user",
+      holdings: [{ symbol: "POWERGRID.NS", quantity: 100, avgPrice: 100 }],
+      uploadedAt: "2026-06-08T00:00:00.000Z",
+    },
+  });
+  fs.rmSync(LEDGER, { force: true });
+  await startServer({
+    SWS_INPUT_ALERTS_DRY_RUN: "0",
+    RESEND_API_KEY: "test-resend-key",
+    SWS_MAIL_FROM: "Starbhai <alerts@example.com>",
+  });
+  const noAlertCron = await request(PORT, "POST", "/api/cron/sws-input-alerts/send", {
+    headers: { authorization: "Bearer test-cron-secret" },
+  });
+  assert.equal(noAlertCron.status, 200);
+  assert.equal(noAlertCron.json.counts.no_alerts, 1);
+  assert.equal(noAlertCron.json.recipient_count, 0);
+  const baselineLedger = JSON.parse(fs.readFileSync(LEDGER, "utf-8"));
+  assert.equal(baselineLedger.baseline_user.events[0].type, "PORTFOLIO_ACTION_STATE");
+  assert.equal(baselineLedger.baseline_user.events[0].portfolio_action_state.tickers.POWERGRID.confirmed_reduction, true);
+
+  await stopServer();
+  writeJson(USERS, {
     _local_dev: {
       sub: "_local_dev",
       email: "not-an-email",
@@ -279,6 +327,21 @@ try {
       sub: "user_default_on",
       email: "also-not-an-email",
       notificationPrefs: {},
+    },
+  });
+  writeJson(ANALYZER, {
+    _local_dev: {
+      sub: "_local_dev",
+      holdings: [{ symbol: "TCS.NS", quantity: 1, avgPrice: 100 }],
+      uploadedAt: "2026-06-08T00:00:00.000Z",
+    },
+    user_default_on: {
+      sub: "user_default_on",
+      holdings: [
+        { symbol: "INFY.NS", quantity: 1, avgPrice: 100 },
+        { symbol: "NTPC.NS", quantity: 100, avgPrice: 100 },
+      ],
+      uploadedAt: "2026-06-08T00:00:00.000Z",
     },
   });
   fs.rmSync(LEDGER, { force: true });
@@ -297,9 +360,11 @@ try {
   assert.equal(failingCron.json.counts.failed, 2);
   assert.equal(failingCron.json.results.length, 2);
   assert.ok(failingCron.json.results.every((r) => r.failed === true && r.reason === "invalid_message"));
+  assert.equal(failingCron.json.results.find((r) => r.email === "also-not-an-email").reduction_highlight_count, 1);
   const failedLedger = JSON.parse(fs.readFileSync(LEDGER, "utf-8"));
   assert.equal(failedLedger._local_dev.events[0].type, "EMAIL_FAILED");
   assert.equal(failedLedger.user_default_on.events[0].type, "EMAIL_FAILED");
+  assert.equal(failedLedger.user_default_on.events.some((event) => event.type === "PORTFOLIO_ACTION_STATE"), false);
   assert.notEqual(failedLedger._local_dev.events[0].id, failedLedger.user_default_on.events[0].id);
 
   console.log("swsInputAlertsApi tests passed");

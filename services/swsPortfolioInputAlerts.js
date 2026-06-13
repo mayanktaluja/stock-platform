@@ -263,6 +263,105 @@ function impactStyle(impact) {
   return styles[String(impact || "").toLowerCase()] || styles.changed;
 }
 
+function formatInrAmount(value) {
+  const n = finiteNumber(value);
+  if (n === null || n <= 0) return null;
+  const rounded = Math.round(n);
+  return `INR ${rounded.toLocaleString("en-IN")}`;
+}
+
+function normalizeReductionHighlight(row) {
+  const ticker = canonicalSwsTicker(row?.ticker || row?.symbol);
+  if (!ticker) return null;
+  const name = String(row?.name || "").trim();
+  const action = String(row?.action || row?.rawAction || "").trim();
+  if (!action) return null;
+  const tradeRupees = finiteNumber(row?.tradeRupees ?? row?.trimRupees);
+  const reasons = (Array.isArray(row?.reasons) ? row.reasons : [])
+    .map((r) => String(r || "").trim())
+    .filter(Boolean)
+    .slice(0, 2);
+  return {
+    ticker,
+    name,
+    action,
+    tradeRupees,
+    reasons,
+  };
+}
+
+export function normalizeReductionHighlights(highlights) {
+  return (Array.isArray(highlights) ? highlights : [])
+    .map(normalizeReductionHighlight)
+    .filter(Boolean);
+}
+
+function formatReductionHighlightLabel(row) {
+  if (row.name && row.name.toUpperCase() !== row.ticker) return `${row.name} (${row.ticker})`;
+  return row.ticker;
+}
+
+function formatReductionHighlightSummary(row) {
+  const amount = formatInrAmount(row.tradeRupees);
+  return amount
+    ? `${row.action} review; estimated trim amount ${amount}`
+    : `${row.action} review`;
+}
+
+function buildReductionHighlightsText(highlights) {
+  if (!highlights.length) return [];
+  const lines = [
+    "Portfolio Analyzer reduction review",
+    "Starbhai now flags the following alert-affected holding(s) for reduction review. Please open Starbhai and verify before acting.",
+    "",
+  ];
+  for (const row of highlights) {
+    lines.push(`${formatReductionHighlightLabel(row)} - ${formatReductionHighlightSummary(row)}`);
+    for (const reason of row.reasons) lines.push(`- ${reason}`);
+    lines.push("");
+  }
+  return lines;
+}
+
+function buildReductionHighlightsHtml(highlights) {
+  if (!highlights.length) return "";
+  const rows = highlights.map((row) => {
+    const amount = formatInrAmount(row.tradeRupees) || "Review in Starbhai";
+    const reasons = row.reasons.length
+      ? `<div style="margin-top:5px;color:#6b7280;">${escapeHtml(row.reasons.join(" "))}</div>`
+      : "";
+    return `
+      <tr>
+        <td style="padding:10px 12px;border-top:1px solid #fecaca;font-family:Arial,sans-serif;font-size:13px;color:#111827;font-weight:700;">${escapeHtml(formatReductionHighlightLabel(row))}</td>
+        <td style="padding:10px 12px;border-top:1px solid #fecaca;font-family:Arial,sans-serif;font-size:13px;color:#991b1b;font-weight:700;">${escapeHtml(row.action)}</td>
+        <td style="padding:10px 12px;border-top:1px solid #fecaca;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(amount)}${reasons}</td>
+      </tr>`;
+  }).join("\n");
+  return `
+        <tr>
+          <td style="padding:0 20px 16px;">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;border:1px solid #fca5a5;background:#fff7f7;">
+              <thead>
+                <tr>
+                  <th colspan="3" align="left" style="padding:12px;background:#fee2e2;font-family:Arial,sans-serif;font-size:14px;color:#7f1d1d;">Portfolio Analyzer reduction review</th>
+                </tr>
+                <tr>
+                  <td colspan="3" style="padding:10px 12px;font-family:Arial,sans-serif;font-size:13px;color:#7f1d1d;">Starbhai now flags these alert-affected holding(s) for reduction review. Please open Starbhai and verify before acting.</td>
+                </tr>
+                <tr>
+                  <th align="left" style="padding:10px 12px;background:#fff1f2;font-family:Arial,sans-serif;font-size:12px;color:#7f1d1d;">Holding</th>
+                  <th align="left" style="padding:10px 12px;background:#fff1f2;font-family:Arial,sans-serif;font-size:12px;color:#7f1d1d;">Analyzer action</th>
+                  <th align="left" style="padding:10px 12px;background:#fff1f2;font-family:Arial,sans-serif;font-size:12px;color:#7f1d1d;">Review detail</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          </td>
+        </tr>`;
+}
+
 export function formatAlertStockLabel(alert) {
   const ticker = canonicalSwsTicker(alert?.ticker);
   const name = String(alert?.name || "").trim();
@@ -277,8 +376,9 @@ export function formatAlertChangeSummary(change) {
   return `${field} changed from ${formatAlertChangeValue(change, "previous")} to ${formatAlertChangeValue(change, "current")}${suffix}`;
 }
 
-export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "https://starbhai-stock-platform.vercel.app/" }) {
+export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "https://starbhai-stock-platform.vercel.app/", reductionHighlights = [] }) {
   const alertList = Array.isArray(alerts) ? alerts : [];
+  const normalizedReductionHighlights = normalizeReductionHighlights(reductionHighlights);
   const count = alertList.length;
   const stockLabels = alertList.map(formatAlertStockLabel);
   const subject = count === 1
@@ -294,6 +394,7 @@ export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "
     `Portfolio Analyzer: ${analyzerUrl}`,
     "",
   ];
+  lines.push(...buildReductionHighlightsText(normalizedReductionHighlights));
 
   for (const alert of alertList) {
     lines.push(`${formatAlertStockLabel(alert)} - ${formatAlertImpactLabel(classifySwsInputAlertImpact(alert.changes))} impact`);
@@ -306,11 +407,11 @@ export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "
   lines.push("Review the Starbhai score/report before taking any decision. This email contains no buy/sell instruction.");
   lines.push("Preferences: open Portfolio Analyzer in Starbhai to turn SWS input alert emails off.");
   const text = lines.join("\n");
-  const html = buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl });
+  const html = buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl, reductionHighlights: normalizedReductionHighlights });
   return { subject, text, html };
 }
 
-function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl }) {
+function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl, reductionHighlights = [] }) {
   const rows = [];
   for (const alert of alertList) {
     const stock = formatAlertStockLabel(alert);
@@ -343,6 +444,7 @@ function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUr
             <div style="font-size:13px;color:#6b7280;margin-top:6px;"><a href="${escapeAttr(analyzerUrl)}" style="color:#2563eb;text-decoration:underline;">Open Portfolio Analyzer</a></div>
           </td>
         </tr>
+        ${buildReductionHighlightsHtml(reductionHighlights)}
         <tr>
           <td style="padding:0 20px 16px;">
             <table width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;border:1px solid #e5e7eb;">

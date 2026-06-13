@@ -5655,6 +5655,7 @@ import { getSwsInputAlertLedgerStorage } from "./swsInputAlertLedgerStorage.js";
 import {
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
+  canonicalizeHoldingTicker,
   loadMarketWideSwsInputChanges,
   normalizeSwsInputAlert,
   normalizeSwsInputAlertPrefs,
@@ -5705,6 +5706,7 @@ function sleep(ms) {
 
 const SWS_INPUT_ALERT_ARTIFACT = path.join(__dirname, "data", "sws", "alerts", "fundamental-changes-latest.json");
 const SWS_INPUT_ALERT_APP_URL = "https://starbhai-stock-platform.vercel.app/";
+const SWS_INPUT_ALERT_ACTION_STATE_EVENT = "PORTFOLIO_ACTION_STATE";
 
 function boolEnv(name) {
   return ["1", "true", "yes", "on"].includes(String(process.env[name] || "").trim().toLowerCase());
@@ -5747,6 +5749,209 @@ async function buildCurrentUserSwsInputAlerts(sub) {
     analyzerStore: getAnalyzerStorage(),
     portfolioStore: getPortfolioStorage(),
   });
+}
+
+function swsInputAlertIsReductionAction(action) {
+  const label = String(action || "");
+  return label.startsWith("Reduction") || label.startsWith("EXIT");
+}
+
+function buildStoredAnalyzerParsedForSwsInputAlert(stored, mfHoldings) {
+  const storedBrokerSummary = stored?.brokerSummary && typeof stored.brokerSummary === "object"
+    ? stored.brokerSummary
+    : {};
+  return {
+    holdings: (stored?.holdings || []).map((h) => ({
+      symbol: h.symbol,
+      name: h.name,
+      quantity: Number(h.quantity) || 0,
+      avgPrice: Number(h.avgPrice) || 0,
+      closePrice: Number.isFinite(Number(h.closePrice)) ? Number(h.closePrice) : null,
+      sector: h.sector || null,
+      isin: h.isin || null,
+      purchaseDate: h.purchaseDate || null,
+      instrumentType: h.instrumentType || "stock",
+    })),
+    mfHoldings: Array.isArray(mfHoldings) && mfHoldings.length > 0 ? mfHoldings : null,
+    unmatched: [],
+    warnings: [],
+    source: "rerun:" + (stored?.sourceFile || "stored"),
+    summary: {
+      asOfDate: storedBrokerSummary.asOfDate || stored?.uploadedAt || null,
+      invested: Number.isFinite(storedBrokerSummary.invested) ? storedBrokerSummary.invested : null,
+      current: Number.isFinite(storedBrokerSummary.current) ? storedBrokerSummary.current : null,
+      unrealisedPL: Number.isFinite(storedBrokerSummary.unrealisedPL) ? storedBrokerSummary.unrealisedPL : null,
+    },
+  };
+}
+
+async function loadStoredAnalyzerRecordForSwsInputAlert(sub) {
+  const analyzer = await getAnalyzerStorage().read(sub);
+  if (Array.isArray(analyzer?.holdings) && analyzer.holdings.length > 0) return analyzer;
+  const portfolio = await getPortfolioStorage().read(sub);
+  if (Array.isArray(portfolio?.stocks) && portfolio.stocks.length > 0) {
+    return {
+      holdings: portfolio.stocks,
+      mfHoldings: Array.isArray(portfolio.mutualFunds) ? portfolio.mutualFunds : [],
+      uploadedAt: portfolio.lastUpdated || new Date().toISOString(),
+      sourceFile: "saved-portfolio",
+      brokerSummary: null,
+    };
+  }
+  return null;
+}
+
+function buildSwsInputActionStateFromHistorySnapshot(snapshot) {
+  const tickers = {};
+  for (const facet of Array.isArray(snapshot?.facets) ? snapshot.facets : []) {
+    const ticker = canonicalizeHoldingTicker(facet);
+    if (!ticker) continue;
+    const action = facet.action || "HOLD";
+    tickers[ticker] = {
+      ticker,
+      action,
+      confirmed_reduction: swsInputAlertIsReductionAction(action),
+    };
+  }
+  return Object.keys(tickers).length
+    ? { source: "portfolio_history", as_of: snapshot.asOfDateIso || null, tickers }
+    : null;
+}
+
+async function latestSwsInputActionState(sub, ledger) {
+  if (typeof ledger.latestPortfolioActionState === "function") {
+    const state = await ledger.latestPortfolioActionState(sub);
+    if (state?.tickers && typeof state.tickers === "object") return state;
+  }
+  try {
+    const history = await getPortfolioHistoryStorage().read(sub);
+    return buildSwsInputActionStateFromHistorySnapshot(history.snapshots?.[0] || null);
+  } catch (err) {
+    console.warn("[SWS-INPUT-ALERTS] prior action state read failed:", err.message);
+    return null;
+  }
+}
+
+function buildSwsInputActionStateFromAnalysis(swsResult) {
+  const fundedByTicker = new Map();
+  for (const row of swsResult?.report?.constructionPlan?.fundedSells || []) {
+    const ticker = canonicalizeHoldingTicker(row);
+    if (ticker) fundedByTicker.set(ticker, row);
+  }
+  const tickers = {};
+  for (const holding of Array.isArray(swsResult?._scoredHoldings) ? swsResult._scoredHoldings : []) {
+    const ticker = canonicalizeHoldingTicker(holding?.sws || holding);
+    if (!ticker) continue;
+    const funded = fundedByTicker.get(ticker) || null;
+    const action = funded?.rawAction || holding.action || "HOLD";
+    tickers[ticker] = {
+      ticker,
+      name: funded?.name || holding?.sws?.name || holding?.name || null,
+      action,
+      confirmed_reduction: !!funded && swsInputAlertIsReductionAction(action),
+      tradeRupees: Number.isFinite(Number(funded?.tradeRupees)) ? Number(funded.tradeRupees) : null,
+      reasons: Array.isArray(holding?.reasons) ? holding.reasons.slice(0, 2) : [],
+    };
+  }
+  return {
+    source: "analyzer_rerun",
+    generated_at: new Date().toISOString(),
+    tickers,
+  };
+}
+
+function buildNewReductionHighlights(currentState, priorState, alertTickers) {
+  const out = [];
+  const priorTickers = priorState?.tickers && typeof priorState.tickers === "object" ? priorState.tickers : {};
+  const allowed = alertTickers instanceof Set ? alertTickers : new Set();
+  for (const [ticker, row] of Object.entries(currentState?.tickers || {})) {
+    if (!allowed.has(ticker)) continue;
+    if (!row?.confirmed_reduction) continue;
+    if (priorTickers[ticker]?.confirmed_reduction) continue;
+    out.push({
+      ticker,
+      name: row.name || null,
+      action: row.action,
+      tradeRupees: row.tradeRupees,
+      reasons: row.reasons || [],
+    });
+  }
+  return out;
+}
+
+function swsInputActionStateEvent(portfolio, actionState) {
+  if (!portfolio?.run_id || !portfolio?.digest || !actionState) return null;
+  const rows = Object.values(actionState.tickers || {});
+  return {
+    type: SWS_INPUT_ALERT_ACTION_STATE_EVENT,
+    run_id: portfolio.run_id,
+    digest: portfolio.digest,
+    action_count: rows.length,
+    confirmed_reduction_count: rows.filter((row) => row?.confirmed_reduction).length,
+    portfolio_action_state: actionState,
+  };
+}
+
+async function buildSwsInputReductionContext(sub, portfolio, ledger) {
+  const stored = await loadStoredAnalyzerRecordForSwsInputAlert(sub);
+  if (!stored?.holdings?.length) return { actionState: null, reductionHighlights: [] };
+  let { mfHoldings, savedRiskProfile, freshCapitalInr, ltcgRealisedYtdRupees } =
+    await loadAnalyzerUserContext(sub, {}, {});
+  const storedUploadMfs = Array.isArray(stored.mfHoldings) ? stored.mfHoldings : [];
+  if (storedUploadMfs.length > 0) {
+    mfHoldings = storedUploadMfs.map((m) => ({
+      name: m.name || null,
+      rawName: m.name || null,
+      isin: m.isin || null,
+      category: m.category || null,
+      subCategory: m.subCategory || null,
+      folio: m.folio || null,
+      instrumentType: "mf",
+      invested: Number(m.invested ?? 0),
+      currentValue: Number(m.current ?? m.invested ?? 0),
+      publishedXirrPct: Number.isFinite(Number(m.xirr)) ? Number(m.xirr) : null,
+      pnlPercent: Number.isFinite(Number(m.returns)) ? Number(m.returns) : null,
+      purchaseDate: m.purchaseDate || null,
+    }));
+  }
+  const uploadedAtIso = stored.uploadedAt || new Date().toISOString();
+  const parsed = buildStoredAnalyzerParsedForSwsInputAlert(stored, mfHoldings);
+  const swsResult = await runSWSAnalysis({
+    parsed,
+    mfHoldings,
+    savedRiskProfile,
+    optTaxSlabPct: 30,
+    ltcgRealisedYtdRupees,
+    freshCapitalInr,
+    uploadedAtIso,
+  });
+  try {
+    await applyAnalyzerMemory({
+      sub,
+      parsed,
+      swsResult,
+      uploadedAtIso,
+      sourceFile: stored.sourceFile || null,
+      isRerun: true,
+      freshCapitalInr,
+    });
+  } catch (err) {
+    console.warn("[SWS-INPUT-ALERTS] analyzer memory overlay failed:", err.message);
+    if (!swsResult.report?.constructionPlan) {
+      attachConstructionPlanToAnalyzerReport(swsResult, {
+        freshCapitalInr,
+        confirmedFreedCapitalInr: 0,
+        asOfDateIso: parsed.summary?.asOfDate ?? null,
+      });
+    }
+  }
+  const actionState = buildSwsInputActionStateFromAnalysis(swsResult);
+  const priorState = await latestSwsInputActionState(sub, ledger);
+  const alertTickers = new Set((portfolio?.alerts || []).map((alert) => canonicalizeHoldingTicker(alert)).filter(Boolean));
+  return {
+    actionState,
+    reductionHighlights: buildNewReductionHighlights(actionState, priorState, alertTickers),
+  };
 }
 
 app.get("/api/portfolio/sws-input-alerts", async (req, res) => {
@@ -5813,11 +6018,19 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
       change_hash: "sample",
       changes: [{ field: "snowflake.future", previous: 4, current: 3, severity: "medium" }],
     };
+    const sampleReductionAlert = sampleAlerts[0] || fallbackAlert;
     const email = buildSwsInputAlertEmail({
       alerts: sampleAlerts.length ? sampleAlerts : [fallbackAlert],
       runId: market.run_id || new Date().toISOString(),
       generatedAt: market.generated_at,
       appUrl: SWS_INPUT_ALERT_APP_URL,
+      reductionHighlights: [{
+        ticker: sampleReductionAlert.ticker,
+        name: sampleReductionAlert.name,
+        action: "Reduction-25%",
+        tradeRupees: 25000,
+        reasons: ["Sample only: confirmed Portfolio Analyzer reduction reviews appear here when the same holding also has material SWS input changes."],
+      }],
     });
     const result = await sendMail({ to: "mtaluja11@gmail.com", ...email });
     res.status(result.ok ? 200 : 502).json({ ok: result.ok, result, requested_by: req.user?.email || null });
@@ -5892,7 +6105,15 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           counts.no_holdings++;
           continue;
         }
+        let reductionContext = { actionState: null, reductionHighlights: [] };
+        try {
+          reductionContext = await buildSwsInputReductionContext(user.sub, portfolio, ledger);
+        } catch (err) {
+          console.warn(`[SWS-INPUT-ALERTS] reduction context failed for ${email || user.sub}:`, err.message);
+        }
+        const actionStateEvent = swsInputActionStateEvent(portfolio, reductionContext.actionState);
         if (!portfolio.alerts.length) {
+          if (!dryRun && actionStateEvent) await ledger.appendEvents(user.sub, [actionStateEvent]);
           counts.no_alerts++;
           continue;
         }
@@ -5919,6 +6140,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           digest: portfolio.digest,
         }) || (typeof ledger.hasEmailSentForRun === "function" && await ledger.hasEmailSentForRun(user.sub, portfolio.run_id));
         if (alreadySent) {
+          if (!dryRun && actionStateEvent) await ledger.appendEvents(user.sub, [actionStateEvent]);
           counts.deduped++;
           results.push({ sub: user.sub, email, skipped: true, reason: "deduped" });
           continue;
@@ -5929,6 +6151,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           runId: portfolio.run_id,
           generatedAt: portfolio.generated_at,
           appUrl: SWS_INPUT_ALERT_APP_URL,
+          reductionHighlights: reductionContext.reductionHighlights,
         });
         const sendResult = await sendMail({ to: email, ...emailBody }, { dryRun, rejectSandboxSender: !dryRun });
         if (sendResult.ok && !sendResult.skipped && !dryRun) {
@@ -5937,11 +6160,12 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
             run_id: portfolio.run_id,
             digest: portfolio.digest,
             alert_count: portfolio.alerts.length,
+            reduction_highlight_count: reductionContext.reductionHighlights.length,
             email,
             provider: sendResult.provider || activeMailProvider,
             resend_id: sendResult.id || null,
             message_id: sendResult.id || null,
-          }]);
+          }, actionStateEvent].filter(Boolean));
           counts.sent++;
         } else if (dryRun || sendResult.dry_run) {
           counts.dry_run++;
@@ -5954,6 +6178,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
             run_id: portfolio.run_id,
             digest: portfolio.digest,
             alert_count: portfolio.alerts.length,
+            reduction_highlight_count: reductionContext.reductionHighlights.length,
             email,
             provider: sendResult.provider || activeMailProvider,
             status: sendResult.status || null,
@@ -5967,6 +6192,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           sub: user.sub,
           email,
           alert_count: portfolio.alerts.length,
+          reduction_highlight_count: reductionContext.reductionHighlights.length,
           sent: sendResult.ok && !sendResult.skipped && !dryRun,
           dry_run: dryRun || !!sendResult.dry_run,
           skipped: !!sendResult.skipped,
