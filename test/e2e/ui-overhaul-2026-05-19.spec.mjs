@@ -13,6 +13,51 @@
 import { test, expect } from "@playwright/test";
 import { gotoApp } from "./helpers/app.mjs";
 
+async function mainTabRailMetrics(page) {
+  return page.evaluate(() => {
+    const shell = document.querySelector(".main-tabs-rail");
+    const rail = document.querySelector("#mainTabs");
+    const left = document.querySelector('.main-tabs-rail [data-scroll-dir="left"]');
+    const right = document.querySelector('.main-tabs-rail [data-scroll-dir="right"]');
+    const box = (el) => {
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { left: r.left, right: r.right, width: r.width };
+    };
+    return {
+      shellOverflow: shell?.getAttribute("data-scroll-overflow") || "",
+      shellAtEnd: shell?.getAttribute("data-scroll-at-end") || "",
+      railOverflow: rail?.getAttribute("data-scroll-overflow") || "",
+      scrollLeft: rail?.scrollLeft || 0,
+      clientWidth: rail?.clientWidth || 0,
+      leftHidden: Boolean(left?.hidden),
+      rightHidden: Boolean(right?.hidden),
+      leftVisibleState: left?.getAttribute("data-scroll-control-visible") || "",
+      rightVisibleState: right?.getAttribute("data-scroll-control-visible") || "",
+      leftBox: box(left),
+      rightBox: box(right),
+    };
+  });
+}
+
+async function activeTabVisibility(page) {
+  return page.evaluate(() => {
+    const rail = document.querySelector("#mainTabs");
+    const active = document.querySelector("#mainTabs .tab.active");
+    const railRect = rail?.getBoundingClientRect();
+    const activeRect = active?.getBoundingClientRect();
+    return {
+      activeId: active?.id || "",
+      fullyVisible: Boolean(
+        railRect &&
+        activeRect &&
+        activeRect.left >= railRect.left - 1 &&
+        activeRect.right <= railRect.right + 1
+      ),
+    };
+  });
+}
+
 test.describe("UI/UX overhaul 2026-05-19", () => {
   test("main landmark + sr-only h1 + tab WAI-ARIA wiring", async ({ page }) => {
     await gotoApp(page);
@@ -160,16 +205,64 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     const right = page.locator('.main-tabs-rail [data-scroll-dir="right"]');
     await expect(right).toBeVisible({ timeout: 5_000 });
 
+    const beforeMetrics = await mainTabRailMetrics(page);
+    expect(beforeMetrics.shellOverflow).toBe("true");
+    expect(beforeMetrics.railOverflow).toBe("true");
+    expect(beforeMetrics.leftHidden).toBe(false);
+    expect(beforeMetrics.rightHidden).toBe(false);
+    expect(beforeMetrics.leftVisibleState).toBe("true");
+    expect(beforeMetrics.rightVisibleState).toBe("true");
+    expect(beforeMetrics.leftBox?.width).toBe(32);
+    expect(beforeMetrics.rightBox?.width).toBe(32);
+
+    await page.evaluate(() => {
+      window.refreshScrollRails?.();
+      window.refreshScrollRails?.();
+    });
+    const refreshedMetrics = await mainTabRailMetrics(page);
+    expect(refreshedMetrics.clientWidth).toBe(beforeMetrics.clientWidth);
+    expect(refreshedMetrics.leftBox?.width).toBe(beforeMetrics.leftBox?.width);
+    expect(refreshedMetrics.rightBox?.width).toBe(beforeMetrics.rightBox?.width);
+    expect(refreshedMetrics.leftHidden).toBe(false);
+    expect(refreshedMetrics.rightHidden).toBe(false);
+
     const before = await rail.evaluate((el) => el.scrollLeft);
     await right.click();
     await expect.poll(() => rail.evaluate((el) => el.scrollLeft), {
       message: "right rail button should scroll the tablist",
     }).toBeGreaterThan(before);
+    const afterScrollMetrics = await mainTabRailMetrics(page);
+    expect(afterScrollMetrics.clientWidth).toBe(beforeMetrics.clientWidth);
+    expect(afterScrollMetrics.leftBox?.width).toBe(beforeMetrics.leftBox?.width);
+    expect(afterScrollMetrics.rightBox?.width).toBe(beforeMetrics.rightBox?.width);
+    expect(afterScrollMetrics.shellOverflow).toBe("true");
+    expect(afterScrollMetrics.railOverflow).toBe(
+      afterScrollMetrics.shellAtEnd === "true" ? "false" : "true",
+    );
 
     await page.locator("#picksTabBtn").focus();
     await page.keyboard.press("End");
     await expect(page.locator("#trackTabBtn")).toBeFocused();
     await expect(page.locator("#trackTab")).toBeVisible({ timeout: 10_000 });
+    await expect.poll(() => activeTabVisibility(page)).toMatchObject({
+      activeId: "trackTabBtn",
+      fullyVisible: true,
+    });
+  });
+
+  test("main tab rail keeps active deep-link tabs fully visible", async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+    for (const [tab, activeId] of [
+      ["picks", "picksTabBtn"],
+      ["sectorOutlook", "sectorOutlookTabBtn"],
+      ["track", "trackTabBtn"],
+    ]) {
+      await gotoApp(page, { tab });
+      await expect(page.locator(`#${activeId}`)).toHaveClass(/active/, { timeout: 10_000 });
+      await expect.poll(() => activeTabVisibility(page), {
+        message: `${activeId} should be fully visible inside the main tab rail`,
+      }).toMatchObject({ activeId, fullyVisible: true });
+    }
   });
 
   test("section-chip class is rendered as <button> with hover affordance CSS", async ({ page }) => {

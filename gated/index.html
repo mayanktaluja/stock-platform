@@ -3118,6 +3118,16 @@
     .main-tabs-rail {
       width: 100%;
     }
+    .main-tabs-rail > .scroll-rail-btn {
+      visibility: visible;
+    }
+    .main-tabs-rail > .scroll-rail-btn[data-scroll-control-visible="false"] {
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .main-tabs-rail[data-scroll-overflow="false"] > .scroll-rail-btn {
+      display: inline-flex !important;
+    }
     .main-tabs-rail .tabs {
       flex: 1 1 auto;
       min-width: 0;
