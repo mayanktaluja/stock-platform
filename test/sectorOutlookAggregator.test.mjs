@@ -311,6 +311,22 @@ console.log("aggregator: evidence_top5 picks highest signed magnitude");
   assert("top evidence is blockbuster", evidence[0].title === "Blockbuster M&A", evidence);
 }
 
+console.log("aggregator: avg_confidence and bounded route evidence are retained");
+{
+  const entries = [
+    { ticker: "RELIANCE", sourceSector: "Energy", mcap: 1e12, date: "2026-05-15",
+      title: "Reliance expansion", body_snippet: "petrochemical refinery expansion at Jamnagar",
+      theme: "CAPACITY_CAPEX", sign: 1, intensity: 2, confidence: 0.9, time_hint: "long" },
+    { ticker: "ONGC", sourceSector: "Energy", mcap: 1e12, date: "2026-05-15",
+      title: "ONGC results", body_snippet: "oil and gas earnings beat",
+      theme: "EARNINGS_MOVE", sign: 1, intensity: 2, confidence: 0.7, time_hint: "short" },
+  ];
+  const out = aggregateAllSectors(entries, { nowMs: NOW_MS });
+  const oil = out.sectors["Oil & Gas"].windows["30d"];
+  assert("avg_confidence is weighted average", Math.abs(oil.avg_confidence - 0.8) < 0.01, oil.avg_confidence);
+  assert("evidence carries body_snippet", oil.evidence_top5.some((e) => /petrochemical/.test(e.body_snippet || "")), oil.evidence_top5);
+}
+
 // ─── conglomerate fractional weight respected in aggregation ─────────
 console.log("aggregator: RELIANCE generic news 1/3 weighted across 3 sectors");
 {

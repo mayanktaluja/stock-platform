@@ -56,6 +56,7 @@ assert("every infoIcon id in sectorOutlook.js / multibaggerLab.js exists in GLOS
 
 // ── 3. The Sector Outlook + 5x Lab feature ids exist AND are wired ────────
 const FEATURE_IDS = [
+  "sector_trust_score", "sector_trust_factors",
   "sector_outlook_label", "sector_outlook_confidence", "sector_composite",
   "sector_bottom_up", "sector_top_down", "sector_breadth", "sector_news_90d",
   "sector_top_themes", "sector_tailwind", "sector_headwind", "sector_neutral",

@@ -15,6 +15,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { aggregateAllSectors } from "../services/sectorOutlook/sectorNewsAggregator.js";
+import { loadSectorOutlookExternalContext } from "../services/sectorOutlook/externalContext.js";
 import { synthesizeAll } from "../services/sectorOutlook/outlookSynthesizer.js";
 import { CLASSIFIER_VERSION } from "../services/sectorOutlook/themeTaxonomy.js";
 
@@ -87,7 +88,9 @@ function loadClassifiedEntries(picksByTicker) {
         mcap,
         date: row.date,
         title: row.title,
-        body: "", // body not stored in JSONL; aggregator only needs title for conglomerate routing
+        body: row.body_snippet || "",
+        body_snippet: row.body_snippet || "",
+        route_hint: row.route_hint || "",
         theme: row.theme,
         sign: row.sign,
         intensity: row.intensity,
@@ -131,7 +134,8 @@ async function main() {
     console.warn(`[refresh-sector-outlook] WARN: orphan rate ${(orphanRate * 100).toFixed(1)}% > 15% — review services/riskLab/macro/sectorOverrides.js`);
   }
 
-  const outlook = synthesizeAll(aggregator, macroRegime);
+  const externalContext = loadSectorOutlookExternalContext(ROOT);
+  const outlook = synthesizeAll(aggregator, macroRegime, { externalContext });
   outlook.audit.stale_tickers = stale_tickers;
   outlook.audit.elapsed_ms = Date.now() - t0;
 

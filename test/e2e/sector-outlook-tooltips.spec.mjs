@@ -39,20 +39,20 @@ test.describe("Sector Outlook — tooltips", () => {
   test("Metric column headers render visible ⓘ icons", async ({ page, request }) => {
     const body = await loadSectorOutlook(page, request);
     if (!body.sectors || body.sectors.length === 0) test.skip(true, "no sectors classified — matrix headers absent");
-    for (const id of ["sector_composite", "sector_bottom_up", "sector_breadth", "sector_news_90d"]) {
+    for (const id of ["sector_trust_score", "sector_composite", "sector_bottom_up", "sector_breadth", "sector_news_90d"]) {
       await expect(page.locator(`#sectorOutlookTab th [data-term-id="${id}"]`)).toBeVisible();
     }
   });
 
-  test("Hovering the Composite ⓘ shows the tooltip with the right term", async ({ page, request }) => {
+  test("Hovering the Trust ⓘ shows the tooltip with the right term", async ({ page, request }) => {
     const body = await loadSectorOutlook(page, request);
     if (!body.sectors || body.sectors.length === 0) test.skip(true, "no sectors classified");
     const tooltip = page.locator("#starbhaiTooltip");
     await expect(tooltip).toHaveAttribute("aria-hidden", "true");
-    await page.locator('#sectorOutlookTab th [data-term-id="sector_composite"]').hover();
+    await page.locator('#sectorOutlookTab th [data-term-id="sector_trust_score"]').hover();
     await page.waitForTimeout(HOVER_SETTLE_MS);
     await expect(tooltip).toHaveAttribute("aria-hidden", "false");
-    await expect(tooltip).toContainText(/Composite Score/i);
+    await expect(tooltip).toContainText(/Sector Trust Score/i);
   });
 
   test("Escape closes an open tooltip", async ({ page, request }) => {
@@ -72,7 +72,7 @@ test.describe("Sector Outlook — tooltips", () => {
     await expect(drillRow).toBeHidden();
     // The header icon sits in <thead> (no row onclick) — clicking it should
     // open the tooltip, never the drill-down.
-    await page.locator('#sectorOutlookTab th [data-term-id="sector_composite"]').click();
+    await page.locator('#sectorOutlookTab th [data-term-id="sector_trust_score"]').click();
     await page.waitForTimeout(HOVER_SETTLE_MS);
     await expect(drillRow).toBeHidden();
   });

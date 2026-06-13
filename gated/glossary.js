@@ -1019,6 +1019,20 @@ window.GLOSSARY = {
   // SECTOR OUTLOOK
   // ══════════════════════════════════════════════════════════════════════
 
+  sector_trust_score: {
+    term: "Sector Trust Score",
+    category: "macro",
+    short: "A 0-100 reliability score used to order Sector Outlook rows.",
+    full: "Trust blends evidence volume, sector breadth, 30/90/365-day signal stability, macro/external agreement, classifier quality, available sector-index confirmation, and freshness. Rows sort by this score first, so a high-trust risk can appear above a lower-trust opportunity. Missing macro or price context is marked uncorroborated rather than treated as a hard failure.",
+  },
+
+  sector_trust_factors: {
+    term: "Trust Factors",
+    category: "macro",
+    short: "The components that add up to the sector's Trust score.",
+    full: "Each factor shows its weighted contribution to the 0-100 Trust score. Evidence and breadth measure support from SWS news; stability checks whether recent and longer windows agree; agreement checks macro/external alignment; price confirmation uses local sector-index data when available; freshness checks whether the regime and outlook are current.",
+  },
+
   sector_outlook_label: {
     term: "Sector Outlook",
     category: "macro",
@@ -1029,8 +1043,8 @@ window.GLOSSARY = {
   sector_outlook_confidence: {
     term: "Outlook Confidence",
     category: "macro",
-    short: "How much to trust this sector's outlook — Low, Medium, or High.",
-    full: "High requires a strong same-direction signal with broad participation (breadth) plus at least ~8 news items in the 90-day window. When bottom-up news and the top-down macro regime point opposite ways the sector is flagged DIVERGENT and confidence drops to Low. Medium is the default in between. Treat Low-confidence rows as noise, not signal.",
+    short: "Band label derived from the numeric Trust score.",
+    full: "Confidence is the display band for Trust: High at 75+, Medium at 45-74, and Low below 45. It no longer comes from a single cross-check rule; it summarizes the full trust model so thin evidence, weak breadth, stale context, or divergent macro/price confirmation can all pull the band lower.",
   },
 
   sector_composite: {

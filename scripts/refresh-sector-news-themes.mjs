@@ -29,6 +29,7 @@ const __filename = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(__filename), "..");
 const DEEP_DIR = path.join(ROOT, "data", "sws", "deep");
 const OUT_DIR = path.join(ROOT, "data", "sectorOutlook", "classified-news");
+const BODY_SNIPPET_MAX = 500;
 
 function parseArgs(argv) {
   const args = {
@@ -92,6 +93,10 @@ function writeJsonlAtomic(filePath, rows) {
   const content = rows.map((r) => JSON.stringify(r)).join("\n") + (rows.length ? "\n" : "");
   fs.writeFileSync(tmp, content);
   fs.renameSync(tmp, filePath);
+}
+
+function boundedSnippet(value, max = BODY_SNIPPET_MAX) {
+  return String(value || "").replace(/\s+/g, " ").trim().slice(0, max);
 }
 
 async function main() {
@@ -166,6 +171,7 @@ async function main() {
         news_id: n.id || null,
         date: n.date || null,
         title: n.title || "",
+        body_snippet: boundedSnippet(n.body || n.summary || n.description || ""),
         theme: r.theme,
         sign: r.sign,
         intensity: r.intensity,
