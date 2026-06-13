@@ -1,19 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-06-10T03:26:02.440Z",
+  "generated_at": "2026-06-13T04:04:49.248Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-06-09T06:30:16.587Z",
+    "generated_at": "2026-06-12T14:31:07.944Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Mixed and neutral headlines",
+    "reasoning": "Mixed headlines, no dominant trend",
     "key_events": [
-      "India posts USD 7.1 billion current account surplus in Q4 FY26, says RBI (Business Standard)",
-      "RBI introduces US dollar-rupee forex swap facility for fresh FCNR deposits (Business Standard)",
-      "Nifty above 23,150; realty shares in demand (Business Standard)"
+      "Oil touches three-month low after Trump says US close to Iran deal (FT Markets)",
+      "Sensex jumps 1,695 points as hopes of US-Iran truce lift market sentiment (Business Standard)",
+      "Sebi to review delisting framework to ease exits (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,37 +40,32 @@
     },
     "sector_impacts": [
       {
+        "sector": "Energy",
+        "impact": -1,
+        "reason": "Oil price decline"
+      },
+      {
         "sector": "Banking",
         "impact": 1,
-        "reason": "RBI measures"
-      },
-      {
-        "sector": "Real Estate",
-        "impact": 1,
-        "reason": "Nifty above 23,150"
-      },
-      {
-        "sector": "Defence",
-        "impact": 1,
-        "reason": "Jefferies favours defence plays"
+        "reason": "Market sentiment lift"
       }
     ]
   },
-  "catalyst_proximity_days": 8,
+  "catalyst_proximity_days": 5,
   "upcoming_catalysts": [
     {
       "date": "2026-06-18",
       "kind": "FOMC",
       "label": "US FOMC Meeting — June 2026",
       "severity_potential": 3,
-      "days_until": 8
+      "days_until": 5
     },
     {
       "date": "2026-07-05",
       "kind": "OPEC",
       "label": "OPEC+ Ministerial Meeting",
       "severity_potential": 2,
-      "days_until": 25
+      "days_until": 22
     }
   ],
   "position_cap_pct": 10,
@@ -78,7 +73,7 @@
     {
       "key": "continue",
       "label": "CALM continues at current severity",
-      "probability": 0.55,
+      "probability": 0.52,
       "duration_days": 14,
       "n_analogs": 0,
       "indeterminate": true,
@@ -98,7 +93,7 @@
     {
       "key": "escalate",
       "label": "CALM escalates (severity +1)",
-      "probability": 0.11,
+      "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": true,
@@ -118,7 +113,7 @@
     {
       "key": "de_escalate",
       "label": "CALM de-escalates → CALM",
-      "probability": 0.2,
+      "probability": 0.19,
       "duration_days": 21,
       "n_analogs": 0,
       "indeterminate": true,
@@ -138,14 +133,14 @@
     {
       "key": "new_shock",
       "label": "New unrelated shock supersedes CALM",
-      "probability": 0.14,
+      "probability": 0.19,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 1.4,
+        "modulator_applied": 2,
         "base_probability": 0.1,
         "analog_pool_regime": "n/a (new regime — projection suppressed by design)",
         "analog_warnings": [],
@@ -161,7 +156,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-06-09T06:30:16.587Z",
+    "regime_generated_at": "2026-06-12T14:31:07.944Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }

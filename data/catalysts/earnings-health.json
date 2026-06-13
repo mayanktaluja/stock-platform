@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-06-12T04:00:27.847Z",
+  "generated_at": "2026-06-13T04:00:49.316Z",
   "resolved": {
     "count": 445,
     "delta_vs_prior": 0,
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 35,
+    "days_in_current_state": 36,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (445 across all versions)",
     "detail": {
@@ -45,7 +45,7 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 22
+    "earnings-history-v5": 23
   },
   "predictor_versions": {
     "earnings-predict-v3-2026-05": 6
@@ -63,16 +63,16 @@
   "insufficient_data": {
     "count_total": 49,
     "count_7d": 0,
-    "count_30d": 46,
-    "count_prior_30d": 3,
-    "trend_pct_30d_vs_prior": 1433.3
+    "count_30d": 33,
+    "count_prior_30d": 16,
+    "trend_pct_30d_vs_prior": 106.3
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-06-11T18:30:19.298Z",
-    "age_hours": 10,
+    "generated_at": "2026-06-12T14:31:07.944Z",
+    "age_hours": 13,
     "classifier_provider": "groq",
-    "regime": "WAR_DE_ESCALATION",
+    "regime": "CALM",
     "stale": false,
     "alert": null
   },
@@ -81,27 +81,27 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 22,
+  "history_files": 23,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-06-12T04:00:27.899Z",
+    "generated_at": "2026-06-13T04:00:49.571Z",
     "resolved_count": 348,
-    "unresolved_count": 1322,
+    "unresolved_count": 1323,
     "strict": {
       "hit_rate_pct": 35.1,
-      "ci_low_pct": 30.2,
+      "ci_low_pct": 29.9,
       "ci_high_pct": 40.2,
       "sample_size": 348
     },
     "lenient": {
       "hit_rate_pct": 81.8,
-      "ci_low_pct": 78.1,
+      "ci_low_pct": 77.8,
       "ci_high_pct": 85.9,
       "sample_size": 347
     },
     "catastrophic": {
       "rate_pct": 18.2,
-      "ci_low_pct": 14.4,
+      "ci_low_pct": 14.1,
       "ci_high_pct": 22.2,
       "sample_size": 347
     },
@@ -114,7 +114,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "INSUFFICIENT_DATA predictions trending UP: 46 in last 30d vs 3 prior 30d (+1433.3%) — predictor coverage may be degrading",
+    "INSUFFICIENT_DATA predictions trending UP: 33 in last 30d vs 16 prior 30d (+106.3%) — predictor coverage may be degrading",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
