@@ -11,6 +11,16 @@ const alertsDir = path.join(ROOT, "data", "sws", "alerts");
 const signaturesPath = path.join(alertsDir, "input-signatures-latest.json");
 const changesPath = path.join(alertsDir, "fundamental-changes-latest.json");
 
+function parseArgs(argv) {
+  const out = { runId: null };
+  for (let i = 2; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg === "--run-id") out.runId = argv[++i] || null;
+    else if (arg.startsWith("--run-id=")) out.runId = arg.slice("--run-id=".length) || null;
+  }
+  return out;
+}
+
 function readJson(filePath) {
   if (!existsSync(filePath)) return null;
   try {
@@ -27,6 +37,7 @@ function writeJsonAtomic(filePath, value) {
   renameSync(tmp, filePath);
 }
 
+const args = parseArgs(process.argv);
 const generatedAt = new Date().toISOString();
 const previous = readJson(signaturesPath);
 const current = buildInputSignatures({
@@ -34,6 +45,7 @@ const current = buildInputSignatures({
   deepDir: path.join(ROOT, "data", "sws", "deep"),
   lastRefreshPath: path.join(ROOT, "data", "sws", "last-refresh.json"),
   generatedAt,
+  runId: args.runId,
 });
 const diff = diffInputSignatures(previous, current, generatedAt);
 

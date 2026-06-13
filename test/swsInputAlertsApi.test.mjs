@@ -197,6 +197,19 @@ try {
   const forbiddenCron = await request(port, "POST", "/api/cron/sws-input-alerts/send");
   assert.equal(forbiddenCron.status, 401);
 
+  const ledgerBeforeProbe = fs.existsSync(LEDGER) ? fs.readFileSync(LEDGER, "utf-8") : null;
+  const probe = await request(port, "GET", "/api/cron/sws-input-alerts/send?probe=1", {
+    headers: { authorization: "Bearer test-cron-secret" },
+  });
+  assert.equal(probe.status, 200);
+  assert.equal(probe.json.probe, true);
+  assert.equal(probe.json.artifact_present, true);
+  assert.equal(probe.json.run_id, "run-api-test");
+  assert.equal(probe.json.generated_at, "2026-06-08T00:00:00.000Z");
+  assert.equal(probe.json.market_change_count, 5);
+  const ledgerAfterProbe = fs.existsSync(LEDGER) ? fs.readFileSync(LEDGER, "utf-8") : null;
+  assert.equal(ledgerAfterProbe, ledgerBeforeProbe, "probe mode must not create or write ledger events");
+
   const cron = await request(port, "POST", "/api/cron/sws-input-alerts/send", {
     headers: { authorization: "Bearer test-cron-secret" },
   });

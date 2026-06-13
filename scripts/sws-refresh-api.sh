@@ -384,7 +384,7 @@ fi
 # score false diff.
 
 echo "[refresh-api] building SWS input-diff alert artifacts..."
-node scripts/sws-build-input-diff.mjs 2>&1 | sed 's/^/[input-diff] /'
+node scripts/sws-build-input-diff.mjs --run-id "${RUN_STARTED_ISO}" 2>&1 | sed 's/^/[input-diff] /'
 
 # ---------- 8d. Price freshness gate ----------
 

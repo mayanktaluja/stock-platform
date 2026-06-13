@@ -78,6 +78,110 @@ exec >> >(tee -a "${LOG}") 2>&1
 
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 START_EPOCH="$(date +%s)"
+RUN_STARTED_ISO="$(date -u "+%Y-%m-%dT%H:%M:%S.000Z")"
+TIMINGS_FILE="data/sws/nightly-timings-latest.json"
+TIMINGS_NDJSON="data/sws/_nightly-timings.$$.$RANDOM.ndjson"
+PUBLISH_WARNINGS_FILE="data/sws/_nightly-publish-warnings.tmp"
+: > "${TIMINGS_NDJSON}"
+: > "${PUBLISH_WARNINGS_FILE}"
+
+timing_now_iso() { date -u "+%Y-%m-%dT%H:%M:%S.000Z"; }
+timing_start_epoch() { date +%s; }
+
+timing_record() {
+  # timing_record <stage> <dependency> <start_epoch> <status> [exit_code]
+  local stage="$1"
+  local dependency="$2"
+  local start_epoch="$3"
+  local status="$4"
+  local exit_code="${5:-0}"
+  local finish_epoch
+  finish_epoch="$(date +%s)"
+  node --input-type=module - "${TIMINGS_NDJSON}" "${stage}" "${dependency}" "${start_epoch}" "${finish_epoch}" "${status}" "${exit_code}" <<'NODE'
+import fs from "node:fs";
+const [file, stage, dependency, startEpochRaw, finishEpochRaw, status, exitCodeRaw] = process.argv.slice(2);
+const startEpoch = Number(startEpochRaw);
+const finishEpoch = Number(finishEpochRaw);
+const row = {
+  stage,
+  dependency: dependency || null,
+  started_at: new Date(startEpoch * 1000).toISOString(),
+  finished_at: new Date(finishEpoch * 1000).toISOString(),
+  duration_seconds: Math.max(0, finishEpoch - startEpoch),
+  status,
+  exit_code: Number(exitCodeRaw) || 0,
+};
+fs.appendFileSync(file, `${JSON.stringify(row)}\n`);
+NODE
+}
+
+run_timed_step() {
+  # run_timed_step <stage> <dependency> <command...>
+  local stage="$1"
+  local dependency="$2"
+  shift 2
+  local start_epoch
+  start_epoch="$(timing_start_epoch)"
+  "$@"
+  local rc=$?
+  if [ "${rc}" -eq 0 ]; then
+    timing_record "${stage}" "${dependency}" "${start_epoch}" "ok" "${rc}"
+  else
+    timing_record "${stage}" "${dependency}" "${start_epoch}" "failed" "${rc}"
+  fi
+  return "${rc}"
+}
+
+finalize_timings() {
+  node --input-type=module - "${TIMINGS_NDJSON}" "${TIMINGS_FILE}" "${RUN_STARTED_ISO}" "$(timing_now_iso)" <<'NODE'
+import fs from "node:fs";
+const [ndjsonPath, outPath, startedAt, finishedAt] = process.argv.slice(2);
+let stages = [];
+try {
+  stages = fs.readFileSync(ndjsonPath, "utf8")
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+} catch {}
+const totalSeconds = Math.max(0, Math.round((new Date(finishedAt) - new Date(startedAt)) / 1000));
+const byStage = Object.fromEntries(stages.map((stage) => [stage.stage, stage]));
+const payload = {
+  schema_version: 1,
+  generated_at: finishedAt,
+  started_at: startedAt,
+  finished_at: finishedAt,
+  duration_seconds: totalSeconds,
+  target_publish_by_ist: "08:45",
+  stages,
+  by_stage: byStage,
+};
+fs.mkdirSync("data/sws", { recursive: true });
+fs.writeFileSync(outPath, `${JSON.stringify(payload, null, 2)}\n`);
+NODE
+}
+
+timing_summary_text() {
+  node --input-type=module - "${TIMINGS_FILE}" <<'NODE'
+import fs from "node:fs";
+try {
+  const j = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+  const rows = (j.stages || []).map((s) => `- ${s.stage}: ${s.status}, ${s.duration_seconds}s${s.dependency ? `, waits_on=${s.dependency}` : ""}`);
+  console.log(rows.length ? rows.join("\n") : "(no timing rows recorded)");
+} catch {
+  console.log("(timing summary unavailable)");
+}
+NODE
+}
+
+warn_if_publish_late() {
+  local publish_ist
+  publish_ist="$(TZ=Asia/Kolkata date +%H%M)"
+  if [ "${publish_ist}" -ge 845 ]; then
+    local msg="[nightly] WARNING: local publish stage reached at ${publish_ist:0:2}:${publish_ist:2:2} IST, after 08:45 target"
+    echo "${msg}"
+    printf '%s\n' "${msg}" >> "${PUBLISH_WARNINGS_FILE}"
+  fi
+}
 
 # ---- Slack failure trap (P3.3) ----
 #
@@ -99,6 +203,7 @@ slack_notify_on_exit() {
       ":warning: SWS nightly (sws-nightly.sh) failed at $(ts) with exit code ${rc} — see ${LOG_PATH}" \
       >/dev/null 2>&1 || true
   fi
+  rm -f "${TIMINGS_NDJSON:-}" "${PUBLISH_WARNINGS_FILE:-}" 2>/dev/null || true
   [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
 }
 trap slack_notify_on_exit EXIT
@@ -646,45 +751,10 @@ run_nse_catalyst_branch() {
   return 0
 }
 
-SWS_BRANCH_LOG="data/sws/sws-nightly-sws-branch.log"
-NSE_BRANCH_LOG="data/sws/sws-nightly-nse-catalyst-branch.log"
-: > "${SWS_BRANCH_LOG}"
-: > "${NSE_BRANCH_LOG}"
+run_early_aux_branch() {
+  run_nse_catalyst_branch
 
-echo "[nightly] starting SWS/Groww primary branch and NSE catalyst branch in parallel..."
-run_sws_primary_branch > >(tee -a "${SWS_BRANCH_LOG}" | sed 's/^/[sws-branch] /') 2>&1 &
-SWS_BRANCH_PID=$!
-run_nse_catalyst_branch > >(tee -a "${NSE_BRANCH_LOG}" | sed 's/^/[nse-branch] /') 2>&1 &
-NSE_BRANCH_PID=$!
-
-SWS_BRANCH_RC=0
-NSE_BRANCH_RC=0
-if wait "${SWS_BRANCH_PID}"; then
-  SWS_BRANCH_RC=0
-else
-  SWS_BRANCH_RC=$?
-fi
-if wait "${NSE_BRANCH_PID}"; then
-  NSE_BRANCH_RC=0
-else
-  NSE_BRANCH_RC=$?
-fi
-
-echo "[nightly] parallel refresh barrier complete: sws_rc=${SWS_BRANCH_RC}, nse_rc=${NSE_BRANCH_RC}"
-
-SWS_PRIMARY_FAILED=0
-SWS_PRIMARY_FAILURE_BODY=""
-if [ "${SWS_BRANCH_RC}" -ne 0 ]; then
-  SWS_PRIMARY_FAILED=1
-  SWS_PRIMARY_FAILURE_BODY="scripts/sws-refresh-api.sh exited non-zero at $(ts).
-
-The NSE catalyst branch was allowed to finish before the auxiliary refresh
-chain continues. The SWS scrape output will not ship, but independent
-fundamentals/catalyst/macro-calendar data may still auto-ship as data-only."
-  echo "[nightly] SWS primary branch failed — continuing auxiliary refresh chain before data-only ship"
-fi
-
-echo "[nightly] running remaining catalysts + fundamentals + earnings refresh chain..."
+  echo "[nightly] running early auxiliary refresh chain while SWS scrape continues..."
 
 if with_timeout 120 node scripts/refresh-dividends.mjs 2>&1 | sed 's/^/[dividends] /'; then
   aux_status "dividends-upcoming.json" "OK"
@@ -928,8 +998,52 @@ else
   fi
 fi
 
+  return 0
+}
+
+SWS_BRANCH_LOG="data/sws/sws-nightly-sws-branch.log"
+AUX_BRANCH_LOG="data/sws/sws-nightly-early-aux-branch.log"
+: > "${SWS_BRANCH_LOG}"
+: > "${AUX_BRANCH_LOG}"
+
+echo "[nightly] starting SWS/Groww primary branch and early auxiliary branch in parallel..."
+run_timed_step "sws_primary_branch" "git_sync" run_sws_primary_branch > >(tee -a "${SWS_BRANCH_LOG}" | sed 's/^/[sws-branch] /') 2>&1 &
+SWS_BRANCH_PID=$!
+run_timed_step "early_aux_branch" "git_sync" run_early_aux_branch > >(tee -a "${AUX_BRANCH_LOG}" | sed 's/^/[aux-branch] /') 2>&1 &
+AUX_BRANCH_PID=$!
+
+SWS_BRANCH_RC=0
+AUX_BRANCH_RC=0
+if wait "${SWS_BRANCH_PID}"; then
+  SWS_BRANCH_RC=0
+else
+  SWS_BRANCH_RC=$?
+fi
+if wait "${AUX_BRANCH_PID}"; then
+  AUX_BRANCH_RC=0
+else
+  AUX_BRANCH_RC=$?
+fi
+
+echo "[nightly] parallel refresh barrier complete: sws_rc=${SWS_BRANCH_RC}, aux_rc=${AUX_BRANCH_RC}"
+
+SWS_PRIMARY_FAILED=0
+SWS_PRIMARY_FAILURE_BODY=""
+if [ "${SWS_BRANCH_RC}" -ne 0 ]; then
+  SWS_PRIMARY_FAILED=1
+  SWS_PRIMARY_FAILURE_BODY="scripts/sws-refresh-api.sh exited non-zero at $(ts).
+
+The early auxiliary branch was allowed to finish before the auxiliary refresh
+chain continues. The SWS scrape output will not ship, but independent
+fundamentals/catalyst/macro-calendar data may still auto-ship as data-only."
+  echo "[nightly] SWS primary branch failed — continuing data-only ship evaluation after early aux branch"
+fi
+if [ "${AUX_BRANCH_RC}" -ne 0 ]; then
+  echo "[nightly] early auxiliary branch returned ${AUX_BRANCH_RC} — continuing; individual aux statuses are in ${AUX_STATUS_FILE}"
+fi
+
 echo "[nightly] running refresh-earnings.mjs --window 60 --past-window-days 14 (depends on the above)..."
-if with_timeout 600 node scripts/refresh-earnings.mjs --window 60 --past-window-days 14 2>&1 | sed 's/^/[earnings] /'; then
+if run_timed_step "earnings_watch" "sws_primary_branch,early_aux_branch" with_timeout 600 node scripts/refresh-earnings.mjs --window 60 --past-window-days 14 2>&1 | sed 's/^/[earnings] /'; then
   aux_status "earnings-watch-latest.json" "OK"
 else
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
@@ -1031,6 +1145,7 @@ nightly_data_only_paths=(
   data/catalysts/
   data/nse-fo/oi-deltas-latest.json
   data/macroCalendar.json
+  data/sws/nightly-timings-latest.json
   data/nse-index-constituents.json
   fundamentals.json
   surveillance.json
@@ -1132,6 +1247,7 @@ if [ ${GATE_RC} -ne 0 ]; then
     data/catalysts/
     data/nse-fo/oi-deltas-latest.json
     data/macroCalendar.json
+    data/sws/nightly-timings-latest.json
     data/nse-index-constituents.json
     fundamentals.json
     surveillance.json
@@ -1236,7 +1352,7 @@ fi
 # loose deep files (see .vercelignore); a stale tarball means stale modals even
 # when picks-latest.json is fresh.
 echo "[nightly] packing India deep tarball for Vercel..."
-if ! bash scripts/sws-pack-deep.sh 2>&1 | sed 's/^/[pack-deep] /'; then
+if ! run_timed_step "pack_deep_tarball" "sanity_gate" bash scripts/sws-pack-deep.sh 2>&1 | sed 's/^/[pack-deep] /'; then
   echo "[nightly] data/sws/deep.tar.gz pack failed — refusing to ship stale modal data"
   send_mail "🚨 SWS nightly — deep tarball pack failed" \
 "SWS scrape and sanity gate passed at $(ts), but scripts/sws-pack-deep.sh failed.
@@ -1252,8 +1368,14 @@ Inspect data/sws/sws-nightly.log and run:
 fi
 
 echo "[nightly] running packed deep price freshness gate..."
+PRICE_GATE_START="$(timing_start_epoch)"
 PRICE_TARBALL_GATE_OUT=$(node scripts/sws-price-freshness-gate.mjs --source tarball --human 2>&1)
 PRICE_TARBALL_GATE_RC=$?
+if [ "${PRICE_TARBALL_GATE_RC}" -eq 0 ]; then
+  timing_record "packed_price_freshness_gate" "pack_deep_tarball" "${PRICE_GATE_START}" "ok" "${PRICE_TARBALL_GATE_RC}"
+else
+  timing_record "packed_price_freshness_gate" "pack_deep_tarball" "${PRICE_GATE_START}" "failed" "${PRICE_TARBALL_GATE_RC}"
+fi
 printf '%s\n' "${PRICE_TARBALL_GATE_OUT}" | sed 's/^/[price-gate] /'
 if [ "${PRICE_TARBALL_GATE_RC}" -ne 0 ]; then
   echo "[nightly] packed deep price freshness gate failed — refusing to ship stale modal data"
@@ -1277,7 +1399,9 @@ fi
 # self-healing — Step 4 of the coverage plan re-merges via PR when the
 # operator decides.
 echo "[nightly] running coverage-gap-analysis (non-blocking)..."
+COVERAGE_START="$(timing_start_epoch)"
 COVERAGE_OUT=$(node scripts/coverage-gap-analysis.mjs --refresh-sme 2>&1) || true
+timing_record "coverage_gap_analysis" "packed_price_freshness_gate" "${COVERAGE_START}" "ok" "0"
 
 # Pull the headline numbers from the freshly-written JSON. If the script
 # couldn't run (e.g. NSE blocked us, BSE master missing) leave the line
@@ -1295,6 +1419,9 @@ try {
 echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
 
 restore_non_deployable_generated_worksets
+warn_if_publish_late
+timing_record "local_publish_ready" "coverage_gap_analysis" "$(timing_start_epoch)" "ok" "0"
+finalize_timings
 
 # ---- 5. Commit + push ----
 
@@ -1318,6 +1445,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/nse-event-calendar.json \
   data/sws/chronos-forecast-latest.json \
   data/sws/chronos-forecast-health.json \
+  data/sws/nightly-timings-latest.json \
   data/sws-us/deep-us.tar.gz \
   data/sws-kr/deep-kr.tar.gz \
   data/sws-tw/deep-tw.tar.gz \
@@ -1390,6 +1518,7 @@ git add data/sws/deep.tar.gz \
         data/sws/nse-event-calendar.json \
         data/sws/chronos-forecast-latest.json \
         data/sws/chronos-forecast-health.json \
+        data/sws/nightly-timings-latest.json \
         data/sws-us/deep-us.tar.gz \
         data/sws-kr/deep-kr.tar.gz \
         data/sws-tw/deep-tw.tar.gz \
@@ -1417,7 +1546,7 @@ assert_health_critical_staged
 [ -d reports/sws-picks ] && git add reports/sws-picks/*.pdf 2>/dev/null
 
 # Build commit body from sanity-gate summary
-COMMIT_BODY=$(COVERAGE_LINE="${COVERAGE_LINE}" SANITY_SUMMARY="${SANITY_SUMMARY}" node --input-type=module -e '
+COMMIT_BODY=$(COVERAGE_LINE="${COVERAGE_LINE}" SANITY_SUMMARY="${SANITY_SUMMARY}" PUBLISH_WARNINGS_FILE="${PUBLISH_WARNINGS_FILE}" node --input-type=module -e '
 import {readFileSync, existsSync} from "fs";
 const lr = JSON.parse(readFileSync("data/sws/last-refresh.json","utf-8"));
 const picks = JSON.parse(readFileSync("data/sws/picks-latest.json","utf-8"));
@@ -1461,6 +1590,26 @@ try {
       for (const [file, status, age] of rows) {
         lines.push(`- ${file}: ${status}${age ? ` (${age}h old)` : ""}`);
       }
+    }
+  }
+} catch {}
+try {
+  const tp = "data/sws/nightly-timings-latest.json";
+  if (existsSync(tp)) {
+    const t = JSON.parse(readFileSync(tp, "utf-8"));
+    lines.push(``, `Nightly timings:`);
+    for (const s of (t.stages || []).slice(0, 20)) {
+      lines.push(`- ${s.stage}: ${s.status}, ${s.duration_seconds}s${s.dependency ? `, waits_on=${s.dependency}` : ""}`);
+    }
+  }
+} catch {}
+try {
+  const warnPath = process.env.PUBLISH_WARNINGS_FILE;
+  if (warnPath && existsSync(warnPath)) {
+    const warnings = readFileSync(warnPath, "utf-8").split("\n").filter(Boolean);
+    if (warnings.length) {
+      lines.push(``, `Publish warnings:`);
+      for (const warning of warnings) lines.push(`- ${warning.replace(/^\[nightly\]\s*/, "")}`);
     }
   }
 } catch {}
@@ -1539,6 +1688,68 @@ fi
 
 echo "[nightly] PR created: ${PR_URL}"
 
+wait_for_pr_merged() {
+  local pr_url="$1"
+  local timeout_seconds="${SWS_NIGHTLY_MERGE_WAIT_SECONDS:-1800}"
+  local started
+  started="$(date +%s)"
+  while [ "$(($(date +%s) - started))" -lt "${timeout_seconds}" ]; do
+    local merged_at
+    merged_at=$(gh pr view "${pr_url}" --json mergedAt --jq '.mergedAt // ""' 2>/dev/null || true)
+    if [ -n "${merged_at}" ]; then
+      echo "[nightly] PR merged at ${merged_at}"
+      return 0
+    fi
+    sleep 20
+  done
+  echo "[nightly] PR did not merge within ${timeout_seconds}s"
+  return 1
+}
+
+trigger_input_alerts_after_deploy() {
+  local expected_run_id
+  expected_run_id=$(node --input-type=module -e '
+import {existsSync, readFileSync} from "fs";
+const p = "data/sws/alerts/fundamental-changes-latest.json";
+if (!existsSync(p)) process.exit(0);
+try {
+  const j = JSON.parse(readFileSync(p, "utf-8"));
+  if (j.run_id) console.log(j.run_id);
+} catch {}
+' 2>/dev/null)
+  if [ -z "${expected_run_id}" ]; then
+    echo "[nightly] no SWS input-alert run_id found — skipping immediate email trigger"
+    ALERT_TRIGGER_NOTE="Alert trigger skipped: no run_id in data/sws/alerts/fundamental-changes-latest.json."
+    return 0
+  fi
+  if [ -z "${CRON_SECRET:-}" ]; then
+    echo "[nightly] CRON_SECRET missing — skipping immediate email trigger"
+    ALERT_TRIGGER_NOTE="Alert trigger skipped: CRON_SECRET missing in nightly environment."
+    return 0
+  fi
+
+  echo "[nightly] triggering SWS input alerts after production serves run_id=${expected_run_id}..."
+  local trigger_out
+  if trigger_out=$(node scripts/sws-trigger-input-alerts-after-deploy.mjs \
+      --expected-run-id "${expected_run_id}" \
+      --url "${SWS_ALERT_PRODUCTION_URL:-https://starbhai-stock-platform.vercel.app}" \
+      --timeout-ms "${SWS_ALERT_TRIGGER_TIMEOUT_MS:-900000}" \
+      --interval-ms "${SWS_ALERT_TRIGGER_INTERVAL_MS:-15000}" 2>&1); then
+    printf '%s\n' "${trigger_out}" | sed 's/^/[alert-trigger] /'
+    ALERT_TRIGGER_NOTE="Alert trigger completed for run_id=${expected_run_id}.
+
+${trigger_out}"
+    return 0
+  fi
+  printf '%s\n' "${trigger_out}" | sed 's/^/[alert-trigger] /'
+  ALERT_TRIGGER_NOTE="Alert trigger failed for run_id=${expected_run_id}; scheduled Vercel cron remains the retry safety net.
+
+${trigger_out}"
+  return 0
+}
+
+ALERT_TRIGGER_NOTE="Alert trigger not attempted."
+
 if [ "${AUTO_MERGE}" = "1" ]; then
   echo "[nightly] enabling auto-merge..."
   # --auto queues merge after required status checks pass (Smoke + unit tests).
@@ -1556,8 +1767,14 @@ $(tail -30 ${LOG})"
       exit 0
     }
   fi
+  if wait_for_pr_merged "${PR_URL}"; then
+    trigger_input_alerts_after_deploy
+  else
+    ALERT_TRIGGER_NOTE="Alert trigger skipped: PR did not merge before the nightly merge wait timeout; scheduled Vercel cron remains the retry safety net."
+  fi
 else
   echo "[nightly] AUTO_MERGE=0 — leaving PR open for manual review"
+  ALERT_TRIGGER_NOTE="Alert trigger skipped: AUTO_MERGE=0 left PR open, so production cannot be current yet."
 fi
 
 # ---- 7. Mail success summary ----
@@ -1578,6 +1795,9 @@ PR: ${PR_URL}
 Branch: ${BRANCH} (deleted on merge)
 
 ${COMMIT_BODY}
+
+Alert trigger:
+${ALERT_TRIGGER_NOTE}
 
 ---
 Sanity gate output:

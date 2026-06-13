@@ -12,7 +12,7 @@
  * history.mjs only ADDS missing Nifty-500 names, never refreshes.
  *
  * This script:
- *   - Universe = curated stockList ∪ current Earnings Watch symbols.
+ *   - Universe = curated stockList ∪ fresh catalysts events ∪ current Earnings Watch symbols.
  *   - NEW stocks (coverage) are fetched before STALE ones (freshness).
  *   - Yahoo calls are budget-capped (--max-fetches, default 1800);
  *     overflow is queued for the next nightly run.
@@ -52,6 +52,7 @@ import {
 
 const ROOT = process.cwd();
 const HISTORY_PATH = path.join(ROOT, "fundamentalsHistory.json");
+const EVENTS_PATH = path.join(ROOT, "data", "catalysts", "events-latest.json");
 const EARNINGS_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.json");
 const OVERRIDES_PATH = path.join(ROOT, "data", "fundamentals-history-overrides.json");
 
@@ -189,8 +190,23 @@ function buildUniverse() {
   // 1. Curated stockList — stable core.
   for (const s of getAllStocks()) add(s.symbol, s.sector, s.indices);
 
-  // 2. Current Earnings Watch symbols — the stocks that actually need
-  //    a fresh YoY-EPS trajectory right now.
+  // 2. Fresh catalysts calendar — this file is refreshed before the nightly
+  //    fundamentalsHistory step, while earnings-watch-latest is produced later.
+  try {
+    const events = JSON.parse(fs.readFileSync(EVENTS_PATH, "utf8"));
+    const rows = Array.isArray(events?.events) ? events.events
+      : Array.isArray(events?.items) ? events.items
+        : Array.isArray(events) ? events
+          : [];
+    for (const e of rows) {
+      if (e && e.symbol) add(e.symbol, e.sector || e.signals?.sector, []);
+    }
+  } catch {
+    console.warn(`[refresh-fundamentals] could not read ${path.relative(ROOT, EVENTS_PATH)} — continuing with curated/watch universe`);
+  }
+
+  // 3. Current Earnings Watch symbols — kept as a fallback/supplement for
+  //    manual runs where events-latest has not just been refreshed.
   try {
     const ew = JSON.parse(fs.readFileSync(EARNINGS_PATH, "utf8"));
     for (const e of ew.events || []) {
