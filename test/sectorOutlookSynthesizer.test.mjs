@@ -22,6 +22,7 @@ function buildAggregate(sector, perWindow) {
     breadth_pct: 0,
     catalyst_proximity_count: 0,
     evidence_top5: [],
+    avg_confidence: 0.8,
     n_tickers: 0,
     n_news: 0,
     ...overrides,
@@ -155,68 +156,59 @@ console.log("synthesizer: cross_check STRONG / PARTIAL / DIVERGENT / NEUTRAL");
   assert("missing macro → cross_check=NEUTRAL", n.cross_check === "NEUTRAL", n);
 }
 
-// ─── confidence classifications ──────────────────────────────────────
-console.log("synthesizer: confidence HIGH / MED / LOW");
+// ─── trust score + confidence classifications ────────────────────────
+console.log("synthesizer: trust score + confidence HIGH / MED / LOW");
 {
-  // HIGH: STRONG cross_check + breadth >= 0.4 + n_news >= 8
+  const freshMacro = {
+    regime: "BOOM",
+    generatedAt: new Date().toISOString(),
+    sectorImpacts: [{ sector: "Pharma", impact: 3, reason: "x" }],
+  };
+  const confirmingPrice = {
+    sector_price: {
+      sectors: {
+        Pharma: { status: "AVAILABLE", score: 1, return_pct: 12, vs_nifty_pct: 10 },
+      },
+    },
+  };
+
   const high = synthesizeSectorAtHorizon(
     buildAggregate("Pharma", {
-      "30d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
-      "90d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
-      "365d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
+      "30d": { signed_index: 0.8, breadth_pct: 0.9, n_news: 50, avg_confidence: 0.95 },
+      "90d": { signed_index: 0.8, breadth_pct: 0.9, n_news: 50, avg_confidence: 0.95 },
+      "365d": { signed_index: 0.75, breadth_pct: 0.9, n_news: 50, avg_confidence: 0.95 },
     }),
-    { regime: "BOOM", sectorImpacts: [{ sector: "Pharma", impact: 3, reason: "x" }] },
+    freshMacro,
     "3_12m",
+    { externalContext: confirmingPrice },
   );
-  assert("STRONG + breadth 0.6 + n 12 → HIGH", high.confidence === "HIGH", high);
+  assert("trust >= 75 → HIGH", high.confidence === "HIGH" && high.trust_score >= 75, high);
+  assert("trust_factors emitted", Array.isArray(high.trust_factors) && high.trust_factors.length >= 7, high.trust_factors);
 
-  // LOW: DIVERGENT
   const lowDiv = synthesizeSectorAtHorizon(
     buildAggregate("Pharma", {
-      "30d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 12 },
-      "90d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 12 },
-      "365d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 12 },
+      "30d": { signed_index: 0.4, breadth_pct: 0.2, n_news: 2, avg_confidence: 0.3 },
+      "90d": { signed_index: 0.4, breadth_pct: 0.2, n_news: 2, avg_confidence: 0.3 },
+      "365d": { signed_index: -0.4, breadth_pct: 0.2, n_news: 2, avg_confidence: 0.3 },
     }),
-    { regime: "X", sectorImpacts: [{ sector: "Pharma", impact: -2, reason: "x" }] },
+    { ...freshMacro, sectorImpacts: [{ sector: "Pharma", impact: -3, reason: "x" }] },
     "3_12m",
+    { externalContext: { sector_price: { sectors: { Pharma: { score: -1 } } } } },
   );
-  assert("DIVERGENT → LOW", lowDiv.confidence === "LOW", lowDiv);
+  assert("thin divergent evidence → LOW", lowDiv.confidence === "LOW" && lowDiv.trust_score < 45, lowDiv);
 
-  // LOW: breadth too low
-  const lowBreadth = synthesizeSectorAtHorizon(
-    buildAggregate("Pharma", {
-      "30d": { signed_index: 0.4, breadth_pct: 0.05, n_news: 12 },
-      "90d": { signed_index: 0.4, breadth_pct: 0.05, n_news: 12 },
-      "365d": { signed_index: 0.4, breadth_pct: 0.05, n_news: 12 },
-    }),
-    null,
-    "3_12m",
-  );
-  assert("breadth 0.05 → LOW", lowBreadth.confidence === "LOW", lowBreadth);
-
-  // LOW: too few news
-  const lowEvidence = synthesizeSectorAtHorizon(
-    buildAggregate("Pharma", {
-      "30d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 2 },
-      "90d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 2 },
-      "365d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 2 },
-    }),
-    null,
-    "3_12m",
-  );
-  assert("n_news=2 → LOW", lowEvidence.confidence === "LOW", lowEvidence);
-
-  // MED: between
   const med = synthesizeSectorAtHorizon(
     buildAggregate("Pharma", {
-      "30d": { signed_index: 0.3, breadth_pct: 0.3, n_news: 10 },
-      "90d": { signed_index: 0.3, breadth_pct: 0.3, n_news: 10 },
-      "365d": { signed_index: 0.3, breadth_pct: 0.3, n_news: 10 },
+      "30d": { signed_index: 0.35, breadth_pct: 0.45, n_news: 25, avg_confidence: 0.75 },
+      "90d": { signed_index: 0.3, breadth_pct: 0.45, n_news: 25, avg_confidence: 0.75 },
+      "365d": { signed_index: 0.25, breadth_pct: 0.45, n_news: 25, avg_confidence: 0.75 },
     }),
-    null,
+    freshMacro,
     "3_12m",
   );
-  assert("between thresholds → MED", med.confidence === "MED", med);
+  assert("middle trust band → MED", med.confidence === "MED" && med.trust_score >= 45 && med.trust_score < 75, med);
+  const priceFactor = med.trust_factors.find((f) => f.key === "price_confirmation");
+  assert("missing price context is UNCORROBORATED, not failure", priceFactor.status === "UNCORROBORATED", priceFactor);
 }
 
 // ─── synthesizeAll: output shape ─────────────────────────────────────
@@ -263,14 +255,13 @@ console.log("synthesizer: synthesizeAll output shape");
     assert(`${s.sector}: has horizons.12_24m`, s.horizons["12_24m"] != null);
     assert(`${s.sector}: outlook_label set`, typeof s.horizons["3_12m"].outlook_label === "string");
     assert(`${s.sector}: confidence set`, ["HIGH", "MED", "LOW"].includes(s.horizons["3_12m"].confidence));
+    assert(`${s.sector}: trust_score set`, typeof s.horizons["3_12m"].trust_score === "number");
+    assert(`${s.sector}: trust_factors set`, Array.isArray(s.horizons["3_12m"].trust_factors));
   }
 
-  // Sort order: TAILWIND-ish first
-  const labels = out.sectors.map((s) => s.horizons["3_12m"].outlook_label);
-  // Pharma should rank ahead of IT Services (Pharma is TAILWIND-ish, IT is HEADWIND/DIV)
-  const pharmaIdx = out.sectors.findIndex((s) => s.sector === "Pharma");
-  const itIdx = out.sectors.findIndex((s) => s.sector === "IT Services");
-  assert("Pharma ranks before IT Services", pharmaIdx < itIdx, { labels, pharmaIdx, itIdx });
+  // Sort order: trust first.
+  const trusts = out.sectors.map((s) => s.horizons["3_12m"].trust_score);
+  assert("sectors sorted by trust descending", trusts.every((v, i, arr) => i === 0 || arr[i - 1] >= v), trusts);
 }
 
 // ─── conservative-language audit: caveats avoid "predict" ────────────

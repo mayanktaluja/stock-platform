@@ -33,6 +33,18 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Sector Outlook trust-first redesign (June 2026)
+- **This PR** — Sector Outlook now ranks sectors by a numeric 0–100 trust score
+  before outlook direction. The trust model blends evidence volume, sector
+  breadth, 30/90/365-day signal stability, macro/external agreement, retained
+  classifier confidence, optional sector-index confirmation, and macro
+  freshness; HIGH/MED/LOW confidence is derived from that trust score instead
+  of ad-hoc evidence rules. Missing macro or sector-index context is marked
+  `UNCORROBORATED` rather than failing refresh, while true opposite-sign macro
+  or price evidence is marked `DIVERGENT` and lowers trust. The UI now shows a
+  Trust column before Outlook, keeps horizon switches trust-sorted, and exposes
+  factor-level drilldown evidence.
+
 ### Portfolio SWS input alert rollout (June 2026)
 - **This PR** — SWS portfolio input-change emails now prepend a Portfolio
   Analyzer reduction-review block when an alert-affected holding newly enters a

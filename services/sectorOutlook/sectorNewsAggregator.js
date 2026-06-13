@@ -32,6 +32,7 @@
  *     breadth_pct: 0..1,  // post single-issuer cap
  *     catalyst_proximity_count: int,
  *     evidence_top5: Array,
+ *     avg_confidence: number,
  *     n_tickers: int,
  *     n_news: int,
  *   }
@@ -138,7 +139,12 @@ export function routeNewsToSectors(ticker, sourceSector, newsItem) {
   // Multi-sector (conglomerate): check body-route rules
   const routes = CONGLOMERATE_BODY_ROUTES[String(ticker).toUpperCase()];
   if (routes && Array.isArray(routes)) {
-    const haystack = `${newsItem?.title || ""}\n${newsItem?.body || ""}`;
+    const haystack = [
+      newsItem?.title || "",
+      newsItem?.body || "",
+      newsItem?.body_snippet || "",
+      newsItem?.route_hint || "",
+    ].join("\n");
     const matches = [];
     for (const r of routes) {
       if (r.re.test(haystack) && candidates.includes(r.sector)) {
@@ -169,6 +175,7 @@ function emptyWindowSummary() {
     breadth_pct: 0,
     catalyst_proximity_count: 0,
     evidence_top5: [],
+    avg_confidence: 0,
     n_tickers: 0,
     n_news: 0,
   };
@@ -190,6 +197,8 @@ function computeWindowSummary(entries) {
   const tickerLastDate = new Map();       // tickerLastDate[ticker] = ISO date
   const tickersWithSignal = new Set();
   const allEntriesScored = [];
+  let confidenceNumer = 0;
+  let confidenceDenom = 0;
   let totalWeightedSignal = 0;
 
   for (const e of entries) {
@@ -197,7 +206,10 @@ function computeWindowSummary(entries) {
     const sign = Number(e.sign) || 0;
     const intensity = Number(e.intensity) || 1;
     const signed = sign * intensity * w;
+    const confidence = Number.isFinite(Number(e.confidence)) ? Number(e.confidence) : 0;
     themeWeight[e.theme] = (themeWeight[e.theme] || 0) + intensity * w;
+    confidenceNumer += confidence * w;
+    confidenceDenom += w;
 
     if (sign !== 0) {
       tickersWithSignal.add(e.ticker);
@@ -277,6 +289,8 @@ function computeWindowSummary(entries) {
       ticker: e.ticker,
       date: e.date,
       title: e.title,
+      body_snippet: e.body_snippet || "",
+      route_hint: e.route_hint || "",
       theme: e.theme,
       sign: e.sign,
       intensity: e.intensity,
@@ -288,6 +302,7 @@ function computeWindowSummary(entries) {
     breadth_pct,
     catalyst_proximity_count,
     evidence_top5: sortedEvidence,
+    avg_confidence: confidenceDenom > 0 ? confidenceNumer / confidenceDenom : 0,
     n_tickers: allTickers.size,
     n_news: entries.length,
   };
@@ -318,9 +333,13 @@ function distributeEntryToSectors(entry, opts) {
       mcap: entry.mcap,
       date: entry.date,
       title: entry.title,
+      body: entry.body || "",
+      body_snippet: entry.body_snippet || "",
+      route_hint: entry.route_hint || "",
       theme: entry.theme,
       sign: entry.sign,
       intensity: entry.intensity,
+      confidence: Number(entry.confidence) || 0,
       time_hint: entry.time_hint,
       weight: r.weight,
     },

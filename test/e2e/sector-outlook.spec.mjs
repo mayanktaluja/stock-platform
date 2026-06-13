@@ -5,6 +5,28 @@
 import { test, expect } from "@playwright/test";
 import { gotoApp } from "./helpers/app.mjs";
 
+function trustSortedSectors(body, horizon) {
+  const confidenceRank = { HIGH: 3, MED: 2, LOW: 1 };
+  const directionRank = { STRONG_TAILWIND: 5, STRONG_HEADWIND: 4, TAILWIND: 3, HEADWIND: 2, NEUTRAL: 1 };
+  return [...(body.sectors || [])].sort((a, b) => {
+    const ah = a.horizons?.[horizon] || {};
+    const bh = b.horizons?.[horizon] || {};
+    const cr = (confidenceRank[bh.confidence] || 0) - (confidenceRank[ah.confidence] || 0);
+    if (cr) return cr;
+    const tr = (Number(bh.trust_score) || 0) - (Number(ah.trust_score) || 0);
+    if (tr) return tr;
+    const ar = Math.abs(Number(bh.composite) || 0) - Math.abs(Number(ah.composite) || 0);
+    if (ar) return ar;
+    return (directionRank[bh.outlook_label] || 0) - (directionRank[ah.outlook_label] || 0);
+  }).map((s) => s.sector);
+}
+
+async function renderedSectors(page) {
+  return page.locator("#sectorOutlookTab tr[data-sector]").evaluateAll((rows) =>
+    rows.map((r) => r.getAttribute("data-sector")),
+  );
+}
+
 test.describe("Sector Outlook tab (v1)", () => {
   test("/api/sector-outlook/latest returns the sector-outlook-v1 schema", async ({ request }) => {
     const res = await request.get("/api/sector-outlook/latest");
@@ -41,6 +63,8 @@ test.describe("Sector Outlook tab (v1)", () => {
         expect(validLabels).toContain(s.horizons[h].outlook_label);
         expect(validConfidence).toContain(s.horizons[h].confidence);
         expect(typeof s.horizons[h].composite).toBe("number");
+        expect(typeof s.horizons[h].trust_score).toBe("number");
+        expect(Array.isArray(s.horizons[h].trust_factors)).toBe(true);
         expect(s.horizons[h].bottom_up).toBeTruthy();
         expect(typeof s.horizons[h].bottom_up.score).toBe("number");
       }
@@ -76,6 +100,9 @@ test.describe("Sector Outlook tab (v1)", () => {
     // in the DOM regardless of the active tab, so a page-global
     // summary:has-text('Methodology') resolves to 2 elements (strict-mode fail).
     const tab = page.locator("#sectorOutlookTab");
+    await expect(tab.locator("thead th").nth(0)).toContainText("Sector");
+    await expect(tab.locator("thead th").nth(1)).toContainText("Trust");
+    await expect(tab.locator("thead th").nth(2)).toContainText("Outlook");
     // Methodology section is always rendered
     await expect(tab.locator("summary:has-text('Methodology')")).toBeVisible();
     // Backtest panel — explicit EXPERIMENTAL status
@@ -96,11 +123,13 @@ test.describe("Sector Outlook tab (v1)", () => {
     const tab1224 = page.locator(".sector-outlook-horizon-tab[data-horizon='12_24m']");
     await expect(tab312).toHaveAttribute("aria-selected", "true");
     await expect(tab1224).toHaveAttribute("aria-selected", "false");
+    expect(await renderedSectors(page)).toEqual(trustSortedSectors(body, "3_12m"));
 
     // Click the 12-24m tab — aria-selected flips
     await tab1224.click();
     await expect(tab1224).toHaveAttribute("aria-selected", "true");
     await expect(tab312).toHaveAttribute("aria-selected", "false");
+    expect(await renderedSectors(page)).toEqual(trustSortedSectors(body, "12_24m"));
   });
 
   test("SEBI-conservative language audit — no 'predict' / 'guarantee' / 'will outperform'", async ({ page, request }) => {
@@ -152,6 +181,7 @@ test.describe("Sector Outlook tab (v1)", () => {
     // After click, drill-down expands
     await expect(drillRow).toBeVisible();
     // Has methodology-style labels inside
+    await expect(drillRow.locator("text=Trust factors")).toBeVisible();
     await expect(drillRow.locator("text=Bottom-up signal")).toBeVisible();
     await expect(drillRow.locator("text=Top-down macro")).toBeVisible();
   });

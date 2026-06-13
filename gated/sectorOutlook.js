@@ -46,6 +46,52 @@
     return `<span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--text-muted);"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:${cfg.color};" aria-hidden="true"></span>${cfg.text}</span>`;
   }
 
+  function trustBadge(score) {
+    const n = Number(score);
+    const pct = Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 0;
+    const color = pct >= 75 ? "var(--positive-text-emerald)" : pct >= 45 ? "var(--warn-text)" : "var(--text-gray)";
+    return `
+      <span style="display:inline-flex; align-items:center; gap:7px; min-width:76px;">
+        <span style="width:42px; height:6px; border-radius:999px; background:rgba(148,163,184,0.22); overflow:hidden;" aria-hidden="true">
+          <span style="display:block; width:${pct}%; height:100%; background:${color};"></span>
+        </span>
+        <span style="font-variant-numeric:tabular-nums; color:${color}; font-weight:700;">${Number.isFinite(n) ? Math.round(n) : "—"}</span>
+      </span>`;
+  }
+
+  function sortSectorsByTrust(sectors, horizon) {
+    const confidenceRank = { HIGH: 3, MED: 2, LOW: 1 };
+    const directionRank = { STRONG_TAILWIND: 5, STRONG_HEADWIND: 4, TAILWIND: 3, HEADWIND: 2, NEUTRAL: 1 };
+    return [...(sectors || [])].sort((a, b) => {
+      const ah = a.horizons?.[horizon] || {};
+      const bh = b.horizons?.[horizon] || {};
+      const cr = (confidenceRank[bh.confidence] || 0) - (confidenceRank[ah.confidence] || 0);
+      if (cr) return cr;
+      const tr = (Number(bh.trust_score) || 0) - (Number(ah.trust_score) || 0);
+      if (tr) return tr;
+      const ar = Math.abs(Number(bh.composite) || 0) - Math.abs(Number(ah.composite) || 0);
+      if (ar) return ar;
+      return (directionRank[bh.outlook_label] || 0) - (directionRank[ah.outlook_label] || 0);
+    });
+  }
+
+  function renderTrustFactors(factors) {
+    if (!Array.isArray(factors) || factors.length === 0) {
+      return `<div style="font-size:12px; color:var(--text-muted);">Trust factors unavailable for this refresh.</div>`;
+    }
+    return `
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; margin-top:8px;">
+        ${factors.map((f) => `
+          <div style="border:1px solid var(--bg-graphite); border-radius:8px; padding:9px 10px;">
+            <div style="display:flex; justify-content:space-between; gap:8px; align-items:baseline;">
+              <span style="font-size:11px; color:var(--text-secondary); font-weight:700;">${escapeHtml(f.label || f.key || "Factor")}</span>
+              <span style="font-size:11px; color:var(--text-muted); font-variant-numeric:tabular-nums;">${FMT_NUM(f.contribution, 1)}/${escapeHtml(f.weight ?? "—")}</span>
+            </div>
+            <div style="font-size:10px; color:var(--text-muted); margin-top:4px; line-height:1.35;">${escapeHtml(f.status ? `${f.status} · ${f.detail || ""}` : f.detail || "")}</div>
+          </div>`).join("")}
+      </div>`;
+  }
+
   function renderHeader(doc) {
     const ts = doc.generated_at
       ? new Date(doc.generated_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
@@ -89,6 +135,7 @@
     const h = sectorRow.horizons?.[horizon] || {};
     const label = h.outlook_label || "NEUTRAL";
     const conf = h.confidence || "LOW";
+    const trustScore = h.trust_score;
     const composite = h.composite ?? 0;
     const bottomUp = h.bottom_up?.score ?? 0;
     const topDown = h.top_down?.score ?? 0;
@@ -99,6 +146,7 @@
     return `
       <tr data-sector="${escapeHtml(sectorRow.sector)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)">
         <td style="padding:10px 8px; font-weight:600;">${escapeHtml(sectorRow.sector)}</td>
+        <td data-trust-score="${escapeHtml(Number.isFinite(Number(trustScore)) ? Number(trustScore).toFixed(2) : "")}" style="padding:10px 8px;">${trustBadge(trustScore)}</td>
         <td style="padding:10px 8px;">${labelBadge(label)}</td>
         <td style="padding:10px 8px;">${confidenceDot(conf)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:${composite > 0 ? "var(--positive-text-emerald)" : composite < 0 ? "var(--orange-bright)" : "var(--text-muted)"};">${FMT_NUM(composite, 2)}</td>
@@ -118,10 +166,12 @@
     const topThemes = h.bottom_up?.top_themes || [];
     return `
       <tr data-drilldown-for="${escapeHtml(sectorRow.sector)}" style="display:none; background:var(--bg-secondary);">
-        <td colspan="9" style="padding:18px 24px;">
+        <td colspan="10" style="padding:18px 24px;">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1100px;">
             <div>
-              <h4 style="font-size:13px; margin:0 0 8px 0; color:var(--text-primary);">Bottom-up signal</h4>
+              <h4 style="font-size:13px; margin:0 0 8px 0; color:var(--text-primary);">Trust factors ${infoIcon("sector_trust_factors")}</h4>
+              ${renderTrustFactors(h.trust_factors || [])}
+              <h4 style="font-size:13px; margin:16px 0 8px 0; color:var(--text-primary);">Bottom-up signal</h4>
               <p style="font-size:12px; color:var(--text-muted); line-height:1.55; margin:0 0 12px 0;">
                 Cross-check: <strong style="color:var(--text-secondary);">${escapeHtml(h.cross_check || "NEUTRAL")}</strong>.
                 ${escapeHtml(h.bottom_up?.n_news ?? 0)} news items in the 90-day window across ${escapeHtml(h.bottom_up?.n_tickers ?? 0)} tickers.
@@ -136,6 +186,7 @@
               <h4 style="font-size:13px; margin:0 0 8px 0; color:var(--text-primary);">Top-down macro</h4>
               <p style="font-size:12px; color:var(--text-muted); line-height:1.55; margin:0 0 12px 0;">
                 Regime: <strong style="color:var(--text-secondary);">${escapeHtml(tdRegime || "n/a")}</strong>${tdReason ? ` — ${escapeHtml(tdReason)}` : ""}
+                ${h.top_down?.status ? `<br>Status: <strong style="color:var(--text-secondary);">${escapeHtml(h.top_down.status)}</strong>` : ""}
               </p>
               <h4 style="font-size:13px; margin:18px 0 8px 0; color:var(--text-primary);">Evidence (top 5 news items)</h4>
               <ul style="font-size:11px; color:var(--text-secondary); padding-left:18px; margin:0; line-height:1.55;">
@@ -156,7 +207,7 @@
   };
 
   function renderMatrix(doc, horizon) {
-    const sectors = doc.sectors || [];
+    const sectors = sortSectorsByTrust(doc.sectors || [], horizon);
     if (!sectors.length) {
       return `<div style="padding:32px; text-align:center; color:var(--text-muted);">No sectors classified yet — run scripts/refresh-sector-outlook.mjs.</div>`;
     }
@@ -167,6 +218,7 @@
           <thead>
             <tr style="border-bottom:2px solid var(--bg-graphite); color:var(--text-muted); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;">
               <th style="padding:10px 8px; text-align:left;">Sector</th>
+              <th style="padding:10px 8px; text-align:left;">Trust${infoIcon("sector_trust_score")}</th>
               <th style="padding:10px 8px; text-align:left;">Outlook${infoIcon("sector_outlook_label")}</th>
               <th style="padding:10px 8px; text-align:left;">Confidence${infoIcon("sector_outlook_confidence")}</th>
               <th style="padding:10px 8px; text-align:right;">Composite${infoIcon("sector_composite")}</th>
@@ -206,7 +258,7 @@
           <p><strong>Inputs.</strong> Per-stock news arrays from SWS deep briefs (data/sws/deep/&lt;TICKER&gt;.json:news[]), with the current macro regime classification (data/macroRegime.json) as the cross-check signal.</p>
           <p><strong>Bottom-up.</strong> Every SWS news item is classified into one of 8 themes (Capacity/Capex, M&amp;A, Order Wins, Regulatory Event, Margin Move, Earnings Move, Strategic/Geopolitical, Neutral) plus a directional sign and intensity. A deterministic keyword classifier produces the first pass; an LLM refines the ambiguous items within a 365-day recency window. Each sector aggregates its news across three rolling windows (30d / 90d / 365d) into a market-cap-weighted signal, with a 15% single-issuer breadth cap so no one ticker can dominate. Multi-sector conglomerates (e.g. Reliance) route news to a single sector via body keywords (petrochemical → Oil &amp; Gas, Jio → Telecom, JioMart → Retail) when the keyword matches, otherwise fractionally across the relevant sectors.</p>
           <p><strong>Top-down.</strong> Indian regulator + global wire RSS headlines (RBI, SEBI, Reuters, Bloomberg, Moneycontrol, Economic Times, etc.) are classified into one of 9 macro regimes with per-sector impact scores. The Sector Outlook reads only the CURRENT regime (v1 deliberately doesn&apos;t smooth across history).</p>
-          <p><strong>Cross-check.</strong> The two signals combine into a composite. Same-sign agreement at high magnitude → STRONG cross-check + HIGH confidence. Sign disagreement → DIVERGENT cross-check + LOW confidence (we deliberately surface the disagreement rather than averaging it away).</p>
+          <p><strong>Trust model.</strong> Rows are ranked by a 0–100 trust score before outlook direction. The score blends evidence volume, breadth, 30/90/365-day stability, macro/external agreement, classifier confidence, available sector-index confirmation, and freshness. Missing macro or index context is marked UNCORROBORATED; true opposite-sign evidence is marked DIVERGENT and reduces trust.</p>
           <p><strong>What v1 does NOT do.</strong> No formal walk-forward backtest. No named stock recommendations within a sector. No 24-36 month horizon. The macro regime history is too thin for honest analog signal at multi-year scales — that&apos;s a v2 scope decision.</p>
           ${caveats.length ? `<div style="margin-top:14px; padding:12px 14px; background:rgba(167,139,250,0.06); border:1px solid rgba(167,139,250,0.22); border-radius:6px; font-size:11px;"><strong style="color:var(--purple-bright);">Important caveats:</strong><ul style="margin:6px 0 0 0; padding-left:20px;">${caveats.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ul></div>` : ""}
           <p style="margin-top:18px; font-size:11px; color:var(--text-muted);">Audit: classifier ${escapeHtml(doc.audit?.taxonomy_version || "—")} · synthesizer ${escapeHtml(doc.audit?.synthesizer_version || "—")} · ${escapeHtml(doc.audit?.sector_count ?? 0)} sectors · ${escapeHtml(doc.audit?.orphaned_tickers ?? 0)} orphaned tickers (sector taxonomy drift canary).</p>
