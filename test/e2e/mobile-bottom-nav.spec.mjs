@@ -25,6 +25,9 @@ test.describe("PR #10 mobile bottom-nav", () => {
     const rail = page.locator("#mainTabs");
     const right = page.locator('.main-tabs-rail [data-scroll-dir="right"]');
     await expect(right).toBeVisible({ timeout: 5000 });
+    await expect(right).toHaveAttribute("data-scroll-control-visible", "true");
+    const width = await right.evaluate((el) => el.getBoundingClientRect().width);
+    expect(width).toBe(44);
     const before = await rail.evaluate((el) => el.scrollLeft);
     await right.click();
     await expect.poll(() => rail.evaluate((el) => el.scrollLeft)).toBeGreaterThan(before);

@@ -158,9 +158,14 @@ function wireMenu(trigger, dropdown, wrapper) {
 }
 
 const SCROLL_RAIL_EDGE_TOLERANCE = 3;
+const MAIN_TABS_VISIBILITY_BUFFER_PX = 12;
 
 function getRailShell(el) {
   return el?.closest?.("[data-scroll-shell], .scroll-rail-shell") || null;
+}
+
+function isMainTabsRail(shell, rail) {
+  return Boolean(shell?.classList?.contains("main-tabs-rail") && rail?.id === "mainTabs");
 }
 
 function refreshScrollRail(shellOrRail) {
@@ -180,10 +185,17 @@ function refreshScrollRail(shellOrRail) {
   shell.setAttribute("data-scroll-at-end", String(!overflow || atEnd));
   rail.setAttribute("data-scroll-overflow", String(overflow && !atEnd));
 
+  const stableControls = isMainTabsRail(shell, rail);
   shell.querySelectorAll("[data-scroll-dir]").forEach((btn) => {
-    btn.hidden = !overflow;
+    if (stableControls) {
+      btn.hidden = false;
+      btn.dataset.scrollControlVisible = String(overflow);
+    } else {
+      btn.hidden = !overflow;
+      delete btn.dataset.scrollControlVisible;
+    }
     const dir = btn.getAttribute("data-scroll-dir");
-    btn.disabled = dir === "left" ? atStart : atEnd;
+    btn.disabled = !overflow || (dir === "left" ? atStart : atEnd);
     btn.setAttribute("aria-hidden", String(!overflow));
   });
 }
@@ -241,9 +253,30 @@ function keepRailItemVisible(item) {
   if (!item) return;
   const rail = item.closest?.("[data-scroll-rail]");
   if (!rail) return;
+  if (rail.id === "mainTabs") {
+    const itemLeft = item.offsetLeft;
+    const itemRight = itemLeft + item.offsetWidth;
+    const visibleLeft = rail.scrollLeft;
+    const visibleRight = visibleLeft + rail.clientWidth;
+    if (item.offsetWidth + MAIN_TABS_VISIBILITY_BUFFER_PX * 2 >= rail.clientWidth) {
+      rail.scrollLeft = Math.max(0, itemLeft - MAIN_TABS_VISIBILITY_BUFFER_PX);
+    } else if (itemLeft < visibleLeft + MAIN_TABS_VISIBILITY_BUFFER_PX) {
+      rail.scrollLeft = Math.max(0, itemLeft - MAIN_TABS_VISIBILITY_BUFFER_PX);
+    } else if (itemRight > visibleRight - MAIN_TABS_VISIBILITY_BUFFER_PX) {
+      rail.scrollLeft = itemRight - rail.clientWidth + MAIN_TABS_VISIBILITY_BUFFER_PX;
+    }
+    requestAnimationFrame(() => refreshScrollRail(rail));
+    return;
+  }
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   item.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
   requestAnimationFrame(() => refreshScrollRail(rail));
+}
+
+function keepActiveMainTabVisibleSoon() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => keepRailItemVisible(document.querySelector("#mainTabs .tab.active")));
+  });
 }
 
 window.refreshScrollRails = refreshScrollRails;
@@ -291,6 +324,7 @@ const auth = {
       const cfg = TAB_CONFIG[bootTab];
       if ((!cfg.guard || cfg.guard()) && typeof window.__enterTab === "function") {
         window.__enterTab(bootTab);
+        keepActiveMainTabVisibleSoon();
       }
     }
     syncLabsActive(window.__activeTab || "picks");
@@ -378,6 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   initScrollRails();
+  keepActiveMainTabVisibleSoon();
   // Sync aria-current on bottom-nav buttons whenever the tab changes
   // (driven by switchTab via the telemetry emit at the dispatch wrapper).
   document.addEventListener("DOMContentLoaded", () => {
@@ -395,19 +430,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabBar = document.getElementById("mainTabs");
     if (tabBar) new MutationObserver(sync).observe(tabBar, { subtree: true, attributes: true, attributeFilter: ["class", "aria-selected"] });
   });
-  // Scroll-shadow indicator on the horizontal tab bar (desktop overflow):
-  // toggle data-scroll-overflow when scrollWidth > clientWidth.
-  const tabBar = document.getElementById("mainTabs");
-  if (tabBar) {
-    const update = () => {
-      const overflow = tabBar.scrollWidth - tabBar.clientWidth > 4;
-      const atEnd = tabBar.scrollLeft + tabBar.clientWidth >= tabBar.scrollWidth - 4;
-      tabBar.setAttribute("data-scroll-overflow", String(overflow && !atEnd));
-    };
-    update();
-    tabBar.addEventListener("scroll", update);
-    window.addEventListener("resize", update);
-  }
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   attachNumericFlash();     // MutationObserver: data-num cells flash on update
