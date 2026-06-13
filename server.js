@@ -6047,6 +6047,18 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
   }
   try {
     const market = loadMarketWideSwsInputChanges(SWS_INPUT_ALERT_ARTIFACT);
+    const probe = String(req.query?.probe || req.body?.probe || "") === "1" || req.body?.probe === true;
+    if (probe) {
+      return res.json({
+        ok: true,
+        enabled: true,
+        probe: true,
+        artifact_present: !market.artifact_missing,
+        run_id: market.run_id || null,
+        generated_at: market.generated_at || null,
+        market_change_count: Array.isArray(market.alerts) ? market.alerts.length : 0,
+      });
+    }
     const userStore = getUserStorage();
     const users = await userStore.list();
     const dryRun = boolEnv("SWS_INPUT_ALERTS_DRY_RUN");

@@ -197,6 +197,7 @@ export function buildInputSignatures({
   deepDir,
   lastRefreshPath,
   generatedAt = new Date().toISOString(),
+  runId = null,
 } = {}) {
   const rows = loadScoredRows(scoredUniversePath);
   const deepByTicker = loadDeepByTicker(deepDir);
@@ -212,7 +213,7 @@ export function buildInputSignatures({
   return {
     schema_version: INPUT_SIGNATURE_SCHEMA_VERSION,
     generated_at: generatedAt,
-    run_id: lastRefresh?.finished_at || lastRefresh?.started_at || generatedAt,
+    run_id: runId || lastRefresh?.finished_at || lastRefresh?.started_at || generatedAt,
     source: {
       scored_universe: "data/sws/sws-scored-universe.json",
       deep_dir: "data/sws/deep",

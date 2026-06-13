@@ -23,6 +23,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
 const nightly = readFileSync(resolve(REPO_ROOT, "scripts/sws-nightly.sh"), "utf-8");
 const swsConfig = readFileSync(resolve(REPO_ROOT, "scripts/sws-config.mjs"), "utf-8");
+const fundamentalsHistoryRefresh = readFileSync(resolve(REPO_ROOT, "scripts/refresh-fundamentals-history.mjs"), "utf-8");
 
 let pass = 0;
 let fail = 0;
@@ -56,14 +57,14 @@ assert(
   { count: nseCorpInvocations.length },
 );
 assert(
-  "refresh-dividends.mjs is invoked once after the SWS/NSE parallel barrier",
+  "refresh-dividends.mjs is invoked once inside the early auxiliary branch",
   dividendInvocations.length === 1 &&
-    nightly.indexOf("parallel refresh barrier complete") < nightly.indexOf("node scripts/refresh-dividends.mjs"),
+    /run_early_aux_branch\(\)[\s\S]*?node scripts\/refresh-dividends\.mjs/.test(nightly),
   { count: dividendInvocations.length },
 );
 assert(
-  "SWS and NSE catalyst branches are launched before a shared wait barrier",
-  /run_sws_primary_branch[\s\S]*?SWS_BRANCH_PID=\$![\s\S]*?run_nse_catalyst_branch[\s\S]*?NSE_BRANCH_PID=\$![\s\S]*?wait "\$\{SWS_BRANCH_PID\}"[\s\S]*?wait "\$\{NSE_BRANCH_PID\}"/.test(nightly),
+  "SWS and early auxiliary branches are launched before a shared wait barrier",
+  /run_timed_step "sws_primary_branch"[\s\S]*?SWS_BRANCH_PID=\$![\s\S]*?run_timed_step "early_aux_branch"[\s\S]*?AUX_BRANCH_PID=\$![\s\S]*?wait "\$\{SWS_BRANCH_PID\}"[\s\S]*?wait "\$\{AUX_BRANCH_PID\}"/.test(nightly),
   null,
 );
 
@@ -98,6 +99,9 @@ for (const f of ["data/macroCalendar.json", "data/nse-index-constituents.json"])
   assert(`${f} is in the DATA_FILES array (data-only PR path)`, dataFilesBlock.includes(f), null);
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
 }
+assert("nightly timing telemetry is staged in the git add list", gitAddBlock.includes("data/sws/nightly-timings-latest.json"), null);
+assert("nightly timing telemetry is in the DATA_FILES array", dataFilesBlock.includes("data/sws/nightly-timings-latest.json"), null);
+assert("nightly timing telemetry is in the CHANGED_FILES check", changedFilesBlock.includes("data/sws/nightly-timings-latest.json"), null);
 for (const f of ["data/catalysts/"]) {
   assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
   assert(`${f} is in the DATA_FILES array (data-only PR path)`, dataFilesBlock.includes(f), null);
@@ -238,6 +242,19 @@ assert(
   barrierIdx > -1 && earningsIdx > barrierIdx,
   { barrierIdx, earningsIdx },
 );
+const indiaNewsIdx = nightly.indexOf("run_market_news_refresh in");
+assert(
+  "India SWS news enrichment remains in the SWS branch before the earnings barrier",
+  indiaNewsIdx > -1 && barrierIdx > indiaNewsIdx && earningsIdx > barrierIdx,
+  { indiaNewsIdx, barrierIdx, earningsIdx },
+);
+assert(
+  "fundamentalsHistory refresh can use fresh events-latest before earnings-watch is regenerated",
+  /EVENTS_PATH/.test(fundamentalsHistoryRefresh) &&
+    /events-latest\.json/.test(fundamentalsHistoryRefresh) &&
+    /EARNINGS_PATH/.test(fundamentalsHistoryRefresh),
+  null,
+);
 assert(
   "refresh-earnings.mjs explicitly refreshes the 60-day watch window",
   earningsIdx > -1,
@@ -278,9 +295,25 @@ assert(
 assert(
   "early SWS scrape failure still runs auxiliary refreshes then data-only auto-ship",
   /SWS_PRIMARY_FAILED=1/.test(nightly) &&
-    /continuing auxiliary refresh chain before data-only ship/.test(nightly) &&
+    /continuing data-only ship evaluation after early aux branch/.test(nightly) &&
     /ship_nightly_data_only "SWS scrape pipeline failed before sanity gate"/.test(nightly) &&
     /sws_auto_ship_market "\$\{nightly_data_only_paths\[@\]\}"/.test(nightly),
+  null,
+);
+assert(
+  "nightly records parallel timing telemetry and warns after the 08:45 IST local-publish target",
+  /TIMINGS_FILE="data\/sws\/nightly-timings-latest\.json"/.test(nightly) &&
+    /run_timed_step "sws_primary_branch"/.test(nightly) &&
+    /run_timed_step "early_aux_branch"/.test(nightly) &&
+    /target_publish_by_ist: "08:45"/.test(nightly) &&
+    /warn_if_publish_late/.test(nightly),
+  null,
+);
+assert(
+  "nightly polls production probe before triggering SWS input alert emails",
+  /sws-trigger-input-alerts-after-deploy\.mjs/.test(nightly) &&
+    /--expected-run-id/.test(nightly) &&
+    /wait_for_pr_merged/.test(nightly),
   null,
 );
 
@@ -394,6 +427,11 @@ assert(
   "sws-refresh-api.sh builds input-diff artifacts after stamp and before loose price gate",
   inputDiffIdx > stampIdx && inputDiffIdx > chronosIdx && loosePriceFreshnessIdx > inputDiffIdx,
   { stampIdx, chronosIdx, inputDiffIdx, loosePriceFreshnessIdx },
+);
+assert(
+  "sws-refresh-api.sh passes current RUN_STARTED_ISO into input-diff run_id before last-refresh is stamped",
+  /node scripts\/sws-build-input-diff\.mjs --run-id "\$\{RUN_STARTED_ISO\}"/.test(refreshApi),
+  null,
 );
 assert(
   "sws-nightly.sh does not run a late post-score Sector Outlook refresh",

@@ -61,7 +61,21 @@ try {
   writeFixture();
   const first = buildInputSignatures({ scoredUniversePath: scoredPath, deepDir, lastRefreshPath, generatedAt: "2026-06-08T00:02:00.000Z" });
   assert.equal(first.signature_count, 1);
+  assert.equal(first.run_id, "2026-06-08T00:01:00.000Z", "run_id defaults to last-refresh finished_at");
   assert.equal(diffInputSignatures(null, first).change_count, 0, "first run with no prior snapshot should not alert");
+
+  const explicitRun = buildInputSignatures({
+    scoredUniversePath: scoredPath,
+    deepDir,
+    lastRefreshPath,
+    generatedAt: "2026-06-08T00:02:30.000Z",
+    runId: "2026-06-08T00:00:00.000Z",
+  });
+  assert.equal(
+    explicitRun.run_id,
+    "2026-06-08T00:00:00.000Z",
+    "explicit run_id wins when input-diff is built before last-refresh.json is stamped",
+  );
 
   writeFixture({ score: 70, upside: 60, price: 75, rewards: ["B", "A"] });
   const priceOnly = buildInputSignatures({ scoredUniversePath: scoredPath, deepDir, lastRefreshPath, generatedAt: "2026-06-08T00:03:00.000Z" });
