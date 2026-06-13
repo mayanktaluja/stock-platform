@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const LEDGER_PATH = path.join(__dirname, "sws-input-alert-ledger.json");
 const ledgerKey = (sub) => `sws-input-alert-ledger:${sub}`;
 const SCHEMA_VERSION = 1;
+const PORTFOLIO_ACTION_STATE_EVENT = "PORTFOLIO_ACTION_STATE";
 
 export function swsInputAlertEventId({ sub, run_id, digest, type, attempt_id }) {
   const parts = [sub, run_id, digest, type];
@@ -90,6 +91,17 @@ class FileSwsInputAlertLedgerStorage {
     const entry = await this.read(sub);
     return entry.events.some((e) => e.type === "EMAIL_SENT" && e.run_id === run_id);
   }
+
+  async latestPortfolioActionState(sub) {
+    const entry = await this.read(sub);
+    for (let i = entry.events.length - 1; i >= 0; i--) {
+      const event = entry.events[i];
+      if (event?.type === PORTFOLIO_ACTION_STATE_EVENT && event.portfolio_action_state) {
+        return event.portfolio_action_state;
+      }
+    }
+    return null;
+  }
 }
 
 class KVSwsInputAlertLedgerStorage {
@@ -136,6 +148,17 @@ class KVSwsInputAlertLedgerStorage {
     if (!run_id) return false;
     const entry = await this.read(sub);
     return entry.events.some((e) => e.type === "EMAIL_SENT" && e.run_id === run_id);
+  }
+
+  async latestPortfolioActionState(sub) {
+    const entry = await this.read(sub);
+    for (let i = entry.events.length - 1; i >= 0; i--) {
+      const event = entry.events[i];
+      if (event?.type === PORTFOLIO_ACTION_STATE_EVENT && event.portfolio_action_state) {
+        return event.portfolio_action_state;
+      }
+    }
+    return null;
   }
 }
 
